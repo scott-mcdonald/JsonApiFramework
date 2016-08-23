@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JsonApiFramework.TestAsserts</RootNamespace>
+    <AssemblyName>JsonApiFramework.Core.TestAsserts</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="xunit.assert, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClrResources\ArticleAssert.cs" />
+    <Compile Include="ClrResources\BlogAssert.cs" />
+    <Compile Include="ClrResources\ClrResourceAssert.cs" />
+    <Compile Include="ClrResources\CommentAssert.cs" />
+    <Compile Include="ClrResources\OrderAssert.cs" />
+    <Compile Include="ClrResources\OrderItemAssert.cs" />
+    <Compile Include="ClrResources\PaymentAssert.cs" />
+    <Compile Include="ClrResources\PersonAssert.cs" />
+    <Compile Include="ClrResources\PosSystemAssert.cs" />
+    <Compile Include="ClrResources\ProductAssert.cs" />
+    <Compile Include="ClrResources\StoreAssert.cs" />
+    <Compile Include="ClrResources\StoreConfigurationAssert.cs" />
+    <Compile Include="JsonApi\DocumentAssert.cs" />
+    <Compile Include="JsonApi\ErrorAssert.cs" />
+    <Compile Include="JsonApi\JsonApiVersionAssert.cs" />
+    <Compile Include="JsonApi\LinkAssert.cs" />
+    <Compile Include="JsonApi\LinksAssert.cs" />
+    <Compile Include="JsonApi\MetaAssert.cs" />
+    <Compile Include="JsonApi\ObjectAssert.cs" />
+    <Compile Include="JsonApi\RelationshipAssert.cs" />
+    <Compile Include="JsonApi\RelationshipsAssert.cs" />
+    <Compile Include="JsonApi\ResourceAssert.cs" />
+    <Compile Include="JsonApi\ResourceIdentifierAssert.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceModel\AttributeInfoAssert.cs" />
+    <Compile Include="ServiceModel\AttributesInfoAssert.cs" />
+    <Compile Include="ServiceModel\HypermediaInfoAssert.cs" />
+    <Compile Include="ServiceModel\LinkInfoAssert.cs" />
+    <Compile Include="ServiceModel\LinksInfoAssert.cs" />
+    <Compile Include="ServiceModel\PropertyInfoAssert.cs" />
+    <Compile Include="ServiceModel\RelationshipInfoAssert.cs" />
+    <Compile Include="ServiceModel\RelationshipsInfoAssert.cs" />
+    <Compile Include="ServiceModel\ResourceIdentityInfoAssert.cs" />
+    <Compile Include="ServiceModel\ResourceTypeAssert.cs" />
+    <Compile Include="ServiceModel\ServiceModelAssert.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
+      <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
+      <Name>JsonApiFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.Core.TestData\JsonApiFramework.Core.TestData.csproj">
+      <Project>{974ed19b-a385-4efa-9178-3b7a8fd15fda}</Project>
+      <Name>JsonApiFramework.Core.TestData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

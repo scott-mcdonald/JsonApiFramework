@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DocumentDoesNotContainDataMemberAsResourceCollectionDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a document that contains a \"data\" member as an array of resources.</value>
+  </data>
+  <data name="DocumentDoesNotContainDataMemberAsResourceDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a document that contains a \"data\" member as a single resource.</value>
+  </data>
+  <data name="DocumentDoesNotContainDataMemberAsResourceIdentifierCollectionDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a document that contains a \"data\" member as an array of resource identifiers.</value>
+  </data>
+  <data name="DocumentDoesNotContainDataMemberAsResourceIdentifierDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a document that contains a \"data\" member as a single resource identifier.</value>
+  </data>
+  <data name="DocumentDoesNotContainDataMemberDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a document that contains a \"data\" member.</value>
+  </data>
+  <data name="DocumentDoesNotContainErrorsMemberDetail" xml:space="preserve">
+    <value>Unable to read or write the \"errors\" member, not a document that contains an \"errors\" member.</value>
+  </data>
+  <data name="DocumentDoesNotContainIncludedMemberDetail" xml:space="preserve">
+    <value>Unable to read or write the \"included\" member, not a document that contains an \"included\" member.</value>
+  </data>
+  <data name="DocumentNotErrorsDocumentTitle" xml:space="preserve">
+    <value>Not an Errors Document</value>
+  </data>
+  <data name="DocumentNotResourceCollectionDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Collection Document</value>
+  </data>
+  <data name="DocumentNotResourceDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Document</value>
+  </data>
+  <data name="DocumentNotResourceIdentifierCollectionDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Identifier Collection Document</value>
+  </data>
+  <data name="DocumentNotResourceIdentifierDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Identifier Document</value>
+  </data>
+  <data name="DocumentNotResourceOrientedDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Oriented Document</value>
+  </data>
+  <data name="DocumentNotResourceOrResourceCollectionDocumentTitle" xml:space="preserve">
+    <value>Not a Resource Document or Resource Collection Document</value>
+  </data>
+  <data name="JsonApiDocumentCanNotContainBothMembersDetail" xml:space="preserve">
+    <value>Document can not contain both \"{0}\" and \"{1}\" members.</value>
+  </data>
+  <data name="JsonApiDocumentContainsIllegalMemberMemberShouldBeAnArrayDetail" xml:space="preserve">
+    <value>Document contains an illegal \"{0}\" member. Member should be an array.</value>
+  </data>
+  <data name="JsonApiDocumentContainsIllegalMemberMemberShouldBeNullAnObjectOrAnArrayDetail" xml:space="preserve">
+    <value>Document contains an illegal \"{0}\" member. Member should be null, an object, or an array.</value>
+  </data>
+  <data name="JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDetail" xml:space="preserve">
+    <value>Document contains a hetergenous collection of Resources and ResourceIdentifiers, must be a homogenous collection of either Resources or ResourceIdentifiers.</value>
+  </data>
+  <data name="JsonApiErrorTitle" xml:space="preserve">
+    <value>JsonApi Error</value>
+  </data>
+  <data name="JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail" xml:space="preserve">
+    <value>Invalid JSON \"{0}\" for either a Resource or ResourceIdentifier.</value>
+  </data>
+  <data name="JsonTextContainsInvalidJsonTitle" xml:space="preserve">
+    <value>Invalid JSON</value>
+  </data>
+  <data name="LinksLinkNotFoundDetail" xml:space="preserve">
+    <value>Could not find link for the rel={0}.</value>
+  </data>
+  <data name="LinksLinkNotFoundTitle" xml:space="preserve">
+    <value>Link Not Found</value>
+  </data>
+  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as an array of resource identifiers.</value>
+  </data>
+  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as a single resource identifier.</value>
+  </data>
+  <data name="RelationshipNotToManyRelatioshipTitle" xml:space="preserve">
+    <value>Not a ToManyRelationship</value>
+  </data>
+  <data name="RelationshipNotToOneRelatioshipTitle" xml:space="preserve">
+    <value>Not a ToOneRelationship</value>
+  </data>
+  <data name="RelationshipsRelationshipNotFoundDetail" xml:space="preserve">
+    <value>Could not find relationship for the rel={0}.</value>
+  </data>
+  <data name="RelationshipsRelationshipNotFoundTitle" xml:space="preserve">
+    <value>Relationship Not Found</value>
+  </data>
+  <data name="ServiceModelExceptionDetailMissingMetadata" xml:space="preserve">
+    <value>{0} has missing {1} metadata. Ensure metadata is configured correctly for the respective domain/schema.</value>
+  </data>
+  <data name="ServiceModelExceptionTitle" xml:space="preserve">
+    <value>ServiceModel Error</value>
+  </data>
+</root>

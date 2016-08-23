@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+    <metadata minClientVersion="2.8">
+        <id>JsonApiFramework.Infrastructure</id>
+        <version>1.0.0-beta</version>
+        <title>JsonApiFramework [Infrastructure]</title>
+        <authors>Scott McDonald</authors>
+        <summary>Portable client-side and server-side .NET framework for JSON API document reading and writing.</summary>
+        <description>
+            Portable .NET framework-level classes that include common client-side and server-side JSON API document reading and writing from an internal DOM tree representation of the JSON API document.
+        </description>
+        <language>en-us</language>
+        <projectUrl>https://github.com/scott-mcdonald/JsonApiFramework</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</iconUrl>
+        <licenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <tags>portable json api framework</tags>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="9.0" />
+            <dependency id="JsonApiFramework.Core" version="1.0-beta" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\Source\JsonApiFramework.Infrastructure\bin\Release\JsonApiFramework.Infrastructure.dll" target="lib\portable-net45+win8+wp8" />
+    </files>
+</package>

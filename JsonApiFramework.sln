@@ -1,0 +1,127 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{92C5E406-31DD-4A6C-BE58-8AC453E86438}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\JsonApiFramework.Client.nuspec = .nuget\JsonApiFramework.Client.nuspec
+		.nuget\JsonApiFramework.Core.nuspec = .nuget\JsonApiFramework.Core.nuspec
+		.nuget\JsonApiFramework.Infrastructure.nuspec = .nuget\JsonApiFramework.Infrastructure.nuspec
+		.nuget\JsonApiFramework.Server.nuspec = .nuget\JsonApiFramework.Server.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{52884184-64E2-4F3E-A689-D76D2C868A6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6201D01A-0B45-4BB8-8278-ECBE60BAED80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Core", "Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj", "{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Client", "Source\JsonApiFramework.Client\JsonApiFramework.Client.csproj", "{7A17A96C-7586-41ED-931A-8115E3305304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Server", "Source\JsonApiFramework.Server\JsonApiFramework.Server.csproj", "{72E84D1D-4002-4666-810E-F98696A915B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Infrastructure", "Source\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj", "{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Core.Tests", "Tests\JsonApiFramework.Core.Tests\JsonApiFramework.Core.Tests.csproj", "{6FFE8314-94D1-46FA-989D-F63F9EB04AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.XUnit", "Tests\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj", "{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Core.TestData", "Tests\JsonApiFramework.Core.TestData\JsonApiFramework.Core.TestData.csproj", "{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Core.TestAsserts", "Tests\JsonApiFramework.Core.TestAsserts\JsonApiFramework.Core.TestAsserts.csproj", "{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Infrastructure.Tests", "Tests\JsonApiFramework.Infrastructure.Tests\JsonApiFramework.Infrastructure.Tests.csproj", "{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Infrastructure.TestAsserts", "Tests\JsonApiFramework.Infrastructure.TestAsserts\JsonApiFramework.Infrastructure.TestAsserts.csproj", "{90D4A8B4-1291-454D-8646-6FCAEF92771A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Client.Tests", "Tests\JsonApiFramework.Client.Tests\JsonApiFramework.Client.Tests.csproj", "{204F1E33-B22C-4205-8E2C-F9AF6586F28E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Server.Tests", "Tests\JsonApiFramework.Server.Tests\JsonApiFramework.Server.Tests.csproj", "{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Server.TestAsserts", "Tests\JsonApiFramework.Server.TestAsserts\JsonApiFramework.Server.TestAsserts.csproj", "{AA3C769A-C068-4DBE-A0E6-AF49570815A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9944E33E-D15F-4CA0-8C19-D6575F7A5737}"
+	ProjectSection(SolutionItems) = preProject
+		.build\JsonApiFramework.Client.version = .build\JsonApiFramework.Client.version
+		.build\JsonApiFramework.Core.version = .build\JsonApiFramework.Core.version
+		.build\JsonApiFramework.Infrastructure.version = .build\JsonApiFramework.Infrastructure.version
+		.build\JsonApiFramework.Server.version = .build\JsonApiFramework.Server.version
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A17A96C-7586-41ED-931A-8115E3305304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A17A96C-7586-41ED-931A-8115E3305304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A17A96C-7586-41ED-931A-8115E3305304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A17A96C-7586-41ED-931A-8115E3305304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72E84D1D-4002-4666-810E-F98696A915B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72E84D1D-4002-4666-810E-F98696A915B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72E84D1D-4002-4666-810E-F98696A915B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72E84D1D-4002-4666-810E-F98696A915B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FFE8314-94D1-46FA-989D-F63F9EB04AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFE8314-94D1-46FA-989D-F63F9EB04AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFE8314-94D1-46FA-989D-F63F9EB04AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFE8314-94D1-46FA-989D-F63F9EB04AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D4A8B4-1291-454D-8646-6FCAEF92771A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D4A8B4-1291-454D-8646-6FCAEF92771A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D4A8B4-1291-454D-8646-6FCAEF92771A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D4A8B4-1291-454D-8646-6FCAEF92771A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204F1E33-B22C-4205-8E2C-F9AF6586F28E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204F1E33-B22C-4205-8E2C-F9AF6586F28E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204F1E33-B22C-4205-8E2C-F9AF6586F28E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204F1E33-B22C-4205-8E2C-F9AF6586F28E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA3C769A-C068-4DBE-A0E6-AF49570815A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA3C769A-C068-4DBE-A0E6-AF49570815A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA3C769A-C068-4DBE-A0E6-AF49570815A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA3C769A-C068-4DBE-A0E6-AF49570815A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB} = {52884184-64E2-4F3E-A689-D76D2C868A6F}
+		{7A17A96C-7586-41ED-931A-8115E3305304} = {52884184-64E2-4F3E-A689-D76D2C868A6F}
+		{72E84D1D-4002-4666-810E-F98696A915B3} = {52884184-64E2-4F3E-A689-D76D2C868A6F}
+		{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0} = {52884184-64E2-4F3E-A689-D76D2C868A6F}
+		{6FFE8314-94D1-46FA-989D-F63F9EB04AC6} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{ED2C27BE-A1FD-4944-AA4C-99EF8ED38ED6} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{974ED19B-A385-4EFA-9178-3B7A8FD15FDA} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{8AAA6508-FD7B-45B7-A0A4-5F6776AE95BB} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{FAA693BA-18F8-4DA4-9BFC-6D61E85D20E5} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{90D4A8B4-1291-454D-8646-6FCAEF92771A} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{204F1E33-B22C-4205-8E2C-F9AF6586F28E} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{0B1F08FA-540F-4AEC-BE1C-6D4C528A5E4A} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+		{AA3C769A-C068-4DBE-A0E6-AF49570815A5} = {6201D01A-0B45-4BB8-8278-ECBE60BAED80}
+	EndGlobalSection
+EndGlobal

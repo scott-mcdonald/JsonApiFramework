@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+    <metadata minClientVersion="2.8">
+        <id>JsonApiFramework.Core</id>
+        <version>1.0.0-beta</version>
+        <title>JsonApiFramework [Core]</title>
+        <authors>Scott McDonald</authors>
+        <summary>Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources.</summary>
+        <description>
+            Portable .NET foundation-level 'json api' classes used for serializing and deserializing between raw JSON and CLR objects that represent the domain model of the JSON API specification.
+
+            Portable .NET foundation-level 'service model' classes that represent the domain model of the resources produced and consumed by the hypermedia API server or client application. The 'service model' contains the metadata of individual resources and the schema of how resources are related to each other through relationships (to-one or to-many).
+        </description>
+        <language>en-us</language>
+        <projectUrl>https://github.com/scott-mcdonald/JsonApiFramework</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</iconUrl>
+        <licenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <tags>portable json api framework</tags>
+        <dependencies>
+            <dependency id="Humanizer.Core" version="2.0" />
+            <dependency id="Newtonsoft.Json" version="9.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\Source\JsonApiFramework.Core\bin\Release\JsonApiFramework.Core.dll" target="lib\portable-net45+win8+wp8" />
+    </files>
+</package>

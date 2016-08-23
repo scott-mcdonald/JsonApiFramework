@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{90D4A8B4-1291-454D-8646-6FCAEF92771A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JsonApiFramework.TestAsserts</RootNamespace>
+    <AssemblyName>JsonApiFramework.Infrastructure.TestAsserts</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="xunit.assert, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Internal\Dom\DomAttributeAssert.cs" />
+    <Compile Include="Internal\Dom\DomAttributesAssert.cs" />
+    <Compile Include="Internal\Dom\DomDataAssert.cs" />
+    <Compile Include="Internal\Dom\DomDataCollectionAssert.cs" />
+    <Compile Include="Internal\Dom\DomDocumentAssert.cs" />
+    <Compile Include="Internal\Dom\DomErrorAssert.cs" />
+    <Compile Include="Internal\Dom\DomErrorsAssert.cs" />
+    <Compile Include="Internal\Dom\DomHRefAssert.cs" />
+    <Compile Include="Internal\Dom\DomIdAssert.cs" />
+    <Compile Include="Internal\Dom\DomIncludedAssert.cs" />
+    <Compile Include="Internal\Dom\DomJsonApiVersionAssert.cs" />
+    <Compile Include="Internal\Dom\DomLinkAssert.cs" />
+    <Compile Include="Internal\Dom\DomLinksAssert.cs" />
+    <Compile Include="Internal\Dom\DomMetaAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyErrorAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyErrorsAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyJsonApiVersionAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyLinkAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyLinksAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyMetaAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyRelationshipAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyRelationshipsAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyResourceAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadOnlyResourceIdentifierAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteErrorsAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteLinkAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteLinksAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteRelationshipAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteRelationshipsAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteResourceAssert.cs" />
+    <Compile Include="Internal\Dom\DomReadWriteResourceIdentifierAssert.cs" />
+    <Compile Include="Internal\Dom\DomRelationshipAssert.cs" />
+    <Compile Include="Internal\Dom\DomRelationshipsAssert.cs" />
+    <Compile Include="Internal\Dom\DomResourceAssert.cs" />
+    <Compile Include="Internal\Dom\DomResourceIdentifierAssert.cs" />
+    <Compile Include="Internal\Dom\DomTypeAssert.cs" />
+    <Compile Include="Properties\InternalsVisibleTo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
+      <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
+      <Name>JsonApiFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj">
+      <Project>{f822e6c0-4a05-45ca-bcef-8334bd78e4b0}</Project>
+      <Name>JsonApiFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.Core.TestAsserts\JsonApiFramework.Core.TestAsserts.csproj">
+      <Project>{8aaa6508-fd7b-45b7-a0a4-5f6776ae95bb}</Project>
+      <Name>JsonApiFramework.Core.TestAsserts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

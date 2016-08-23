@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{974ED19B-A385-4EFA-9178-3B7A8FD15FDA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JsonApiFramework.TestData</RootNamespace>
+    <AssemblyName>JsonApiFramework.Core.TestData</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Humanizer, Version=2.0.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\portable-win+net45+wp8+wpa81\Humanizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClrResources\Article.cs" />
+    <Compile Include="ClrResources\Blog.cs" />
+    <Compile Include="ClrResources\Comment.cs" />
+    <Compile Include="ClrResources\Order.cs" />
+    <Compile Include="ClrResources\OrderItem.cs" />
+    <Compile Include="ClrResources\Payment.cs" />
+    <Compile Include="ClrResources\Person.cs" />
+    <Compile Include="ClrResources\PosSystem.cs" />
+    <Compile Include="ClrResources\Product.cs" />
+    <Compile Include="ClrResources\SampleArticles.cs" />
+    <Compile Include="ClrResources\SampleBlogs.cs" />
+    <Compile Include="ClrResources\SampleComments.cs" />
+    <Compile Include="ClrResources\SampleDocuments.cs" />
+    <Compile Include="ClrResources\ClrSampleData.cs" />
+    <Compile Include="ClrResources\SampleOrderItems.cs" />
+    <Compile Include="ClrResources\SampleOrders.cs" />
+    <Compile Include="ClrResources\SamplePayments.cs" />
+    <Compile Include="ClrResources\SamplePersons.cs" />
+    <Compile Include="ClrResources\SamplePosSystems.cs" />
+    <Compile Include="ClrResources\SampleProducts.cs" />
+    <Compile Include="ClrResources\SampleStoreConfigurations.cs" />
+    <Compile Include="ClrResources\SampleStores.cs" />
+    <Compile Include="ClrResources\Store.cs" />
+    <Compile Include="ClrResources\StoreConfiguration.cs" />
+    <Compile Include="ClrResources\TestConfigurations.cs" />
+    <Compile Include="ApiResources\ArticleAttributes.cs" />
+    <Compile Include="ApiResources\AuditAttributeItem.cs" />
+    <Compile Include="ApiResources\AuditAttributes.cs" />
+    <Compile Include="ApiResources\BlogAttributes.cs" />
+    <Compile Include="ApiResources\CommentAttributes.cs" />
+    <Compile Include="ApiResources\DocumentMeta.cs" />
+    <Compile Include="ApiResources\ErrorMeta.cs" />
+    <Compile Include="ApiResources\JsonApiVersionMeta.cs" />
+    <Compile Include="ApiResources\JsonDataTypesAttributes.cs" />
+    <Compile Include="ApiResources\LinkMeta.cs" />
+    <Compile Include="ApiResources\PersonAttributes.cs" />
+    <Compile Include="ApiResources\RelationshipMeta.cs" />
+    <Compile Include="ApiResources\ResourceMeta.cs" />
+    <Compile Include="ApiResources\ApiSampleData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
+      <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
+      <Name>JsonApiFramework.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

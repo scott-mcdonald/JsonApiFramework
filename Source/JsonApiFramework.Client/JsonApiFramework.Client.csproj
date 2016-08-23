@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{7A17A96C-7586-41ED-931A-8115E3305304}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>JsonApiFramework.Client</RootNamespace>
+        <AssemblyName>JsonApiFramework.Client</AssemblyName>
+        <DefaultLanguage>en-US</DefaultLanguage>
+        <FileAlignment>512</FileAlignment>
+        <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Properties\InternalsVisibleTo.cs" />
+        <Compile Include="Properties\ClientErrorStrings.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>ClientErrorStrings.resx</DependentUpon>
+        </Compile>
+        <Compile Include="Builders\Extensions\DocumentBuilderExtensions.cs" />
+        <Compile Include="Builders\Extensions\AttributesBuilderExtensions.cs" />
+        <Compile Include="Builders\Extensions\RelationshipsBuilderExtensions.cs" />
+        <Compile Include="Builders\Extensions\RelationshipBuilderExtensions.cs" />
+        <Compile Include="Builders\Internal\AttributeProxy.cs" />
+        <Compile Include="Builders\Internal\AttributesBuilder.cs" />
+        <Compile Include="Builders\Internal\DocumentBuilder.cs" />
+        <Compile Include="Builders\Internal\PrimaryResourceBuilder.cs" />
+        <Compile Include="Builders\Internal\RelationshipBuilder.cs" />
+        <Compile Include="Builders\Internal\RelationshipsBuilder.cs" />
+        <Compile Include="Builders\Internal\ResourceBuilder.cs" />
+        <Compile Include="DocumentContext.cs" />
+        <Compile Include="Builders\IAttributeProxy.cs" />
+        <Compile Include="Builders\IAttributesBuilder.cs" />
+        <Compile Include="Builders\IDocumentBuilder.cs" />
+        <Compile Include="IDocumentFactory.cs" />
+        <Compile Include="Builders\IPrimaryResourceBuilder.cs" />
+        <Compile Include="Builders\IRelationshipBuilder.cs" />
+        <Compile Include="Builders\IRelationshipsBuilder.cs" />
+        <Compile Include="Builders\IResourceBuilder.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Properties\AssemblyVersion.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Properties\ClientErrorStrings.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>ClientErrorStrings.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>JsonApiFramework.Client</CustomToolNamespace>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
+            <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
+            <Name>JsonApiFramework.Core</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj">
+            <Project>{f822e6c0-4a05-45ca-bcef-8334bd78e4b0}</Project>
+            <Name>JsonApiFramework.Infrastructure</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+    <Import Project="..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+        <PropertyGroup>
+            <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+        </PropertyGroup>
+        <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets'))" />
+    </Target>
+    <!--
+    To modify your build process, add your task inside one of the targets below and uncomment it. 
+    Other similar extension points exist, see Microsoft.Common.targets.
+    -->
+    <Target Name="BeforeBuild">
+
+        <!-- Version Number -->
+        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Client.version" XPath="version/major">
+            <Output TaskParameter="Value" PropertyName="Major" />
+        </XmlRead>
+        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Client.version" XPath="version/minor">
+            <Output TaskParameter="Value" PropertyName="Minor" />
+        </XmlRead>
+        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Client.version" XPath="version/patch">
+            <Output TaskParameter="Value" PropertyName="Patch" />
+        </XmlRead>
+        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Client.version" XPath="version/buildnumber">
+            <Output TaskParameter="Value" PropertyName="BuildNumber" />
+        </XmlRead>
+
+        <PropertyGroup>
+            <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+            <ProjectProperties>BuildNumber=$(BuildNumber);</ProjectProperties>
+        </PropertyGroup>
+
+        <Message Text="Version: $(Major).$(Minor).$(Patch).$(BuildNumber)" />
+
+        <Time>
+            <Output TaskParameter="Year" PropertyName="Year" />
+        </Time>
+
+        <Attrib Files="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" ReadOnly="False" />
+        <AssemblyInfo CodeLanguage="CS"
+                      OutputFile="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs"
+                      GenerateClass="true"
+                      AssemblyCopyright="Copyright © 2015–$(Year) Scott McDonald"
+                      AssemblyVersion="$(Major).$(Minor).0.0"
+                      AssemblyFileVersion="$(Major).$(Minor).$(Patch).$(BuildNumber)"
+                      AssemblyInformationalVersion="$(Major).$(Minor).$(Patch)-beta" />
+        <!-- End of Version Number -->
+    </Target>
+
+    <!--
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>

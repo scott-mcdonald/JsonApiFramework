@@ -60,8 +60,8 @@ namespace JsonApiFramework.Tests.JsonApi
         public void TestLinkConversionOperatorToLinkFromString()
         {
             // Arrange
-            var json = SampleData.ArticleCollectionHRef;
-            var expected = new Link(SampleData.ArticleCollectionHRef);
+            var json = ApiSampleData.ArticleCollectionHRef;
+            var expected = new Link(ApiSampleData.ArticleCollectionHRef);
 
             // Act
             this.Output.WriteLine(json);
@@ -75,10 +75,10 @@ namespace JsonApiFramework.Tests.JsonApi
         public void TestLinkConversionOperatorToStringFromLink()
         {
             // Arrange
-            var expectedLink = new Link(SampleData.ArticleCollectionHRef);
+            var expectedLink = new Link(ApiSampleData.ArticleCollectionHRef);
 
             // Act
-            var expected = SampleData.ArticleCollectionHRef;
+            var expected = ApiSampleData.ArticleCollectionHRef;
 
             var actual = (string)expectedLink;
             this.Output.WriteLine(actual);
@@ -242,14 +242,14 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly IEnumerable<object[]> LinkTestData = new[]
             {
                 new object[] {"WithEmptyObject", new Link()},
-                new object[] {"WithHRef", new Link(SampleData.ArticleCollectionHRef)},
+                new object[] {"WithHRef", new Link(ApiSampleData.ArticleCollectionHRef)},
                 new object[]
                     {
                         "WithHRefAndMeta",
                         new Link
                             {
-                                HRef = SampleData.ArticleCollectionHRef,
-                                Meta = SampleData.LinkMeta
+                                HRef = ApiSampleData.ArticleCollectionHRef,
+                                Meta = ApiSampleData.LinkMeta
                             }
                     }
             };

@@ -58,8 +58,8 @@ namespace JsonApiFramework.Tests.JsonApi
         public void TestResourceResourceIdentifierConversionOperator()
         {
             // Arrange
-            var resource = SampleData.ArticleResource;
-            var expected = SampleData.ArticleResourceIdentifier;
+            var resource = ApiSampleData.ArticleResource;
+            var expected = ApiSampleData.ArticleResourceIdentifier;
 
             // Act
             var actual = (ResourceIdentifier)resource;
@@ -75,9 +75,9 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly IEnumerable<object[]> ResourceTestData = new[]
             {
                 new object[] {"WithEmptyObject", Resource.Empty},
-                new object[] {"WithIdentityOnly", SampleData.ArticleResourceWithIdentityOnly},
-                new object[] {"WithJsonDataTypesAttributes", SampleData.ArticleResourceWithJsonDataTypesAttributes},
-                new object[] {"WithCompleteObject", SampleData.ArticleResource}
+                new object[] {"WithIdentityOnly", ApiSampleData.ArticleResourceWithIdentityOnly},
+                new object[] {"WithJsonDataTypesAttributes", ApiSampleData.ArticleResourceWithJsonDataTypesAttributes},
+                new object[] {"WithCompleteObject", ApiSampleData.ArticleResource}
             };
         #endregion
     }

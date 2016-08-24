@@ -195,7 +195,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         public void TestServiceModelGenericGetResourceTypeWithInvalidClrType()
         {
             // Arrange
-            var serviceModel = SampleMetadata.ServiceModelWithOnlyArticleResourceType;
+            var serviceModel = ClrSampleData.ServiceModelWithOnlyArticleResourceType;
 
             // Act
             Assert.Throws<ServiceModelException>(() => serviceModel.GetResourceType<Blog>());
@@ -207,8 +207,8 @@ namespace JsonApiFramework.Tests.ServiceModel
         public void TestServiceModelGenericGetResourceTypeWithValidClrType()
         {
             // Arrange
-            var serviceModel = SampleMetadata.ServiceModelWithOnlyArticleResourceType;
-            var expected = SampleMetadata.ArticleResourceType;
+            var serviceModel = ClrSampleData.ServiceModelWithOnlyArticleResourceType;
+            var expected = ClrSampleData.ArticleResourceType;
 
             // Act
             var actual = serviceModel.GetResourceType<Article>();
@@ -221,7 +221,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         public void TestServiceModelGenericTryGetResourceTypeWithInvalidClrType()
         {
             // Arrange
-            var serviceModel = SampleMetadata.ServiceModelWithOnlyArticleResourceType;
+            var serviceModel = ClrSampleData.ServiceModelWithOnlyArticleResourceType;
 
             // Act
             IResourceType actual;
@@ -236,8 +236,8 @@ namespace JsonApiFramework.Tests.ServiceModel
         public void TestServiceModelGenericTryGetResourceTypeWithValidClrType()
         {
             // Arrange
-            var serviceModel = SampleMetadata.ServiceModelWithOnlyArticleResourceType;
-            var expected = SampleMetadata.ArticleResourceType;
+            var serviceModel = ClrSampleData.ServiceModelWithOnlyArticleResourceType;
+            var expected = ClrSampleData.ArticleResourceType;
 
             // Act
             IResourceType actual;
@@ -255,23 +255,23 @@ namespace JsonApiFramework.Tests.ServiceModel
         // ReSharper disable UnusedMember.Global
         public static readonly IEnumerable<object[]> ServiceModelTestData = new[]
             {
-                new object[] {"WithEmptyObject", SampleMetadata.ServiceModelEmpty},
-                new object[] {"WithResourceTypesAndMappedRelationshipsLinksAndMetaClrProperties", SampleMetadata.ServiceModelWithBlogResourceTypes},
-                new object[] {"WithResourceTypesAndNoMappedRelationshipsLinksAndMetaClrProperties", SampleMetadata.ServiceModelWithOrderResourceTypes}
+                new object[] {"WithEmptyObject", ClrSampleData.ServiceModelEmpty},
+                new object[] {"WithResourceTypesAndMappedRelationshipsLinksAndMetaClrProperties", ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithResourceTypesAndNoMappedRelationshipsLinksAndMetaClrProperties", ClrSampleData.ServiceModelWithOrderResourceTypes}
             };
 
         public static readonly IEnumerable<object[]> ClrTypeTestData = new[]
             {
-                new object[] {"WithNullClrType", false, SampleMetadata.ServiceModelWithOnlyArticleResourceType, null, null},
-                new object[] {"WithInvalidClrType", false, SampleMetadata.ServiceModelWithOnlyArticleResourceType, typeof(Blog), null},
-                new object[] {"WithValidClrType", true, SampleMetadata.ServiceModelWithOnlyArticleResourceType, typeof(Article), SampleMetadata.ArticleResourceType}
+                new object[] {"WithNullClrType", false, ClrSampleData.ServiceModelWithOnlyArticleResourceType, null, null},
+                new object[] {"WithInvalidClrType", false, ClrSampleData.ServiceModelWithOnlyArticleResourceType, typeof(Blog), null},
+                new object[] {"WithValidClrType", true, ClrSampleData.ServiceModelWithOnlyArticleResourceType, typeof(Article), ClrSampleData.ArticleResourceType}
             };
 
         public static readonly IEnumerable<object[]> ApiTypeTestData = new[]
             {
-                new object[] {"WithNullApiType", false, SampleMetadata.ServiceModelWithOnlyArticleResourceType, null, null},
-                new object[] {"WithInvalidApiType", false, SampleMetadata.ServiceModelWithOnlyArticleResourceType, SampleData.BlogType, null},
-                new object[] {"WithValidApiType", true, SampleMetadata.ServiceModelWithOnlyArticleResourceType, SampleData.ArticleType, SampleMetadata.ArticleResourceType}
+                new object[] {"WithNullApiType", false, ClrSampleData.ServiceModelWithOnlyArticleResourceType, null, null},
+                new object[] {"WithInvalidApiType", false, ClrSampleData.ServiceModelWithOnlyArticleResourceType, ApiSampleData.BlogType, null},
+                new object[] {"WithValidApiType", true, ClrSampleData.ServiceModelWithOnlyArticleResourceType, ApiSampleData.ArticleType, ClrSampleData.ArticleResourceType}
             };
         // ReSharper restore UnusedMember.Global
         #endregion

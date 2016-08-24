@@ -62,10 +62,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -119,10 +119,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -176,10 +176,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -233,10 +233,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -290,10 +290,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -347,10 +347,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -404,10 +404,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -461,10 +461,10 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var resourceIdentifier0 = default(ResourceIdentifier);
             var resourceIdentifier1 = new ResourceIdentifier();
-            var resourceIdentifier2 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier3 = SampleData.PersonResourceIdentifier2;
-            var resourceIdentifier4 = SampleData.PersonResourceIdentifier1;
-            var resourceIdentifier5 = SampleData.CommentResourceIdentifier1;
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
 
             // Act
 
@@ -519,8 +519,8 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly IEnumerable<object[]> ResourceIdentifierTestData = new[]
             {
                 new object[] {"WithEmptyObject", ResourceIdentifier.Empty},
-                new object[] {"WithNonEmptyObject", SampleData.ArticleResourceIdentifier},
-                new object[] {"WithNonEmptyObjectAndMeta", SampleData.ArticleResourceIdentifierWithMeta}
+                new object[] {"WithNonEmptyObject", ApiSampleData.ArticleResourceIdentifier},
+                new object[] {"WithNonEmptyObjectAndMeta", ApiSampleData.ArticleResourceIdentifierWithMeta}
             };
         #endregion
     }

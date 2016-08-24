@@ -60,13 +60,13 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var relationships = new Relationships
                 {
-                    { SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship },
-                    { SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship }
+                    { ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship },
+                    { ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship }
                 };
-            var expected = SampleData.ArticleToCommentsToManyRelationship;
+            var expected = ApiSampleData.ArticleToCommentsToManyRelationship;
 
             // Act
-            var actual = relationships.GetRelationship(SampleData.ArticleToCommentsRel);
+            var actual = relationships.GetRelationship(ApiSampleData.ArticleToCommentsRel);
 
             // Assert
             RelationshipAssert.Equal(expected, actual);
@@ -78,14 +78,14 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var relationships = new Relationships
                 {
-                    { SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship },
-                    { SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship }
+                    { ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship },
+                    { ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship }
                 };
 
             // Act
 
             // Assert
-            Assert.Throws<RelationshipNotFoundException>(() => relationships.GetRelationship(SampleData.ArticleToBlogRel));
+            Assert.Throws<RelationshipNotFoundException>(() => relationships.GetRelationship(ApiSampleData.ArticleToBlogRel));
         }
 
         [Fact]
@@ -94,14 +94,14 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var relationships = new Relationships
                 {
-                    { SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship },
-                    { SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship }
+                    { ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship },
+                    { ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship }
                 };
-            var expected = SampleData.ArticleToCommentsToManyRelationship;
+            var expected = ApiSampleData.ArticleToCommentsToManyRelationship;
 
             // Act
             Relationship actual;
-            var foundRelationship = relationships.TryGetRelationship(SampleData.ArticleToCommentsRel, out actual);
+            var foundRelationship = relationships.TryGetRelationship(ApiSampleData.ArticleToCommentsRel, out actual);
 
             // Assert
             Assert.True(foundRelationship);
@@ -114,13 +114,13 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var relationships = new Relationships
                 {
-                    { SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship },
-                    { SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship }
+                    { ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship },
+                    { ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship }
                 };
 
             // Act
             Relationship relationship;
-            var foundRelationship = relationships.TryGetRelationship(SampleData.ArticleToBlogRel, out relationship);
+            var foundRelationship = relationships.TryGetRelationship(ApiSampleData.ArticleToBlogRel, out relationship);
 
             // Assert
             Assert.False(foundRelationship);
@@ -139,7 +139,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithOneRelationship",
                         new Relationships
                             {
-                                {SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorRelationship}
+                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship}
                             }
                     },
                 new object[]
@@ -147,8 +147,8 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithManyRelationships",
                         new Relationships
                             {
-                                {SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorRelationship},
-                                {SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsRelationship}
+                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship},
+                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship}
                             }
                     },
                 new object[]
@@ -156,7 +156,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithOneToOneRelationship",
                         new Relationships
                             {
-                                {SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship}
+                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship}
                             }
                     },
                 new object[]
@@ -164,8 +164,8 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithManyToOneRelationships",
                         new Relationships
                             {
-                                {SampleData.ArticleToAuthorRel, SampleData.ArticleToAuthorToOneRelationship},
-                                {SampleData.ArticleToBlogRel, SampleData.ArticleToBlogToOneRelationship}
+                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
+                                {ApiSampleData.ArticleToBlogRel, ApiSampleData.ArticleToBlogToOneRelationship}
                             }
                     },
                 new object[]
@@ -173,7 +173,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithOneToManyRelationship",
                         new Relationships
                             {
-                                {SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship}
+                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship}
                             }
                     },
                 new object[]
@@ -181,8 +181,8 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithManyToManyRelationships",
                         new Relationships
                             {
-                                {SampleData.ArticleToCommentsRel, SampleData.ArticleToCommentsToManyRelationship},
-                                {SampleData.BlogToArticlesRel, SampleData.BlogToArticlesToManyRelationship}
+                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship},
+                                {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesToManyRelationship}
                             }
                     }
             };

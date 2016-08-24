@@ -72,18 +72,18 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         // ReSharper disable UnusedMember.Global
         public static readonly IEnumerable<object[]> CreateServiceModelTestData = new[]
             {
-                new object[] {"WithEmptyServiceModel", new ServiceModelBuilder(), null, SampleMetadata.ServiceModelEmpty},
+                new object[] {"WithEmptyServiceModel", new ServiceModelBuilder(), null, ClrSampleData.ServiceModelEmpty},
 
-                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, SampleMetadata.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithDirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, SampleMetadata.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithDirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
 
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, SampleMetadata.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, SampleMetadata.ServiceModelWithBlogResourceTypes},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventionSet(), null, SampleMetadata.ServiceModelWithOrderResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOrderResourceTypes},
 
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventionSet(), TestConfigurations.CreateConventionSet(), SampleMetadata.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), SampleMetadata.ServiceModelWithBlogResourceTypes},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), SampleMetadata.ServiceModelWithOrderResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithOrderResourceTypes},
             };
         // ReSharper restore UnusedMember.Global
         #endregion
@@ -97,30 +97,30 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 // Hypermedia
                 this.Resource<Article>()
                     .Hypermedia()
-                    .SetApiCollectionPathSegment(SampleData.ArticleCollectionPathSegment);
+                    .SetApiCollectionPathSegment(ApiSampleData.ArticleCollectionPathSegment);
 
                 // ResourceIdentity
                 this.Resource<Article>()
                     .ResourceIdentity(x => x.Id)
-                    .SetApiType(SampleData.ArticleType);
+                    .SetApiType(ApiSampleData.ArticleType);
 
                 // Attributes
                 this.Resource<Article>()
                     .Attribute(x => x.Title)
-                    .SetApiPropertyName(SampleData.ArticleTitlePropertyName);
+                    .SetApiPropertyName(ApiSampleData.ArticleTitlePropertyName);
 
                 // Relationships
                 this.Resource<Article>()
                     .Relationships(x => x.Relationships);
 
                 this.Resource<Article>()
-                    .ToOneRelationship<Person>(SampleData.ArticleToAuthorRel)
-                    .SetApiRelPathSegment(SampleData.ArticleToAuthorRelPathSegment)
+                    .ToOneRelationship<Person>(ApiSampleData.ArticleToAuthorRel)
+                    .SetApiRelPathSegment(ApiSampleData.ArticleToAuthorRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 this.Resource<Article>()
-                    .ToManyRelationship<Comment>(SampleData.ArticleToCommentsRel)
-                    .SetApiRelPathSegment(SampleData.ArticleToCommentsRelPathSegment)
+                    .ToManyRelationship<Comment>(ApiSampleData.ArticleToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.ArticleToCommentsRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 // Links
@@ -152,30 +152,30 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 // Hypermedia
                 this.Resource<Article>()
                     .Hypermedia()
-                    .SetApiCollectionPathSegment(SampleData.ArticleCollectionPathSegment);
+                    .SetApiCollectionPathSegment(ApiSampleData.ArticleCollectionPathSegment);
 
                 // ResourceIdentity
                 this.Resource<Article>()
                     .ResourceIdentity(x => x.Id)
-                    .SetApiType(SampleData.ArticleType);
+                    .SetApiType(ApiSampleData.ArticleType);
 
                 // Attributes
                 this.Resource<Article>()
                     .Attribute(x => x.Title)
-                    .SetApiPropertyName(SampleData.ArticleTitlePropertyName);
+                    .SetApiPropertyName(ApiSampleData.ArticleTitlePropertyName);
 
                 // Relationships
                 this.Resource<Article>()
                     .Relationships(x => x.Relationships);
 
                 this.Resource<Article>()
-                    .ToOneRelationship<Person>(SampleData.ArticleToAuthorRel)
-                    .SetApiRelPathSegment(SampleData.ArticleToAuthorRelPathSegment)
+                    .ToOneRelationship<Person>(ApiSampleData.ArticleToAuthorRel)
+                    .SetApiRelPathSegment(ApiSampleData.ArticleToAuthorRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 this.Resource<Article>()
-                    .ToManyRelationship<Comment>(SampleData.ArticleToCommentsRel)
-                    .SetApiRelPathSegment(SampleData.ArticleToCommentsRelPathSegment)
+                    .ToManyRelationship<Comment>(ApiSampleData.ArticleToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.ArticleToCommentsRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 // Links
@@ -196,25 +196,25 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 // Hypermedia
                 this.Resource<Blog>()
                     .Hypermedia()
-                    .SetApiCollectionPathSegment(SampleData.BlogCollectionPathSegment);
+                    .SetApiCollectionPathSegment(ApiSampleData.BlogCollectionPathSegment);
 
                 // ResourceIdentity
                 this.Resource<Blog>()
                     .ResourceIdentity(x => x.Id)
-                    .SetApiType(SampleData.BlogType);
+                    .SetApiType(ApiSampleData.BlogType);
 
                 // Attributes
                 this.Resource<Blog>()
                     .Attribute(x => x.Name)
-                    .SetApiPropertyName(SampleData.BlogNamePropertyName);
+                    .SetApiPropertyName(ApiSampleData.BlogNamePropertyName);
 
                 // Relationships
                 this.Resource<Blog>()
                     .Relationships(x => x.Relationships);
 
                 this.Resource<Blog>()
-                    .ToManyRelationship<Article>(SampleData.BlogToArticlesRel)
-                    .SetApiRelPathSegment(SampleData.BlogToArticlesRelPathSegment)
+                    .ToManyRelationship<Article>(ApiSampleData.BlogToArticlesRel)
+                    .SetApiRelPathSegment(ApiSampleData.BlogToArticlesRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 // Links
@@ -233,25 +233,25 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 // Hypermedia
                 this.Resource<Comment>()
                     .Hypermedia()
-                    .SetApiCollectionPathSegment(SampleData.CommentCollectionPathSegment);
+                    .SetApiCollectionPathSegment(ApiSampleData.CommentCollectionPathSegment);
 
                 // ResourceIdentity
                 this.Resource<Comment>()
                     .ResourceIdentity(x => x.Id)
-                    .SetApiType(SampleData.CommentType);
+                    .SetApiType(ApiSampleData.CommentType);
 
                 // Attributes
                 this.Resource<Comment>()
                     .Attribute(x => x.Body)
-                    .SetApiPropertyName(SampleData.CommentBodyPropertyName);
+                    .SetApiPropertyName(ApiSampleData.CommentBodyPropertyName);
 
                 // Relationships
                 this.Resource<Comment>()
                     .Relationships(x => x.Relationships);
 
                 this.Resource<Comment>()
-                    .ToOneRelationship<Person>(SampleData.CommentToAuthorRel)
-                    .SetApiRelPathSegment(SampleData.CommentToAuthorRelPathSegment)
+                    .ToOneRelationship<Person>(ApiSampleData.CommentToAuthorRel)
+                    .SetApiRelPathSegment(ApiSampleData.CommentToAuthorRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 // Links
@@ -270,33 +270,33 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 // Hypermedia
                 this.Resource<Person>()
                     .Hypermedia()
-                    .SetApiCollectionPathSegment(SampleData.PersonCollectionPathSegment);
+                    .SetApiCollectionPathSegment(ApiSampleData.PersonCollectionPathSegment);
 
                 // ResourceIdentity
                 this.Resource<Person>()
                     .ResourceIdentity(x => x.Id)
-                    .SetApiType(SampleData.PersonType);
+                    .SetApiType(ApiSampleData.PersonType);
 
                 // Attributes
                 this.Resource<Person>()
                     .Attribute(x => x.FirstName)
-                    .SetApiPropertyName(SampleData.PersonFirstNamePropertyName);
+                    .SetApiPropertyName(ApiSampleData.PersonFirstNamePropertyName);
 
                 this.Resource<Person>()
                     .Attribute(x => x.LastName)
-                    .SetApiPropertyName(SampleData.PersonLastNamePropertyName);
+                    .SetApiPropertyName(ApiSampleData.PersonLastNamePropertyName);
 
                 this.Resource<Person>()
                     .Attribute(x => x.Twitter)
-                    .SetApiPropertyName(SampleData.PersonTwitterPropertyName);
+                    .SetApiPropertyName(ApiSampleData.PersonTwitterPropertyName);
 
                 // Relationships
                 this.Resource<Person>()
                     .Relationships(x => x.Relationships);
 
                 this.Resource<Person>()
-                    .ToManyRelationship<Comment>(SampleData.PersonToCommentsRel)
-                    .SetApiRelPathSegment(SampleData.PersonToCommentsRelPathSegment)
+                    .ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.PersonToCommentsRelPathSegment)
                     .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
 
                 // Links

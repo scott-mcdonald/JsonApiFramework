@@ -60,12 +60,12 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
-            var expected = SampleData.ArticleHRef;
+            var expected = ApiSampleData.ArticleHRef;
             var actual = links.GetHRef(Keywords.Self);
 
             // Assert
@@ -78,8 +78,8 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
@@ -94,12 +94,12 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
-            var expected = SampleData.ArticleHRef;
+            var expected = ApiSampleData.ArticleHRef;
             string actual;
             var foundHRef = links.TryGetHRef(Keywords.Self, out actual);
 
@@ -114,8 +114,8 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
@@ -134,12 +134,12 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
-            var expected = SampleData.ArticleLink;
+            var expected = ApiSampleData.ArticleLink;
             var actual = links.GetLink(Keywords.Self);
 
             // Assert
@@ -152,8 +152,8 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
@@ -168,12 +168,12 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
-            var expected = SampleData.ArticleLink;
+            var expected = ApiSampleData.ArticleLink;
             Link actual;
             var foundLink = links.TryGetLink(Keywords.Self, out actual);
 
@@ -188,8 +188,8 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             var links = new Links
                 {
-                    { Keywords.Up, SampleData.ArticleCollectionLink },
-                    { Keywords.Self, SampleData.ArticleLink }
+                    { Keywords.Up, ApiSampleData.ArticleCollectionLink },
+                    { Keywords.Self, ApiSampleData.ArticleLink }
                 };
 
             // Act
@@ -213,7 +213,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithOneHRefOnlyLink",
                         new Links
                             {
-                                {Keywords.Self, SampleData.ArticleLink}
+                                {Keywords.Self, ApiSampleData.ArticleLink}
                             }
                     },
                 new object[]
@@ -221,7 +221,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithOneHRefAndMetaLink",
                         new Links
                             {
-                                {Keywords.Self, SampleData.ArticleLinkWithMeta}
+                                {Keywords.Self, ApiSampleData.ArticleLinkWithMeta}
                             }
                     },
                 new object[]
@@ -229,8 +229,8 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithManyHRefOnlyLinks",
                         new Links
                             {
-                                {Keywords.Up, SampleData.ArticleCollectionLink},
-                                {Keywords.Self, SampleData.ArticleLink}
+                                {Keywords.Up, ApiSampleData.ArticleCollectionLink},
+                                {Keywords.Self, ApiSampleData.ArticleLink}
                             }
                     },
                 new object[]
@@ -238,8 +238,8 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithManyHRefAndMetaLinks",
                         new Links
                             {
-                                {Keywords.Up, SampleData.ArticleCollectionLinkWithMeta},
-                                {Keywords.Self, SampleData.ArticleLinkWithMeta}
+                                {Keywords.Up, ApiSampleData.ArticleCollectionLinkWithMeta},
+                                {Keywords.Self, ApiSampleData.ArticleLinkWithMeta}
                             }
                     }
             };

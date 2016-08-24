@@ -61,8 +61,8 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly IEnumerable<object[]> JsonApiVersionTestData = new[]
             {
                 new object[] {"WithEmptyObject", JsonApiVersion.Empty},
-                new object[] {"WithVersion", SampleData.JsonApiVersion},
-                new object[] {"WithVersionAndMeta", SampleData.JsonApiVersionAndMeta}
+                new object[] {"WithVersion", ApiSampleData.JsonApiVersion},
+                new object[] {"WithVersionAndMeta", ApiSampleData.JsonApiVersionAndMeta}
             };
         #endregion
     }

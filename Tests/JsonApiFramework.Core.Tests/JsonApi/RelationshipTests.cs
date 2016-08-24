@@ -125,8 +125,8 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     }
                             }
                     },
@@ -137,10 +137,10 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     },
-                                Meta = SampleData.RelationshipMeta
+                                Meta = ApiSampleData.RelationshipMeta
                             }
                     }
             };
@@ -155,8 +155,8 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     },
                                 Data = null
                             }
@@ -168,11 +168,11 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     },
                                 Data = null,
-                                Meta = SampleData.RelationshipMeta
+                                Meta = ApiSampleData.RelationshipMeta
                             }
                     },
                 new object[]
@@ -180,7 +180,7 @@ namespace JsonApiFramework.Tests.JsonApi
                         "WithNonEmptyLinkage",
                         new ToOneRelationship
                             {
-                                Data = SampleData.PersonResourceIdentifier
+                                Data = ApiSampleData.PersonResourceIdentifier
                             }
                     },
                 new object[]
@@ -190,10 +190,10 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     },
-                                Data = SampleData.PersonResourceIdentifier
+                                Data = ApiSampleData.PersonResourceIdentifier
                             }
                     },
                 new object[]
@@ -203,11 +203,11 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink},
-                                        {Keywords.Related, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
                                     },
-                                Data = SampleData.PersonResourceIdentifier,
-                                Meta = SampleData.RelationshipMeta
+                                Data = ApiSampleData.PersonResourceIdentifier,
+                                Meta = ApiSampleData.RelationshipMeta
                             }
                     }
             };
@@ -222,10 +222,10 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink},
-                                        {Keywords.Related, SampleData.ArticleToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                                     },
-                                Data = SampleData.EmptyResourceIdentifiers
+                                Data = ApiSampleData.EmptyResourceIdentifiers
                             }
                     },
                 new object[]
@@ -234,10 +234,10 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink},
-                                        {Keywords.Related, SampleData.ArticleToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                                     },
-                                Data = SampleData.EmptyResourceIdentifiers,
+                                Data = ApiSampleData.EmptyResourceIdentifiers,
                                 Meta = Meta.Create(new RelationshipMeta
                                     {
                                         CascadeDelete = true
@@ -248,7 +248,7 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithNonEmptyLinkage", new ToManyRelationship
                             {
-                                Data = SampleData.CommentResourceIdentifiers
+                                Data = ApiSampleData.CommentResourceIdentifiers
                             }
                     },
                 new object[]
@@ -257,10 +257,10 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink},
-                                        {Keywords.Related, SampleData.ArticleToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                                     },
-                                Data = SampleData.CommentResourceIdentifiers
+                                Data = ApiSampleData.CommentResourceIdentifiers
                             }
                     },
                 new object[]
@@ -269,11 +269,11 @@ namespace JsonApiFramework.Tests.JsonApi
                             {
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink},
-                                        {Keywords.Related, SampleData.ArticleToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
+                                        {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                                     },
-                                Data = SampleData.CommentResourceIdentifiers,
-                                Meta = SampleData.RelationshipMeta
+                                Data = ApiSampleData.CommentResourceIdentifiers,
+                                Meta = ApiSampleData.RelationshipMeta
                             }
                     }
             };

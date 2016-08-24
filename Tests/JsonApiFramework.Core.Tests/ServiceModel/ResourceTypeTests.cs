@@ -209,34 +209,34 @@ namespace JsonApiFramework.Tests.ServiceModel
         // ReSharper disable UnusedMember.Global
         public static readonly IEnumerable<object[]> AttributeTestData = new[]
             {
-                new object[] {"WithNullPropertyName", false, SampleMetadata.ArticleResourceType, null, null, null},
-                new object[] {"WithEmptyPropertyName", false, SampleMetadata.ArticleResourceType, String.Empty, String.Empty, null},
-                new object[] {"WithInvalidPropertyName", false, SampleMetadata.ArticleResourceType, "foo-bar", "FooBar", null},
-                new object[] {"WithValidPropertyName", true, SampleMetadata.ArticleResourceType, SampleData.ArticleTitlePropertyName, StaticReflection.GetMemberName<Article>(x => x.Title), SampleMetadata.ArticleTitleAttribute}
+                new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null, null},
+                new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, String.Empty, null},
+                new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "foo-bar", "FooBar", null},
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleTitlePropertyName, StaticReflection.GetMemberName<Article>(x => x.Title), ClrSampleData.ArticleTitleAttribute}
             };
 
         public static readonly IEnumerable<object[]> RelationshipTestData = new[]
             {
-                new object[] {"WithNullPropertyName", false, SampleMetadata.ArticleResourceType, null, null},
-                new object[] {"WithEmptyPropertyName", false, SampleMetadata.ArticleResourceType, String.Empty, null},
-                new object[] {"WithInvalidPropertyName", false, SampleMetadata.ArticleResourceType, "FooBar", null},
-                new object[] {"WithValidPropertyName", true, SampleMetadata.ArticleResourceType, SampleData.ArticleToAuthorRel, SampleMetadata.ArticleToAuthorRelationship}
+                new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null},
+                new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, null},
+                new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "FooBar", null},
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleToAuthorRel, ClrSampleData.ArticleToAuthorRelationship}
             };
 
         public static readonly IEnumerable<object[]> LinkTestData = new[]
             {
-                new object[] {"WithNullPropertyName", false, SampleMetadata.ArticleResourceType, null, null},
-                new object[] {"WithEmptyPropertyName", false, SampleMetadata.ArticleResourceType, String.Empty, null},
-                new object[] {"WithInvalidPropertyName", false, SampleMetadata.ArticleResourceType, "FooBar", null},
-                new object[] {"WithValidPropertyName", true, SampleMetadata.ArticleResourceType, Keywords.Self, SampleMetadata.ArticleSelfLink}
+                new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null},
+                new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, null},
+                new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "FooBar", null},
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, Keywords.Self, ClrSampleData.ArticleSelfLink}
             };
 
         public static readonly IEnumerable<object[]> FactoryTestData = new[]
             {
-                new object[] {"WithArticleResourceType", SampleMetadata.ArticleResourceType},
-                new object[] {"WithBlogResourceType", SampleMetadata.BlogResourceType},
-                new object[] {"WithCommentResourceType", SampleMetadata.CommentResourceType},
-                new object[] {"WithPersonResourceType", SampleMetadata.PersonResourceType}
+                new object[] {"WithArticleResourceType", ClrSampleData.ArticleResourceType},
+                new object[] {"WithBlogResourceType", ClrSampleData.BlogResourceType},
+                new object[] {"WithCommentResourceType", ClrSampleData.CommentResourceType},
+                new object[] {"WithPersonResourceType", ClrSampleData.PersonResourceType}
             };
         // ReSharper restore UnusedMember.Global
         #endregion

@@ -269,17 +269,17 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithMeta", new Document
                             {
-                                Meta = SampleData.DocumentMeta
+                                Meta = ApiSampleData.DocumentMeta
                             }
                     },
                 new object[]
                     {
                         "WithMetaAndLinks", new Document
                             {
-                                Meta = SampleData.DocumentMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                             }
                     },
@@ -287,11 +287,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithJsonApiAndMetaAndLinks", new Document
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                             }
                     }
@@ -304,11 +304,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithEmptyDocument", new EmptyDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToCommentsLink}
                                     }
                             }
                     }
@@ -321,11 +321,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithEmptyErrors", new ErrorsDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Errors = new List<Error>()
                             }
@@ -334,16 +334,16 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithErrors", new ErrorsDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Errors = new List<Error>
                                     {
-                                        SampleData.Error1,
-                                        SampleData.Error2
+                                        ApiSampleData.Error1,
+                                        ApiSampleData.Error2
                                     }
                             }
                     }
@@ -356,11 +356,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithNullDocument", new NullDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
                                     }
                             }
                     }
@@ -373,11 +373,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithNullResource", new ResourceDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
                                     },
                                 Data = null
                             }
@@ -386,31 +386,31 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithResource", new ResourceDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
-                                Data = SampleData.ArticleResource
+                                Data = ApiSampleData.ArticleResource
                             }
                     },
                 new object[]
                     {
                         "WithResourceAndIncludedResources", new ResourceDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
-                                Data = SampleData.ArticleResourceWithResourceLinkage,
+                                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
                                 Included = new List<Resource>
                                     {
-                                        SampleData.PersonResource,
-                                        SampleData.CommentResource1,
-                                        SampleData.CommentResource2
+                                        ApiSampleData.PersonResource,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2
                                     }
                             }
                     }
@@ -423,11 +423,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithNullResourceIdentifier", new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
                                     },
                                 Data = null
                             }
@@ -436,13 +436,13 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithResourceIdentifier", new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToAuthorLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
                                     },
-                                Data = SampleData.PersonResourceIdentifier
+                                Data = ApiSampleData.PersonResourceIdentifier
                             }
                     }
             };
@@ -454,11 +454,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithEmptyResources", new ResourceCollectionDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleCollectionLink}
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                                     },
                                 Data = Enumerable.Empty<Resource>()
                                                  .ToList()
@@ -468,16 +468,16 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithResources", new ResourceCollectionDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleCollectionLink}
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                                     },
                                 Data = new List<Resource>
                                     {
-                                        SampleData.ArticleResource1,
-                                        SampleData.ArticleResource2
+                                        ApiSampleData.ArticleResource1,
+                                        ApiSampleData.ArticleResource2
                                     }
                             }
                     },
@@ -485,25 +485,25 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithResourcesAndIncludedResources", new ResourceCollectionDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleCollectionLink}
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                                     },
                                 Data = new List<Resource>
                                     {
-                                        SampleData.ArticleResourceWithResourceLinkage1,
-                                        SampleData.ArticleResourceWithResourceLinkage2
+                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                                        ApiSampleData.ArticleResourceWithResourceLinkage2
                                     },
                                 Included = new List<Resource>
                                     {
-                                        SampleData.PersonResource1,
-                                        SampleData.PersonResource2,
-                                        SampleData.CommentResource1,
-                                        SampleData.CommentResource2,
-                                        SampleData.CommentResource3,
-                                        SampleData.CommentResource4
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.PersonResource2,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2,
+                                        ApiSampleData.CommentResource3,
+                                        ApiSampleData.CommentResource4
                                     }
                             }
                     }
@@ -516,11 +516,11 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithEmptyResourceIdentifiers", new ResourceIdentifierCollectionDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
                                     },
                                 Data = Enumerable.Empty<ResourceIdentifier>()
                                                  .ToList()
@@ -530,16 +530,16 @@ namespace JsonApiFramework.Tests.JsonApi
                     {
                         "WithResourceIdentifiers", new ResourceIdentifierCollectionDocument
                             {
-                                JsonApiVersion = SampleData.JsonApiVersionAndMeta,
-                                Meta = SampleData.DocumentMeta,
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, SampleData.ArticleToRelationshipsToCommentsLink}
+                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
                                     },
                                 Data = new List<ResourceIdentifier>
                                     {
-                                        SampleData.CommentResourceIdentifier1,
-                                        SampleData.CommentResourceIdentifier2
+                                        ApiSampleData.CommentResourceIdentifier1,
+                                        ApiSampleData.CommentResourceIdentifier2
                                     }
                             }
                     }

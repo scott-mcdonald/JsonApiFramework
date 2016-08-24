@@ -61,9 +61,9 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly IEnumerable<object[]> ErrorTestData = new[]
             {
                 new object[] {"WithEmptyObject", Error.Empty},
-                new object[] {"WithCompleteObject", SampleData.Error},
-                new object[] {"WithCompleteObject1", SampleData.Error1},
-                new object[] {"WithCompleteObject2", SampleData.Error2}
+                new object[] {"WithCompleteObject", ApiSampleData.Error},
+                new object[] {"WithCompleteObject1", ApiSampleData.Error1},
+                new object[] {"WithCompleteObject2", ApiSampleData.Error2}
             };
         #endregion
     }

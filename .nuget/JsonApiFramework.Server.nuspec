@@ -2,7 +2,7 @@
 <package>
     <metadata minClientVersion="2.8">
         <id>JsonApiFramework.Server</id>
-        <version>1.0.0-beta</version>
+        <version>1.0.1-beta</version>
         <title>JsonApiFramework [Server]</title>
         <authors>Scott McDonald</authors>
         <summary>Portable server-side .NET framework for JSON API document building.</summary>

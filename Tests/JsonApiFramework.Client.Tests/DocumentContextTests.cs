@@ -50,6 +50,36 @@ namespace JsonApiFramework.Client.Tests
         [MemberData("DocumentContextResourceIdentifierCollectionDocumentBuildingForUpdatingRelationshipsTestData")]
         public void TestDocumentContextResourceIdentifierCollectionDocumentBuildingForUpdatingRelationships(string name, IDocumentContextOptions documentContextOptions, Document expectedApiDocument, Func<DocumentContext, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
+
+        [Fact]
+        public void TestDocumentContextImplementsIDisposable()
+        {
+            // Arrange
+            var documentContextOptions = CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes);
+
+            // Act
+            var documentContext = new DocumentContext(documentContextOptions);
+
+            // Assert
+            Assert.IsAssignableFrom<IDisposable>(documentContext);
+        }
+
+        [Fact]
+        public void TestDocumentContextThrowObjectDisposedExceptionAfterBeingDisposed()
+        {
+            // Arrange
+            var documentContextOptions = CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes);
+            var documentContext = new DocumentContext(documentContextOptions);
+            var documentReader = (IDocumentReader)documentContext;
+            var documentWriter = (IDocumentWriter)documentContext;
+
+            // Act
+            documentContext.Dispose();
+
+            // Assert
+            Assert.Throws<ObjectDisposedException>(() => documentReader.GetJsonApiVersion());
+            Assert.Throws<ObjectDisposedException>(() => documentWriter.WriteDocument());
+        }
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////

@@ -13,7 +13,10 @@ using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework
 {
-    public class DocumentContextBase : IDocumentReader, IDocumentWriter, IGetServiceModel
+    public class DocumentContextBase : IDisposable
+        , IDocumentReader
+        , IDocumentWriter
+        , IGetServiceModel
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IGetServiceModel Implementation

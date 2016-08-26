@@ -22,6 +22,13 @@ namespace JsonApiFramework.Server.Hypermedia
             var clrResourceTypesCount = clrResourceTypes.Count;
             switch (clrResourceTypesCount)
             {
+                case 0:
+                {
+                    // At the API entry point, for now return default assembler.
+                    var hypermediaAssembler = HypermediaAssemblerRegistry.GetDefaultAssembler();
+                    return hypermediaAssembler;
+                }
+
                 case 1:
                 {
                     var clrResourceType = clrResourceTypes[0];

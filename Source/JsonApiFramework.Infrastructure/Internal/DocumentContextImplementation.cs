@@ -2,7 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Text;
 
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.JsonApi;
@@ -66,6 +69,8 @@ namespace JsonApiFramework.Internal
             this.ConfigureServiceModel(documentContextBase);
 
             this.DoPostConfiguration(documentContextBase);
+
+            this.ValidateConfiguration();
         }
 
         public void CreateNewDocument()
@@ -148,6 +153,13 @@ namespace JsonApiFramework.Internal
 
             var conventionSet = this.GetConventionSet();
             var serviceModel = serviceModelBuilder.Create(conventionSet);
+            if (serviceModel.ResourceTypes.Any() == false)
+            {
+                // Do not accept an empty service model, this will cause an InternalException
+                // to be thrown when validating the final configuration of the document context.
+                return;
+            }
+
             this.SetServiceModel(serviceModel);
         }
 
@@ -165,6 +177,29 @@ namespace JsonApiFramework.Internal
 
             var options = this.Options;
             documentContextBase.OnPostConfiguration(options);
+        }
+
+        private void ValidateConfiguration()
+        {
+            var configurationErrorMessages = new List<string>();
+            foreach (var extension in this.Options.Extensions)
+            {
+                extension.ValidateConfiguration(configurationErrorMessages);
+            }
+
+            if (configurationErrorMessages.Any() == false)
+                return;
+
+            // Errors in the configuration of this document context.
+            var detail = configurationErrorMessages.Aggregate((current, next) =>
+                {
+                    var stringBuilder = new StringBuilder();
+                    stringBuilder.Append(current);
+                    stringBuilder.Append(' ');
+                    stringBuilder.Append(next);
+                    return stringBuilder.ToString();
+                });
+            throw new InternalErrorException(detail);
         }
         #endregion
 

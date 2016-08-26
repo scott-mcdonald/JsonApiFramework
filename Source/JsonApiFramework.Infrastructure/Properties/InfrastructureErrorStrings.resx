@@ -129,6 +129,9 @@
   <data name="DocumentBuildExceptionTitle" xml:space="preserve">
     <value>Document Build Error</value>
   </data>
+  <data name="DocumentContextExtensionValidationConfigurationError" xml:space="preserve">
+    <value>{0} was not configured for this document context.</value>
+  </data>
   <data name="DocumentReadExceptionGetMultipleResourcesExistWithSameIdentity" xml:space="preserve">
     <value>Unable to get the single CLR resource [type={0} id={1}] in the json:api document, json:api document has multiple resources with the same resource identity.</value>
   </data>

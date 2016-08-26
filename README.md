@@ -73,17 +73,17 @@ BloggingDocumentContext     Specialization of DocumentContext for blogging resou
                             blogging resource types with optional naming conventions to apply
                             when converting between JSON API and .NET CLR resources.     
 
+public class Blog : IResource
+{
+    public long BlogId { get; set; }
+    public string Name { get; set; }
+}
+
 public class Article : IResource
 {
     public long ArticleId { get; set; }
     public string Title { get; set; }
     public string Text { get; set; }
-}
-
-public class Blog : IResource
-{
-    public long BlogId { get; set; }
-    public string Name { get; set; }
 }
 
 public class Comment : IResource
@@ -99,26 +99,35 @@ public class Person : IResource
     public string LastName { get; set; }
     public string Twitter { get; set; }
 }
+
+Relationships
+-------------
+Blog has "to-many" relationship to Article named "articles"
+
+Article has "to-one" relationship to Person named "author"
+Article has "to-many" relationship to Comment named "comments"
+
+Comment has "to-one" relationship to Person named "author"
 ```
 
-### Server-side document building example:
+### Server-side document building example #1:
 
-This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request:
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article:
 
 ``` http
-GET http://example.com/articles
+GET http://example.com/articles/1
 ```
 
 ``` cs
 public class ArticlesController : ApiController
 {
-    [Route("articles")]
-    public async Task<IHttpActionResult> GetCollectionAsync()
+    [Route("articles/{id}")]
+    public async Task<IHttpActionResult> GetAsync(string id)
     {
-        // Get article with author and comments.
-        var article = await GetArticle();
-        var author = await GetArticleAuthor(article);
-        var comments = await GetArticleComments(article);
+        Contract.Requires(String.IsNullOrWhitespace(id) == false);
+
+        // Get article /////////////////////////////////////////////////////
+        var article = await GetArticle(id);
 
         // Build and return JSON API document ////////////////////////////// 
         var currentRequestUrl = HttpContext.Current.Request.Url;
@@ -127,10 +136,15 @@ public class ArticlesController : ApiController
             // Build new document.
             var document = documentContext
                 .NewDocument(currentRequestUrl)
+                    // Document links
                     .Links()
+                        .AddUpLink()
                         .AddSelfLink()
                     .LinksEnd()
-                    .ResourceCollection(article)
+
+                    // Map CLR Article resource to JSON API resource
+                    .Resource(article)
+                        // Article relationships
                         .Relationships()
                             .Relationship("author") // article -> author
                                 .Links()
@@ -145,12 +159,122 @@ public class ArticlesController : ApiController
                                 .LinksEnd()
                             .RelationshipEnd()
                         .RelationshipsEnd()
+
+                        // Article links
                         .Links()
                             .AddSelfLink()
                         .LinksEnd()
-                    .ResourceCollectionEnd()
+                    .ResourceEnd()
+                .WriteDocument();
+    
+            // Return 200 OK
+            // Note: WebApi JsonMediaTypeFormatter serializes the JSON API document into JSON. 
+            return this.Ok(document);
+        }
+    }
+}
+```
+
+will create the following example JSON
+
+``` json
+{
+  "links": {
+    "up": "http://example.com/articles"
+    "self": "http://example.com/articles/1"
+  },
+  "data": {
+    "type": "articles",
+    "id": "1",
+    "attributes": {
+      "title": "JSON API paints my bikeshed!",
+      "text": "If you’ve ever argued with your team about the way your JSON responses should be
+               formatted, JSON API can be your anti-bikeshedding tool."
+    },
+    "relationships": {
+      "author": {
+        "links": {
+          "self": "http://example.com/articles/1/relationships/author",
+          "related": "http://example.com/articles/1/author"
+        }
+      },
+      "comments": {
+        "links": {
+          "self": "http://example.com/articles/1/relationships/comments",
+          "related": "http://example.com/articles/1/comments"
+        }
+      }
+    },
+    "links": {
+      "self": "http://example.com/articles/1"
+    }
+  }
+}
+```
+
+### Server-side document building example #2:
+
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's related author and comments:
+
+``` http
+GET http://example.com/articles/1
+```
+
+``` cs
+public class ArticlesController : ApiController
+{
+    [Route("articles/{id}")]
+    public async Task<IHttpActionResult> GetAsync(string id)
+    {
+        Contract.Requires(String.IsNullOrWhitespace(id) == false);
+
+        // Get article and related author and comments /////////////////////
+        var article = await GetArticle();
+        var author = await GetArticleAuthor(article);
+        var comments = await GetArticleComments(article);
+
+        // Build and return JSON API document ////////////////////////////// 
+        var currentRequestUrl = HttpContext.Current.Request.Url;
+        using (var documentContext = new BloggingDocumentContext())
+        {
+            // Build new document.
+            var document = documentContext
+                .NewDocument(currentRequestUrl)
+                    // Document links
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+
+                    // Map CLR Article resource to JSON API resource
+                    .Resource(article)
+                        // Article relationships
+                        .Relationships()
+                            .Relationship("author") // article -> author
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                            .RelationshipEnd()
+                            .Relationship("comments") // article -> comments
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                            .RelationshipEnd()
+                        .RelationshipsEnd()
+
+                        // Article links
+                        .Links()
+                            .AddSelfLink()
+                        .LinksEnd()
+                    .ResourceEnd()
+
                     .Included()
-                        .ToOne(ToOneResourceLinkage.Create(article, "author", author))
+                        // Map related "to-one" CLR Person resource to JSON API resource
+                        // Automatically generate "to-one" resource linkage in article to related author
+                        .ToOne(article, "author", author)
+                            // Author(Person) relationships
                             .Relationships()
                                 .Relationship("comments") // author -> comments
                                     .Links()
@@ -159,11 +283,17 @@ public class ArticlesController : ApiController
                                     .LinksEnd()
                                 .RelationshipEnd()
                             .RelationshipsEnd()
+
+                            // Author(Person) links
                             .Links()
                                 .AddSelfLink()
                             .LinksEnd()
                         .ToOneEnd()
-                        .ToMany(ToManyResourceLinkage.Create(article, "comments", comments))
+
+                        // Map related "to-many" CLR Comment resources to JSON API resources
+                        // Automatically generate "to-many" resource linkage in article to related comments
+                        .ToMany(article, "comments", comments)
+                            // Comments relationships
                             .Relationships()
                                 .Relationship("author") // comments -> author
                                     .Links()
@@ -172,10 +302,13 @@ public class ArticlesController : ApiController
                                     .LinksEnd()
                                 .RelationshipEnd()
                             .RelationshipsEnd()
+
+                            // Comments links
                             .Links()
                                 .AddSelfLink()
                             .LinksEnd()
                         .ToManyEnd()
+
                     .IncludedEnd()
                 .WriteDocument();
     
@@ -192,10 +325,10 @@ will create the following example JSON
 ``` json
 {
   "links": {
-    "self": "http://example.com/articles"
+    "up": "http://example.com/articles"
+    "self": "http://example.com/articles/1"
   },
-  "data": [
-    {
+  "data": {
       "type": "articles",
       "id": "1",
       "attributes": {
@@ -225,8 +358,7 @@ will create the following example JSON
       "links": {
         "self": "http://example.com/articles/1"
       }
-    }
-  ],
+    },
   "included": [
     {
       "type": "people",
@@ -310,10 +442,14 @@ public class ArticlesViewModel : ViewModel
             // Build document
             var document = documentContext
                 .NewDocument()
+                    // Map CLR Article resource to JSON API resource
                     .Resource(article)
+
+                        // Link new article to an existing author.
                         .Relationships()
                             .AddRelationship("author", authorId)
                         .RelationshipsEnd()
+
                     .ResourceEnd()
                 .WriteDocument();
 
@@ -373,11 +509,17 @@ public class ArticlesViewModel : ViewModel
             // Build document.
             var document = documentContext
                 .NewDocument()
+                    // Manually build an Article JSON API resource
                     .Resource<Article>()
+
+                        // Set primary key
                         .SetId(articleId)
+
+                        // Update title attribute
                         .Attributes()
                             .AddAttribute(article => article.Title, newTitle)
                         .AttributesEnd()
+
                     .ResourceEnd()
                 .WriteDocument();
             var documentJson = document.ToJson();
@@ -427,10 +569,10 @@ public class ArticleReader
         var document = JsonObject.Parse<Document>(json);
         using (var documentContext = new BloggingDocumentContext(document))
         {
-            // Read JSON API protocol version
+            // Read JSON API protocol version //////////////////////////////////
             var jsonApiVersion = documentContext.GetJsonApiVersion();
 
-            // Read document-level things.
+            // Read Document-Level things //////////////////////////////////////
             var documentType = documentContext.GetDocumentType();
             Assume(documenType == DocumentType.ResourceCollectionDocument);
 
@@ -440,9 +582,9 @@ public class ArticleReader
             Assume(documentLinks.ContainsLink("self") == true);
             var documentSelfLink = documentLinks ["self"]; 
 
-            // Read resource-level things.
+            // Read Resource-Level things //////////////////////////////////////
 
-            // .. Article
+            // Articles
             var articles = documentContext.GetResourceCollection<Article>()
                                           .ToList();
             Assume(articles.Count == 1);
@@ -455,7 +597,7 @@ public class ArticleReader
             Assume(articleRelationships.ContainsRelationship("author") == true);
             Assume(articleRelationships.ContainsRelationship("comments") == true);
 
-            // .. Related author
+            // Related Author
             var authorRelationship = articleRelationships ["author"];
             var authorRelationshipLinks = authorRelationship.Links;
             var authorRelationshipSelfLink = authorRelationshipLinks ["self"];
@@ -463,9 +605,10 @@ public class ArticleReader
             var authorRelationshipMeta = authorRelationship.Meta
 
             Assume(authorRelationship.IsResourceLinkageNullOrEmpty() == false);
+
             var author = documentContext.GetRelatedToOneResource<Person>(authorRelationship);
             
-            // .. Related comments
+            // Related Comments
             var commentsRelationship = articleRelationships ["comments"];
             var commentsRelationshipLinks = commentsRelationship.Links;
             var commentsRelationshipSelfLink = commentsRelationshipLinks ["self"];
@@ -473,6 +616,7 @@ public class ArticleReader
             var commentsRelationshipMeta = commentsRelationship.Meta
 
             Assume(commentsRelationship.IsResourceLinkageNullOrEmpty() == false);
+
             var comments = documentContext
                 .GetRelatedToManyResourceCollection<Comment>(commentsRelationship)
                 .ToList();

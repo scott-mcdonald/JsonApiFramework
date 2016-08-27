@@ -180,7 +180,7 @@ will create the following example JSON
 ``` json
 {
   "links": {
-    "up": "http://example.com/articles"
+    "up": "http://example.com/articles",
     "self": "http://example.com/articles/1"
   },
   "data": {
@@ -325,7 +325,7 @@ will create the following example JSON
 ``` json
 {
   "links": {
-    "up": "http://example.com/articles"
+    "up": "http://example.com/articles",
     "self": "http://example.com/articles/1"
   },
   "data": {
@@ -644,27 +644,37 @@ From a JSON API document reading and writing standpoint, the reading of JSON API
 
 ## Installation
 
-There are 2 options for installation of JsonApiFramework:
+There are 2 options for installation of JsonApiFramework depending on the goal of the project:
 
 ### Option 1: From [NuGet](https://www.nuget.org) (easy peasy)
 
 Requires NuGet 2.8 or higher
 
-#### Client-Side
+#### Shared Service Model Only
 
 | Id | Name | Latest Version |
-| --- | --- |--- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.0-beta |
+| --- | --- | --- |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.1-beta |
+
+To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
+
+> `PM> Install-Package JsonApiFramework.Core -Pre`
+
+#### Client-Side Document Reading/Building/Writing
+
+| Id | Name | Latest Version |
+| --- | --- | --- |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.1-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
 > `PM> Install-Package JsonApiFramework.Client -Pre`
 
-#### Server-Side
+#### Server-Side Document Reading/Building/Writing
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.0-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.1-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -674,12 +684,14 @@ To install the JsonApiFramework [Server] NuGet package, run the following comman
 
 - Clone this repository to your computer.
 - Open the **JsonApiFramework.sln** visual studio solution file.
-- Rebuild the solution, use the client-side or server-side binaries as needed.
-    - Client-Side
+- Rebuild the solution, use the binaries depending on the goal of the project:
+    - Shared Service Model Only
+        - JsonApiFramework.Core.dll
+    - Client-Side Document Reading/Building/Writing
         - JsonApiFramework.Core.dll
         - JsonApiFramework.Infrastructure.dll
         - JsonApiFramework.Client.dll
-    - Server-Side
+    - Server-Side Document Reading/Building/Writing
         - JsonApiFramework.Core.dll
         - JsonApiFramework.Infrastructure.dll
         - JsonApiFramework.Server.dll
@@ -721,6 +733,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.0.1-beta
+    * Ensure DocumentContext implements IDisposable
 * v1.0.0-beta
     * Initial beta version.
 

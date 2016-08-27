@@ -656,7 +656,7 @@ Requires NuGet 2.8 or higher
 | --- | --- | --- |
 | JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.1-beta |
 
-To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
+To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
 > `PM> Install-Package JsonApiFramework.Core -Pre`
 

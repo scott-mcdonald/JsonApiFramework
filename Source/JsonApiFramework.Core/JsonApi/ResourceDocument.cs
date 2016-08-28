@@ -3,8 +3,6 @@
 
 using System.Collections.Generic;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -14,7 +12,6 @@ namespace JsonApiFramework.JsonApi
     /// <remarks>
     /// Data should be <b>null</b> if no resource object is in the document.
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceDocument : Document
         , IGetIncluded
         , ISetIncluded
@@ -22,10 +19,9 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
         /// <summary>Primary data as a single resource.</summary>
-        [JsonProperty(Keywords.Data)] public Resource Data { get; set; }
+        public Resource Data { get; set; }
 
         /// <summary>Included related resources.</summary>
-        [JsonProperty(Keywords.Included)]
         public List<Resource> Included { get; set; }
         #endregion
 

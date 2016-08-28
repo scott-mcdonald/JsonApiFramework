@@ -7,7 +7,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
-using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.TestAsserts.Internal.Dom;
@@ -507,8 +506,8 @@ namespace JsonApiFramework.Tests.Internal.Dom
 
             public override string ToString()
             {
-                var type = this.ApiResourceType ?? JsonConstants.Null;
-                var id = this.ApiResourceId ?? JsonConstants.Null;
+                var type = this.ApiResourceType ?? CoreStrings.NullText;
+                var id = this.ApiResourceId ?? CoreStrings.NullText;
                 return String.Format("{0} [type={1} id={2}]", typeof(ResourceIdentity).Name, type, id);
             }
         }

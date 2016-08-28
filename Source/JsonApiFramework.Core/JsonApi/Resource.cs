@@ -6,7 +6,6 @@ using System;
 using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
@@ -15,7 +14,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(ResourceConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Resource : JsonObject
         , IComparable<Resource>
         , IComparable
@@ -33,12 +31,12 @@ namespace JsonApiFramework.JsonApi
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Type)] public string Type { get; set; }
-        [JsonProperty(Keywords.Id)] public string Id { get; set; }
-        [JsonProperty(Keywords.Attributes)] public JObject Attributes { get; set; }
-        [JsonProperty(Keywords.Relationships)] public Relationships Relationships { get; set; }
-        [JsonProperty(Keywords.Links)] public Links Links { get; set; }
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public string Type { get; set; }
+        public string Id { get; set; }
+        public ApiObject Attributes { get; set; }
+        public Relationships Relationships { get; set; }
+        public Links Links { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -51,8 +49,8 @@ namespace JsonApiFramework.JsonApi
 
         public override string ToString()
         {
-            var type = this.Type ?? JsonConstants.Null;
-            var id = this.Id ?? JsonConstants.Null;
+            var type = this.Type ?? CoreStrings.NullText;
+            var id = this.Id ?? CoreStrings.NullText;
             return String.Format("{0} [type={1} id={2}]", TypeName, type, id);
         }
         #endregion

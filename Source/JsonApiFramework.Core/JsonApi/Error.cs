@@ -16,7 +16,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(ErrorConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Error : JsonObject
         , IGetLinks
         , IGetMeta
@@ -25,14 +24,14 @@ namespace JsonApiFramework.JsonApi
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Id)] public string Id { get; set; }
-        [JsonProperty(Keywords.Status)] public string Status { get; set; }
-        [JsonProperty(Keywords.Code)] public string Code { get; set; }
-        [JsonProperty(Keywords.Title)] public string Title { get; set; }
-        [JsonProperty(Keywords.Detail)] public string Detail { get; set; }
-        [JsonProperty(Keywords.Source)] public JObject Source { get; set; }
-        [JsonProperty(Keywords.Links)] public Links Links { get; set; }
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public string Id { get; set; }
+        public string Status { get; set; }
+        public string Code { get; set; }
+        public string Title { get; set; }
+        public string Detail { get; set; }
+        public JObject Source { get; set; }
+        public Links Links { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////

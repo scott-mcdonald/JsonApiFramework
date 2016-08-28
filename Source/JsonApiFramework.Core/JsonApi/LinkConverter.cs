@@ -16,7 +16,7 @@ namespace JsonApiFramework.JsonApi
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override Link ReadString(string hRef)
+        protected override Link ReadTypedString(string hRef)
         {
             var link = new Link
                 {
@@ -25,20 +25,20 @@ namespace JsonApiFramework.JsonApi
             return link;
         }
 
-        protected override Link ReadObject(JObject relationshipJObject, JsonSerializer serializer)
+        protected override Link ReadTypedObject(JObject linkJObject, JsonSerializer serializer)
         {
-            Contract.Requires(relationshipJObject != null);
+            Contract.Requires(linkJObject != null);
             Contract.Requires(serializer != null);
 
             var link = new Link();
 
-            ReadHRef(relationshipJObject, serializer, link);
-            ReadMeta(relationshipJObject, serializer, link);
+            ReadHRef(linkJObject, serializer, link);
+            ReadMeta(linkJObject, serializer, link);
 
             return link;
         }
 
-        protected override void WriteObject(JsonWriter writer, JsonSerializer serializer, Link link)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Link link)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
@@ -83,7 +83,8 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(link != null);
 
-            WriteString(writer, Keywords.HRef, link.HRef);
+            var hRef = link.HRef;
+            WriteString(writer, serializer, Keywords.HRef, hRef);
         }
         #endregion
     }

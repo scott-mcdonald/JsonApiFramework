@@ -9,7 +9,6 @@ using Xunit;
 
 namespace JsonApiFramework.TestAsserts.Internal.Dom
 {
-
     internal static class DomReadWriteResourceAssert
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

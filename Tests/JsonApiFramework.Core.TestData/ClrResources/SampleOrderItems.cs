@@ -10,7 +10,7 @@ namespace JsonApiFramework.TestData.ClrResources
             {
                 OrderItemId = 1001,
                 ProductName = "Widget A",
-                Quantity = 2,
+                Quantity = 2m,
                 UnitPrice = 25.0m
             };
 
@@ -18,7 +18,7 @@ namespace JsonApiFramework.TestData.ClrResources
             {
                 OrderItemId = 1001,
                 ProductName = "Widget A",
-                Quantity = 2,
+                Quantity = 2m,
                 UnitPrice = 25.0m
             };
 
@@ -26,7 +26,7 @@ namespace JsonApiFramework.TestData.ClrResources
             {
                 OrderItemId = 1002,
                 ProductName = "Widget B",
-                Quantity = 1,
+                Quantity = 1m,
                 UnitPrice = 50.0m
             };
         #endregion

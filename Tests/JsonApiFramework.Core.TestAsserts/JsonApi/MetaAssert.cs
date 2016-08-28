@@ -19,7 +19,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
         {
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 

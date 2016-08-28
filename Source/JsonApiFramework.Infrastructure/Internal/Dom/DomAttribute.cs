@@ -8,8 +8,6 @@ using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
-using Newtonsoft.Json.Linq;
-
 namespace JsonApiFramework.Internal.Dom
 {
     internal class DomAttribute : Node<DomNodeType>
@@ -24,7 +22,7 @@ namespace JsonApiFramework.Internal.Dom
         #endregion
 
         #region Properties
-        public JToken ApiAttribute { get; private set; }
+        public ApiProperty ApiAttribute { get; private set; }
         public string ApiPropertyName { get; private set; }
 
         public object ClrAttribute { get; private set; }
@@ -44,7 +42,7 @@ namespace JsonApiFramework.Internal.Dom
 
             var clrPropertyType = attribute.ClrPropertyType;
             var clrPropertyName = attribute.ClrPropertyName;
-            var clrAttribute = apiAttribute.ToObject(clrPropertyType);
+            var clrAttribute = apiAttribute.ToClrObject(clrPropertyType);
 
             var domAttribute = new DomAttribute(apiAttribute, apiPropertyName, clrAttribute, clrPropertyName, clrPropertyType);
             return domAttribute;
@@ -60,7 +58,7 @@ namespace JsonApiFramework.Internal.Dom
             var clrPropertyType = attribute.ClrPropertyType;
 
             var clrAttribute = attribute.GetClrProperty(clrResource);
-            var apiAttribute = JToken.FromObject(clrAttribute);
+            var apiAttribute = ApiProperty.Create(apiPropertyName, clrPropertyType, clrAttribute);
 
             var domAttribute = new DomAttribute(apiAttribute, apiPropertyName, clrAttribute, clrPropertyName, clrPropertyType);
             return domAttribute;
@@ -74,7 +72,7 @@ namespace JsonApiFramework.Internal.Dom
             var clrPropertyName = attribute.ClrPropertyName;
             var clrPropertyType = attribute.ClrPropertyType;
 
-            var apiAttribute = JToken.FromObject(clrAttribute);
+            var apiAttribute = ApiProperty.Create(apiPropertyName, clrPropertyType, clrAttribute);
 
             var domAttribute = new DomAttribute(apiAttribute, apiPropertyName, clrAttribute, clrPropertyName, clrPropertyType);
             return domAttribute;
@@ -83,7 +81,7 @@ namespace JsonApiFramework.Internal.Dom
 
         // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
         #region Constructors
-        private DomAttribute(JToken apiAttribute, string apiPropertyName, object clrAttribute, string clrPropertyName, Type clrPropertyType)
+        private DomAttribute(ApiProperty apiAttribute, string apiPropertyName, object clrAttribute, string clrPropertyName, Type clrPropertyType)
         {
             Contract.Requires(apiAttribute != null);
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);

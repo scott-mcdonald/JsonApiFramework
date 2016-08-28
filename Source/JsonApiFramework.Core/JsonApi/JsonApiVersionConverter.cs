@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override JsonApiVersion ReadObject(JObject jsonApiJObject, JsonSerializer serializer)
+        protected override JsonApiVersion ReadTypedObject(JObject jsonApiJObject, JsonSerializer serializer)
         {
             Contract.Requires(jsonApiJObject != null);
             Contract.Requires(serializer != null);
@@ -28,7 +28,7 @@ namespace JsonApiFramework.JsonApi
             return jsonApi;
         }
 
-        protected override void WriteObject(JsonWriter writer, JsonSerializer serializer, JsonApiVersion jsonApi)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, JsonApiVersion jsonApi)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
@@ -46,14 +46,14 @@ namespace JsonApiFramework.JsonApi
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Read Methods
         // ReSharper disable once UnusedParameter.Local
-        private static void ReadVersion(JToken linkJToken, JsonSerializer serializer, JsonApiVersion jsonApi)
+        private static void ReadVersion(JToken versionJToken, JsonSerializer serializer, JsonApiVersion jsonApi)
         {
-            Contract.Requires(linkJToken != null);
+            Contract.Requires(versionJToken != null);
             Contract.Requires(serializer != null);
             Contract.Requires(jsonApi != null);
 
-            var id = ReadString(linkJToken, Keywords.Version);
-            jsonApi.Version = id;
+            var version = ReadString(versionJToken, Keywords.Version);
+            jsonApi.Version = version;
         }
         #endregion
 
@@ -65,7 +65,8 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(jsonApi != null);
 
-            WriteString(writer, Keywords.Version, jsonApi.Version);
+            var version = jsonApi.Version;
+            WriteString(writer, serializer, Keywords.Version, version);
         }
         #endregion
     }

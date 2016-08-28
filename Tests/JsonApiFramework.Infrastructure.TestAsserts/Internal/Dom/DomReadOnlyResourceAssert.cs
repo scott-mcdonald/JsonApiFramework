@@ -40,7 +40,7 @@ namespace JsonApiFramework.TestAsserts.Internal.Dom
             Assert.Equal(DomNodeType.Resource, actual.NodeType);
 
             var actualResource = actual.ClrResource;
-            ObjectAssert.Equal(expected, actualResource);
+            ClrObjectAssert.Equal(expected, actualResource);
         }
         #endregion
     }

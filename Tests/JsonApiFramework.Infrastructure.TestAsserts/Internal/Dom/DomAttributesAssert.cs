@@ -4,8 +4,7 @@ using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Internal.Tree;
-
-using Newtonsoft.Json.Linq;
+using JsonApiFramework.JsonApi;
 
 using Xunit;
 
@@ -18,7 +17,7 @@ namespace JsonApiFramework.TestAsserts.Internal.Dom
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Assert Methods
-        public static void Equal(JObject expected, DomNode actual)
+        public static void Equal(ApiObject expected, DomNode actual)
         {
             if (expected == null)
             {
@@ -35,17 +34,17 @@ namespace JsonApiFramework.TestAsserts.Internal.Dom
                                                              .ToList();
 
             var actualDomAttributesCount = actualDomAttributes.Count;
-            Assert.Equal(expected.Count, actualDomAttributesCount);
+            Assert.Equal(expected.Count(), actualDomAttributesCount);
 
             foreach (var actualDomAttribute in actualDomAttributes)
             {
                 var apiPropertyName = actualDomAttribute.ApiPropertyName;
 
-                JToken expectedApiAttributeJToken;
-                Assert.True(expected.TryGetValue(apiPropertyName, out expectedApiAttributeJToken));
+                ApiProperty expectedApiProperty;
+                Assert.True(expected.TryGetApiProperty(apiPropertyName, out expectedApiProperty));
 
                 // ReSharper disable once ExpressionIsAlwaysNull
-                DomAttributeAssert.Equal(expectedApiAttributeJToken, actualDomAttribute);
+                DomAttributeAssert.Equal(expectedApiProperty, actualDomAttribute);
             }
         }
         #endregion

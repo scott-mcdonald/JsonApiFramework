@@ -7,7 +7,10 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
+using FluentAssertions;
+
 using JsonApiFramework.JsonApi;
+using JsonApiFramework.Reflection;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,7 +19,7 @@ using Xunit;
 
 namespace JsonApiFramework.TestAsserts.JsonApi
 {
-    public static class ObjectAssert
+    public static class ClrObjectAssert
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Assert Methods
@@ -25,7 +28,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 
@@ -46,7 +49,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                         {
                             var expectedItem = expectedArray[i];
                             var actualJTokenItem = actualJArray[i];
-                            ObjectAssert.Equal(expectedItem, actualJTokenItem);
+                            ClrObjectAssert.Equal(expectedItem, actualJTokenItem);
                         }
                     }
                     break;
@@ -54,7 +57,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                 case JTokenType.Object:
                     {
                         var actualJObject = (JObject)actualJToken;
-                        ObjectAssert.Equal(expected, actualJObject);
+                        ClrObjectAssert.Equal(expected, actualJObject);
                     }
                     break;
 
@@ -76,9 +79,17 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
                 case JTokenType.String:
                     {
-                        var expectedString = Convert.ToString(expected);
+                        // Special case if expected is or derives from JToken.
+                        var expectedType = expected.GetType();
+                        if (typeof(JToken).IsAssignableFrom(expectedType))
+                        {
+                            Assert.Equal(expected, actualJToken);
+                            return;
+                        }
+
                         var actualString = (string)actualJToken;
-                        Assert.Equal(expectedString, actualString);
+                        var actual = TypeConverter.Convert(actualString, expectedType);
+                        Assert.Equal(expected, actual);
                     }
                     break;
 
@@ -92,9 +103,33 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
                 case JTokenType.Date:
                     {
-                        var expectedDate = (DateTimeOffset)expected;
-                        var actualDate = (DateTimeOffset)actualJToken;
-                        Assert.Equal(expectedDate, actualDate);
+                        var expectedType = expected.GetType();
+                        if (expectedType == typeof(DateTime))
+                        {
+                            var expectedDateTime = (DateTime)expected;
+                            var jsonSerializerSettings = new JsonSerializerSettings
+                            {
+                                DateParseHandling = DateParseHandling.DateTime
+                            };
+                            var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
+                            var actualDateTime = actualJToken.ToObject<DateTime>(jsonSerializer);
+                            Assert.Equal(expectedDateTime, actualDateTime);
+                        }
+                        else if (expectedType == typeof(DateTimeOffset))
+                        {
+                            var expectedDateTimeOffset = (DateTimeOffset)expected;
+                            var jsonSerializerSettings = new JsonSerializerSettings
+                                {
+                                    DateParseHandling = DateParseHandling.DateTimeOffset
+                                };
+                            var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
+                            var actualDateTimeOffset = actualJToken.ToObject<DateTimeOffset>(jsonSerializer);
+                            Assert.Equal(expectedDateTimeOffset, actualDateTimeOffset);
+                        }
+                        else
+                        {
+                            Assert.True(false, "Expected date type is not DateTime or DateTimeOffset.");
+                        }
                     }
                     break;
 
@@ -109,7 +144,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJObject);
+                ClrObjectAssert.IsNull(actualJObject);
                 return;
             }
 
@@ -150,7 +185,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                     var actualPropertyName = GetJsonApiPropertyName(expectedProperty);
                     var actualJToken = actualJObject.SelectToken(actualPropertyName);
 
-                    ObjectAssert.Equal(expectedPropertyValue, actualJToken);
+                    ClrObjectAssert.Equal(expectedPropertyValue, actualJToken);
                 }
             }
         }
@@ -160,22 +195,32 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                Assert.Null(actual);
-                return;
+                if (actual == null)
+                    return;
+
+                var actualType1 = actual.GetType();
+                if (actualType1.IsSubclassOf(typeof(JToken)))
+                {
+                    var actualJToken = (JToken)actual;
+                    ClrObjectAssert.IsNull(actualJToken);
+                    return;
+                }
             }
 
             // Handle when 'expected' is not null.
             Assert.NotNull(actual);
 
-            var actualType = actual.GetType();
-            if (actualType.IsSubclassOf(typeof(JToken)))
+            var actualType2 = actual.GetType();
+            if (actualType2.IsSubclassOf(typeof(JToken)))
             {
                 var actualJToken = (JToken)actual;
-                ObjectAssert.Equal(expected, actualJToken);
+                ClrObjectAssert.Equal(expected, actualJToken);
             }
             else
             {
-                Assert.Equal(expected, actual);
+                // Use FluentAssertions to compare for attribute equality
+                // instead of reference equality in Assert.Equal(expectetd, actual)
+                actual.ShouldBeEquivalentTo(expected);
             }
         }
 
@@ -195,7 +240,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                 var expected = expectedCollection[index];
                 var actual = actualCollection[index];
 
-                ObjectAssert.Equal(expected, actual);
+                ClrObjectAssert.Equal(expected, actual);
             }
         }
 

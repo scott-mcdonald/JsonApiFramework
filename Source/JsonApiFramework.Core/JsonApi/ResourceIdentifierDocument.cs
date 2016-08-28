@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -13,13 +11,12 @@ namespace JsonApiFramework.JsonApi
     /// Data should be <b>null</b> if no resource identifier object is in the
     /// document.
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceIdentifierDocument : Document
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
         /// <summary>Primary data as a single resource identifier.</summary>
-        [JsonProperty(Keywords.Data)] public ResourceIdentifier Data { get; set; }
+        public ResourceIdentifier Data { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

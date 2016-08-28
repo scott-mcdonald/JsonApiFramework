@@ -30,7 +30,7 @@ namespace JsonApiFramework.TestAsserts.ClrResources
             Assert.Equal(expected.Twitter, actual.Twitter);
             RelationshipsAssert.Equal(expected.Relationships, actual.Relationships);
             LinksAssert.Equal(expected.Links, actual.Links);
-            ObjectAssert.Equal(expected.Meta, actual.Meta);
+            ClrObjectAssert.Equal(expected.Meta, actual.Meta);
         }
 
         public static void Equal(IEnumerable<Person> expected, IEnumerable<Person> actual)

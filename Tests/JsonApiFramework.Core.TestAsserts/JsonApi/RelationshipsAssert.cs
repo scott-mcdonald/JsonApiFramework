@@ -30,7 +30,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 

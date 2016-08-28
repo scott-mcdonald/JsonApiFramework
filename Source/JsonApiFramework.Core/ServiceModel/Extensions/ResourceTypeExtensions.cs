@@ -42,10 +42,9 @@ namespace JsonApiFramework.ServiceModel
             var attributesCollection = attributes.Collection;
             foreach (var attribute in attributesCollection)
             {
-                var apiAttributeJToken = attribute.GetApiAttribute(apiGetAttributes);
-                var clrAttributeType = attribute.ClrPropertyType;
-                var clrAttribute = apiAttributeJToken != null
-                    ? apiAttributeJToken.ToObject(clrAttributeType)
+                var apiAttribute = attribute.GetApiAttribute(apiGetAttributes);
+                var clrAttribute = apiAttribute != null
+                    ? apiAttribute.ValueAsObject()
                     : default(object);
                 attribute.SetClrProperty(clrResource, clrAttribute);
             }

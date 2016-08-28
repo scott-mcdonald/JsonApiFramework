@@ -16,7 +16,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -1002,10 +1001,7 @@ namespace JsonApiFramework.Tests.Internal
                                         {
                                             Type = ClrSampleData.PaymentType,
                                             Id = "101",
-                                            Attributes = JObject.FromObject(new PaymentAttributes
-                                                {
-                                                    Amount = 75.0m
-                                                }),
+                                            Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                             Relationships = new Relationships
                                                 {
                                                     {
@@ -1042,10 +1038,7 @@ namespace JsonApiFramework.Tests.Internal
                                         {
                                             Type = ClrSampleData.PaymentType,
                                             Id = "101",
-                                            Attributes = JObject.FromObject(new PaymentAttributes
-                                                {
-                                                    Amount = 75.0m
-                                                }),
+                                            Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                             Relationships = new Relationships
                                                 {
                                                     {
@@ -1476,10 +1469,7 @@ namespace JsonApiFramework.Tests.Internal
                                                 {
                                                     Type = ClrSampleData.PaymentType,
                                                     Id = "101",
-                                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                                        {
-                                                            Amount = 75.0m
-                                                        }),
+                                                    Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                     Relationships = new Relationships
                                                         {
                                                             {
@@ -1502,10 +1492,7 @@ namespace JsonApiFramework.Tests.Internal
                                                 {
                                                     Type = ClrSampleData.PaymentType,
                                                     Id = "102",
-                                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                                        {
-                                                            Amount = 25.0m
-                                                        }),
+                                                    Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                     Relationships = new Relationships
                                                         {
                                                             {
@@ -1545,10 +1532,7 @@ namespace JsonApiFramework.Tests.Internal
                                                 {
                                                     Type = ClrSampleData.PaymentType,
                                                     Id = "101",
-                                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                                        {
-                                                            Amount = 75.0m
-                                                        }),
+                                                    Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                     Relationships = new Relationships
                                                         {
                                                             {
@@ -1571,10 +1555,7 @@ namespace JsonApiFramework.Tests.Internal
                                                 {
                                                     Type = ClrSampleData.PaymentType,
                                                     Id = "102",
-                                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                                        {
-                                                            Amount = 25.0m
-                                                        }),
+                                                    Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                     Relationships = new Relationships
                                                         {
                                                             {
@@ -2116,7 +2097,12 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) }
+                                    Data = new Resource
+                                        {
+                                            Type = ApiSampleData.CommentType,
+                                            Id = ApiSampleData.CommentId,
+                                            Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely."))
+                                        }
                                 },
                             null)
                     },
@@ -2127,7 +2113,13 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta }
+                                    Data = new Resource
+                                        {
+                                            Type = ApiSampleData.CommentType,
+                                            Id = ApiSampleData.CommentId,
+                                            Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")),
+                                            Meta = ApiSampleData.ResourceMeta
+                                        }
                                 },
                             ApiSampleData.ResourceMeta)
                     },
@@ -2186,10 +2178,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2204,10 +2196,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta1 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Meta = ApiSampleData.ResourceMeta3 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Meta = ApiSampleData.ResourceMeta4 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Meta = ApiSampleData.ResourceMeta1 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Meta = ApiSampleData.ResourceMeta3 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Meta = ApiSampleData.ResourceMeta4 },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2229,8 +2221,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -2252,8 +2244,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta1 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Meta = ApiSampleData.ResourceMeta1 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -2292,10 +2284,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -2310,10 +2302,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta1 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Meta = ApiSampleData.ResourceMeta3 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Meta = ApiSampleData.ResourceMeta4 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Meta = ApiSampleData.ResourceMeta1 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Meta = ApiSampleData.ResourceMeta3 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Meta = ApiSampleData.ResourceMeta4 },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -2335,8 +2327,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -2358,8 +2350,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta1 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Meta = ApiSampleData.ResourceMeta1 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -2432,10 +2424,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             new Meta[]{ null, null, null, null})
@@ -2449,10 +2441,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Meta = ApiSampleData.ResourceMeta4 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Meta = ApiSampleData.ResourceMeta4 },
                                         }
                                 },
                             new []{ null, ApiSampleData.ResourceMeta2, null, ApiSampleData.ResourceMeta4})
@@ -2466,10 +2458,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Meta = ApiSampleData.ResourceMeta1 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Meta = ApiSampleData.ResourceMeta2 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Meta = ApiSampleData.ResourceMeta3 },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Meta = ApiSampleData.ResourceMeta4 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Meta = ApiSampleData.ResourceMeta1 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Meta = ApiSampleData.ResourceMeta2 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Meta = ApiSampleData.ResourceMeta3 },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Meta = ApiSampleData.ResourceMeta4 },
                                         }
                                 },
                             new []{ ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2, ApiSampleData.ResourceMeta3, ApiSampleData.ResourceMeta4})
@@ -2554,7 +2546,12 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) }
+                                    Data = new Resource
+                                        {
+                                            Type = ApiSampleData.CommentType,
+                                            Id = ApiSampleData.CommentId1,
+                                            Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely."))
+                                        }
                                 },
                             null)
                     },
@@ -2565,7 +2562,13 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink} } }
+                                    Data = new Resource
+                                        {
+                                            Type = ApiSampleData.CommentType,
+                                            Id = ApiSampleData.CommentId,
+                                            Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")),
+                                            Links = new Links { {Keywords.Self, ApiSampleData.CommentLink} }
+                                        }
                                 },
                             new Links { {Keywords.Self, ApiSampleData.CommentLink} })
                     },
@@ -2602,10 +2605,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2620,10 +2623,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2645,8 +2648,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -2668,8 +2671,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} }  },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -2708,10 +2711,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -2726,10 +2729,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -2751,8 +2754,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -2774,8 +2777,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} }  },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -2812,10 +2815,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             new Links[]{ null, null, null, null})
@@ -2829,10 +2832,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
                                         }
                                 },
                             new []
@@ -2852,10 +2855,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Links = new Links { {Keywords.Self, ApiSampleData.CommentLink4} } },
                                         }
                                 },
                             new []
@@ -2895,7 +2898,7 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) }
+                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) }
                                 },
                             null)
                     },
@@ -2906,7 +2909,7 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceDocument
                                 {
-                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } }
+                                    Data = new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } }
                                 },
                             new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} })
                     },
@@ -2943,10 +2946,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2961,10 +2964,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
                                         }
                                 },
                             SampleComments.Comment4,
@@ -2981,8 +2984,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -2999,8 +3002,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
                                         }
                                 },
                             SampleComments.Comment2,
@@ -3039,10 +3042,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -3057,10 +3060,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
                                         }
                                 },
                             ApiSampleData.CommentId4,
@@ -3077,8 +3080,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -3095,8 +3098,8 @@ namespace JsonApiFramework.Tests.Internal
                                     Included = new List<Resource>
                                         {
                                             ApiSampleData.PersonResource,
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
                                         }
                                 },
                             ApiSampleData.CommentId2,
@@ -3133,10 +3136,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")) },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")) },
                                         }
                                 },
                             new Relationships[]{ null, null, null, null})
@@ -3150,10 +3153,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }) },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely."))},
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?"))},
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
                                         }
                                 },
                             new []
@@ -3173,10 +3176,10 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Data = new List<Resource>
                                         {
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I disagree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = JObject.FromObject(new CommentAttributes{ Body = "I agree completely." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = JObject.FromObject(new CommentAttributes{ Body = "Is 42 the answer?" }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
-                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = JObject.FromObject(new CommentAttributes{ Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'." }), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId1, Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId2, Attributes = new ApiObject(ApiProperty.Create("body", "I agree completely.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId3, Attributes = new ApiObject(ApiProperty.Create("body", "Is 42 the answer?")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3} } },
+                                            new Resource { Type = ApiSampleData.CommentType, Id = ApiSampleData.CommentId4, Attributes = new ApiObject(ApiProperty.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")), Relationships = new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4} } },
                                         }
                                 },
                             new []
@@ -4047,12 +4050,12 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4115,12 +4118,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4184,12 +4187,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceMeta != null ? this.ExpectedResourceMeta.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Meta".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceMeta != null ? this.ActualResourceMeta.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4247,7 +4250,7 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Meta Collection".FormatWith(resourceTypeName));
-                foreach (var resourceMetaJson in this.ExpectedResourceMetaCollection.Select(resourceMeta => resourceMeta != null ? resourceMeta.ToJson() : JsonConstants.Null))
+                foreach (var resourceMetaJson in this.ExpectedResourceMetaCollection.Select(resourceMeta => resourceMeta != null ? resourceMeta.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceMetaJson);
                 }
@@ -4255,7 +4258,7 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Meta Collection".FormatWith(resourceTypeName));
-                foreach (var resourceMetaJson in this.ActualResourceMetaCollection.Select(resourceMeta => resourceMeta != null ? resourceMeta.ToJson() : JsonConstants.Null))
+                foreach (var resourceMetaJson in this.ActualResourceMetaCollection.Select(resourceMeta => resourceMeta != null ? resourceMeta.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceMetaJson);
                 }
@@ -4315,12 +4318,12 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4383,12 +4386,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4452,12 +4455,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceLinks != null ? this.ExpectedResourceLinks.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Links".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceLinks != null ? this.ActualResourceLinks.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4515,7 +4518,7 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Links Collection".FormatWith(resourceTypeName));
-                foreach (var resourceLinksJson in this.ExpectedResourceLinksCollection.Select(resourceLinks => resourceLinks != null ? resourceLinks.ToJson() : JsonConstants.Null))
+                foreach (var resourceLinksJson in this.ExpectedResourceLinksCollection.Select(resourceLinks => resourceLinks != null ? resourceLinks.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceLinksJson);
                 }
@@ -4523,7 +4526,7 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Links Collection".FormatWith(resourceTypeName));
-                foreach (var resourceLinksJson in this.ActualResourceLinksCollection.Select(resourceLinks => resourceLinks != null ? resourceLinks.ToJson() : JsonConstants.Null))
+                foreach (var resourceLinksJson in this.ActualResourceLinksCollection.Select(resourceLinks => resourceLinks != null ? resourceLinks.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceLinksJson);
                 }
@@ -4583,12 +4586,12 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4651,12 +4654,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4720,12 +4723,12 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Expected {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ExpectedResourceRelationships != null ? this.ExpectedResourceRelationships.ToJson() : CoreStrings.NullText);
 
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Relationships".FormatWith(resourceTypeName));
-                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : JsonConstants.Null);
+                output.WriteLine(this.ActualResourceRelationships != null ? this.ActualResourceRelationships.ToJson() : CoreStrings.NullText);
             }
 
             public void AssertTest()
@@ -4783,7 +4786,7 @@ namespace JsonApiFramework.Tests.Internal
                 var resourceTypeName = typeof(TResource).Name;
 
                 output.WriteLine("Expected {0} Resource Relationships Collection".FormatWith(resourceTypeName));
-                foreach (var resourceRelationshipsJson in this.ExpectedResourceRelationshipsCollection.Select(resourceRelationships => resourceRelationships != null ? resourceRelationships.ToJson() : JsonConstants.Null))
+                foreach (var resourceRelationshipsJson in this.ExpectedResourceRelationshipsCollection.Select(resourceRelationships => resourceRelationships != null ? resourceRelationships.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceRelationshipsJson);
                 }
@@ -4791,7 +4794,7 @@ namespace JsonApiFramework.Tests.Internal
                 parent.OutputEmptyLine();
 
                 output.WriteLine("Actual {0} Resource Relationships Collection".FormatWith(resourceTypeName));
-                foreach (var resourceRelationshipsJson in this.ActualResourceRelationshipsCollection.Select(resourceRelationships => resourceRelationships != null ? resourceRelationships.ToJson() : JsonConstants.Null))
+                foreach (var resourceRelationshipsJson in this.ActualResourceRelationshipsCollection.Select(resourceRelationships => resourceRelationships != null ? resourceRelationships.ToJson() : CoreStrings.NullText))
                 {
                     output.WriteLine(resourceRelationshipsJson);
                 }

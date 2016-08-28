@@ -42,14 +42,14 @@ namespace JsonApiFramework.JsonApi
                 case JsonToken.String:
                     {
                         var stringValue = (string)reader.Value;
-                        var typedObject = this.ReadString(stringValue);
+                        var typedObject = this.ReadTypedString(stringValue);
                         return typedObject;
                     }
 
                 case JsonToken.StartObject:
                     {
                         var jObject = JObject.Load(reader);
-                        var typedObject = this.ReadObject(jObject, serializer);
+                        var typedObject = this.ReadTypedObject(jObject, serializer);
                         return typedObject;
                     }
 
@@ -67,21 +67,40 @@ namespace JsonApiFramework.JsonApi
                 return;
 
             var typedObject = (T)value;
-            this.WriteObject(writer, serializer, typedObject);
+            this.WriteTypedObject(writer, serializer, typedObject);
         }
         #endregion
 
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected virtual T ReadString(string stringValue)
+        protected virtual T ReadTypedString(string stringValue)
         { throw new NotImplementedException(); }
 
-        protected abstract T ReadObject(JObject jObject, JsonSerializer serializer);
-        protected abstract void WriteObject(JsonWriter writer, JsonSerializer serializer, T typedObject);
+        protected abstract T ReadTypedObject(JObject jObject, JsonSerializer serializer);
+
+        protected abstract void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, T typedObject);
         #endregion
 
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Read Methods
+        protected static ApiObject ReadApiObject(JObject jObject, JsonSerializer serializer)
+        {
+            Contract.Requires(jObject != null);
+
+            var apiProperties = jObject
+                .Properties()
+                .Select(x =>
+                {
+                    var propertyName = x.Name;
+                    var propertyValue = x.Value;
+                    var apiProperty = new ApiReadProperty(propertyName, propertyValue);
+                    return apiProperty;
+                })
+                .ToList();
+
+            return new ApiObject(apiProperties);
+        }
+
         protected static void ReadAttributes(JToken jParentToken, JsonSerializer serializer, ISetAttributes setAttributes)
         {
             Contract.Requires(jParentToken != null);
@@ -93,7 +112,8 @@ namespace JsonApiFramework.JsonApi
                 return;
 
             var attributesJObject = (JObject)attributesJToken;
-            setAttributes.Attributes = attributesJObject;
+            var attributes = ReadApiObject(attributesJObject, serializer);
+            setAttributes.Attributes = attributes;
         }
 
         protected static void ReadId(JToken jParentToken, JsonSerializer serializer, ISetResourceIdentity setResourceIdentity)
@@ -104,6 +124,20 @@ namespace JsonApiFramework.JsonApi
 
             var id = ReadString(jParentToken, Keywords.Id);
             setResourceIdentity.Id = id;
+        }
+
+        protected static void ReadLinks(JToken jParentToken, JsonSerializer serializer, ISetLinks setLinks)
+        {
+            Contract.Requires(jParentToken != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(setLinks != null);
+
+            var linksJToken = jParentToken.SelectToken(Keywords.Links);
+            if (linksJToken == null)
+                return;
+
+            var links = linksJToken.ToObject<Links>(serializer);
+            setLinks.Links = links;
         }
 
         protected static void ReadMeta(JToken jParentToken, JsonSerializer serializer, ISetMeta setMeta)
@@ -121,20 +155,6 @@ namespace JsonApiFramework.JsonApi
             setMeta.Meta = meta;
         }
 
-        protected static void ReadLinks(JToken jParentToken, JsonSerializer serializer, ISetLinks setLinks)
-        {
-            Contract.Requires(jParentToken != null);
-            Contract.Requires(serializer != null);
-            Contract.Requires(setLinks != null);
-
-            var linksJToken = jParentToken.SelectToken(Keywords.Links);
-            if (linksJToken == null)
-                return;
-
-            var links = linksJToken.ToObject<Links>(serializer);
-            setLinks.Links = links;
-        }
-
         protected static void ReadRelationships(JToken jParentToken, JsonSerializer serializer, ISetRelationships setRelationships)
         {
             Contract.Requires(jParentToken != null);
@@ -149,24 +169,26 @@ namespace JsonApiFramework.JsonApi
             setRelationships.Relationships = relationships;
         }
 
-        protected static string ReadString(JToken jParentToken, string childPath)
+        protected static string ReadString(JToken jParentToken, string propertyName)
         {
             Contract.Requires(jParentToken != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(childPath) == false);
+            Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
-            var childJToken = jParentToken.SelectToken(childPath);
-            if (childJToken == null)
+            var propertyValueJToken = jParentToken.SelectToken(propertyName);
+            if (propertyValueJToken == null)
                 return null;
 
-            var childJTokenType = childJToken.Type;
-            switch (childJTokenType)
+            var propertyValueJTokenType = propertyValueJToken.Type;
+            switch (propertyValueJTokenType)
             {
                 case JTokenType.None:
                 case JTokenType.Null:
                     return null;
+
                 case JTokenType.String:
-                    var childString = (string)childJToken;
-                    return childString;
+                    var propertyStringValue = (string)propertyValueJToken;
+                    return propertyStringValue;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -184,6 +206,35 @@ namespace JsonApiFramework.JsonApi
         #endregion
 
         #region Write Methods
+        // ReSharper disable once ParameterTypeCanBeEnumerable.Global
+        protected static void WriteApiObject(JsonWriter writer, JsonSerializer serializer, ApiObject apiObject)
+        {
+            Contract.Requires(writer != null);
+            Contract.Requires(serializer != null);
+
+            if (apiObject == null)
+                return;
+
+            writer.WriteStartObject();
+            foreach (var apiProperty in apiObject)
+            {
+                WriteApiProperty(writer, serializer, apiProperty);
+            }
+            writer.WriteEndObject();
+        }
+
+        protected static void WriteApiProperty(JsonWriter writer, JsonSerializer serializer, ApiProperty apiProperty)
+        {
+            Contract.Requires(writer != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(apiProperty != null);
+
+            if (apiProperty == null)
+                return;
+
+            apiProperty.Write(writer, serializer);
+        }
+
         protected static void WriteAttributes(JsonWriter writer, JsonSerializer serializer, IGetAttributes getAttributes)
         {
             Contract.Requires(writer != null);
@@ -194,7 +245,9 @@ namespace JsonApiFramework.JsonApi
                 return;
 
             writer.WritePropertyName(Keywords.Attributes);
-            getAttributes.Attributes.WriteTo(writer);
+
+            var attributes = getAttributes.Attributes;
+            WriteApiObject(writer, serializer, attributes);
         }
 
         protected static void WriteId(JsonWriter writer, JsonSerializer serializer, IGetResourceIdentity getResourceIdentity)
@@ -203,22 +256,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(getResourceIdentity != null);
 
-            WriteString(writer, Keywords.Id, getResourceIdentity.Id);
-        }
-
-        protected static void WriteMeta(JsonWriter writer, JsonSerializer serializer, IGetMeta getMeta)
-        {
-            Contract.Requires(writer != null);
-            Contract.Requires(serializer != null);
-            Contract.Requires(getMeta != null);
-
-            if (getMeta.Meta == null)
-                return;
-
-            var metaJObject = (JObject)getMeta.Meta;
-
-            writer.WritePropertyName(Keywords.Meta);
-            metaJObject.WriteTo(writer);
+            WriteString(writer, serializer, Keywords.Id, getResourceIdentity.Id);
         }
 
         protected static void WriteLinks(JsonWriter writer, JsonSerializer serializer, IGetLinks getLinks)
@@ -236,6 +274,21 @@ namespace JsonApiFramework.JsonApi
             linksJObject.WriteTo(writer);
         }
 
+        protected static void WriteMeta(JsonWriter writer, JsonSerializer serializer, IGetMeta getMeta)
+        {
+            Contract.Requires(writer != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(getMeta != null);
+
+            if (getMeta.Meta == null)
+                return;
+
+            var metaJObject = (JObject)getMeta.Meta;
+
+            writer.WritePropertyName(Keywords.Meta);
+            metaJObject.WriteTo(writer);
+        }
+
         protected static void WriteRelationships(JsonWriter writer, JsonSerializer serializer, IGetRelationships getRelationships)
         {
             Contract.Requires(writer != null);
@@ -251,16 +304,32 @@ namespace JsonApiFramework.JsonApi
             relationshipsJObject.WriteTo(writer);
         }
 
-        protected static void WriteString(JsonWriter writer, string childPath, string childValue)
+        protected static void WriteString(JsonWriter writer, JsonSerializer serializer, string propertyName, string propertyStringValue)
         {
             Contract.Requires(writer != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(childPath) == false);
+            Contract.Requires(serializer != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
-            if (childValue == null)
-                return;
+            if (String.IsNullOrWhiteSpace(propertyStringValue))
+            {
+                switch (serializer.NullValueHandling)
+                {
+                    case NullValueHandling.Include:
+                        writer.WritePropertyName(propertyName);
+                        writer.WriteToken(JsonToken.Null);
+                        return;
 
-            writer.WritePropertyName(childPath);
-            writer.WriteValue(childValue);
+                    case NullValueHandling.Ignore:
+                        // Ignore a null property.
+                        return;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            writer.WritePropertyName(propertyName);
+            writer.WriteValue(propertyStringValue);
         }
 
         protected static void WriteType(JsonWriter writer, JsonSerializer serializer, IGetResourceIdentity getResourceIdentity)
@@ -269,7 +338,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(getResourceIdentity != null);
 
-            WriteString(writer, Keywords.Type, getResourceIdentity.Type);
+            WriteString(writer, serializer, Keywords.Type, getResourceIdentity.Type);
         }
         #endregion
 

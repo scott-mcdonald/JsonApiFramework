@@ -31,7 +31,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 
@@ -232,7 +232,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                 var expectedData = expected.GetData();
                 var actualData = actual.GetData();
 
-                ObjectAssert.Equal(expectedData, actualData);
+                ClrObjectAssert.Equal(expectedData, actualData);
             }
             else if (expectedDocumentTypeInfo == ErrorsDocumentTypeInfo)
             {
@@ -246,7 +246,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                 var expectedData = expected.GetData();
                 var actualData = actual.GetData();
 
-                ObjectAssert.Equal(expectedData, actualData);
+                ClrObjectAssert.Equal(expectedData, actualData);
             }
             else if (expectedDocumentTypeInfo == ResourceDocumentTypeInfo)
             {

@@ -15,7 +15,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(ResourceIdentifierConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceIdentifier : JsonObject
         , IEquatable<ResourceIdentifier>
         , IComparable<ResourceIdentifier>
@@ -60,9 +59,9 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Type)] public string Type { get; set; }
-        [JsonProperty(Keywords.Id)] public string Id { get; set; }
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public string Type { get; set; }
+        public string Id { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -75,8 +74,8 @@ namespace JsonApiFramework.JsonApi
 
         public override string ToString()
         {
-            var type = this.Type ?? JsonConstants.Null;
-            var id = this.Id ?? JsonConstants.Null;
+            var type = this.Type ?? CoreStrings.NullText;
+            var id = this.Id ?? CoreStrings.NullText;
             return String.Format("{0} [type={1} id={2}]", TypeName, type, id);
         }
         #endregion

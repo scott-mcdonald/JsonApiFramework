@@ -14,6 +14,9 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.TestData.ApiResources
 {
+    using Attribute = JsonApiFramework.JsonApi.ApiProperty;
+    using Attributes = JsonApiFramework.JsonApi.ApiObject;
+
     public static class ApiSampleData
     {
         // PUBLIC FIELDS ////////////////////////////////////////////////////
@@ -699,10 +702,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my bikeshed!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship},
@@ -720,10 +720,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId1,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my bikeshed!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship1},
@@ -741,10 +738,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId2,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my house!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my house!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship2},
@@ -762,10 +756,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my bikeshed!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
@@ -783,10 +774,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId1,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my bikeshed!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship1},
@@ -804,10 +792,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId2,
-                Attributes = JObject.FromObject(new ArticleAttributes
-                    {
-                        Title = "JSON API paints my house!"
-                    }),
+                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my house!")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship2},
@@ -831,17 +816,13 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = ArticleType,
                 Id = ArticleId,
-                Attributes = JObject.FromObject(new JsonDataTypesAttributes
-                    {
-                        Title = "JSON API paints my bikeshed!",
-                        IsOnline = true,
-                        Version = (decimal)1.42,
-                        LineCount = 1024,
-                        Tags = new[]
-                            {
-                                "json", "json:api", "bikeshed", "REST"
-                            },
-                        Audit = new AuditAttributes
+                Attributes = new Attributes(
+                    Attribute.Create("title", "JSON API paints my house!"),
+                    Attribute.Create("is-online", true),
+                    Attribute.Create("version", (decimal)1.42),
+                    Attribute.Create("line-count", 1024),
+                    Attribute.Create("tags", new[] { "json", "json:api", "bikeshed", "REST" }),
+                    Attribute.Create("audit", new AuditAttributes
                             {
                                 Created = new AuditAttributeItem
                                     {
@@ -855,8 +836,8 @@ namespace JsonApiFramework.TestData.ApiResources
                                             new TimeSpan(42, 0, 42, 42),
                                         By = "Jane Doe",
                                     }
-                            }
-                    }),
+                            })
+                    ),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
@@ -873,10 +854,7 @@ namespace JsonApiFramework.TestData.ApiResources
         {
             Type = BlogType,
             Id = BlogId,
-            Attributes = JObject.FromObject(new BlogAttributes
-            {
-                Name = "JSON API"
-            }),
+            Attributes = new Attributes(Attribute.Create("name", "JSON API")),
             Relationships = new Relationships
                     {
                         {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesRelationship}
@@ -892,10 +870,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = BlogType,
                 Id = BlogId1,
-                Attributes = JObject.FromObject(new BlogAttributes
-                    {
-                        Name = "JSON API"
-                    }),
+                Attributes = new Attributes(Attribute.Create("name", "JSON API")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesRelationship1}
@@ -911,10 +886,7 @@ namespace JsonApiFramework.TestData.ApiResources
         {
             Type = BlogType,
             Id = BlogId2,
-            Attributes = JObject.FromObject(new BlogAttributes
-            {
-                Name = "JSON API"
-            }),
+            Attributes = new Attributes(Attribute.Create("name", "JSON API")),
             Relationships = new Relationships
                     {
                         {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesRelationship2}
@@ -930,10 +902,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId,
-                Attributes = JObject.FromObject(new CommentAttributes
-                    {
-                        Body = "I disagree completely."
-                    }),
+                Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship}
@@ -949,10 +918,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId1,
-                Attributes = JObject.FromObject(new CommentAttributes
-                    {
-                        Body = "I disagree completely."
-                    }),
+                Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1}
@@ -968,10 +934,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId2,
-                Attributes = JObject.FromObject(new CommentAttributes
-                    {
-                        Body = "I agree completely."
-                    }),
+                Attributes = new Attributes(Attribute.Create("body", "I agree completely.")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship2}
@@ -987,10 +950,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId3,
-                Attributes = JObject.FromObject(new CommentAttributes
-                    {
-                        Body = "Is 42 the answer?"
-                    }),
+                Attributes = new Attributes(Attribute.Create("body", "Is 42 the answer?")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship3}
@@ -1006,10 +966,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId4,
-                Attributes = JObject.FromObject(new CommentAttributes
-                    {
-                        Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'."
-                    }),
+                Attributes = new Attributes(Attribute.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship4}
@@ -1025,10 +982,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId,
-                Attributes = JObject.FromObject(new CommentAttributes
-                {
-                    Body = "I disagree completely."
-                }),
+                Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
                 Relationships = new Relationships
                         {
                             {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship}
@@ -1044,10 +998,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId1,
-                Attributes = JObject.FromObject(new CommentAttributes
-                {
-                    Body = "I disagree completely."
-                }),
+                Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
                 Relationships = new Relationships
                         {
                             {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship1}
@@ -1063,10 +1014,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId2,
-                Attributes = JObject.FromObject(new CommentAttributes
-                {
-                    Body = "I agree completely."
-                }),
+                Attributes = new Attributes(Attribute.Create("body", "I agree completely.")),
                 Relationships = new Relationships
                         {
                             {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship2}
@@ -1082,10 +1030,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId3,
-                Attributes = JObject.FromObject(new CommentAttributes
-                {
-                    Body = "Is 42 the answer?"
-                }),
+                Attributes = new Attributes(Attribute.Create("body", "Is 42 the answer?")),
                 Relationships = new Relationships
                         {
                             {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship3}
@@ -1101,10 +1046,7 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = CommentType,
                 Id = CommentId4,
-                Attributes = JObject.FromObject(new CommentAttributes
-                {
-                    Body = "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'."
-                }),
+                Attributes = new Attributes(Attribute.Create("body", "42 is the answer according to 'Hitchhiker's Guide to the Galaxy'.")),
                 Relationships = new Relationships
                         {
                             {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship4}
@@ -1120,12 +1062,10 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = PersonType,
                 Id = PersonId,
-                Attributes = JObject.FromObject(new PersonAttributes
-                    {
-                        FirstName = "John",
-                        LastName = "Doe",
-                        Twitter = "johndoe24"
-                    }),
+                Attributes = new Attributes(
+                    Attribute.Create("first-name", "John"),
+                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("twitter", "johndoe24")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.PersonToCommentsRel, ApiSampleData.PersonToCommentsRelationship}
@@ -1141,12 +1081,10 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = PersonType,
                 Id = PersonId1,
-                Attributes = JObject.FromObject(new PersonAttributes
-                    {
-                        FirstName = "John",
-                        LastName = "Doe",
-                        Twitter = "johndoe24"
-                    }),
+                Attributes = new Attributes(
+                    Attribute.Create("first-name", "John"),
+                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("twitter", "johndoe24")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.PersonToCommentsRel, ApiSampleData.PersonToCommentsRelationship1}
@@ -1162,12 +1100,10 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = PersonType,
                 Id = PersonId2,
-                Attributes = JObject.FromObject(new PersonAttributes
-                    {
-                        FirstName = "Jane",
-                        LastName = "Doe",
-                        Twitter = "janedoe42"
-                    }),
+                Attributes = new Attributes(
+                    Attribute.Create("first-name", "Jane"),
+                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("twitter", "janedoe42")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.PersonToCommentsRel, ApiSampleData.PersonToCommentsRelationship2}
@@ -1183,12 +1119,10 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = PersonType,
                 Id = PersonId3,
-                Attributes = JObject.FromObject(new PersonAttributes
-                    {
-                        FirstName = "George",
-                        LastName = "Washington",
-                        Twitter = "georgewashington1"
-                    }),
+                Attributes = new Attributes(
+                    Attribute.Create("first-name", "George"),
+                    Attribute.Create("last-name", "Washington"),
+                    Attribute.Create("twitter", "georgewashington1")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.PersonToCommentsRel, ApiSampleData.PersonToCommentsRelationship3}
@@ -1204,12 +1138,10 @@ namespace JsonApiFramework.TestData.ApiResources
             {
                 Type = PersonType,
                 Id = PersonId4,
-                Attributes = JObject.FromObject(new PersonAttributes
-                    {
-                        FirstName = "Thomas",
-                        LastName = "Jefferson",
-                        Twitter = "thomasjefferson2"
-                    }),
+                Attributes = new Attributes(
+                    Attribute.Create("first-name", "Thomas"),
+                    Attribute.Create("last-name", "Jefferson"),
+                    Attribute.Create("twitter", "thomasjefferson2")),
                 Relationships = new Relationships
                     {
                         {ApiSampleData.PersonToCommentsRel, ApiSampleData.PersonToCommentsRelationship4}

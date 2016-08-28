@@ -18,7 +18,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(LinkConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Link : JsonObject
         , IGetMeta
         , ISetMeta
@@ -46,8 +45,8 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.HRef)] public string HRef { get; set; }
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public string HRef { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         #region Non-JSON Properties
@@ -72,7 +71,7 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Object Overrides
         public override string ToString()
-        { return this.HRef ?? JsonConstants.Null; }
+        { return this.HRef ?? CoreStrings.NullText; }
         #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////

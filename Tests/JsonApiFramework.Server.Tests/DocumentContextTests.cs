@@ -16,7 +16,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -890,10 +889,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -916,10 +912,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -980,10 +973,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1006,10 +996,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships(),
                                                 Links = new Links
                                                     {
@@ -1058,10 +1045,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships(),
                                                 Links = new Links
                                                     {
@@ -1072,10 +1056,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships(),
                                                 Links = new Links
                                                     {
@@ -1124,10 +1105,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1150,10 +1128,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1214,10 +1189,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1240,10 +1212,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1301,10 +1270,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "101",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 75.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -1324,10 +1290,7 @@ namespace JsonApiFramework.Server.Tests
                                             {
                                                 Type = ClrSampleData.PaymentType,
                                                 Id = "102",
-                                                Attributes = JObject.FromObject(new PaymentAttributes
-                                                    {
-                                                        Amount = 25.0m
-                                                    }),
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                                 Relationships = new Relationships
                                                     {
                                                         {

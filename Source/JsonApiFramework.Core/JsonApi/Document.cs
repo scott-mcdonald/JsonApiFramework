@@ -32,7 +32,6 @@ namespace JsonApiFramework.JsonApi
     /// </remarks>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(DocumentConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Document : JsonObject
         , IGetJsonApiVersion
         , IGetLinks
@@ -47,12 +46,12 @@ namespace JsonApiFramework.JsonApi
         /// JsonApi object describing the client/server understanding/implementation
         /// of JSON API.
         /// </summary>
-        [JsonProperty(Keywords.JsonApi)] public JsonApiVersion JsonApiVersion { get; set; }
+        public JsonApiVersion JsonApiVersion { get; set; }
 
         /// <summary>
         /// Meta object that contains non-standard meta information.
         /// </summary>
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public Meta Meta { get; set; }
 
         /// <summary>
         /// URLs related to the primary data of a document.
@@ -65,7 +64,7 @@ namespace JsonApiFramework.JsonApi
         /// <item><description>Pagination links for the primary data.</description></item>
         /// </list>
         /// </remarks>
-        [JsonProperty(Keywords.Links)] public Links Links { get; set; }
+        public Links Links { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -14,7 +14,6 @@ namespace JsonApiFramework.JsonApi
     /// Represents a json:api compliant relationship.
     /// </summary>
     [JsonConverter(typeof(RelationshipConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Relationship : JsonObject
         , IGetLinks
         , IGetMeta
@@ -23,8 +22,8 @@ namespace JsonApiFramework.JsonApi
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Links)] public Links Links { get; set; }
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public Links Links { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

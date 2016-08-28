@@ -15,7 +15,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(MetaConverter))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class Meta : JsonObject
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

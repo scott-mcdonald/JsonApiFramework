@@ -13,7 +13,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -134,10 +133,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                     }
                             },
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
@@ -158,10 +154,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -194,10 +187,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -227,10 +217,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -269,10 +256,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -302,10 +286,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my bikeshed!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my bikeshed!")),
                                     }
                             },
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
@@ -323,10 +304,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -356,10 +334,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -386,10 +361,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -423,10 +395,7 @@ namespace JsonApiFramework.Client.Tests
                                 Data = new Resource
                                     {
                                         Type = ApiSampleData.ArticleType,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -500,10 +469,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                     }
                             },
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
@@ -526,10 +492,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -564,10 +527,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -599,10 +559,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -641,10 +598,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -676,10 +630,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                     }
                             },
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
@@ -698,10 +649,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -732,10 +680,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -763,10 +708,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -801,10 +743,7 @@ namespace JsonApiFramework.Client.Tests
                                     {
                                         Type = ApiSampleData.ArticleType,
                                         Id = ApiSampleData.ArticleId,
-                                        Attributes = JObject.FromObject(new ArticleAttributes
-                                            {
-                                                Title = "JSON API paints my house!"
-                                            }),
+                                        Attributes = new ApiObject(ApiProperty.Create("title", "JSON API paints my house!")),
                                         Relationships = new Relationships
                                             {
                                                 {

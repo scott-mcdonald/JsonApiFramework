@@ -5,15 +5,13 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json.Linq;
-
 namespace JsonApiFramework.ServiceModel
 {
     public static class AttributeInfoExtensions
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extensions Methods
-        public static JToken GetApiAttribute(this IAttributeInfo attributeInfo, IGetAttributes apiResource)
+        public static ApiProperty GetApiAttribute(this IAttributeInfo attributeInfo, IGetAttributes apiResource)
         {
             Contract.Requires(attributeInfo != null);
 
@@ -22,8 +20,8 @@ namespace JsonApiFramework.ServiceModel
 
             var apiAttributeName = attributeInfo.ApiPropertyName;
 
-            JToken apiAttribute;
-            return apiResource.Attributes.TryGetValue(apiAttributeName, out apiAttribute)
+            ApiProperty apiAttribute;
+            return apiResource.Attributes.TryGetApiProperty(apiAttributeName, out apiAttribute)
                 ? apiAttribute
                 : null;
         }

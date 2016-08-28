@@ -57,6 +57,7 @@
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="JsonApi\ApiObjectTests.cs" />
     <Compile Include="JsonApi\DocumentTests.cs" />
     <Compile Include="JsonApi\ErrorTests.cs" />
     <Compile Include="JsonApi\JsonApiVersionTests.cs" />

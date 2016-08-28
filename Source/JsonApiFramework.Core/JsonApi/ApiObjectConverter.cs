@@ -9,29 +9,27 @@ using Newtonsoft.Json.Linq;
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// JSON.Net converter for <c>Meta</c> objects.
+    /// JSON.Net converter for <c>ApiObject</c>.
     /// </summary>
-    public class MetaConverter : Converter<Meta>
+    public class ApiObjectConverter : Converter<ApiObject>
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override Meta ReadTypedObject(JObject metaJObject, JsonSerializer serializer)
+        protected override ApiObject ReadTypedObject(JObject jObject, JsonSerializer serializer)
         {
-            Contract.Requires(metaJObject != null);
-            Contract.Requires(serializer != null);
+            Contract.Requires(jObject != null);
 
-            var meta = (Meta)metaJObject;
-            return meta;
+            var apiObject = ReadApiObject(jObject, serializer);
+            return apiObject;
         }
 
-        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Meta meta)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, ApiObject attributes)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(meta != null);
+            Contract.Requires(attributes != null);
 
-            var metaJObject = (JObject)meta;
-            metaJObject.WriteTo(writer);
+            WriteApiObject(writer, serializer, attributes);
         }
         #endregion
     }

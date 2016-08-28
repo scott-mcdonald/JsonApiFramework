@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using JsonApiFramework.JsonApi;
 
@@ -12,20 +13,20 @@ using Xunit;
 
 namespace JsonApiFramework.TestAsserts.JsonApi
 {
-    public static class LinksAssert
+    public static class ApiObjectAssert
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Assert Methods
-        public static void Equal(Links expected, string actualJson)
+        public static void Equal(ApiObject expected, string actualJson)
         {
             Assert.NotNull(expected);
             Assert.False(String.IsNullOrEmpty(actualJson));
 
             var actualJToken = JToken.Parse(actualJson);
-            LinksAssert.Equal(expected, actualJToken);
+            ApiObjectAssert.Equal(expected, actualJToken);
         }
 
-        public static void Equal(Links expected, JToken actualJToken)
+        public static void Equal(ApiObject expected, JToken actualJToken)
         {
             // Handle when 'expected' is null.
             if (expected == null)
@@ -42,21 +43,21 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
             var actualJObject = (JObject)actualJToken;
 
-            var expectedLinksCount = expected.Count;
-            var actualLinksCount = actualJObject.Count;
-            Assert.Equal(expectedLinksCount, actualLinksCount);
+            var expectedCollection = expected.ToList();
+            var actualCollection = actualJObject.Properties().ToList();
+            Assert.Equal(expectedCollection.Count, actualCollection.Count);
 
-            foreach (var key in expected.Keys)
+            var count = expectedCollection.Count;
+            for (var index = 0; index < count; ++index)
             {
-                var expectedLink = expected[key];
-                Assert.IsType<Link>(expectedLink);
+                var expectedObjectProperty = expectedCollection[index];
+                var actualJProperty = actualCollection[index];
 
-                var actualLinkJToken = actualJObject[key];
-                LinkAssert.Equal(expectedLink, actualLinkJToken);
+                ApiPropertyAssert.Equal(expectedObjectProperty, actualJProperty);
             }
         }
 
-        public static void Equal(Links expected, Links actual)
+        public static void Equal(ApiObject expected, ApiObject actual)
         {
             if (expected == null)
             {
@@ -65,23 +66,22 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             }
 
             Assert.NotNull(actual);
-            Assert.Equal(expected.Count, actual.Count);
 
-            foreach (var key in expected.Keys)
+            var expectedCollection = expected.ToList();
+            var actualCollection = actual.ToList();
+            Assert.Equal(expectedCollection.Count, actualCollection.Count);
+
+            var count = expectedCollection.Count;
+            for (var index = 0; index < count; ++index)
             {
-                Assert.True(actual.ContainsKey(key));
+                var expectedObjectProperty = expectedCollection[index];
+                var actualObjectProperty = actualCollection[index];
 
-                var expectedLink = expected[key];
-                Assert.IsType<Link>(expectedLink);
-
-                var actualLink = actual[key];
-                Assert.IsType<Link>(actualLink);
-
-                LinkAssert.Equal(expectedLink, actualLink);
+                ApiPropertyAssert.Equal(expectedObjectProperty, actualObjectProperty);
             }
         }
 
-        public static void Equal(IEnumerable<Links> expected, IEnumerable<Links> actual)
+        public static void Equal(IEnumerable<ApiObject> expected, IEnumerable<ApiObject> actual)
         {
             if (expected == null)
             {
@@ -98,10 +98,10 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             var count = expectedCollection.Count;
             for (var index = 0; index < count; ++index)
             {
-                var expectedLinks = expectedCollection[index];
-                var actualLinks = actualCollection[index];
+                var expectedObject = expectedCollection[index];
+                var actualObject = actualCollection[index];
 
-                LinksAssert.Equal(expectedLinks, actualLinks);
+                ApiObjectAssert.Equal(expectedObject, actualObject);
             }
         }
         #endregion

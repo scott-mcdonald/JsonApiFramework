@@ -30,7 +30,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 
@@ -60,7 +60,13 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                         var actualHRefJToken = actualJObject.SelectToken(Keywords.HRef);
                         if (expectedHRef == null)
                         {
-                            Assert.Null(actualHRefJToken);
+                            if (actualHRefJToken == null)
+                            {
+                                return;
+                            }
+
+                            var actualHRefJTokenType = actualHRefJToken.Type;
+                            Assert.Equal(JTokenType.Null, actualHRefJTokenType);
                         }
                         else
                         {
@@ -72,7 +78,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
                         // Meta Object
                         var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-                        ObjectAssert.Equal(expectedMeta, actualMetaJToken);
+                        ClrObjectAssert.Equal(expectedMeta, actualMetaJToken);
                     }
                     break;
 

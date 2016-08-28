@@ -23,7 +23,7 @@ namespace JsonApiFramework.Server.Internal
         #region Object Overrides
         public override bool Equals(object obj)
         {
-            if (Object.ReferenceEquals(this, obj))
+            if (System.Object.ReferenceEquals(this, obj))
                 return true;
 
             if (obj == null)
@@ -53,7 +53,7 @@ namespace JsonApiFramework.Server.Internal
         #region IEquatable<ResourceLinkageKey> Implementation
         public bool Equals(ResourceLinkageKey other)
         {
-            if (Object.ReferenceEquals(this, other))
+            if (System.Object.ReferenceEquals(this, other))
                 return true;
 
             if (other == null)
@@ -66,7 +66,7 @@ namespace JsonApiFramework.Server.Internal
         #region IComparable<ResourceLinkageKey>
         public int CompareTo(ResourceLinkageKey other)
         {
-            if (Object.ReferenceEquals(this, other))
+            if (System.Object.ReferenceEquals(this, other))
                 return 0;
 
             if (other == null)
@@ -90,10 +90,10 @@ namespace JsonApiFramework.Server.Internal
         #region Equality Operators
         public static bool operator ==(ResourceLinkageKey a, ResourceLinkageKey b)
         {
-            if (Object.ReferenceEquals(a, b))
+            if (System.Object.ReferenceEquals(a, b))
                 return true;
 
-            if (Object.ReferenceEquals(a, null) || Object.ReferenceEquals(b, null))
+            if (System.Object.ReferenceEquals(a, null) || System.Object.ReferenceEquals(b, null))
                 return false;
 
             return (a.FromResourceIdentifier == b.FromResourceIdentifier && a.FromRel == b.FromRel);

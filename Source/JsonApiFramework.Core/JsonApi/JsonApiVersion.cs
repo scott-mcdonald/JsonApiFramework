@@ -16,7 +16,6 @@ namespace JsonApiFramework.JsonApi
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(JsonApiVersionConverter))]    
-    [JsonObject(MemberSerialization.OptIn)]
     public class JsonApiVersion : JsonObject
         , IGetMeta
         , ISetMeta
@@ -37,9 +36,8 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Version)] public string Version { get; set; }
-
-        [JsonProperty(Keywords.Meta)] public Meta Meta { get; set; }
+        public string Version { get; set; }
+        public Meta Meta { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

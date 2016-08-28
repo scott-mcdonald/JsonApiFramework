@@ -9,10 +9,10 @@ using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
-using Newtonsoft.Json.Linq;
-
 namespace JsonApiFramework.Internal.Dom
 {
+    using Attributes = JsonApiFramework.JsonApi.ApiObject;
+
     /// <summary>
     /// Represents a read/write resource node in the DOM tree.
     /// </summary>
@@ -206,15 +206,9 @@ namespace JsonApiFramework.Internal.Dom
             if (!domAttributeNodes.Any())
                 return;
 
-            var apiAttributes = new JObject();
-            foreach (var domAttributeNode in domAttributeNodes)
-            {
-                var apiPropertyName = domAttributeNode.ApiPropertyName;
-                var apiPropertyValue = domAttributeNode.ApiAttribute;
-
-                apiAttributes.Add(apiPropertyName, apiPropertyValue);
-            }
-
+            var apiObjectProperties = domAttributeNodes.Select(x => x.ApiAttribute)
+                                                       .ToList();
+            var apiAttributes = new Attributes(apiObjectProperties);
             apiSetAttributes.Attributes = apiAttributes;
         }
 

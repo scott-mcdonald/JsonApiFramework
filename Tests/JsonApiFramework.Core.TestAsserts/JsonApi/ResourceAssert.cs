@@ -31,7 +31,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
             // Attributes
             var actualAttributesJToken = actualJObject.SelectToken(Keywords.Attributes);
-            ObjectAssert.Equal(expected.Attributes, actualAttributesJToken);
+            ApiObjectAssert.Equal(expected.Attributes, actualAttributesJToken);
 
             // Relationships
             var actualRelationshipsJToken = actualJObject.SelectToken(Keywords.Relationships);
@@ -71,7 +71,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             // Handle when 'expected' is null.
             if (expected == null)
             {
-                ObjectAssert.IsNull(actualJToken);
+                ClrObjectAssert.IsNull(actualJToken);
                 return;
             }
 
@@ -117,7 +117,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             Assert.Equal(expected.Id, actual.Id);
 
             // Attributes
-            ObjectAssert.Equal(expected.Attributes, actual.Attributes);
+            ApiObjectAssert.Equal(expected.Attributes, actual.Attributes);
 
             // Relationships
             RelationshipsAssert.Equal(expected.Relationships, actual.Relationships);

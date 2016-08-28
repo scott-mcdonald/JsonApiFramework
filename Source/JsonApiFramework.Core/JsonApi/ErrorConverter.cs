@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override Error ReadObject(JObject errorJObject, JsonSerializer serializer)
+        protected override Error ReadTypedObject(JObject errorJObject, JsonSerializer serializer)
         {
             Contract.Requires(errorJObject != null);
             Contract.Requires(serializer != null);
@@ -34,7 +34,7 @@ namespace JsonApiFramework.JsonApi
             return error;
         }
 
-        protected override void WriteObject(JsonWriter writer, JsonSerializer serializer, Error error)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Error error)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
@@ -136,7 +136,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(error != null);
 
-            WriteString(writer, Keywords.Id, error.Id);
+            WriteString(writer, serializer, Keywords.Id, error.Id);
         }
 
         // ReSharper disable once UnusedParameter.Local
@@ -146,7 +146,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(error != null);
 
-            WriteString(writer, Keywords.Status, error.Status);
+            WriteString(writer, serializer, Keywords.Status, error.Status);
         }
 
         // ReSharper disable once UnusedParameter.Local
@@ -156,7 +156,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(error != null);
 
-            WriteString(writer, Keywords.Code, error.Code);
+            WriteString(writer, serializer, Keywords.Code, error.Code);
         }
 
         // ReSharper disable once UnusedParameter.Local
@@ -166,7 +166,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(error != null);
 
-            WriteString(writer, Keywords.Title, error.Title);
+            WriteString(writer, serializer, Keywords.Title, error.Title);
         }
 
         // ReSharper disable once UnusedParameter.Local
@@ -176,7 +176,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(error != null);
 
-            WriteString(writer, Keywords.Detail, error.Detail);
+            WriteString(writer, serializer, Keywords.Detail, error.Detail);
         }
 
         // ReSharper disable once UnusedParameter.Local

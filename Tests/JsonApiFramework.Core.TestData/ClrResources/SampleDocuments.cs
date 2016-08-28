@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json.Linq;
-
 namespace JsonApiFramework.TestData.ClrResources
 {
     public static class SampleDocuments
@@ -24,10 +22,7 @@ namespace JsonApiFramework.TestData.ClrResources
                         {
                             Type = ClrSampleData.OrderType,
                             Id = "1",
-                            Attributes = JObject.FromObject(new OrderAttributes
-                                {
-                                    TotalPrice = 100.0m
-                                }),
+                            Attributes = new ApiObject(ApiProperty.Create("total-price", 100.0m)),
                             Relationships = new Relationships
                                 {
                                     {
@@ -100,12 +95,10 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.OrderItemType,
                                     Id = "1001",
-                                    Attributes = JObject.FromObject(new OrderItemAttributes
-                                        {
-                                            ProductName = "Widget A",
-                                            Quantity = 2,
-                                            UnitPrice = 25.0m
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("product-name", "Widget A"),
+                                        ApiProperty.Create("quantity", 2),
+                                        ApiProperty.Create("unit-price", 25.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -152,12 +145,10 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.OrderItemType,
                                     Id = "1002",
-                                    Attributes = JObject.FromObject(new OrderItemAttributes
-                                        {
-                                            ProductName = "Widget B",
-                                            Quantity = 1,
-                                            UnitPrice = 50.0m
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("product-name", "Widget B"),
+                                        ApiProperty.Create("quantity", 1),
+                                        ApiProperty.Create("unit-price", 50.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -204,10 +195,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.PaymentType,
                                     Id = "101",
-                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                        {
-                                            Amount = 75.0m
-                                        }),
+                                    Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -237,10 +225,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.PaymentType,
                                     Id = "102",
-                                    Attributes = JObject.FromObject(new PaymentAttributes
-                                        {
-                                            Amount = 25.0m
-                                        }),
+                                    Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -270,14 +255,12 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.StoreType,
                                     Id = "50",
-                                    Attributes = JObject.FromObject(new StoreAttributes
-                                        {
-                                            StoreName = "Store 50",
-                                            Address = "1234 Main Street",
-                                            City = "Boynton Beach",
-                                            State = "FL",
-                                            ZipCode = "33472"
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("store-name", "Store 50"),
+                                        ApiProperty.Create("address", "1234 Main Street"),
+                                        ApiProperty.Create("city", "Boynton Beach"),
+                                        ApiProperty.Create("state", "FL"),
+                                        ApiProperty.Create("zip-code", "33472")),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -310,11 +293,9 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.ProductType,
                                     Id = "501",
-                                    Attributes = JObject.FromObject(new ProductAttributes
-                                        {
-                                            Name = "Widget A",
-                                            UnitPrice = 25.0m
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("name", "Widget A"),
+                                        ApiProperty.Create("unit-price", 25.0m)),
                                     Links = new Links
                                         {
                                             {Keywords.Self, "http://api.example.com/products/501"},
@@ -324,11 +305,9 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.ProductType,
                                     Id = "502",
-                                    Attributes = JObject.FromObject(new ProductAttributes
-                                        {
-                                            Name = "Widget B",
-                                            UnitPrice = 50.0m
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("name", "Widget B"),
+                                        ApiProperty.Create("unit-price", 50.0m)),
                                     Links = new Links
                                         {
                                             {Keywords.Self, "http://api.example.com/products/502"},
@@ -338,12 +317,10 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.StoreConfigurationType,
                                     Id = "50-Configuration",
-                                    Attributes = JObject.FromObject(new StoreConfigurationAttributes
-                                        {
-                                            IsLive = SampleStoreConfigurations.StoreConfiguration.IsLive,
-                                            MailingAddress = SampleStoreConfigurations.StoreConfiguration.MailingAddress,
-                                            PhoneNumbers = SampleStoreConfigurations.StoreConfiguration.PhoneNumbers,
-                                        }),
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                        ApiProperty.Create("mailing-address", SampleStoreConfigurations.StoreConfiguration.MailingAddress),
+                                        ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -376,10 +353,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                 {
                                     Type = ClrSampleData.PosSystemType,
                                     Id = "RadiantRest",
-                                    Attributes = JObject.FromObject(new PosSystemAttributes
-                                        {
-                                            PosSystemName = "Radiant REST-Based Api"
-                                        }),
+                                    Attributes = new ApiObject(ApiProperty.Create("pos-system-name", "Radiant REST-Based Api")),
                                     Relationships = new Relationships
                                         {
                                             {

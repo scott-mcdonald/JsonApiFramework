@@ -30,12 +30,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions, Version=4.13.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.13.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="xunit.assert, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
       <Private>True</Private>
@@ -54,13 +64,15 @@
     <Compile Include="ClrResources\ProductAssert.cs" />
     <Compile Include="ClrResources\StoreAssert.cs" />
     <Compile Include="ClrResources\StoreConfigurationAssert.cs" />
+    <Compile Include="JsonApi\ApiPropertyAssert.cs" />
+    <Compile Include="JsonApi\ApiObjectAssert.cs" />
     <Compile Include="JsonApi\DocumentAssert.cs" />
     <Compile Include="JsonApi\ErrorAssert.cs" />
     <Compile Include="JsonApi\JsonApiVersionAssert.cs" />
     <Compile Include="JsonApi\LinkAssert.cs" />
     <Compile Include="JsonApi\LinksAssert.cs" />
     <Compile Include="JsonApi\MetaAssert.cs" />
-    <Compile Include="JsonApi\ObjectAssert.cs" />
+    <Compile Include="JsonApi\ClrObjectAssert.cs" />
     <Compile Include="JsonApi\RelationshipAssert.cs" />
     <Compile Include="JsonApi\RelationshipsAssert.cs" />
     <Compile Include="JsonApi\ResourceAssert.cs" />

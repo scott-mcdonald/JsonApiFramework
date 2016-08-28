@@ -4,7 +4,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Reflection;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,7 +17,7 @@ namespace JsonApiFramework.JsonApi
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override Relationship ReadObject(JObject relationshipJObject, JsonSerializer serializer)
+        protected override Relationship ReadTypedObject(JObject relationshipJObject, JsonSerializer serializer)
         {
             Contract.Requires(relationshipJObject != null);
             Contract.Requires(serializer != null);
@@ -30,7 +29,7 @@ namespace JsonApiFramework.JsonApi
             return relationship;
         }
 
-        protected override void WriteObject(JsonWriter writer, JsonSerializer serializer, Relationship relationship)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Relationship relationship)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
@@ -170,9 +169,6 @@ namespace JsonApiFramework.JsonApi
         #region Constants
         private static readonly object NullData = default(object);
         private static readonly ResourceIdentifier[] EmptyDataArray = Enumerable.Empty<ResourceIdentifier>().ToArray();
-
-        private static readonly TypeInfo ToOneRelationshipTypeInfo = typeof(ToOneRelationship).GetTypeInfo();
-        private static readonly TypeInfo ToManyRelationshipTypeInfo = typeof(ToManyRelationship).GetTypeInfo();
         #endregion
     }
 }

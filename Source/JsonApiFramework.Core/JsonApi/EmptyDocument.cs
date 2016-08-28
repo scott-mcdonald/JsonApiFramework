@@ -4,15 +4,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
     /// Represents a special case json:api compliant document where the
     /// primary data is an empty resource or resource identifier arrary.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
     public class EmptyDocument : Document
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

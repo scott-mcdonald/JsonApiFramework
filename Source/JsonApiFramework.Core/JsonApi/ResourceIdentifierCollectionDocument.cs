@@ -4,8 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -16,7 +14,6 @@ namespace JsonApiFramework.JsonApi
     /// Data should be an <b>empty</b> array for if no resource identifier
     /// objects are in the document.
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceIdentifierCollectionDocument : Document
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -31,7 +28,7 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
         /// <summary>Primary data as a resource identifier collection.</summary>
-        [JsonProperty(Keywords.Data)] public List<ResourceIdentifier> Data { get; set; }
+        public List<ResourceIdentifier> Data { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

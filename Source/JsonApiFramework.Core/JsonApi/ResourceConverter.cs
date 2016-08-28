@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter Overrides
-        protected override Resource ReadObject(JObject resourceJObject, JsonSerializer serializer)
+        protected override Resource ReadTypedObject(JObject resourceJObject, JsonSerializer serializer)
         {
             Contract.Requires(resourceJObject != null);
             Contract.Requires(serializer != null);
@@ -32,7 +32,7 @@ namespace JsonApiFramework.JsonApi
             return resource;
         }
 
-        protected override void WriteObject(JsonWriter writer, JsonSerializer serializer, Resource resource)
+        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Resource resource)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);

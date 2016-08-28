@@ -3,9 +3,8 @@
 
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Internal.Tree;
+using JsonApiFramework.JsonApi;
 using JsonApiFramework.TestAsserts.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -17,7 +16,7 @@ namespace JsonApiFramework.TestAsserts.Internal.Dom
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Assert Methods
-        public static void Equal(JToken expected, DomNode actual)
+        public static void Equal(ApiProperty expected, DomNode actual)
         {
             if (expected == null)
             {
@@ -25,22 +24,14 @@ namespace JsonApiFramework.TestAsserts.Internal.Dom
                 return;
             }
 
-            switch (expected.Type)
-            {
-                case JTokenType.None:
-                case JTokenType.Null:
-                    {
-                        Assert.Null(actual);
-                        return;
-                    }
-            }
             Assert.NotNull(actual);
 
             Assert.Equal(DomNodeType.Attribute, actual.NodeType);
 
             var actualDomAttribute = (DomAttribute)actual;
             var actualApiAttribute = actualDomAttribute.ApiAttribute;
-            ObjectAssert.Equal(expected, actualApiAttribute);
+
+            ClrObjectAssert.Equal(expected, actualApiAttribute);
         }
         #endregion
     }

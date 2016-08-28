@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
@@ -12,20 +11,11 @@ using Xunit;
 
 namespace JsonApiFramework.TestAsserts.JsonApi
 {
-    public static class ResourceIdentifierAssert
+    public static class ApiPropertyAssert
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Assert Methods
-        public static void Equal(ResourceIdentifier expected, string actualJson)
-        {
-            Assert.NotNull(expected);
-            Assert.False(String.IsNullOrEmpty(actualJson));
-
-            var actualJToken = JToken.Parse(actualJson);
-            ResourceIdentifierAssert.Equal(expected, actualJToken);
-        }
-
-        public static void Equal(ResourceIdentifier expected, JToken actualJToken)
+        public static void Equal(ApiProperty expected, JToken actualJToken)
         {
             // Handle when 'expected' is null.
             if (expected == null)
@@ -38,18 +28,15 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             Assert.NotNull(actualJToken);
 
             var actualJTokenType = actualJToken.Type;
-            Assert.Equal(JTokenType.Object, actualJTokenType);
+            Assert.Equal(JTokenType.Property, actualJTokenType);
 
-            var actualJObject = (JObject)actualJToken;
+            var actualJProperty = (JProperty)actualJToken;
 
-            Assert.Equal(expected.Type, (string)actualJObject.SelectToken(Keywords.Type));
-            Assert.Equal(expected.Id, (string)actualJObject.SelectToken(Keywords.Id));
-
-            var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-            ClrObjectAssert.Equal(expected.Meta, actualMetaJToken);
+            Assert.Equal(expected.Name, actualJProperty.Name);
+            ClrObjectAssert.Equal(expected.ValueAsObject(), actualJProperty.Value);
         }
 
-        public static void Equal(IReadOnlyList<ResourceIdentifier> expectedCollection, JToken actualJToken)
+        public static void Equal(IReadOnlyList<ApiProperty> expectedCollection, JToken actualJToken)
         {
             // Handle when 'expected' is null.
             if (expectedCollection == null)
@@ -71,18 +58,18 @@ namespace JsonApiFramework.TestAsserts.JsonApi
 
             for (var index = 0; index < count; ++index)
             {
-                var expectedResourceIdentifier = expectedCollection[index];
-                var actualResourceIdentifierJToken = actualJArray[index];
+                var expectedObjectProperty = expectedCollection[index];
+                var actualObjectPropertyJToken = actualJArray[index];
 
-                Assert.NotNull(actualResourceIdentifierJToken);
-                Assert.Equal(JTokenType.Object, actualResourceIdentifierJToken.Type);
+                Assert.NotNull(actualObjectPropertyJToken);
+                Assert.Equal(JTokenType.Object, actualObjectPropertyJToken.Type);
 
-                var actualResourceIdentifierJObject = (JObject)actualResourceIdentifierJToken;
-                ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualResourceIdentifierJObject);
+                var actualObjectPropertyJObject = (JObject)actualObjectPropertyJToken;
+                ApiPropertyAssert.Equal(expectedObjectProperty, actualObjectPropertyJObject);
             }
         }
 
-        public static void Equal(ResourceIdentifier expected, ResourceIdentifier actual)
+        public static void Equal(ApiProperty expected, ApiProperty actual)
         {
             if (expected == null)
             {
@@ -91,12 +78,11 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             }
             Assert.NotNull(actual);
 
-            Assert.Equal(expected.Type, actual.Type);
-            Assert.Equal(expected.Id, actual.Id);
-            MetaAssert.Equal(expected.Meta, actual.Meta);
+            Assert.Equal(expected.Name, actual.Name);
+            ClrObjectAssert.Equal(expected.ValueAsObject(), actual.ValueAsObject());
         }
 
-        public static void Equal(IReadOnlyList<ResourceIdentifier> expectedCollection, IReadOnlyList<ResourceIdentifier> actualCollection)
+        public static void Equal(IReadOnlyList<ApiProperty> expectedCollection, IReadOnlyList<ApiProperty> actualCollection)
         {
             if (expectedCollection == null)
             {
@@ -112,7 +98,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
                 var expected = expectedCollection[index];
                 var actual = actualCollection[index];
 
-                ResourceIdentifierAssert.Equal(expected, actual);
+                ApiPropertyAssert.Equal(expected, actual);
             }
         }
         #endregion

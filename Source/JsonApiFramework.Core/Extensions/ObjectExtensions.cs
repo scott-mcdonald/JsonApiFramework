@@ -15,11 +15,13 @@ namespace JsonApiFramework
         /// <summary>
         /// Returns the string result of the <c>ToString</c> method on an
         /// object even if the object is null. If the object is null, returns
-        /// an empty string.
+        /// a null string.
         /// </summary>
         public static string SafeToString(this object source)
         {
-            return source != null ? source.ToString() : String.Empty;
+            return source != null
+                ? source.ToString()
+                : null;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace JsonApiFramework
         {
             return source != null
                 ? source.ToString(format, formatProvider)
-                : String.Empty;
+                : null;
         }
         #endregion
     }

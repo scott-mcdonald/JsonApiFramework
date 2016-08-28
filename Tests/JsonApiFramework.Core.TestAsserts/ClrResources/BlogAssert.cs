@@ -28,7 +28,7 @@ namespace JsonApiFramework.TestAsserts.ClrResources
             Assert.Equal(expected.Name, actual.Name);
             RelationshipsAssert.Equal(expected.Relationships, actual.Relationships);
             LinksAssert.Equal(expected.Links, actual.Links);
-            ObjectAssert.Equal(expected.Meta, actual.Meta);
+            ClrObjectAssert.Equal(expected.Meta, actual.Meta);
         }
 
         public static void Equal(IEnumerable<Blog> expected, IEnumerable<Blog> actual)

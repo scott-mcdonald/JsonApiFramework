@@ -5,8 +5,6 @@ using System;
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -17,12 +15,11 @@ namespace JsonApiFramework.JsonApi
     /// Object should be null for empty to-one relationships if including
     /// "resource linkage".
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ToOneRelationship : Relationship
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Data)] public ResourceIdentifier Data { get; set; }
+        public ResourceIdentifier Data { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -39,7 +36,7 @@ namespace JsonApiFramework.JsonApi
 
             var data = this.Data != null
                 ? this.Data.ToString()
-                : JsonConstants.Null;
+                : CoreStrings.NullText;
 
             return String.Format("{0} [self={1} related={2} data={3}]", TypeName, self, related, data);
         }

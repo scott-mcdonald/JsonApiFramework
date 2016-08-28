@@ -4,8 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -16,7 +14,6 @@ namespace JsonApiFramework.JsonApi
     /// Data should be an <b>empty</b> array for if no resource objects are in
     /// the document.
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceCollectionDocument : Document
         , IGetIncluded
         , ISetIncluded
@@ -33,10 +30,10 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
         /// <summary>Primary data as a resource collection.</summary>
-        [JsonProperty(Keywords.Data)] public List<Resource> Data { get; set; }
+        public List<Resource> Data { get; set; }
 
         /// <summary>Included related resources.</summary>
-        [JsonProperty(Keywords.Included)] public List<Resource> Included { get; set; }
+        public List<Resource> Included { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -5,14 +5,11 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
     /// Represents a json:api compliant errors document.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
     public class ErrorsDocument : Document
         , IGetErrors
         , ISetErrors
@@ -25,7 +22,7 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        [JsonProperty(Keywords.Errors)] public List<Error> Errors { get; set; }
+        public List<Error> Errors { get; set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

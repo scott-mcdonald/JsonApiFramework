@@ -2,7 +2,7 @@
 <package>
     <metadata minClientVersion="2.8">
         <id>JsonApiFramework.Infrastructure</id>
-        <version>1.0.1-beta</version>
+        <version>1.0.2-beta</version>
         <title>JsonApiFramework [Infrastructure]</title>
         <authors>Scott McDonald</authors>
         <summary>Portable client-side and server-side .NET framework for JSON API document reading and writing.</summary>

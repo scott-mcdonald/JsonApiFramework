@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 
+using Newtonsoft.Json.Linq;
+
 namespace JsonApiFramework.Reflection
 {
     public static class TypeConverter
@@ -274,14 +276,14 @@ namespace JsonApiFramework.Reflection
 
         private static bool HandleSpecialCaseTypesOfByteArrayAndGuid(object sourceValue, Type targetType, ref object targetValue)
         {
-            // Handle case byte[] => Guid
+            // Handle special case byte[] => Guid
             if (sourceValue is byte[] && targetType == typeof(Guid))
             {
                 targetValue = new Guid((byte[])sourceValue);
                 return true;
             }
 
-            // Handle case Guid => byte []
+            // Handle special case Guid => byte []
             if (sourceValue is Guid && targetType == typeof(byte[]))
             {
                 targetValue = ((Guid)sourceValue).ToByteArray();
@@ -293,14 +295,14 @@ namespace JsonApiFramework.Reflection
 
         private static bool HandleSpecialCaseTypesOfDateTimeAndDateTimeOffset(object sourceValue, Type targetType, ref object targetValue)
         {
-            // Handle case DateTime => DateTimeOffset
+            // Handle special case DateTime => DateTimeOffset
             if (sourceValue is DateTime && targetType == typeof(DateTimeOffset))
             {
                 targetValue = new DateTimeOffset((DateTime)sourceValue);
                 return true;
             }
 
-            // Handle case DateTimeOffset => DateTime
+            // Handle special case DateTimeOffset => DateTime
             if (sourceValue is DateTimeOffset && targetType == typeof(DateTime))
             {
                 targetValue = ((DateTimeOffset)sourceValue).DateTime;
@@ -312,10 +314,23 @@ namespace JsonApiFramework.Reflection
 
         private static bool HandleSpecialCaseTypesOfTypeAndDerivedType(object sourceValue, Type targetType, ref object targetValue)
         {
-            // Handle case some derived Type => Type
+            // Handle special case some derived Type => Type
             if (sourceValue is Type && targetType == typeof(Type))
             {
                 targetValue = sourceValue;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool HandleSpecialCaseTypesOfJTokenAndObject(object sourceValue, Type targetType, ref object targetValue)
+        {
+            // Handle special case JToken => object
+            var value = sourceValue as JToken;
+            if (value != null)
+            {
+                targetValue = value.ToObject(targetType);
                 return true;
             }
 
@@ -427,24 +442,28 @@ namespace JsonApiFramework.Reflection
                 return ConvertResult.Success;
             }
 
-            // Handle case string => Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type
+            // Handle special case string => Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type
             if (HandleStringToSpecialCaseTypes(sourceValue, targetType, targetFormatProvider, ref targetValue))
                 return ConvertResult.Success;
 
-            // Handle case Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type => string
+            // Handle special case Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type => string
             if (HandleSpecialCaseTypesToString(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
-            // Handle case DateTime => DateTimeOffset or DateTimeOffset => DateTime
+            // Handle special case DateTime => DateTimeOffset or DateTimeOffset => DateTime
             if (HandleSpecialCaseTypesOfDateTimeAndDateTimeOffset(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
-            // Handle case byte[] => Guid or Guid => byte[]
+            // Handle special case byte[] => Guid or Guid => byte[]
             if (HandleSpecialCaseTypesOfByteArrayAndGuid(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
-            // Handle case some derived Type => Type
+            // Handle special case some derived Type => Type
             if (HandleSpecialCaseTypesOfTypeAndDerivedType(sourceValue, targetType, ref targetValue))
+                return ConvertResult.Success;
+
+            // Handle special case JToken => object
+            if (HandleSpecialCaseTypesOfJTokenAndObject(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
             // Can not convert from source to target types.

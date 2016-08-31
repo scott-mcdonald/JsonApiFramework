@@ -725,7 +725,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 ## Contributing
 
 1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
+2. Checkout *develop* branch: `git checkout develop`
+2. Create your **feature** branch from *develop* branch: `git checkout -b my-new-feature`
 3. Add your changes: `git add --all`
 3. Sign-off and commit your changes with a message: `git commit -sm 'commit message'`
 4. Push to the branch: `git push origin my-new-feature`

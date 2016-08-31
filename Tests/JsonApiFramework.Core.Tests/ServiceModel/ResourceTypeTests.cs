@@ -6,10 +6,13 @@ using System.Collections.Generic;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel;
+using JsonApiFramework.TestAsserts.ClrResources;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
+
+using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -202,6 +205,24 @@ namespace JsonApiFramework.Tests.ServiceModel
             Assert.NotNull(clrResource);
             Assert.IsType(clrResourceType, clrResource);
         }
+
+        /// <summary>Unit test that reproduces the GitHub issue #13.</summary>
+        [Theory]
+        [MemberData("MapApiAttributesToClrResourceTestData")]
+        public void TestResourceTypeMapApiAttributesToClrResource(string name, object expected, object actual, Type clrResourceType, Resource apiResource)
+        {
+            this.Output.WriteLine("Test Name: {0}", name);
+            this.Output.WriteLine(String.Empty);
+
+            // Arrange
+            var resourceType = ClrSampleData.ServiceModelWithOrderResourceTypes.GetResourceType(clrResourceType);
+
+            // Act
+            resourceType.MapApiAttributesToClrResource(actual, apiResource);
+
+            // Assert
+            ClrResourceAssert.Equal(expected, actual);
+        }
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
@@ -238,6 +259,38 @@ namespace JsonApiFramework.Tests.ServiceModel
                 new object[] {"WithCommentResourceType", ClrSampleData.CommentResourceType},
                 new object[] {"WithPersonResourceType", ClrSampleData.PersonResourceType}
             };
+
+        public static readonly IEnumerable<object[]> MapApiAttributesToClrResourceTestData = new[]
+            {
+                new object[] {
+                    "WithProduct",
+                    SampleProducts.Product,
+                    new Product { ProductId = SampleProducts.Product.ProductId },
+                    typeof(Product),
+                    new Resource
+                        {
+                            Type = ClrSampleData.ProductType,
+                            Id = Convert.ToString(SampleProducts.Product.ProductId),
+                            Attributes = new ApiObject(
+                                new ApiReadProperty("name", "Widget A"),
+                                new ApiReadProperty("unit-price", 25.0m))
+                        }},
+                new object[] {
+                    "WithStoreConfiguration",
+                    SampleStoreConfigurations.StoreConfiguration,
+                    new StoreConfiguration { StoreConfigurationId = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId },
+                    typeof(StoreConfiguration),
+                    new Resource
+                        {
+                            Type = ClrSampleData.StoreConfigurationType,
+                            Id = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId,
+                            Attributes = new ApiObject(
+                                new ApiReadProperty("is-live", true),
+                                new ApiReadProperty("mailing-address", JToken.FromObject(SampleStoreConfigurations.StoreConfiguration.MailingAddress)),
+                                new ApiReadProperty("phone-numbers", JToken.FromObject(SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)))
+                        }},
+            };
+
         // ReSharper restore UnusedMember.Global
         #endregion
     }

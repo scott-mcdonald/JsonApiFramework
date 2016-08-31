@@ -654,7 +654,7 @@ Requires NuGet 2.8 or higher
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.2-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.3-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -664,7 +664,7 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.2-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.3-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -674,7 +674,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.2-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.3-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -733,6 +733,9 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.0.3-beta
+    * Fix #12 Add ApiObject feature to deprecate the use of JObject
+    * Fix #8 Add ApiObject feature to deprecate the use of JObject
 * v1.0.2-beta
     * Fix #11 Change TypeConverter so null converts to default(T)
     * Fix #10 Enhance SafeGetAssembler to handle no CLR resource types in the path

@@ -308,13 +308,13 @@ namespace JsonApiFramework.Tests.Internal
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceTypesTestData")]
-        public void TestDocumentReaderGetResourceTypes(string name, IDocumentReaderTest test)
+        [MemberData("GetResourceTypeCollectionTestData")]
+        public void TestDocumentReaderGetResourceTypeCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetErrorsTestData")]
-        public void TestDocumentReaderGetErrors(string name, IDocumentReaderTest test)
+        [MemberData("GetErrorCollectionTestData")]
+        public void TestDocumentReaderGetErrorCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Fact]
@@ -3193,13 +3193,13 @@ namespace JsonApiFramework.Tests.Internal
             };
         #endregion
 
-        #region GetResourceTypes TestData
-        public static readonly IEnumerable<object[]> GetResourceTypesTestData = new[]
+        #region GetResourceTypeCollection TestData
+        public static readonly IEnumerable<object[]> GetResourceTypeCollectionTestData = new[]
             {
                 new object[]
                     {
                         "WithDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new Document
                                 {
@@ -3213,7 +3213,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithEmptyDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new EmptyDocument
                                 {
@@ -3227,7 +3227,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithNullDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new EmptyDocument
                                 {
@@ -3241,7 +3241,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithArticleResourceCollectionDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceCollectionDocument
                                 {
@@ -3260,7 +3260,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithArticleResourceCollectionDocumentAndIncludedResources",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceCollectionDocument
                                 {
@@ -3288,7 +3288,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithBlogResourceCollectionDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceCollectionDocument
                                 {
@@ -3307,7 +3307,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithCommentResourceCollectionDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceCollectionDocument
                                 {
@@ -3326,7 +3326,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithPersonResourceCollectionDocument",
-                        new GetResourceTypesTest(
+                        new GetResourceTypeCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ResourceCollectionDocument
                                 {
@@ -3345,13 +3345,13 @@ namespace JsonApiFramework.Tests.Internal
             };
         #endregion
 
-        #region GetErrors TestData
-        public static readonly IEnumerable<object[]> GetErrorsTestData = new[]
+        #region GetErrorCollection TestData
+        public static readonly IEnumerable<object[]> GetErrorCollectionTestData = new[]
             {
                 new object[]
                     {
                         "WithDocument",
-                        new GetErrorsTest(
+                        new GetErrorCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new Document
                                 {
@@ -3365,7 +3365,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithErrorsDocumentAndZeroErrors",
-                        new GetErrorsTest(
+                        new GetErrorCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ErrorsDocument
                                 {
@@ -3379,7 +3379,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithErrorsDocumentAndOneError",
-                        new GetErrorsTest(
+                        new GetErrorCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ErrorsDocument
                                 {
@@ -3397,7 +3397,7 @@ namespace JsonApiFramework.Tests.Internal
                 new object[]
                     {
                         "WithErrorsDocumentAndTwoErrors",
-                        new GetErrorsTest(
+                        new GetErrorCollectionTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ErrorsDocument
                                 {
@@ -3455,7 +3455,7 @@ namespace JsonApiFramework.Tests.Internal
                                  {
                                      var actualResource = x;
                                      var actualRelationship = actualResource.GetRelationship(this.RelationshipRel);
-                                     var actualRelatedResources = this.DocumentReader.GetRelatedToManyResourceCollection<TRelatedResource>(actualRelationship);
+                                     var actualRelatedResources = this.DocumentReader.GetRelatedResourceCollection<TRelatedResource>(actualRelationship);
                                      return new Tuple<TResource, IEnumerable<TRelatedResource>>(actualResource, actualRelatedResources);
                                  })
                                  .ToList();
@@ -3569,7 +3569,7 @@ namespace JsonApiFramework.Tests.Internal
                                      {
                                          var actualResource = x;
                                          var actualRelationship = actualResource.GetRelationship(this.RelationshipRel);
-                                         var actualRelatedResource = this.DocumentReader.GetRelatedToOneResource<TRelatedResource>(actualRelationship);
+                                         var actualRelatedResource = this.DocumentReader.GetRelatedResource<TRelatedResource>(actualRelationship);
                                          return new Tuple<TResource, TRelatedResource>(actualResource, actualRelatedResource);
                                      })
                                  .ToList();
@@ -4820,18 +4820,18 @@ namespace JsonApiFramework.Tests.Internal
             #endregion
         }
 
-        public class GetResourceTypesTest : IDocumentReaderTest
+        public class GetResourceTypeCollectionTest : IDocumentReaderTest
         {
             #region Constructors
-            public GetResourceTypesTest(IServiceModel serviceModel, Document document, IEnumerable<Type> expectedTypes)
+            public GetResourceTypeCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<Type> expectedTypeCollection)
             {
                 this.ServiceModel = serviceModel;
                 this.Document = document;
 
-                this.ExpectedTypes = expectedTypes.EmptyIfNull()
-                                                  .Distinct()
-                                                  .OrderBy(x => x.Name)
-                                                  .ToList();
+                this.ExpectedTypeCollection = expectedTypeCollection.EmptyIfNull()
+                                                                    .Distinct()
+                                                                    .OrderBy(x => x.Name)
+                                                                    .ToList();
             }
             #endregion
 
@@ -4843,10 +4843,10 @@ namespace JsonApiFramework.Tests.Internal
 
             public void Act()
             {
-                this.ActualTypes = this.DocumentReader
-                                       .GetResourceTypes()
-                                       .OrderBy(x => x.Name)
-                                       .ToList();
+                this.ActualTypeCollection = this.DocumentReader
+                                                .GetResourceTypeCollection()
+                                                .OrderBy(x => x.Name)
+                                                .ToList();
             }
 
             public void OutputTest(DocumentReaderTests parent)
@@ -4856,16 +4856,16 @@ namespace JsonApiFramework.Tests.Internal
 
                 var output = parent.Output;
 
-                output.WriteLine("Expected Resources Types");
-                foreach (var expectedType in this.ExpectedTypes)
+                output.WriteLine("Expected Resource Type Collection");
+                foreach (var expectedType in this.ExpectedTypeCollection)
                 {
                     output.WriteLine(expectedType.Name);
                 }
 
                 output.WriteLine(String.Empty);
 
-                output.WriteLine("Actual Resources Types");
-                foreach (var actualType in this.ActualTypes)
+                output.WriteLine("Actual Resource Type Collection");
+                foreach (var actualType in this.ActualTypeCollection)
                 {
                     output.WriteLine(actualType.Name);
                 }
@@ -4873,7 +4873,7 @@ namespace JsonApiFramework.Tests.Internal
 
             public void AssertTest()
             {
-                Assert.Equal(this.ExpectedTypes, this.ActualTypes);
+                Assert.Equal(this.ExpectedTypeCollection, this.ActualTypeCollection);
             }
             #endregion
 
@@ -4881,24 +4881,24 @@ namespace JsonApiFramework.Tests.Internal
             private IServiceModel ServiceModel { get; set; }
             private Document Document { get; set; }
 
-            private IEnumerable<Type> ExpectedTypes { get; set; }
+            private IEnumerable<Type> ExpectedTypeCollection { get; set; }
             #endregion
 
             #region Calculated Properties
             private IDocumentReader DocumentReader { get; set; }
 
-            private IEnumerable<Type> ActualTypes { get; set; }
+            private IEnumerable<Type> ActualTypeCollection { get; set; }
             #endregion
         }
 
-        public class GetErrorsTest : IDocumentReaderTest
+        public class GetErrorCollectionTest : IDocumentReaderTest
         {
             #region Constructors
-            public GetErrorsTest(IServiceModel serviceModel, Document document, IEnumerable<Error> expectedErrors)
+            public GetErrorCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<Error> expectedErrorCollection)
             {
                 this.ServiceModel = serviceModel;
                 this.Document = document;
-                this.ExpectedErrors = expectedErrors.EmptyIfNull();
+                this.ExpectedErrorCollection = expectedErrorCollection.EmptyIfNull();
             }
             #endregion
 
@@ -4910,8 +4910,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void Act()
             {
-                this.ActualErrors = this.DocumentReader
-                                        .GetErrors();
+                this.ActualErrorCollection = this.DocumentReader
+                                                 .GetErrorCollection();
             }
 
             public void OutputTest(DocumentReaderTests parent)
@@ -4921,39 +4921,39 @@ namespace JsonApiFramework.Tests.Internal
 
                 var output = parent.Output;
 
-                OutputTest(output, this.ExpectedErrors, this.ActualErrors);
+                OutputTest(output, this.ExpectedErrorCollection, this.ActualErrorCollection);
             }
 
             public void AssertTest()
             {
-                ErrorAssert.Equal(this.ExpectedErrors, this.ActualErrors);
+                ErrorAssert.Equal(this.ExpectedErrorCollection, this.ActualErrorCollection);
             }
             #endregion
 
             #region User Supplied Properties
             private IServiceModel ServiceModel { get; set; }
             private Document Document { get; set; }
-            private IEnumerable<Error> ExpectedErrors { get; set; }
+            private IEnumerable<Error> ExpectedErrorCollection { get; set; }
             #endregion
 
             #region Calculated Properties
             private IDocumentReader DocumentReader { get; set; }
-            private IEnumerable<Error> ActualErrors { get; set; }
+            private IEnumerable<Error> ActualErrorCollection { get; set; }
             #endregion
 
             #region Private Methods
-            private static void OutputTest(ITestOutputHelper output, IEnumerable<Error> expectedErrors, IEnumerable<Error> actualErrors)
+            private static void OutputTest(ITestOutputHelper output, IEnumerable<Error> expectedErrorCollection, IEnumerable<Error> actualErrorCollection)
             {
-                output.WriteLine("Expected Errors JSON");
-                foreach (var expectedErrorAsJson in expectedErrors.Select(expectedError => expectedError.ToJson()))
+                output.WriteLine("Expected Error Collection JSON");
+                foreach (var expectedErrorAsJson in expectedErrorCollection.Select(expectedError => expectedError.ToJson()))
                 {
                     output.WriteLine(expectedErrorAsJson);
                 }
 
                 output.WriteLine(String.Empty);
 
-                output.WriteLine("Actual Errors JSON");
-                foreach (var actualErrorAsJson in actualErrors.Select(actualError => actualError.ToJson()))
+                output.WriteLine("Actual Error Collection JSON");
+                foreach (var actualErrorAsJson in actualErrorCollection.Select(actualError => actualError.ToJson()))
                 {
                     output.WriteLine(actualErrorAsJson);
                 }

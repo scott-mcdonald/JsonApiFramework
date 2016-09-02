@@ -44,13 +44,13 @@ namespace JsonApiFramework
         public Links GetDocumentLinks()
         { return this.Implementation.GetDocumentReader().GetDocumentLinks(); }
 
-        public TResource GetRelatedToOneResource<TResource>(Relationship relationship)
+        public TResource GetRelatedResource<TResource>(Relationship relationship)
             where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetRelatedToOneResource<TResource>(relationship); }
+        { return this.Implementation.GetDocumentReader().GetRelatedResource<TResource>(relationship); }
 
-        public IEnumerable<TResource> GetRelatedToManyResourceCollection<TResource>(Relationship relationship)
+        public IEnumerable<TResource> GetRelatedResourceCollection<TResource>(Relationship relationship)
             where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetRelatedToManyResourceCollection<TResource>(relationship); }
+        { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection<TResource>(relationship); }
 
         public TResource GetResource<TResource>()
             where TResource : class, IResource
@@ -120,11 +120,11 @@ namespace JsonApiFramework
             where TResource : class, IResource
         { return this.Implementation.GetDocumentReader().GetResourceRelationshipsCollection<TResource>(); }
 
-        public IEnumerable<Type> GetResourceTypes()
-        { return this.Implementation.GetDocumentReader().GetResourceTypes(); }
+        public IEnumerable<Type> GetResourceTypeCollection()
+        { return this.Implementation.GetDocumentReader().GetResourceTypeCollection(); }
 
-        public IEnumerable<Error> GetErrors()
-        { return this.Implementation.GetDocumentReader().GetErrors(); }
+        public IEnumerable<Error> GetErrorCollection()
+        { return this.Implementation.GetDocumentReader().GetErrorCollection(); }
         #endregion
 
         #region IDocumentWriter Implementation

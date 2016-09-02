@@ -92,7 +92,7 @@ namespace JsonApiFramework.Internal
             return clrDocumentLinks;
         }
 
-        public TResource GetRelatedToOneResource<TResource>(Relationship relationship)
+        public TResource GetRelatedResource<TResource>(Relationship relationship)
             where TResource : class, IResource
         {
             Contract.Requires(relationship != null);
@@ -120,7 +120,7 @@ namespace JsonApiFramework.Internal
             return clrRelatedResource;
         }
 
-        public IEnumerable<TResource> GetRelatedToManyResourceCollection<TResource>(Relationship relationship)
+        public IEnumerable<TResource> GetRelatedResourceCollection<TResource>(Relationship relationship)
             where TResource : class, IResource
         {
             Contract.Requires(relationship != null);
@@ -390,21 +390,22 @@ namespace JsonApiFramework.Internal
             return apiResourceRelationshipsCollection;
         }
 
-        public IEnumerable<Type> GetResourceTypes()
+        public IEnumerable<Type> GetResourceTypeCollection()
         {
-            var clrResourceTypes = this.DomDocument
-                                       .DomResources()
-                                       .Select(x => x.ClrResourceType)
-                                       .Distinct();
-            return clrResourceTypes;
+            var clrResourceTypeCollection = this.DomDocument
+                                                .DomResources()
+                                                .Select(x => x.ClrResourceType)
+                                                .Distinct();
+            return clrResourceTypeCollection;
         }
 
-        public IEnumerable<Error> GetErrors()
+        public IEnumerable<Error> GetErrorCollection()
         {
             var domErrors = this.DomDocument.DomErrors();
-            return domErrors != null
+            var apiErrorCollection = domErrors != null
                 ? domErrors.Errors
                 : Enumerable.Empty<Error>();
+            return apiErrorCollection;
         }
         #endregion
 

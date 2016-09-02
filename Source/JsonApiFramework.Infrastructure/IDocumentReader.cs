@@ -53,7 +53,7 @@ namespace JsonApiFramework
         /// relationship if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-many" relationship instead of a "to-one" relationship.</exception>
-        TResource GetRelatedToOneResource<TResource>(Relationship relationship)
+        TResource GetRelatedResource<TResource>(Relationship relationship)
             where TResource : class, IResource;
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace JsonApiFramework
         /// referenced by the "to-many" relationship if they exist, empty collection otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-one" relationship instead of a "to-many" relationship.</exception>
-        IEnumerable<TResource> GetRelatedToManyResourceCollection<TResource>(Relationship relationship)
+        IEnumerable<TResource> GetRelatedResourceCollection<TResource>(Relationship relationship)
             where TResource : class, IResource;
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace JsonApiFramework
         /// </summary>
         /// <returns>Returns the LINQ-to-objects collection of all CLR resource
         /// types in the document.</returns>
-        IEnumerable<Type> GetResourceTypes();
+        IEnumerable<Type> GetResourceTypeCollection();
 
         /// <summary>
         /// Gets the json:api errors object which is a collection of json:api compliant error objects.
@@ -266,7 +266,7 @@ namespace JsonApiFramework
         /// This API is only applicable for json:api error documents.
         /// </remarks>
         /// <returns>Collection of <c>Error</c> objects in document order.</returns>
-        IEnumerable<Error> GetErrors();
+        IEnumerable<Error> GetErrorCollection();
         #endregion
     }
 }

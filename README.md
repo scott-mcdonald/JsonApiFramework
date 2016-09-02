@@ -142,7 +142,7 @@ public class ArticlesController : ApiController
                         .AddSelfLink()
                     .LinksEnd()
 
-                    // Map CLR Article resource to JSON API resource
+                    // Convert CLR Article resource to JSON API resource
                     .Resource(article)
                         // Article relationships
                         .Relationships()
@@ -152,6 +152,7 @@ public class ArticlesController : ApiController
                                     .AddRelatedLink()
                                 .LinksEnd()
                             .RelationshipEnd()
+
                             .Relationship("comments") // article -> comments
                                 .Links()
                                     .AddSelfLink()
@@ -246,7 +247,7 @@ public class ArticlesController : ApiController
                         .AddSelfLink()
                     .LinksEnd()
 
-                    // Map CLR Article resource to JSON API resource
+                    // Convert CLR Article resource to JSON API resource
                     .Resource(article)
                         // Article relationships
                         .Relationships()
@@ -256,6 +257,7 @@ public class ArticlesController : ApiController
                                     .AddRelatedLink()
                                 .LinksEnd()
                             .RelationshipEnd()
+
                             .Relationship("comments") // article -> comments
                                 .Links()
                                     .AddSelfLink()
@@ -271,7 +273,7 @@ public class ArticlesController : ApiController
                     .ResourceEnd()
 
                     .Included()
-                        // Map related "to-one" CLR Person resource to JSON API resource
+                        // Convert related "to-one" CLR Person resource to JSON API resource
                         // Automatically generate "to-one" resource linkage in article to related author
                         .ToOne(article, "author", author)
                             // Author(Person) relationships
@@ -290,7 +292,7 @@ public class ArticlesController : ApiController
                             .LinksEnd()
                         .ToOneEnd()
 
-                        // Map related "to-many" CLR Comment resources to JSON API resources
+                        // Convert related "to-many" CLR Comment resources to JSON API resources
                         // Automatically generate "to-many" resource linkage in article to related comments
                         .ToMany(article, "comments", comments)
                             // Comments relationships
@@ -308,7 +310,6 @@ public class ArticlesController : ApiController
                                 .AddSelfLink()
                             .LinksEnd()
                         .ToManyEnd()
-
                     .IncludedEnd()
                 .WriteDocument();
     
@@ -442,14 +443,12 @@ public class ArticlesViewModel : ViewModel
             // Build document
             var document = documentContext
                 .NewDocument()
-                    // Map CLR Article resource to JSON API resource
+                    // Convert CLR Article resource to JSON API resource
                     .Resource(article)
-
                         // Link new article to an existing author.
                         .Relationships()
                             .AddRelationship("author", authorId)
                         .RelationshipsEnd()
-
                     .ResourceEnd()
                 .WriteDocument();
 
@@ -511,7 +510,6 @@ public class ArticlesViewModel : ViewModel
                 .NewDocument()
                     // Manually build an Article JSON API resource
                     .Resource<Article>()
-
                         // Set primary key
                         .SetId(articleId)
 
@@ -519,7 +517,6 @@ public class ArticlesViewModel : ViewModel
                         .Attributes()
                             .AddAttribute(article => article.Title, newTitle)
                         .AttributesEnd()
-
                     .ResourceEnd()
                 .WriteDocument();
             var documentJson = document.ToJson();
@@ -558,7 +555,7 @@ will create the following example JSON
 
 > Document reading is the same for either client-side or server-side.
 
-This example shows how a client application or server hypermedia API server could receive and read a JSON API resource collection document for articles with included author and comments:
+This example shows how a client application or server hypermedia API server could receive and read a JSON API resource document for an individual article with included author and comments:
 
 ``` cs
 public class ArticleReader
@@ -574,7 +571,7 @@ public class ArticleReader
 
             // Read Document-Level things //////////////////////////////////////
             var documentType = documentContext.GetDocumentType();
-            Assume(documenType == DocumentType.ResourceCollectionDocument);
+            Assume(documenType == DocumentType.ResourceDocument);
 
             var documentMeta = documentContext.GetDocumentMeta();
             var documentLinks = documentContext.GetDocumentLinks();
@@ -585,11 +582,7 @@ public class ArticleReader
             // Read Resource-Level things //////////////////////////////////////
 
             // Articles
-            var articles = documentContext.GetResourceCollection<Article>()
-                                          .ToList();
-            Assume(articles.Count == 1);
-
-            var article = articles [0];
+            var article = documentContext.GetResource<Article>();
             var articleLinks = documentContext.GetResourceLinks(article);
             var articleSelfLink = articleLinks ["self"]; 
 
@@ -606,7 +599,7 @@ public class ArticleReader
 
             Assume(authorRelationship.IsResourceLinkageNullOrEmpty() == false);
 
-            var author = documentContext.GetRelatedToOneResource<Person>(authorRelationship);
+            var author = documentContext.GetRelatedResource<Person>(authorRelationship);
             
             // Related Comments
             var commentsRelationship = articleRelationships ["comments"];
@@ -618,7 +611,7 @@ public class ArticleReader
             Assume(commentsRelationship.IsResourceLinkageNullOrEmpty() == false);
 
             var comments = documentContext
-                .GetRelatedToManyResourceCollection<Comment>(commentsRelationship)
+                .GetRelatedResourceCollection<Comment>(commentsRelationship)
                 .ToList();
         }
     }
@@ -648,7 +641,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 ### Option 1: From [NuGet](https://www.nuget.org) (easy peasy)
 
-Requires NuGet 2.8 or higher
+Requires NuGet 2.12 or higher
 
 #### Shared Service Model Only
 
@@ -698,14 +691,14 @@ To install the JsonApiFramework [Server] NuGet package, run the following comman
 
 ## Development setup
 
-JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2012.
+JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2013.
 
 ### Prerequisites
 
-The only thing needed is **Visual Studio** 2012 or higher installed on your development machine. JsonApiFramework has dependencies on the *.NET Framework* and *nuget* packages, more specifically: 
+The only thing needed is **Visual Studio** 2013 or higher installed on your development machine. JsonApiFramework has dependencies on the *.NET Framework* and *nuget* packages, more specifically: 
 - **.NET Framework** 4.5 SDK
 - [JSON.NET](http://www.newtonsoft.com/json) 9.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
-- [Humanizer](https://github.com/Humanizr/Humanizer) 2.0 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
+- [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.1 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
 
 .NET Framework SDK's are automatically installed with **Visual Studio** installations and when you rebuild the solution file nuget packages are automatically downloaded as needed.

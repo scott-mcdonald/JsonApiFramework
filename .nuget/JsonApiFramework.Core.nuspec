@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-    <metadata minClientVersion="2.8">
+    <metadata minClientVersion="2.12">
         <id>JsonApiFramework.Core</id>
         <version>1.0.4-beta</version>
         <title>JsonApiFramework [Core]</title>
@@ -18,7 +18,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>portable json api framework</tags>
         <dependencies>
-            <dependency id="Humanizer.Core" version="2.0" />
+            <dependency id="Humanizer.Core" version="2.1" />
             <dependency id="Newtonsoft.Json" version="9.0" />
         </dependencies>
     </metadata>

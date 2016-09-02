@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{92C5E406-31DD-4A6C-BE58-8AC453E86438}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\JsonApiFramework.Client.nuspec = .nuget\JsonApiFramework.Client.nuspec
@@ -45,6 +47,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9944E3
 		.build\JsonApiFramework.Core.version = .build\JsonApiFramework.Core.version
 		.build\JsonApiFramework.Infrastructure.version = .build\JsonApiFramework.Infrastructure.version
 		.build\JsonApiFramework.Server.version = .build\JsonApiFramework.Server.version
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FEE9B8DF-4B81-453A-88E5-4511B1B638C1}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-    <metadata minClientVersion="2.8">
+    <metadata minClientVersion="2.12">
         <id>JsonApiFramework.Client</id>
         <version>1.0.4-beta</version>
         <title>JsonApiFramework [Client]</title>

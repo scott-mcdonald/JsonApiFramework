@@ -461,7 +461,7 @@ namespace JsonApiFramework.Tests
                 // ErrorsDocument
                 new object[]
                     {
-                        "WithExistingErrorsDocumentWithEmptyErrors", new DocumentContextBaseWithExistingErrorsDocumentTest(
+                        "WithExistingErrorsDocumentWithEmptyErrors", new DocumentContextBaseWithExistingErrorCollectionDocumentTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ErrorsDocument
                                 {
@@ -476,7 +476,7 @@ namespace JsonApiFramework.Tests
 
                 new object[]
                     {
-                        "WithExistingErrorsDocument", new DocumentContextBaseWithExistingErrorsDocumentTest(
+                        "WithExistingErrorsDocument", new DocumentContextBaseWithExistingErrorCollectionDocumentTest(
                             ClrSampleData.ServiceModelWithBlogResourceTypes,
                             new ErrorsDocument
                                 {
@@ -643,18 +643,18 @@ namespace JsonApiFramework.Tests
             where TRelatedResource : class, IResource
         {
             #region Constructors
-            public DocumentContextBaseWithExistingResourceDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource, string expectedRelatedRel, TRelatedResource expectedRelatedToOneResource)
+            public DocumentContextBaseWithExistingResourceDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource, string expectedRelatedRel, TRelatedResource expectedRelatedResource)
                 : base(serviceModel, expectedApiDocument, expectedResource)
             {
                 this.ExpectedRelatedRel = expectedRelatedRel;
-                this.ExpectedRelatedToOneResource = expectedRelatedToOneResource;
+                this.ExpectedRelatedResource = expectedRelatedResource;
             }
 
-            public DocumentContextBaseWithExistingResourceDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource, string expectedRelatedRel, IEnumerable<TRelatedResource> expectedRelatedToManyResourceCollection)
+            public DocumentContextBaseWithExistingResourceDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource, string expectedRelatedRel, IEnumerable<TRelatedResource> expectedRelatedResourceCollection)
                 : base(serviceModel, expectedApiDocument, expectedResource)
             {
                 this.ExpectedRelatedRel = expectedRelatedRel;
-                this.ExpectedRelatedToManyResourceCollection = expectedRelatedToManyResourceCollection;
+                this.ExpectedRelatedResourceCollection = expectedRelatedResourceCollection;
             }
             #endregion
 
@@ -672,15 +672,15 @@ namespace JsonApiFramework.Tests
                 {
                     case RelationshipType.ToOneRelationship:
                         {
-                            var actualRelatedToOneResource = this.DocumentContextBase.GetRelatedToOneResource<TRelatedResource>(expectedRelatedRelationship);
-                            this.ActualRelatedToOneResource = actualRelatedToOneResource;
+                            var actualRelatedResource = this.DocumentContextBase.GetRelatedResource<TRelatedResource>(expectedRelatedRelationship);
+                            this.ActualRelatedResource = actualRelatedResource;
                         }
                         break;
 
                     case RelationshipType.ToManyRelationship:
                         {
-                            var actualRelatedToManyResourceCollection = this.DocumentContextBase.GetRelatedToManyResourceCollection<TRelatedResource>(expectedRelatedRelationship);
-                            this.ActualRelatedToManyResourceCollection = actualRelatedToManyResourceCollection;
+                            var actualRelatedResourceCollection = this.DocumentContextBase.GetRelatedResourceCollection<TRelatedResource>(expectedRelatedRelationship);
+                            this.ActualRelatedResourceCollection = actualRelatedResourceCollection;
                         }
                         break;
                 }
@@ -691,21 +691,21 @@ namespace JsonApiFramework.Tests
                 base.Assert();
 
                 // Reading
-                ClrResourceAssert.Equal(this.ExpectedRelatedToOneResource, this.ActualRelatedToOneResource);
-                ClrResourceAssert.Equal(this.ExpectedRelatedToManyResourceCollection, this.ActualRelatedToManyResourceCollection);
+                ClrResourceAssert.Equal(this.ExpectedRelatedResource, this.ActualRelatedResource);
+                ClrResourceAssert.Equal(this.ExpectedRelatedResourceCollection, this.ActualRelatedResourceCollection);
             }
             #endregion
 
             // ReSharper disable MemberCanBePrivate.Global
             #region User Supplied Properties
             private string ExpectedRelatedRel { get; set; }
-            private TRelatedResource ExpectedRelatedToOneResource { get; set; }
-            private IEnumerable<TRelatedResource> ExpectedRelatedToManyResourceCollection { get; set; }
+            private TRelatedResource ExpectedRelatedResource { get; set; }
+            private IEnumerable<TRelatedResource> ExpectedRelatedResourceCollection { get; set; }
             #endregion
 
             #region Calculated Properties
-            private TRelatedResource ActualRelatedToOneResource { get; set; }
-            private IEnumerable<TRelatedResource> ActualRelatedToManyResourceCollection { get; set; }
+            private TRelatedResource ActualRelatedResource { get; set; }
+            private IEnumerable<TRelatedResource> ActualRelatedResourceCollection { get; set; }
             #endregion
             // ReSharper restore MemberCanBePrivate.Global
         }
@@ -795,18 +795,18 @@ namespace JsonApiFramework.Tests
             where TRelatedResource : class, IResource
         {
             #region Constructors
-            public DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection, string expectedRelatedRel, IEnumerable<TRelatedResource> expectedRelatedToOneResourceCollection)
+            public DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection, string expectedRelatedRel, IEnumerable<TRelatedResource> expectedRelatedResourceCollection)
                 : base(serviceModel, expectedApiDocument, expectedResourceCollection)
             {
                 this.ExpectedRelatedRel = expectedRelatedRel;
-                this.ExpectedRelatedToOneResourceCollection = expectedRelatedToOneResourceCollection;
+                this.ExpectedRelatedResourceCollection = expectedRelatedResourceCollection;
             }
 
-            public DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection, string expectedRelatedRel, IEnumerable<IEnumerable<TRelatedResource>> expectedRelatedToManyResourceCollectionCollection)
+            public DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection, string expectedRelatedRel, IEnumerable<IEnumerable<TRelatedResource>> expectedRelatedResourceCollectionCollection)
                 : base(serviceModel, expectedApiDocument, expectedResourceCollection)
             {
                 this.ExpectedRelatedRel = expectedRelatedRel;
-                this.ExpectedRelatedToManyResourceCollectionCollection = expectedRelatedToManyResourceCollectionCollection;
+                this.ExpectedRelatedResourceCollectionCollection = expectedRelatedResourceCollectionCollection;
             }
             #endregion
 
@@ -833,11 +833,11 @@ namespace JsonApiFramework.Tests
                                     var expectedResource = x;
                                     var expectedRelatedRelationships = this.DocumentContextBase.GetResourceRelationships(expectedResource);
                                     var expectedRelatedRelationship = expectedRelatedRelationships.GetRelationship(this.ExpectedRelatedRel);
-                                    var actualRelatedToOneResource = this.DocumentContextBase.GetRelatedToOneResource<TRelatedResource>(expectedRelatedRelationship);
-                                    return actualRelatedToOneResource;
+                                    var actualRelatedResource = this.DocumentContextBase.GetRelatedResource<TRelatedResource>(expectedRelatedRelationship);
+                                    return actualRelatedResource;
                                 })
                                 .ToList();
-                            this.ActualRelatedToOneResourceCollection = actualRelatedToOneResourceCollection;
+                            this.ActualRelatedResourceCollection = actualRelatedToOneResourceCollection;
                         }
                         break;
 
@@ -850,11 +850,11 @@ namespace JsonApiFramework.Tests
                                     var expectedResource = x;
                                     var expectedRelatedRelationships = this.DocumentContextBase.GetResourceRelationships(expectedResource);
                                     var expectedRelatedRelationship = expectedRelatedRelationships.GetRelationship(this.ExpectedRelatedRel);
-                                    var actualRelatedToManyResourceCollection = this.DocumentContextBase.GetRelatedToManyResourceCollection<TRelatedResource>(expectedRelatedRelationship);
-                                    return actualRelatedToManyResourceCollection;
+                                    var actualRelatedResourceCollection = this.DocumentContextBase.GetRelatedResourceCollection<TRelatedResource>(expectedRelatedRelationship);
+                                    return actualRelatedResourceCollection;
                                 })
                                 .ToList();
-                            this.ActualRelatedToManyResourceCollectionCollection = actualRelatedToManyResourceCollectionCollection;
+                            this.ActualRelatedResourceCollectionCollection = actualRelatedToManyResourceCollectionCollection;
                         }
                         break;
 
@@ -868,26 +868,26 @@ namespace JsonApiFramework.Tests
                 base.Assert();
 
                 // Reading
-                ClrResourceAssert.Equal(this.ExpectedRelatedToOneResourceCollection, this.ActualRelatedToOneResourceCollection);
+                ClrResourceAssert.Equal(this.ExpectedRelatedResourceCollection, this.ActualRelatedResourceCollection);
 
-                if (this.ExpectedRelatedToManyResourceCollectionCollection == null)
+                if (this.ExpectedRelatedResourceCollectionCollection == null)
                 {
-                    Xunit.Assert.Null(this.ActualRelatedToManyResourceCollectionCollection);
+                    Xunit.Assert.Null(this.ActualRelatedResourceCollectionCollection);
                     return;
                 }
-                Xunit.Assert.NotNull(this.ActualRelatedToManyResourceCollectionCollection);
+                Xunit.Assert.NotNull(this.ActualRelatedResourceCollectionCollection);
 
-                var expectedRelatedToManyResourceCollectionList = this.ExpectedRelatedToManyResourceCollectionCollection.SafeToList();
-                var actualRelatedToManyResourceCollectionList = this.ActualRelatedToManyResourceCollectionCollection.SafeToList();
-                Xunit.Assert.Equal(expectedRelatedToManyResourceCollectionList.Count, actualRelatedToManyResourceCollectionList.Count);
+                var expectedRelatedResourceCollectionList = this.ExpectedRelatedResourceCollectionCollection.SafeToList();
+                var actualRelatedResourceCollectionList = this.ActualRelatedResourceCollectionCollection.SafeToList();
+                Xunit.Assert.Equal(expectedRelatedResourceCollectionList.Count, actualRelatedResourceCollectionList.Count);
 
-                var count = expectedRelatedToManyResourceCollectionList.Count;
+                var count = expectedRelatedResourceCollectionList.Count;
                 for (var index = 0; index < count; ++index)
                 {
-                    var expectedRelatedToManyResourceCollection = expectedRelatedToManyResourceCollectionList[index];
-                    var actualRelatedToManyResourceCollection = actualRelatedToManyResourceCollectionList[index];
+                    var expectedRelatedResourceCollection = expectedRelatedResourceCollectionList[index];
+                    var actualRelatedResourceCollection = actualRelatedResourceCollectionList[index];
 
-                    ClrResourceAssert.Equal(expectedRelatedToManyResourceCollection, actualRelatedToManyResourceCollection);
+                    ClrResourceAssert.Equal(expectedRelatedResourceCollection, actualRelatedResourceCollection);
                 }
             }
             #endregion
@@ -895,13 +895,13 @@ namespace JsonApiFramework.Tests
             // ReSharper disable MemberCanBePrivate.Global
             #region User Supplied Properties
             private string ExpectedRelatedRel { get; set; }
-            private IEnumerable<TRelatedResource> ExpectedRelatedToOneResourceCollection { get; set; }
-            private IEnumerable<IEnumerable<TRelatedResource>> ExpectedRelatedToManyResourceCollectionCollection { get; set; }
+            private IEnumerable<TRelatedResource> ExpectedRelatedResourceCollection { get; set; }
+            private IEnumerable<IEnumerable<TRelatedResource>> ExpectedRelatedResourceCollectionCollection { get; set; }
             #endregion
 
             #region Calculated Properties
-            private IEnumerable<TRelatedResource> ActualRelatedToOneResourceCollection { get; set; }
-            private IEnumerable<IEnumerable<TRelatedResource>> ActualRelatedToManyResourceCollectionCollection { get; set; }
+            private IEnumerable<TRelatedResource> ActualRelatedResourceCollection { get; set; }
+            private IEnumerable<IEnumerable<TRelatedResource>> ActualRelatedResourceCollectionCollection { get; set; }
             #endregion
             // ReSharper restore MemberCanBePrivate.Global
         }
@@ -946,10 +946,10 @@ namespace JsonApiFramework.Tests
             // ReSharper restore MemberCanBePrivate.Global
         }
 
-        public class DocumentContextBaseWithExistingErrorsDocumentTest : DocumentContextBaseWithExistingDocumentTest
+        public class DocumentContextBaseWithExistingErrorCollectionDocumentTest : DocumentContextBaseWithExistingDocumentTest
         {
             #region Constructors
-            public DocumentContextBaseWithExistingErrorsDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<Error> expectedErrorCollection)
+            public DocumentContextBaseWithExistingErrorCollectionDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<Error> expectedErrorCollection)
                 : base(serviceModel, expectedApiDocument)
             {
                 this.ExpectedErrorCollection = expectedErrorCollection;
@@ -962,7 +962,7 @@ namespace JsonApiFramework.Tests
                 base.Act();
 
                 // Reading
-                this.ActualErrorCollection = this.DocumentContextBase.GetErrors();
+                this.ActualErrorCollection = this.DocumentContextBase.GetErrorCollection();
             }
 
             public override void Assert()

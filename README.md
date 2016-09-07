@@ -647,7 +647,7 @@ Requires NuGet 2.12 or higher
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.4-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.5-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -657,7 +657,7 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.4-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.5-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -667,7 +667,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.4-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.5-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -727,6 +727,10 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.0.5-beta
+    * Fix #17 Refactor IDocumentReader method names for clarity purposes
+    * Fix #16 Update minimum version to Humanizer.Core to 2.1
+    * Fix #15 Update minimum version to Visual Studio to 2013
 * v1.0.4-beta
     * Fix #13 Enhance TypeConverter to convert source object of type JToken
 * v1.0.3-beta

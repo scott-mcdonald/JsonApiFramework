@@ -10,8 +10,8 @@
 
 [assembly: System.Reflection.AssemblyCopyright("Copyright © 2015–2016 Scott McDonald")]
 [assembly: System.Reflection.AssemblyVersion("1.0.0.0")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.4.5")]
-[assembly: System.Reflection.AssemblyInformationalVersion("1.0.4-beta")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.5.6")]
+[assembly: System.Reflection.AssemblyInformationalVersion("1.0.5-beta")]
 
 
 
@@ -21,9 +21,9 @@ internal sealed partial class ThisAssembly {
     
     internal const string AssemblyVersion = "1.0.0.0";
     
-    internal const string AssemblyFileVersion = "1.0.4.5";
+    internal const string AssemblyFileVersion = "1.0.5.6";
     
-    internal const string AssemblyInformationalVersion = "1.0.4-beta";
+    internal const string AssemblyInformationalVersion = "1.0.5-beta";
     
     private ThisAssembly() {
     }

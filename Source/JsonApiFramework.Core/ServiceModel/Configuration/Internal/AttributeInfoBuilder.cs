@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.ServiceModel.Conventions;
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -39,9 +39,9 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Factory Methods
-        internal IAttributeInfo CreateAttributeInfo(ConventionSet conventionSet)
+        internal IAttributeInfo CreateAttributeInfo(IConventions conventions)
         {
-            var attributeInfo = this.AttributeInfoFactory(conventionSet);
+            var attributeInfo = this.AttributeInfoFactory(conventions);
 
             if (this.AttributeInfoModifierCollection == null)
                 return attributeInfo;
@@ -57,23 +57,23 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Func<ConventionSet, AttributeInfo> AttributeInfoFactory { get; set; }
+        private Func<IConventions, AttributeInfo> AttributeInfoFactory { get; set; }
         private IList<Action<AttributeInfo>> AttributeInfoModifierCollection { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<ConventionSet, AttributeInfo> CreateAttributeInfoFactory(string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, AttributeInfo> CreateAttributeInfoFactory(string clrPropertyName, Type clrPropertyType)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            Func<ConventionSet, AttributeInfo> attributeInfoFactory = (conventionSet) =>
+            Func<IConventions, AttributeInfo> attributeInfoFactory = (conventions) =>
                 {
                     var apiPropertyName = clrPropertyName;
-                    if (conventionSet != null && conventionSet.ApiAttributeNamingConventions != null)
+                    if (conventions != null && conventions.ApiAttributeNamingConventions != null)
                     {
-                        apiPropertyName = conventionSet.ApiAttributeNamingConventions.Aggregate(apiPropertyName, (current, namingConvention) => namingConvention.Apply(current));
+                        apiPropertyName = conventions.ApiAttributeNamingConventions.Aggregate(apiPropertyName, (current, namingConvention) => namingConvention.Apply(current));
                     }
 
                     var attributeInfo = new AttributeInfo

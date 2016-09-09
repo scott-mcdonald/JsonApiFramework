@@ -1,10 +1,10 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 using JsonApiFramework.TestData.ApiResources;
 
 namespace JsonApiFramework.TestData.ClrResources
@@ -13,29 +13,29 @@ namespace JsonApiFramework.TestData.ClrResources
     {
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Convention Sets
-        public static ConventionSet CreateConventionSet()
+        public static IConventions CreateConventions()
         {
-            var conventionSetBuilder = new ConventionSetBuilder();
+            var conventionsBuilder = new ConventionsBuilder();
 
-            conventionSetBuilder.ApiAttributeNamingConventions()
-                                .AddStandardMemberNamingConvention();
+            conventionsBuilder.ApiAttributeNamingConventions()
+                              .AddStandardMemberNamingConvention();
 
-            conventionSetBuilder.ApiTypeNamingConventions()
-                                .AddPluralNamingConvention()
-                                .AddStandardMemberNamingConvention();
+            conventionsBuilder.ApiTypeNamingConventions()
+                              .AddPluralNamingConvention()
+                              .AddStandardMemberNamingConvention();
 
-            conventionSetBuilder.ResourceTypeConventions()
-                                .AddPropertyDiscoveryConvention();
+            conventionsBuilder.ResourceTypeConventions()
+                              .AddPropertyDiscoveryConvention();
 
-            var conventionSet = conventionSetBuilder.Create();
-            return conventionSet;
+            var conventions = conventionsBuilder.Create();
+            return conventions;
         }
         #endregion
 
-        #region Configurations With Null ConventionSet
-        public class ArticleConfigurationWithNullConventionSet : ResourceTypeBuilder<Article>
+        #region Configurations With Null Conventions
+        public class ArticleConfigurationWithNullConventions : ResourceTypeBuilder<Article>
         {
-            public ArticleConfigurationWithNullConventionSet()
+            public ArticleConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -70,9 +70,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class BlogConfigurationWithNullConventionSet : ResourceTypeBuilder<Blog>
+        public class BlogConfigurationWithNullConventions : ResourceTypeBuilder<Blog>
         {
-            public BlogConfigurationWithNullConventionSet()
+            public BlogConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -102,9 +102,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class CommentConfigurationWithNullConventionSet : ResourceTypeBuilder<Comment>
+        public class CommentConfigurationWithNullConventions : ResourceTypeBuilder<Comment>
         {
-            public CommentConfigurationWithNullConventionSet()
+            public CommentConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -134,9 +134,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class OrderConfigurationWithNullConventionSet : ResourceTypeBuilder<Order>
+        public class OrderConfigurationWithNullConventions : ResourceTypeBuilder<Order>
         {
-            public OrderConfigurationWithNullConventionSet()
+            public OrderConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -168,9 +168,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class OrderItemConfigurationWithNullConventionSet : ResourceTypeBuilder<OrderItem>
+        public class OrderItemConfigurationWithNullConventions : ResourceTypeBuilder<OrderItem>
         {
-            public OrderItemConfigurationWithNullConventionSet()
+            public OrderItemConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -204,9 +204,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PaymentConfigurationWithNullConventionSet : ResourceTypeBuilder<Payment>
+        public class PaymentConfigurationWithNullConventions : ResourceTypeBuilder<Payment>
         {
-            public PaymentConfigurationWithNullConventionSet()
+            public PaymentConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -230,9 +230,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PersonConfigurationWithNullConventionSet : ResourceTypeBuilder<Person>
+        public class PersonConfigurationWithNullConventions : ResourceTypeBuilder<Person>
         {
-            public PersonConfigurationWithNullConventionSet()
+            public PersonConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -268,9 +268,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PosSystemConfigurationWithNullConventionSet : ResourceTypeBuilder<PosSystem>
+        public class PosSystemConfigurationWithNullConventions : ResourceTypeBuilder<PosSystem>
         {
-            public PosSystemConfigurationWithNullConventionSet()
+            public PosSystemConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -294,9 +294,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class ProductConfigurationWithNullConventionSet : ResourceTypeBuilder<Product>
+        public class ProductConfigurationWithNullConventions : ResourceTypeBuilder<Product>
         {
-            public ProductConfigurationWithNullConventionSet()
+            public ProductConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -320,9 +320,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class StoreConfigurationConfigurationWithNullConventionSet : ResourceTypeBuilder<StoreConfiguration>
+        public class StoreConfigurationConfigurationWithNullConventions : ResourceTypeBuilder<StoreConfiguration>
         {
-            public StoreConfigurationConfigurationWithNullConventionSet()
+            public StoreConfigurationConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -352,9 +352,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class StoreConfigurationWithNullConventionSet : ResourceTypeBuilder<Store>
+        public class StoreConfigurationWithNullConventions : ResourceTypeBuilder<Store>
         {
-            public StoreConfigurationWithNullConventionSet()
+            public StoreConfigurationWithNullConventions()
             {
                 // Hypermedia
                 this.Hypermedia()
@@ -391,10 +391,10 @@ namespace JsonApiFramework.TestData.ClrResources
         }
         #endregion
 
-        #region Configurations With ConventionSet
-        public class ArticleConfigurationWithConventionSet : ResourceTypeBuilder<Article>
+        #region Configurations With Conventions
+        public class ArticleConfigurationWithConventions : ResourceTypeBuilder<Article>
         {
-            public ArticleConfigurationWithConventionSet()
+            public ArticleConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<Person>(ApiSampleData.ArticleToAuthorRel);
@@ -407,9 +407,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class BlogConfigurationWithConventionSet : ResourceTypeBuilder<Blog>
+        public class BlogConfigurationWithConventions : ResourceTypeBuilder<Blog>
         {
-            public BlogConfigurationWithConventionSet()
+            public BlogConfigurationWithConventions()
             {
                 // Relationships
                 this.ToManyRelationship<Article>(ApiSampleData.BlogToArticlesRel);
@@ -419,9 +419,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class CommentConfigurationWithConventionSet : ResourceTypeBuilder<Comment>
+        public class CommentConfigurationWithConventions : ResourceTypeBuilder<Comment>
         {
-            public CommentConfigurationWithConventionSet()
+            public CommentConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<Person>(ApiSampleData.CommentToAuthorRel);
@@ -431,9 +431,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class OrderConfigurationWithConventionSet : ResourceTypeBuilder<Order>
+        public class OrderConfigurationWithConventions : ResourceTypeBuilder<Order>
         {
-            public OrderConfigurationWithConventionSet()
+            public OrderConfigurationWithConventions()
             {
                 // Relationships
                 this.ToManyRelationship<OrderItem>(ClrSampleData.OrderToOrderItemsRel)
@@ -448,9 +448,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class OrderItemConfigurationWithConventionSet : ResourceTypeBuilder<OrderItem>
+        public class OrderItemConfigurationWithConventions : ResourceTypeBuilder<OrderItem>
         {
-            public OrderItemConfigurationWithConventionSet()
+            public OrderItemConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<Order>(ClrSampleData.OrderItemToOrderRel);
@@ -462,9 +462,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PaymentConfigurationWithConventionSet : ResourceTypeBuilder<Payment>
+        public class PaymentConfigurationWithConventions : ResourceTypeBuilder<Payment>
         {
-            public PaymentConfigurationWithConventionSet()
+            public PaymentConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<Order>(ClrSampleData.PaymentToOrderRel);
@@ -474,9 +474,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PersonConfigurationWithConventionSet : ResourceTypeBuilder<Person>
+        public class PersonConfigurationWithConventions : ResourceTypeBuilder<Person>
         {
-            public PersonConfigurationWithConventionSet()
+            public PersonConfigurationWithConventions()
             {
                 // Relationships
                 this.ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel);
@@ -486,9 +486,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class PosSystemConfigurationWithConventionSet : ResourceTypeBuilder<PosSystem>
+        public class PosSystemConfigurationWithConventions : ResourceTypeBuilder<PosSystem>
         {
-            public PosSystemConfigurationWithConventionSet()
+            public PosSystemConfigurationWithConventions()
             {
                 // Relationships
                 this.ToManyRelationship<StoreConfiguration>(ClrSampleData.PosSystemToStoreConfigurationsRel)
@@ -499,18 +499,18 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class ProductConfigurationWithConventionSet : ResourceTypeBuilder<Product>
+        public class ProductConfigurationWithConventions : ResourceTypeBuilder<Product>
         {
-            public ProductConfigurationWithConventionSet()
+            public ProductConfigurationWithConventions()
             {
                 // Links
                 this.Link(Keywords.Self);
             }
         }
 
-        public class StoreConfigurationConfigurationWithConventionSet : ResourceTypeBuilder<StoreConfiguration>
+        public class StoreConfigurationConfigurationWithConventions : ResourceTypeBuilder<StoreConfiguration>
         {
-            public StoreConfigurationConfigurationWithConventionSet()
+            public StoreConfigurationConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<PosSystem>(ClrSampleData.StoreToStoreConfigurationToPosSystemRel)
@@ -521,9 +521,9 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
-        public class StoreConfigurationWithConventionSet : ResourceTypeBuilder<Store>
+        public class StoreConfigurationWithConventions : ResourceTypeBuilder<Store>
         {
-            public StoreConfigurationWithConventionSet()
+            public StoreConfigurationWithConventions()
             {
                 // Relationships
                 this.ToOneRelationship<StoreConfiguration>(ClrSampleData.StoreToStoreConfigurationRel)

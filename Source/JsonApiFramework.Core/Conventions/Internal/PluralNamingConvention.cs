@@ -5,7 +5,7 @@ using System;
 
 using Humanizer;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
     /// <summary>Naming convention that pluralizes the name.</summary>
     internal class PluralNamingConvention : INamingConvention

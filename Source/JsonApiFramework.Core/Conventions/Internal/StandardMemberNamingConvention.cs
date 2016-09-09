@@ -5,10 +5,10 @@ using System;
 
 using Humanizer;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
-    /// <summary>Naming convention that lowercases the name.</summary>
-    internal class LowerCaseNamingConvention : INamingConvention
+    /// <summary>Naming convention that applies the json:api naming standard for members.</summary>
+    internal class StandardMemberNamingConvention : INamingConvention
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region INamingConvention Implementation
@@ -17,7 +17,11 @@ namespace JsonApiFramework.ServiceModel.Conventions.Internal
             if (String.IsNullOrWhiteSpace(oldName))
                 return oldName;
 
-            var newName = oldName.Transform(To.LowerCase);
+            // Apply the JsonApi standard naming convention of member names:
+            // 1. Names are lower case.
+            // 2. Names use the hyphen minus '-' as word separators.
+            var newName = oldName.Underscore()
+                                 .Hyphenate();
             return newName;
         }
         #endregion

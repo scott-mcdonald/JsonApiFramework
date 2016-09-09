@@ -5,21 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-
+using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 using JsonApiFramework.TestAsserts.ClrResources;
 using JsonApiFramework.TestAsserts.JsonApi;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -112,16 +109,16 @@ namespace JsonApiFramework.Tests
 
                 new object[]
                     {
-                        "WithInternalBuiltBlogServiceModelWithConventionSet",
-                        (Func<DocumentContextBase>)(() => new BlogServiceModelWithConventionSetDocumentContext()),
+                        "WithInternalBuiltBlogServiceModelWithConventions",
+                        (Func<DocumentContextBase>)(() => new BlogServiceModelWithConventionsDocumentContext()),
                         ClrSampleData.ServiceModelWithBlogResourceTypes,
                         false
                     },
 
                 new object[]
                     {
-                        "WithInternalBuiltBlogServiceModelWithNullConventionSet",
-                        (Func<DocumentContextBase>)(() => new BlogServiceModelWithNullConventionSetDocumentContext()),
+                        "WithInternalBuiltBlogServiceModelWithNullConventions",
+                        (Func<DocumentContextBase>)(() => new BlogServiceModelWithNullConventionsDocumentContext()),
                         ClrSampleData.ServiceModelWithBlogResourceTypes,
                         false
                     },
@@ -136,16 +133,16 @@ namespace JsonApiFramework.Tests
 
                 new object[]
                     {
-                        "WithInternalBuiltOrderServiceModelWithConventionSet",
-                        (Func<DocumentContextBase>)(() => new OrderServiceModelWithConventionSetDocumentContext()),
+                        "WithInternalBuiltOrderServiceModelWithConventions",
+                        (Func<DocumentContextBase>)(() => new OrderServiceModelWithConventionsDocumentContext()),
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         false
                     },
 
                 new object[]
                     {
-                        "WithInternalBuiltOrderServiceModelWithNullConventionSet",
-                        (Func<DocumentContextBase>)(() => new OrderServiceModelWithNullConventionSetDocumentContext()),
+                        "WithInternalBuiltOrderServiceModelWithNullConventions",
+                        (Func<DocumentContextBase>)(() => new OrderServiceModelWithNullConventionsDocumentContext()),
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         false
                     },
@@ -985,15 +982,15 @@ namespace JsonApiFramework.Tests
             // ReSharper restore MemberCanBePrivate.Global
         }
 
-        private class BlogServiceModelWithNullConventionSetDocumentContext : DocumentContextBase
+        private class BlogServiceModelWithNullConventionsDocumentContext : DocumentContextBase
         {
             #region Constructors
-            public BlogServiceModelWithNullConventionSetDocumentContext()
-                : base(new DocumentContextOptions<BlogServiceModelWithNullConventionSetDocumentContext>())
+            public BlogServiceModelWithNullConventionsDocumentContext()
+                : base(new DocumentContextOptions<BlogServiceModelWithNullConventionsDocumentContext>())
             { }
 
-            public BlogServiceModelWithNullConventionSetDocumentContext(Document apiDocument)
-                : base(new DocumentContextOptions<BlogServiceModelWithNullConventionSetDocumentContext>(), apiDocument)
+            public BlogServiceModelWithNullConventionsDocumentContext(Document apiDocument)
+                : base(new DocumentContextOptions<BlogServiceModelWithNullConventionsDocumentContext>(), apiDocument)
             { }
             #endregion
 
@@ -1002,50 +999,50 @@ namespace JsonApiFramework.Tests
             {
                 Contract.Requires(serviceModelBuilder != null);
 
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventionSet());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventions());
             }
             #endregion
         }
 
-        private class BlogServiceModelWithConventionSetDocumentContext : DocumentContextBase
+        private class BlogServiceModelWithConventionsDocumentContext : DocumentContextBase
         {
             #region Constructors
-            public BlogServiceModelWithConventionSetDocumentContext()
-                : base(new DocumentContextOptions<BlogServiceModelWithConventionSetDocumentContext>())
+            public BlogServiceModelWithConventionsDocumentContext()
+                : base(new DocumentContextOptions<BlogServiceModelWithConventionsDocumentContext>())
             { }
 
-            public BlogServiceModelWithConventionSetDocumentContext(Document apiDocument)
-                : base(new DocumentContextOptions<BlogServiceModelWithConventionSetDocumentContext>(), apiDocument)
+            public BlogServiceModelWithConventionsDocumentContext(Document apiDocument)
+                : base(new DocumentContextOptions<BlogServiceModelWithConventionsDocumentContext>(), apiDocument)
             { }
             #endregion
 
             #region DocumentContextBase Overrides
-            protected internal override void OnConventionSetCreating(IConventionSetBuilder conventionSetBuilder)
+            protected internal override void OnConventionsCreating(IConventionsBuilder conventionsBuilder)
             {
-                Contract.Requires(conventionSetBuilder != null);
+                Contract.Requires(conventionsBuilder != null);
 
-                conventionSetBuilder.ApiAttributeNamingConventions()
-                                    .AddStandardMemberNamingConvention();
+                conventionsBuilder.ApiAttributeNamingConventions()
+                                  .AddStandardMemberNamingConvention();
 
-                conventionSetBuilder.ApiTypeNamingConventions()
-                                    .AddPluralNamingConvention()
-                                    .AddStandardMemberNamingConvention();
+                conventionsBuilder.ApiTypeNamingConventions()
+                                  .AddPluralNamingConvention()
+                                  .AddStandardMemberNamingConvention();
 
-                conventionSetBuilder.ResourceTypeConventions()
-                                    .AddPropertyDiscoveryConvention();
+                conventionsBuilder.ResourceTypeConventions()
+                                  .AddPropertyDiscoveryConvention();
             }
 
             protected internal override void OnServiceModelCreating(IServiceModelBuilder serviceModelBuilder)
             {
                 Contract.Requires(serviceModelBuilder != null);
 
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventionSet());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventions());
             }
             #endregion
         }
@@ -1072,15 +1069,15 @@ namespace JsonApiFramework.Tests
             #endregion
         }
 
-        private class OrderServiceModelWithNullConventionSetDocumentContext : DocumentContextBase
+        private class OrderServiceModelWithNullConventionsDocumentContext : DocumentContextBase
         {
             #region Constructors
-            public OrderServiceModelWithNullConventionSetDocumentContext()
-                : base(new DocumentContextOptions<OrderServiceModelWithNullConventionSetDocumentContext>())
+            public OrderServiceModelWithNullConventionsDocumentContext()
+                : base(new DocumentContextOptions<OrderServiceModelWithNullConventionsDocumentContext>())
             { }
 
-            public OrderServiceModelWithNullConventionSetDocumentContext(Document apiDocument)
-                : base(new DocumentContextOptions<OrderServiceModelWithNullConventionSetDocumentContext>(), apiDocument)
+            public OrderServiceModelWithNullConventionsDocumentContext(Document apiDocument)
+                : base(new DocumentContextOptions<OrderServiceModelWithNullConventionsDocumentContext>(), apiDocument)
             { }
             #endregion
 
@@ -1089,56 +1086,56 @@ namespace JsonApiFramework.Tests
             {
                 Contract.Requires(serviceModelBuilder != null);
 
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventionSet());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
             }
             #endregion
         }
 
-        private class OrderServiceModelWithConventionSetDocumentContext : DocumentContextBase
+        private class OrderServiceModelWithConventionsDocumentContext : DocumentContextBase
         {
             #region Constructors
-            public OrderServiceModelWithConventionSetDocumentContext()
-                : base(new DocumentContextOptions<OrderServiceModelWithConventionSetDocumentContext>())
+            public OrderServiceModelWithConventionsDocumentContext()
+                : base(new DocumentContextOptions<OrderServiceModelWithConventionsDocumentContext>())
             { }
 
-            public OrderServiceModelWithConventionSetDocumentContext(Document apiDocument)
-                : base(new DocumentContextOptions<OrderServiceModelWithConventionSetDocumentContext>(), apiDocument)
+            public OrderServiceModelWithConventionsDocumentContext(Document apiDocument)
+                : base(new DocumentContextOptions<OrderServiceModelWithConventionsDocumentContext>(), apiDocument)
             { }
             #endregion
 
             #region DocumentContextBase Overrides
-            protected internal override void OnConventionSetCreating(IConventionSetBuilder conventionSetBuilder)
+            protected internal override void OnConventionsCreating(IConventionsBuilder conventionsBuilder)
             {
-                Contract.Requires(conventionSetBuilder != null);
+                Contract.Requires(conventionsBuilder != null);
 
-                conventionSetBuilder.ApiAttributeNamingConventions()
-                                    .AddStandardMemberNamingConvention();
+                conventionsBuilder.ApiAttributeNamingConventions()
+                                  .AddStandardMemberNamingConvention();
 
-                conventionSetBuilder.ApiTypeNamingConventions()
-                                    .AddPluralNamingConvention()
-                                    .AddStandardMemberNamingConvention();
+                conventionsBuilder.ApiTypeNamingConventions()
+                                  .AddPluralNamingConvention()
+                                  .AddStandardMemberNamingConvention();
 
-                conventionSetBuilder.ResourceTypeConventions()
-                                    .AddPropertyDiscoveryConvention();
+                conventionsBuilder.ResourceTypeConventions()
+                                  .AddPropertyDiscoveryConvention();
             }
 
             protected internal override void OnServiceModelCreating(IServiceModelBuilder serviceModelBuilder)
             {
                 Contract.Requires(serviceModelBuilder != null);
 
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventionSet());
-                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventionSet());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
             }
             #endregion
         }

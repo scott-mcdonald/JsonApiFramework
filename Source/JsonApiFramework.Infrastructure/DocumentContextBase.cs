@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.Internal;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework
 {
@@ -162,7 +162,7 @@ namespace JsonApiFramework
         protected internal virtual void OnConfiguring(IDocumentContextOptionsBuilder optionsBuilder)
         { }
 
-        protected internal virtual void OnConventionSetCreating(IConventionSetBuilder conventionSetBuilder)
+        protected internal virtual void OnConventionsCreating(IConventionsBuilder conventionsBuilder)
         { }
 
         protected internal virtual void OnServiceModelCreating(IServiceModelBuilder serviceModelBuilder)

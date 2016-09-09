@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
     internal class ResourceTypeConventionsBuilder : IResourceTypeConventionsBuilder
     {

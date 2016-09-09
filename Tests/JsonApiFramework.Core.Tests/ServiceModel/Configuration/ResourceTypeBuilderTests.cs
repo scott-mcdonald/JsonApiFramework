@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
@@ -31,7 +31,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         #region Test Methods
         [Theory]
         [MemberData("CreateResourceTypeTestData")]
-        public void TestResourceTypeBuilderCreateResourceType(string name, IResourceTypeFactory resourceTypeFactory, ConventionSet conventionSet, IResourceType expectedResourceType)
+        public void TestResourceTypeBuilderCreateResourceType(string name, IResourceTypeFactory resourceTypeFactory, IConventions conventions, IResourceType expectedResourceType)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -52,7 +52,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             this.Output.WriteLine(expectedJson);
 
             // Act
-            var actualResourceType = resourceTypeFactory.Create(conventionSet);
+            var actualResourceType = resourceTypeFactory.Create(conventions);
 
             this.Output.WriteLine(String.Empty);
 
@@ -70,29 +70,29 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         // ReSharper disable UnusedMember.Global
         public static readonly IEnumerable<object[]> CreateResourceTypeTestData = new[]
             {
-                new object[] {"WithArticleResourceTypeWithNullConventionSet", new TestConfigurations.ArticleConfigurationWithNullConventionSet(), null, ClrSampleData.ArticleResourceType},
-                new object[] {"WithBlogResourceTypeWithNullConventionSet", new TestConfigurations.BlogConfigurationWithNullConventionSet(), null, ClrSampleData.BlogResourceType},
-                new object[] {"WithCommentResourceTypeWithNullConventionSet", new TestConfigurations.CommentConfigurationWithNullConventionSet(), null, ClrSampleData.CommentResourceType},
-                new object[] {"WithOrderResourceTypeWithNullConventionSet", new TestConfigurations.OrderConfigurationWithNullConventionSet(), null, ClrSampleData.OrderResourceType},
-                new object[] {"WithOrderItemResourceTypeWithNullConventionSet", new TestConfigurations.OrderItemConfigurationWithNullConventionSet(), null, ClrSampleData.OrderItemResourceType},
-                new object[] {"WithPaymentResourceTypeWithNullConventionSet", new TestConfigurations.PaymentConfigurationWithNullConventionSet(), null, ClrSampleData.PaymentResourceType},
-                new object[] {"WithPersonResourceTypeWithNullConventionSet", new TestConfigurations.PersonConfigurationWithNullConventionSet(), null, ClrSampleData.PersonResourceType},
-                new object[] {"WithPosSystemResourceTypeWithNullConventionSet", new TestConfigurations.PosSystemConfigurationWithNullConventionSet(), null, ClrSampleData.PosSystemResourceType},
-                new object[] {"WithProductResourceTypeWithNullConventionSet", new TestConfigurations.ProductConfigurationWithNullConventionSet(), null, ClrSampleData.ProductResourceType},
-                new object[] {"WithStoreResourceTypeWithNullConventionSet", new TestConfigurations.StoreConfigurationWithNullConventionSet(), null, ClrSampleData.StoreResourceType},
-                new object[] {"WithStoreConfigurationResourceTypeWithNullConventionSet", new TestConfigurations.StoreConfigurationConfigurationWithNullConventionSet(), null, ClrSampleData.StoreConfigurationResourceType},
+                new object[] {"WithArticleResourceTypeWithNullConventions", new TestConfigurations.ArticleConfigurationWithNullConventions(), null, ClrSampleData.ArticleResourceType},
+                new object[] {"WithBlogResourceTypeWithNullConventions", new TestConfigurations.BlogConfigurationWithNullConventions(), null, ClrSampleData.BlogResourceType},
+                new object[] {"WithCommentResourceTypeWithNullConventions", new TestConfigurations.CommentConfigurationWithNullConventions(), null, ClrSampleData.CommentResourceType},
+                new object[] {"WithOrderResourceTypeWithNullConventions", new TestConfigurations.OrderConfigurationWithNullConventions(), null, ClrSampleData.OrderResourceType},
+                new object[] {"WithOrderItemResourceTypeWithNullConventions", new TestConfigurations.OrderItemConfigurationWithNullConventions(), null, ClrSampleData.OrderItemResourceType},
+                new object[] {"WithPaymentResourceTypeWithNullConventions", new TestConfigurations.PaymentConfigurationWithNullConventions(), null, ClrSampleData.PaymentResourceType},
+                new object[] {"WithPersonResourceTypeWithNullConventions", new TestConfigurations.PersonConfigurationWithNullConventions(), null, ClrSampleData.PersonResourceType},
+                new object[] {"WithPosSystemResourceTypeWithNullConventions", new TestConfigurations.PosSystemConfigurationWithNullConventions(), null, ClrSampleData.PosSystemResourceType},
+                new object[] {"WithProductResourceTypeWithNullConventions", new TestConfigurations.ProductConfigurationWithNullConventions(), null, ClrSampleData.ProductResourceType},
+                new object[] {"WithStoreResourceTypeWithNullConventions", new TestConfigurations.StoreConfigurationWithNullConventions(), null, ClrSampleData.StoreResourceType},
+                new object[] {"WithStoreConfigurationResourceTypeWithNullConventions", new TestConfigurations.StoreConfigurationConfigurationWithNullConventions(), null, ClrSampleData.StoreConfigurationResourceType},
 
-                new object[] {"WithArticleResourceTypeWithConventionSet", new TestConfigurations.ArticleConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ArticleResourceType},
-                new object[] {"WithBlogResourceTypeWithConventionSet", new TestConfigurations.BlogConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.BlogResourceType},
-                new object[] {"WithCommentResourceTypeWithConventionSet", new TestConfigurations.CommentConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.CommentResourceType},
-                new object[] {"WithOrderResourceTypeWithConventionSet", new TestConfigurations.OrderConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.OrderResourceType},
-                new object[] {"WithOrderItemResourceTypeWithConventionSet", new TestConfigurations.OrderItemConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.OrderItemResourceType},
-                new object[] {"WithPaymentResourceTypeWithConventionSet", new TestConfigurations.PaymentConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.PaymentResourceType},
-                new object[] {"WithPersonResourceTypeWithConventionSet", new TestConfigurations.PersonConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.PersonResourceType},
-                new object[] {"WithPosSystemResourceTypeWithConventionSet", new TestConfigurations.PosSystemConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.PosSystemResourceType},
-                new object[] {"WithProductResourceTypeWithConventionSet", new TestConfigurations.ProductConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ProductResourceType},
-                new object[] {"WithStoreResourceTypeWithConventionSet", new TestConfigurations.StoreConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.StoreResourceType},
-                new object[] {"WithStoreConfigurationResourceTypeWithConventionSet", new TestConfigurations.StoreConfigurationConfigurationWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.StoreConfigurationResourceType},
+                new object[] {"WithArticleResourceTypeWithConventions", new TestConfigurations.ArticleConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ArticleResourceType},
+                new object[] {"WithBlogResourceTypeWithConventions", new TestConfigurations.BlogConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.BlogResourceType},
+                new object[] {"WithCommentResourceTypeWithConventions", new TestConfigurations.CommentConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.CommentResourceType},
+                new object[] {"WithOrderResourceTypeWithConventions", new TestConfigurations.OrderConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.OrderResourceType},
+                new object[] {"WithOrderItemResourceTypeWithConventions", new TestConfigurations.OrderItemConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.OrderItemResourceType},
+                new object[] {"WithPaymentResourceTypeWithConventions", new TestConfigurations.PaymentConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PaymentResourceType},
+                new object[] {"WithPersonResourceTypeWithConventions", new TestConfigurations.PersonConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PersonResourceType},
+                new object[] {"WithPosSystemResourceTypeWithConventions", new TestConfigurations.PosSystemConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PosSystemResourceType},
+                new object[] {"WithProductResourceTypeWithConventions", new TestConfigurations.ProductConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ProductResourceType},
+                new object[] {"WithStoreResourceTypeWithConventions", new TestConfigurations.StoreConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.StoreResourceType},
+                new object[] {"WithStoreConfigurationResourceTypeWithConventions", new TestConfigurations.StoreConfigurationConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.StoreConfigurationResourceType},
             };
         // ReSharper restore UnusedMember.Global
         #endregion

@@ -39,7 +39,7 @@
     - Xamarin.iOS (Classic)
 - Fast reading and writing of JSON API documents
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
-    - Internally uses zero reflection (slow), instead favoring compiled .NET expressions for **fast conversion** between JSON API and .NET CLR resources
+    - Internally uses little reflection (slow), instead favoring compiled .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
 Extreme high code quality with **1,800+ unit tests**. Production ready.
 

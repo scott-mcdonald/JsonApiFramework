@@ -77,7 +77,7 @@
     <Compile Include="Reflection\TypeExtensionsTests.cs" />
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilderTests.cs" />
     <Compile Include="ServiceModel\Configuration\ServiceModelBuilderTests.cs" />
-    <Compile Include="ServiceModel\Conventions\NamingConventionTests.cs" />
+    <Compile Include="Conventions\NamingConventionTests.cs" />
     <Compile Include="ServiceModel\ResourceTypeTests.cs" />
     <Compile Include="ServiceModel\ServiceModelTests.cs" />
   </ItemGroup>

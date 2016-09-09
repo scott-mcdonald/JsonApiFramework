@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.ServiceModel.Conventions;
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -36,9 +36,9 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Factory Methods
-        internal IHypermediaInfo CreateHypermediaInfo(ConventionSet conventionSet)
+        internal IHypermediaInfo CreateHypermediaInfo(IConventions conventions)
         {
-            var hypermediaInfo = this.HypermediaInfoFactory(conventionSet);
+            var hypermediaInfo = this.HypermediaInfoFactory(conventions);
 
             if (this.HypermediaInfoModifierCollection == null)
                 return hypermediaInfo;
@@ -54,22 +54,22 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Func<ConventionSet, HypermediaInfo> HypermediaInfoFactory { get; set; }
+        private Func<IConventions, HypermediaInfo> HypermediaInfoFactory { get; set; }
         private IList<Action<HypermediaInfo>> HypermediaInfoModifierCollection { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<ConventionSet, HypermediaInfo> CreateHypermediaInfoFactory(Type clrResourceType)
+        private static Func<IConventions, HypermediaInfo> CreateHypermediaInfoFactory(Type clrResourceType)
         {
             Contract.Requires(clrResourceType != null);
 
-            Func<ConventionSet, HypermediaInfo> hypermediaInfoFactory = (conventionSet) =>
+            Func<IConventions, HypermediaInfo> hypermediaInfoFactory = (conventions) =>
                 {
                     var apiCollectionPathSegment = clrResourceType.Name;
-                    if (conventionSet != null && conventionSet.ApiTypeNamingConventions != null)
+                    if (conventions != null && conventions.ApiTypeNamingConventions != null)
                     {
-                        apiCollectionPathSegment = conventionSet.ApiTypeNamingConventions.Aggregate(apiCollectionPathSegment, (current, namingConvention) => namingConvention.Apply(current));
+                        apiCollectionPathSegment = conventions.ApiTypeNamingConventions.Aggregate(apiCollectionPathSegment, (current, namingConvention) => namingConvention.Apply(current));
                     }
 
                     var hypermediaInfo = new HypermediaInfo

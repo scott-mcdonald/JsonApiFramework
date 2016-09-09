@@ -4,8 +4,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel.Configuration.Internal;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework.ServiceModel.Configuration
 {
@@ -28,9 +28,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
         #endregion
 
         #region IServiceModelFactory Implementation
-        public IServiceModel Create(ConventionSet conventionSet)
+        public IServiceModel Create(IConventions conventions)
         {
-            var resourceTypes = this.CreateResourceTypes(conventionSet);
+            var resourceTypes = this.CreateResourceTypes(conventions);
             var serviceModel = new ServiceModel.Internal.ServiceModel(resourceTypes);
             return serviceModel;
         }
@@ -38,11 +38,11 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private IEnumerable<IResourceType> CreateResourceTypes(ConventionSet conventionSet)
+        private IEnumerable<IResourceType> CreateResourceTypes(IConventions conventions)
         {
             var resourceTypeFactoryCollection = _configurations.GetResourceTypeFactoryCollection();
             var resourceTypes = resourceTypeFactoryCollection
-                .Select(x => x.Create(conventionSet))
+                .Select(x => x.Create(conventions))
                 .ToList();
             return resourceTypes;
         }

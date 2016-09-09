@@ -4,9 +4,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework.Internal
 {
@@ -16,7 +16,7 @@ namespace JsonApiFramework.Internal
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Core conventions.</summary>
-        public ConventionSet ConventionSet { get; set; }
+        public IConventions Conventions { get; set; }
 
         /// <summary>Core service model.</summary>
         public IServiceModel ServiceModel { get; set; }
@@ -28,7 +28,7 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(configurationErrorMessages != null);
 
-            this.ValidateConventionSetConfiguration(configurationErrorMessages);
+            this.ValidateConventionsConfiguration(configurationErrorMessages);
             this.ValidateServiceModelConfiguration(configurationErrorMessages);
            
         }
@@ -36,11 +36,11 @@ namespace JsonApiFramework.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Validate Methods
-        private void ValidateConventionSetConfiguration(ICollection<string> configurationErrorMessages)
+        private void ValidateConventionsConfiguration(ICollection<string> configurationErrorMessages)
         {
             Contract.Requires(configurationErrorMessages != null);
 
-            // ServiceModel is optional.
+            // Conventions are optional.
         }
 
         private void ValidateServiceModelConfiguration(ICollection<string> configurationErrorMessages)

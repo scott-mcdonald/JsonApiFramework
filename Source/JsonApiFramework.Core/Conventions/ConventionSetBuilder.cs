@@ -1,14 +1,14 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using JsonApiFramework.ServiceModel.Conventions.Internal;
+using JsonApiFramework.Conventions.Internal;
 
-namespace JsonApiFramework.ServiceModel.Conventions
+namespace JsonApiFramework.Conventions
 {
-    public class ConventionSetBuilder : IConventionSetBuilder, IConventionSetFactory
+    public class ConventionsBuilder : IConventionsBuilder, IConventionsFactory
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IConventionSetBuilder Implementation
+        #region IConventionsBuilder Implementation
         public INamingConventionsBuilder ApiAttributeNamingConventions()
         {
             this.ApiAttributeNamingConventionsBuilder = this.ApiAttributeNamingConventionsBuilder ?? new NamingConventionsBuilder();
@@ -28,8 +28,8 @@ namespace JsonApiFramework.ServiceModel.Conventions
         }
         #endregion
 
-        #region IConventionSetFactory Implementation
-        public ConventionSet Create()
+        #region IConventionsFactory Implementation
+        public IConventions Create()
         {
             var apiAttributeNamingConventions = this.ApiAttributeNamingConventionsBuilder != null
                 ? this.ApiAttributeNamingConventionsBuilder.Build()
@@ -43,13 +43,13 @@ namespace JsonApiFramework.ServiceModel.Conventions
                 ? this.ResourceTypeConventionsBuilder.Build()
                 : null;
 
-            var conventionSet = new ConventionSet
+            var conventions = new JsonApiFramework.Conventions.Internal.Conventions
                 {
                     ApiAttributeNamingConventions = apiAttributeNamingConventions,
                     ApiTypeNamingConventions = apiTypeNamingConventions,
                     ResourceTypeConventions = resourceTypeConventions
                 };
-            return conventionSet;
+            return conventions;
         }
         #endregion
 

@@ -11,7 +11,7 @@ using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel.Configuration;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
     /// <summary>
     /// Discovery and configuration of resource public properties by convention

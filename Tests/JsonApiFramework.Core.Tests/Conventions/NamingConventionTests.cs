@@ -4,14 +4,14 @@
 using System;
 using System.Collections.Generic;
 
-using JsonApiFramework.ServiceModel.Conventions;
-using JsonApiFramework.ServiceModel.Conventions.Internal;
+using JsonApiFramework.Conventions;
+using JsonApiFramework.Conventions.Internal;
 using JsonApiFramework.XUnit;
 
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.ServiceModel.Conventions
+namespace JsonApiFramework.Tests.Conventions
 {
     public class NamingConventionTests : XUnitTest
     {

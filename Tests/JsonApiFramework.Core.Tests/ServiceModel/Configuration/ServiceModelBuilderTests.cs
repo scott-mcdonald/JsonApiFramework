@@ -2,19 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 using System;
 using System.Collections.Generic;
-
+using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -33,7 +30,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         #region Test Methods
         [Theory]
         [MemberData("CreateServiceModelTestData")]
-        public void TestServiceModelBuilderCreateServiceModel(string name, IServiceModelFactory serviceModelFactory, ConventionSet conventionSet, IServiceModel expectedServiceModel)
+        public void TestServiceModelBuilderCreateServiceModel(string name, IServiceModelFactory serviceModelFactory, IConventions conventions, IServiceModel expectedServiceModel)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -54,7 +51,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             this.Output.WriteLine(expectedJson);
 
             // Act
-            var actualServiceModel = serviceModelFactory.Create(conventionSet);
+            var actualServiceModel = serviceModelFactory.Create(conventions);
 
             this.Output.WriteLine(String.Empty);
 
@@ -74,25 +71,25 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             {
                 new object[] {"WithEmptyServiceModel", new ServiceModelBuilder(), null, ClrSampleData.ServiceModelEmpty},
 
-                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithDirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventions", new WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithDirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventions", new WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
 
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithNullConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventionSet(), null, ClrSampleData.ServiceModelWithOrderResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventions", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventions", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithNullConventions", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventions(), null, ClrSampleData.ServiceModelWithOrderResourceTypes},
 
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithConventionSet", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithOnlyArticleResourceType},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithBlogResourceTypes},
-                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithConventionSet", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventionSet(), TestConfigurations.CreateConventionSet(), ClrSampleData.ServiceModelWithOrderResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithConventions", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ServiceModelWithOnlyArticleResourceType},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithConventions", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithIndirectConfigurationOfServiceModelWithOrderResourceTypesWithConventions", new WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ServiceModelWithOrderResourceTypes},
             };
         // ReSharper restore UnusedMember.Global
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Configurations With Null ConventionSet
-        private class WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet : ServiceModelBuilder
+        #region Configurations With Null Conventions
+        private class WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions : ServiceModelBuilder
         {
-            public WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet()
+            public WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions()
             {
                 // Hypermedia
                 this.Resource<Article>()
@@ -137,9 +134,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             }
         }
 
-        private class WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet : ServiceModelBuilder
+        private class WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions : ServiceModelBuilder
         {
-            public WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet()
+            public WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions()
             {
                 this.ConfigureArticleResourceType();
                 this.ConfigureBlogResourceType();
@@ -311,71 +308,71 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             }
         }
 
-        private class WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet : ServiceModelBuilder
+        private class WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventionSet()
+            public WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions()
             {
-                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventionSet());
+                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventions());
             }
         }
 
-        private class WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet : ServiceModelBuilder
+        private class WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventionSet()
+            public WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions()
             {
-                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventionSet());
+                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventions());
             }
         }
 
-        private class WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventionSet : ServiceModelBuilder
+        private class WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventionSet()
+            public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventions()
             {
-                this.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventionSet());
-                this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventionSet());
+                this.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
             }
         }
         #endregion
 
-        #region Configurations With ConventionSet
-        private class WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventionSet : ServiceModelBuilder
+        #region Configurations With Conventions
+        private class WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventionSet()
+            public WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithConventions()
             {
-                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventionSet());
+                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventions());
             }
         }
 
-        private class WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventionSet : ServiceModelBuilder
+        private class WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventionSet()
+            public WithIndirectConfigurationServiceModelWithBlogResourceTypesWithConventions()
             {
-                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventionSet());
+                this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventions());
             }
         }
 
-        private class WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventionSet : ServiceModelBuilder
+        private class WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventions : ServiceModelBuilder
         {
-            public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventionSet()
+            public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventions()
             {
-                this.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventionSet());
-                this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventionSet());
+                this.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
             }
         }
         #endregion

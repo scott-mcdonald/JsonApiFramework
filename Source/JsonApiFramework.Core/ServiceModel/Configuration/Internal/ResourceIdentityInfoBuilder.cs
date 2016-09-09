@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.ServiceModel.Conventions;
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -38,9 +38,9 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Factory Methods
-        internal IResourceIdentityInfo CreateResourceIdentityInfo(ConventionSet conventionSet)
+        internal IResourceIdentityInfo CreateResourceIdentityInfo(IConventions conventions)
         {
-            var resourceIdentityInfo = this.ResourceIdentityInfoFactory(conventionSet);
+            var resourceIdentityInfo = this.ResourceIdentityInfoFactory(conventions);
 
             if (this.ResourceIdentityInfoModifierCollection == null)
                 return resourceIdentityInfo;
@@ -56,24 +56,24 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Func<ConventionSet, ResourceIdentityInfo> ResourceIdentityInfoFactory { get; set; }
+        private Func<IConventions, ResourceIdentityInfo> ResourceIdentityInfoFactory { get; set; }
         private IList<Action<ResourceIdentityInfo>> ResourceIdentityInfoModifierCollection { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<ConventionSet, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrResourceType, string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrResourceType, string clrPropertyName, Type clrPropertyType)
         {
             Contract.Requires(clrResourceType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            Func<ConventionSet, ResourceIdentityInfo> resourceIdentityInfoFactory = (conventionSet) =>
+            Func<IConventions, ResourceIdentityInfo> resourceIdentityInfoFactory = (conventions) =>
                 {
                     var apiType = clrResourceType.Name;
-                    if (conventionSet != null && conventionSet.ApiTypeNamingConventions != null)
+                    if (conventions != null && conventions.ApiTypeNamingConventions != null)
                     {
-                        apiType = conventionSet.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
+                        apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
                     }
 
                     var resourceIdentityInfo = new ResourceIdentityInfo

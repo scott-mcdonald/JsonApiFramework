@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel.Configuration.Internal;
-using JsonApiFramework.ServiceModel.Conventions;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration
@@ -115,19 +115,19 @@ namespace JsonApiFramework.ServiceModel.Configuration
         #endregion
 
         #region IResourceTypeFactory Implementation
-        public IResourceType Create(ConventionSet conventionSet)
+        public IResourceType Create(IConventions conventions)
         {
             // Aplly all built-in conventions.
             this.ApplyBuiltInConventions();
 
             // Apply all ResourceTypeConfiguration level conventions if any.
-            this.ApplyResourceTypeConventions(conventionSet);
+            this.ApplyResourceTypeConventions(conventions);
 
             // Create all the ResourceType parameters needed to construct a ResourceType metadata object.
             var clrResourceType = this.ClrResourceType;
-            var hypermediaInfo = this.CreateHypermediaInfo(conventionSet);
-            var resourceIdentityInfo = this.CreateResourceIdentityInfo(conventionSet);
-            var attributesInfo = this.CreateAttributesInfo(conventionSet);
+            var hypermediaInfo = this.CreateHypermediaInfo(conventions);
+            var resourceIdentityInfo = this.CreateResourceIdentityInfo(conventions);
+            var attributesInfo = this.CreateAttributesInfo(conventions);
             var relationshipsInfo = this.CreateRelationshipsInfo();
             var linksInfo = this.CreateLinksInfo();
             var metaInfo = this.CreateMetaInfo();
@@ -181,19 +181,19 @@ namespace JsonApiFramework.ServiceModel.Configuration
             this.Hypermedia();
         }
 
-        private void ApplyResourceTypeConventions(ConventionSet conventionSet)
+        private void ApplyResourceTypeConventions(IConventions conventions)
         {
-            if (conventionSet == null)
+            if (conventions == null)
                 return;
 
-            var resourceTypeConventions = conventionSet.ResourceTypeConventions ?? Enumerable.Empty<IResourceTypeConvention>();
+            var resourceTypeConventions = conventions.ResourceTypeConventions ?? Enumerable.Empty<IResourceTypeConvention>();
             foreach (var resourceTypeConvention in resourceTypeConventions)
             {
                 resourceTypeConvention.Apply(this);
             }
         }
 
-        private IHypermediaInfo CreateHypermediaInfo(ConventionSet conventionSet)
+        private IHypermediaInfo CreateHypermediaInfo(IConventions conventions)
         {
             if (this.HypermediaInfoBuilder == null)
             {
@@ -204,11 +204,11 @@ namespace JsonApiFramework.ServiceModel.Configuration
                 throw new ServiceModelException(detail);
             }
 
-            var hypermediaInfo = this.HypermediaInfoBuilder.CreateHypermediaInfo(conventionSet);
+            var hypermediaInfo = this.HypermediaInfoBuilder.CreateHypermediaInfo(conventions);
             return hypermediaInfo;
         }
 
-        private IResourceIdentityInfo CreateResourceIdentityInfo(ConventionSet conventionSet)
+        private IResourceIdentityInfo CreateResourceIdentityInfo(IConventions conventions)
         {
             if (this.ResourceIdentityInfoBuilder == null)
             {
@@ -219,11 +219,11 @@ namespace JsonApiFramework.ServiceModel.Configuration
                 throw new ServiceModelException(detail);
             }
 
-            var resourceIdentityInfo = this.ResourceIdentityInfoBuilder.CreateResourceIdentityInfo(conventionSet);
+            var resourceIdentityInfo = this.ResourceIdentityInfoBuilder.CreateResourceIdentityInfo(conventions);
             return resourceIdentityInfo;
         }
 
-        private IAttributesInfo CreateAttributesInfo(ConventionSet conventionSet)
+        private IAttributesInfo CreateAttributesInfo(IConventions conventions)
         {
             this.AttributesInfoBuilder = this.AttributesInfoBuilder ?? new AttributesInfoBuilder<TResource>();
 
@@ -233,7 +233,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
                                                   {
                                                       var clrPropertyName = x;
                                                       var attributeInfoConfiguration = this.AttributeInfoBuilderDictionary.Single(y => y.Key == clrPropertyName).Value;
-                                                      var attributeInfo = attributeInfoConfiguration.CreateAttributeInfo(conventionSet);
+                                                      var attributeInfo = attributeInfoConfiguration.CreateAttributeInfo(conventions);
                                                       return attributeInfo;
                                                   })
                                               .ToList();

@@ -3,12 +3,12 @@
 
 using System.Collections.Generic;
 
-namespace JsonApiFramework.ServiceModel.Conventions
+namespace JsonApiFramework.Conventions.Internal
 {
-    public class ConventionSet
+    internal class Conventions : IConventions
     {
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
+        #region IConventions Implementation
         public IEnumerable<INamingConvention> ApiAttributeNamingConventions { get; internal set; }
         public IEnumerable<INamingConvention> ApiTypeNamingConventions { get; internal set; }
 

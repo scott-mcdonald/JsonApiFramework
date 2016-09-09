@@ -3,9 +3,9 @@
 
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.Internal;
 using JsonApiFramework.ServiceModel;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework
 {
@@ -16,12 +16,12 @@ namespace JsonApiFramework
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IDocumentContextOptionsBuilder UseConventionSet(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, ConventionSet conventionSet)
+        public static IDocumentContextOptionsBuilder UseConventions(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IConventions conventions)
         {
             Contract.Requires(documentContextOptionsBuilder != null);
-            Contract.Requires(conventionSet != null);
+            Contract.Requires(conventions != null);
 
-            documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.ConventionSet = conventionSet);
+            documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
             return documentContextOptionsBuilder;
         }
 

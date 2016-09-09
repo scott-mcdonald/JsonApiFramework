@@ -3,8 +3,8 @@
 
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework.Internal
 {
@@ -12,13 +12,13 @@ namespace JsonApiFramework.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static ConventionSet GetConventionSet(this IDocumentContextImplementation implementation)
+        public static IConventions GetConventions(this IDocumentContextImplementation implementation)
         {
             Contract.Requires(implementation != null);
 
             var coreExtension = implementation.Options.GetExtension<CoreDocumentContextExtension>();
-            var conventionSet = coreExtension.ConventionSet;
-            return conventionSet;
+            var conventions = coreExtension.Conventions;
+            return conventions;
         }
 
         public static IServiceModel GetServiceModel(this IDocumentContextImplementation implementation)
@@ -30,12 +30,12 @@ namespace JsonApiFramework.Internal
             return serviceModel;
         }
 
-        public static void SetConventionSet(this IDocumentContextImplementation implementation, ConventionSet conventionSet)
+        public static void SetConventions(this IDocumentContextImplementation implementation, IConventions conventions)
         {
             Contract.Requires(implementation != null);
-            Contract.Requires(conventionSet != null);
+            Contract.Requires(conventions != null);
 
-            implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.ConventionSet = conventionSet);
+            implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
         }
 
         public static void SetServiceModel(this IDocumentContextImplementation implementation, IServiceModel serviceModel)

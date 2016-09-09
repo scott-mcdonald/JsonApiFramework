@@ -5,10 +5,10 @@ using System;
 
 using Humanizer;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
-    /// <summary>Naming convention that singularizes the name.</summary>
-    internal class SingularNamingConvention : INamingConvention
+    /// <summary>Naming convention that lowercases the name.</summary>
+    internal class LowerCaseNamingConvention : INamingConvention
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region INamingConvention Implementation
@@ -17,7 +17,7 @@ namespace JsonApiFramework.ServiceModel.Conventions.Internal
             if (String.IsNullOrWhiteSpace(oldName))
                 return oldName;
 
-            var newName = oldName.Singularize(inputIsKnownToBePlural:false);
+            var newName = oldName.Transform(To.LowerCase);
             return newName;
         }
         #endregion

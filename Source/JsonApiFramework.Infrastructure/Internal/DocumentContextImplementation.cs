@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
-
+using JsonApiFramework.Conventions;
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace JsonApiFramework.Internal
 {
@@ -65,7 +64,7 @@ namespace JsonApiFramework.Internal
             this.DoPreConfiguration(documentContextBase);
 
             this.ConfigureOptions(documentContextBase);
-            this.ConfigureConventionSet(documentContextBase);
+            this.ConfigureConventions(documentContextBase);
             this.ConfigureServiceModel(documentContextBase);
 
             this.DoPostConfiguration(documentContextBase);
@@ -122,21 +121,20 @@ namespace JsonApiFramework.Internal
             documentContextBase.OnConfiguring(optionsBuilder);
         }
 
-        private void ConfigureConventionSet(DocumentContextBase documentContextBase)
+        private void ConfigureConventions(DocumentContextBase documentContextBase)
         {
             Contract.Requires(documentContextBase != null);
 
-            // If we already have the service model or service model conventions,
-            // no need to create the service model convetions.
-            if (this.GetServiceModel() != null || this.GetConventionSet() != null)
+            // If we already have the conventions, no need to create the conventions.
+            if (this.GetConventions() != null)
                 return;
 
-            var conventionSetBuilder = new ConventionSetBuilder();
+            var conventionsBuilder = new ConventionsBuilder();
 
-            documentContextBase.OnConventionSetCreating(conventionSetBuilder);
+            documentContextBase.OnConventionsCreating(conventionsBuilder);
 
-            var conventionSet = conventionSetBuilder.Create();
-            this.SetConventionSet(conventionSet);
+            var conventions = conventionsBuilder.Create();
+            this.SetConventions(conventions);
         }
 
         private void ConfigureServiceModel(DocumentContextBase documentContextBase)
@@ -151,8 +149,8 @@ namespace JsonApiFramework.Internal
 
             documentContextBase.OnServiceModelCreating(serviceModelBuilder);
 
-            var conventionSet = this.GetConventionSet();
-            var serviceModel = serviceModelBuilder.Create(conventionSet);
+            var conventions = this.GetConventions();
+            var serviceModel = serviceModelBuilder.Create(conventions);
             if (serviceModel.ResourceTypes.Any() == false)
             {
                 // Do not accept an empty service model, this will cause an InternalException

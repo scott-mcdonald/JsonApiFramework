@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Conventions\IConventions.cs" />
     <Compile Include="JsonApi\ApiProperty.cs" />
     <Compile Include="JsonApi\ApiObject.cs" />
     <Compile Include="JsonApi\ApiObjectConverter.cs" />
@@ -164,23 +165,23 @@
     <Compile Include="ServiceModel\Configuration\IServiceModelFactory.cs" />
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\ServiceModelBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\ConventionSet.cs" />
-    <Compile Include="ServiceModel\Conventions\ConventionSetBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\IConventionSetBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\IConventionSetFactory.cs" />
-    <Compile Include="ServiceModel\Conventions\INamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\INamingConventionsBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\HypermediaDiscoveryConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\LowercaseNamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\NamingConventionsBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\PluralNamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\PropertyDiscoveryConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\ResourceTypeConventionsBuilder.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\SingularNamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\StandardMemberNamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\Internal\UpperCaseNamingConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\IResourceTypeConvention.cs" />
-    <Compile Include="ServiceModel\Conventions\IResourceTypeConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\Conventions.cs" />
+    <Compile Include="Conventions\ConventionSetBuilder.cs" />
+    <Compile Include="Conventions\IConventionsBuilder.cs" />
+    <Compile Include="Conventions\IConventionsFactory.cs" />
+    <Compile Include="Conventions\INamingConvention.cs" />
+    <Compile Include="Conventions\INamingConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\HypermediaDiscoveryConvention.cs" />
+    <Compile Include="Conventions\Internal\LowercaseNamingConvention.cs" />
+    <Compile Include="Conventions\Internal\NamingConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\PluralNamingConvention.cs" />
+    <Compile Include="Conventions\Internal\PropertyDiscoveryConvention.cs" />
+    <Compile Include="Conventions\Internal\ResourceTypeConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\SingularNamingConvention.cs" />
+    <Compile Include="Conventions\Internal\StandardMemberNamingConvention.cs" />
+    <Compile Include="Conventions\Internal\UpperCaseNamingConvention.cs" />
+    <Compile Include="Conventions\IResourceTypeConvention.cs" />
+    <Compile Include="Conventions\IResourceTypeConventionsBuilder.cs" />
     <Compile Include="ServiceModel\Converters\AttributeInfoConverter.cs" />
     <Compile Include="ServiceModel\Converters\AttributesInfoConverter.cs" />
     <Compile Include="ServiceModel\Converters\HypermediaInfoConverter.cs" />

@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.ServiceModel.Configuration;
 
-namespace JsonApiFramework.ServiceModel.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal
 {
     /// <summary>
     /// Discovery and configuration of the hypermedia metadata of a CLR resource.

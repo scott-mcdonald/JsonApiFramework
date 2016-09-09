@@ -98,7 +98,7 @@ namespace JsonApiFramework.Client.Internal
         {
             // Build a JSON API relationship from the given relation name and CLR related resource identifier.
             var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationship(rel);
+            var relationship = resourceType.GetRelationshipInfo(rel);
 
             var toCardinality = relationship.ToCardinality;
             switch (toCardinality)
@@ -119,7 +119,7 @@ namespace JsonApiFramework.Client.Internal
         {
             // Build a JSON API relationship from the given relation name and CLR related resource identifier.
             var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationship(rel);
+            var relationship = resourceType.GetRelationshipInfo(rel);
 
             var toClrType = relationship.ToClrType;
 
@@ -156,7 +156,7 @@ namespace JsonApiFramework.Client.Internal
         {
             // Build a JSON API relationship from the given relation name and CLR related resource identifier collection.
             var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationship(rel);
+            var relationship = resourceType.GetRelationshipInfo(rel);
 
             var toClrType = relationship.ToClrType;
 
@@ -172,7 +172,7 @@ namespace JsonApiFramework.Client.Internal
             {
                 case RelationshipCardinality.ToOne:
                     {
-                        var clrResourceTypeName = resourceType.ClrResourceType.Name;
+                        var clrResourceTypeName = resourceType.ClrType.Name;
                         var detail = ClientErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
                                                        .FormatWith(clrResourceTypeName, rel);
                         throw new DocumentBuildException(detail);

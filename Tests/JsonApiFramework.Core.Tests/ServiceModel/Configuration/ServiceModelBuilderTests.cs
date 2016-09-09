@@ -1,7 +1,9 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+
 using System;
 using System.Collections.Generic;
+
 using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
@@ -10,8 +12,10 @@ using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -43,7 +47,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                             (JsonConverter)new StringEnumConverter()
                         },
                     Formatting = Formatting.Indented,
-                    NullValueHandling = NullValueHandling.Ignore
+                    NullValueHandling = NullValueHandling.Include
                 };
 
             var expectedJson = expectedServiceModel.ToJson(serializerSettings);
@@ -331,6 +335,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         {
             public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithNullConventions()
             {
+                this.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithNullConventions());
+
                 this.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
@@ -366,6 +373,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         {
             public WithIndirectConfigurationServiceModelWithOrderResourceTypesWithConventions()
             {
+                this.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithConventions());
+
                 this.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventions());

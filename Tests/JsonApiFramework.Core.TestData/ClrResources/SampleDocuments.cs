@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Collections.Generic;
+using System.Linq;
 
 using JsonApiFramework.JsonApi;
 
@@ -318,9 +319,21 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.StoreConfigurationType,
                                     Id = "50-Configuration",
                                     Attributes = new ApiObject(
-                                        ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                        ApiProperty.Create("mailing-address", SampleStoreConfigurations.StoreConfiguration.MailingAddress),
-                                        ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)),
+                                            ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                                ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                .Select(x =>
+                                                    {
+                                                        var apiObject = new ApiObject(
+                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("number", x.Number));
+                                                        return apiObject;
+                                                    })
+                                                .ToArray())),
                                     Relationships = new Relationships
                                         {
                                             {

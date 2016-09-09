@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
-using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -13,9 +13,11 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public MetaInfoBuilder(string clrPropertyName = null)
+        public MetaInfoBuilder(Type clrDeclaringType, string clrPropertyName = null)
         {
-            var metaInfoFactory = CreateMetaInfoFactory(clrPropertyName);
+            Contract.Requires(clrDeclaringType != null);
+
+            var metaInfoFactory = CreateMetaInfoFactory(clrDeclaringType, clrPropertyName);
             this.MetaInfoFactory = metaInfoFactory;
         }
         #endregion
@@ -46,19 +48,17 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<MetaInfo> CreateMetaInfoFactory(string clrPropertyName)
+        private static Func<MetaInfo> CreateMetaInfoFactory(Type clrDeclaringType, string clrPropertyName)
         {
+            Contract.Requires(clrDeclaringType != null);
+
             Func<MetaInfo> metaInfoFactory = () =>
                 {
-                    if (String.IsNullOrWhiteSpace(clrPropertyName))
+                    var isNotPartOfResource = String.IsNullOrWhiteSpace(clrPropertyName);
+                    if (isNotPartOfResource)
                         return null;
 
-                    var metaInfo = new MetaInfo
-                        {
-                            // PropertyInfo Properties
-                            ClrPropertyName = clrPropertyName,
-                            ClrPropertyType = typeof(Meta)
-                        };
+                    var metaInfo = new MetaInfo(clrDeclaringType, clrPropertyName);
                     return metaInfo;
                 };
             return metaInfoFactory;

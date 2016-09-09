@@ -41,13 +41,14 @@ namespace JsonApiFramework.Internal.Dom
             if (clrResource == null)
                 return;
 
+            var serviceModel = domResource.GetServiceModel();
             var domAttributes = domResource.CreateAndAddNode(() => DomAttributes.Create());
 
-            var attributeCollection = resourceType.Attributes.Collection;
-            foreach (var attribute in attributeCollection)
+            var attributeInfoCollection = resourceType.AttributesInfo.Collection;
+            foreach (var attributeInfo in attributeInfoCollection)
             {
-                var localAttribute = attribute;
-                domAttributes.CreateAndAddNode(() => DomAttribute.CreateFromClrResource(localAttribute, clrResource));
+                var localAttributeInfo = attributeInfo;
+                domAttributes.CreateAndAddNode(() => DomAttribute.CreateFromClrResource(serviceModel, localAttributeInfo, clrResource));
             }
         }
 
@@ -57,8 +58,16 @@ namespace JsonApiFramework.Internal.Dom
             Contract.Requires(domAttributes != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrAttributeName) == false);
 
-            var attribute = resourceType.GetClrAttribute(clrAttributeName);
-            domAttributes.CreateAndAddNode(() => DomAttribute.CreateFromClrAttribute(attribute, clrAttribute));
+            if (clrAttribute == null)
+                return;
+
+            var serviceModel = domAttributes.GetServiceModel();
+            var attribute = resourceType.GetClrAttributeInfo(clrAttributeName);
+            var domAttribute = DomAttribute.CreateFromClrAttribute(serviceModel, attribute, clrAttribute);
+            if (domAttribute == null)
+                return;
+
+            domAttributes.Add(domAttribute);
         }
 
         public static void MapDomResourceToClrMeta(this IResourceType resourceType, object clrResource, DomReadWriteResource domResource)
@@ -108,7 +117,7 @@ namespace JsonApiFramework.Internal.Dom
                 var clrPropertyName = domAttributeNode.ClrPropertyName;
                 var clrPropertyValue = domAttributeNode.ClrAttribute;
 
-                var clrAttribute = resourceType.GetClrAttribute(clrPropertyName);
+                var clrAttribute = resourceType.GetClrAttributeInfo(clrPropertyName);
                 clrAttribute.SetClrProperty(clrResource, clrPropertyValue);
             }
         }

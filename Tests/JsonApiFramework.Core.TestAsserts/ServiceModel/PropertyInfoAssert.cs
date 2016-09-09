@@ -20,6 +20,7 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
             }
             Assert.NotNull(actual);
 
+            MemberInfoAssert.Equal(expected, actual);
             Assert.Equal(expected.ClrPropertyName, actual.ClrPropertyName);
             Assert.Equal(expected.ClrPropertyType, actual.ClrPropertyType);
         }

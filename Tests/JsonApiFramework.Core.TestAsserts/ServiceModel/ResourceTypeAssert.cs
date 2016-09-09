@@ -22,12 +22,13 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
             }
             Assert.NotNull(actual);
 
-            Assert.Equal(expected.ClrResourceType, actual.ClrResourceType);
-            HypermediaInfoAssert.Equal(expected.Hypermedia, actual.Hypermedia);
-            ResourceIdentityInfoAssert.Equal(expected.ResourceIdentity, actual.ResourceIdentity);
-            AttributesInfoAssert.Equal(expected.Attributes, actual.Attributes);
-            RelationshipsInfoAssert.Equal(expected.Relationships, actual.Relationships);
-            LinksInfoAssert.Equal(expected.Links, actual.Links);
+            Assert.Equal(expected.ClrType, actual.ClrType);
+            HypermediaInfoAssert.Equal(expected.HypermediaInfo, actual.HypermediaInfo);
+            ResourceIdentityInfoAssert.Equal(expected.ResourceIdentityInfo, actual.ResourceIdentityInfo);
+            AttributesInfoAssert.Equal(expected.AttributesInfo, actual.AttributesInfo);
+            RelationshipsInfoAssert.Equal(expected.RelationshipsInfo, actual.RelationshipsInfo);
+            LinksInfoAssert.Equal(expected.LinksInfo, actual.LinksInfo);
+            MetaInfoAssert.Equal(expected.MetaInfo, actual.MetaInfo);
         }
 
         public static void Equal(IEnumerable<IResourceType> expected, IEnumerable<IResourceType> actual)

@@ -77,18 +77,18 @@ namespace JsonApiFramework.Client.Internal
         #region Methods
         private void InitializeResource(IContainerNode<DomNodeType> domContainerNode, TResource clrResource)
         {
+            // Add the DOM read/write resource node to the DOM document.
+            var domReadWriteResource = DomReadWriteResource.Create();
+            domContainerNode.Add(domReadWriteResource);
+
             // Map the incoming CLR resource to the DOM resource node.
             var serviceModel = this.ServiceModel;
             var clrResourceType = typeof(TResource);
             var resourceType = serviceModel.GetResourceType(clrResourceType);
 
-            var domReadWriteResource = DomReadWriteResource.Create();
             resourceType.MapClrTypeToDomResource(domReadWriteResource);
             resourceType.MapClrIdToDomResource(domReadWriteResource, clrResource);
             resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
-
-            // Add the DOM read/write resource nodes to the DOM document.
-            domContainerNode.Add(domReadWriteResource);
 
             this.ResourceType = resourceType;
             this.DomReadWriteResource = domReadWriteResource;

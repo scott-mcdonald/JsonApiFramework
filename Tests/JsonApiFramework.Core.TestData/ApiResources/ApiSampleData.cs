@@ -159,7 +159,6 @@ namespace JsonApiFramework.TestData.ApiResources
 
         // Blog
         public const string BlogNamePropertyName = "name";
-        public const string BlogArticlesPropertyName = "articles";
 
         // Comment
         public const string CommentBodyPropertyName = "body";
@@ -834,6 +833,44 @@ namespace JsonApiFramework.TestData.ApiResources
                                         Date =
                                             new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
                                             new TimeSpan(42, 0, 42, 42),
+                                        By = "Jane Doe",
+                                    },
+                                ModifiedHistory = new []
+                                    {
+                                        new AuditAttributeItem
+                                            {
+                                                Date =
+                                                    new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
+                                                    new TimeSpan(1, 0, 10, 20),
+                                                By = "Jane Doe",
+                                            },
+                                        new AuditAttributeItem
+                                            {
+                                                Date =
+                                                    new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
+                                                    new TimeSpan(2, 0, 15, 59),
+                                                By = "Jane Doe",
+                                            },
+                                        new AuditAttributeItem
+                                            {
+                                                Date =
+                                                    new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
+                                                    new TimeSpan(3, 0, 24, 24),
+                                                By = "Jane Doe",
+                                            },
+                                        new AuditAttributeItem
+                                            {
+                                                Date =
+                                                    new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
+                                                    new TimeSpan(42, 0, 42, 42),
+                                                By = "Jane Doe",
+                                            }
+                                    },
+                                Deleted = new AuditAttributeItem
+                                    {
+                                        Date =
+                                            new DateTimeOffset(1968, 5, 20, 20, 2, 0, new TimeSpan(-4, 0, 0)) +
+                                            new TimeSpan(1000, 0, 0, 0),
                                         By = "Jane Doe",
                                     }
                             })

@@ -8,6 +8,7 @@ namespace JsonApiFramework.Conventions
         #region Properties
         IEnumerable<INamingConvention> ApiAttributeNamingConventions { get; }
         IEnumerable<INamingConvention> ApiTypeNamingConventions { get; }
+        IEnumerable<IComplexTypeConvention> ComplexTypeConventions { get; }
         IEnumerable<IResourceTypeConvention> ResourceTypeConventions { get; }
         #endregion
     }

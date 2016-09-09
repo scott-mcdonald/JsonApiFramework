@@ -82,7 +82,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
 
                 pathSegmentToTypeDictionary = pathSegmentToTypeDictionary ?? serviceModel
                     .ResourceTypes
-                    .ToDictionary(x => x.Hypermedia.ApiCollectionPathSegment, x => x.ClrResourceType, StringComparer.OrdinalIgnoreCase);
+                    .ToDictionary(x => x.HypermediaInfo.ApiCollectionPathSegment, x => x.ClrType, StringComparer.OrdinalIgnoreCase);
 
                 // Iterate over URL path segments until the current URL path segment
                 // represents a CLR resource collection path segment.
@@ -145,7 +145,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                 var currentUrlPathSegment = urlPathSegmentsEnumerator.Current;
 
                 pathSegmentToRelationshipDictionary = pathSegmentToRelationshipDictionary ?? previousResourceType
-                    .Relationships
+                    .RelationshipsInfo
                     .Collection
                     .ToDictionary(x => x.ApiRelPathSegment, StringComparer.OrdinalIgnoreCase);
 

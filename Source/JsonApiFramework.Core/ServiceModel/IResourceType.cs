@@ -1,34 +1,24 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System;
-
-using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IResourceType : IJsonObject
+    public interface IResourceType : IClrTypeInfo
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        string Name { get; }
-        Type ClrResourceType { get; }
-
-        IHypermediaInfo Hypermedia { get; }
-        IResourceIdentityInfo ResourceIdentity { get; }
-        IAttributesInfo Attributes { get; }
-        IRelationshipsInfo Relationships { get; }
-        ILinksInfo Links { get; }
-        IMetaInfo Meta { get; }
+        IHypermediaInfo HypermediaInfo { get; }
+        IResourceIdentityInfo ResourceIdentityInfo { get; }
+        IRelationshipsInfo RelationshipsInfo { get; }
+        ILinksInfo LinksInfo { get; }
+        IMetaInfo MetaInfo { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        void Initialize(IServiceModel serviceModel);
-
         ResourceIdentifier CreateApiResourceIdentifier<TResourceId>(TResourceId clrResourceId); 
-        object CreateClrResource();
 
         string GetApiId(object clrResource);
         ResourceIdentifier GetApiResourceIdentifier(object clrResource);
@@ -37,10 +27,8 @@ namespace JsonApiFramework.ServiceModel
         Links GetClrLinks(object clrResource);
         Meta GetClrMeta(object clrResource);
 
-        IAttributeInfo GetApiAttribute(string apiPropertyName);
-        IAttributeInfo GetClrAttribute(string clrPropertyName);
-        IRelationshipInfo GetRelationship(string rel);
-        ILinkInfo GetLink(string rel);
+        IRelationshipInfo GetRelationshipInfo(string rel);
+        ILinkInfo GetLinkInfo(string rel);
 
         bool IsClrIdNull(object clrId);
 
@@ -52,10 +40,8 @@ namespace JsonApiFramework.ServiceModel
         string ToApiId(object clrId);
         object ToClrId(object clrId);
 
-        bool TryGetApiAttribute(string apiPropertyName, out IAttributeInfo attribute);
-        bool TryGetClrAttribute(string clrPropertyName, out IAttributeInfo attribute);
-        bool TryGetRelationship(string rel, out IRelationshipInfo relationship);
-        bool TryGetLink(string rel, out ILinkInfo link);
+        bool TryGetRelationshipInfo(string rel, out IRelationshipInfo relationshipInfo);
+        bool TryGetLinkInfo(string rel, out ILinkInfo linkInfo);
         #endregion
     }
 }

@@ -14,8 +14,8 @@ namespace JsonApiFramework.ServiceModel
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        ILinkInfo GetLink(string rel);
-        bool TryGetLink(string rel, out ILinkInfo link);
+        ILinkInfo GetLinkInfo(string rel);
+        bool TryGetLinkInfo(string rel, out ILinkInfo link);
         #endregion
     }
 }

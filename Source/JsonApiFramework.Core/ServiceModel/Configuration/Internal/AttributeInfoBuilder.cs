@@ -15,12 +15,13 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public AttributeInfoBuilder(string clrPropertyName, Type clrPropertyType)
+        public AttributeInfoBuilder(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
         {
+            Contract.Requires(clrDeclaringType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            var attributeInfoFactory = CreateAttributeInfoFactory(clrPropertyName, clrPropertyType);
+            var attributeInfoFactory = CreateAttributeInfoFactory(clrDeclaringType, clrPropertyName, clrPropertyType);
             this.AttributeInfoFactory = attributeInfoFactory;
         }
         #endregion
@@ -63,8 +64,9 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IConventions, AttributeInfo> CreateAttributeInfoFactory(string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, AttributeInfo> CreateAttributeInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
         {
+            Contract.Requires(clrDeclaringType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
@@ -76,15 +78,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
                         apiPropertyName = conventions.ApiAttributeNamingConventions.Aggregate(apiPropertyName, (current, namingConvention) => namingConvention.Apply(current));
                     }
 
-                    var attributeInfo = new AttributeInfo
-                        {
-                            // PropertyInfo Properties
-                            ClrPropertyName = clrPropertyName,
-                            ClrPropertyType = clrPropertyType,
-
-                            // AttributeInfo Properties
-                            ApiPropertyName = apiPropertyName,
-                        };
+                    var attributeInfo = new AttributeInfo(clrDeclaringType, clrPropertyName, clrPropertyType, apiPropertyName, false);
                     return attributeInfo;
                 };
             return attributeInfoFactory;

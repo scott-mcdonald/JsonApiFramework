@@ -12,6 +12,16 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IConfigurationCollection Implementation
+        public void Add<TComplex>(ComplexTypeBuilder<TComplex> complexTypeBuilder)
+        {
+            Contract.Requires(complexTypeBuilder != null);
+
+            this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
+
+            var clrComplexType = typeof(TComplex);
+            this.ComplexTypeBuilderDictionary.Add(clrComplexType, complexTypeBuilder);
+        }
+
         public void Add<TResource>(ResourceTypeBuilder<TResource> resourceTypeBuilder)
             where TResource : class, IResource
         {
@@ -26,6 +36,23 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Internal Methods
+        internal IComplexTypeBuilder<TComplex> GetOrAddComplexTypeBuilder<TComplex>()
+        {
+            this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
+
+            var clrComplexType = typeof(TComplex);
+
+            object complexTypeBuilder;
+            if (this.ComplexTypeBuilderDictionary.TryGetValue(clrComplexType, out complexTypeBuilder))
+            {
+                return (IComplexTypeBuilder<TComplex>)complexTypeBuilder;
+            }
+
+            complexTypeBuilder = new ComplexTypeBuilder<TComplex>();
+            this.ComplexTypeBuilderDictionary.Add(clrComplexType, complexTypeBuilder);
+            return (IComplexTypeBuilder<TComplex>)complexTypeBuilder;
+        }
+
         internal IResourceTypeBuilder<TResource> GetOrAddResourceTypeBuilder<TResource>()
             where TResource : class, IResource
         {
@@ -44,6 +71,19 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             return (IResourceTypeBuilder<TResource>)resourceTypeBuilder;
         }
 
+        internal IEnumerable<IComplexTypeFactory> GetComplexTypeFactoryCollection()
+        {
+            this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
+
+            var complexTypeConfigurationCollection = this.ComplexTypeBuilderDictionary
+                                                         .Values
+                                                         .ToList();
+
+            var complexTypeFactoryCollection = complexTypeConfigurationCollection.Cast<IComplexTypeFactory>()
+                                                                                 .ToList();
+            return complexTypeFactoryCollection;
+        }
+
         internal IEnumerable<IResourceTypeFactory> GetResourceTypeFactoryCollection()
         {
             this.ResourceTypeBuilderDictionary = this.ResourceTypeBuilderDictionary ?? new Dictionary<Type, object>();
@@ -60,6 +100,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
+        private IDictionary<Type, object> ComplexTypeBuilderDictionary { get; set; }
         private IDictionary<Type, object> ResourceTypeBuilderDictionary { get; set; }
         #endregion
     }

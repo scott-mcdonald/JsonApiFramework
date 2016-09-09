@@ -1,11 +1,12 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IAttributesInfo : IInfoObject
+    public interface IAttributesInfo : IMemberInfo
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
@@ -14,11 +15,13 @@ namespace JsonApiFramework.ServiceModel
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IAttributeInfo GetApiAttribute(string apiPropertyName);
-        IAttributeInfo GetClrAttribute(string clrPropertyName);
+        void Initialize(IReadOnlyDictionary<Type, IComplexType> clrTypeToComplexTypeDictionary);
 
-        bool TryGetApiAttribute(string apiPropertyName, out IAttributeInfo attribute);
-        bool TryGetClrAttribute(string clrPropertyName, out IAttributeInfo attribute);
+        IAttributeInfo GetApiAttributeInfo(string apiPropertyName);
+        IAttributeInfo GetClrAttributeInfo(string clrPropertyName);
+
+        bool TryGetApiAttributeInfo(string apiPropertyName, out IAttributeInfo attribute);
+        bool TryGetClrAttributeInfo(string clrPropertyName, out IAttributeInfo attribute);
         #endregion
     }
 }

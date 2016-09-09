@@ -8,16 +8,6 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class StoreAttributes : JsonObject
-    {
-        [JsonProperty("store-name")] public string StoreName { get; set; }
-        [JsonProperty("address")] public string Address { get; set; }
-        [JsonProperty("city")] public string City { get; set; }
-        [JsonProperty("state")] public string State { get; set; }
-        [JsonProperty("zip-code")] public string ZipCode { get; set; }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
     public class Store : JsonObject, IResource
     {
         [JsonProperty] public long StoreId { get; set; }

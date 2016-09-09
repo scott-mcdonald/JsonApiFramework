@@ -132,6 +132,58 @@ namespace JsonApiFramework.Tests.JsonApi
                 Radius = 123
             };
 
+        public static readonly Circle TestCircle1 = new Circle
+            {
+                Enabled = true,
+                Name = "My Circle",
+                Description = "This is my circle of trust...",
+                Center = new Point
+                    {
+                        XCoordinate = 42,
+                        YCoordinate = 24
+                    },
+                Radius = 123
+            };
+
+        public static readonly Circle TestCircle2 = new Circle
+            {
+                Enabled = false,
+                Name = "My Circle 2",
+                Description = "This is my circle of trust, part 2...",
+                Center = new Point
+                    {
+                        XCoordinate = 24,
+                        YCoordinate = 42
+                    },
+                Radius = 321
+            };
+
+        public static readonly Circle TestCircle3 = new Circle
+            {
+                Enabled = true,
+                Name = "My Circle 3",
+                Description = "This is my circle of trust, part 3...",
+                Center = new Point
+                    {
+                        XCoordinate = 68,
+                        YCoordinate = 86
+                    },
+                Radius = 456
+            };
+
+        public static readonly Circle TestCircle4 = new Circle
+            {
+                Enabled = false,
+                Name = "My Circle 4",
+                Description = "This is my circle of trust, part 4...",
+                Center = new Point
+                    {
+                        XCoordinate = 86,
+                        YCoordinate = 68
+                    },
+                Radius = 654
+            };
+
         public static readonly IEnumerable<object[]> ApiObjectTestData = new[]
             {
                 // Simple
@@ -180,8 +232,10 @@ namespace JsonApiFramework.Tests.JsonApi
                 new object[] {"WithUShort", new ApiObject(ApiProperty.Create("UShort", (ushort)42))},
 
                 // Complex
-                new object[] {"WithCircleRepresentedByClrObject", new ApiObject(ApiProperty.Create("Circle", TestCircle))},
-                new object[] {"WithCircleRepresentedByApiObjectComposition",
+                new object[] {"WithCircleByClrObject", new ApiObject(ApiProperty.Create("Circle", TestCircle))},
+                new object[] {"WithCircleCollectionByClrObjects", new ApiObject(ApiProperty.Create("Circles", new []{ TestCircle1, TestCircle2, TestCircle3, TestCircle4 }))},
+
+                new object[] {"WithCircleByApiObject",
                     new ApiObject(ApiProperty.Create("circle", new ApiObject(
                         ApiProperty.Create("enabled", TestCircle.Enabled),
                         ApiProperty.Create("name", TestCircle.Name),
@@ -191,6 +245,46 @@ namespace JsonApiFramework.Tests.JsonApi
                             ApiProperty.Create("y-coordinate", TestCircle.Center.YCoordinate))),
                         ApiProperty.Create("radius", TestCircle.Radius))))
                 },
+
+                new object[] {"WithCircleCollectionByApiObjects",
+                    new ApiObject(ApiProperty.Create("circles",
+                        new []
+                        {
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle1.Enabled),
+                                ApiProperty.Create("name", TestCircle1.Name),
+                                ApiProperty.Create("description", TestCircle1.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle1.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle1.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle1.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle2.Enabled),
+                                ApiProperty.Create("name", TestCircle2.Name),
+                                ApiProperty.Create("description", TestCircle2.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle2.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle2.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle2.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle3.Enabled),
+                                ApiProperty.Create("name", TestCircle3.Name),
+                                ApiProperty.Create("description", TestCircle3.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle3.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle3.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle3.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle4.Enabled),
+                                ApiProperty.Create("name", TestCircle4.Name),
+                                ApiProperty.Create("description", TestCircle4.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle4.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle4.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle4.Radius)),
+                        }))
+                },
+
                 new object[] {"WithAllTestData", new ApiObject(
                     ApiProperty.Create("Bool", true),
                     ApiProperty.Create("Byte", (byte)42),
@@ -243,7 +337,45 @@ namespace JsonApiFramework.Tests.JsonApi
                         ApiProperty.Create("center", new ApiObject(
                             ApiProperty.Create("x-coordinate", TestCircle.Center.XCoordinate),
                             ApiProperty.Create("y-coordinate", TestCircle.Center.YCoordinate))),
-                        ApiProperty.Create("radius", TestCircle.Radius))))
+                        ApiProperty.Create("radius", TestCircle.Radius))),
+                    ApiProperty.Create("Circles", new []{ TestCircle1, TestCircle2, TestCircle3, TestCircle4 }),
+                    ApiProperty.Create("circles",
+                        new []
+                        {
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle1.Enabled),
+                                ApiProperty.Create("name", TestCircle1.Name),
+                                ApiProperty.Create("description", TestCircle1.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle1.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle1.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle1.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle2.Enabled),
+                                ApiProperty.Create("name", TestCircle2.Name),
+                                ApiProperty.Create("description", TestCircle2.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle2.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle2.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle2.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle3.Enabled),
+                                ApiProperty.Create("name", TestCircle3.Name),
+                                ApiProperty.Create("description", TestCircle3.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle3.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle3.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle3.Radius)),
+                            new ApiObject(
+                                ApiProperty.Create("enabled", TestCircle4.Enabled),
+                                ApiProperty.Create("name", TestCircle4.Name),
+                                ApiProperty.Create("description", TestCircle4.Description),
+                                ApiProperty.Create("center", new ApiObject(
+                                    ApiProperty.Create("x-coordinate", TestCircle4.Center.XCoordinate),
+                                    ApiProperty.Create("y-coordinate", TestCircle4.Center.YCoordinate))),
+                                ApiProperty.Create("radius", TestCircle4.Radius)),
+                        })
+                    )
                 },
             };
         #endregion

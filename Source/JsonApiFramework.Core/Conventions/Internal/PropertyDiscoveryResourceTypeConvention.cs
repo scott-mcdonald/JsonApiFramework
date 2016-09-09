@@ -14,15 +14,15 @@ using JsonApiFramework.ServiceModel.Configuration;
 namespace JsonApiFramework.Conventions.Internal
 {
     /// <summary>
-    /// Discovery and configuration of resource public properties by convention
-    /// with the properties being one of the following:
+    /// Discovery and configuration of resource type public properties by
+    /// convention with the properties being one of the following:
     /// 1. Resource Identifier Property
     /// 2. Attribute Property
     /// 3. Relationships Property
     /// 4. Links Property
     /// 5. Meta Property
     /// </summary>
-    internal class PropertyDiscoveryConvention : IResourceTypeConvention
+    internal class PropertyDiscoveryResourceTypeConvention : IResourceTypeConvention
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceTypeConvention Implementation

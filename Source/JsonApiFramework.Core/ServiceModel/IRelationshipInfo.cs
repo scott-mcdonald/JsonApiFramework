@@ -5,7 +5,7 @@ using System;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IRelationshipInfo : IInfoObject
+    public interface IRelationshipInfo
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

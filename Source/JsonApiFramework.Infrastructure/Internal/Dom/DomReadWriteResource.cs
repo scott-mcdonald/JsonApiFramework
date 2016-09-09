@@ -2,17 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
-using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Internal.Dom
 {
-    using Attributes = JsonApiFramework.JsonApi.ApiObject;
-
     /// <summary>
     /// Represents a read/write resource node in the DOM tree.
     /// </summary>
@@ -49,17 +47,6 @@ namespace JsonApiFramework.Internal.Dom
             var domReadWriteResource = new DomReadWriteResource(domNodes);
             return domReadWriteResource;
         }
-
-        public static DomReadWriteResource Create(IServiceModel serviceModel, params Node<DomNodeType>[] domNodes)
-        {
-            Contract.Requires(serviceModel != null);
-
-            var domReadWriteResource = new DomReadWriteResource(domNodes)
-                {
-                    ServiceModel = serviceModel
-                };
-            return domReadWriteResource;
-        }
         #endregion
 
         // PRIVATE CONSTRUCTORS //////////////////////////////////////////////
@@ -67,11 +54,6 @@ namespace JsonApiFramework.Internal.Dom
         private DomReadWriteResource(params Node<DomNodeType>[] domNodes)
             : base(domNodes)
         { }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
-        private IServiceModel ServiceModel { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -93,7 +75,7 @@ namespace JsonApiFramework.Internal.Dom
             return apiResource;
         }
 
-        private static Relationships GetApiResourceRelationships(NodesContainer<DomNodeType> domResource)
+        private static Relationships GetApiResourceRelationships(DomReadWriteResource domResource)
         {
             Contract.Requires(domResource != null);
 
@@ -106,7 +88,7 @@ namespace JsonApiFramework.Internal.Dom
             return apiRelationships;
         }
 
-        private static Links GetApiResourceLinks(NodesContainer<DomNodeType> domResource)
+        private static Links GetApiResourceLinks(DomReadWriteResource domResource)
         {
             Contract.Requires(domResource != null);
 
@@ -122,7 +104,7 @@ namespace JsonApiFramework.Internal.Dom
         private object GetClrResource()
         {
             // Get the service model for this DOM tree.
-            var serviceModel = this.ServiceModel ?? this.GetServiceModel();
+            var serviceModel = this.GetServiceModel();
             if (serviceModel == null)
             {
                 var detail = InfrastructureErrorStrings.DomExceptionDetailNodeSetExistingAttribute
@@ -138,7 +120,7 @@ namespace JsonApiFramework.Internal.Dom
             var resourceType = serviceModel.GetResourceType(apiResourceType);
 
             // Create CLR resource object.
-            var clrResource = resourceType.CreateClrResource();
+            var clrResource = resourceType.CreateClrObject();
 
             // Map the DOM nodes to properties on the CLR resource object.
             var domResource = this;
@@ -151,7 +133,7 @@ namespace JsonApiFramework.Internal.Dom
             return clrResource;
         }
 
-        private static void MapDomResourceToApiMeta(ISetMeta apiSetMeta, NodesContainer<DomNodeType> domResource)
+        private static void MapDomResourceToApiMeta(ISetMeta apiSetMeta, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetMeta != null);
             Contract.Requires(domResource != null);
@@ -165,7 +147,7 @@ namespace JsonApiFramework.Internal.Dom
             apiSetMeta.Meta = apiMeta;
         }
 
-        private static void MapDomResourceToApiType(ISetResourceIdentity apiSetResourceIdentity, NodesContainer<DomNodeType> domResource)
+        private static void MapDomResourceToApiType(ISetResourceIdentity apiSetResourceIdentity, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetResourceIdentity != null);
             Contract.Requires(domResource != null);
@@ -178,7 +160,7 @@ namespace JsonApiFramework.Internal.Dom
             apiSetResourceIdentity.Type = apiResourceType;
         }
 
-        private static void MapDomResourceToApiId(ISetResourceIdentity apiSetResourceIdentity, NodesContainer<DomNodeType> domResource)
+        private static void MapDomResourceToApiId(ISetResourceIdentity apiSetResourceIdentity, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetResourceIdentity != null);
             Contract.Requires(domResource != null);
@@ -191,7 +173,7 @@ namespace JsonApiFramework.Internal.Dom
             apiSetResourceIdentity.Id = apiId;
         }
 
-        private static void MapDomResourceToApiAttributes(ISetAttributes apiSetAttributes, NodesContainer<DomNodeType> domResource)
+        private static void MapDomResourceToApiAttributes(ISetAttributes apiSetAttributes, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetAttributes != null);
             Contract.Requires(domResource != null);
@@ -200,19 +182,80 @@ namespace JsonApiFramework.Internal.Dom
             if (domAttributesNode == null)
                 return;
 
-            var domAttributeNodes = domAttributesNode.Nodes()
-                                                     .Cast<DomAttribute>()
-                                                     .ToList();
-            if (!domAttributeNodes.Any())
+            var domAttributeCollection = domAttributesNode.Nodes()
+                                                          .Cast<DomAttribute>()
+                                                          .ToList();
+            if (!domAttributeCollection.Any())
                 return;
 
-            var apiObjectProperties = domAttributeNodes.Select(x => x.ApiAttribute)
-                                                       .ToList();
-            var apiAttributes = new Attributes(apiObjectProperties);
-            apiSetAttributes.Attributes = apiAttributes;
+            var apiObject = CreateApiObjectFromDomAttributeCollection(domAttributeCollection);
+            apiSetAttributes.Attributes = apiObject;
         }
 
-        private static void MapDomResourceToApiRelationships(ISetRelationships apiSetRelationships, NodesContainer<DomNodeType> domResource)
+        private static ApiObject CreateApiObjectFromDomAttributeCollection(IEnumerable<DomAttribute> domAttributeCollection)
+        {
+            Contract.Requires(domAttributeCollection != null);
+
+            var apiProperties = domAttributeCollection
+                .Select(domAttribute =>
+                    {
+                        if (!domAttribute.HasNodes())
+                        {
+                            // Simple attribute, has no children.
+                            return domAttribute.ApiAttribute;
+                        }
+
+                        // Complex attribute or collection of Complex attribute
+                        var isCollection = domAttribute.FirstNode.NodeType == DomNodeType.Index;
+                        if (isCollection)
+                        {
+                            // Collection of Complex attributes, has children of DomIndex.
+                            var domIndexCollection = domAttribute.Nodes()
+                                                                 .Cast<DomIndex>()
+                                                                 .ToList();
+
+                            var apiObjectArray = domIndexCollection.Select(CreateApiObjectFromDomIndex)
+                                                                   .ToArray();
+
+                            var apiPropertyName = domAttribute.ApiPropertyName;
+                            var apiProperty = ApiProperty.Create(apiPropertyName, apiObjectArray);
+                            return apiProperty;
+                        }
+
+                        // Complex attribute, children are DomAttribute nodes.
+                        return CreateApiPropertyFromDomAttribute(domAttribute);
+                    })
+                .ToList();
+
+            var apiObject = new ApiObject(apiProperties);
+            return apiObject;
+        }
+
+        private static ApiObject CreateApiObjectFromDomIndex(DomIndex domIndex)
+        {
+            Contract.Requires(domIndex != null);
+
+            var domAttributeCollection = domIndex.Nodes()
+                                                 .Cast<DomAttribute>()
+                                                 .ToList();
+            var apiObject = CreateApiObjectFromDomAttributeCollection(domAttributeCollection);
+            return apiObject;
+        }
+
+        private static ApiProperty CreateApiPropertyFromDomAttribute(DomAttribute domAttribute)
+        {
+            Contract.Requires(domAttribute != null);
+
+            var apiPropertyName = domAttribute.ApiPropertyName;
+            var domAttributeCollection = domAttribute.Nodes()
+                                                     .Cast<DomAttribute>()
+                                                     .ToList();
+            var apiObject = CreateApiObjectFromDomAttributeCollection(domAttributeCollection);
+            var apiProperty = ApiProperty.Create(apiPropertyName, apiObject);
+            return apiProperty;
+        }
+
+        private static void MapDomResourceToApiRelationships(ISetRelationships apiSetRelationships, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetRelationships != null);
             Contract.Requires(domResource != null);
@@ -221,7 +264,7 @@ namespace JsonApiFramework.Internal.Dom
             apiSetRelationships.Relationships = apiRelationships;
         }
 
-        private static void MapDomResourceToApiLinks(ISetLinks apiSetLinks, NodesContainer<DomNodeType> domResource)
+        private static void MapDomResourceToApiLinks(ISetLinks apiSetLinks, DomReadWriteResource domResource)
         {
             Contract.Requires(apiSetLinks != null);
             Contract.Requires(domResource != null);

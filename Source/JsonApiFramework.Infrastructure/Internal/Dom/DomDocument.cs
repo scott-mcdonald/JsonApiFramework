@@ -492,17 +492,18 @@ namespace JsonApiFramework.Internal.Dom
 
             // Find metadata based on the JsonApi resource.
             var apiResourceType = apiResource.Type;
-            var resourceType = domDocument.ServiceModel.GetResourceType(apiResourceType);
+            var serviceModel = domDocument.ServiceModel;
+            var resourceType = serviceModel.GetResourceType(apiResourceType);
 
             // Create/Add DOM read-only resource node to the parent node.
-            var clrResource = resourceType.CreateClrResource();
+            var clrResource = resourceType.CreateClrObject();
 
             var domReadOnlyResource = domParentNode.CreateAndAddNode(() => DomReadOnlyResource.Create(apiResource, clrResource));
 
             // Map the incoming JsonApi resource to the created CLR resource.
             resourceType.MapApiMetaToClrResource(clrResource, apiResource);
             resourceType.MapApiIdToClrResource(clrResource, apiResource);
-            resourceType.MapApiAttributesToClrResource(clrResource, apiResource);
+            resourceType.MapApiAttributesToClrResource(clrResource, apiResource, serviceModel);
             resourceType.MapApiRelationshipsToClrResource(clrResource, apiResource);
             resourceType.MapApiLinksToClrResource(clrResource, apiResource);
 
@@ -518,7 +519,7 @@ namespace JsonApiFramework.Internal.Dom
             // Find metadata based on the JsonApi resource.
             var apiResourceType = apiResourceIdentifier.Type;
             var resourceType = domDocument.ServiceModel.GetResourceType(apiResourceType);
-            var clrResourceType = resourceType.ClrResourceType;
+            var clrResourceType = resourceType.ClrType;
 
             // Create/Add DOM read-only resource identifier node to the parent node.
             var domReadOnlyResourceIdentifier = domParentNode.CreateAndAddNode(() => DomReadOnlyResourceIdentifier.Create(apiResourceIdentifier, clrResourceType));

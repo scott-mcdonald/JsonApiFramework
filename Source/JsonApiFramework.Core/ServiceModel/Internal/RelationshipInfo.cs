@@ -4,12 +4,14 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
+
 using Newtonsoft.Json;
 
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class RelationshipInfo : InfoObject
+    internal class RelationshipInfo : JsonObject
         , IRelationshipInfo
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

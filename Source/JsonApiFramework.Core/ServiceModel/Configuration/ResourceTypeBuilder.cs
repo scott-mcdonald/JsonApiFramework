@@ -53,7 +53,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
                 return attributeInfoConfiguration;
             }
 
-            attributeInfoConfiguration = new AttributeInfoBuilder(clrPropertyName, clrPropertyType);
+            attributeInfoConfiguration = new AttributeInfoBuilder(this.ClrResourceType, clrPropertyName, clrPropertyType);
             this.AttributeInfoBuilderDictionary.Add(clrPropertyName, attributeInfoConfiguration);
             this.AttributeInfoBuilderOrder.Add(clrPropertyName);
 
@@ -64,7 +64,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(clrPropertyName);
+            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrResourceType, clrPropertyName);
             return this.RelationshipsInfoBuilder;
         }
 
@@ -72,7 +72,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(clrPropertyName);
+            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrResourceType, clrPropertyName);
             return this.LinksInfoBuilder;
         }
 
@@ -87,7 +87,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(clrPropertyName);
+            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrResourceType, clrPropertyName);
             return this.MetaInfoBuilder;
         }
         #endregion
@@ -120,7 +120,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
             // Aplly all built-in conventions.
             this.ApplyBuiltInConventions();
 
-            // Apply all ResourceTypeConfiguration level conventions if any.
+            // Apply all ResourceType level conventions if any.
             this.ApplyResourceTypeConventions(conventions);
 
             // Create all the ResourceType parameters needed to construct a ResourceType metadata object.
@@ -155,7 +155,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private ResourceIdentityInfoBuilder ResourceIdentityInfoBuilder { get; set; }
 
-        private AttributesInfoBuilder<TResource> AttributesInfoBuilder { get; set; }
+        private AttributesInfoBuilder AttributesInfoBuilder { get; set; }
 
         private IDictionary<string, AttributeInfoBuilder> AttributeInfoBuilderDictionary { get; set; }
         private IList<string> AttributeInfoBuilderOrder { get; set; }
@@ -225,7 +225,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private IAttributesInfo CreateAttributesInfo(IConventions conventions)
         {
-            this.AttributesInfoBuilder = this.AttributesInfoBuilder ?? new AttributesInfoBuilder<TResource>();
+            this.AttributesInfoBuilder = this.AttributesInfoBuilder ?? new AttributesInfoBuilder(this.ClrResourceType);
 
             var attributeInfoCollection = this.AttributeInfoBuilderOrder
                                               .EmptyIfNull()
@@ -243,7 +243,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private IRelationshipsInfo CreateRelationshipsInfo()
         {
-            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder();
+            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrResourceType);
 
             var relationshipInfoCollection = this.RelationshipInfoBuilderOrder
                                                  .EmptyIfNull()
@@ -282,7 +282,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private ILinksInfo CreateLinksInfo()
         {
-            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder();
+            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrResourceType);
 
             var linkInfoCollection = this.LinkInfoBuilderOrder
                                          .EmptyIfNull()
@@ -320,7 +320,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private IMetaInfo CreateMetaInfo()
         {
-            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder();
+            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrResourceType);
 
             var metaInfo = this.MetaInfoBuilder.CreateMetaInfo();
             return metaInfo;

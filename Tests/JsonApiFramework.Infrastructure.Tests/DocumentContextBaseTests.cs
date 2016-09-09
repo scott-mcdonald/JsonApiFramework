@@ -15,8 +15,10 @@ using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -817,7 +819,7 @@ namespace JsonApiFramework.Tests
                 var serviceModel = this.ServiceModel;
 
                 var fromResourceType = serviceModel.GetResourceType<TResource>();
-                var fromRelationship = fromResourceType.GetRelationship(rel);
+                var fromRelationship = fromResourceType.GetRelationshipInfo(rel);
                 var fromRelationshipToCardinality = fromRelationship.ToCardinality;
                 switch (fromRelationshipToCardinality)
                 {
@@ -1086,6 +1088,9 @@ namespace JsonApiFramework.Tests
             {
                 Contract.Requires(serviceModelBuilder != null);
 
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithNullConventions());
+
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
@@ -1121,6 +1126,9 @@ namespace JsonApiFramework.Tests
                                   .AddPluralNamingConvention()
                                   .AddStandardMemberNamingConvention();
 
+                conventionsBuilder.ComplexTypeConventions()
+                                  .AddPropertyDiscoveryConvention();
+
                 conventionsBuilder.ResourceTypeConventions()
                                   .AddPropertyDiscoveryConvention();
             }
@@ -1128,6 +1136,9 @@ namespace JsonApiFramework.Tests
             protected internal override void OnServiceModelCreating(IServiceModelBuilder serviceModelBuilder)
             {
                 Contract.Requires(serviceModelBuilder != null);
+
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithConventions());
 
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());

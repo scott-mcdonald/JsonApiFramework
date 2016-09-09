@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IHypermediaInfo : IInfoObject
+    public interface IHypermediaInfo
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

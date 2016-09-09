@@ -17,6 +17,9 @@ namespace JsonApiFramework.TestData.ApiResources
         // JSON Object Type
         [JsonProperty("modified")] public AuditAttributeItem Modified { get; set; }
 
+        // JSON Array Type
+        [JsonProperty("modified-history")] public AuditAttributeItem[] ModifiedHistory { get; set; }
+
         // JSON Object Type
         [JsonProperty("deleted")] public AuditAttributeItem Deleted { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global

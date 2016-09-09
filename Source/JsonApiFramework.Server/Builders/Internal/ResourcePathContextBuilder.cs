@@ -141,7 +141,7 @@ namespace JsonApiFramework.Server.Internal
 
             this.EnsureBasePathsExist();
 
-            var nextRelationship = resourceType.GetRelationship(rel);
+            var nextRelationship = resourceType.GetRelationshipInfo(rel);
 
             var nextRelationshipCanonicalRelPathMode = nextRelationship.ToCanonicalRelPathMode;
             if (nextRelationshipCanonicalRelPathMode == RelationshipCanonicalRelPathMode.DropPreviousPathSegments)
@@ -170,7 +170,7 @@ namespace JsonApiFramework.Server.Internal
 
             if (resourcePreviousRelationship == null)
             {
-                var apiCollectionPathSegment = resourceType.Hypermedia.ApiCollectionPathSegment;
+                var apiCollectionPathSegment = resourceType.HypermediaInfo.ApiCollectionPathSegment;
                 var resourceHypermediaPath = new ResourceHypermediaPath(clrResourceType, apiCollectionPathSegment, apiId);
 
                 resourceBasePath.Add(resourceHypermediaPath);
@@ -221,7 +221,7 @@ namespace JsonApiFramework.Server.Internal
 
             if (resourcePreviousRelationship == null)
             {
-                var apiCollectionPathSegment = resourceType.Hypermedia.ApiCollectionPathSegment;
+                var apiCollectionPathSegment = resourceType.HypermediaInfo.ApiCollectionPathSegment;
 
                 var resourceCollectionHypermediaPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
                 resourceBasePath.Add(resourceCollectionHypermediaPath);

@@ -12,15 +12,18 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class PropertyInfo : InfoObject
+    internal class PropertyInfo : MemberInfo
         , IPropertyInfo
     {
-        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public PropertyInfo(string clrPropertyName, Type clrPropertyType)
+        public PropertyInfo(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+            : base(clrDeclaringType)
         {
             this.ClrPropertyName = clrPropertyName;
             this.ClrPropertyType = clrPropertyType;
+
+            this.InitializeClrPropertyMethods();
         }
         #endregion
 
@@ -31,35 +34,22 @@ namespace JsonApiFramework.ServiceModel.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region InfoObject Overrides
-        public override void Initialize(IServiceModel serviceModel, IResourceType resourceType)
-        {
-            Contract.Requires(serviceModel != null);
-            Contract.Requires(resourceType != null);
-
-            base.Initialize(serviceModel, resourceType);
-
-            // Initialize the CLR property getter/setter compiled expression methods.
-            this.InitializeClrPropertyMethods();
-        }
-        #endregion
-
         #region IPropertyInfo Implementation
-        public object GetClrProperty(object clrResource)
+        public object GetClrProperty(object clrObject)
         {
-            if (clrResource == null)
+            if (clrObject == null)
                 return null;
 
             if (this.CanGetOrSetClrProperty() == false)
                 return null;
 
-            var clrPropertyValue = this.ClrPropertyGetterMethod.DynamicInvoke(clrResource);
+            var clrPropertyValue = this.ClrPropertyGetterMethod.DynamicInvoke(clrObject);
             return clrPropertyValue;
         }
 
-        public void SetClrProperty(object clrResource, object clrValue)
+        public void SetClrProperty(object clrObject, object clrValue)
         {
-            if (clrResource == null)
+            if (clrObject == null)
                 return;
 
             if (this.CanGetOrSetClrProperty() == false)
@@ -70,7 +60,7 @@ namespace JsonApiFramework.ServiceModel.Internal
             var clrPropertyType = this.ClrPropertyType;
             var clrPropertyValue = TypeConverter.Convert(clrValue, clrPropertyType);
 
-            this.ClrPropertySetterMethod.DynamicInvoke(clrResource, clrPropertyValue);
+            this.ClrPropertySetterMethod.DynamicInvoke(clrObject, clrPropertyValue);
         }
         #endregion
 
@@ -116,11 +106,11 @@ namespace JsonApiFramework.ServiceModel.Internal
             if (this.CanGetOrSetClrProperty() == false)
                 return;
 
-            var clrResourceType = this.ResourceType.ClrResourceType;
+            var clrDeclaringType = this.ClrDeclaringType;
             var clrPropertyType = this.ClrPropertyType;
 
-            this.ClrPropertyGetterMethod = this.CreateClrPropertyGetterMethod(clrResourceType, clrPropertyType);
-            this.ClrPropertySetterMethod = this.CreateClrPropertySetterMethod(clrResourceType, clrPropertyType);
+            this.ClrPropertyGetterMethod = this.CreateClrPropertyGetterMethod(clrDeclaringType, clrPropertyType);
+            this.ClrPropertySetterMethod = this.CreateClrPropertySetterMethod(clrDeclaringType, clrPropertyType);
         }
         #endregion
     }

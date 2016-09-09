@@ -14,8 +14,8 @@ namespace JsonApiFramework.ServiceModel
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IRelationshipInfo GetRelationship(string rel);
-        bool TryGetRelationship(string rel, out IRelationshipInfo relationship);
+        IRelationshipInfo GetRelationshipInfo(string rel);
+        bool TryGetRelationshipInfo(string rel, out IRelationshipInfo relationship);
         #endregion
     }
 }

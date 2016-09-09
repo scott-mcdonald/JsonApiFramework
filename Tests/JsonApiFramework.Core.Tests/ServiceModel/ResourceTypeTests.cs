@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
@@ -12,7 +13,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -32,7 +32,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         #region Test Methods
         [Theory]
         [MemberData("AttributeTestData")]
-        public void TestResourceTypeGetAttribute(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
+        public void TestResourceTypeGetAttributeInfo(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -42,22 +42,22 @@ namespace JsonApiFramework.Tests.ServiceModel
             // Act
             if (!attributeExists)
             {
-                Assert.Throws<ServiceModelException>(() => resourceType.GetApiAttribute(apiPropertyName));
-                Assert.Throws<ServiceModelException>(() => resourceType.GetClrAttribute(clrPropertyName));
+                Assert.Throws<ServiceModelException>(() => resourceType.GetApiAttributeInfo(apiPropertyName));
+                Assert.Throws<ServiceModelException>(() => resourceType.GetClrAttributeInfo(clrPropertyName));
                 return;
             }
 
-            var actualApiAttribute = resourceType.GetApiAttribute(apiPropertyName);
-            var actualClrAttribute = resourceType.GetClrAttribute(clrPropertyName);
+            var actualApiAttributeInfo = resourceType.GetApiAttributeInfo(apiPropertyName);
+            var actualClrAttributeInfo = resourceType.GetClrAttributeInfo(clrPropertyName);
 
             // Assert
-            AttributeInfoAssert.Equal(expected, actualApiAttribute);
-            AttributeInfoAssert.Equal(expected, actualClrAttribute);
+            AttributeInfoAssert.Equal(expected, actualApiAttributeInfo);
+            AttributeInfoAssert.Equal(expected, actualClrAttributeInfo);
         }
 
         [Theory]
         [MemberData("RelationshipTestData")]
-        public void TestResourceTypeGetRelationship(string name, bool relationshipExists, IResourceType resourceType, string rel, IRelationshipInfo expected)
+        public void TestResourceTypeGetRelationshipInfo(string name, bool relationshipExists, IResourceType resourceType, string rel, IRelationshipInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -67,10 +67,10 @@ namespace JsonApiFramework.Tests.ServiceModel
             // Act
             if (!relationshipExists)
             {
-                Assert.Throws<ServiceModelException>(() => resourceType.GetRelationship(rel));
+                Assert.Throws<ServiceModelException>(() => resourceType.GetRelationshipInfo(rel));
                 return;
             }
-            var actual = resourceType.GetRelationship(rel);
+            var actual = resourceType.GetRelationshipInfo(rel);
 
             // Assert
             RelationshipInfoAssert.Equal(expected, actual);
@@ -78,7 +78,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("LinkTestData")]
-        public void TestResourceTypeGetLink(string name, bool linkExists, IResourceType resourceType, string rel, ILinkInfo expected)
+        public void TestResourceTypeGetLinkInfo(string name, bool linkExists, IResourceType resourceType, string rel, ILinkInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -88,10 +88,10 @@ namespace JsonApiFramework.Tests.ServiceModel
             // Act
             if (!linkExists)
             {
-                Assert.Throws<ServiceModelException>(() => resourceType.GetLink(rel));
+                Assert.Throws<ServiceModelException>(() => resourceType.GetLinkInfo(rel));
                 return;
             }
-            var actual = resourceType.GetLink(rel);
+            var actual = resourceType.GetLinkInfo(rel);
 
             // Assert
             LinkInfoAssert.Equal(expected, actual);
@@ -99,7 +99,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("AttributeTestData")]
-        public void TestResourceTypeTryGetAttribute(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
+        public void TestResourceTypeTryGetAttributeInfo(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -107,38 +107,38 @@ namespace JsonApiFramework.Tests.ServiceModel
             // Arrange
 
             // Act
-            JsonApiFramework.ServiceModel.IAttributeInfo actualApiAttribute;
-            var actualApiAttributeExists = resourceType.TryGetApiAttribute(apiPropertyName, out actualApiAttribute);
+            JsonApiFramework.ServiceModel.IAttributeInfo actualApiAttributeInfo;
+            var actualApiAttributeInfoExists = resourceType.TryGetApiAttributeInfo(apiPropertyName, out actualApiAttributeInfo);
 
-            JsonApiFramework.ServiceModel.IAttributeInfo actualClrAttribute;
-            var actualClrAttributeExists = resourceType.TryGetClrAttribute(clrPropertyName, out actualClrAttribute);
+            JsonApiFramework.ServiceModel.IAttributeInfo actualClrAttributeInfo;
+            var actualClrAttributeInfoExists = resourceType.TryGetClrAttributeInfo(clrPropertyName, out actualClrAttributeInfo);
 
             // Assert
             if (!attributeExists)
             {
-                Assert.False(actualApiAttributeExists);
-                Assert.Null(actualApiAttribute);
+                Assert.False(actualApiAttributeInfoExists);
+                Assert.Null(actualApiAttributeInfo);
 
-                Assert.False(actualClrAttributeExists);
-                Assert.Null(actualClrAttribute);
+                Assert.False(actualClrAttributeInfoExists);
+                Assert.Null(actualClrAttributeInfo);
 
                 return;
             }
 
-            Assert.True(actualApiAttributeExists);
-            Assert.NotNull(actualApiAttribute);
+            Assert.True(actualApiAttributeInfoExists);
+            Assert.NotNull(actualApiAttributeInfo);
 
-            AttributeInfoAssert.Equal(expected, actualApiAttribute);
+            AttributeInfoAssert.Equal(expected, actualApiAttributeInfo);
 
-            Assert.True(actualClrAttributeExists);
-            Assert.NotNull(actualClrAttribute);
+            Assert.True(actualClrAttributeInfoExists);
+            Assert.NotNull(actualClrAttributeInfo);
 
-            AttributeInfoAssert.Equal(expected, actualClrAttribute);
+            AttributeInfoAssert.Equal(expected, actualClrAttributeInfo);
         }
 
         [Theory]
         [MemberData("RelationshipTestData")]
-        public void TestResourceTypeTryGetRelationship(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, IRelationshipInfo expected)
+        public void TestResourceTypeTryGetRelationshipInfo(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, IRelationshipInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -147,7 +147,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
             // Act
             IRelationshipInfo actual;
-            var actualExists = resourceType.TryGetRelationship(clrPropertyName, out actual);
+            var actualExists = resourceType.TryGetRelationshipInfo(clrPropertyName, out actual);
 
             // Assert
             if (!attributeExists)
@@ -164,7 +164,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("LinkTestData")]
-        public void TestResourceTypeTryGetLink(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, ILinkInfo expected)
+        public void TestResourceTypeTryGetLinkInfo(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, ILinkInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -173,7 +173,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
             // Act
             ILinkInfo actual;
-            var actualExists = resourceType.TryGetLink(clrPropertyName, out actual);
+            var actualExists = resourceType.TryGetLinkInfo(clrPropertyName, out actual);
 
             // Assert
             if (!attributeExists)
@@ -190,16 +190,16 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("FactoryTestData")]
-        public void TestResourceTypeCreateClrResource(string name, IResourceType resourceType)
+        public void TestResourceTypeCreateClrResourceObject(string name, IResourceType resourceType)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
 
             // Arrange
-            var clrResourceType = resourceType.ClrResourceType;
+            var clrResourceType = resourceType.ClrType;
 
             // Act
-            var clrResource = resourceType.CreateClrResource();
+            var clrResource = resourceType.CreateClrObject();
 
             // Assert
             Assert.NotNull(clrResource);
@@ -218,7 +218,7 @@ namespace JsonApiFramework.Tests.ServiceModel
             var resourceType = ClrSampleData.ServiceModelWithOrderResourceTypes.GetResourceType(clrResourceType);
 
             // Act
-            resourceType.MapApiAttributesToClrResource(actual, apiResource);
+            resourceType.MapApiAttributesToClrResource(actual, apiResource, ClrSampleData.ServiceModelWithOrderResourceTypes);
 
             // Assert
             ClrResourceAssert.Equal(expected, actual);
@@ -233,7 +233,7 @@ namespace JsonApiFramework.Tests.ServiceModel
                 new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null, null},
                 new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, String.Empty, null},
                 new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "foo-bar", "FooBar", null},
-                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleTitlePropertyName, StaticReflection.GetMemberName<Article>(x => x.Title), ClrSampleData.ArticleTitleAttribute}
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleTitlePropertyName, StaticReflection.GetMemberName<Article>(x => x.Title), ClrSampleData.ArticleTitleAttributeInfo}
             };
 
         public static readonly IEnumerable<object[]> RelationshipTestData = new[]
@@ -241,7 +241,7 @@ namespace JsonApiFramework.Tests.ServiceModel
                 new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null},
                 new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, null},
                 new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "FooBar", null},
-                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleToAuthorRel, ClrSampleData.ArticleToAuthorRelationship}
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, ApiSampleData.ArticleToAuthorRel, ClrSampleData.ArticleToAuthorRelationshipInfo}
             };
 
         public static readonly IEnumerable<object[]> LinkTestData = new[]
@@ -249,7 +249,7 @@ namespace JsonApiFramework.Tests.ServiceModel
                 new object[] {"WithNullPropertyName", false, ClrSampleData.ArticleResourceType, null, null},
                 new object[] {"WithEmptyPropertyName", false, ClrSampleData.ArticleResourceType, String.Empty, null},
                 new object[] {"WithInvalidPropertyName", false, ClrSampleData.ArticleResourceType, "FooBar", null},
-                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, Keywords.Self, ClrSampleData.ArticleSelfLink}
+                new object[] {"WithValidPropertyName", true, ClrSampleData.ArticleResourceType, Keywords.Self, ClrSampleData.ArticleSelfLinkInfo}
             };
 
         public static readonly IEnumerable<object[]> FactoryTestData = new[]
@@ -285,9 +285,21 @@ namespace JsonApiFramework.Tests.ServiceModel
                             Type = ClrSampleData.StoreConfigurationType,
                             Id = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId,
                             Attributes = new ApiObject(
-                                new ApiReadProperty("is-live", true),
-                                new ApiReadProperty("mailing-address", JToken.FromObject(SampleStoreConfigurations.StoreConfiguration.MailingAddress)),
-                                new ApiReadProperty("phone-numbers", JToken.FromObject(SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)))
+                                ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                ApiProperty.Create("mailing-address", new ApiObject(
+                                    ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                    ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                    ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                    ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                    .Select(x =>
+                                        {
+                                            var apiObject = new ApiObject(
+                                                ApiProperty.Create("area-code", x.AreaCode),
+                                                ApiProperty.Create("number", x.Number));
+                                            return apiObject;
+                                        })
+                                    .ToArray()))
                         }},
             };
 

@@ -3,19 +3,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
 {
-    internal class AttributesInfoBuilder<TResource>
-        where TResource : class, IResource
+    internal class AttributesInfoBuilder
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public AttributesInfoBuilder()
+        public AttributesInfoBuilder(Type clrDeclaringType)
         {
-            var attributesInfoFactory = CreateAttributesInfoFactory();
+            Contract.Requires(clrDeclaringType != null);
+
+            var attributesInfoFactory = CreateAttributesInfoFactory(clrDeclaringType);
             this.AttributesInfoFactory = attributesInfoFactory;
         }
         #endregion
@@ -46,15 +48,13 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IEnumerable<IAttributeInfo>, AttributesInfo> CreateAttributesInfoFactory()
+        private static Func<IEnumerable<IAttributeInfo>, AttributesInfo> CreateAttributesInfoFactory(Type clrDeclaringType)
         {
+            Contract.Requires(clrDeclaringType != null);
+
             Func<IEnumerable<IAttributeInfo>, AttributesInfo> attributesInfoFactory = (collection) =>
                 {
-                    var attributesInfo = new AttributesInfo
-                        {
-                            // AttributesInfo Properties
-                            Collection = collection.SafeToList(),
-                        };
+                    var attributesInfo = new AttributesInfo(clrDeclaringType, collection.SafeToList());
                     return attributesInfo;
                 };
             return attributesInfoFactory;

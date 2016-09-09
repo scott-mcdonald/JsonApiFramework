@@ -5,7 +5,7 @@ using System;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IPropertyInfo : IInfoObject
+    public interface IPropertyInfo : IMemberInfo
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
@@ -15,8 +15,8 @@ namespace JsonApiFramework.ServiceModel
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        object GetClrProperty(object clrResource);
-        void SetClrProperty(object clrResource, object clrValue);
+        object GetClrProperty(object clrObject);
+        void SetClrProperty(object clrObject, object clrValue);
         #endregion
     }
 }

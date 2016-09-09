@@ -425,13 +425,13 @@ namespace JsonApiFramework.Reflection
                 // Handle special case when source type is a string or integer and converting to an enumeration.
                 if (targetType.IsEnum())
                 {
-                    if (sourceType.IsStringType())
+                    if (sourceType.IsString())
                     {
                         targetValue = Enum.Parse(targetType, (string)sourceValue, true);
                         return ConvertResult.Success;
                     }
 
-                    if (sourceType.IsIntegralType())
+                    if (sourceType.IsInteger())
                     {
                         targetValue = Enum.ToObject(targetType, sourceValue);
                         return ConvertResult.Success;

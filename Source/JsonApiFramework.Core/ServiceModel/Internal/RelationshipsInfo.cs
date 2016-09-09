@@ -19,15 +19,14 @@ namespace JsonApiFramework.ServiceModel.Internal
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public RelationshipsInfo(IEnumerable<IRelationshipInfo> collection)
-            : base(null, null)
         {
             Contract.Requires(collection != null);
 
             this.Collection = collection.SafeToList();
         }
 
-        public RelationshipsInfo(string clrRelationshipsPropertyName, IEnumerable<IRelationshipInfo> collection)
-            : base(clrRelationshipsPropertyName, typeof(Relationships))
+        public RelationshipsInfo(Type clrDeclaringType, string clrRelationshipsPropertyName, IEnumerable<IRelationshipInfo> collection)
+            : base(clrDeclaringType, clrRelationshipsPropertyName, typeof(Relationships))
         {
             Contract.Requires(collection != null);
 
@@ -41,38 +40,23 @@ namespace JsonApiFramework.ServiceModel.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region InfoObject Overrides
-        public override void Initialize(IServiceModel serviceModel, IResourceType resourceType)
-        {
-            Contract.Requires(serviceModel != null);
-            Contract.Requires(resourceType != null);
-
-            base.Initialize(serviceModel, resourceType);
-
-            foreach (var relationship in this.Collection)
-            {
-                relationship.Initialize(serviceModel, resourceType);
-            }
-        }
-        #endregion
-
         #region IRelationshipsInfo Implementation
-        public IRelationshipInfo GetRelationship(string rel)
+        public IRelationshipInfo GetRelationshipInfo(string rel)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
             IRelationshipInfo relationship;
-            if (this.TryGetRelationship(rel, out relationship))
+            if (this.TryGetRelationshipInfo(rel, out relationship))
                 return relationship;
 
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ResourceType.ClrResourceType.Name);
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ClrDeclaringType.Name);
             var relationshipDescription = "{0} [rel={1}]".FormatWith(typeof(Relationship).Name, rel);
             var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
                                          .FormatWith(resourceTypeDescription, relationshipDescription);
             throw new ServiceModelException(detail);
         }
 
-        public bool TryGetRelationship(string rel, out IRelationshipInfo relationship)
+        public bool TryGetRelationshipInfo(string rel, out IRelationshipInfo relationship)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 

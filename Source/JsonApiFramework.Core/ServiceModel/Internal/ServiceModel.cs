@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -19,23 +18,45 @@ namespace JsonApiFramework.ServiceModel.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ServiceModel(IEnumerable<IResourceType> resourceTypes)
+        public ServiceModel(IEnumerable<IComplexType> complexTypes, IEnumerable<IResourceType> resourceTypes)
         {
-            Contract.Requires(resourceTypes != null);
-
+            this.ComplexTypes = complexTypes.SafeToList();
             this.ResourceTypes = resourceTypes.SafeToList();
 
             this.Initialize();
         }
+
+        public ServiceModel(IEnumerable<IResourceType> resourceTypes)
+            : this(null, resourceTypes)
+        { }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IServiceModel Implementation
+        [JsonProperty] public IEnumerable<IComplexType> ComplexTypes { get; private set; }
         [JsonProperty] public IEnumerable<IResourceType> ResourceTypes { get; private set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IServiceModel Implementation
+        public IComplexType GetComplexType(Type clrComplexType)
+        {
+            if (clrComplexType != null)
+            {
+                IComplexType resourceType;
+                if (this.TryGetComplexType(clrComplexType, out resourceType))
+                    return resourceType;
+            }
+
+            // No complex type found for the given CLR type.
+            var clrComplexTypeName = clrComplexType != null ? clrComplexType.Name : String.Empty;
+            var serviceModelDescription = typeof(ServiceModel).Name;
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ComplexType).Name, clrComplexTypeName);
+            var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
+                                         .FormatWith(serviceModelDescription, resourceTypeDescription);
+            throw new ServiceModelException(detail);
+        }
+
         public IResourceType GetResourceType(string apiResourceType)
         {
             if (String.IsNullOrWhiteSpace(apiResourceType) == false)
@@ -72,6 +93,14 @@ namespace JsonApiFramework.ServiceModel.Internal
             throw new ServiceModelException(detail);
         }
 
+        public bool TryGetComplexType(Type clrComplexType, out IComplexType complexType)
+        {
+            complexType = null;
+            return clrComplexType != null
+                && this.ClrTypeToComplexTypeDictionary != null
+                && this.ClrTypeToComplexTypeDictionary.TryGetValue(clrComplexType, out complexType);
+        }
+
         public bool TryGetResourceType(string apiResourceType, out IResourceType resourceType)
         {
             resourceType = null;
@@ -105,6 +134,7 @@ namespace JsonApiFramework.ServiceModel.Internal
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
         {
+            this.ComplexTypes = this.ComplexTypes.SafeToList();
             this.ResourceTypes = this.ResourceTypes.SafeToList();
 
             this.Initialize();
@@ -113,6 +143,8 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
+        private IReadOnlyDictionary<Type, IComplexType> ClrTypeToComplexTypeDictionary { get; set; }
+
         private IReadOnlyDictionary<string, IResourceType> ApiTypeToResourceTypeDictionary { get; set; }
         private IReadOnlyDictionary<Type, IResourceType> ClrTypeToResourceTypeDictionary { get; set; }
         #endregion
@@ -121,15 +153,35 @@ namespace JsonApiFramework.ServiceModel.Internal
         #region Methods
         private void Initialize()
         {
+            this.InitializeDictionaryProperties();
+            this.InitializeComplexAndResourceTypes();
+        }
+
+        private void InitializeDictionaryProperties()
+        {
+            this.ClrTypeToComplexTypeDictionary = this.ComplexTypes
+                                                      .ToDictionary(x => x.ClrType);
+
             this.ApiTypeToResourceTypeDictionary = this.ResourceTypes
-                                                       .ToDictionary(x => x.ResourceIdentity.ApiType);
+                                                       .ToDictionary(x => x.ResourceIdentityInfo.ApiType);
 
             this.ClrTypeToResourceTypeDictionary = this.ResourceTypes
-                                                       .ToDictionary(x => x.ClrResourceType);
+                                                       .ToDictionary(x => x.ClrType);
+        }
 
-            foreach (var resourceType in this.ResourceTypes)
+        private void InitializeComplexAndResourceTypes()
+        {
+            if (this.ClrTypeToComplexTypeDictionary == null || this.ClrTypeToComplexTypeDictionary.Count == 0)
+                return;
+
+            foreach (var complexType in this.ClrTypeToComplexTypeDictionary.Values)
             {
-                resourceType.Initialize(this);
+                complexType.Initialize(this.ClrTypeToComplexTypeDictionary);
+            }
+
+            foreach (var resourceType in this.ClrTypeToResourceTypeDictionary.Values)
+            {
+                resourceType.Initialize(this.ClrTypeToComplexTypeDictionary);
             }
         }
         #endregion

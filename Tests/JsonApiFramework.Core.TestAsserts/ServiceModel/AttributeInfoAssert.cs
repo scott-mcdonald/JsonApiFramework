@@ -22,6 +22,7 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
 
             PropertyInfoAssert.Equal(expected, actual);
             Assert.Equal(expected.ApiPropertyName, actual.ApiPropertyName);
+            Assert.Equal(expected.IsComplexType, actual.IsComplexType);
         }
         #endregion
     }

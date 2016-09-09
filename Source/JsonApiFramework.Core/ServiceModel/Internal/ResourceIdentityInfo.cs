@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Expressions;
+using JsonApiFramework.Json;
 using JsonApiFramework.Reflection;
 
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class ResourceIdentityInfo : InfoObject
+    internal class ResourceIdentityInfo : JsonObject
         , IResourceIdentityInfo
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -24,6 +25,8 @@ namespace JsonApiFramework.ServiceModel.Internal
 
             this.ApiType = apiType;
             this.Id = id;
+
+            this.InitializeDefaultClrId();
         }
         #endregion
 
@@ -34,20 +37,6 @@ namespace JsonApiFramework.ServiceModel.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region InfoObject Overrides
-        public override void Initialize(IServiceModel serviceModel, IResourceType resourceType)
-        {
-            Contract.Requires(serviceModel != null);
-            Contract.Requires(resourceType != null);
-
-            base.Initialize(serviceModel, resourceType);
-
-            this.Id.Initialize(serviceModel, resourceType);
-
-            this.InitializeDefaultClrId();
-        }
-        #endregion
-
         #region IResourceIdentityInfo Implementation
         public string GetApiId(object clrResource)
         {
@@ -144,8 +133,7 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         private ServiceModelException CreateIdPropertyInfoMissingException()
         {
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType),
-                this.ResourceType.ClrResourceType.Name);
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.Id.ClrDeclaringType.Name);
 
             var idPropertyInfoDescription = "Id{0}".FormatWith(typeof(PropertyInfo).Name);
 

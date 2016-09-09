@@ -73,6 +73,7 @@ namespace JsonApiFramework.Tests.ServiceModel
                             // Metadata Converters
                             new AttributeInfoConverter(),
                             new AttributesInfoConverter(),
+                            new ComplexTypeConverter(), 
                             new HypermediaInfoConverter(),
                             new LinkInfoConverter(),
                             new LinksInfoConverter(),

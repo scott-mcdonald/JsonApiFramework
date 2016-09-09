@@ -17,7 +17,7 @@ namespace JsonApiFramework.Conventions.Internal
         #region IResourceTypeConventionsBuilder Implementation
         public IResourceTypeConventionsBuilder AddPropertyDiscoveryConvention()
         {
-            this.ResourceTypeConventions.Add(new PropertyDiscoveryConvention());
+            this.ResourceTypeConventions.Add(new PropertyDiscoveryResourceTypeConvention());
             return this;
         }
         #endregion

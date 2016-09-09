@@ -49,6 +49,8 @@ namespace JsonApiFramework.TestAsserts.ClrResources
                 StoreAssert.Equal((Store)expected, (Store)actual);
             else if (expectedType == typeof(StoreConfiguration))
                 StoreConfigurationAssert.Equal((StoreConfiguration)expected, (StoreConfiguration)actual);
+            else if (expectedType == typeof(Drawing))
+                DrawingAssert.Equal((Drawing)expected, (Drawing)actual);
             else
                 Assert.True(false, "Unknown resource [type={0}]".FormatWith(expectedType.Name));
         }

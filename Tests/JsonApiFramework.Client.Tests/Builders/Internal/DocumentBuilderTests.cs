@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using JsonApiFramework.Client.Internal;
@@ -209,6 +210,152 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 .SetMeta(ApiSampleData.ResourceMeta)
                                 .Attributes()
                                     .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
+                                .AttributesEnd()
+                            .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "ForPostWithResourceFromAttributeBuilderAndComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.StoreConfigurationType,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                                ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                .Select(x =>
+                                                    {
+                                                        var apiObject = new ApiObject(
+                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("number", x.Number));
+                                                        return apiObject;
+                                                    })
+                                                .ToArray())),
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithOrderResourceTypes)
+                            .Resource<StoreConfiguration>()
+                                .Attributes()
+                                    .AddAttribute(x => x.IsLive, SampleStoreConfigurations.StoreConfiguration.IsLive)
+                                    .AddAttribute(x => x.MailingAddress, SampleStoreConfigurations.StoreConfiguration.MailingAddress)
+                                    .AddAttribute(x => x.PhoneNumbers, SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)
+                                .AttributesEnd()
+                            .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "ForPostWithResourceFromAttributeBuilderAndNestedComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.DrawingType,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                            ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                                .Select(x =>
+                                                    {
+                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point1.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point2.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(point1, point2, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                .Select(x =>
+                                                    {
+                                                        var points = ApiProperty.Create("points",
+                                                            x.Points.Select(y =>
+                                                                {
+                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                        y.CustomData != null
+                                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                                y.CustomData.Collection.EmptyIfNull()
+                                                                                 .Select(z =>
+                                                                                     {
+                                                                                         var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                         return apiObject3;
+                                                                                     })
+                                                                                 .ToArray()))
+                                                                            : null);
+                                                                    var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                    return apiObject2;
+                                                                })
+                                                             .ToArray());
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(points, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                                ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray()))
+                                                : null)
+                                        )
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithDrawingResourceTypes)
+                            .Resource<Drawing>()
+                                .Attributes()
+                                    .AddAttribute(x => x.Name, SampleDrawings.Drawing.Name)
+                                    .AddAttribute(x => x.Lines, SampleDrawings.Drawing.Lines)
+                                    .AddAttribute(x => x.Polygons, SampleDrawings.Drawing.Polygons)
+                                    .AddAttribute(x => x.CustomData, SampleDrawings.Drawing.CustomData)
                                 .AttributesEnd()
                             .ResourceEnd()
                     },
@@ -521,6 +668,151 @@ namespace JsonApiFramework.Client.Tests.Internal
                             .SetMeta(ApiSampleData.DocumentMeta)
                             .Resource(new Article { Title = "JSON API paints my bikeshed!" })
                                 .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceEnd()
+                    },
+                new object[]
+                    {
+                        "ForPostWithResourceFromObjectAndComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.StoreConfigurationType,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                                ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                .Select(x =>
+                                                    {
+                                                        var apiObject = new ApiObject(
+                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("number", x.Number));
+                                                        return apiObject;
+                                                    })
+                                                .ToArray())),
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithOrderResourceTypes)
+                            .Resource(new StoreConfiguration
+                                {
+                                    IsLive = SampleStoreConfigurations.StoreConfiguration.IsLive,
+                                    MailingAddress = SampleStoreConfigurations.StoreConfiguration.MailingAddress,
+                                    PhoneNumbers = SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                })
+                            .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "ForPostWithResourceFromObjectAndNestedComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.DrawingType,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                            ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                                .Select(x =>
+                                                    {
+                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point1.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point2.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(point1, point2, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                .Select(x =>
+                                                    {
+                                                        var points = ApiProperty.Create("points",
+                                                            x.Points.Select(y =>
+                                                                {
+                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                        y.CustomData != null
+                                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                                y.CustomData.Collection.EmptyIfNull()
+                                                                                 .Select(z =>
+                                                                                     {
+                                                                                         var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                         return apiObject3;
+                                                                                     })
+                                                                                 .ToArray()))
+                                                                            : null);
+                                                                    var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                    return apiObject2;
+                                                                })
+                                                             .ToArray());
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(points, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                                ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray()))
+                                                : null)
+                                        )
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithDrawingResourceTypes)
+                            .Resource(new Drawing
+                                {
+                                    Name = SampleDrawings.Drawing.Name,
+                                    Lines = SampleDrawings.Drawing.Lines,
+                                    Polygons = SampleDrawings.Drawing.Polygons,
+                                    CustomData = SampleDrawings.Drawing.CustomData
+                                })
                             .ResourceEnd()
                     },
 
@@ -871,8 +1163,20 @@ namespace JsonApiFramework.Client.Tests.Internal
                                         Id = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId,
                                         Attributes = new ApiObject(
                                             ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                            ApiProperty.Create("mailing-address", SampleStoreConfigurations.StoreConfiguration.MailingAddress),
-                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)),
+                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                                ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                .Select(x =>
+                                                    {
+                                                        var apiObject = new ApiObject(
+                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("number", x.Number));
+                                                        return apiObject;
+                                                    })
+                                                .ToArray())),
                                     }
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithOrderResourceTypes)
@@ -882,6 +1186,118 @@ namespace JsonApiFramework.Client.Tests.Internal
                                     .AddAttribute(x => x.IsLive, SampleStoreConfigurations.StoreConfiguration.IsLive)
                                     .AddAttribute(x => x.MailingAddress, SampleStoreConfigurations.StoreConfiguration.MailingAddress)
                                     .AddAttribute(x => x.PhoneNumbers, SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)
+                                .AttributesEnd()
+                            .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "ForPatchWithResourceFromAttributeBuilderAndNestedComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.DrawingType,
+                                        Id = SampleDrawings.Drawing.Id.ToString(CultureInfo.InvariantCulture),
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                            ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                                .Select(x =>
+                                                    {
+                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point1.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point2.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(point1, point2, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                .Select(x =>
+                                                    {
+                                                        var points = ApiProperty.Create("points",
+                                                            x.Points.Select(y =>
+                                                                {
+                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                        y.CustomData != null
+                                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                                y.CustomData.Collection.EmptyIfNull()
+                                                                                 .Select(z =>
+                                                                                     {
+                                                                                         var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                         return apiObject3;
+                                                                                     })
+                                                                                 .ToArray()))
+                                                                            : null);
+                                                                    var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                    return apiObject2;
+                                                                })
+                                                             .ToArray());
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(points, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                                ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray()))
+                                                : null)
+                                        )
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithDrawingResourceTypes)
+                            .Resource<Drawing>()
+                                .SetId(SampleDrawings.Drawing.Id)
+                                .Attributes()
+                                    .AddAttribute(x => x.Name, SampleDrawings.Drawing.Name)
+                                    .AddAttribute(x => x.Lines, SampleDrawings.Drawing.Lines)
+                                    .AddAttribute(x => x.Polygons, SampleDrawings.Drawing.Polygons)
+                                    .AddAttribute(x => x.CustomData, SampleDrawings.Drawing.CustomData)
                                 .AttributesEnd()
                             .ResourceEnd()
                     },
@@ -1225,12 +1641,129 @@ namespace JsonApiFramework.Client.Tests.Internal
                                         Id = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId,
                                         Attributes = new ApiObject(
                                             ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                            ApiProperty.Create("mailing-address", SampleStoreConfigurations.StoreConfiguration.MailingAddress),
-                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers)),
+                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                                ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                .Select(x =>
+                                                    {
+                                                        var apiObject = new ApiObject(
+                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("number", x.Number));
+                                                        return apiObject;
+                                                    })
+                                                .ToArray())),
                                     }
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithOrderResourceTypes)
                             .Resource(SampleStoreConfigurations.StoreConfiguration)
+                            .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "ForPatchWithResourceFromObjectAndNestedComplexAttributes",
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.DrawingType,
+                                        Id = SampleDrawings.Drawing.Id.ToString(CultureInfo.InvariantCulture),
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                            ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                                .Select(x =>
+                                                    {
+                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point1.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point2.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(point1, point2, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                .Select(x =>
+                                                    {
+                                                        var points = ApiProperty.Create("points",
+                                                            x.Points.Select(y =>
+                                                                {
+                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                        y.CustomData != null
+                                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                                y.CustomData.Collection.EmptyIfNull()
+                                                                                 .Select(z =>
+                                                                                     {
+                                                                                         var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                         return apiObject3;
+                                                                                     })
+                                                                                 .ToArray()))
+                                                                            : null);
+                                                                    var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                    return apiObject2;
+                                                                })
+                                                             .ToArray());
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(points, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                                ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray()))
+                                                : null)
+                                        )
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithDrawingResourceTypes)
+                            .Resource(SampleDrawings.Drawing)
                             .ResourceEnd()
                     },
 

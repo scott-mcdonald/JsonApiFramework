@@ -21,6 +21,12 @@ namespace JsonApiFramework.Conventions
             return this.ApiTypeNamingConventionsBuilder;
         }
 
+        public IComplexTypeConventionsBuilder ComplexTypeConventions()
+        {
+            this.ComplexTypeConventionsBuilder = this.ComplexTypeConventionsBuilder ?? new ComplexTypeConventionsBuilder();
+            return this.ComplexTypeConventionsBuilder;
+        }
+
         public IResourceTypeConventionsBuilder ResourceTypeConventions()
         {
             this.ResourceTypeConventionsBuilder = this.ResourceTypeConventionsBuilder ?? new ResourceTypeConventionsBuilder();
@@ -39,6 +45,10 @@ namespace JsonApiFramework.Conventions
                 ? this.ApiTypeNamingConventionsBuilder.Build()
                 : null;
 
+            var complexTypeConventions = this.ComplexTypeConventionsBuilder != null
+                ? this.ComplexTypeConventionsBuilder.Build()
+                : null;
+
             var resourceTypeConventions = this.ResourceTypeConventionsBuilder != null
                 ? this.ResourceTypeConventionsBuilder.Build()
                 : null;
@@ -47,6 +57,7 @@ namespace JsonApiFramework.Conventions
                 {
                     ApiAttributeNamingConventions = apiAttributeNamingConventions,
                     ApiTypeNamingConventions = apiTypeNamingConventions,
+                    ComplexTypeConventions = complexTypeConventions,
                     ResourceTypeConventions = resourceTypeConventions
                 };
             return conventions;
@@ -57,6 +68,7 @@ namespace JsonApiFramework.Conventions
         #region Properties
         private NamingConventionsBuilder ApiAttributeNamingConventionsBuilder { get; set; }
         private NamingConventionsBuilder ApiTypeNamingConventionsBuilder { get; set; }
+        private ComplexTypeConventionsBuilder ComplexTypeConventionsBuilder { get; set; }
         private ResourceTypeConventionsBuilder ResourceTypeConventionsBuilder { get; set; }
         #endregion
     }

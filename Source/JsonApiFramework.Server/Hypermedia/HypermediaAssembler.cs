@@ -112,7 +112,7 @@ namespace JsonApiFramework.Server.Hypermedia
 
             var serviceModel = hypermediaContext.ServiceModel;
             var resourceType = serviceModel.GetResourceType(clrResourceType);
-            var relationship = resourceType.GetRelationship(apiRel);
+            var relationship = resourceType.GetRelationshipInfo(apiRel);
 
             // Create the Links object of the relationship.
             var apiRelationshipLinks = CreateResourceRelationshipLinks(hypermediaContext, resourcePathContext, resourceType, clrResource, relationship, relationshipContext);
@@ -279,7 +279,7 @@ namespace JsonApiFramework.Server.Hypermedia
                         if (apiRelationshipToCardinality != RelationshipCardinality.ToOne)
                         {
                             var apiRel = relationshipContext.Rel;
-                            var fromClrResourceTypeName = resourceType.ClrResourceType.Name;
+                            var fromClrResourceTypeName = resourceType.ClrType.Name;
                             var toClrResourceTypeName = relationship.ToClrType.Name;
                             var detail = ServerErrorStrings
                                 .DocumentBuildExceptionDetailBuildResourceRelationshipCardinalityMismatch
@@ -302,7 +302,7 @@ namespace JsonApiFramework.Server.Hypermedia
                         if (apiRelationshipToCardinality != RelationshipCardinality.ToMany)
                         {
                             var apiRel = relationshipContext.Rel;
-                            var fromClrResourceTypeName = resourceType.ClrResourceType.Name;
+                            var fromClrResourceTypeName = resourceType.ClrType.Name;
                             var toClrResourceTypeName = relationship.ToClrType.Name;
                             var detail = ServerErrorStrings
                                 .DocumentBuildExceptionDetailBuildResourceRelationshipCardinalityMismatch

@@ -11,7 +11,7 @@ namespace JsonApiFramework.Conventions.Internal
         #region IConventions Implementation
         public IEnumerable<INamingConvention> ApiAttributeNamingConventions { get; internal set; }
         public IEnumerable<INamingConvention> ApiTypeNamingConventions { get; internal set; }
-
+        public IEnumerable<IComplexTypeConvention> ComplexTypeConventions { get; internal set; }
         public IEnumerable<IResourceTypeConvention> ResourceTypeConventions { get; internal set; }
         #endregion
     }

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
+
 using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
@@ -13,8 +15,8 @@ namespace JsonApiFramework.ServiceModel.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public MetaInfo(string clrPropertyName)
-            : base(clrPropertyName, typeof(Meta))
+        public MetaInfo(Type clrDeclaringType, string clrPropertyName)
+            : base(clrDeclaringType, clrPropertyName, typeof(Meta))
         { }
         #endregion
 

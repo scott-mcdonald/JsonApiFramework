@@ -11,12 +11,13 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class AttributesInfo : InfoObject
+    internal class AttributesInfo : MemberInfo
         , IAttributesInfo
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public AttributesInfo(IEnumerable<IAttributeInfo> collection)
+        public AttributesInfo(Type clrDeclaringType, IEnumerable<IAttributeInfo> collection)
+            : base(clrDeclaringType)
         {
             Contract.Requires(collection != null);
 
@@ -30,53 +31,53 @@ namespace JsonApiFramework.ServiceModel.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region InfoObject Overrides
-        public override void Initialize(IServiceModel serviceModel, IResourceType resourceType)
+        #region IAttributesInfo Implementation
+        public void Initialize(IReadOnlyDictionary<Type, IComplexType> clrTypeToComplexTypeDictionary)
         {
-            Contract.Requires(serviceModel != null);
-            Contract.Requires(resourceType != null);
+            if (clrTypeToComplexTypeDictionary == null)
+                return;
 
-            base.Initialize(serviceModel, resourceType);
+            if (this.Collection == null)
+                return;
 
-            foreach (var attribute in this.Collection)
+            var attributeInfoCollection = this.Collection;
+            foreach (var attributeInfo in attributeInfoCollection)
             {
-                attribute.Initialize(serviceModel, resourceType);
+                attributeInfo.Initialize(clrTypeToComplexTypeDictionary);
             }
         }
-        #endregion
 
-        #region IAttributesInfo Implementation
-        public IAttributeInfo GetApiAttribute(string apiPropertyName)
+        public IAttributeInfo GetApiAttributeInfo(string apiPropertyName)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);
 
             IAttributeInfo attribute;
-            if (this.TryGetApiAttribute(apiPropertyName, out attribute))
+            if (this.TryGetApiAttributeInfo(apiPropertyName, out attribute))
                 return attribute;
 
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ResourceType.ClrResourceType.Name);
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ClrDeclaringType.Name);
             var attributeInfoDescription = "{0} [apiPropertyName={1}]".FormatWith(typeof(AttributeInfo).Name, apiPropertyName);
             var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
                                          .FormatWith(resourceTypeDescription, attributeInfoDescription);
             throw new ServiceModelException(detail);
         }
 
-        public IAttributeInfo GetClrAttribute(string clrPropertyName)
+        public IAttributeInfo GetClrAttributeInfo(string clrPropertyName)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
             IAttributeInfo attribute;
-            if (this.TryGetClrAttribute(clrPropertyName, out attribute))
+            if (this.TryGetClrAttributeInfo(clrPropertyName, out attribute))
                 return attribute;
 
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ResourceType.ClrResourceType.Name);
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ClrDeclaringType.Name);
             var attributeInfoDescription = "{0} [clrPropertyName={1}]".FormatWith(typeof(AttributeInfo).Name, clrPropertyName);
             var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
                                          .FormatWith(resourceTypeDescription, attributeInfoDescription);
             throw new ServiceModelException(detail);
         }
 
-        public bool TryGetApiAttribute(string apiPropertyName, out IAttributeInfo attribute)
+        public bool TryGetApiAttributeInfo(string apiPropertyName, out IAttributeInfo attribute)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);
 
@@ -84,7 +85,7 @@ namespace JsonApiFramework.ServiceModel.Internal
             return attribute != null;
         }
 
-        public bool TryGetClrAttribute(string clrPropertyName, out IAttributeInfo attribute)
+        public bool TryGetClrAttributeInfo(string clrPropertyName, out IAttributeInfo attribute)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 

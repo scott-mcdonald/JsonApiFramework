@@ -39,7 +39,7 @@ namespace JsonApiFramework.Expressions
             var arguments = methodInfo.GetParameters();
 
             var isMethodStatic = methodInfo.IsStatic;
-            var isMethodVoid = methodInfo.ReturnType.IsVoidType();
+            var isMethodVoid = methodInfo.ReturnType.IsVoid();
 
             if (!isMethodStatic)
             {

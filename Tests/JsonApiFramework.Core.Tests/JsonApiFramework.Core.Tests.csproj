@@ -75,6 +75,7 @@
     <Compile Include="Reflection\StaticReflectionTests.cs" />
     <Compile Include="Reflection\TypeConverterTests.cs" />
     <Compile Include="Reflection\TypeExtensionsTests.cs" />
+    <Compile Include="ServiceModel\Configuration\ComplexTypeBuilderTests.cs" />
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilderTests.cs" />
     <Compile Include="ServiceModel\Configuration\ServiceModelBuilderTests.cs" />
     <Compile Include="Conventions\NamingConventionTests.cs" />

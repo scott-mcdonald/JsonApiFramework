@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
-using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -13,9 +13,11 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public LinksInfoBuilder(string clrPropertyName = null)
+        public LinksInfoBuilder(Type clrDeclaringType, string clrPropertyName = null)
         {
-            var linksInfoFactory = CreateLinksInfoFactory(clrPropertyName);
+            Contract.Requires(clrDeclaringType != null);
+
+            var linksInfoFactory = CreateLinksInfoFactory(clrDeclaringType, clrPropertyName);
             this.LinksInfoFactory = linksInfoFactory;
         }
         #endregion
@@ -46,21 +48,18 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IEnumerable<ILinkInfo>, LinksInfo> CreateLinksInfoFactory(string clrPropertyName)
+        private static Func<IEnumerable<ILinkInfo>, LinksInfo> CreateLinksInfoFactory(Type clrDeclaringType, string clrPropertyName)
         {
+            Contract.Requires(clrDeclaringType != null);
+
             Func<IEnumerable<ILinkInfo>, LinksInfo> linksInfoFactory = (collection) =>
                 {
-                    var linksInfo = new LinksInfo
-                        {
-                            // PropertyInfo Properties
-                            ClrPropertyName = clrPropertyName,
-                            ClrPropertyType = String.IsNullOrWhiteSpace(clrPropertyName) == false
-                                ? typeof(Links)
-                                : null,
+                    var collectionAsList = collection.SafeToList();
 
-                            // LinksInfo Properties
-                            Collection = collection.SafeToList(),
-                        };
+                    var isNotPartOfResource = String.IsNullOrWhiteSpace(clrPropertyName);
+                    var linksInfo = isNotPartOfResource
+                        ? new LinksInfo(collectionAsList)
+                        : new LinksInfo(clrDeclaringType, clrPropertyName, collectionAsList);
                     return linksInfo;
                 };
             return linksInfoFactory;

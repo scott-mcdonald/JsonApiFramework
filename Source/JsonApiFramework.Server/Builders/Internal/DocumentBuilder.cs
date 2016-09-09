@@ -725,7 +725,7 @@ namespace JsonApiFramework.Server.Internal
                                 clrResourceCollection = domResourceIdentifierCollection
                                     .Select(domResourceIdentifier =>
                                     {
-                                        var clrResource = resourceType.CreateClrResource();
+                                        var clrResource = resourceType.CreateClrObject();
 
                                         var apiResourceId = domResourceIdentifier.ApiResourceId;
                                         resourceType.SetClrId(clrResource, apiResourceId);
@@ -750,7 +750,7 @@ namespace JsonApiFramework.Server.Internal
                             if (clrResourceType != null)
                             {
                                 var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-                                clrResource = resourceType.CreateClrResource();
+                                clrResource = resourceType.CreateClrObject();
 
                                 var apiResourceId = domResourceIdentifier.ApiResourceId;
                                 resourceType.SetClrId(clrResource, apiResourceId);

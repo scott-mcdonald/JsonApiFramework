@@ -12,13 +12,18 @@ namespace JsonApiFramework.ServiceModel
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
+        IEnumerable<IComplexType> ComplexTypes { get; }
         IEnumerable<IResourceType> ResourceTypes { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
+        IComplexType GetComplexType(Type clrComplexType);
+
         IResourceType GetResourceType(string apiResourceType);
         IResourceType GetResourceType(Type clrResourceType);
+
+        bool TryGetComplexType(Type clrComplexType, out IComplexType resourceType);
 
         bool TryGetResourceType(string apiResourceType, out IResourceType resourceType);
         bool TryGetResourceType(Type clrResourceType, out IResourceType resourceType);

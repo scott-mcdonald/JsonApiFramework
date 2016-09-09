@@ -146,10 +146,11 @@ namespace JsonApiFramework.Server.Internal
                 return;
 
             // Add the DOM read/write resource nodes to the DOM document.
-            resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
-
             this.DocumentBuilderContext.AddDomReadWriteResource(domResourceKey, domReadWriteResource);
             domContainerNode.Add(domReadWriteResource);
+
+            // Finish mapping the DOM read/write resource attributes nodes to the DOM document.
+            resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
 
             this.BuildingResource = true;
             this.DomReadWriteResource = domReadWriteResource;

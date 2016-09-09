@@ -16,7 +16,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -39,10 +38,17 @@ namespace JsonApiFramework.Tests.Internal
         {
             this.OutputTestName(name);
             this.OutputEmptyLine();
-            this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
+
+            this.OutputEmptyLine();
+            this.OutputJson("Document JSON", apiDocument);
+
             var expectedDocumentType = apiDocument.GetDocumentType();
 
             // Act
@@ -61,7 +67,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedIsDataDocument = apiDocument.IsDataDocument();
 
             this.OutputEmptyLine();
@@ -86,7 +96,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedIsErrorsDocument = apiDocument.IsErrorsDocument();
 
 
@@ -112,7 +126,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedIsMetaOnlyDocument = apiDocument.IsMetaOnlyDocument();
 
 
@@ -138,7 +156,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedIsValidDocument = apiDocument.IsValidDocument();
 
 
@@ -164,7 +186,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedJsonApiVersion = apiDocument.JsonApiVersion;
 
             // Act
@@ -183,7 +209,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedMeta = apiDocument.Meta;
 
             // Act
@@ -202,7 +232,11 @@ namespace JsonApiFramework.Tests.Internal
             this.OutputJson("Document JSON", apiDocument);
 
             // Arrange
+            var apiDocumentJson = apiDocument.ToJson();
+            apiDocument = JsonObject.Parse<Document>(apiDocumentJson);
+
             var documentReader = new DocumentReader(apiDocument, serviceModel);
+            this.OutputDomDocument(documentReader);
             var expectedLinks = apiDocument.Links;
 
             // Act
@@ -334,7 +368,11 @@ namespace JsonApiFramework.Tests.Internal
                             ApiSampleData.ArticleResource2
                         }
             };
+            var documentJson = document.ToJson();
+            document = JsonObject.Parse<ResourceCollectionDocument>(documentJson);
+
             var documentReader = new DocumentReader(document, serviceModel);
+            this.OutputDomDocument(documentReader);
 
             // Act
             this.OutputTestName(StaticReflection.GetMemberName<DocumentReaderTests>(x => x.TestDocumentReaderGetResourceThrowsExceptionWithManyResources()));
@@ -364,7 +402,11 @@ namespace JsonApiFramework.Tests.Internal
                             ApiSampleData.ArticleResource2
                         }
                 };
+            var documentJson = document.ToJson();
+            document = JsonObject.Parse<ResourceCollectionDocument>(documentJson);
+
             var documentReader = new DocumentReader(document, serviceModel);
+            this.OutputDomDocument(documentReader);
 
             // Act
             this.OutputTestName(StaticReflection.GetMemberName<DocumentReaderTests>(x => x.TestDocumentReaderGetResourceIdThrowsExceptionWithManyResources()));
@@ -394,7 +436,11 @@ namespace JsonApiFramework.Tests.Internal
                             ApiSampleData.ArticleResourceIdentifier2
                         }
             };
+            var documentJson = document.ToJson();
+            document = JsonObject.Parse<ResourceIdentifierCollectionDocument>(documentJson);
+
             var documentReader = new DocumentReader(document, serviceModel);
+            this.OutputDomDocument(documentReader);
 
             // Act
             this.OutputTestName(StaticReflection.GetMemberName<DocumentReaderTests>(x => x.TestDocumentReaderGetResourceIdThrowsExceptionWithManyResourceIdentifiers()));
@@ -1092,6 +1138,180 @@ namespace JsonApiFramework.Tests.Internal
                             SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
                             SamplePosSystems.PosSystem)
                     },
+
+                new object[]
+                    {
+                        "WithStoreConfigurationResourceDocument",
+                        new GetResourceTest<StoreConfiguration>(
+                            ClrSampleData.ServiceModelWithOrderResourceTypes,
+                            new ResourceDocument
+                                {
+                                    Links = new Links
+                                        {
+                                            {Keywords.Self, "http://api.example.com/stores/50/configuration"}
+                                        },
+                                    Data = new Resource
+                                        {
+                                            Type = ClrSampleData.StoreConfigurationType,
+                                            Id = "50-Configuration",
+                                            Attributes = new ApiObject(
+                                                    ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                                    ApiProperty.Create("mailing-address", new ApiObject(
+                                                        ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                        ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                        ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                        ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                                    ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                        .Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(
+                                                                    ApiProperty.Create("area-code", x.AreaCode),
+                                                                    ApiProperty.Create("number", x.Number));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray())),
+                                            Relationships = new Relationships
+                                                {
+                                                    {
+                                                        ClrSampleData.StoreToStoreConfigurationToPosSystemRel,
+                                                        new ToOneRelationship
+                                                            {
+                                                                Links = new Links
+                                                                    {
+                                                                        {
+                                                                            Keywords.Self, "http://api.example.com/stores/50/configuration/relationships/pos"
+                                                                        },
+                                                                        {
+                                                                            Keywords.Related, "http://api.example.com/stores/50/configuration/pos"
+                                                                        }
+                                                                    },
+                                                                Data =
+                                                                    new ResourceIdentifier(ClrSampleData.PosSystemType,
+                                                                        "RadiantRest")
+                                                            }
+                                                    },
+                                                },
+                                            Links = new Links
+                                                {
+                                                    {Keywords.Self, "http://api.example.com/stores/50/configuration"},
+                                                },
+                                        }
+                                },
+                            SampleStoreConfigurations.StoreConfiguration)
+                    },
+
+                new object[]
+                    {
+                        "WithDrawingResourceDocument",
+                        new GetResourceTest<Drawing>(
+                            ClrSampleData.ServiceModelWithDrawingResourceTypes,
+                            new ResourceDocument
+                                {
+                                    Links = new Links
+                                        {
+                                            {Keywords.Self, "http://api.example.com/drawings/1"}
+                                        },
+                                    Data = new Resource
+                                        {
+                                            Type = ClrSampleData.DrawingType,
+                                            Id = "1",
+                                            Attributes = new ApiObject(
+                                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                            ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                                .Select(x =>
+                                                    {
+                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point1.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                            x.Point2.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                         {
+                                                                             var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                             return apiObject2;
+                                                                         })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(point1, point2, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                .Select(x =>
+                                                    {
+                                                        var points = ApiProperty.Create("points",
+                                                            x.Points.Select(y =>
+                                                                {
+                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                        y.CustomData != null
+                                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                                y.CustomData.Collection.EmptyIfNull()
+                                                                                 .Select(z =>
+                                                                                     {
+                                                                                         var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                         return apiObject3;
+                                                                                     })
+                                                                                 .ToArray()))
+                                                                            : null);
+                                                                    var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                    return apiObject2;
+                                                                })
+                                                             .ToArray());
+                                                        var customData = ApiProperty.Create("custom-data",
+                                                            x.CustomData != null
+                                                                ? new ApiObject(ApiProperty.Create("collection",
+                                                                    x.CustomData.Collection.EmptyIfNull()
+                                                                     .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                     .ToArray()))
+                                                                : null);
+                                                        return new ApiObject(points, customData);
+                                                    })
+                                                .ToArray()),
+                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                                ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                            {
+                                                                var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                return apiObject;
+                                                            })
+                                                        .ToArray()))
+                                                : null)
+                                        ),
+                                            Links = new Links
+                                                {
+                                                    {Keywords.Self, "http://api.example.com/drawings/1"},
+                                                },
+                                        }
+                                },
+                            SampleDrawings.Drawing)
+                    },
             };
         #endregion
 
@@ -1601,6 +1821,14 @@ namespace JsonApiFramework.Tests.Internal
                             ClrSampleData.ServiceModelWithOrderResourceTypes,
                             SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
                             new List<Product> { SampleProducts.Product501, SampleProducts.Product502 })
+                    },
+                new object[]
+                    {
+                        "WithOrderResourceDocumentWithAllIncludedResourcesGetStoreConfiguration",
+                        new GetResourceCollectionTest<StoreConfiguration>(
+                            ClrSampleData.ServiceModelWithOrderResourceTypes,
+                            SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                            new List<StoreConfiguration> { SampleStoreConfigurations.StoreConfiguration })
                     },
             };
         #endregion
@@ -3445,6 +3673,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3464,6 +3695,10 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3559,6 +3794,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3578,6 +3816,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3664,6 +3904,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3675,6 +3918,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3742,6 +3987,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3754,6 +4002,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3821,6 +4071,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3832,6 +4085,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3896,6 +4151,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3907,6 +4165,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -3964,6 +4224,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -3975,6 +4238,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4032,6 +4297,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4043,6 +4311,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4095,6 +4365,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4106,6 +4379,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4164,6 +4439,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4175,6 +4453,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4232,6 +4512,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4243,6 +4526,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4300,6 +4585,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4311,6 +4599,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4363,6 +4653,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4374,6 +4667,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4432,6 +4727,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4443,6 +4741,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4500,6 +4800,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4511,6 +4814,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4568,6 +4873,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4579,6 +4887,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4631,6 +4941,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4642,6 +4955,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4700,6 +5015,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4711,6 +5029,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4768,6 +5088,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4779,6 +5102,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4838,6 +5163,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4851,6 +5179,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4905,6 +5235,9 @@ namespace JsonApiFramework.Tests.Internal
             #region IDocumentReaderTest Implementation
             public void Arrange()
             {
+                var documentJson = this.Document.ToJson();
+                this.Document = JsonObject.Parse<Document>(documentJson);
+
                 this.DocumentReader = new DocumentReader(this.Document, this.ServiceModel);
             }
 
@@ -4916,6 +5249,8 @@ namespace JsonApiFramework.Tests.Internal
 
             public void OutputTest(DocumentReaderTests parent)
             {
+                parent.OutputDomDocument(this.DocumentReader);
+
                 parent.OutputJson("Document JSON", this.Document);
                 parent.OutputEmptyLine();
 
@@ -4964,6 +5299,16 @@ namespace JsonApiFramework.Tests.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private void OutputDomDocument(IDocumentReader documentReader)
+        {
+            var domDocument = ((DocumentReader)documentReader).DomDocument;
+            var domDocumentTreeString = domDocument.ToTreeString();
+
+            this.Output.WriteLine("DOM Tree");
+            this.Output.WriteLine(domDocumentTreeString);
+            this.OutputEmptyLine();
+        }
+
         private void OutputEmptyLine()
         {
             this.Output.WriteLine(String.Empty);

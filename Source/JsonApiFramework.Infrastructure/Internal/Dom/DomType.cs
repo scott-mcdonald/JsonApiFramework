@@ -31,8 +31,8 @@ namespace JsonApiFramework.Internal.Dom
         {
             Contract.Requires(resourceType != null);
 
-            var apiResourceType = resourceType.ResourceIdentity.ApiType;
-            var clrResourceType = resourceType.ClrResourceType;
+            var apiResourceType = resourceType.ResourceIdentityInfo.ApiType;
+            var clrResourceType = resourceType.ClrType;
 
             var domType = new DomType(apiResourceType, clrResourceType);
             return domType;

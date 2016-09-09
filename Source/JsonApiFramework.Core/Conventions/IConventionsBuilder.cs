@@ -8,7 +8,7 @@ namespace JsonApiFramework.Conventions
         #region Methods
         INamingConventionsBuilder ApiAttributeNamingConventions();
         INamingConventionsBuilder ApiTypeNamingConventions();
-
+        IComplexTypeConventionsBuilder ComplexTypeConventions();
         IResourceTypeConventionsBuilder ResourceTypeConventions();
         #endregion
     }

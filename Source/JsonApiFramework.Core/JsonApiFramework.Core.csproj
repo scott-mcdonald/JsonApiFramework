@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Conventions\IConventions.cs" />
+    <Compile Include="Conventions\IComplexTypeConvention.cs" />
+    <Compile Include="Conventions\IComplexTypeConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\ComplexTypeConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\PropertyDiscoveryComplexTypeConvention.cs" />
     <Compile Include="JsonApi\ApiProperty.cs" />
     <Compile Include="JsonApi\ApiObject.cs" />
     <Compile Include="JsonApi\ApiObjectConverter.cs" />
@@ -139,6 +143,10 @@
     <Compile Include="Reflection\TypeConverter.cs" />
     <Compile Include="Reflection\TypeConverterException.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
+    <Compile Include="ServiceModel\Configuration\IComplexTypeBuilder.cs" />
+    <Compile Include="ServiceModel\Configuration\IComplexTypeFactory.cs" />
+    <Compile Include="ServiceModel\Configuration\ComplexTypeBuilder.cs" />
+    <Compile Include="ServiceModel\Configuration\ComplexTypeBuilderExtensions.cs" />
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilderExtensions.cs" />
     <Compile Include="ServiceModel\Configuration\IAttributeInfoBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\IConfigurationCollection.cs" />
@@ -166,7 +174,7 @@
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\ServiceModelBuilder.cs" />
     <Compile Include="Conventions\Internal\Conventions.cs" />
-    <Compile Include="Conventions\ConventionSetBuilder.cs" />
+    <Compile Include="Conventions\ConventionsBuilder.cs" />
     <Compile Include="Conventions\IConventionsBuilder.cs" />
     <Compile Include="Conventions\IConventionsFactory.cs" />
     <Compile Include="Conventions\INamingConvention.cs" />
@@ -175,7 +183,7 @@
     <Compile Include="Conventions\Internal\LowercaseNamingConvention.cs" />
     <Compile Include="Conventions\Internal\NamingConventionsBuilder.cs" />
     <Compile Include="Conventions\Internal\PluralNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\PropertyDiscoveryConvention.cs" />
+    <Compile Include="Conventions\Internal\PropertyDiscoveryResourceTypeConvention.cs" />
     <Compile Include="Conventions\Internal\ResourceTypeConventionsBuilder.cs" />
     <Compile Include="Conventions\Internal\SingularNamingConvention.cs" />
     <Compile Include="Conventions\Internal\StandardMemberNamingConvention.cs" />
@@ -192,6 +200,7 @@
     <Compile Include="ServiceModel\Converters\RelationshipInfoConverter.cs" />
     <Compile Include="ServiceModel\Converters\RelationshipsInfoConverter.cs" />
     <Compile Include="ServiceModel\Converters\ResourceIdentityInfoConverter.cs" />
+    <Compile Include="ServiceModel\Converters\ComplexTypeConverter.cs" />
     <Compile Include="ServiceModel\Converters\ResourceTypeConverter.cs" />
     <Compile Include="ServiceModel\Converters\ServiceModelConverter.cs" />
     <Compile Include="ServiceModel\Extensions\AttributeInfoExtensions.cs" />
@@ -200,23 +209,28 @@
     <Compile Include="ServiceModel\Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="ServiceModel\IAttributeInfo.cs" />
     <Compile Include="ServiceModel\IAttributesInfo.cs" />
+    <Compile Include="ServiceModel\IClrTypeInfo.cs" />
+    <Compile Include="ServiceModel\ComplexTypesResolver.cs" />
+    <Compile Include="ServiceModel\IComplexType.cs" />
     <Compile Include="ServiceModel\IGetServiceModel.cs" />
     <Compile Include="ServiceModel\IHypermediaInfo.cs" />
-    <Compile Include="ServiceModel\IInfoObject.cs" />
+    <Compile Include="ServiceModel\IMemberInfo.cs" />
     <Compile Include="ServiceModel\ILinkInfo.cs" />
     <Compile Include="ServiceModel\ILinksInfo.cs" />
     <Compile Include="ServiceModel\IMetaInfo.cs" />
     <Compile Include="ServiceModel\Internal\AttributeInfo.cs" />
     <Compile Include="ServiceModel\Internal\AttributesInfo.cs" />
     <Compile Include="ServiceModel\Internal\HypermediaInfo.cs" />
-    <Compile Include="ServiceModel\Internal\InfoObject.cs" />
+    <Compile Include="ServiceModel\Internal\MemberInfo.cs" />
     <Compile Include="ServiceModel\Internal\LinkInfo.cs" />
     <Compile Include="ServiceModel\Internal\LinksInfo.cs" />
+    <Compile Include="ServiceModel\Internal\ComplexType.cs" />
     <Compile Include="ServiceModel\Internal\MetaInfo.cs" />
     <Compile Include="ServiceModel\Internal\PropertyInfo.cs" />
     <Compile Include="ServiceModel\Internal\RelationshipInfo.cs" />
     <Compile Include="ServiceModel\Internal\RelationshipsInfo.cs" />
     <Compile Include="ServiceModel\Internal\ResourceIdentityInfo.cs" />
+    <Compile Include="ServiceModel\Internal\ClrTypeInfo.cs" />
     <Compile Include="ServiceModel\Internal\ResourceType.cs" />
     <Compile Include="ServiceModel\Internal\ServiceModel.cs" />
     <Compile Include="ServiceModel\IPropertyInfo.cs" />
@@ -252,6 +266,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CoreErrorStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

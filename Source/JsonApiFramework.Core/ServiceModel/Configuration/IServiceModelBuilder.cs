@@ -11,6 +11,8 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
+        IComplexTypeBuilder<TComplex> Complex<TComplex>();
+
         IResourceTypeBuilder<TResource> Resource<TResource>()
             where TResource : class, IResource;
         #endregion

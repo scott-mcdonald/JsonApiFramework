@@ -19,6 +19,7 @@ namespace JsonApiFramework.Internal.Dom
         Id,
         Attributes,
         Attribute,
+        Index,
         Relationships,
         Relationship,
         ResourceIdentifier,

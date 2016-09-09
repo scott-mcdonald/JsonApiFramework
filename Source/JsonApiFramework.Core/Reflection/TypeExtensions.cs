@@ -177,6 +177,48 @@ namespace JsonApiFramework.Reflection
             return type.GetTypeInfo().IsEnum;
         }
 
+        public static bool IsEnumerableOfT(this Type type)
+        {
+            Contract.Requires(type != null);
+
+            Type enumerableType;
+            return type.IsEnumerableOfT(out enumerableType);
+        }
+
+        public static bool IsEnumerableOfT(this Type type, out Type enumerableType)
+        {
+            Contract.Requires(type != null);
+
+            enumerableType = null;
+
+            var typeInfo = type.GetTypeInfo();
+            if (!typeInfo.IsGenericType)
+                return false;
+
+            var enumerableGenericTypeArguments = typeInfo
+                .ImplementedInterfaces
+                .Where(t => t.IsGenericType() && t.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                .Select(t => t.GenericTypeArguments.First())
+                .ToList();
+
+            var enumerableGenericTypeArgumentsCount = enumerableGenericTypeArguments.Count;
+            if (enumerableGenericTypeArgumentsCount == 0)
+                return false;
+
+            if (enumerableGenericTypeArgumentsCount > 1)
+                throw new ArgumentException("ClrType [name={0}] implements multiple versions of IEnumerable<T>.".FormatWith(type.Name));
+
+            enumerableType = enumerableGenericTypeArguments[0];
+            return true;
+        }
+
+        public static bool IsFloatingPoint(this Type type)
+        {
+            Contract.Requires(type != null);
+
+            return FloatingPointTypes.Contains(type);
+        }
+
         public static bool IsGenericTypeDefinition(this Type type)
         {
             Contract.Requires(type != null);
@@ -198,11 +240,11 @@ namespace JsonApiFramework.Reflection
             return interfaceType != null && IsImplementationOf(type.GetTypeInfo(), interfaceType.GetTypeInfo());
         }
 
-        public static bool IsIntegralType(this Type type)
+        public static bool IsInteger(this Type type)
         {
             Contract.Requires(type != null);
 
-            return IntegralTypes.Contains(type);
+            return IntegerTypes.Contains(type);
         }
 
         public static bool IsNullableType(this Type type)
@@ -212,7 +254,20 @@ namespace JsonApiFramework.Reflection
             return type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
-        public static bool IsStringType(this Type type)
+        public static bool IsNumber(this Type type)
+        {
+            return type.IsInteger() || type.IsFloatingPoint();
+        }
+
+        public static bool IsPrimitive(this Type type)
+        {
+            Contract.Requires(type != null);
+
+            return type.GetTypeInfo().IsPrimitive || PrimitiveTypes.Contains(type);
+
+        }
+
+        public static bool IsString(this Type type)
         {
             Contract.Requires(type != null);
 
@@ -240,7 +295,7 @@ namespace JsonApiFramework.Reflection
             return type.GetTypeInfo().IsValueType;
         }
 
-        public static bool IsVoidType(this Type type)
+        public static bool IsVoid(this Type type)
         {
             Contract.Requires(type != null);
 
@@ -583,7 +638,14 @@ namespace JsonApiFramework.Reflection
 
         private static readonly Type[] EmptyTypes = new Type[0];
 
-        private static readonly HashSet<Type> IntegralTypes = new HashSet<Type>
+        private static readonly HashSet<Type> FloatingPointTypes = new HashSet<Type>
+            {
+                typeof(decimal),
+                typeof(double),
+                typeof(float)
+            };
+
+        private static readonly HashSet<Type> IntegerTypes = new HashSet<Type>
             {
                 typeof(sbyte),
                 typeof(byte),
@@ -594,6 +656,16 @@ namespace JsonApiFramework.Reflection
                 typeof(uint),
                 typeof(long),
                 typeof(ulong)
+            };
+
+        private static readonly HashSet<Type> PrimitiveTypes = new HashSet<Type>
+            {
+                typeof(string),
+                typeof(decimal),
+                typeof(DateTime),
+                typeof(DateTimeOffset),
+                typeof(TimeSpan),
+                typeof(Guid)
             };
         #endregion
     }

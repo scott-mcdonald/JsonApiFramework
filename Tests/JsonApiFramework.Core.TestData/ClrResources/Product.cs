@@ -8,16 +8,6 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ProductAttributes : JsonObject
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("unit-price")]
-        public decimal UnitPrice { get; set; }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
     public class Product : JsonObject, IResource
     {
         [JsonProperty] public long ProductId { get; set; }

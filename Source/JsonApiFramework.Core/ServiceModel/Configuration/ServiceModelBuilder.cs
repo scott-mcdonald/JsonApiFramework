@@ -19,6 +19,12 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IServiceModelBuilder Implementation
+        public IComplexTypeBuilder<TComplex> Complex<TComplex>()
+        {
+            var complexTypeConfiguration = _configurations.GetOrAddComplexTypeBuilder<TComplex>();
+            return complexTypeConfiguration;
+        }
+
         public IResourceTypeBuilder<TResource> Resource<TResource>()
             where TResource : class, IResource
         {
@@ -30,14 +36,24 @@ namespace JsonApiFramework.ServiceModel.Configuration
         #region IServiceModelFactory Implementation
         public IServiceModel Create(IConventions conventions)
         {
+            var complexTypes = this.CreateComplexTypes(conventions);
             var resourceTypes = this.CreateResourceTypes(conventions);
-            var serviceModel = new ServiceModel.Internal.ServiceModel(resourceTypes);
+            var serviceModel = new ServiceModel.Internal.ServiceModel(complexTypes, resourceTypes);
             return serviceModel;
         }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private IEnumerable<IComplexType> CreateComplexTypes(IConventions conventions)
+        {
+            var complexTypeFactoryCollection = _configurations.GetComplexTypeFactoryCollection();
+            var complexTypes = complexTypeFactoryCollection
+                .Select(x => x.Create(conventions))
+                .ToList();
+            return complexTypes;
+        }
+
         private IEnumerable<IResourceType> CreateResourceTypes(IConventions conventions)
         {
             var resourceTypeFactoryCollection = _configurations.GetResourceTypeFactoryCollection();

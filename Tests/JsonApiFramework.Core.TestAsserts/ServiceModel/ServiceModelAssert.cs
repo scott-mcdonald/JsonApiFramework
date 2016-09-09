@@ -20,6 +20,7 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
             }
             Assert.NotNull(actual);
 
+            ComplexTypeAssert.Equal(expected.ComplexTypes, actual.ComplexTypes);
             ResourceTypeAssert.Equal(expected.ResourceTypes, actual.ResourceTypes);
         }
         #endregion

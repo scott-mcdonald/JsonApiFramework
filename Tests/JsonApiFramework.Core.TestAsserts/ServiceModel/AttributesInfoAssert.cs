@@ -20,6 +20,8 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
             }
             Assert.NotNull(actual);
 
+            MemberInfoAssert.Equal(expected, actual);
+
             var expectedList = expected.Collection.SafeToList();
             var actualList = actual.Collection.SafeToList();
             Assert.Equal(expectedList.Count, actualList.Count);

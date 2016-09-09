@@ -38,7 +38,7 @@ namespace JsonApiFramework.Internal.Dom
 
             var apiId = apiResourceIdentity.Id;
 
-            var resourceIdentity = resourceType.ResourceIdentity;
+            var resourceIdentity = resourceType.ResourceIdentityInfo;
             var clrId = resourceIdentity.ToClrId(apiId);
             var clrPropertyName = resourceIdentity.Id.ClrPropertyName;
             var clrPropertyType = resourceIdentity.Id.ClrPropertyType;
@@ -52,7 +52,7 @@ namespace JsonApiFramework.Internal.Dom
             Contract.Requires(resourceType != null);
             Contract.Requires(clrResource != null);
 
-            var resourceIdentity = resourceType.ResourceIdentity;
+            var resourceIdentity = resourceType.ResourceIdentityInfo;
 
             var apiId = resourceIdentity.GetApiId(clrResource);
 
@@ -68,7 +68,7 @@ namespace JsonApiFramework.Internal.Dom
         {
             Contract.Requires(resourceType != null);
 
-            var resourceIdentity = resourceType.ResourceIdentity;
+            var resourceIdentity = resourceType.ResourceIdentityInfo;
 
             var apiId = resourceIdentity.ToApiId(clrResourceId);
 

@@ -4,8 +4,6 @@
 using System;
 using System.Diagnostics.Contracts;
 
-using JsonApiFramework.Expressions;
-using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
@@ -17,100 +15,66 @@ namespace JsonApiFramework.ServiceModel.Internal
     /// model.
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class ResourceType : JsonObject
+    internal class ResourceType : ClrTypeInfo
         , IResourceType
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public ResourceType(Type clrResourceType,
-                            IHypermediaInfo hypermedia,
-                            IResourceIdentityInfo resourceIdentity,
-                            IAttributesInfo attributes,
-                            IRelationshipsInfo relationships,
-                            ILinksInfo links,
-                            IMetaInfo meta)
+                            IHypermediaInfo hypermediaInfo,
+                            IResourceIdentityInfo resourceIdentityInfo,
+                            IAttributesInfo attributesInfo,
+                            IRelationshipsInfo relationshipsInfo,
+                            ILinksInfo linksInfo,
+                            IMetaInfo metaInfo)
+            : base(clrResourceType, attributesInfo)
         {
-            Contract.Requires(clrResourceType != null);
-            Contract.Requires(hypermedia != null);
-            Contract.Requires(resourceIdentity != null);
-            Contract.Requires(attributes != null);
-            Contract.Requires(relationships != null);
-            Contract.Requires(links != null);
+            Contract.Requires(hypermediaInfo != null);
+            Contract.Requires(resourceIdentityInfo != null);
+            Contract.Requires(relationshipsInfo != null);
+            Contract.Requires(linksInfo != null);
 
             // JSON Properties
-            this.ClrResourceType = clrResourceType;
-            this.Hypermedia = hypermedia;
-            this.ResourceIdentity = resourceIdentity;
-            this.Attributes = attributes;
-            this.Relationships = relationships;
-            this.Links = links;
-            this.Meta = meta;
-
-            // Non-JSON Properties
-            this.Name = clrResourceType.Name;
+            this.HypermediaInfo = hypermediaInfo;
+            this.ResourceIdentityInfo = resourceIdentityInfo;
+            this.RelationshipsInfo = relationshipsInfo;
+            this.LinksInfo = linksInfo;
+            this.MetaInfo = metaInfo;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IResourceType Implementation
-        [JsonProperty] public Type ClrResourceType { get; private set; }
-        [JsonProperty] public IHypermediaInfo Hypermedia { get; private set; }
-        [JsonProperty] public IResourceIdentityInfo ResourceIdentity { get; private set; }
-        [JsonProperty] public IAttributesInfo Attributes { get; private set; }
-        [JsonProperty] public IRelationshipsInfo Relationships { get; private set; }
-        [JsonProperty] public ILinksInfo Links { get; private set; }
-        [JsonProperty] public IMetaInfo Meta { get; private set; }
-        #endregion
-
-        #region Properties
-        public string Name { get; private set; }
+        [JsonProperty] public IHypermediaInfo HypermediaInfo { get; private set; }
+        [JsonProperty] public IResourceIdentityInfo ResourceIdentityInfo { get; private set; }
+        [JsonProperty] public IRelationshipsInfo RelationshipsInfo { get; private set; }
+        [JsonProperty] public ILinksInfo LinksInfo { get; private set; }
+        [JsonProperty] public IMetaInfo MetaInfo { get; private set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceType Implementation
-        public void Initialize(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            // Initialize all aggregate objects.
-            this.InitializeResourceIdentity(serviceModel);
-            this.InitializeAttributes(serviceModel);
-            this.InitializeRelationships(serviceModel);
-            this.InitializeLinks(serviceModel);
-            this.InitializeMeta(serviceModel);
-
-            // Initialize all internal objects.
-            this.InitializeClrResourceNewMethod();
-        }
-
         public ResourceIdentifier CreateApiResourceIdentifier<TResourceId>(TResourceId clrResourceId)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                var apiType = this.ResourceIdentity.ApiType;
-                var apiId = this.ResourceIdentity.ToApiId(clrResourceId);
+                var apiType = this.ResourceIdentityInfo.ApiType;
+                var apiId = this.ResourceIdentityInfo.ToApiId(clrResourceId);
                 var apiResourceIdentifier = String.IsNullOrWhiteSpace(apiId) == false
                     ? new ResourceIdentifier(apiType, apiId)
                     : null;
                 return apiResourceIdentifier;
             }
 
-
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
             throw resourceIdentityInfoMissingException;
         }
 
-        public object CreateClrResource()
-        {
-            var clrResource = this.ClrResourceNewMethod.DynamicInvoke();
-            return clrResource;
-        }
-
         public string GetApiId(object clrResource)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                return this.ResourceIdentity.GetApiId(clrResource);
+                return this.ResourceIdentityInfo.GetApiId(clrResource);
             }
 
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
@@ -119,10 +83,10 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public ResourceIdentifier GetApiResourceIdentifier(object clrResource)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                var apiType = this.ResourceIdentity.ApiType;
-                var apiId = this.ResourceIdentity.GetApiId(clrResource);
+                var apiType = this.ResourceIdentityInfo.ApiType;
+                var apiId = this.ResourceIdentityInfo.GetApiId(clrResource);
                 var apiResourceIdentifier = String.IsNullOrWhiteSpace(apiId) == false
                     ? new ResourceIdentifier(apiType, apiId)
                     : null;
@@ -135,9 +99,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public object GetClrId(object clrResource)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                return this.ResourceIdentity.GetClrId(clrResource);
+                return this.ResourceIdentityInfo.GetClrId(clrResource);
             }
 
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
@@ -146,9 +110,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public Relationships GetClrRelationships(object clrResource)
         {
-            if (this.Relationships != null)
+            if (this.RelationshipsInfo != null)
             {
-                var relationships = (Relationships)this.Relationships.GetClrProperty(clrResource);
+                var relationships = (Relationships)this.RelationshipsInfo.GetClrProperty(clrResource);
                 return relationships;
             }
 
@@ -158,9 +122,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public Links GetClrLinks(object clrResource)
         {
-            if (this.Links != null)
+            if (this.LinksInfo != null)
             {
-                var links = (Links)this.Links.GetClrProperty(clrResource);
+                var links = (Links)this.LinksInfo.GetClrProperty(clrResource);
                 return links;
             }
 
@@ -170,9 +134,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public Meta GetClrMeta(object clrResource)
         {
-            if (this.Meta != null)
+            if (this.MetaInfo != null)
             {
-                var meta = (Meta)this.Meta.GetClrProperty(clrResource);
+                var meta = (Meta)this.MetaInfo.GetClrProperty(clrResource);
                 return meta;
             }
 
@@ -180,44 +144,22 @@ namespace JsonApiFramework.ServiceModel.Internal
             throw metaInfoMissingException;
         }
 
-        public IAttributeInfo GetApiAttribute(string apiPropertyName)
+        public IRelationshipInfo GetRelationshipInfo(string rel)
         {
-            if (this.Attributes != null)
+            if (this.RelationshipsInfo != null)
             {
-                return this.Attributes.GetApiAttribute(apiPropertyName);
-            }
-
-            var attributesInfoMissingException = this.CreateInfoMissingException<AttributesInfo>();
-            throw attributesInfoMissingException;
-        }
-
-        public IAttributeInfo GetClrAttribute(string clrPropertyName)
-        {
-            if (this.Attributes != null)
-            {
-                return this.Attributes.GetClrAttribute(clrPropertyName);
-            }
-
-            var attributesInfoMissingException = this.CreateInfoMissingException<AttributesInfo>();
-            throw attributesInfoMissingException;
-        }
-
-        public IRelationshipInfo GetRelationship(string rel)
-        {
-            if (this.Relationships != null)
-            {
-                return this.Relationships.GetRelationship(rel);
+                return this.RelationshipsInfo.GetRelationshipInfo(rel);
             }
 
             var relationshipsInfoMissingException = this.CreateInfoMissingException<RelationshipsInfo>();
             throw relationshipsInfoMissingException;
         }
 
-        public ILinkInfo GetLink(string rel)
+        public ILinkInfo GetLinkInfo(string rel)
         {
-            if (this.Links != null)
+            if (this.LinksInfo != null)
             {
-                return this.Links.GetLink(rel);
+                return this.LinksInfo.GetLinkInfo(rel);
             }
 
             var linksInfoMissingException = this.CreateInfoMissingException<LinksInfo>();
@@ -226,9 +168,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public bool IsClrIdNull(object clrId)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                return this.ResourceIdentity.IsClrIdNull(clrId);
+                return this.ResourceIdentityInfo.IsClrIdNull(clrId);
             }
 
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
@@ -237,17 +179,17 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public void SetClrMeta(object clrResource, Meta apiMeta)
         {
-            if (this.Meta == null || this.Meta.CanGetOrSetClrProperty() == false)
+            if (this.MetaInfo == null || this.MetaInfo.CanGetOrSetClrProperty() == false)
                 return;
 
-            this.Meta.SetClrProperty(clrResource, apiMeta);
+            this.MetaInfo.SetClrProperty(clrResource, apiMeta);
         }
 
         public void SetClrId(object clrResource, object clrId)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                this.ResourceIdentity.SetClrId(clrResource, clrId);
+                this.ResourceIdentityInfo.SetClrId(clrResource, clrId);
                 return;
             }
 
@@ -257,25 +199,25 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public void SetClrRelationships(object clrResource, Relationships apiRelationships)
         {
-            if (this.Relationships == null || this.Relationships.CanGetOrSetClrProperty() == false)
+            if (this.RelationshipsInfo == null || this.RelationshipsInfo.CanGetOrSetClrProperty() == false)
                 return;
 
-            this.Relationships.SetClrProperty(clrResource, apiRelationships);
+            this.RelationshipsInfo.SetClrProperty(clrResource, apiRelationships);
         }
 
         public void SetClrLinks(object clrResource, Links links)
         {
-            if (this.Links == null || this.Links.CanGetOrSetClrProperty() == false)
+            if (this.LinksInfo == null || this.LinksInfo.CanGetOrSetClrProperty() == false)
                 return;
 
-            this.Links.SetClrProperty(clrResource, links);
+            this.LinksInfo.SetClrProperty(clrResource, links);
         }
 
         public string ToApiId(object clrId)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                return this.ResourceIdentity.ToApiId(clrId);
+                return this.ResourceIdentityInfo.ToApiId(clrId);
             }
 
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
@@ -284,39 +226,25 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public object ToClrId(object clrId)
         {
-            if (this.ResourceIdentity != null)
+            if (this.ResourceIdentityInfo != null)
             {
-                return this.ResourceIdentity.ToClrId(clrId);
+                return this.ResourceIdentityInfo.ToClrId(clrId);
             }
 
             var resourceIdentityInfoMissingException = this.CreateInfoMissingException<ResourceIdentityInfo>();
             throw resourceIdentityInfoMissingException;
         }
 
-        public bool TryGetApiAttribute(string apiPropertyName, out IAttributeInfo attribute)
+        public bool TryGetRelationshipInfo(string rel, out IRelationshipInfo relationshipInfo)
         {
-            attribute = null;
-            return this.Attributes != null &&
-                   this.Attributes.TryGetApiAttribute(apiPropertyName, out attribute);
+            relationshipInfo = null;
+            return this.RelationshipsInfo != null && this.RelationshipsInfo.TryGetRelationshipInfo(rel, out relationshipInfo);
         }
 
-        public bool TryGetClrAttribute(string clrPropertyName, out IAttributeInfo attribute)
+        public bool TryGetLinkInfo(string rel, out ILinkInfo linkInfo)
         {
-            attribute = null;
-            return this.Attributes != null &&
-                   this.Attributes.TryGetClrAttribute(clrPropertyName, out attribute);
-        }
-
-        public bool TryGetRelationship(string rel, out IRelationshipInfo relationship)
-        {
-            relationship = null;
-            return this.Relationships != null && this.Relationships.TryGetRelationship(rel, out relationship);
-        }
-
-        public bool TryGetLink(string rel, out ILinkInfo link)
-        {
-            link = null;
-            return this.Links != null && this.Links.TryGetLink(rel, out link);
+            linkInfo = null;
+            return this.LinksInfo != null && this.LinksInfo.TryGetLinkInfo(rel, out linkInfo);
         }
         #endregion
 
@@ -324,86 +252,6 @@ namespace JsonApiFramework.ServiceModel.Internal
         #region Constructors
         internal ResourceType()
         { }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
-        private Delegate ClrResourceNewMethod { get; set; }
-        #endregion
-
-        // PRIVATE METHODS //////////////////////////////////////////////////
-        #region Initialize Methods
-        private void InitializeResourceIdentity(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            if (this.ResourceIdentity == null)
-                return;
-
-            this.ResourceIdentity.Initialize(serviceModel, this);
-        }
-
-        private void InitializeAttributes(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            if (this.Attributes == null)
-                return;
-
-            this.Attributes.Initialize(serviceModel, this);
-        }
-
-        private void InitializeRelationships(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            if (this.Relationships == null)
-                return;
-
-            this.Relationships.Initialize(serviceModel, this);
-        }
-
-        private void InitializeLinks(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            if (this.Links == null)
-                return;
-
-            this.Links.Initialize(serviceModel, this);
-        }
-
-        private void InitializeMeta(IServiceModel serviceModel)
-        {
-            Contract.Requires(serviceModel != null);
-
-            if (this.Meta == null)
-                return;
-
-            this.Meta.Initialize(serviceModel, this);
-        }
-
-        private void InitializeClrResourceNewMethod()
-        {
-            var clrResourceNewExpression = ExpressionBuilder.New(this.ClrResourceType);
-            var clrResourceNewMethod = clrResourceNewExpression.Compile();
-            this.ClrResourceNewMethod = clrResourceNewMethod;
-        }
-        #endregion
-
-        #region Helper Methods
-        private ServiceModelException CreateInfoMissingException<TInfo>()
-        {
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType),
-                this.ClrResourceType.Name);
-
-            var infoDescription = typeof(TInfo).Name;
-
-            var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
-                                         .FormatWith(resourceTypeDescription, infoDescription);
-            var infoMissingException = new ServiceModelException(detail);
-            return infoMissingException;
-        }
         #endregion
     }
 }

@@ -74,15 +74,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(toClrType != null);
 
-            return () => new RelationshipInfo
-                {
-                    // RelationshipInfo Properties
-                    Rel = rel,
-                    ApiRelPathSegment = rel,
-                    ToClrType = toClrType,
-                    ToCardinality = toCardinality,
-                    ToCanonicalRelPathMode = default(RelationshipCanonicalRelPathMode)
-                };
+            return () => new RelationshipInfo(rel, rel, toClrType, toCardinality, default(RelationshipCanonicalRelPathMode));
         }
         #endregion
     }

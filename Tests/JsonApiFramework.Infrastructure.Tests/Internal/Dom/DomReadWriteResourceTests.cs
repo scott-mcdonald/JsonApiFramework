@@ -32,8 +32,8 @@ namespace JsonApiFramework.Tests.Internal.Dom
             var serviceModel = ClrSampleData.ServiceModelWithBlogResourceTypes;
 
             var articleResourceType = serviceModel.GetResourceType<Article>();
-            var articleResourceIdentity = articleResourceType.ResourceIdentity;
-            var articleTitleAttribute = articleResourceType.GetClrAttribute(StaticReflection.GetMemberName<Article>(x => x.Title));
+            var articleResourceIdentity = articleResourceType.ResourceIdentityInfo;
+            var articleTitleAttribute = articleResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Article>(x => x.Title));
 
             var expected = ApiSampleData.ArticleResource;
 
@@ -70,7 +70,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
             var serviceModel = ClrSampleData.ServiceModelWithBlogResourceTypes;
 
             var articleResourceType = serviceModel.GetResourceType<Article>();
-            var articleTitleAttribute = articleResourceType.GetClrAttribute(StaticReflection.GetMemberName<Article>(x => x.Title));
+            var articleTitleAttribute = articleResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Article>(x => x.Title));
 
             var commentResourceType = serviceModel.GetResourceType<Comment>();
             var personResourceType = serviceModel.GetResourceType<Person>();
@@ -124,8 +124,8 @@ namespace JsonApiFramework.Tests.Internal.Dom
             var serviceModel = ClrSampleData.ServiceModelWithBlogResourceTypes;
 
             var blogResourceType = serviceModel.GetResourceType<Blog>();
-            var blogResourceIdentity = blogResourceType.ResourceIdentity;
-            var blogNameAttribute = blogResourceType.GetClrAttribute(StaticReflection.GetMemberName<Blog>(x => x.Name));
+            var blogResourceIdentity = blogResourceType.ResourceIdentityInfo;
+            var blogNameAttribute = blogResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Blog>(x => x.Name));
 
             var expectedBlog = ApiSampleData.BlogResource;
 
@@ -157,8 +157,8 @@ namespace JsonApiFramework.Tests.Internal.Dom
             var serviceModel = ClrSampleData.ServiceModelWithBlogResourceTypes;
 
             var commentResourceType = serviceModel.GetResourceType<Comment>();
-            var commentResourceIdentity = commentResourceType.ResourceIdentity;
-            var commentBodyAttribute = commentResourceType.GetClrAttribute(StaticReflection.GetMemberName<Comment>(x => x.Body));
+            var commentResourceIdentity = commentResourceType.ResourceIdentityInfo;
+            var commentBodyAttribute = commentResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Comment>(x => x.Body));
 
             var expected = ApiSampleData.CommentResource;
 
@@ -190,10 +190,10 @@ namespace JsonApiFramework.Tests.Internal.Dom
             var serviceModel = ClrSampleData.ServiceModelWithBlogResourceTypes;
 
             var personResourceType = serviceModel.GetResourceType<Person>();
-            var personResourceIdentity = personResourceType.ResourceIdentity;
-            var personFirstNameAttribute = personResourceType.GetClrAttribute(StaticReflection.GetMemberName<Person>(x => x.FirstName));
-            var personLastNameAttribute = personResourceType.GetClrAttribute(StaticReflection.GetMemberName<Person>(x => x.LastName));
-            var personTwitterAttribute = personResourceType.GetClrAttribute(StaticReflection.GetMemberName<Person>(x => x.Twitter));
+            var personResourceIdentity = personResourceType.ResourceIdentityInfo;
+            var personFirstNameAttribute = personResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Person>(x => x.FirstName));
+            var personLastNameAttribute = personResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Person>(x => x.LastName));
+            var personTwitterAttribute = personResourceType.GetClrAttributeInfo(StaticReflection.GetMemberName<Person>(x => x.Twitter));
 
             var expected = ApiSampleData.PersonResource;
 

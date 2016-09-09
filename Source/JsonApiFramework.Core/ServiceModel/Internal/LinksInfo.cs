@@ -19,15 +19,14 @@ namespace JsonApiFramework.ServiceModel.Internal
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public LinksInfo(IEnumerable<ILinkInfo> collection)
-            : base(null, null)
         {
             Contract.Requires(collection != null);
 
             this.Collection = collection.SafeToList();
         }
 
-        public LinksInfo(string clrLinksPropertyName, IEnumerable<ILinkInfo> collection)
-            : base(clrLinksPropertyName, typeof(Links))
+        public LinksInfo(Type clrDeclaringType, string clrLinksPropertyName, IEnumerable<ILinkInfo> collection)
+            : base(clrDeclaringType, clrLinksPropertyName, typeof(Links))
         {
             Contract.Requires(collection != null);
 
@@ -41,38 +40,23 @@ namespace JsonApiFramework.ServiceModel.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region InfoObject Overrides
-        public override void Initialize(IServiceModel serviceModel, IResourceType resourceType)
-        {
-            Contract.Requires(serviceModel != null);
-            Contract.Requires(resourceType != null);
-
-            base.Initialize(serviceModel, resourceType);
-
-            foreach (var link in this.Collection)
-            {
-                link.Initialize(serviceModel, resourceType);
-            }
-        }
-        #endregion
-
         #region ILinksInfo Implementation
-        public ILinkInfo GetLink(string rel)
+        public ILinkInfo GetLinkInfo(string rel)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
             ILinkInfo link;
-            if (this.TryGetLink(rel, out link))
+            if (this.TryGetLinkInfo(rel, out link))
                 return link;
 
-            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ResourceType.ClrResourceType.Name);
+            var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.ClrDeclaringType.Name);
             var linkDescription = "{0} [rel={1}]".FormatWith(typeof(Link).Name, rel);
             var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
                                          .FormatWith(resourceTypeDescription, linkDescription);
             throw new ServiceModelException(detail);
         }
 
-        public bool TryGetLink(string rel, out ILinkInfo link)
+        public bool TryGetLinkInfo(string rel, out ILinkInfo link)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 

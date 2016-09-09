@@ -15,13 +15,13 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ResourceIdentityInfoBuilder(Type clrResourceType, string clrPropertyName, Type clrPropertyType)
+        public ResourceIdentityInfoBuilder(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
         {
-            Contract.Requires(clrResourceType != null);
+            Contract.Requires(clrDeclaringType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            var resourceIdentityInfoFactory = CreateResourceIdentityInfoFactory(clrResourceType, clrPropertyName, clrPropertyType);
+            var resourceIdentityInfoFactory = CreateResourceIdentityInfoFactory(clrDeclaringType, clrPropertyName, clrPropertyType);
             this.ResourceIdentityInfoFactory = resourceIdentityInfoFactory;
         }
         #endregion
@@ -62,15 +62,15 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrResourceType, string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
         {
-            Contract.Requires(clrResourceType != null);
+            Contract.Requires(clrDeclaringType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
             Func<IConventions, ResourceIdentityInfo> resourceIdentityInfoFactory = (conventions) =>
                 {
-                    var apiType = clrResourceType.Name;
+                    var apiType = clrDeclaringType.Name;
                     if (conventions != null && conventions.ApiTypeNamingConventions != null)
                     {
                         apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
@@ -80,12 +80,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
                         {
                             // ResourceIdentityInfo Properties
                             ApiType = apiType,
-                            Id = new PropertyInfo
-                                {
-                                    // PropertyInfo Properties
-                                    ClrPropertyName = clrPropertyName,
-                                    ClrPropertyType = clrPropertyType
-                                }
+                            Id = new PropertyInfo(clrDeclaringType, clrPropertyName, clrPropertyType)
                         };
                     return resourceIdentityInfo;
                 };

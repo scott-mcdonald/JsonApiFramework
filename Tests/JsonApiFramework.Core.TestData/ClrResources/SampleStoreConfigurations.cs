@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.TestData.ClrResources.ComplexTypes;
+
 namespace JsonApiFramework.TestData.ClrResources
 {
     public static class SampleStoreConfigurations
@@ -20,7 +22,7 @@ namespace JsonApiFramework.TestData.ClrResources
                         State = "FL",
                         ZipCode = "33935"
                     },
-                PhoneNumbers = new List<PhoneNumber>()
+                PhoneNumbers = new List<PhoneNumber>
                     {
                         new PhoneNumber
                             {
@@ -46,7 +48,7 @@ namespace JsonApiFramework.TestData.ClrResources
                         State = "FL",
                         ZipCode = "33935"
                     },
-                PhoneNumbers = new List<PhoneNumber>()
+                PhoneNumbers = new List<PhoneNumber>
                     {
                         new PhoneNumber
                             {
@@ -72,7 +74,7 @@ namespace JsonApiFramework.TestData.ClrResources
                         State = "CA",
                         ZipCode = "90210"
                     },
-                PhoneNumbers = new List<PhoneNumber>()
+                PhoneNumbers = new List<PhoneNumber>
                     {
                         new PhoneNumber
                             {

@@ -72,11 +72,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
                         apiCollectionPathSegment = conventions.ApiTypeNamingConventions.Aggregate(apiCollectionPathSegment, (current, namingConvention) => namingConvention.Apply(current));
                     }
 
-                    var hypermediaInfo = new HypermediaInfo
-                        {
-                            // HypermediaInfo Properties
-                            ApiCollectionPathSegment = apiCollectionPathSegment
-                        };
+                    var hypermediaInfo = new HypermediaInfo(apiCollectionPathSegment);
                     return hypermediaInfo;
                 };
             return hypermediaInfoFactory;

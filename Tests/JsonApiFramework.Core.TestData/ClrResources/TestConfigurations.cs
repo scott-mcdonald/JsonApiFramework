@@ -6,13 +6,14 @@ using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
 using JsonApiFramework.TestData.ApiResources;
+using JsonApiFramework.TestData.ClrResources.ComplexTypes;
 
 namespace JsonApiFramework.TestData.ClrResources
 {
     public static class TestConfigurations
     {
         // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Convention Sets
+        #region Conventions
         public static IConventions CreateConventions()
         {
             var conventionsBuilder = new ConventionsBuilder();
@@ -23,6 +24,9 @@ namespace JsonApiFramework.TestData.ClrResources
             conventionsBuilder.ApiTypeNamingConventions()
                               .AddPluralNamingConvention()
                               .AddStandardMemberNamingConvention();
+
+            conventionsBuilder.ComplexTypeConventions()
+                              .AddPropertyDiscoveryConvention();
 
             conventionsBuilder.ResourceTypeConventions()
                               .AddPropertyDiscoveryConvention();
@@ -131,6 +135,25 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Meta
                 this.Meta(x => x.Meta);
+            }
+        }
+
+        public class MailingAddressConfigurationWithNullConventions : ComplexTypeBuilder<MailingAddress>
+        {
+            public MailingAddressConfigurationWithNullConventions()
+            {
+                // Attributes
+                this.Attribute(x => x.Address)
+                    .SetApiPropertyName("address");
+
+                this.Attribute(x => x.City)
+                    .SetApiPropertyName("city");
+
+                this.Attribute(x => x.State)
+                    .SetApiPropertyName("state");
+
+                this.Attribute(x => x.ZipCode)
+                    .SetApiPropertyName("zip-code");
             }
         }
 
@@ -265,6 +288,19 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Meta
                 this.Meta(x => x.Meta);
+            }
+        }
+
+        public class PhoneNumberConfigurationWithNullConventions : ComplexTypeBuilder<PhoneNumber>
+        {
+            public PhoneNumberConfigurationWithNullConventions()
+            {
+                // Attributes
+                this.Attribute(x => x.AreaCode)
+                    .SetApiPropertyName("area-code");
+
+                this.Attribute(x => x.Number)
+                    .SetApiPropertyName("number");
             }
         }
 
@@ -431,6 +467,12 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
+        public class MailingAddressConfigurationWithConventions : ComplexTypeBuilder<MailingAddress>
+        {
+            public MailingAddressConfigurationWithConventions()
+            { }
+        }
+
         public class OrderConfigurationWithConventions : ResourceTypeBuilder<Order>
         {
             public OrderConfigurationWithConventions()
@@ -484,6 +526,12 @@ namespace JsonApiFramework.TestData.ClrResources
                 // Links
                 this.Link(Keywords.Self);
             }
+        }
+
+        public class PhoneNumberConfigurationWithConventions : ComplexTypeBuilder<PhoneNumber>
+        {
+            public PhoneNumberConfigurationWithConventions()
+            { }
         }
 
         public class PosSystemConfigurationWithConventions : ResourceTypeBuilder<PosSystem>

@@ -56,6 +56,13 @@
     <Compile Include="ClrResources\BlogAssert.cs" />
     <Compile Include="ClrResources\ClrResourceAssert.cs" />
     <Compile Include="ClrResources\CommentAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\PolygonAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\LineAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\PointAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\CustomDataAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\CustomPropertyAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\PhoneNumberAssert.cs" />
+    <Compile Include="ClrResources\ComplexTypes\MailingAddressAssert.cs" />
     <Compile Include="ClrResources\OrderAssert.cs" />
     <Compile Include="ClrResources\OrderItemAssert.cs" />
     <Compile Include="ClrResources\PaymentAssert.cs" />
@@ -63,6 +70,7 @@
     <Compile Include="ClrResources\PosSystemAssert.cs" />
     <Compile Include="ClrResources\ProductAssert.cs" />
     <Compile Include="ClrResources\StoreAssert.cs" />
+    <Compile Include="ClrResources\DrawingAssert.cs" />
     <Compile Include="ClrResources\StoreConfigurationAssert.cs" />
     <Compile Include="JsonApi\ApiPropertyAssert.cs" />
     <Compile Include="JsonApi\ApiObjectAssert.cs" />
@@ -82,11 +90,14 @@
     <Compile Include="ServiceModel\AttributesInfoAssert.cs" />
     <Compile Include="ServiceModel\HypermediaInfoAssert.cs" />
     <Compile Include="ServiceModel\LinkInfoAssert.cs" />
+    <Compile Include="ServiceModel\MetaInfoAssert.cs" />
     <Compile Include="ServiceModel\LinksInfoAssert.cs" />
+    <Compile Include="ServiceModel\MemberInfoAssert.cs" />
     <Compile Include="ServiceModel\PropertyInfoAssert.cs" />
     <Compile Include="ServiceModel\RelationshipInfoAssert.cs" />
     <Compile Include="ServiceModel\RelationshipsInfoAssert.cs" />
     <Compile Include="ServiceModel\ResourceIdentityInfoAssert.cs" />
+    <Compile Include="ServiceModel\ComplexTypeAssert.cs" />
     <Compile Include="ServiceModel\ResourceTypeAssert.cs" />
     <Compile Include="ServiceModel\ServiceModelAssert.cs" />
   </ItemGroup>

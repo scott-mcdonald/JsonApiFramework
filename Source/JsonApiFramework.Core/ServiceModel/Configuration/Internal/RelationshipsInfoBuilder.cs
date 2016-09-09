@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
-using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal
@@ -13,9 +13,11 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public RelationshipsInfoBuilder(string clrPropertyName = null)
+        public RelationshipsInfoBuilder(Type clrDeclaringType, string clrPropertyName = null)
         {
-            var relationshipsInfoFactory = CreateRelationshipsInfoFactory(clrPropertyName);
+            Contract.Requires(clrDeclaringType != null);
+
+            var relationshipsInfoFactory = CreateRelationshipsInfoFactory(clrDeclaringType, clrPropertyName);
             this.RelationshipsInfoFactory = relationshipsInfoFactory;
         }
         #endregion
@@ -46,21 +48,18 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IEnumerable<IRelationshipInfo>, RelationshipsInfo> CreateRelationshipsInfoFactory(string clrPropertyName)
+        private static Func<IEnumerable<IRelationshipInfo>, RelationshipsInfo> CreateRelationshipsInfoFactory(Type clrDeclaringType, string clrPropertyName)
         {
+            Contract.Requires(clrDeclaringType != null);
+
             Func<IEnumerable<IRelationshipInfo>, RelationshipsInfo> relationshipsInfoFactory = (collection) =>
                 {
-                    var relationshipsInfo = new RelationshipsInfo
-                        {
-                            // PropertyInfo Properties
-                            ClrPropertyName = clrPropertyName,
-                            ClrPropertyType = String.IsNullOrWhiteSpace(clrPropertyName) == false
-                                ? typeof(Relationships)
-                                : null,
+                    var collectionAsList = collection.SafeToList();
 
-                            // RelationshipsInfo Properties
-                            Collection = collection.SafeToList(),
-                        };
+                    var isNotPartOfResource = String.IsNullOrWhiteSpace(clrPropertyName);
+                    var relationshipsInfo = isNotPartOfResource
+                        ? new RelationshipsInfo(collectionAsList)
+                        : new RelationshipsInfo(clrDeclaringType, clrPropertyName, collectionAsList);
                     return relationshipsInfo;
                 };
             return relationshipsInfoFactory;

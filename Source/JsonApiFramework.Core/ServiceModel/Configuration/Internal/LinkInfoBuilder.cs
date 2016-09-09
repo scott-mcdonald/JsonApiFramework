@@ -52,11 +52,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            return () => new LinkInfo
-                {
-                    // LinkInfo Properties
-                    Rel = rel
-                };
+            return () => new LinkInfo(rel);
         }
         #endregion
     }

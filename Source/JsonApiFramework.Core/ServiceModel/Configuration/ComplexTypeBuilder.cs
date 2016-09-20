@@ -27,9 +27,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
         #endregion
 
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+        // PROTECTED/INTERNAL CONSTRUCTORS //////////////////////////////////
         #region Constructors
-        internal ComplexTypeBuilder()
+        protected internal ComplexTypeBuilder()
         { }
         #endregion
 

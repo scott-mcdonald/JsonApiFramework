@@ -2,7 +2,7 @@
 <package>
     <metadata minClientVersion="2.12">
         <id>JsonApiFramework.Core</id>
-        <version>1.1.0-beta</version>
+        <version>1.1.1-beta</version>
         <title>JsonApiFramework [Core]</title>
         <authors>Scott McDonald</authors>
         <summary>Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources.</summary>

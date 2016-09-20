@@ -2,7 +2,7 @@
 <package>
     <metadata minClientVersion="2.12">
         <id>JsonApiFramework.Client</id>
-        <version>1.1.0-beta</version>
+        <version>1.1.1-beta</version>
         <title>JsonApiFramework [Client]</title>
         <authors>Scott McDonald</authors>
         <summary>Portable client-side .NET framework for JSON API document building.</summary>
@@ -17,8 +17,8 @@
         <tags>portable json api framework client</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="9.0" />
-            <dependency id="JsonApiFramework.Core" version="1.1.0-beta" />
-            <dependency id="JsonApiFramework.Infrastructure" version="1.1.0-beta" />
+            <dependency id="JsonApiFramework.Core" version="1.1.1-beta" />
+            <dependency id="JsonApiFramework.Infrastructure" version="1.1.1-beta" />
         </dependencies>
     </metadata>
     <files>

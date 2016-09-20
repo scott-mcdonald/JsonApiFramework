@@ -28,6 +28,7 @@
     - Circular resource references supported
     - Automatic generation of resource linkage between related resources 
 - Support for **HATEOAS** (Hypermedia as the Engine of Application State) for resource relationship and links 
+- Support for **complex types** at the resource level
 - Support for meta information at the document, resource, relationship, link, error, and JSON API object levels
 - Support for JSON API protocol version information at the document JSON API object level
 - Support for cross-platform development via PCL (**P**ortable **C**lass **L**ibrary) with `Profile 78`
@@ -41,13 +42,13 @@
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
     - Internally uses little reflection (slow), instead favoring compiled .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
-Extreme high code quality with **1,800+ unit tests**. Production ready.
+Extreme high code quality with **1,900+ unit tests**. Production ready.
 
-**For further details, please check out the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki).**
+**For further details, please check out the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
 
 ## Usage examples
 
-The following are some brief but concise usage examples to get an overall feel for how JsonApiFramework works both client-side and server-side of things. More usage examples will be found in the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki).
+The following are some brief but concise usage examples to get an overall feel for how JsonApiFramework works both client-side and server-side of things. More usage examples will be found in the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples).
 
 Assume the following for the usage examples:
 
@@ -136,13 +137,14 @@ public class ArticlesController : ApiController
             // Build new document.
             var document = documentContext
                 .NewDocument(currentRequestUrl)
+
                     // Document links
                     .Links()
                         .AddUpLink()
                         .AddSelfLink()
                     .LinksEnd()
 
-                    // Convert CLR Article resource to JSON API resource
+                    // Resource document (convert CLR Article resource to JSON API resource)
                     .Resource(article)
                         // Article relationships
                         .Relationships()
@@ -166,6 +168,7 @@ public class ArticlesController : ApiController
                             .AddSelfLink()
                         .LinksEnd()
                     .ResourceEnd()
+
                 .WriteDocument();
     
             // Return 200 OK
@@ -241,54 +244,41 @@ public class ArticlesController : ApiController
             // Build new document.
             var document = documentContext
                 .NewDocument(currentRequestUrl)
+
                     // Document links
                     .Links()
-                        .AddUpLink()
-                        .AddSelfLink()
+                        .AddLink("up")
+                        .AddLink("self")
                     .LinksEnd()
 
-                    // Convert CLR Article resource to JSON API resource
+                    // Resource document (convert CLR Article resource to JSON API resource)
                     .Resource(article)
                         // Article relationships
                         .Relationships()
-                            .Relationship("author") // article -> author
-                                .Links()
-                                    .AddSelfLink()
-                                    .AddRelatedLink()
-                                .LinksEnd()
-                            .RelationshipEnd()
-
-                            .Relationship("comments") // article -> comments
-                                .Links()
-                                    .AddSelfLink()
-                                    .AddRelatedLink()
-                                .LinksEnd()
-                            .RelationshipEnd()
+                            .AddRelationship("author", "self", "related")   // article -> author
+                            .AddRelationship("comments", "self", "related") // article -> comments
                         .RelationshipsEnd()
 
                         // Article links
                         .Links()
-                            .AddSelfLink()
+                            .AddLink("self")
                         .LinksEnd()
                     .ResourceEnd()
 
+                    // With included resources
                     .Included()
+
                         // Convert related "to-one" CLR Person resource to JSON API resource
                         // Automatically generate "to-one" resource linkage in article to related author
                         .ToOne(article, "author", author)
                             // Author(Person) relationships
                             .Relationships()
-                                .Relationship("comments") // author -> comments
-                                    .Links()
-                                        .AddSelfLink()
-                                        .AddRelatedLink()
-                                    .LinksEnd()
-                                .RelationshipEnd()
+                                .AddRelationship("comments", "self", "related") // author -> comments
                             .RelationshipsEnd()
 
                             // Author(Person) links
                             .Links()
-                                .AddSelfLink()
+                                .AddLink("self")
                             .LinksEnd()
                         .ToOneEnd()
 
@@ -297,20 +287,17 @@ public class ArticlesController : ApiController
                         .ToMany(article, "comments", comments)
                             // Comments relationships
                             .Relationships()
-                                .Relationship("author") // comments -> author
-                                    .Links()
-                                        .AddSelfLink()
-                                        .AddRelatedLink()
-                                    .LinksEnd()
-                                .RelationshipEnd()
+                                .AddRelationship("author", "self", "related") // comments -> author
                             .RelationshipsEnd()
 
                             // Comments links
                             .Links()
-                                .AddSelfLink()
+                                .AddLink("self")
                             .LinksEnd()
                         .ToManyEnd()
+
                     .IncludedEnd()
+
                 .WriteDocument();
     
             // Return 200 OK
@@ -443,7 +430,7 @@ public class ArticlesViewModel : ViewModel
             // Build document
             var document = documentContext
                 .NewDocument()
-                    // Convert CLR Article resource to JSON API resource
+                    // Resource document (convert CLR Article resource to JSON API resource)
                     .Resource(article)
                         // Link new article to an existing author.
                         .Relationships()
@@ -508,7 +495,7 @@ public class ArticlesViewModel : ViewModel
             // Build document.
             var document = documentContext
                 .NewDocument()
-                    // Manually build an Article JSON API resource
+                    // Resource document (manually build an Article JSON API resource)
                     .Resource<Article>()
                         // Set primary key
                         .SetId(articleId)
@@ -628,7 +615,7 @@ From a JSON API document reading and writing standpoint, the reading of JSON API
 
 | Project | PCL Assembly \* | Summary |
 | --- | --- |--- |
-| JsonApiFramework.Core | JsonApiFramework.Core.dll | Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources. |
+| JsonApiFramework.Core | JsonApiFramework.Core.dll | Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources. Portable core-level .NET framework for ServiceModel and Conventions. |
 | JsonApiFramework.Infrastructure | JsonApiFramework.Infrastructure.dll | Portable client-side and server-side .NET framework for JSON API document reading and writing. Depends on the JsonApiFramework.Core project. |
 | JsonApiFramework.Client | JsonApiFramework.Client.dll | Portable client-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
 | JsonApiFramework.Server | JsonApiFramework.Server.dll | Portable server-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
@@ -643,21 +630,11 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 Requires NuGet 2.12 or higher
 
-#### Shared Service Model Only
-
-| Id | Name | Latest Version |
-| --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.0.5-beta |
-
-To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
-
-> `PM> Install-Package JsonApiFramework.Core -Pre`
-
 #### Client-Side Document Reading/Building/Writing
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.0.5-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.1.0-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -667,19 +644,29 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.0.5-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.1.0-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
 > `PM> Install-Package JsonApiFramework.Server -Pre`
+
+#### Shared Service Model Only
+
+Special case of creating an assembly containing just the service model where the assembly is intended to be shared by both client-side and server-side projects.
+
+| Id | Name | Latest Version |
+| --- | --- | --- |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.1.0-beta |
+
+To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
+
+> `PM> Install-Package JsonApiFramework.Core -Pre`
 
 ### Option 2: From source
 
 - Clone this repository to your computer.
 - Open the **JsonApiFramework.sln** visual studio solution file.
 - Rebuild the solution, use the binaries depending on the goal of the project:
-    - Shared Service Model Only
-        - JsonApiFramework.Core.dll
     - Client-Side Document Reading/Building/Writing
         - JsonApiFramework.Core.dll
         - JsonApiFramework.Infrastructure.dll
@@ -688,6 +675,8 @@ To install the JsonApiFramework [Server] NuGet package, run the following comman
         - JsonApiFramework.Core.dll
         - JsonApiFramework.Infrastructure.dll
         - JsonApiFramework.Server.dll
+    - Shared Service Model Only
+        - JsonApiFramework.Core.dll
 
 ## Development setup
 
@@ -705,7 +694,7 @@ The only thing needed is **Visual Studio** 2013 or higher installed on your deve
 
 ### Running the tests
 
-JsonApiFramework has over **1800+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
+JsonApiFramework has over **1,900+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
 
 JsonApiFramework unit tests were developed with the excellent [xUnit](http://xunit.github.io) 2.0 unit testing framework. In order to run the unit tests, you will need a xUnit test runner so please see the [xUnit Documentation](http://xunit.github.io/#documentation) page to setup an appropriate test runner for your development machine.
 
@@ -727,6 +716,10 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.1.0-beta
+    * Fix #18 Add feature to ignore CLR property as an attibute 
+    * Fix #1 Add complex types
+    * Fix #14 Generalize conventions framework for more general use
 * v1.0.5-beta
     * Fix #17 Refactor IDocumentReader method names for clarity purposes
     * Fix #16 Update minimum version to Humanizer.Core to 2.1

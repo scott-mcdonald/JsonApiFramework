@@ -2,12 +2,14 @@
 <package>
     <metadata minClientVersion="2.12">
         <id>JsonApiFramework.Core</id>
-        <version>1.0.5-beta</version>
+        <version>1.1.0-beta</version>
         <title>JsonApiFramework [Core]</title>
         <authors>Scott McDonald</authors>
         <summary>Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources.</summary>
         <description>
             Portable .NET foundation-level 'json api' classes used for serializing and deserializing between raw JSON and CLR objects that represent the domain model of the JSON API specification.
+
+            Portable .NET foundation-level 'convention' classes used for defining what conventions are to be used by the hypermedia API server or client application.
 
             Portable .NET foundation-level 'service model' classes that represent the domain model of the resources produced and consumed by the hypermedia API server or client application. The 'service model' contains the metadata of individual resources and the schema of how resources are related to each other through relationships (to-one or to-many).
         </description>

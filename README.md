@@ -634,7 +634,7 @@ Requires NuGet 2.12 or higher
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.1.1-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.1.2-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -644,7 +644,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.1.1-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.1.2-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -656,7 +656,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.1.1-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.1.2-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -716,6 +716,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.1.2-beta
+    * Fix ResourceCollectionBuilder throwing NullReferenceException when document building
 * v1.1.1-beta
     * Fix ResourceTypeBuilder and ComplexTypeBuilder having no available constructors 
 * v1.1.0-beta

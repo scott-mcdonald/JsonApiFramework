@@ -184,15 +184,17 @@ namespace JsonApiFramework.Server.Internal
             // Add the DOM read/write resource nodes to the DOM document.
             foreach (var domResourceTuple in domResourceTupleCollection)
             {
+                // Add the DOM read/write resource nodes to the DOM document.
                 var domResourceKey = domResourceTuple.Item1;
                 var domReadWriteResource = domResourceTuple.Item2;
 
-                var clrResource = domResourceTuple.Item3;
-                resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
-
                 this.DocumentBuilderContext.AddDomReadWriteResource(domResourceKey, domReadWriteResource);
-
                 domContainerNode.Add(domReadWriteResource);
+
+                // Finish mapping the DOM read/write resource attributes nodes to the DOM document.
+                var clrResource = domResourceTuple.Item3;
+
+                resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
             }
 
             var domReadWriteResourceCollection = domResourceTupleCollection

@@ -5,20 +5,13 @@ using System;
 
 namespace JsonApiFramework.ServiceModel.Configuration
 {
-    public interface IResourceTypeBuilder
+    public interface IResourceTypeBuilder : IClrTypeBuilder
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Type ClrResourceType { get; }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         IHypermediaInfoBuilder Hypermedia();
 
         IResourceIdentityInfoBuilder ResourceIdentity(string clrPropertyName, Type clrPropertyType);
-
-        IAttributeInfoBuilder Attribute(string clrPropertyName, Type clrPropertyType);
 
         IRelationshipsInfoBuilder Relationships(string clrPropertyName);
 
@@ -29,7 +22,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         #endregion
     }
 
-    public interface IResourceTypeBuilder<TResource> : IResourceTypeBuilder
+    public interface IResourceTypeBuilder<TResource> : IResourceTypeBuilder, IClrTypeBuilder<TResource>
         where TResource : class, IResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -1,20 +1,23 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+
+using System;
+
 namespace JsonApiFramework.ServiceModel.Configuration
 {
-    public interface IServiceModelBuilder
+    public interface IClrTypeBuilder
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        IConfigurationCollection Configurations { get; }
+        Type ClrType { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IComplexTypeBuilder Complex<TComplex>();
-
-        IResourceTypeBuilder<TResource> Resource<TResource>()
-            where TResource : class, IResource;
+        IAttributeInfoBuilder Attribute(string clrPropertyName, Type clrPropertyType);
         #endregion
     }
+
+    public interface IClrTypeBuilder<T> : IClrTypeBuilder
+    { }
 }

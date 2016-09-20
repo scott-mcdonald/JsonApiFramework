@@ -8,6 +8,7 @@ using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
+using JsonApiFramework.ServiceModel.Internal;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
@@ -77,6 +78,36 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
 
                 new object[] {"WithDirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventions", new WithDirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
                 new object[] {"WithDirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventions", new WithDirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
+                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithNullConventions", new WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithNullConventions(), null,
+                    new JsonApiFramework.ServiceModel.Internal.ServiceModel(new List<IResourceType>
+                        {
+                            new ResourceType(
+                                ClrSampleData.PersonClrType,
+                                ClrSampleData.PersonHypermediaInfo,
+                                ClrSampleData.PersonResourceIdentityInfo,
+                                new AttributesInfo(typeof(Person), new []
+                                    {
+                                        ClrSampleData.PersonTwitterAttributeInfo
+                                    }),
+                                ClrSampleData.PersonRelationshipsInfo,
+                                ClrSampleData.PersonLinksInfo,
+                                ClrSampleData.PersonMetaInfo)
+                        })},
+                new object[] {"WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithConventions", new WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithConventions(), TestConfigurations.CreateConventions(),
+                    new JsonApiFramework.ServiceModel.Internal.ServiceModel(new List<IResourceType>
+                        {
+                            new ResourceType(
+                                ClrSampleData.PersonClrType,
+                                ClrSampleData.PersonHypermediaInfo,
+                                ClrSampleData.PersonResourceIdentityInfo,
+                                new AttributesInfo(typeof(Person), new []
+                                    {
+                                        ClrSampleData.PersonTwitterAttributeInfo
+                                    }),
+                                ClrSampleData.PersonRelationshipsInfo,
+                                ClrSampleData.PersonLinksInfo,
+                                ClrSampleData.PersonMetaInfo)
+                        })},
 
                 new object[] {"WithIndirectConfigurationOfServiceModelWithOnlyArticleResourceTypeWithNullConventions", new WithIndirectConfigurationServiceModelWithOnlyArticleResourceTypeWithNullConventions(), null, ClrSampleData.ServiceModelWithOnlyArticleResourceType},
                 new object[] {"WithIndirectConfigurationOfServiceModelWithBlogResourceTypesWithNullConventions", new WithIndirectConfigurationServiceModelWithBlogResourceTypesWithNullConventions(), null, ClrSampleData.ServiceModelWithBlogResourceTypes},
@@ -290,6 +321,97 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Resource<Person>()
                     .Attribute(x => x.Twitter)
                     .SetApiPropertyName(ApiSampleData.PersonTwitterPropertyName);
+
+                // Relationships
+                this.Resource<Person>()
+                    .Relationships(x => x.Relationships);
+
+                this.Resource<Person>()
+                    .ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.PersonToCommentsRelPathSegment)
+                    .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
+
+                // Links
+                this.Resource<Person>()
+                    .Links(x => x.Links);
+                this.Resource<Person>()
+                    .Link(Keywords.Self);
+
+                // Meta
+                this.Resource<Person>()
+                    .Meta(x => x.Meta);
+            }
+        }
+
+        private class WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithNullConventions : ServiceModelBuilder
+        {
+            public WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithNullConventions()
+            {
+                // Hypermedia
+                this.Resource<Person>()
+                    .Hypermedia()
+                    .SetApiCollectionPathSegment(ApiSampleData.PersonCollectionPathSegment);
+
+                // ResourceIdentity
+                this.Resource<Person>()
+                    .ResourceIdentity(x => x.Id)
+                    .SetApiType(ApiSampleData.PersonType);
+
+                // Attributes
+                this.Resource<Person>()
+                    .Attribute(x => x.FirstName)
+                    .SetApiPropertyName(ApiSampleData.PersonFirstNamePropertyName);
+
+                this.Resource<Person>()
+                    .Attribute(x => x.LastName)
+                    .SetApiPropertyName(ApiSampleData.PersonLastNamePropertyName);
+
+                this.Resource<Person>()
+                    .Attribute(x => x.Twitter)
+                    .SetApiPropertyName(ApiSampleData.PersonTwitterPropertyName);
+
+                // Ignores
+                this.Resource<Person>()
+                    .Attribute(x => x.FirstName)
+                    .Ignore();
+
+                this.Resource<Person>()
+                    .Attribute(x => x.LastName)
+                    .Ignore();
+
+                // Relationships
+                this.Resource<Person>()
+                    .Relationships(x => x.Relationships);
+
+                this.Resource<Person>()
+                    .ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.PersonToCommentsRelPathSegment)
+                    .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
+
+                // Links
+                this.Resource<Person>()
+                    .Links(x => x.Links);
+                this.Resource<Person>()
+                    .Link(Keywords.Self);
+
+                // Meta
+                this.Resource<Person>()
+                    .Meta(x => x.Meta);
+            }
+        }
+
+        private class WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithConventions : ServiceModelBuilder
+        {
+            public WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithConventions()
+            {
+                // Ignores
+                this.Resource<Person>()
+                    .Attribute(x => x.FirstName)
+                    .Ignore();
+
+                this.Resource<Person>()
+                    .Attribute(x => x.LastName)
+                    .Ignore();
 
                 // Relationships
                 this.Resource<Person>()

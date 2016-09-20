@@ -143,10 +143,12 @@
     <Compile Include="Reflection\TypeConverter.cs" />
     <Compile Include="Reflection\TypeConverterException.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
+    <Compile Include="ServiceModel\Configuration\ClrTypeBuilder.cs" />
+    <Compile Include="ServiceModel\Configuration\IClrTypeBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\IComplexTypeBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\IComplexTypeFactory.cs" />
     <Compile Include="ServiceModel\Configuration\ComplexTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\ComplexTypeBuilderExtensions.cs" />
+    <Compile Include="ServiceModel\Configuration\ClrTypeBuilderExtensions.cs" />
     <Compile Include="ServiceModel\Configuration\ResourceTypeBuilderExtensions.cs" />
     <Compile Include="ServiceModel\Configuration\IAttributeInfoBuilder.cs" />
     <Compile Include="ServiceModel\Configuration\IConfigurationCollection.cs" />
@@ -210,7 +212,7 @@
     <Compile Include="ServiceModel\IAttributeInfo.cs" />
     <Compile Include="ServiceModel\IAttributesInfo.cs" />
     <Compile Include="ServiceModel\IClrTypeInfo.cs" />
-    <Compile Include="ServiceModel\ComplexTypesResolver.cs" />
+    <Compile Include="ServiceModel\ComplexTypesContractResolver.cs" />
     <Compile Include="ServiceModel\IComplexType.cs" />
     <Compile Include="ServiceModel\IGetServiceModel.cs" />
     <Compile Include="ServiceModel\IHypermediaInfo.cs" />

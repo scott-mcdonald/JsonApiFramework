@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+
 using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
@@ -157,6 +158,35 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
+        public class MailingAddressConfigurationIgnoreAllButAddressWithNullConventions : ComplexTypeBuilder<MailingAddress>
+        {
+            public MailingAddressConfigurationIgnoreAllButAddressWithNullConventions()
+            {
+                // Attributes
+                this.Attribute(x => x.Address)
+                    .SetApiPropertyName("address");
+
+                this.Attribute(x => x.City)
+                    .SetApiPropertyName("city");
+
+                this.Attribute(x => x.State)
+                    .SetApiPropertyName("state");
+
+                this.Attribute(x => x.ZipCode)
+                    .SetApiPropertyName("zip-code");
+
+                // Ignores
+                this.Attribute(x => x.City)
+                    .Ignore();
+
+                this.Attribute(x => x.State)
+                    .Ignore();
+
+                this.Attribute(x => x.ZipCode)
+                    .Ignore();
+            }
+        }
+
         public class OrderConfigurationWithNullConventions : ResourceTypeBuilder<Order>
         {
             public OrderConfigurationWithNullConventions()
@@ -274,6 +304,51 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 this.Attribute(x => x.Twitter)
                     .SetApiPropertyName(ApiSampleData.PersonTwitterPropertyName);
+
+                // Relationships
+                this.Relationships(x => x.Relationships);
+
+                this.ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel)
+                    .SetApiRelPathSegment(ApiSampleData.PersonToCommentsRelPathSegment)
+                    .SetCanonicalRelPathMode(RelationshipCanonicalRelPathMode.DropPreviousPathSegments);
+
+                // Links
+                this.Links(x => x.Links);
+                this.Link(Keywords.Self);
+
+                // Meta
+                this.Meta(x => x.Meta);
+            }
+        }
+
+        public class PersonConfigurationIgnoreFirstAndLastNamesWithNullConventions : ResourceTypeBuilder<Person>
+        {
+            public PersonConfigurationIgnoreFirstAndLastNamesWithNullConventions()
+            {
+                // Hypermedia
+                this.Hypermedia()
+                    .SetApiCollectionPathSegment(ApiSampleData.PersonCollectionPathSegment);
+
+                // ResourceIdentity
+                this.ResourceIdentity(x => x.Id)
+                    .SetApiType(ApiSampleData.PersonType);
+
+                // Attributes
+                this.Attribute(x => x.FirstName)
+                    .SetApiPropertyName(ApiSampleData.PersonFirstNamePropertyName);
+
+                this.Attribute(x => x.LastName)
+                    .SetApiPropertyName(ApiSampleData.PersonLastNamePropertyName);
+
+                this.Attribute(x => x.Twitter)
+                    .SetApiPropertyName(ApiSampleData.PersonTwitterPropertyName);
+
+                // Ignores
+                this.Attribute(x => x.FirstName)
+                    .Ignore();
+
+                this.Attribute(x => x.LastName)
+                    .Ignore();
 
                 // Relationships
                 this.Relationships(x => x.Relationships);
@@ -473,6 +548,22 @@ namespace JsonApiFramework.TestData.ClrResources
             { }
         }
 
+        public class MailingAddressConfigurationIgnoreAllButAddressWithConventions : ComplexTypeBuilder<MailingAddress>
+        {
+            public MailingAddressConfigurationIgnoreAllButAddressWithConventions()
+            {
+                // Ignores
+                this.Attribute(x => x.City)
+                    .Ignore();
+
+                this.Attribute(x => x.State)
+                    .Ignore();
+
+                this.Attribute(x => x.ZipCode)
+                    .Ignore();
+            }
+        }
+
         public class OrderConfigurationWithConventions : ResourceTypeBuilder<Order>
         {
             public OrderConfigurationWithConventions()
@@ -520,6 +611,25 @@ namespace JsonApiFramework.TestData.ClrResources
         {
             public PersonConfigurationWithConventions()
             {
+                // Relationships
+                this.ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel);
+
+                // Links
+                this.Link(Keywords.Self);
+            }
+        }
+
+        public class PersonConfigurationIgnoreFirstAndLastNamesWithConventions : ResourceTypeBuilder<Person>
+        {
+            public PersonConfigurationIgnoreFirstAndLastNamesWithConventions()
+            {
+                // Ignores
+                this.Attribute(x => x.FirstName)
+                    .Ignore();
+
+                this.Attribute(x => x.LastName)
+                    .Ignore();
+
                 // Relationships
                 this.ToManyRelationship<Comment>(ApiSampleData.PersonToCommentsRel);
 

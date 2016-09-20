@@ -8,6 +8,7 @@ using System.Linq;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
+using JsonApiFramework.ServiceModel.Internal;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
@@ -84,6 +85,21 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 new object[] {"WithOrderItemResourceTypeWithNullConventions", new TestConfigurations.OrderItemConfigurationWithNullConventions(), null, ClrSampleData.OrderItemResourceType, null},
                 new object[] {"WithPaymentResourceTypeWithNullConventions", new TestConfigurations.PaymentConfigurationWithNullConventions(), null, ClrSampleData.PaymentResourceType, null},
                 new object[] {"WithPersonResourceTypeWithNullConventions", new TestConfigurations.PersonConfigurationWithNullConventions(), null, ClrSampleData.PersonResourceType, null},
+                new object[] {"WithPersonConfigurationIgnoreFirstAndLastNamesWithNullConventions",
+                    new TestConfigurations.PersonConfigurationIgnoreFirstAndLastNamesWithNullConventions(),
+                    null,
+                    new ResourceType(
+                        ClrSampleData.PersonClrType,
+                        ClrSampleData.PersonHypermediaInfo,
+                        ClrSampleData.PersonResourceIdentityInfo,
+                        new AttributesInfo(typeof(Person), new []
+                            {
+                                ClrSampleData.PersonTwitterAttributeInfo
+                            }),
+                        ClrSampleData.PersonRelationshipsInfo,
+                        ClrSampleData.PersonLinksInfo,
+                        ClrSampleData.PersonMetaInfo),
+                    null},
                 new object[] {"WithPosSystemResourceTypeWithNullConventions", new TestConfigurations.PosSystemConfigurationWithNullConventions(), null, ClrSampleData.PosSystemResourceType, null},
                 new object[] {"WithProductResourceTypeWithNullConventions", new TestConfigurations.ProductConfigurationWithNullConventions(), null, ClrSampleData.ProductResourceType, null},
                 new object[] {"WithStoreResourceTypeWithNullConventions", new TestConfigurations.StoreConfigurationWithNullConventions(), null, ClrSampleData.StoreResourceType, null},
@@ -96,6 +112,21 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 new object[] {"WithOrderItemResourceTypeWithConventions", new TestConfigurations.OrderItemConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.OrderItemResourceType, null},
                 new object[] {"WithPaymentResourceTypeWithConventions", new TestConfigurations.PaymentConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PaymentResourceType, null},
                 new object[] {"WithPersonResourceTypeWithConventions", new TestConfigurations.PersonConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PersonResourceType, null},
+                new object[] {"WithPersonConfigurationIgnoreFirstAndLastNamesWithConventions",
+                    new TestConfigurations.PersonConfigurationIgnoreFirstAndLastNamesWithConventions(),
+                    TestConfigurations.CreateConventions(),
+                    new ResourceType(
+                        ClrSampleData.PersonClrType,
+                        ClrSampleData.PersonHypermediaInfo,
+                        ClrSampleData.PersonResourceIdentityInfo,
+                        new AttributesInfo(typeof(Person), new []
+                            {
+                                ClrSampleData.PersonTwitterAttributeInfo
+                            }),
+                        ClrSampleData.PersonRelationshipsInfo,
+                        ClrSampleData.PersonLinksInfo,
+                        ClrSampleData.PersonMetaInfo),
+                    null},
                 new object[] {"WithPosSystemResourceTypeWithConventions", new TestConfigurations.PosSystemConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.PosSystemResourceType, null},
                 new object[] {"WithProductResourceTypeWithConventions", new TestConfigurations.ProductConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.ProductResourceType, null},
                 new object[] {"WithStoreResourceTypeWithConventions", new TestConfigurations.StoreConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.StoreResourceType, null},

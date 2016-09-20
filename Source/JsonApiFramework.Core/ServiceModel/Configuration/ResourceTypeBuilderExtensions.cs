@@ -25,17 +25,6 @@ namespace JsonApiFramework.ServiceModel.Configuration
             return resourceTypeBuilder.ResourceIdentity(clrPropertyName, clrPropertyType);
         }
 
-        public static IAttributeInfoBuilder Attribute<TResource, TProperty>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, TProperty>> clrPropertySelector)
-            where TResource : class, IResource
-        {
-            Contract.Requires(resourceTypeBuilder != null);
-            Contract.Requires(clrPropertySelector != null);
-
-            var clrPropertyType = typeof(TProperty);
-            var clrPropertyName = StaticReflection.GetMemberName(clrPropertySelector);
-            return resourceTypeBuilder.Attribute(clrPropertyName, clrPropertyType);
-        }
-
         public static IRelationshipsInfoBuilder Relationships<TResource>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, Relationships>> clrPropertySelector)
             where TResource : class, IResource
         {

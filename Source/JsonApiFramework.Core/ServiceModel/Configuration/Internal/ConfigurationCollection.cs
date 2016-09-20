@@ -36,7 +36,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Internal Methods
-        internal IComplexTypeBuilder<TComplex> GetOrAddComplexTypeBuilder<TComplex>()
+        internal IComplexTypeBuilder GetOrAddComplexTypeBuilder<TComplex>()
         {
             this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
 
@@ -45,12 +45,12 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             object complexTypeBuilder;
             if (this.ComplexTypeBuilderDictionary.TryGetValue(clrComplexType, out complexTypeBuilder))
             {
-                return (IComplexTypeBuilder<TComplex>)complexTypeBuilder;
+                return (IComplexTypeBuilder)complexTypeBuilder;
             }
 
             complexTypeBuilder = new ComplexTypeBuilder<TComplex>();
             this.ComplexTypeBuilderDictionary.Add(clrComplexType, complexTypeBuilder);
-            return (IComplexTypeBuilder<TComplex>)complexTypeBuilder;
+            return (IComplexTypeBuilder)complexTypeBuilder;
         }
 
         internal IResourceTypeBuilder<TResource> GetOrAddResourceTypeBuilder<TResource>()

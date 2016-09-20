@@ -7,6 +7,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         IAttributeInfoBuilder SetApiPropertyName(string apiPropertyName);
+        IAttributeInfoBuilder Ignore();
         #endregion
     }
 }

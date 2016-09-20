@@ -22,7 +22,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             Contract.Requires(clrPropertyType != null);
 
             var attributeInfoFactory = CreateAttributeInfoFactory(clrDeclaringType, clrPropertyName, clrPropertyType);
-            this.AttributeInfoFactory = attributeInfoFactory;
+            this.AttributeInfoContextFactory = attributeInfoFactory;
         }
         #endregion
 
@@ -32,8 +32,15 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);
 
-            this.AttributeInfoModifierCollection = this.AttributeInfoModifierCollection ?? new List<Action<AttributeInfo>>();
-            this.AttributeInfoModifierCollection.Add(x => { x.ApiPropertyName = apiPropertyName; });
+            this.AttributeInfoContextModifierCollection = this.AttributeInfoContextModifierCollection ?? new List<Action<AttributeInfoContext>>();
+            this.AttributeInfoContextModifierCollection.Add(x => { x.AttibuteInfo.ApiPropertyName = apiPropertyName; });
+            return this;
+        }
+
+        public IAttributeInfoBuilder Ignore()
+        {
+            this.AttributeInfoContextModifierCollection = this.AttributeInfoContextModifierCollection ?? new List<Action<AttributeInfoContext>>();
+            this.AttributeInfoContextModifierCollection.Add(x => { x.Ignored = true; });
             return this;
         }
         #endregion
@@ -42,35 +49,50 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
         #region Factory Methods
         internal IAttributeInfo CreateAttributeInfo(IConventions conventions)
         {
-            var attributeInfo = this.AttributeInfoFactory(conventions);
+            var attributeInfoContext = this.AttributeInfoContextFactory(conventions);
 
-            if (this.AttributeInfoModifierCollection == null)
-                return attributeInfo;
-
-            foreach (var attributeInfoModifier in this.AttributeInfoModifierCollection)
+            if (this.AttributeInfoContextModifierCollection == null)
             {
-                attributeInfoModifier(attributeInfo);
+                return attributeInfoContext.Ignored == false
+                    ? attributeInfoContext.AttibuteInfo
+                    : null;
             }
 
-            return attributeInfo;
+            foreach (var attributeInfoContextModifier in this.AttributeInfoContextModifierCollection)
+            {
+                attributeInfoContextModifier(attributeInfoContext);
+            }
+
+            return attributeInfoContext.Ignored == false
+                ? attributeInfoContext.AttibuteInfo
+                : null;
+        }
+        #endregion
+
+        // PRIVATE TYPES ////////////////////////////////////////////////////
+        #region Types
+        private class AttributeInfoContext
+        {
+            public bool Ignored { get; set; }
+            public AttributeInfo AttibuteInfo { get; set; }
         }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Func<IConventions, AttributeInfo> AttributeInfoFactory { get; set; }
-        private IList<Action<AttributeInfo>> AttributeInfoModifierCollection { get; set; }
+        private Func<IConventions, AttributeInfoContext> AttributeInfoContextFactory { get; set; }
+        private IList<Action<AttributeInfoContext>> AttributeInfoContextModifierCollection { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IConventions, AttributeInfo> CreateAttributeInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, AttributeInfoContext> CreateAttributeInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
         {
             Contract.Requires(clrDeclaringType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            Func<IConventions, AttributeInfo> attributeInfoFactory = (conventions) =>
+            Func<IConventions, AttributeInfoContext> attributeInfoFactory = (conventions) =>
                 {
                     var apiPropertyName = clrPropertyName;
                     if (conventions != null && conventions.ApiAttributeNamingConventions != null)
@@ -79,7 +101,11 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
                     }
 
                     var attributeInfo = new AttributeInfo(clrDeclaringType, clrPropertyName, clrPropertyType, apiPropertyName, false);
-                    return attributeInfo;
+                    var attributeInfoContext = new AttributeInfoContext
+                        {
+                            AttibuteInfo = attributeInfo
+                        };
+                    return attributeInfoContext;
                 };
             return attributeInfoFactory;
         }

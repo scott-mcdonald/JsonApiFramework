@@ -19,7 +19,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IServiceModelBuilder Implementation
-        public IComplexTypeBuilder<TComplex> Complex<TComplex>()
+        public IComplexTypeBuilder Complex<TComplex>()
         {
             var complexTypeConfiguration = _configurations.GetOrAddComplexTypeBuilder<TComplex>();
             return complexTypeConfiguration;

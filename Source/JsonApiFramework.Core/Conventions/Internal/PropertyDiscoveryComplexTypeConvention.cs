@@ -25,7 +25,7 @@ namespace JsonApiFramework.Conventions.Internal
             Contract.Requires(complexTypeConfiguration != null);
 
             // Use reflection, get all the directly declard, public, and instance-based type of properties for the given resource type.
-            var clrComplexType = complexTypeConfiguration.ClrComplexType;
+            var clrComplexType = complexTypeConfiguration.ClrType;
             var clrProperties = clrComplexType
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
                 .ToList();

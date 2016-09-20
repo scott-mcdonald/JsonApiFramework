@@ -9,18 +9,18 @@ using JsonApiFramework.Reflection;
 
 namespace JsonApiFramework.ServiceModel.Configuration
 {
-    public static class ComplexTypeBuilderExtensions
+    public static class ClrTypeBuilderExtensions
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IAttributeInfoBuilder Attribute<TComplex, TProperty>(this IComplexTypeBuilder<TComplex> complexTypeBuilder, Expression<Func<TComplex, TProperty>> clrPropertySelector)
+        public static IAttributeInfoBuilder Attribute<T, TProperty>(this IClrTypeBuilder<T> clrTypeBuilder, Expression<Func<T, TProperty>> clrPropertySelector)
         {
-            Contract.Requires(complexTypeBuilder != null);
+            Contract.Requires(clrTypeBuilder != null);
             Contract.Requires(clrPropertySelector != null);
 
             var clrPropertyType = typeof(TProperty);
             var clrPropertyName = StaticReflection.GetMemberName(clrPropertySelector);
-            return complexTypeBuilder.Attribute(clrPropertyName, clrPropertyType);
+            return clrTypeBuilder.Attribute(clrPropertyName, clrPropertyType);
         }
         #endregion
     }

@@ -12,19 +12,16 @@ using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration
 {
-    public class ResourceTypeBuilder<TResource> : IResourceTypeBuilder<TResource>, IResourceTypeFactory
+    public class ResourceTypeBuilder<TResource> : ClrTypeBuilder<TResource>
+        , IResourceTypeBuilder<TResource>
+        , IResourceTypeFactory
         where TResource : class, IResource
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IResourceTypeBuilder Implementation
-        public Type ClrResourceType { get { return typeof(TResource); } }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceTypeBuilder Implementation
         public IHypermediaInfoBuilder Hypermedia()
         {
-            var clrResourceType = this.ClrResourceType;
+            var clrResourceType = this.ClrType;
             this.HypermediaInfoBuilder = this.HypermediaInfoBuilder ?? new HypermediaInfoBuilder(clrResourceType);
             return this.HypermediaInfoBuilder;
         }
@@ -34,37 +31,16 @@ namespace JsonApiFramework.ServiceModel.Configuration
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
             Contract.Requires(clrPropertyType != null);
 
-            var clrResourceType = this.ClrResourceType;
+            var clrResourceType = this.ClrType;
             this.ResourceIdentityInfoBuilder = this.ResourceIdentityInfoBuilder ?? new ResourceIdentityInfoBuilder(clrResourceType, clrPropertyName, clrPropertyType);
             return this.ResourceIdentityInfoBuilder;
-        }
-
-        public IAttributeInfoBuilder Attribute(string clrPropertyName, Type clrPropertyType)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
-            Contract.Requires(clrPropertyType != null);
-
-            this.AttributeInfoBuilderDictionary = this.AttributeInfoBuilderDictionary ?? new Dictionary<string, AttributeInfoBuilder>();
-            this.AttributeInfoBuilderOrder = this.AttributeInfoBuilderOrder ?? new List<string>();
-
-            AttributeInfoBuilder attributeInfoConfiguration;
-            if (this.AttributeInfoBuilderDictionary.TryGetValue(clrPropertyName, out attributeInfoConfiguration))
-            {
-                return attributeInfoConfiguration;
-            }
-
-            attributeInfoConfiguration = new AttributeInfoBuilder(this.ClrResourceType, clrPropertyName, clrPropertyType);
-            this.AttributeInfoBuilderDictionary.Add(clrPropertyName, attributeInfoConfiguration);
-            this.AttributeInfoBuilderOrder.Add(clrPropertyName);
-
-            return attributeInfoConfiguration;
         }
 
         public IRelationshipsInfoBuilder Relationships(string clrPropertyName)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrResourceType, clrPropertyName);
+            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrType, clrPropertyName);
             return this.RelationshipsInfoBuilder;
         }
 
@@ -72,7 +48,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrResourceType, clrPropertyName);
+            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrType, clrPropertyName);
             return this.LinksInfoBuilder;
         }
 
@@ -87,7 +63,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
-            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrResourceType, clrPropertyName);
+            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrType, clrPropertyName);
             return this.MetaInfoBuilder;
         }
         #endregion
@@ -124,7 +100,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
             this.ApplyResourceTypeConventions(conventions);
 
             // Create all the ResourceType parameters needed to construct a ResourceType metadata object.
-            var clrResourceType = this.ClrResourceType;
+            var clrResourceType = this.ClrType;
             var hypermediaInfo = this.CreateHypermediaInfo(conventions);
             var resourceIdentityInfo = this.CreateResourceIdentityInfo(conventions);
             var attributesInfo = this.CreateAttributesInfo(conventions);
@@ -143,9 +119,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
         #endregion
 
-        // PROTECTED/INTERNAL CONSTRUCTORS //////////////////////////////////
+        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        protected internal ResourceTypeBuilder()
+        internal ResourceTypeBuilder()
         { }
         #endregion
 
@@ -154,11 +130,6 @@ namespace JsonApiFramework.ServiceModel.Configuration
         private HypermediaInfoBuilder HypermediaInfoBuilder { get; set; }
 
         private ResourceIdentityInfoBuilder ResourceIdentityInfoBuilder { get; set; }
-
-        private AttributesInfoBuilder AttributesInfoBuilder { get; set; }
-
-        private IDictionary<string, AttributeInfoBuilder> AttributeInfoBuilderDictionary { get; set; }
-        private IList<string> AttributeInfoBuilderOrder { get; set; }
 
         private RelationshipsInfoBuilder RelationshipsInfoBuilder { get; set; }
 
@@ -223,27 +194,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
             return resourceIdentityInfo;
         }
 
-        private IAttributesInfo CreateAttributesInfo(IConventions conventions)
-        {
-            this.AttributesInfoBuilder = this.AttributesInfoBuilder ?? new AttributesInfoBuilder(this.ClrResourceType);
-
-            var attributeInfoCollection = this.AttributeInfoBuilderOrder
-                                              .EmptyIfNull()
-                                              .Select(x =>
-                                                  {
-                                                      var clrPropertyName = x;
-                                                      var attributeInfoConfiguration = this.AttributeInfoBuilderDictionary.Single(y => y.Key == clrPropertyName).Value;
-                                                      var attributeInfo = attributeInfoConfiguration.CreateAttributeInfo(conventions);
-                                                      return attributeInfo;
-                                                  })
-                                              .ToList();
-            var attributesInfo = this.AttributesInfoBuilder.CreateAttributesInfo(attributeInfoCollection);
-            return attributesInfo;
-        }
-
         private IRelationshipsInfo CreateRelationshipsInfo()
         {
-            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrResourceType);
+            this.RelationshipsInfoBuilder = this.RelationshipsInfoBuilder ?? new RelationshipsInfoBuilder(this.ClrType);
 
             var relationshipInfoCollection = this.RelationshipInfoBuilderOrder
                                                  .EmptyIfNull()
@@ -282,7 +235,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private ILinksInfo CreateLinksInfo()
         {
-            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrResourceType);
+            this.LinksInfoBuilder = this.LinksInfoBuilder ?? new LinksInfoBuilder(this.ClrType);
 
             var linkInfoCollection = this.LinkInfoBuilderOrder
                                          .EmptyIfNull()
@@ -320,7 +273,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         private IMetaInfo CreateMetaInfo()
         {
-            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrResourceType);
+            this.MetaInfoBuilder = this.MetaInfoBuilder ?? new MetaInfoBuilder(this.ClrType);
 
             var metaInfo = this.MetaInfoBuilder.CreateMetaInfo();
             return metaInfo;

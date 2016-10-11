@@ -60,6 +60,7 @@
     <Compile Include="Reflection\BindingFlags.cs" />
     <Compile Include="Reflection\StaticReflection.cs" />
     <Compile Include="Converters\TypeConverterException.cs" />
+    <Compile Include="Reflection\PropertyInfoExtensions.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="Converters\TypeConverter.cs" />
   </ItemGroup>

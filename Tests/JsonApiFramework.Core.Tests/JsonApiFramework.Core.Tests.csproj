@@ -68,6 +68,7 @@
     <Compile Include="Extensions\UriTests.cs" />
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
+    <Compile Include="Http\UrlBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\StaticReflectionTests.cs" />
     <Compile Include="Reflection\TypeExtensionsTests.cs" />
@@ -86,7 +87,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Json\" />
+    <Folder Include="Tree\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

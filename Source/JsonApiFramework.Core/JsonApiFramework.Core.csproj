@@ -38,6 +38,11 @@
     <Compile Include="Converters\TypeConverterContext.cs" />
     <Compile Include="Converters\TypeConverterContextExtensions.cs" />
     <Compile Include="Expressions\ExpressionBuilder.cs" />
+    <Compile Include="Http\IPath.cs" />
+    <Compile Include="Http\IUrlBuilderConfiguration.cs" />
+    <Compile Include="Http\UrlBuilderExtensions.cs" />
+    <Compile Include="Http\UrlBuilder.cs" />
+    <Compile Include="Http\UrlBuilderConfiguration.cs" />
     <Compile Include="Properties\CoreErrorStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,7 +82,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Json\" />
+    <Folder Include="Tree\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\CoreErrorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

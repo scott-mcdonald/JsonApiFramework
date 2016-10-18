@@ -69,6 +69,7 @@
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="Json\JsonObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\StaticReflectionTests.cs" />
     <Compile Include="Reflection\TypeExtensionsTests.cs" />
@@ -88,7 +89,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Json\" />
     <Folder Include="Tree\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

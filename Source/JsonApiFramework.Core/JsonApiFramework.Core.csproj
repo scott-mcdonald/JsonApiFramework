@@ -44,6 +44,7 @@
     <Compile Include="Http\UrlBuilder.cs" />
     <Compile Include="Http\UrlBuilderConfiguration.cs" />
     <Compile Include="Json\IJsonObject.cs" />
+    <Compile Include="Json\JsonReadOnlyDictionary.cs" />
     <Compile Include="Json\JsonObject.cs" />
     <Compile Include="Properties\CoreErrorStrings.Designer.cs">
       <AutoGen>True</AutoGen>

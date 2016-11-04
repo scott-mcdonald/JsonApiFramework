@@ -624,30 +624,30 @@ namespace JsonApiFramework.Reflection
 
         private static void ValidateInstanceAndStaticBindingFlags(bool isInstance, bool isStatic)
         {
-            if (!isInstance && !isStatic)
-            {
-                var bindingFlagsName = typeof(BindingFlags).Name;
-                var message = String.Format("{0} must at least specify either {1} or {2}",
-                    bindingFlagsName,
-                    BindingFlags.Instance,
-                    BindingFlags.Static);
+            if (isInstance || isStatic)
+                return;
 
-                throw new InvalidOperationException(message);
-            }
+            var bindingFlagsName = typeof(BindingFlags).Name;
+            var message = String.Format("{0} must at least specify either {1} or {2}",
+                bindingFlagsName,
+                BindingFlags.Instance,
+                BindingFlags.Static);
+
+            throw new InvalidOperationException(message);
         }
 
         private static void ValidatePublicAndNonPublicBindingFlags(bool isPublic, bool isNonPublic)
         {
-            if (!isPublic && !isNonPublic)
-            {
-                var bindingFlagsName = typeof(BindingFlags).Name;
-                var message = String.Format("{0} must at least specify either {1} or {2}",
-                    bindingFlagsName,
-                    BindingFlags.Public,
-                    BindingFlags.NonPublic);
+            if (isPublic || isNonPublic)
+                return;
 
-                throw new InvalidOperationException(message);
-            }
+            var bindingFlagsName = typeof(BindingFlags).Name;
+            var message = String.Format("{0} must at least specify either {1} or {2}",
+                bindingFlagsName,
+                BindingFlags.Public,
+                BindingFlags.NonPublic);
+
+            throw new InvalidOperationException(message);
         }
         #endregion
 

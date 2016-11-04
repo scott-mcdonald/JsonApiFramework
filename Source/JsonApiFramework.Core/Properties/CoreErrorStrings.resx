@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TreeExceptionNodeAlreadyAdded" xml:space="preserve">
+    <value>{0} node has already been added to a tree.</value>
+  </data>
+  <data name="TreeExceptionNodeAttributeAlreadyAdded" xml:space="preserve">
+    <value>{0} attribute has already been added to a node.</value>
+  </data>
   <data name="TypeConverterExceptionMessage" xml:space="preserve">
     <value>Unable to convert from object {0} of type {1} to type {2}.</value>
   </data>

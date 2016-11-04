@@ -62,6 +62,24 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} node has already been added to a tree..
+        /// </summary>
+        internal static string TreeExceptionNodeAlreadyAdded {
+            get {
+                return ResourceManager.GetString("TreeExceptionNodeAlreadyAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} attribute has already been added to a node..
+        /// </summary>
+        internal static string TreeExceptionNodeAttributeAlreadyAdded {
+            get {
+                return ResourceManager.GetString("TreeExceptionNodeAttributeAlreadyAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to convert from object {0} of type {1} to type {2}..
         /// </summary>
         internal static string TypeConverterExceptionMessage {

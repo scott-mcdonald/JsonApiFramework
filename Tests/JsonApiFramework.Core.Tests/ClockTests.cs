@@ -74,15 +74,16 @@ namespace JsonApiFramework.Tests
             this.WriteLine("Actual Local Time Zone = {0}", actualLocalTimeZone);
 
             // Assert
-            const int beCloseToPrecisionInMilliseconds = 10000; // 10 seconds
+            const int timePrecisionInMilliseconds = 10 * 1000;              // 10 seconds
+            const int datePrecisionInMillicseonds = 24 * 60 * 60 * 1000;    // 1 day
 
-            actualCurrentLocalDate.Should().BeCloseTo(expectedLocalDate, beCloseToPrecisionInMilliseconds);
-            actualCurrentLocalDateTime.Should().BeCloseTo(expectedLocalDateTime, beCloseToPrecisionInMilliseconds);
-            actualCurrentLocalTimeOfDay.Should().BeCloseTo(expectedLocalTimeOfDay, beCloseToPrecisionInMilliseconds);
+            actualCurrentLocalDate.Should().BeCloseTo(expectedLocalDate, datePrecisionInMillicseonds);
+            actualCurrentLocalDateTime.Should().BeCloseTo(expectedLocalDateTime, timePrecisionInMilliseconds);
+            actualCurrentLocalTimeOfDay.Should().BeCloseTo(expectedLocalTimeOfDay, timePrecisionInMilliseconds);
 
-            actualCurrentUtcDate.Should().BeCloseTo(expectedUtcDate, beCloseToPrecisionInMilliseconds);
-            actualCurrentUtcDateTime.Should().BeCloseTo(expectedUtcDateTime, beCloseToPrecisionInMilliseconds);
-            actualCurrentUtcTimeOfDay.Should().BeCloseTo(expectedUtcTimeOfDay, beCloseToPrecisionInMilliseconds);
+            actualCurrentUtcDate.Should().BeCloseTo(expectedUtcDate, datePrecisionInMillicseonds);
+            actualCurrentUtcDateTime.Should().BeCloseTo(expectedUtcDateTime, timePrecisionInMilliseconds);
+            actualCurrentUtcTimeOfDay.Should().BeCloseTo(expectedUtcTimeOfDay, timePrecisionInMilliseconds);
 
             actualLocalTimeZone.Should().Be(expectedLocalTimeZone);
         }

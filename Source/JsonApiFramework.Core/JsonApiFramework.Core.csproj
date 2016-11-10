@@ -71,6 +71,13 @@
     <Compile Include="Reflection\PropertyInfoExtensions.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
     <Compile Include="Converters\TypeConverter.cs" />
+    <Compile Include="ServiceModel\Extensions\ClrPropertyInfoExtensions.cs" />
+    <Compile Include="ServiceModel\IClrPropertyInfo.cs" />
+    <Compile Include="ServiceModel\Internal\ClrPropertyInfo.cs" />
+    <Compile Include="ServiceModel\Internal\ClrObjectInfo.cs" />
+    <Compile Include="ServiceModel\IComplexType.cs" />
+    <Compile Include="ServiceModel\IClrObjectInfo.cs" />
+    <Compile Include="ServiceModel\IResourceType.cs" />
     <Compile Include="Tree\NodeVisitor.cs" />
     <Compile Include="Tree\TreeException.cs" />
     <Compile Include="Tree\Node.cs" />

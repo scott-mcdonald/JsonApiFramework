@@ -101,7 +101,6 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression argumentExpression;
             var callExpression = CreateStaticMethodCallExpression<TClass>(methodName);
 
             var lambdaExpression = Expression.Lambda<Func<TResult>>(callExpression);

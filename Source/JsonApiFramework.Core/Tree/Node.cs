@@ -37,7 +37,7 @@ namespace JsonApiFramework.Tree
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Gets the name of this node.</summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>Gets the root node of the tree.</summary>
         public Node RootNode { get; private set; }
@@ -70,7 +70,7 @@ namespace JsonApiFramework.Tree
         /// Adds an attribute to this node.
         /// </summary>
         /// <param name="newAttribute">Attribute to add to this node.</param>
-        public void AddAttribute(NodeAttribute newAttribute)
+        public virtual void AddAttribute(NodeAttribute newAttribute)
         {
             Contract.Requires(newAttribute != null);
 
@@ -103,7 +103,7 @@ namespace JsonApiFramework.Tree
 
         /// <summary>Adds a collection of attributes to this node.</summary>
         /// <param name="attributeCollection">Child nodes to add to this parent node.</param>
-        public void AddAttributes(IEnumerable<NodeAttribute> attributeCollection)
+        public virtual void AddAttributes(IEnumerable<NodeAttribute> attributeCollection)
         {
             if (attributeCollection == null)
                 return;
@@ -115,7 +115,7 @@ namespace JsonApiFramework.Tree
         }
 
         /// <summary>Returns a collection of the attributes for this node.</summary>
-        public IEnumerable<NodeAttribute> Attributes()
+        public virtual IEnumerable<NodeAttribute> Attributes()
         {
             var attribute = this.FirstAttribute;
             while (attribute != null)
@@ -126,12 +126,12 @@ namespace JsonApiFramework.Tree
         }
 
         /// <summary>Returns if this node has any attributes.</summary>
-        public bool HasAttributes()
+        public virtual bool HasAttributes()
         { return this.FirstAttribute != null; }
 
         /// <summary>Removes the old attribute from this attribute.</summary>
         /// <param name="oldAttribute">Attribute to remove from this node.</param>
-        public void RemoveAttribute(NodeAttribute oldAttribute)
+        public virtual void RemoveAttribute(NodeAttribute oldAttribute)
         {
             Contract.Requires(oldAttribute != null);
 
@@ -175,7 +175,7 @@ namespace JsonApiFramework.Tree
         /// </summary>
         /// <param name="oldAttribute">Attribute to remove from this node.</param>
         /// <param name="newAttribute">Attribute to add to this node.</param>
-        public void ReplaceAttribute(NodeAttribute oldAttribute, NodeAttribute newAttribute)
+        public virtual void ReplaceAttribute(NodeAttribute oldAttribute, NodeAttribute newAttribute)
         {
             Contract.Requires(oldAttribute != null);
             Contract.Requires(newAttribute != null);
@@ -240,13 +240,13 @@ namespace JsonApiFramework.Tree
         /// Returns if this node has any children nodes.
         /// </summary>
         /// <returns>True if this node has children nodes, false otherwise.</returns>
-        public bool HasNodes()
+        public virtual bool HasNodes()
         { return this.FirstNode != null; }
 
         /// <summary>
         /// Returns a collection of the direct child nodes for this node, in document order.
         /// </summary>
-        public IEnumerable<Node> Nodes()
+        public virtual IEnumerable<Node> Nodes()
         {
             if (this.HasNodes() == false)
                 yield break;
@@ -262,7 +262,7 @@ namespace JsonApiFramework.Tree
         /// <summary>
         /// Returns a collection of the descendant nodes for this node, in document order.
         /// </summary>
-        public IEnumerable<Node> DescendantNodes()
+        public virtual IEnumerable<Node> DescendantNodes()
         {
             if (this.HasNodes() == false)
                 yield break;
@@ -296,7 +296,7 @@ namespace JsonApiFramework.Tree
         /// Adds the new node as child of this node.
         /// </summary>
         /// <param name="newNode">Child node to add to this parent node.</param>
-        public void AddNode(Node newNode)
+        public virtual void AddNode(Node newNode)
         {
             Contract.Requires(newNode != null);
 
@@ -333,7 +333,7 @@ namespace JsonApiFramework.Tree
         /// Adds the new node collection as children of this node.
         /// </summary>
         /// <param name="newNodeCollection">Child nodes to add to this parent node.</param>
-        public void AddNodes(IEnumerable<Node> newNodeCollection)
+        public virtual void AddNodes(IEnumerable<Node> newNodeCollection)
         {
             if (newNodeCollection == null)
                 return;
@@ -348,7 +348,7 @@ namespace JsonApiFramework.Tree
         /// Removes the old node as a child from this node.
         /// </summary>
         /// <param name="oldNode">Child node to remove from this parent node.</param>
-        public void RemoveNode(Node oldNode)
+        public virtual void RemoveNode(Node oldNode)
         {
             Contract.Requires(oldNode != null);
 
@@ -394,7 +394,7 @@ namespace JsonApiFramework.Tree
         /// </summary>
         /// <param name="oldNode">Child node to remove from this parent node.</param>
         /// <param name="newNode">Child node to add to this parent node.</param>
-        public void ReplaceNode(Node oldNode, Node newNode)
+        public virtual void ReplaceNode(Node oldNode, Node newNode)
         {
             Contract.Requires(oldNode != null);
             Contract.Requires(newNode != null);
@@ -500,7 +500,7 @@ namespace JsonApiFramework.Tree
         #region Methods
         private void ThrowExceptionForAlreadyBeenAdded()
         {
-            var message = CoreErrorStrings.TreeExceptionNodeAlreadyAdded.FormatWith(this.Name);
+            var message = CoreErrorStrings.TreeExceptionNodeAlreadyAddedMessage.FormatWith(this.Name);
             throw new TreeException(message);
         }
 

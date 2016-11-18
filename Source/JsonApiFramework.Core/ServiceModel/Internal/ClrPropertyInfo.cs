@@ -30,7 +30,7 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IClrPropertyInfo Implementation
-        [JsonProperty] public string ClrPropertyName { get; private set; }
+        [JsonProperty] public string ClrPropertyName { get; }
         [JsonProperty] public Type ClrPropertyType => typeof(TProperty);
         #endregion
 

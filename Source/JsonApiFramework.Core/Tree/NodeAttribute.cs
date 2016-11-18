@@ -56,7 +56,7 @@ namespace JsonApiFramework.Tree
         #region Methods
         private void ThrowExceptionForAlreadyBeenAdded()
         {
-            var message = CoreErrorStrings.TreeExceptionNodeAttributeAlreadyAdded.FormatWith(this.Name);
+            var message = CoreErrorStrings.TreeExceptionNodeAttributeAlreadyAddedMessage.FormatWith(this.Name);
             throw new TreeException(message);
         }
         #endregion

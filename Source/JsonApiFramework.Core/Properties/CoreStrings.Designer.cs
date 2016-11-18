@@ -23,14 +23,14 @@ namespace JsonApiFramework {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CoreErrorStrings {
+    internal class CoreStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CoreErrorStrings() {
+        internal CoreStrings() {
         }
         
         /// <summary>
@@ -40,7 +40,7 @@ namespace JsonApiFramework {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JsonApiFramework.Properties.CoreErrorStrings", typeof(CoreErrorStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JsonApiFramework.Properties.CoreStrings", typeof(CoreStrings).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,47 +62,11 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find link for the rel={0}..
+        ///   Looks up a localized string similar to null.
         /// </summary>
-        internal static string LinksLinkNotFoundDetail {
+        internal static string NullText {
             get {
-                return ResourceManager.GetString("LinksLinkNotFoundDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Link Not Found.
-        /// </summary>
-        internal static string LinksLinkNotFoundTitle {
-            get {
-                return ResourceManager.GetString("LinksLinkNotFoundTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} node has already been added to a tree..
-        /// </summary>
-        internal static string TreeExceptionNodeAlreadyAddedMessage {
-            get {
-                return ResourceManager.GetString("TreeExceptionNodeAlreadyAddedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} attribute has already been added to a node..
-        /// </summary>
-        internal static string TreeExceptionNodeAttributeAlreadyAddedMessage {
-            get {
-                return ResourceManager.GetString("TreeExceptionNodeAttributeAlreadyAddedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to convert from object {0} of type {1} to type {2}..
-        /// </summary>
-        internal static string TypeConverterExceptionMessage {
-            get {
-                return ResourceManager.GetString("TypeConverterExceptionMessage", resourceCulture);
+                return ResourceManager.GetString("NullText", resourceCulture);
             }
         }
     }

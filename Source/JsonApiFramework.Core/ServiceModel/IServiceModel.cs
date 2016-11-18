@@ -2,25 +2,23 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IClrPropertyInfo
+    public interface IServiceModel
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        string ClrPropertyName { get; }
-        Type ClrPropertyType { get; }
+        IEnumerable<IComplexType> ComplexTypes { get; }
+        IEnumerable<IResourceType> ResourceTypes { get; }
         #endregion
-    }
 
-    public interface IClrPropertyInfo<in TObject, TProperty> : IClrPropertyInfo
-    {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        TProperty GetClrProperty(TObject clrObject);
-
-        void SetClrProperty(TObject clrObject, TProperty clrProperty);
+        IComplexType GetComplexType(Type clrComplexType);
+        IResourceType GetResourceType(string apiResourceType);
+        IResourceType GetResourceType(Type clrResourceType);
         #endregion
     }
 }

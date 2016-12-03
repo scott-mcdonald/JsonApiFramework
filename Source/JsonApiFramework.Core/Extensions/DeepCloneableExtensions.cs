@@ -31,12 +31,7 @@ namespace JsonApiFramework
         public static T DeepCopy<T>(this T source)
             where T : class, IDeepCloneable
         {
-            if (source == null)
-            {
-                return null;
-            }
-
-            var clone = (T)source.DeepClone();
+            var clone = (T)source?.DeepClone();
             return clone;
         }
 

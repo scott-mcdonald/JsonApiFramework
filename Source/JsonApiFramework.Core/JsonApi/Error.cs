@@ -32,6 +32,27 @@ namespace JsonApiFramework.JsonApi
         public Meta Meta { get; set; }
         #endregion
 
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IGetMeta Implementation
+        public Meta GetMeta()
+        { return this.Meta; }
+        #endregion
+
+        #region IGetLinks Implementation
+        public Links GetLinks()
+        { return this.Links; }
+        #endregion
+
+        #region ISetMeta Implementation
+        public void SetMeta(Meta meta)
+        { this.Meta = meta; }
+        #endregion
+
+        #region ISetLinks Implementation
+        public void SetLinks(Links links)
+        { this.Links = links; }
+        #endregion
+
         // PUBLIC OPERATORS /////////////////////////////////////////////////
         #region Conversion Operators
         public static implicit operator Error(ErrorException errorException)

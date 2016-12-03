@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
@@ -14,6 +15,7 @@ namespace JsonApiFramework.JsonApi
     /// Represents a json:api compliant jsonapi object.
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
+    [JsonConverter(typeof(JsonApiVersionConverter))]
     public class JsonApiVersion : JsonObject
         , IGetMeta
         , ISetMeta
@@ -39,9 +41,14 @@ namespace JsonApiFramework.JsonApi
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        { return "{0} [version={1}]".FormatWith(TypeName, this.Version); }
+        #region IGetMeta Implementation
+        public Meta GetMeta()
+        { return this.Meta; }
+        #endregion
+
+        #region ISetMeta Implementation
+        public void SetMeta(Meta meta)
+        { this.Meta = meta; }
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////

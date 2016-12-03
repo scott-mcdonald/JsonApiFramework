@@ -14,14 +14,14 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(getMeta != null);
 
-            return getMeta.Meta != null;
+            return getMeta.GetMeta() != null;
         }
 
         public static TMetadata GetMetadata<TMetadata>(this IGetMeta getMeta)
         {
             Contract.Requires(getMeta != null);
 
-            var meta = getMeta.Meta;
+            var meta = getMeta.GetMeta();
             if (meta == null)
                 return default(TMetadata);
 

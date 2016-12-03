@@ -18,9 +18,9 @@ namespace JsonApiFramework.Json
         #region IJsonObject Implementation
         public string ToJson()
         {
-            var settings = JsonObject.DefaultJsonSerializerSettings;
+            var settings = DefaultJsonSerializerSettings;
             var type = this.GetType();
-            return this.ToJson(settings, type);
+            return ToJson(this, type, settings);
         }
 
         public string ToJson(JsonSerializerSettings settings)
@@ -28,7 +28,7 @@ namespace JsonApiFramework.Json
             Contract.Requires(settings != null);
 
             var type = this.GetType();
-            return this.ToJson(settings, type);
+            return ToJson(this, type, settings);
         }
         #endregion
 
@@ -37,13 +37,19 @@ namespace JsonApiFramework.Json
         { return this.DeepCloneWithJson(); }
         #endregion
 
+        #region Object Overrides
+        public override string ToString()
+        { return this.ToJson(); }
+        #endregion
+
         #region Parse Methods
         public static T Parse<T>(string json)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(json) == false);
+            if (json == null)
+                return default(T);
 
-            var settings = JsonObject.DefaultJsonSerializerSettings;
-            return JsonObject.Parse<T>(json, settings);
+            var settings = DefaultJsonSerializerSettings;
+            return Parse<T>(json, settings);
         }
 
         /// <summary>
@@ -52,11 +58,28 @@ namespace JsonApiFramework.Json
         /// </summary>
         public static T Parse<T>(string json, JsonSerializerSettings settings)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(json) == false);
             Contract.Requires(settings != null);
+
+            if (json == null)
+                return default(T);
 
             var instance = JsonConvert.DeserializeObject<T>(json, settings);
             return instance;
+        }
+        #endregion
+
+        #region ToJson Methods
+        public static string ToJson<T>(T value)
+        {
+            var settings = DefaultJsonSerializerSettings;
+            var valueType = typeof(T);
+            return ToJson(value, valueType, settings);
+        }
+
+        public static string ToJson<T>(T value, JsonSerializerSettings settings)
+        {
+            var valueType = typeof(T);
+            return ToJson(value, valueType, settings);
         }
         #endregion
 
@@ -70,8 +93,7 @@ namespace JsonApiFramework.Json
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private static JsonSerializerSettings DefaultJsonSerializerSettings
-        { get; set; }
+        private static JsonSerializerSettings DefaultJsonSerializerSettings { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -80,17 +102,18 @@ namespace JsonApiFramework.Json
         {
             var jsonSerializerSettings = new JsonSerializerSettings
                 {
-                    Formatting = Formatting.Indented
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Include
                 };
             return jsonSerializerSettings;
         }
 
-        private string ToJson(JsonSerializerSettings settings, Type type)
+        private static string ToJson(object obj, Type objType, JsonSerializerSettings settings)
         {
+            Contract.Requires(objType != null);
             Contract.Requires(settings != null);
-            Contract.Requires(type != null);
 
-            var json = JsonConvert.SerializeObject(this, type, settings);
+            var json = JsonConvert.SerializeObject(obj, objType, settings);
             return json;
         }
         #endregion

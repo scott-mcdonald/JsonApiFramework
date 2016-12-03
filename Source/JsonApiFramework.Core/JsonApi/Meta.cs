@@ -3,6 +3,7 @@
 
 using JsonApiFramework.Json;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
@@ -11,17 +12,10 @@ namespace JsonApiFramework.JsonApi
     /// Represents a json:api compliant meta object.
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
+    [JsonConverter(typeof(MetaConverter))]
     public class Meta : JsonObject
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        {
-            var metaAsJson = this.JObject.SafeToString();
-            return "{0} [{1}]".FormatWith(TypeName, metaAsJson);
-        }
-        #endregion
-
         #region Metadata Methods
         public static Meta Create<T>(T data)
         {

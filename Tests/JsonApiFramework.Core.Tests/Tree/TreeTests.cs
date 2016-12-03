@@ -42,7 +42,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(1);
@@ -73,7 +73,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(2);
@@ -114,7 +114,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(3);
@@ -165,7 +165,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(4);
@@ -226,7 +226,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(5);
@@ -297,7 +297,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(3);
@@ -348,7 +348,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(7);
@@ -439,7 +439,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(13);
@@ -590,7 +590,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeDictionary.Should().HaveCount(21);
@@ -823,7 +823,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(2);
             nodeDictionary.Should().ContainKey("1");
@@ -835,7 +835,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -862,7 +862,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(3);
             nodeDictionary.Should().ContainKey("1");
@@ -876,7 +876,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -911,7 +911,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(3);
             nodeDictionary.Should().ContainKey("1");
@@ -925,7 +925,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -960,7 +960,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -976,7 +976,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1019,7 +1019,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -1035,7 +1035,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1078,7 +1078,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -1094,7 +1094,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1137,7 +1137,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1155,7 +1155,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1206,7 +1206,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1224,7 +1224,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1275,7 +1275,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1293,7 +1293,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1344,7 +1344,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1362,7 +1362,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1415,7 +1415,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(2);
             nodeDictionary.Should().ContainKey("1");
@@ -1428,7 +1428,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1463,7 +1463,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(3);
             nodeDictionary.Should().ContainKey("1");
@@ -1478,7 +1478,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1521,7 +1521,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(3);
             nodeDictionary.Should().ContainKey("1");
@@ -1536,7 +1536,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1579,7 +1579,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -1596,7 +1596,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1647,7 +1647,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -1664,7 +1664,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1715,7 +1715,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(4);
             nodeDictionary.Should().ContainKey("1");
@@ -1732,7 +1732,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1783,7 +1783,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1802,7 +1802,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1861,7 +1861,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1880,7 +1880,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -1939,7 +1939,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -1958,7 +1958,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -2017,7 +2017,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeDictionary.Should().HaveCount(5);
             nodeDictionary.Should().ContainKey("1");
@@ -2036,7 +2036,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceNode");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             node1.Name.Should().Be("1");
@@ -2099,7 +2099,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
             this.WriteLine();
             this.WriteLine("Nodes from   = {0}", tree.Name);
 
@@ -2144,7 +2144,7 @@ namespace JsonApiFramework.Tests.Tree
             var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
             this.WriteLine();
             this.WriteLine("Nodes from   = {0}", tree.Name);
 
@@ -2190,7 +2190,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
             this.WriteLine();
             this.WriteLine("Attributes from = {0}", tree.Name);
 
@@ -2311,7 +2311,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeAttributeDictionary.Should().HaveCount(0);
@@ -2334,7 +2334,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeAttributeDictionary.Should().HaveCount(1);
@@ -2363,7 +2363,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeAttributeDictionary.Should().HaveCount(2);
@@ -2398,7 +2398,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeAttributeDictionary.Should().HaveCount(3);
@@ -2439,7 +2439,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             nodeAttributeDictionary.Should().HaveCount(4);
@@ -2488,7 +2488,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(1);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2498,7 +2498,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeNull();
@@ -2519,7 +2519,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(2);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2531,7 +2531,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute2);
@@ -2556,7 +2556,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(2);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2568,7 +2568,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2593,7 +2593,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2607,7 +2607,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute2);
@@ -2636,7 +2636,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2650,7 +2650,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2679,7 +2679,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2693,7 +2693,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2722,7 +2722,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2738,7 +2738,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute2);
@@ -2771,7 +2771,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2787,7 +2787,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2820,7 +2820,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2836,7 +2836,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2869,7 +2869,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2885,7 +2885,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After RemoveAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -2920,7 +2920,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(1);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2931,7 +2931,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(newNodeAttribute1);
@@ -2956,7 +2956,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(2);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -2969,7 +2969,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(newNodeAttribute1);
@@ -2998,7 +2998,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(2);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3011,7 +3011,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -3040,7 +3040,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3055,7 +3055,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(newNodeAttribute1);
@@ -3088,7 +3088,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3103,7 +3103,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -3136,7 +3136,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(3);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3151,7 +3151,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -3184,7 +3184,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3201,7 +3201,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(newNodeAttribute1);
@@ -3238,7 +3238,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3255,7 +3255,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -3292,7 +3292,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3309,7 +3309,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);
@@ -3346,7 +3346,7 @@ namespace JsonApiFramework.Tests.Tree
             BuildAttributes(attributeCount, tree, out nodeAttributeDictionary);
             this.WriteLine();
             this.WriteLine("Tree Before ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             nodeAttributeDictionary.Should().HaveCount(4);
             nodeAttributeDictionary.Should().ContainKey("Attribute1");
@@ -3363,7 +3363,7 @@ namespace JsonApiFramework.Tests.Tree
 
             this.WriteLine();
             this.WriteLine("Tree After ReplaceAttribute");
-            this.WriteLine("{0}", tree.ToTreeString());
+            this.WriteLine(tree.ToTreeString());
 
             // Assert
             tree.FirstAttribute.Should().BeSameAs(nodeAttribute1);

@@ -3,12 +3,14 @@
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Abstracts any object that has a settable <c>Links</c> property.</summary>
+    /// <summary>
+    /// Abstracts any object that has a <c>SetLinks</c> method.
+    /// </summary>
     public interface ISetLinks
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Links Links { set; }
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        void SetLinks(Links links);
         #endregion
     }
 }

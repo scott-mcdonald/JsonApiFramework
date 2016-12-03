@@ -32,12 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=4.14.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentAssertions.4.14.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.17.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.14.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentAssertions.4.14.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.17.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -69,8 +69,10 @@
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
-    <Compile Include="Json\JsonUnitTestFactoryAndData.cs" />
-    <Compile Include="Json\JsonUnitTestData.cs" />
+    <Compile Include="JsonApi\DomDocumentTests.cs" />
+    <Compile Include="JsonApi\LinksTests.cs" />
+    <Compile Include="JsonApi\JsonApiVersionTests.cs" />
+    <Compile Include="JsonApi\LinkTests.cs" />
     <Compile Include="Json\JsonReadOnlyDictionaryTests.cs" />
     <Compile Include="Json\JsonObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +85,14 @@
     <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
       <Project>{cecdcc33-48eb-4c68-853a-784433bc46f6}</Project>
       <Name>JsonApiFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestData\JsonApiFramework.Core.Tests.TestData.csproj">
+      <Project>{e89de5a5-d9c8-4bfa-beb0-b3a4597878c8}</Project>
+      <Name>JsonApiFramework.Core.Tests.TestData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestSupport\JsonApiFramework.Core.Tests.TestSupport.csproj">
+      <Project>{f692bfa5-fec0-44a8-ae15-a34a0c0d4120}</Project>
+      <Name>JsonApiFramework.Core.Tests.TestSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj">
       <Project>{7ea814a8-0325-438b-b0ba-b384842d418e}</Project>

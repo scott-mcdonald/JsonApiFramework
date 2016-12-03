@@ -1,21 +1,21 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using JsonApiFramework.Json;
+using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.Tests.Json
+namespace JsonApiFramework.Tests.JsonApi
 {
-    public class JsonUnitTestData
+    public class DomTreeSerializationUnitTestData
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////
         #region Constructors
-        public JsonUnitTestData(string name, JsonSerializerSettings settings, IJsonObject expectedObject, string expectedJson)
+        public DomTreeSerializationUnitTestData(string name, JsonSerializerSettings settings, IDomNode expectedDomTree, string expectedJson)
         {
             this.Name = name;
             this.Settings = settings;
-            this.ExpectedObject = expectedObject;
+            this.ExpectedDomTree = expectedDomTree;
             this.ExpectedJson = expectedJson;
         }
         #endregion
@@ -24,7 +24,7 @@ namespace JsonApiFramework.Tests.Json
         #region User Supplied Properties
         public string Name { get; private set; }
         public JsonSerializerSettings Settings { get; private set; }
-        public IJsonObject ExpectedObject { get; private set; }
+        public IDomNode ExpectedDomTree { get; private set; }
         public string ExpectedJson { get; private set; }
         #endregion
     }

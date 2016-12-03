@@ -8,14 +8,16 @@ using System.Linq;
 
 using JsonApiFramework.Json;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// Represents a json:api compliant link.
+    /// Represents a json:api compliant link object.
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
+    [JsonConverter(typeof(LinkConverter))]
     public class Link : JsonObject
         , IGetMeta
         , ISetMeta
@@ -27,15 +29,11 @@ namespace JsonApiFramework.JsonApi
 
         public Link(string hRef)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(hRef) == false);
-
             this.HRef = hRef;
         }
 
         public Link(string hRef, JObject meta)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(hRef) == false);
-
             this.HRef = hRef;
             this.Meta = meta;
         }
@@ -64,9 +62,14 @@ namespace JsonApiFramework.JsonApi
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        { return this.HRef ?? CoreStrings.NullText; }
+        #region IGetMeta Implementation
+        public Meta GetMeta()
+        { return this.Meta; }
+        #endregion
+
+        #region ISetMeta Implementation
+        public void SetMeta(Meta meta)
+        { this.Meta = meta; }
         #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////

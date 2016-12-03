@@ -3,12 +3,14 @@
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Abstracts any object that has a gettable <c>Meta</c> property.</summary>
+    /// <summary>
+    /// Abstracts any object that has a <c>GetMeta</c> method.
+    /// </summary>
     public interface IGetMeta
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Meta Meta { get; }
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        Meta GetMeta();
         #endregion
     }
 }

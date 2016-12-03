@@ -3,13 +3,14 @@
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Abstracts any object that has a gettable <c>Links</c> property.</summary>
+    /// <summary>
+    /// Abstracts any object that has a <c>GetLinks</c> method.
+    /// </summary>
     public interface IGetLinks
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-        Links Links { get; }
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        Links GetLinks();
         #endregion
     }
 }

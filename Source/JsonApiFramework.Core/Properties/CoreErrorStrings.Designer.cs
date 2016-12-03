@@ -62,6 +62,87 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to add an attribute to a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToAddAttribute {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to add attributes to a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToAddAttributes {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddAttributes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to add a DOM node to a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToAddNode {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to add DOM nodes to a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToAddNodes {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to remove an attribute from a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToRemoveAttribute {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToRemoveAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to remove a DOM node from a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToRemoveNode {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToRemoveNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to replace an attribute from a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToReplaceAttribute {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToReplaceAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to replace a DOM node from a read-only DOM node [type={0}]..
+        /// </summary>
+        internal static string DomExceptionDetailReadOnlyNodeUnableToReplaceNode {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToReplaceNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal DOM Error.
+        /// </summary>
+        internal static string DomExceptionTitle {
+            get {
+                return ResourceManager.GetString("DomExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find link for the rel={0}..
         /// </summary>
         internal static string LinksLinkNotFoundDetail {

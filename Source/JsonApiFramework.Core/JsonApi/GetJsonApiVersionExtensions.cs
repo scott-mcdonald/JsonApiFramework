@@ -10,11 +10,11 @@ namespace JsonApiFramework.JsonApi
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Getter Extension Methods
-        public static bool HasJsonApi(this IGetJsonApiVersion getJsonApi)
+        public static bool HasJsonApiVersion(this IGetJsonApiVersion getJsonApi)
         {
             Contract.Requires(getJsonApi != null);
 
-            return getJsonApi.JsonApiVersion != null;
+            return getJsonApi.GetJsonApiVersion() != null;
         }
         #endregion
     }

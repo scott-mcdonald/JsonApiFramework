@@ -3,12 +3,14 @@
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Abstracts any object that has a settable <c>Meta</c> property.</summary>
+    /// <summary>
+    /// Abstracts any object that has a <c>SetMeta</c> method.
+    /// </summary>
     public interface ISetMeta
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Meta Meta { set; }
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        void SetMeta(Meta meta);
         #endregion
     }
 }

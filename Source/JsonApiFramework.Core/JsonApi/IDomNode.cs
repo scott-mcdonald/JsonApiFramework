@@ -2,48 +2,38 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Collections.Generic;
-using System.Linq;
 
 using JsonApiFramework.Tree;
 
-namespace JsonApiFramework.JsonApi.Dom
+namespace JsonApiFramework.JsonApi
 {
-    public abstract class DomNode : Node
-        , IGetIsReadOnly
+    /// <summary>
+    /// Abstracts queryable access (non-mutating) to a DOM node.
+    /// </summary>
+    public interface IDomNode : INode
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IGetIsReadOnly Implementation
-        public virtual bool IsReadOnly => false;
-        #endregion
-
         #region Properties
-        public DomNodeType Type { get; }
+        /// <summary>Gets if this DomNode is read only or not.</summary>
+        bool IsReadOnly { get; }
+
+        /// <summary>Gets the DomNode type as an enumeration.</summary>
+        DomNodeType Type { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Query Methods
+        #region Methods
         /// <summary>
         /// Returns a collection of the direct child DOM nodes for this DOM
         /// node, in document order.
         /// </summary>
-        public IEnumerable<DomNode> DomNodes()
-        { return this.Nodes().Cast<DomNode>(); }
+        IEnumerable<IDomNode> DomNodes();
 
         /// <summary>
         /// Returns a collection of the descendant DOM nodes for this DOM
         /// node, in document order.
         /// </summary>
-        public IEnumerable<DomNode> DescendantDomNodes()
-        { return this.DescendantNodes().Cast<DomNode>(); }
-        #endregion
-
-        // PROTECTED CONSTRUCTOR ////////////////////////////////////////////
-        #region Constructor
-        protected DomNode(DomNodeType type, string name)
-            : base(name)
-        {
-            this.Type = type;
-        }
+        IEnumerable<IDomNode> DescendantDomNodes();
         #endregion
     }
 }

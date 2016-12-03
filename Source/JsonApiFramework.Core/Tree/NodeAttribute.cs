@@ -31,8 +31,8 @@ namespace JsonApiFramework.Tree
         public NodeAttribute NextAttribute { get; internal set; }
         #endregion
 
-        // PROTECTED CONSTRUCTOR ////////////////////////////////////////////
-        #region Constructor
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        #region Constructors
         protected NodeAttribute(string name)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
@@ -69,8 +69,8 @@ namespace JsonApiFramework.Tree
     /// <typeparam name="TValue">Type of value to store within this node attribute.</typeparam>
     public class NodeAttribute<TValue> : NodeAttribute
     {
-        // PUBLIC CONSTRUCTOR ///////////////////////////////////////////////
-        #region Constructor
+        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+        #region Constructors
         public NodeAttribute(string name, TValue value)
             : base(name)
         {
@@ -81,7 +81,7 @@ namespace JsonApiFramework.Tree
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Gets or sets the value of this attribute.</summary>
-        public TValue Value { get; private set; }
+        public TValue Value { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(setMeta != null);
 
             var meta = Meta.Create(metadata);
-            setMeta.Meta = meta;
+            setMeta.SetMeta(meta);
         }
         #endregion
     }

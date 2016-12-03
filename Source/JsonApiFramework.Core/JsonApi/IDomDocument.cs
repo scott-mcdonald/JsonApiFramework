@@ -1,12 +1,11 @@
-﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
-
-using JsonApiFramework.Json;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// Represents a json:api compliant document.
+    /// Abstracts a json:api compliant document as a 1-n document object
+    /// model tree of nodes.
     /// </summary>
     /// <remarks> 
     /// A JSON object MUST be at the root of every JSON API response
@@ -27,7 +26,14 @@ namespace JsonApiFramework.JsonApi
     /// an array of resource or resource identifier objects.
     /// </remarks>
     /// <see cref="http://jsonapi.org"/>
-    public class Document : JsonObject
+    public interface IDomDocument : IDomNode
+        , IGetJsonApiVersion
+        , IGetLinks
+        , IGetMeta
     {
-    };
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        DocumentType GetDocumentType();
+        #endregion
+    }
 }

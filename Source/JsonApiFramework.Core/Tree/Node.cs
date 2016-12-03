@@ -19,26 +19,22 @@ namespace JsonApiFramework.Tree
     /// Conceptually a node in a 1-N tree may have 1 parent node and may have
     /// N or many children nodes.
     /// </remarks>
-    public class Node
+    public class Node : INode
     {
-        // PUBLIC CONSTRUCTOR ///////////////////////////////////////////////
-        #region Constructor
+        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+        #region Constructors
         public Node(string name, params Node[] nodes)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
-
-            this.Name = name;
-            this.RootNode = this;
-            
-            this.AddNodes(nodes);
-        }
+            : this(name, nodes.AsEnumerable())
+        { }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
+        #region INode Implementation
         /// <summary>Gets the name of this node.</summary>
         public string Name { get; }
+        #endregion
 
+        #region Properties
         /// <summary>Gets the root node of the tree.</summary>
         public Node RootNode { get; private set; }
 
@@ -65,7 +61,84 @@ namespace JsonApiFramework.Tree
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Attribute Methods
+        #region Object Overrides
+        public override string ToString()
+        { return this.Name; }
+        #endregion
+
+        #region INode Implementation
+        /// <summary>Returns a collection of the attributes for this node.</summary>
+        public IEnumerable<NodeAttribute> Attributes()
+        {
+            var attribute = this.FirstAttribute;
+            while (attribute != null)
+            {
+                yield return attribute;
+                attribute = attribute.NextAttribute;
+            }
+        }
+
+        /// <summary>
+        /// Returns a collection of the direct child nodes for this node, in document order.
+        /// </summary>
+        public IEnumerable<INode> Nodes()
+        {
+            if (this.HasNodes() == false)
+                yield break;
+
+            var node = this.FirstNode;
+            while (node != null)
+            {
+                yield return node;
+                node = node.NextNode;
+            }
+        }
+
+        /// <summary>
+        /// Returns a collection of the descendant nodes for this node, in document order.
+        /// </summary>
+        public IEnumerable<INode> DescendantNodes()
+        {
+            if (this.HasNodes() == false)
+                yield break;
+
+            var node = this.FirstNode;
+            while (true)
+            {
+                yield return node;
+
+                if (node.FirstNode != null)
+                {
+                    node = node.FirstNode;         // walk down
+                }
+                else
+                {
+                    while (node.NextNode == null)
+                    {
+                        if (Object.ReferenceEquals(node, this))
+                            yield break;
+
+                        node = node.ParentNode;     // walk up ...
+                    }
+                    node = node.NextNode;           // ... and right
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create a string that represents the object tree.
+        /// </summary>
+        public string ToTreeString()
+        {
+            var treeStringNodeVisitor = new TreeStringBuilderNodeVisitor();
+            this.Accept(treeStringNodeVisitor, 0);
+
+            var treeString = treeStringNodeVisitor.TreeString;
+            return treeString;
+        }
+        #endregion
+
+        #region Add/Remove/Replace Attribute Methods
         /// <summary>
         /// Adds an attribute to this node.
         /// </summary>
@@ -113,21 +186,6 @@ namespace JsonApiFramework.Tree
                 this.AddAttribute(attribute);
             }
         }
-
-        /// <summary>Returns a collection of the attributes for this node.</summary>
-        public virtual IEnumerable<NodeAttribute> Attributes()
-        {
-            var attribute = this.FirstAttribute;
-            while (attribute != null)
-            {
-                yield return attribute;
-                attribute = attribute.NextAttribute;
-            }
-        }
-
-        /// <summary>Returns if this node has any attributes.</summary>
-        public virtual bool HasAttributes()
-        { return this.FirstAttribute != null; }
 
         /// <summary>Removes the old attribute from this attribute.</summary>
         /// <param name="oldAttribute">Attribute to remove from this node.</param>
@@ -237,61 +295,21 @@ namespace JsonApiFramework.Tree
 
         #region Query Methods
         /// <summary>
+        /// Returns if this node has any attributes.
+        /// </summary>
+        /// <returns>True if this node has attributes, false otherwise.</returns>
+        public bool HasAttributes()
+        { return this.FirstAttribute != null; }
+
+        /// <summary>
         /// Returns if this node has any children nodes.
         /// </summary>
         /// <returns>True if this node has children nodes, false otherwise.</returns>
-        public virtual bool HasNodes()
+        public bool HasNodes()
         { return this.FirstNode != null; }
-
-        /// <summary>
-        /// Returns a collection of the direct child nodes for this node, in document order.
-        /// </summary>
-        public virtual IEnumerable<Node> Nodes()
-        {
-            if (this.HasNodes() == false)
-                yield break;
-
-            var node = this.FirstNode;
-            while (node != null)
-            {
-                yield return node;
-                node = node.NextNode;
-            }
-        }
-
-        /// <summary>
-        /// Returns a collection of the descendant nodes for this node, in document order.
-        /// </summary>
-        public virtual IEnumerable<Node> DescendantNodes()
-        {
-            if (this.HasNodes() == false)
-                yield break;
-
-            var node = this.FirstNode;
-            while (true)
-            {
-                yield return node;
-
-                if (node.FirstNode != null)
-                {
-                    node = node.FirstNode;         // walk down
-                }
-                else
-                {
-                    while (node.NextNode == null)
-                    {
-                        if (Object.ReferenceEquals(node, this))
-                            yield break;
-
-                        node = node.ParentNode;     // walk up ...
-                    }
-                    node = node.NextNode;           // ... and right
-                }
-            }
-        }
         #endregion
 
-        #region Add/Remove/Replace Methods
+        #region Add/Remove/Replace Node Methods
         /// <summary>
         /// Adds the new node as child of this node.
         /// </summary>
@@ -300,33 +318,7 @@ namespace JsonApiFramework.Tree
         {
             Contract.Requires(newNode != null);
 
-            // Validate node has not already been added to the tree.
-            newNode.ValidateHasNotBeenAdded();
-
-            // Add node to the object graph.
-            newNode.RootNode = this.RootNode;
-            newNode.ParentNode = this;
-
-            // Handle special case of this being the first child node being
-            // added to this node.
-            if (this.HasNodes() == false)
-            {
-                // Add first child node to this node.
-                this.FirstNode = newNode;
-                this.LastNode = newNode;
-
-                newNode.NextNode = null;
-                newNode.PreviousNode = null;
-                return;
-            }
-
-            // Add subsequent child nodes to this node.
-            var previousLastNode = this.LastNode;
-            this.LastNode = newNode;
-            previousLastNode.NextNode = newNode;
-
-            newNode.NextNode = null;
-            newNode.PreviousNode = previousLastNode;
+            this.AddNodeImpl(newNode);
         }
 
         /// <summary>
@@ -335,13 +327,7 @@ namespace JsonApiFramework.Tree
         /// <param name="newNodeCollection">Child nodes to add to this parent node.</param>
         public virtual void AddNodes(IEnumerable<Node> newNodeCollection)
         {
-            if (newNodeCollection == null)
-                return;
-
-            foreach (var newNode in newNodeCollection)
-            {
-                this.AddNode(newNode);
-            }
+            this.AddNodesImpl(newNodeCollection);
         }
 
         /// <summary>
@@ -444,20 +430,6 @@ namespace JsonApiFramework.Tree
         }
         #endregion
 
-        #region String Methods
-        /// <summary>
-        /// Create a string that represents the object tree.
-        /// </summary>
-        public string ToTreeString()
-        {
-            var treeStringNodeVisitor = new TreeStringBuilderNodeVisitor();
-            this.Accept(treeStringNodeVisitor, 0);
-
-            var treeString = treeStringNodeVisitor.TreeString;
-            return treeString;
-        }
-        #endregion
-
         #region Visitor Methods
         public void Accept(NodeVisitor nodeVisitor, int depth)
         {
@@ -491,6 +463,27 @@ namespace JsonApiFramework.Tree
         }
         #endregion
 
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        #region Constructors
+        protected Node(string name)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
+
+            this.Name = name;
+            this.RootNode = this;
+        }
+
+        protected Node(string name, IEnumerable<Node> nodes)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
+
+            this.Name = name;
+            this.RootNode = this;
+
+            this.AddNodesImpl(nodes);
+        }
+        #endregion
+
         // INTERNAL FIELDS //////////////////////////////////////////////////
         #region Properties
         internal static readonly TypeConverter TypeConverter = new TypeConverter();
@@ -498,6 +491,50 @@ namespace JsonApiFramework.Tree
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private void AddNodeImpl(Node newNode)
+        {
+            Contract.Requires(newNode != null);
+
+            // Validate node has not already been added to the tree.
+            newNode.ValidateHasNotBeenAdded();
+
+            // Add node to the object graph.
+            newNode.RootNode = this.RootNode;
+            newNode.ParentNode = this;
+
+            // Handle special case of this being the first child node being
+            // added to this node.
+            if (this.HasNodes() == false)
+            {
+                // Add first child node to this node.
+                this.FirstNode = newNode;
+                this.LastNode = newNode;
+
+                newNode.NextNode = null;
+                newNode.PreviousNode = null;
+                return;
+            }
+
+            // Add subsequent child nodes to this node.
+            var previousLastNode = this.LastNode;
+            this.LastNode = newNode;
+            previousLastNode.NextNode = newNode;
+
+            newNode.NextNode = null;
+            newNode.PreviousNode = previousLastNode;
+        }
+
+        public void AddNodesImpl(IEnumerable<Node> newNodeCollection)
+        {
+            if (newNodeCollection == null)
+                return;
+
+            foreach (var newNode in newNodeCollection)
+            {
+                this.AddNodeImpl(newNode);
+            }
+        }
+
         private void ThrowExceptionForAlreadyBeenAdded()
         {
             var message = CoreErrorStrings.TreeExceptionNodeAlreadyAddedMessage.FormatWith(this.Name);
@@ -519,8 +556,8 @@ namespace JsonApiFramework.Tree
     /// </summary>
     public class Node<TContent> : Node
     {
-        // PUBLIC CONSTRUCTOR ///////////////////////////////////////////////
-        #region Constructor
+        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+        #region Constructors
         public Node(string name, params Node[] nodes)
             : base(name, nodes)
         { }

@@ -4,8 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using FluentAssertions;
-
 using JsonApiFramework.Json;
 using JsonApiFramework.XUnit;
 
@@ -28,21 +26,21 @@ namespace JsonApiFramework.Tests.Json
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("JsonObjectTestData")]
-        public void TestJsonObjectParse(JsonUnitTestFactoryAndData factoryAndData)
+        [MemberData(nameof(JsonObjectTestData))]
+        public void TestJsonObjectSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
         {
-            var data = factoryAndData.Data;
-            var factory = factoryAndData.ParseFactory;
+            var data = jsonObjectSerializationUnitTestFactory.Data;
+            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("JsonObjectTestData")]
-        public void TestJsonObjectToJson(JsonUnitTestFactoryAndData factoryAndData)
+        [MemberData(nameof(JsonObjectTestData))]
+        public void TestJsonObjectDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
         {
-            var data = factoryAndData.Data;
-            var factory = factoryAndData.ToJsonFactory;
+            var data = jsonObjectSerializationUnitTestFactory.Data;
+            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -56,10 +54,10 @@ namespace JsonApiFramework.Tests.Json
             {
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Empty>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Empty>(x),
+                            x => new JsonObjectDeserializeUnitTest<Empty>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithEmptyObject",
                                 TestSettings,
                                 new Empty(),
@@ -67,10 +65,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Person>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Person>(x),
+                            x => new JsonObjectDeserializeUnitTest<Person>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithBasicObject",
                                 TestSettings,
                                 new Person
@@ -83,10 +81,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Person>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Person>(x),
+                            x => new JsonObjectDeserializeUnitTest<Person>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithBasicObjectAndNullProperties",
                                 TestSettings,
                                 new Person
@@ -99,10 +97,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Employee>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Employee>(x),
+                            x => new JsonObjectDeserializeUnitTest<Employee>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithDerivedObject",
                                 TestSettings,
                                 new Employee
@@ -116,10 +114,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Employee>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Employee>(x),
+                            x => new JsonObjectDeserializeUnitTest<Employee>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithDerivedObjectAndNullProperties",
                                 TestSettings,
                                 new Employee
@@ -133,10 +131,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<BoardOfDirectors>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<BoardOfDirectors>(x),
+                            x => new JsonObjectDeserializeUnitTest<BoardOfDirectors>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithCompositeObject",
                                 TestSettings,
                                 new BoardOfDirectors
@@ -158,10 +156,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<BoardOfDirectors>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<BoardOfDirectors>(x),
+                            x => new JsonObjectDeserializeUnitTest<BoardOfDirectors>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithCompositeObjectAndNullProperties",
                                 TestSettings,
                                 new BoardOfDirectors
@@ -173,10 +171,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<People>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<People>(x),
+                            x => new JsonObjectDeserializeUnitTest<People>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithCollectionObject",
                                 TestSettings,
                                 new People
@@ -201,10 +199,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<People>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<People>(x),
+                            x => new JsonObjectDeserializeUnitTest<People>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithCollectionObjectAndNullCollection",
                                 TestSettings,
                                 new People
@@ -215,10 +213,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<People>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<People>(x),
+                            x => new JsonObjectDeserializeUnitTest<People>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithCollectionObjectAndEmptyCollection",
                                 TestSettings,
                                 new People
@@ -229,10 +227,10 @@ namespace JsonApiFramework.Tests.Json
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Company>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Company>(x),
+                            x => new JsonObjectDeserializeUnitTest<Company>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithComplexObject",
                                 TestSettings,
                                 new Company
@@ -274,22 +272,22 @@ namespace JsonApiFramework.Tests.Json
                                             }
                                     },
                                 "{" +
-                                    "\"CompanyId\":\"Acme\"," +
-                                    "\"CompanyName\":\"Acme, Inc.\"," +
-                                    "\"BoardOfDirectors\":" +
-                                    "{\"President\":{\"PersonId\":\"1111\",\"FirstName\":\"George\",\"LastName\":\"Washington\"},\"VicePresident\":{\"PersonId\":\"2222\",\"FirstName\":\"John\",\"LastName\":\"Adams\"}}," +
-                                    "\"CurrentEmployees\":" +
-                                    "{\"PersonCollection\":" +
-                                    "[{\"PersonId\":\"1234\",\"FirstName\":\"John\",\"LastName\":\"Doe\"}," +
-                                    "{\"PersonId\":\"5678\",\"FirstName\":\"Jane\",\"LastName\":\"Doe\"}]}" +
+                                "\"CompanyId\":\"Acme\"," +
+                                "\"CompanyName\":\"Acme, Inc.\"," +
+                                "\"BoardOfDirectors\":" +
+                                "{\"President\":{\"PersonId\":\"1111\",\"FirstName\":\"George\",\"LastName\":\"Washington\"},\"VicePresident\":{\"PersonId\":\"2222\",\"FirstName\":\"John\",\"LastName\":\"Adams\"}}," +
+                                "\"CurrentEmployees\":" +
+                                "{\"PersonCollection\":" +
+                                "[{\"PersonId\":\"1234\",\"FirstName\":\"John\",\"LastName\":\"Doe\"}," +
+                                "{\"PersonId\":\"5678\",\"FirstName\":\"Jane\",\"LastName\":\"Doe\"}]}" +
                                 "}"))
                     },
                 new object[]
                     {
-                        new JsonUnitTestFactoryAndData(
-                            x => new ParseUnitTest<Company>(x),
-                            x => new ToJsonUnitTest(x),
-                            new JsonUnitTestData(
+                        new JsonObjectSerializationUnitTestFactory(
+                            x => new JsonObjectSerializeUnitTest<Company>(x),
+                            x => new JsonObjectDeserializeUnitTest<Company>(x),
+                            new JsonObjectSerializationUnitTestData(
                                 "WithComplexObjectAndNullProperties",
                                 TestSettings,
                                 new Company
@@ -300,10 +298,10 @@ namespace JsonApiFramework.Tests.Json
                                         CurrentEmployees = null
                                     },
                                 "{" +
-                                    "\"CompanyId\":null," +
-                                    "\"CompanyName\":null," +
-                                    "\"BoardOfDirectors\":null," +
-                                    "\"CurrentEmployees\":null" +
+                                "\"CompanyId\":null," +
+                                "\"CompanyName\":null," +
+                                "\"BoardOfDirectors\":null," +
+                                "\"CurrentEmployees\":null" +
                                 "}"))
                     },
             };
@@ -374,112 +372,6 @@ namespace JsonApiFramework.Tests.Json
             [JsonProperty] public string CompanyName { get; set; }
             [JsonProperty] public BoardOfDirectors BoardOfDirectors { get; set; }
             [JsonProperty] public People CurrentEmployees { get; set; }
-        }
-        #endregion
-
-        #region UnitTest Types
-        public class ParseUnitTest<T> : UnitTest
-        {
-            // PUBLIC CONSTRUCTORS //////////////////////////////////////////
-            #region Constructors
-            public ParseUnitTest(JsonUnitTestData data)
-                : base(data.Name)
-            {
-                this.Settings = data.Settings;
-                this.Source = data.ExpectedJson;
-                this.ExpectedObject = (T)data.ExpectedObject;
-            }
-            #endregion
-
-            // PROTECTED METHODS ////////////////////////////////////////////
-            #region UnitTest Overrides
-            protected override void Arrange()
-            {
-                this.WriteLine("Source          = {0}", this.Source);
-                this.WriteLine();
-                this.WriteLine("Expected Object = {0} ({1})", this.ExpectedObject, typeof(T).Name);
-            }
-
-            protected override void Act()
-            {
-                var source = this.Source;
-                var settings = this.Settings;
-                var actualObject = JsonObject.Parse<T>(source, settings);
-                this.ActualObject = actualObject;
-                this.WriteLine();
-                this.WriteLine("Actual Object   = {0} ({1})", this.ActualObject, typeof(T).Name);
-            }
-
-            protected override void Assert()
-            {
-                if (typeof(T) == typeof(Empty))
-                {
-                    this.ActualObject.Should().BeOfType<Empty>();
-                    return;
-                }
-
-                this.ActualObject.ShouldBeEquivalentTo(this.ExpectedObject);
-            }
-            #endregion
-
-            // PRIVATE PROPERTIES ///////////////////////////////////////////
-            #region Calculated Properties
-            private T ActualObject { get; set; }
-            #endregion
-
-            #region User Supplied Properties
-            private string Source { get; set; }
-            private JsonSerializerSettings Settings { get; set; }
-            private T ExpectedObject { get; set; }
-            #endregion
-        }
-
-        public class ToJsonUnitTest : UnitTest
-        {
-            // PUBLIC CONSTRUCTORS //////////////////////////////////////////
-            #region Constructors
-            public ToJsonUnitTest(JsonUnitTestData data)
-                : base(data.Name)
-            {
-                this.Settings = data.Settings;
-                this.Source = data.ExpectedObject;
-                this.ExpectedJson = data.ExpectedJson;
-            }
-            #endregion
-
-            // PROTECTED METHODS ////////////////////////////////////////////
-            #region UnitTest Overrides
-            protected override void Arrange()
-            {
-                this.WriteLine("Source        = {0} ({1})", this.Source, this.Source.GetType().Name);
-                this.WriteLine();
-                this.WriteLine("Expected JSON = {0}", this.ExpectedJson);
-            }
-
-            protected override void Act()
-            {
-                var settings = this.Settings;
-                this.ActualJson = Source.ToJson(settings);
-                this.WriteLine();
-                this.WriteLine("Actual JSON   = {0}", this.ActualJson);
-            }
-
-            protected override void Assert()
-            {
-                this.ActualJson.Should().Be(this.ExpectedJson);
-            }
-            #endregion
-
-            // PRIVATE PROPERTIES ///////////////////////////////////////////
-            #region Calculated Properties
-            private string ActualJson { get; set; }
-            #endregion
-
-            #region User Supplied Properties
-            private IJsonObject Source { get; set; }
-            private JsonSerializerSettings Settings { get; set; }
-            private string ExpectedJson { get; set; }
-            #endregion
         }
         #endregion
     }

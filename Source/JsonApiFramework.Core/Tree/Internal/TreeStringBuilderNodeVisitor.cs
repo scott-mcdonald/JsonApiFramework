@@ -22,8 +22,7 @@ namespace JsonApiFramework.Tree.Internal
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        public string TreeString
-        { get { return this.StringBuilder.ToString(); } }
+        public string TreeString => this.StringBuilder.ToString().TrimEnd();
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region NodeVisitor Overrides
@@ -40,7 +39,7 @@ namespace JsonApiFramework.Tree.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private StringBuilder StringBuilder { get; set; }
+        private StringBuilder StringBuilder { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////

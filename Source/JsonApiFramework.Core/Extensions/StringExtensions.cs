@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Text.RegularExpressions;
 
 using JetBrains.Annotations;
 
@@ -51,6 +52,15 @@ namespace JsonApiFramework
             return String.Format(provider, format, args);
         }
 
+        /// <summary>Remove all whitespace characters from the string.</summary>
+        public static string RemoveWhitespace(this string str)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(str) == false);
+
+            var strMinusWhitespaceCharacters = WhitespaceRegex.Replace(str, String.Empty);
+            return strMinusWhitespaceCharacters;
+        }
+
         /// <summary>
         /// Parse a string object into an enumeration. Throws an exception
         /// if unable to parse string into the specified enumeration.
@@ -78,6 +88,12 @@ namespace JsonApiFramework
                 ? Enum.TryParse(str, true, out result)
                 : Enum.TryParse(str, out result);
         }
+        #endregion
+
+        // PRIVATE FIELDS ///////////////////////////////////////////////////
+        #region Constants
+        //private static readonly Regex EndOfLineRegex = new Regex(@"\s|\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
+        private static readonly Regex WhitespaceRegex = new Regex(@"\s", RegexOptions.CultureInvariant);
         #endregion
     }
 }

@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="IUnitTest.cs" />
     <Compile Include="UnitTest.cs" />
-    <Compile Include="XUnitTest.cs" />
+    <Compile Include="XUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

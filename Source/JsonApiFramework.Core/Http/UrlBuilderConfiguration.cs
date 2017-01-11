@@ -29,10 +29,10 @@ namespace JsonApiFramework.Http
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IUrlBuilderConfiguration Implementation
-        public string Scheme { get; private set; }
-        public string Host { get; private set; }
-        public int? Port { get; private set; }
-        public IEnumerable<string> RootPathSegments { get; private set; }
+        public string Scheme { get; }
+        public string Host { get; }
+        public int? Port { get; }
+        public IEnumerable<string> RootPathSegments { get; }
         #endregion
     }
 }

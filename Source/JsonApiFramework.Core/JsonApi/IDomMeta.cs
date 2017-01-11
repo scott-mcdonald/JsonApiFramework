@@ -3,6 +3,10 @@
 
 namespace JsonApiFramework.JsonApi
 {
+    /// <summary>
+    /// Abstracts queryable (non-mutating) access to a DOM node representing
+    /// a json:api compliant meta object.
+    /// </summary>
     public interface IDomMeta : IDomNode
         , IGetMeta
     { }

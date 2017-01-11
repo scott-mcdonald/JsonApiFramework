@@ -133,11 +133,11 @@ namespace JsonApiFramework.Http
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private string Scheme { get; set; }
-        private string Host { get; set; }
-        private int? Port { get; set; }
-        internal List<string> PathSegments { get; private set; }
-        internal ITypeConverter TypeConverter { get; private set; }
+        private string Scheme { get; }
+        private string Host { get; }
+        private int? Port { get; }
+        internal List<string> PathSegments { get; }
+        internal ITypeConverter TypeConverter { get; }
         #endregion
     }
 }

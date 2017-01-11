@@ -18,7 +18,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
-    public class LinkTests : XUnitTest
+    public class LinkTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -104,9 +104,9 @@ namespace JsonApiFramework.Tests.JsonApi
             var expectedAbsolutePath = expectedUri.AbsolutePath;
 
             var expectedLink = new Link
-                {
-                    HRef = expectedHRef
-                };
+            {
+                HRef = expectedHRef
+            };
 
             // Act
             var actualUri = expectedLink.Uri;
@@ -130,9 +130,9 @@ namespace JsonApiFramework.Tests.JsonApi
             // Arrange
             const string expectedHRef = "articles/1234";
             var expected = new Link
-                {
-                    HRef = expectedHRef
-                };
+            {
+                HRef = expectedHRef
+            };
 
             // Act
             var actualUri = expected.Uri;
@@ -173,9 +173,9 @@ namespace JsonApiFramework.Tests.JsonApi
             const string expectedPathSegmentsAtIndex1 = "1234";
 
             var expected = new Link
-                {
-                    HRef = "https://api.example.com/" + expectedPathSegmentsAtIndex0 + "/" + expectedPathSegmentsAtIndex1
-                };
+            {
+                HRef = "https://api.example.com/" + expectedPathSegmentsAtIndex0 + "/" + expectedPathSegmentsAtIndex1
+            };
 
             // Act
             var actual = expected.PathSegments
@@ -199,9 +199,9 @@ namespace JsonApiFramework.Tests.JsonApi
             const string expectedPathSegmentsAtIndex0 = "articles";
             const string expectedPathSegmentsAtIndex1 = "1234";
             var expected = new Link
-                {
-                    HRef = expectedPathSegmentsAtIndex0 + "/" + expectedPathSegmentsAtIndex1
-                };
+            {
+                HRef = expectedPathSegmentsAtIndex0 + "/" + expectedPathSegmentsAtIndex1
+            };
 
             // Act
             var actual = expected.PathSegments
@@ -221,107 +221,164 @@ namespace JsonApiFramework.Tests.JsonApi
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
         private static readonly JsonSerializerSettings TestSettings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented
-            };
-
-        private static readonly JsonSerializerSettings TestSettingsIncludeNull = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Include
-            };
+        {
+            Formatting = Formatting.Indented
+        };
 
         private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
+        private static readonly JsonSerializerSettings TestSettingsIncludeNull = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Include
+        };
 
         // ReSharper disable MemberCanBePrivate.Global
         public static readonly IEnumerable<object[]> LinkTestData = new[]
-        // ReSharper restore MemberCanBePrivate.Global
-            {
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithNull",
-                                TestSettings,
-                                default(Link),
-                                "null"))
-                    },
+            // ReSharper restore MemberCanBePrivate.Global
+                {
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithNull",
+                                    TestSettings,
+                                    default(Link),
+                                    "null"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithEmptyObjectAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new Link(),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithEmptyObjectAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Link(),
+                                    "{}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithEmptyObjectAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Link(),
+                                    @"{
   ""href"": null,
   ""meta"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithEmptyObjectAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new Link(),
-                                "{}"))
-                    },
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Link("https://api.example.com/articles"),
+                                    "\"https://api.example.com/articles\""))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithHRefOnlyAsEmptyString",
-                                TestSettings,
-                                new Link(String.Empty),
-                                "\"\""))
-                    },
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Link("https://api.example.com/articles"),
+                                    @"{
+  ""href"": ""https://api.example.com/articles"",
+  ""meta"": null
+}"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithHRefOnlyAsValidUrl",
-                                TestSettings,
-                                new Link("https://api.example.com/articles"),
-                                "\"https://api.example.com/articles\""))
-                    },
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAsEmptyStringAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Link(String.Empty),
+                                    "\"\""))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Link>(x),
-                            x => new JsonObjectDeserializeUnitTest<Link>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithHRefAndMeta",
-                                TestSettings,
-                                new Link("https://api.example.com/articles", JsonApiSampleData.LinkMeta),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAsEmptyStringAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Link(String.Empty),
+                                    @"{
+  ""href"": """",
+  ""meta"": null
+}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAndMetaAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Link("https://api.example.com/articles", Meta.Create(new LinkMeta
+                                        {
+                                            IsPublic = true,
+                                            Version = "2.0"
+                                        })),
+                                    @"{
   ""href"": ""https://api.example.com/articles"",
   ""meta"": {
     ""is-public"": true,
     ""version"": ""2.0""
     }
 }"))
-                    },
-            };
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Link>(x),
+                                x => new JsonObjectDeserializeUnitTest<Link>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithHRefAndMetaAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Link("https://api.example.com/articles", Meta.Create(new LinkMeta
+                                        {
+                                            IsPublic = true,
+                                            Version = "2.0"
+                                        })),
+                                    @"{
+  ""href"": ""https://api.example.com/articles"",
+  ""meta"": {
+    ""is-public"": true,
+    ""version"": ""2.0""
+    }
+}"))
+                        },
+
+                };
         #endregion
     }
 }

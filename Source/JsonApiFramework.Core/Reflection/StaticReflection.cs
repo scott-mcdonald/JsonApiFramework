@@ -16,42 +16,28 @@ namespace JsonApiFramework.Reflection
         {
             Contract.Requires(expression != null);
 
-            return StaticReflection.GetMemberName(expression.Body);
+            return GetMemberName(expression.Body);
         }
-
-        //public static string GetMemberName<T, TValue>(Expression<Func<T, TValue>> expression)
-        //{
-        //    Contract.Requires(expression != null);
-
-        //    return StaticReflection.GetMemberName(expression.Body);
-        //}
 
         public static string GetMemberName<T>(Expression<Action<T>> expression)
         {
             Contract.Requires(expression != null);
 
-            return StaticReflection.GetMemberName(expression.Body);
+            return GetMemberName(expression.Body);
         }
 
         public static string GetMemberName<T>(this T instance, Expression<Func<T, object>> expression)
         {
             Contract.Requires(expression != null);
 
-            return StaticReflection.GetMemberName(expression.Body);
+            return GetMemberName(expression.Body);
         }
-
-        //public static string GetMemberName<T>(this T instance, Expression<Func<T, object>> expression)
-        //{
-        //    Contract.Requires(expression != null);
-
-        //    return StaticReflection.GetMemberName(expression.Body);
-        //}
 
         public static string GetMemberName<T>(this T instance, Expression<Action<T>> expression)
         {
             Contract.Requires(expression != null);
 
-            return StaticReflection.GetMemberName(expression.Body);
+            return GetMemberName(expression.Body);
         }
         #endregion
 
@@ -79,7 +65,7 @@ namespace JsonApiFramework.Reflection
             if (unaryExpression != null)
             {
                 // Property, field of method returning value type
-                return StaticReflection.GetMemberName(unaryExpression);
+                return GetMemberName(unaryExpression);
             }
 
             throw new ArgumentException("Invalid expression, must be either a MemberExpression, MethodCallExpression, or UnaryExpression.");

@@ -15,7 +15,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests
 {
-    public class DeepCloneableTests : XUnitTest
+    public class DeepCloneableTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

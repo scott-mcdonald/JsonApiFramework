@@ -11,6 +11,8 @@ using System.Threading;
 
 using JsonApiFramework.Reflection;
 
+using Newtonsoft.Json.Linq;
+
 namespace JsonApiFramework.Converters
 {
     /// <summary>
@@ -503,6 +505,28 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<int, ulong>((s, c) => System.Convert.ToUInt64(s)),
                 new TypeConverterDefinitionFunc<int, ushort>((s, c) => System.Convert.ToUInt16(s)),
 
+                // JValueToXXX
+                new TypeConverterDefinitionFunc<JValue, bool>((s, c) => (bool)s),
+                new TypeConverterDefinitionFunc<JValue, byte>((s, c) => (byte)s),
+                new TypeConverterDefinitionFunc<JValue, byte[]>((s, c) => (byte[])s),
+                new TypeConverterDefinitionFunc<JValue, char>((s, c) => (char)s),
+                new TypeConverterDefinitionFunc<JValue, DateTime>((s, c) => (DateTime)s),
+                new TypeConverterDefinitionFunc<JValue, DateTimeOffset>((s, c) => (DateTimeOffset)s),
+                new TypeConverterDefinitionFunc<JValue, decimal>((s, c) => (decimal)s),
+                new TypeConverterDefinitionFunc<JValue, double>((s, c) => (double)s),
+                new TypeConverterDefinitionFunc<JValue, float>((s, c) => (float)s),
+                new TypeConverterDefinitionFunc<JValue, Guid>((s, c) => (Guid)s),
+                new TypeConverterDefinitionFunc<JValue, int>((s, c) => (int)s),
+                new TypeConverterDefinitionFunc<JValue, long>((s, c) => (long)s),
+                new TypeConverterDefinitionFunc<JValue, sbyte>((s, c) => (sbyte)s),
+                new TypeConverterDefinitionFunc<JValue, short>((s, c) => (short)s),
+                new TypeConverterDefinitionFunc<JValue, string>((s, c) => (string)s),
+                new TypeConverterDefinitionFunc<JValue, TimeSpan>((s, c) => (TimeSpan)s),
+                new TypeConverterDefinitionFunc<JValue, uint>((s, c) => (uint)s),
+                new TypeConverterDefinitionFunc<JValue, ulong>((s, c) => (ulong)s),
+                new TypeConverterDefinitionFunc<JValue, Uri>((s, c) => (Uri)s),
+                new TypeConverterDefinitionFunc<JValue, ushort>((s, c) => (ushort)s),
+
                 // LongToXXX
                 new TypeConverterDefinitionFunc<long, bool>((s, c) => System.Convert.ToBoolean(s)),
                 new TypeConverterDefinitionFunc<long, byte>((s, c) => System.Convert.ToByte(s)),
@@ -552,7 +576,7 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<short, ushort>((s, c) => System.Convert.ToUInt16(s)),
 
                 // StringToXXX
-                new TypeConverterDefinitionFunc<string, bool>((s, c) => !String.IsNullOrWhiteSpace(s) ? System.Convert.ToBoolean(s, c.SafeGetFormatProvider()) : default(bool)),
+                new TypeConverterDefinitionFunc<string, bool>((s, c) => !String.IsNullOrWhiteSpace(s) && System.Convert.ToBoolean(s, c.SafeGetFormatProvider())),
                 new TypeConverterDefinitionFunc<string, byte>((s, c) => !String.IsNullOrWhiteSpace(s) ? System.Convert.ToByte(s, c.SafeGetFormatProvider()) : default(byte)),
                 new TypeConverterDefinitionFunc<string, byte[]>((s, c) => !String.IsNullOrWhiteSpace(s) ? System.Convert.FromBase64String(s) : default(byte[])),
                 new TypeConverterDefinitionFunc<string, char>((s, c) => !String.IsNullOrWhiteSpace(s) ? System.Convert.ToChar(s, c.SafeGetFormatProvider()) : default(char)),
@@ -579,7 +603,7 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<TimeSpan, TimeSpan>((s, c) => s),
 
                 // TypeToXXX
-                new TypeConverterDefinitionFunc<Type, string>((s, c) => s != null ? s.GetCompactQualifiedName() : null),
+                new TypeConverterDefinitionFunc<Type, string>((s, c) => s?.GetCompactQualifiedName()),
                 new TypeConverterDefinitionFunc<Type, Type>((s, c) => s),
 
                 // UIntToXXX
@@ -728,15 +752,15 @@ namespace JsonApiFramework.Converters
             {
                 // PUBLIC PROPERTIES ////////////////////////////////////////////
                 #region Properties
-                public static Func<TSource, TTarget> CastSourceToTarget { get { return _castSourceToTarget.Value; } }
+                public static Func<TSource, TTarget> CastSourceToTarget => _castSourceToTarget.Value;
 
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertSourceToEnumTarget { get { return _convertSourceToEnumTarget.Value; } }
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertEnumSourceToTarget { get { return _convertEnumSourceToTarget.Value; } }
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertEnumSourceToEnumTarget { get { return _convertEnumSourceToEnumTarget.Value; } }
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertSourceToEnumTarget => _convertSourceToEnumTarget.Value;
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertEnumSourceToTarget => _convertEnumSourceToTarget.Value;
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertEnumSourceToEnumTarget => _convertEnumSourceToEnumTarget.Value;
 
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertSourceToNullableTarget { get { return _convertSourceToNullableTarget.Value; } }
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertNullableSourceToTarget { get { return _convertNullableSourceToTarget.Value; } }
-                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertNullableSourceToNullableTarget { get { return _convertNullableSourceToNullableTarget.Value; } }
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertSourceToNullableTarget => _convertSourceToNullableTarget.Value;
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertNullableSourceToTarget => _convertNullableSourceToTarget.Value;
+                public static Func<TypeConverter, TSource, TypeConverterContext, TTarget> ConvertNullableSourceToNullableTarget => _convertNullableSourceToNullableTarget.Value;
                 #endregion
 
                 // PRIVATE METHODS //////////////////////////////////////////////

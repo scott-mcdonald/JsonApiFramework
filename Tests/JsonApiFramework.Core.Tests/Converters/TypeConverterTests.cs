@@ -15,7 +15,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.Converters
 {
-    public class TypeConverterTests : XUnitTest
+    public class TypeConverterTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -56,11 +56,11 @@ namespace JsonApiFramework.Tests.Converters
             this.WriteLine();
             this.WriteLine("Total Execution Time = {0:0.000} ms", outerStopWatch.Elapsed.TotalMilliseconds);
 
-            this.WriteBuffer();
+            //this.WriteBuffer();
         }
 
         [Theory]
-        [MemberData("TryConvertGenericTestData")]
+        [MemberData("TryConvertGenericTestData")]   
         public void TestTypeConveterTryConvertGeneric(string name, IUnitTest[] unitTestCollection)
         {
             this.WriteLine(name);
@@ -89,7 +89,7 @@ namespace JsonApiFramework.Tests.Converters
             this.WriteLine();
             this.WriteLine("Total Execution Time = {0:0.000} ms", outerStopWatch.Elapsed.TotalMilliseconds);
 
-            this.WriteBuffer();
+            //this.WriteBuffer();
         }
         #endregion
 

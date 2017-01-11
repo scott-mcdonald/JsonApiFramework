@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JsonApiFramework.ServiceModel;
 using JsonApiFramework.Tree;
 
 namespace JsonApiFramework.JsonApi.Internal
@@ -26,6 +27,21 @@ namespace JsonApiFramework.JsonApi.Internal
 
         public IEnumerable<IDomNode> DescendantDomNodes()
         { return this.DescendantNodes().Cast<IDomNode>(); }
+
+        public virtual IDomDocument GetDomDocument()
+        {
+            var rootNode = this.RootNode;
+
+            var domDocument = (IDomDocument)rootNode;
+            return domDocument;
+        }
+
+        public virtual IServiceModel GetServiceModel()
+        {
+            var domDocument = this.GetDomDocument();
+            var serviceModel = domDocument.GetServiceModel();
+            return serviceModel;
+        }
         #endregion
 
         #region AddOrUpdate Methods
@@ -45,14 +61,6 @@ namespace JsonApiFramework.JsonApi.Internal
         #endregion
 
         #region Get Methods
-        public DomDocument GetDomDocument()
-        {
-            var rootNode = this.RootNode;
-
-            var domDocument = (DomDocument)rootNode;
-            return domDocument;
-        }
-
         public DomNode GetDomNode(DomNodeType type)
         {
             return this.Nodes().Cast<DomNode>().SingleOrDefault(x => x.Type == type);

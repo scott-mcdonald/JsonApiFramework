@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
-    public class LinksTests : XUnitTest
+    public class LinksTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -96,64 +96,104 @@ namespace JsonApiFramework.Tests.JsonApi
                 Formatting = Formatting.Indented
             };
 
+        private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
+        private static readonly JsonSerializerSettings TestSettingsIncludeNull = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Include
+            };
+
         // ReSharper disable MemberCanBePrivate.Global
         public static readonly IEnumerable<object[]> LinkTestData = new[]
-        // ReSharper restore MemberCanBePrivate.Global
-            {
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithNull",
-                                TestSettings,
-                                default(Links),
-                                "null"))
-                    },
+            // ReSharper restore MemberCanBePrivate.Global
+                {
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithNull",
+                                    TestSettings,
+                                    default(Links),
+                                    "null"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithEmptyObject",
-                                TestSettings,
-                                new Links(),
-                                "{}"))
-                    },
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithEmptyObject",
+                                    TestSettings,
+                                    new Links(),
+                                    "{}"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithOneLinkWithHRefOnly",
-                                TestSettings,
-                                new Links(new Dictionary<string, Link>
-                                    {
-                                        { Keywords.Self, new Link("https://api.example.com/articles/24") }
-                                    }),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithOneLinkAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {Keywords.Self, "https://api.example.com/articles/24"}
+                                        }),
+                                    @"{
   ""self"": ""https://api.example.com/articles/24""
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithOneLinkWithHRefOnlyAndMeta",
-                                TestSettings,
-                                new Links(new Dictionary<string, Link>
-                                    {
-                                        { Keywords.Self, new Link("https://api.example.com/articles/24", JsonApiSampleData.LinkMeta) }
-                                    }),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithOneLinkAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {Keywords.Self, "https://api.example.com/articles/24"}
+                                        }),
+                                    @"{
+  ""self"": {
+    ""href"": ""https://api.example.com/articles/24"",
+    ""meta"": null
+  }
+}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithOneLinkAndMetaAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {
+                                                    Keywords.Self,
+                                                    new Link("https://api.example.com/articles/24",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                }
+                                        }),
+                                    @"{
   ""self"": {
     ""href"": ""https://api.example.com/articles/24"",
     ""meta"": {
@@ -162,41 +202,113 @@ namespace JsonApiFramework.Tests.JsonApi
     }
   }
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithManyLinksWithHRefOnly",
-                                TestSettings,
-                                new Links(new Dictionary<string, Link>
-                                    {
-                                        { Keywords.Up, new Link("https://api.example.com/articles") },
-                                        { Keywords.Self, new Link("https://api.example.com/articles/24") }
-                                    }),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithOneLinkAndMetaAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {
+                                                    Keywords.Self,
+                                                    new Link("https://api.example.com/articles/24",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                }
+                                        }),
+                                    @"{
+  ""self"": {
+    ""href"": ""https://api.example.com/articles/24"",
+    ""meta"": {
+      ""is-public"": true,
+      ""version"": ""2.0""
+    }
+  }
+}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithManyLinksAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {Keywords.Up, "https://api.example.com/articles"},
+                                                {Keywords.Self, "https://api.example.com/articles/24"}
+                                        }),
+                                    @"{
   ""up"": ""https://api.example.com/articles"",
   ""self"": ""https://api.example.com/articles/24""
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<Links>(x),
-                            x => new JsonObjectDeserializeUnitTest<Links>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithManyLinksWithHRefOnlyAndMeta",
-                                TestSettings,
-                                new Links(new Dictionary<string, Link>
-                                    {
-                                        { Keywords.Up, new Link("https://api.example.com/articles", JsonApiSampleData.LinkMeta) },
-                                        { Keywords.Self, new Link("https://api.example.com/articles/24", JsonApiSampleData.LinkMeta) }
-                                    }),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithManyLinksAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {Keywords.Up, "https://api.example.com/articles"},
+                                                {Keywords.Self, "https://api.example.com/articles/24"}
+                                        }),
+                                    @"{
+  ""up"": {
+    ""href"": ""https://api.example.com/articles"",
+    ""meta"": null
+  },
+  ""self"": {
+    ""href"": ""https://api.example.com/articles/24"",
+    ""meta"": null
+  }
+}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithManyLinksAndMetaAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {
+                                                    Keywords.Up,
+                                                    new Link("https://api.example.com/articles",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                },
+                                                {
+                                                    Keywords.Self,
+                                                    new Link("https://api.example.com/articles/24",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                }
+                                        }),
+                                    @"{
   ""up"": {
     ""href"": ""https://api.example.com/articles"",
     ""meta"": {
@@ -212,8 +324,56 @@ namespace JsonApiFramework.Tests.JsonApi
     }
   }
 }"))
-                    },
-            };
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<Links>(x),
+                                x => new JsonObjectDeserializeUnitTest<Links>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithManyLinksAndMetaAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new Links(new Dictionary<string, Link>
+                                        {
+                                                {
+                                                    Keywords.Up,
+                                                    new Link("https://api.example.com/articles",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                },
+                                                {
+                                                    Keywords.Self,
+                                                    new Link("https://api.example.com/articles/24",
+                                                        Meta.Create(new LinkMeta
+                                                            {
+                                                                IsPublic = true,
+                                                                Version = "2.0"
+                                                            }))
+                                                }
+                                        }),
+                                    @"{
+  ""up"": {
+    ""href"": ""https://api.example.com/articles"",
+    ""meta"": {
+      ""is-public"": true,
+      ""version"": ""2.0""
+    }
+  },
+  ""self"": {
+    ""href"": ""https://api.example.com/articles/24"",
+    ""meta"": {
+      ""is-public"": true,
+      ""version"": ""2.0""
+    }
+  }
+}"))
+                        },
+
+                };
         #endregion
     }
 }

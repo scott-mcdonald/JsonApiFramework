@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests
 {
-    public class StringTests : XUnitTest
+    public class StringTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

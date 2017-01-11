@@ -62,6 +62,24 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The DOM node [type={0}] contains incompatible DOM child node [type={1}] and DOM child node [type={2}]. Violates the JSON API specification..
+        /// </summary>
+        internal static string DomExceptionDetailNodeHasIncompatibleChildNodes {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailNodeHasIncompatibleChildNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The DOM node [type={0}] contains an unexpected DOM child node [type={1}]. Violates the JSON API specification..
+        /// </summary>
+        internal static string DomExceptionDetailNodeHasUnexpectedChildNode {
+            get {
+                return ResourceManager.GetString("DomExceptionDetailNodeHasUnexpectedChildNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to add an attribute to a read-only DOM node [type={0}]..
         /// </summary>
         internal static string DomExceptionDetailReadOnlyNodeUnableToAddAttribute {
@@ -139,6 +157,97 @@ namespace JsonApiFramework {
         internal static string DomExceptionTitle {
             get {
                 return ResourceManager.GetString("DomExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JsonApi deserialization error when reading property \&quot;{0}\&quot; in JSON \&quot;{1}\&quot; text. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDeserializationErrorInvalidJsonDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidJsonDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JsonApi Deserialization Error.
+        /// </summary>
+        internal static string JsonApiDeserializationErrorTitle {
+            get {
+                return ResourceManager.GetString("JsonApiDeserializationErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document contains both \&quot;{0}\&quot; and \&quot;{1}\&quot; members. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDocumentContainsBothMembersDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDocumentContainsBothMembersDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be an array. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be null, an object, or an array. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be a resource or resource identifier. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document contains a hetergenous collection of Resources and ResourceIdentifiers, must be a homogenous collection of either Resources or ResourceIdentifiers. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDe" +
+                        "tail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JsonApi Error.
+        /// </summary>
+        internal static string JsonApiErrorTitle {
+            get {
+                return ResourceManager.GetString("JsonApiErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid JSON \&quot;{0}\&quot; for either a Resource or ResourceIdentifier..
+        /// </summary>
+        internal static string JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail {
+            get {
+                return ResourceManager.GetString("JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid JSON.
+        /// </summary>
+        internal static string JsonTextContainsInvalidJsonTitle {
+            get {
+                return ResourceManager.GetString("JsonTextContainsInvalidJsonTitle", resourceCulture);
             }
         }
         

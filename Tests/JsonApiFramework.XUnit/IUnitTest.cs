@@ -2,18 +2,20 @@
 
 namespace JsonApiFramework.XUnit
 {
-    /// <summary>Abstracts an individual unit test for a xUnit test.</summary>
+    /// <summary>
+    /// Abstracts an individual unit test executed inside an xUnitTests object.
+    /// </summary>
     public interface IUnitTest
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         string Name { get; }
         Stopwatch Stopwatch { get; }
         #endregion
 
-        // PUBLIC METHODS ///////////////////////////////////////////////
+        // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        void Execute(XUnitTest xUnitTest);
+        void Execute(XUnitTests xUnitTest);
         #endregion
     }
 }

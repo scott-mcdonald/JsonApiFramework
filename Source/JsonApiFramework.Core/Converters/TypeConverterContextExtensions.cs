@@ -14,13 +14,13 @@ namespace JsonApiFramework.Converters
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extensions Methods
         public static string SafeGetFormat(this TypeConverterContext context)
-        { return context != null ? context.Format : null; }
+        { return context?.Format; }
 
         public static IFormatProvider SafeGetFormatProvider(this TypeConverterContext context)
-        { return context != null ? context.FormatProvider : null; }
+        { return context?.FormatProvider; }
 
         public static DateTimeStyles SafeGetDateTimeStyles(this TypeConverterContext context)
-        { return context != null ? context.DateTimeStyles : DefaultDateTimeStyles; }
+        { return context?.DateTimeStyles ?? DefaultDateTimeStyles; }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////

@@ -3,6 +3,9 @@
 
 namespace JsonApiFramework.JsonApi
 {
+    /// <summary>
+    /// An enumeration that represents all the possible DOM node types in a DOM document.
+    /// </summary>
     public enum DomNodeType
     {
         Document,

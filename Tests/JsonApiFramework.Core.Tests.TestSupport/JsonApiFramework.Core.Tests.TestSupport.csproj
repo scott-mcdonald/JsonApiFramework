@@ -49,6 +49,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonApi2\DomJsonDeserializeUnitTest.cs" />
+    <Compile Include="JsonApi2\DomJsonSerializationUnitTestData.cs" />
+    <Compile Include="JsonApi2\DomJsonSerializationUnitTestFactory.cs" />
+    <Compile Include="JsonApi2\DomJsonSerializeUnitTest.cs" />
     <Compile Include="JsonApi\DomTreeSerializationUnitTestData.cs" />
     <Compile Include="JsonApi\DomTreeSerializeUnitTest.cs" />
     <Compile Include="JsonApi\DomTreeDeserializeUnitTest.cs" />

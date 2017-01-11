@@ -24,8 +24,8 @@ namespace JsonApiFramework.Converters
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region ITypeConverterDefinition Implementation
-        public Type SourceType { get { return typeof(TSource); } }
-        public Type TargetType { get { return typeof(TTarget); } }
+        public Type SourceType => typeof(TSource);
+        public Type TargetType => typeof(TTarget);
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

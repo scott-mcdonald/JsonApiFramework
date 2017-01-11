@@ -71,7 +71,7 @@ namespace JsonApiFramework
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private static JsonSerializerSettings DeepCloneSerializerSettings { get; set; }
+        private static JsonSerializerSettings DeepCloneSerializerSettings { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////

@@ -15,8 +15,8 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.Reflection
 {
-    #pragma warning disable 649
-    public class StaticReflectionTests : XUnitTest
+#pragma warning disable 649
+    public class StaticReflectionTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

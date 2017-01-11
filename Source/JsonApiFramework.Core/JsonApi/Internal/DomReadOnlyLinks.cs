@@ -5,13 +5,13 @@ using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.JsonApi.Internal
 {
-    internal class DomReadOnlyLinks : DomNode
+    internal class DomReadOnlyLinks : DomReadOnlyNode
         , IDomLinks
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public DomReadOnlyLinks(Links links)
-            : base(DomNodeType.Links, "ReadOnly Links")
+            : base(DomNodeType.Links, "ReadOnlyLinks")
         {
             Contract.Requires(links != null);
 

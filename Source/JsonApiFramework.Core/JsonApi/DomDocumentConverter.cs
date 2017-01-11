@@ -12,6 +12,9 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
+    /// <summary>
+    /// JSON.Net converter for <c>IDomDocument</c> based objects.
+    /// </summary>
     public class DomDocumentConverter : Converter<IDomDocument>
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -28,7 +31,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(documentJObject != null);
             Contract.Requires(serializer != null);
 
-            var domDocument = this.CreateDomDocument();
+            var domDocument = this.CreateDomReadOnlyDocument(documentJObject);
 
             ReadJsonApiVersion(documentJObject, serializer, domDocument);
             ReadMeta(documentJObject, serializer, domDocument);
@@ -58,10 +61,15 @@ namespace JsonApiFramework.JsonApi
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Read Methods
-        private DomDocument CreateDomDocument()
+        private DomReadOnlyDocument CreateDomReadOnlyDocument(JObject documentJObject)
         {
+            Contract.Requires(documentJObject != null);
+
             var serviceModel = this.ServiceModel;
-            return new DomDocument(serviceModel);
+            var documentType = documentJObject.GetDocumentType();
+            var domDocument = new DomReadOnlyDocument(serviceModel, documentType);
+
+            return domDocument;
         }
 
         private static void ReadJsonApiVersion(JToken documentJToken, JsonSerializer serializer, ISetJsonApiVersion domDocument)

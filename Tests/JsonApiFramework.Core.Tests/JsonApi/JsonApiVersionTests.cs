@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
-    public class JsonApiVersionTests : XUnitTest
+    public class JsonApiVersionTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -54,93 +54,133 @@ namespace JsonApiFramework.Tests.JsonApi
                 Formatting = Formatting.Indented
             };
 
+        private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
         private static readonly JsonSerializerSettings TestSettingsIncludeNull = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Include
             };
 
-        private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
-
         // ReSharper disable MemberCanBePrivate.Global
         public static readonly IEnumerable<object[]> JsonApiVersionTestData = new[]
-        // ReSharper restore MemberCanBePrivate.Global
-            {
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
-                            x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithNull",
-                                TestSettings,
-                                default(JsonApiVersion),
-                                "null"))
-                    },
+            // ReSharper restore MemberCanBePrivate.Global
+                {
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithNull",
+                                    TestSettings,
+                                    default(JsonApiVersion),
+                                    "null"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
-                            x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithEmptyObjectAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new JsonApiVersion(),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithEmptyObjectAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new JsonApiVersion(),
+                                    "{}"))
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithEmptyObjectAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new JsonApiVersion(),
+                                    @"{
   ""version"": null,
   ""meta"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
-                            x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithEmptyObjectAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new JsonApiVersion(),
-                                "{}"))
-                    },
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithVersionAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new JsonApiVersion(JsonApiVersion.Version10String),
+                                    @"{
+  ""version"": ""1.0""
+}"))
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
-                            x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithVersion",
-                                TestSettings,
-                                new JsonApiVersion(JsonApiVersion.Version10String),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithVersionAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new JsonApiVersion(JsonApiVersion.Version10String),
+                                    @"{
   ""version"": ""1.0"",
   ""meta"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
-                            x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithVersionAndMeta",
-                                TestSettings,
-                                new JsonApiVersion(JsonApiVersion.Version10String, JsonApiSampleData.JsonApiVersionMeta),
-@"{
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithVersionAndMetaAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new JsonApiVersion(JsonApiVersion.Version10String,
+                                        Meta.Create(new JsonApiVersionMeta
+                                            {
+                                                Website = "http://jsonapi.org"
+                                            })),
+                                    @"{
   ""version"": ""1.0"",
   ""meta"": {
     ""website"": ""http://jsonapi.org""
     }
 }"))
-                    },
-            };
+                        },
+
+                    new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonObjectSerializeUnitTest<JsonApiVersion>(x),
+                                x => new JsonObjectDeserializeUnitTest<JsonApiVersion>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithVersionAndMetaAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new JsonApiVersion(JsonApiVersion.Version10String,
+                                        Meta.Create(new JsonApiVersionMeta
+                                            {
+                                                Website = "http://jsonapi.org"
+                                            })),
+                                    @"{
+  ""version"": ""1.0"",
+  ""meta"": {
+    ""website"": ""http://jsonapi.org""
+    }
+}"))
+                        },
+
+                };
         #endregion
     }
 }

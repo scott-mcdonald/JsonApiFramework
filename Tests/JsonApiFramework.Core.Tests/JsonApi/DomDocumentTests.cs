@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 
+using FluentAssertions;
+
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.JsonApi.Internal;
 using JsonApiFramework.ServiceModel;
@@ -15,7 +17,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
-    public class DomDocumentTests : XUnitTest
+    public class DomDocumentTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -45,7 +47,6 @@ namespace JsonApiFramework.Tests.JsonApi
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
-
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
@@ -61,6 +62,16 @@ namespace JsonApiFramework.Tests.JsonApi
                 Formatting = Formatting.Indented
             };
 
+        private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter>
+                    {
+                        new DomDocumentConverter(TestServiceModel)
+                    },
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
         private static readonly JsonSerializerSettings TestSettingsIncludeNull = new JsonSerializerSettings
             {
                 Converters = new List<JsonConverter>
@@ -71,71 +82,78 @@ namespace JsonApiFramework.Tests.JsonApi
                 NullValueHandling = NullValueHandling.Include
             };
 
-        private static readonly JsonSerializerSettings TestSettingsIgnoreNull = new JsonSerializerSettings
-            {
-                Converters = new List<JsonConverter>
-                    {
-                        new DomDocumentConverter(TestServiceModel)
-                    },
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
-
         // ReSharper disable MemberCanBePrivate.Global
         public static readonly IEnumerable<object[]> JsonApiVersionTestData = new[]
-        // ReSharper restore MemberCanBePrivate.Global
-            {
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithNull",
-                                TestSettings,
-                                default(DomDocument),
-                                "null"))
-                    },
+            // ReSharper restore MemberCanBePrivate.Global
+                {
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithNull",
+                                    TestSettings,
+                                    default(DomReadOnlyDocument),
+                                    "null"))
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithEmptyObjectAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new DomDocument(TestServiceModel),
-@"{
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithEmptyObjectAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document),
+                                    "{}"))
+                        },
+
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithEmptyObjectAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document),
+                                    @"{
   ""jsonapi"": null,
   ""meta"": null,
   ""links"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJspnApiAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new DomDocument(TestServiceModel),
-                                "{}"))
-                    },
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10)),
+                                    @"{
+  ""jsonapi"": {
+    ""version"": ""1.0""
+  }
+}"))
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10)),
-@"{
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10)),
+                                    @"{
   ""jsonapi"": {
     ""version"": ""1.0"",
     ""meta"": null
@@ -143,37 +161,59 @@ namespace JsonApiFramework.Tests.JsonApi
   ""meta"": null,
   ""links"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10)),
-@"{
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndMetaAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
+                                        new DomReadOnlyMeta(Meta.Create(new DocumentMeta
+                                            {
+                                                IsPublic = true,
+                                                Version = 2.1m,
+                                                Copyright = "Copyright 2015 Example Corporation.",
+                                                Authors = new[] {"John Doe", "Jane Doe"}
+                                            }))),
+                                    @"{
   ""jsonapi"": {
     ""version"": ""1.0""
+  },
+  ""meta"": {
+    ""is-public"": true,
+    ""version"": 2.1,
+    ""copyright"": ""Copyright 2015 Example Corporation."",
+    ""authors"": [
+      ""John Doe"",
+      ""Jane Doe""
+    ]
   }
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndMetaAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
-                                    new DomReadOnlyMeta(JsonApiSampleData.DocumentMeta)),
-@"{
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndMetaAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
+                                        new DomReadOnlyMeta(Meta.Create(new DocumentMeta
+                                            {
+                                                IsPublic = true,
+                                                Version = 2.1m,
+                                                Copyright = "Copyright 2015 Example Corporation.",
+                                                Authors = new[] {"John Doe", "Jane Doe"}
+                                            }))),
+                                    @"{
   ""jsonapi"": {
     ""version"": ""1.0"",
     ""meta"": null
@@ -189,19 +229,31 @@ namespace JsonApiFramework.Tests.JsonApi
   },
   ""links"": null
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndMetaAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
-                                    new DomReadOnlyMeta(JsonApiSampleData.DocumentMeta)),
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndMetaAndLinksAndIgnoreNull",
+                                    TestSettingsIgnoreNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
+                                        new DomReadOnlyMeta(Meta.Create(new DocumentMeta
+                                            {
+                                                IsPublic = true,
+                                                Version = 2.1m,
+                                                Copyright = "Copyright 2015 Example Corporation.",
+                                                Authors = new[] {"John Doe", "Jane Doe"}
+                                            })),
+                                        new DomReadOnlyLinks(new Links(new Dictionary<string, Link>
+                                                {
+                                                        {Keywords.Up, "https://api.example.com/articles"},
+                                                        {Keywords.Self, "https://api.example.com/articles/24"}
+                                                })
+                                        )),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -214,28 +266,38 @@ namespace JsonApiFramework.Tests.JsonApi
       ""John Doe"",
       ""Jane Doe""
     ]
+  },
+  ""links"": {
+    ""up"": ""https://api.example.com/articles"",
+    ""self"": ""https://api.example.com/articles/24""
   }
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndMetaAndLinksAndIncludeNull",
-                                TestSettingsIncludeNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
-                                    new DomReadOnlyMeta(JsonApiSampleData.DocumentMeta),
-                                    new DomReadOnlyLinks(new Links(new Dictionary<string, Link>
-                                        {
-                                            { Keywords.Up, new Link("https://api.example.com/articles") },
-                                            { Keywords.Self, new Link("https://api.example.com/articles/24") }
-                                        })
-                                    )),
-@"{
+                    new object[]
+                        {
+                            new DomTreeSerializationUnitTestFactory(
+                                x => new DomTreeSerializeUnitTest<DomReadOnlyDocument>(x),
+                                x => new DomTreeDeserializeUnitTest<DomReadOnlyDocument>(x, d => d.GetDocumentType().Should().Be(DocumentType.Document)),
+                                new DomTreeSerializationUnitTestData(
+                                    "WithJsonApiVersionAndMetaAndLinksAndIncludeNull",
+                                    TestSettingsIncludeNull,
+                                    new DomReadOnlyDocument(TestServiceModel, DocumentType.Document,
+                                        new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
+                                        new DomReadOnlyMeta(Meta.Create(new DocumentMeta
+                                            {
+                                                IsPublic = true,
+                                                Version = 2.1m,
+                                                Copyright = "Copyright 2015 Example Corporation.",
+                                                Authors = new[] {"John Doe", "Jane Doe"}
+                                            })),
+                                        new DomReadOnlyLinks(new Links(new Dictionary<string, Link>
+                                                {
+                                                        {Keywords.Up, "https://api.example.com/articles"},
+                                                        {Keywords.Self, "https://api.example.com/articles/24"}
+                                                })
+                                        )),
+                                    @"{
   ""jsonapi"": {
     ""version"": ""1.0"",
     ""meta"": null
@@ -250,52 +312,19 @@ namespace JsonApiFramework.Tests.JsonApi
     ]
   },
   ""links"": {
-    ""up"": ""https://api.example.com/articles"",
-    ""self"": ""https://api.example.com/articles/24""
+    ""up"": {
+      ""href"": ""https://api.example.com/articles"",
+      ""meta"": null
+    },
+    ""self"":{
+      ""href"": ""https://api.example.com/articles/24"",
+      ""meta"": null
+    }
   }
 }"))
-                    },
+                        },
 
-                new object[]
-                    {
-                        new DomTreeSerializationUnitTestFactory(
-                            x => new DomTreeSerializeUnitTest<DomDocument>(x),
-                            x => new DomTreeDeserializeUnitTest<DomDocument>(x),
-                            new DomTreeSerializationUnitTestData(
-                                "WithJsonApiVersionAndMetaAndLinksAndIgnoreNull",
-                                TestSettingsIgnoreNull,
-                                new DomDocument(TestServiceModel,
-                                    new DomReadOnlyJsonApiVersion(JsonApiVersion.Version10),
-                                    new DomReadOnlyMeta(JsonApiSampleData.DocumentMeta),
-                                    new DomReadOnlyLinks(new Links(new Dictionary<string, Link>
-                                        {
-                                            { Keywords.Up, new Link("https://api.example.com/articles") },
-                                            { Keywords.Self, new Link("https://api.example.com/articles/24") }
-                                        })
-                                    )),
-@"{
-  ""jsonapi"": {
-    ""version"": ""1.0""
-  },
-  ""meta"": {
-    ""is-public"": true,
-    ""version"": 2.1,
-    ""copyright"": ""Copyright 2015 Example Corporation."",
-    ""authors"": [
-      ""John Doe"",
-      ""Jane Doe""
-    ]
-  },
-  ""links"": {
-    ""up"": ""https://api.example.com/articles"",
-    ""self"": ""https://api.example.com/articles/24""
-  }
-}"))
-                    },
-
-            };
-
-
+                };
         #endregion
     }
 }

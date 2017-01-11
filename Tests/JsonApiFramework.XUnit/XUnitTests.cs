@@ -11,8 +11,8 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.XUnit
 {
-    /// <summary>Base class for all xUnit collection of unit tests</summary>
-    public abstract class XUnitTest
+    /// <summary>Base class for all xUnit collection of tests.</summary>
+    public abstract class XUnitTests
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Write Methods
@@ -78,7 +78,7 @@ namespace JsonApiFramework.XUnit
 
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
-        protected XUnitTest(ITestOutputHelper output, bool bufferOutput = false)
+        protected XUnitTests(ITestOutputHelper output, bool bufferOutput = false)
         {
             Contract.Requires(output != null);
 

@@ -115,7 +115,7 @@ namespace JsonApiFramework.Tree
                 {
                     while (node.NextNode == null)
                     {
-                        if (Object.ReferenceEquals(node, this))
+                        if (ReferenceEquals(node, this))
                             yield break;
 
                         node = node.ParentNode;     // walk up ...
@@ -130,7 +130,7 @@ namespace JsonApiFramework.Tree
         /// </summary>
         public string ToTreeString()
         {
-            var treeStringNodeVisitor = new TreeStringBuilderNodeVisitor();
+            var treeStringNodeVisitor = (TreeStringNodeVisitor)this.CreateTreeStringNodeVisitor();
             this.Accept(treeStringNodeVisitor, 0);
 
             var treeString = treeStringNodeVisitor.TreeString;
@@ -143,7 +143,7 @@ namespace JsonApiFramework.Tree
         /// Adds an attribute to this node.
         /// </summary>
         /// <param name="newAttribute">Attribute to add to this node.</param>
-        public virtual void AddAttribute(NodeAttribute newAttribute)
+        public void AddAttribute(NodeAttribute newAttribute)
         {
             Contract.Requires(newAttribute != null);
 
@@ -176,7 +176,7 @@ namespace JsonApiFramework.Tree
 
         /// <summary>Adds a collection of attributes to this node.</summary>
         /// <param name="attributeCollection">Child nodes to add to this parent node.</param>
-        public virtual void AddAttributes(IEnumerable<NodeAttribute> attributeCollection)
+        public void AddAttributes(IEnumerable<NodeAttribute> attributeCollection)
         {
             if (attributeCollection == null)
                 return;
@@ -189,13 +189,13 @@ namespace JsonApiFramework.Tree
 
         /// <summary>Removes the old attribute from this attribute.</summary>
         /// <param name="oldAttribute">Attribute to remove from this node.</param>
-        public virtual void RemoveAttribute(NodeAttribute oldAttribute)
+        public void RemoveAttribute(NodeAttribute oldAttribute)
         {
             Contract.Requires(oldAttribute != null);
 
             // Ensure old attribute exists before removing.
             var oldAttributeExists = this.Attributes()
-                                         .Any(x => Object.ReferenceEquals(x, oldAttribute));
+                                         .Any(x => ReferenceEquals(x, oldAttribute));
             if (oldAttributeExists == false)
                 return;
 
@@ -204,13 +204,13 @@ namespace JsonApiFramework.Tree
             /////////////////////////////////////////////////////////////////
 
             // 1. If the first attribute of this node was the old attribute.
-            if (Object.ReferenceEquals(oldAttribute, this.FirstAttribute))
+            if (ReferenceEquals(oldAttribute, this.FirstAttribute))
             {
                 this.FirstAttribute = oldAttribute.NextAttribute;
             }
 
             // 2. If the last attribute of this node was the old attribute.
-            if (Object.ReferenceEquals(oldAttribute, this.LastAttribute))
+            if (ReferenceEquals(oldAttribute, this.LastAttribute))
             {
                 this.LastAttribute = oldAttribute.PreviousAttribute;
             }
@@ -233,14 +233,14 @@ namespace JsonApiFramework.Tree
         /// </summary>
         /// <param name="oldAttribute">Attribute to remove from this node.</param>
         /// <param name="newAttribute">Attribute to add to this node.</param>
-        public virtual void ReplaceAttribute(NodeAttribute oldAttribute, NodeAttribute newAttribute)
+        public void ReplaceAttribute(NodeAttribute oldAttribute, NodeAttribute newAttribute)
         {
             Contract.Requires(oldAttribute != null);
             Contract.Requires(newAttribute != null);
 
             // Ensure old attribute exists as a child before removing.
             var oldAttributeExists = this.Attributes()
-                                         .Any(x => Object.ReferenceEquals(x, oldAttribute));
+                                         .Any(x => ReferenceEquals(x, oldAttribute));
             if (oldAttributeExists == false)
                 return;
 
@@ -254,13 +254,13 @@ namespace JsonApiFramework.Tree
             newAttribute.PreviousAttribute = oldAttribute.PreviousAttribute;
 
             // 1. If the first attribute of this node was the old attribute.
-            if (Object.ReferenceEquals(oldAttribute, this.FirstAttribute))
+            if (ReferenceEquals(oldAttribute, this.FirstAttribute))
             {
                 this.FirstAttribute = newAttribute;
             }
 
             // 2. If the last attribute of this node was the old attribute.
-            if (Object.ReferenceEquals(oldAttribute, this.LastAttribute))
+            if (ReferenceEquals(oldAttribute, this.LastAttribute))
             {
                 this.LastAttribute = newAttribute;
             }
@@ -314,7 +314,7 @@ namespace JsonApiFramework.Tree
         /// Adds the new node as child of this node.
         /// </summary>
         /// <param name="newNode">Child node to add to this parent node.</param>
-        public virtual void AddNode(Node newNode)
+        public void AddNode(Node newNode)
         {
             Contract.Requires(newNode != null);
 
@@ -325,7 +325,7 @@ namespace JsonApiFramework.Tree
         /// Adds the new node collection as children of this node.
         /// </summary>
         /// <param name="newNodeCollection">Child nodes to add to this parent node.</param>
-        public virtual void AddNodes(IEnumerable<Node> newNodeCollection)
+        public void AddNodes(IEnumerable<Node> newNodeCollection)
         {
             this.AddNodesImpl(newNodeCollection);
         }
@@ -334,13 +334,13 @@ namespace JsonApiFramework.Tree
         /// Removes the old node as a child from this node.
         /// </summary>
         /// <param name="oldNode">Child node to remove from this parent node.</param>
-        public virtual void RemoveNode(Node oldNode)
+        public void RemoveNode(Node oldNode)
         {
             Contract.Requires(oldNode != null);
 
             // Ensure old node exists as a child before removing.
             var oldNodeExists = this.Nodes()
-                                    .Any(x => Object.ReferenceEquals(x, oldNode));
+                                    .Any(x => ReferenceEquals(x, oldNode));
             if (oldNodeExists == false)
                 return;
 
@@ -351,13 +351,13 @@ namespace JsonApiFramework.Tree
             // Handle special cases where the old node was referenced by other nodes.
 
             // 1. If the first node of this node was the old node.
-            if (Object.ReferenceEquals(oldNode, this.FirstNode))
+            if (ReferenceEquals(oldNode, this.FirstNode))
             {
                 this.FirstNode = oldNode.NextNode;
             }
 
             // 2. If the last node of this node was the old node.
-            if (Object.ReferenceEquals(oldNode, this.LastNode))
+            if (ReferenceEquals(oldNode, this.LastNode))
             {
                 this.LastNode = oldNode.PreviousNode;
             }
@@ -380,14 +380,14 @@ namespace JsonApiFramework.Tree
         /// </summary>
         /// <param name="oldNode">Child node to remove from this parent node.</param>
         /// <param name="newNode">Child node to add to this parent node.</param>
-        public virtual void ReplaceNode(Node oldNode, Node newNode)
+        public void ReplaceNode(Node oldNode, Node newNode)
         {
             Contract.Requires(oldNode != null);
             Contract.Requires(newNode != null);
 
             // Ensure old node exists as a child before removing.
             var oldNodeExists = this.Nodes()
-                                    .Any(x => Object.ReferenceEquals(x, oldNode));
+                                    .Any(x => ReferenceEquals(x, oldNode));
             if (oldNodeExists == false)
                 return;
 
@@ -405,13 +405,13 @@ namespace JsonApiFramework.Tree
             // Handle special cases where the old node was referenced by other nodes.
 
             // 1. If the first node of this node was the old node.
-            if (Object.ReferenceEquals(oldNode, this.FirstNode))
+            if (ReferenceEquals(oldNode, this.FirstNode))
             {
                 this.FirstNode = newNode;
             }
 
             // 2. If the last node of this node was the old node.
-            if (Object.ReferenceEquals(oldNode, this.LastNode))
+            if (ReferenceEquals(oldNode, this.LastNode))
             {
                 this.LastNode = newNode;
             }
@@ -473,6 +473,16 @@ namespace JsonApiFramework.Tree
             this.RootNode = this;
         }
 
+        protected Node(string name, Node node)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
+
+            this.Name = name;
+            this.RootNode = this;
+
+            this.AddNodeImpl(node);
+        }
+
         protected Node(string name, IEnumerable<Node> nodes)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
@@ -481,6 +491,15 @@ namespace JsonApiFramework.Tree
             this.RootNode = this;
 
             this.AddNodesImpl(nodes);
+        }
+        #endregion
+
+        // INTERNAL METHODS /////////////////////////////////////////////////
+        #region Node Overrides
+        internal virtual TreeStringNodeVisitor CreateTreeStringNodeVisitor()
+        {
+            var treeStringNodeVisitor = new TreeStringNodeVisitor();
+            return treeStringNodeVisitor;
         }
         #endregion
 
@@ -493,7 +512,8 @@ namespace JsonApiFramework.Tree
         #region Methods
         private void AddNodeImpl(Node newNode)
         {
-            Contract.Requires(newNode != null);
+            if (newNode == null)
+                return;
 
             // Validate node has not already been added to the tree.
             newNode.ValidateHasNotBeenAdded();
@@ -524,7 +544,7 @@ namespace JsonApiFramework.Tree
             newNode.PreviousNode = previousLastNode;
         }
 
-        public void AddNodesImpl(IEnumerable<Node> newNodeCollection)
+        private void AddNodesImpl(IEnumerable<Node> newNodeCollection)
         {
             if (newNodeCollection == null)
                 return;
@@ -582,14 +602,14 @@ namespace JsonApiFramework.Tree
         /// <summary>Gets the content contained in this node.</summary>
         public override T GetContent<T>()
         {
-            var content = Node.TypeConverter.Convert<TContent, T>(this.Content, null);
+            var content = TypeConverter.Convert<TContent, T>(this.Content, null);
             return content;
         }
 
         /// <summary>Sets the content contained in this node.</summary>
         public override void SetContent<T>(T content)
         {
-            var value = Node.TypeConverter.Convert<T, TContent>(content, null);
+            var value = TypeConverter.Convert<T, TContent>(content, null);
             this.Content = value;
         }
         #endregion

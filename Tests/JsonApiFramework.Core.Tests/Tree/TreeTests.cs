@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.Tree
 {
-    public class TreeTests : XUnitTest
+    public class TreeTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

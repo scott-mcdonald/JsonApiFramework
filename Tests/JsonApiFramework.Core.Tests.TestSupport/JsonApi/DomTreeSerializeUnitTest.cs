@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 
 using FluentAssertions;
 
@@ -18,12 +19,13 @@ namespace JsonApiFramework.Tests.JsonApi
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////
         #region Constructors
-        public DomTreeSerializeUnitTest(DomTreeSerializationUnitTestData data)
+        public DomTreeSerializeUnitTest(DomTreeSerializationUnitTestData data, params Action<string>[] additionalAsserts)
             : base(data.Name)
         {
             this.Settings = data.Settings;
             this.SourceDomTree = (T)data.ExpectedDomTree;
             this.ExpectedJson = data.ExpectedJson;
+            this.AdditionalAsserts = additionalAsserts;
         }
         #endregion
 
@@ -63,6 +65,14 @@ namespace JsonApiFramework.Tests.JsonApi
             var actualJsonNormalized = this.ActualJson.RemoveWhitespace();
 
             actualJsonNormalized.Should().Be(expectedJsonNormalized);
+
+            if (this.AdditionalAsserts == null)
+                return;
+
+            foreach (var additionalAssert in this.AdditionalAsserts)
+            {
+                additionalAssert(this.ActualJson);
+            }
         }
         #endregion
 
@@ -75,6 +85,8 @@ namespace JsonApiFramework.Tests.JsonApi
         private JsonSerializerSettings Settings { get; }
         private T SourceDomTree { get; }
         private string ExpectedJson { get; }
+
+        private IEnumerable<Action<string>> AdditionalAsserts { get; }
         #endregion
     }
 }

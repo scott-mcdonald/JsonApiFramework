@@ -69,6 +69,12 @@
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="JsonApi2\Dom\DomJsonApiVersionTests.cs" />
+    <Compile Include="JsonApi2\Dom\DomLinksTests.cs" />
+    <Compile Include="JsonApi2\Dom\DomLinkTests.cs" />
+    <Compile Include="JsonApi2\Dom\DomObjectTests.cs" />
+    <Compile Include="JsonApi2\Dom\DomValueTests.cs" />
+    <Compile Include="JsonApi\DomLinkTests.cs" />
     <Compile Include="JsonApi\DomDocumentTests.cs" />
     <Compile Include="JsonApi\LinksTests.cs" />
     <Compile Include="JsonApi\JsonApiVersionTests.cs" />

@@ -6,18 +6,21 @@ using JetBrains.Annotations;
 
 namespace JsonApiFramework.XUnit
 {
-    /// <summary>Base class for an individual unit test for a xUnit test.</summary>
+    /// <summary>
+    /// Base class to capture boilerplate code for an individual unit test
+    /// executed inside an xUnitTests object.
+    /// </summary>
     public abstract class UnitTest : IUnitTest
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IUnitTest Implementation
-        public string Name { get; private set; }
-        public Stopwatch Stopwatch { get; private set; }
+        public string Name { get; }
+        public Stopwatch Stopwatch { get; }
         #endregion
 
-        // PUBLIC METHODS ///////////////////////////////////////////////
+        // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IUnitTest Implementation
-        public void Execute(XUnitTest xUnitTest)
+        public void Execute(XUnitTests xUnitTest)
         {
             this.XUnitTest = xUnitTest;
 
@@ -35,7 +38,7 @@ namespace JsonApiFramework.XUnit
         { return this.Name; }
         #endregion
 
-        // PROTECTED CONSTRUCTORS ///////////////////////////////////////
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
         protected UnitTest(string name)
         {
@@ -48,10 +51,10 @@ namespace JsonApiFramework.XUnit
 
         // PROTECTED PROPERTIES /////////////////////////////////////////////
         #region Properties
-        protected XUnitTest XUnitTest { get; private set; }
+        protected XUnitTests XUnitTest { get; private set; }
         #endregion
 
-        // PROTECTED METHODS ////////////////////////////////////////////
+        // PROTECTED METHODS ////////////////////////////////////////////////
         #region UnitTest Overrides
         protected virtual void Arrange()
         { }

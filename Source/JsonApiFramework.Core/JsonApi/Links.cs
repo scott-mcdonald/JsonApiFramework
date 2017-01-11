@@ -12,6 +12,9 @@ using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
+    /// <summary>
+    /// Represents an immutable json:api links object.
+    /// </summary>
     [JsonDictionary]
     public class Links : JsonReadOnlyDictionary<Link>
     {
@@ -20,7 +23,7 @@ namespace JsonApiFramework.JsonApi
         public Links()
         { }
 
-        public Links(IDictionary<string, Link> dictionary)
+        public Links(IReadOnlyDictionary<string, Link> dictionary)
             : base(dictionary)
         { }
         #endregion

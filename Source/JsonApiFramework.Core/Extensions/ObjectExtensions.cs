@@ -19,9 +19,7 @@ namespace JsonApiFramework
         /// </summary>
         public static string SafeToString(this object source)
         {
-            return source != null
-                ? source.ToString()
-                : null;
+            return source?.ToString();
         }
 
         /// <summary>
@@ -30,9 +28,7 @@ namespace JsonApiFramework
         /// </summary>
         public static string SafeToString(this IFormattable source, string format, IFormatProvider formatProvider)
         {
-            return source != null
-                ? source.ToString(format, formatProvider)
-                : null;
+            return source?.ToString(format, formatProvider);
         }
         #endregion
     }

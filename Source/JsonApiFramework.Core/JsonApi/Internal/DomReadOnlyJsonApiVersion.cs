@@ -5,13 +5,13 @@ using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.JsonApi.Internal
 {
-    internal class DomReadOnlyJsonApiVersion : DomNode
+    internal class DomReadOnlyJsonApiVersion : DomReadOnlyNode
         , IDomJsonApiVersion
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public DomReadOnlyJsonApiVersion(JsonApiVersion jsonApiVersion)
-            : base(DomNodeType.JsonApiVersion, "ReadOnly JsonApiVersion")
+            : base(DomNodeType.JsonApiVersion, "ReadOnlyJsonApiVersion")
         {
             Contract.Requires(jsonApiVersion != null);
 

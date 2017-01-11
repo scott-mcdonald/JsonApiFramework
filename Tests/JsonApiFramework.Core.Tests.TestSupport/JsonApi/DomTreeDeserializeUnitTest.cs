@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
+using System.Collections.Generic;
+
 using FluentAssertions;
 
 using JsonApiFramework.Json;
@@ -16,12 +19,13 @@ namespace JsonApiFramework.Tests.JsonApi
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////
         #region Constructors
-        public DomTreeDeserializeUnitTest(DomTreeSerializationUnitTestData data)
+        public DomTreeDeserializeUnitTest(DomTreeSerializationUnitTestData data, params Action<T> [] additionalAsserts)
             : base(data.Name)
         {
             this.Settings = data.Settings;
             this.SourceJson = data.ExpectedJson;
             this.ExpectedDomTree = (T)data.ExpectedDomTree;
+            this.AdditionalAsserts = additionalAsserts;
         }
         #endregion
 
@@ -61,6 +65,17 @@ namespace JsonApiFramework.Tests.JsonApi
             this.ActualDomTree.ShouldBeEquivalentTo(
                 this.ExpectedDomTree,
                 options => options.IgnoringCyclicReferences());
+
+            if (this.ActualDomTree == null)
+                return;
+
+            if (this.AdditionalAsserts == null)
+                return;
+
+            foreach (var additionalAssert in this.AdditionalAsserts)
+            {
+                additionalAssert(this.ActualDomTree);
+            }
         }
         #endregion
 
@@ -73,6 +88,7 @@ namespace JsonApiFramework.Tests.JsonApi
         private JsonSerializerSettings Settings { get; }
         private string SourceJson { get; }
         private T ExpectedDomTree { get; }
+        private IEnumerable<Action<T>> AdditionalAsserts { get; }
         #endregion
     }
 }

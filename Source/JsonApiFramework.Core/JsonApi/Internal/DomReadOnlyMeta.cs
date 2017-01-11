@@ -5,13 +5,13 @@ using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.JsonApi.Internal
 {
-    internal class DomReadOnlyMeta : DomNode
+    internal class DomReadOnlyMeta : DomReadOnlyNode
         , IDomMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public DomReadOnlyMeta(Meta meta)
-            : base(DomNodeType.Meta, "ReadOnly Meta")
+            : base(DomNodeType.Meta, "ReadOnlyMeta")
         {
             Contract.Requires(meta != null);
 

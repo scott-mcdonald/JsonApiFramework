@@ -52,10 +52,13 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(link != null);
 
-            // If HRef only, then serialize the Link object as a string whose
-            // value is the HRef value.
-            //if (link.Meta == null && String.IsNullOrWhiteSpace(link.HRef) == false)
-            if (link.Meta == null && link.HRef != null)
+            // Serialize the Link object as a string for the special case
+            // were Meta is null, HRef is not null, and the current serializer
+            // settings are set to ignore null values.
+            var isMetaNull = link.Meta == null;
+            var isHRefNotNull = link.HRef != null;
+            var isNullValueHandlingIgnore = serializer.NullValueHandling == NullValueHandling.Ignore;
+            if (isMetaNull && isHRefNotNull && isNullValueHandlingIgnore)
             {
                 var hRef = link.HRef;
                 writer.WriteValue(hRef);

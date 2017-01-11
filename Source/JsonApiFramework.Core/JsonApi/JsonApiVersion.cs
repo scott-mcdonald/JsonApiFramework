@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// Represents a json:api compliant jsonapi object.
+    /// Represents a json:api compliant jsonapi version object.
     /// </summary>
     /// <see cref="http://jsonapi.org"/>
     [JsonConverter(typeof(JsonApiVersionConverter))]

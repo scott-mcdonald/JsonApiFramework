@@ -3,7 +3,7 @@
 namespace JsonApiFramework.Tree
 {
     /// <summary>
-    /// Abstracts queryable access (non-mutating) to a node within a 1-N tree.
+    /// Abstracts queryable (non-mutating) access to a node within a 1-N tree.
     /// </summary>
     public interface INode
     {

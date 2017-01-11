@@ -2,14 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.ServiceModel;
+using JsonApiFramework.Tree;
 
 namespace JsonApiFramework.JsonApi.Internal
 {
-    internal class DomDocument : DomNode
+    internal class DomReadOnlyDocument : DomReadOnlyNode
         , IDomDocument
         , ISetJsonApiVersion
         , ISetMeta
@@ -17,24 +19,25 @@ namespace JsonApiFramework.JsonApi.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomDocument(IServiceModel serviceModel, params DomNode[] domNodes)
-            : base(DomNodeType.Document, "Document", domNodes)
+        public DomReadOnlyDocument(IServiceModel serviceModel, DocumentType documentType, params DomNode[] domNodes)
+            : base(DomNodeType.Document, "ReadOnlyDocument", domNodes)
         {
             Contract.Requires(serviceModel != null);
 
             this.ServiceModel = serviceModel;
+
+            var documentTypeAttribute = new NodeAttribute<DocumentType>(DocumentTypeAttributeName, documentType);
+            this.AddAttribute(documentTypeAttribute);
         }
         #endregion
 
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        public IServiceModel ServiceModel { get; }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IDomDocument Implementation
-        public DocumentType GetDocumentType()
-        { throw new NotImplementedException(); }
+        #region DomNode Overrides
+        public override IDomDocument GetDomDocument()
+        { return this; }
+
+        public override IServiceModel GetServiceModel()
+        { return this.ServiceModel; }
         #endregion
 
         #region IGetJsonApiVersion Implementation
@@ -70,6 +73,35 @@ namespace JsonApiFramework.JsonApi.Internal
         }
         #endregion
 
+        #region IDomDocument Implementation
+        public DocumentType GetDocumentType()
+        {
+            var documentTypeAttribute = (NodeAttribute<DocumentType>)this.Attributes().Single(x => x.Name == DocumentTypeAttributeName);
+            var documentType = documentTypeAttribute.Value;
+            return documentType;
+        }
+
+        public TObject GetResource<TObject>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TObject> GetResourceCollection<TObject>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TObject> GetIncludedResources<TObject>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Error> GetErrors()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region ISetJsonApiVersion Implementation
         public void SetJsonApiVersion(JsonApiVersion jsonApiVersion)
         {
@@ -98,6 +130,16 @@ namespace JsonApiFramework.JsonApi.Internal
             var domLinks = new DomReadOnlyLinks(links);
             this.AddOrUpdateDomNode(DomNodeType.Links, domLinks);
         }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private IServiceModel ServiceModel { get; }
+        #endregion
+
+        // PRIVATE FIELDS ///////////////////////////////////////////////////
+        #region Constants
+        private const string DocumentTypeAttributeName = "document-type";
         #endregion
     }
 }

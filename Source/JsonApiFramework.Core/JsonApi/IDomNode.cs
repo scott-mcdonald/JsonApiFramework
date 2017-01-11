@@ -3,12 +3,13 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.ServiceModel;
 using JsonApiFramework.Tree;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// Abstracts queryable access (non-mutating) to a DOM node.
+    /// Abstracts queryable (non-mutating) access to a DOM node.
     /// </summary>
     public interface IDomNode : INode
     {
@@ -34,6 +35,14 @@ namespace JsonApiFramework.JsonApi
         /// node, in document order.
         /// </summary>
         IEnumerable<IDomNode> DescendantDomNodes();
+
+        /// <summary>Gets the root DOM document node.</summary>
+        IDomDocument GetDomDocument();
+
+        /// <summary>
+        /// Gets the service model associated with this DOM document.
+        /// </summary>
+        IServiceModel GetServiceModel();
         #endregion
     }
 }

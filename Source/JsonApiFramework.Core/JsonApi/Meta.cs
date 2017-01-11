@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
@@ -30,6 +31,16 @@ namespace JsonApiFramework.JsonApi
         public static Meta Create<T>(T data)
         {
             var jObject = JObject.FromObject(data);
+            var meta = (Meta)jObject;
+            return meta;
+        }
+
+        public static Meta Create<T>(T data, JsonSerializerSettings jsonSerializerSettings)
+        {
+            Contract.Requires(jsonSerializerSettings != null);
+
+            var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
+            var jObject = JObject.FromObject(data, jsonSerializer);
             var meta = (Meta)jObject;
             return meta;
         }

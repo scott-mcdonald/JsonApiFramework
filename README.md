@@ -716,6 +716,9 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.1.3-beta
+    * Fix #24 Enhance Meta.Create<T> Static Method to Accept and Use JsonSerializerSettings
+    * Fix #23 Included ToOne or ToMany Related Resource(s) Referenced Multiple Times Throwing Key Already Exists Exception
 * v1.1.2-beta
     * Fix ResourceCollectionBuilder throwing NullReferenceException when document building
 * v1.1.1-beta

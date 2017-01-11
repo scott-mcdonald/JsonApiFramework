@@ -157,7 +157,7 @@ namespace JsonApiFramework.Server.Internal
             var clrResourceType = typeof(TResource);
             var resourceType = serviceModel.GetResourceType(clrResourceType);
 
-            var domResourceTupleCollection = clrResourceCollection
+            var domResourceTupleCollection1 = clrResourceCollection
                 .EmptyIfNull()
                 .Where(clrResource => clrResource != null)
                 .Select(clrResource =>
@@ -172,21 +172,19 @@ namespace JsonApiFramework.Server.Internal
                         var domResourceTuple = new Tuple<ResourceIdentifier, DomReadWriteResource, TResource>(domResourceKey, domReadWriteResource, clrResource);
                         return domResourceTuple;
                     })
-                // Do not add the DOM read-write resource node if it already has been added to the DOM document.
-                .Where(domResourceTuple =>
-                    {
-                        var domResourceKey = domResourceTuple.Item1;
-                        var domDoesNotContainResource = !this.DocumentBuilderContext.ContainsDomReadWriteResource(domResourceKey);
-                        return domDoesNotContainResource;
-                    })
                 .ToList();
 
             // Add the DOM read/write resource nodes to the DOM document.
-            foreach (var domResourceTuple in domResourceTupleCollection)
+            var domResourceTupleCollection2 = new List<Tuple<ResourceIdentifier, DomReadWriteResource, TResource>>();
+            foreach (var domResourceTuple in domResourceTupleCollection1)
             {
                 // Add the DOM read/write resource nodes to the DOM document.
                 var domResourceKey = domResourceTuple.Item1;
                 var domReadWriteResource = domResourceTuple.Item2;
+
+                // Do not add the DOM read-write resource node if it already has been added to the DOM document.
+                if (this.DocumentBuilderContext.ContainsDomReadWriteResource(domResourceKey))
+                    continue;
 
                 this.DocumentBuilderContext.AddDomReadWriteResource(domResourceKey, domReadWriteResource);
                 domContainerNode.Add(domReadWriteResource);
@@ -195,14 +193,17 @@ namespace JsonApiFramework.Server.Internal
                 var clrResource = domResourceTuple.Item3;
 
                 resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
+
+                // Keep track of the actual DOM read-write resource nodes added to the DOM document.
+                domResourceTupleCollection2.Add(domResourceTuple);
             }
 
-            var domReadWriteResourceCollection = domResourceTupleCollection
+            var domReadWriteResourceCollection = domResourceTupleCollection2
                 .Select(domResourceTuple => domResourceTuple.Item2)
                 .ToList();
             this.DomReadWriteResourceCollection = domReadWriteResourceCollection;
 
-            var clrResourceCollectionInternal = domResourceTupleCollection
+            var clrResourceCollectionInternal = domResourceTupleCollection2
                 .Select(domResourceTuple => domResourceTuple.Item3)
                 .ToList();
             this.ClrResourceCollection = clrResourceCollectionInternal;

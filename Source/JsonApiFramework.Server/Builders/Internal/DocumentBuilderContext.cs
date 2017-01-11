@@ -51,14 +51,6 @@ namespace JsonApiFramework.Server.Internal
             return this.DomReadWriteResourceDictionary.ContainsKey(domResourceKey);
         }
 
-        public void AddResourceLinkage(ResourceLinkageKey resourceLinkageKey, ResourceLinkage resourceLinkage)
-        {
-            Contract.Requires(resourceLinkageKey != null);
-            Contract.Requires(resourceLinkage != null);
-
-            this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkage);
-        }
-
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
             where TFromResource : class, IResource
             where TToResource : class, IResource
@@ -141,6 +133,54 @@ namespace JsonApiFramework.Server.Internal
         #region Properties
         private IDictionary<ResourceIdentifier, DomReadWriteResource> DomReadWriteResourceDictionary { get; set; }
         private IDictionary<ResourceLinkageKey, ResourceLinkage> ResourceLinkageDictionary { get; set; }
+        #endregion
+
+        // PRIVATE METHODS //////////////////////////////////////////////////
+        #region Methods
+        private void AddResourceLinkage(ResourceLinkageKey resourceLinkageKey, ResourceLinkage resourceLinkageNew)
+        {
+            Contract.Requires(resourceLinkageKey != null);
+            Contract.Requires(resourceLinkageNew != null);
+
+            ResourceLinkage resourceLinkageExisting;
+            if (this.ResourceLinkageDictionary.TryGetValue(resourceLinkageKey, out resourceLinkageExisting) == false)
+            {
+                // Add initial new resource linkage
+                this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageNew);
+                return;
+            }
+
+            // Merge existing and new resource linkage
+            var resourceLinkageExistingType = resourceLinkageExisting.Type;
+            switch (resourceLinkageExistingType)
+            {
+                case ResourceLinkageType.ToOneResourceLinkage:
+                    {
+                        this.ResourceLinkageDictionary.Remove(resourceLinkageKey);
+                        this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageNew);
+                    }
+                    break;
+
+                case ResourceLinkageType.ToManyResourceLinkage:
+                    {
+                        var toManyResourceLinkage = resourceLinkageExisting.ToManyResourceLinkage
+                                                                           .SafeToList();
+                        toManyResourceLinkage.AddRange(resourceLinkageNew.ToManyResourceLinkage);
+
+                        toManyResourceLinkage = toManyResourceLinkage.Distinct()
+                                                                     .SafeToList();
+
+                        var resourceLinkageMerged = new ResourceLinkage(toManyResourceLinkage);
+
+                        this.ResourceLinkageDictionary.Remove(resourceLinkageKey);
+                        this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageMerged);
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         #endregion
     }
 }

@@ -103,6 +103,9 @@ namespace MyNamespace
 
 namespace JsonApiFramework.Server.Tests.Internal
 {
+    using Attribute = JsonApiFramework.JsonApi.ApiProperty;
+    using Attributes = JsonApiFramework.JsonApi.ApiObject;
+
     public class DocumentBuilderTests : XUnitTest
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -673,6 +676,113 @@ namespace JsonApiFramework.Server.Tests.Internal
                                 .LinksEnd()
                             .ResourceCollectionEnd()
                     },
+                new object[]
+                    {
+                        "WithResourcesAndIncludedDuplicateResourcesAndFrameworkBuiltHypermedia",
+                        new ResourceCollectionDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                                        new Resource
+                                            {
+                                                Type = ApiSampleData.ArticleType,
+                                                Id = ApiSampleData.ArticleId2,
+                                                Attributes = new Attributes(Attribute.Create("title", "JSON API paints my house!")),
+                                                Relationships = new Relationships
+                                                    {
+                                                        {ApiSampleData.ArticleToAuthorRel,
+                                                            new ToOneRelationship
+                                                                {
+                                                                    Links = new Links
+                                                                            {
+                                                                                {Keywords.Self, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId2).Path(Keywords.Relationships).Path(ApiSampleData.ArticleToAuthorRel).Build())},
+                                                                                {Keywords.Related, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId2).Path(ApiSampleData.ArticleToAuthorRel).Build())}
+                                                                            },
+                                                                    Data = ApiSampleData.PersonResourceIdentifier1
+                                                                }},
+                                                        {ApiSampleData.ArticleToCommentsRel,
+                                                            new ToManyRelationship
+                                                                {
+                                                                    Links = new Links
+                                                                            {
+                                                                                {Keywords.Self, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId2).Path(Keywords.Relationships).Path(ApiSampleData.CommentCollectionPathSegment).Build())},
+                                                                                {Keywords.Related, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId2).Path(ApiSampleData.CommentCollectionPathSegment).Build())}
+                                                                            },
+                                                                    Data = ApiSampleData.ArticleToCommentResourceIdentifiers1
+                                                                }}
+                                                    },
+                                                Links = new Links
+                                                    {
+                                                        {Keywords.Self, ApiSampleData.ArticleLink2},
+                                                        {Keywords.Canonical, ApiSampleData.ArticleLink2}
+                                                    },
+                                                Meta = ApiSampleData.ResourceMeta
+                                            }
+                                    },
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2,
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                            .SetMeta(ApiSampleData.DocumentMeta)
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                            .ResourceCollection(SampleArticles.Article1, SampleArticles.Article2)
+                                .SetMeta(ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, Keywords.Self, Keywords.Related)
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                    .AddLink(Keywords.Canonical)
+                                .LinksEnd()
+                            .ResourceCollectionEnd()
+                            .Included()
+                                .ToOne(ToOneResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1),
+                                       ToOneResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1))
+                                    .SetMeta(ApiSampleData.ResourceMeta)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToOneEnd()
+                                .ToMany(ToManyResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, new [] { SampleComments.Comment1 }),
+                                        ToManyResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, new [] { SampleComments.Comment1 }))
+                                    .SetMeta(ApiSampleData.ResourceMeta1)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToManyEnd()
+                                .ToMany(ToManyResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, new [] { SampleComments.Comment2 }),
+                                        ToManyResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, new [] { SampleComments.Comment2 }))
+                                    .SetMeta(ApiSampleData.ResourceMeta2)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToManyEnd()
+                            .IncludedEnd()
+                    },
             };
         #endregion
 
@@ -946,6 +1056,106 @@ namespace JsonApiFramework.Server.Tests.Internal
                                     .AddLink(Keywords.Canonical)
                                 .LinksEnd()
                             .ResourceEnd()
+                    },
+
+                new object[]
+                    {
+                        "WithResourceAndIncludedDuplicateResourcesAndFrameworkBuiltHypermedia",
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ApiSampleData.ArticleType,
+                                        Id = ApiSampleData.ArticleId,
+                                        Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+                                        Relationships = new Relationships
+                                            {
+                                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
+                                                {ApiSampleData.ArticleToCommentsRel,
+                                                    new ToManyRelationship
+                                                        {
+                                                            Links = new Links
+                                                                    {
+                                                                        {Keywords.Self, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId).Path(Keywords.Relationships).Path(ApiSampleData.CommentCollectionPathSegment).Build())},
+                                                                        {Keywords.Related, new Link(UrlBuilder.Create(ApiSampleData.UrlBuilderConfiguration).Path(ApiSampleData.ArticleCollectionPathSegment).Path(ApiSampleData.ArticleId).Path(ApiSampleData.CommentCollectionPathSegment).Build())}
+                                                                    },
+                                                            Data = new List<ResourceIdentifier> { ApiSampleData.CommentResourceIdentifier1 }
+                                                        }}
+                                            },
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, ApiSampleData.ArticleLink},
+                                                {Keywords.Canonical, ApiSampleData.ArticleLink}
+                                            },
+                                        Meta = ApiSampleData.ResourceMeta
+                                    },
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource,
+                                        ApiSampleData.CommentResource1
+                                    }
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
+                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                            .SetMeta(ApiSampleData.DocumentMeta)
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                            .Resource(SampleArticles.Article)
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, Keywords.Self, Keywords.Related)
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                    .AddLink(Keywords.Canonical)
+                                .LinksEnd()
+                            .ResourceEnd()
+                            .Included()
+                                .ToOne(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person)
+                                    .SetMeta(ApiSampleData.ResourceMeta)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToOneEnd()
+                                .ToOne(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person)
+                                    .SetMeta(ApiSampleData.ResourceMeta)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToOneEnd()
+                                .ToMany(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new[]{ SampleComments.Comment1 })
+                                    .SetMeta(ApiSampleData.ResourceMeta)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToManyEnd()
+                                .ToMany(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new[]{ SampleComments.Comment1 })
+                                    .SetMeta(ApiSampleData.ResourceMeta)
+                                    .Relationships()
+                                        .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
+                                    .RelationshipsEnd()
+                                    .Links()
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                .ToManyEnd()
+                            .IncludedEnd()
                     },
 
                 new object[]

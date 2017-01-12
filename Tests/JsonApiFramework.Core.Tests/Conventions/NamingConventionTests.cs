@@ -114,6 +114,12 @@ namespace JsonApiFramework.Tests.Conventions
                 new object[] {"WithUpperCaseNamingConventionAndNameParameterAsName", new UpperCaseNamingConvention(), "Name", "NAME"},
                 new object[] {"WithUpperCaseNamingConventionAndNameParameterAsUserName", new UpperCaseNamingConvention(), "UserName", "USERNAME"},
                 new object[] {"WithUpperCaseNamingConventionAndNameParameterAsPreviousUserName", new UpperCaseNamingConvention(), "PreviousUserName", "PREVIOUSUSERNAME"},
+
+                new object[] {"WithCamelCaseNamingConventionAndNameParameterAsNullString", new CamelCaseNamingConvention(), null, null},
+                new object[] {"WithCamelCaseNamingConventionAndNameParameterAsEmptyString", new CamelCaseNamingConvention(), String.Empty, String.Empty},
+                new object[] {"WithCamelCaseNamingConventionAndNameParameterAsName", new CamelCaseNamingConvention(), "Name", "name"},
+                new object[] {"WithCamelCaseNamingConventionAndNameParameterAsUserName", new CamelCaseNamingConvention(), "UserName", "userName"},
+                new object[] {"WithCamelCaseNamingConventionAndNameParameterAsPreviousUserName", new CamelCaseNamingConvention(), "PreviousUserName", "previousUserName"},
             };
         // ReSharper restore UnusedMember.Global
         #endregion

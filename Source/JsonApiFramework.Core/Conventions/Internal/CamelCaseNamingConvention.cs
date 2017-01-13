@@ -7,7 +7,7 @@ using Humanizer;
 
 namespace JsonApiFramework.Conventions.Internal
 {
-    /// <summary>Naming convention that applies the json:api naming standard for members.</summary>
+    /// <summary>Naming convention that applies camelCasing to members.</summary>
     internal class CamelCaseNamingConvention : INamingConvention
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -17,11 +17,7 @@ namespace JsonApiFramework.Conventions.Internal
             if (String.IsNullOrWhiteSpace(oldName))
                 return oldName;
 
-            // Apply the JsonApi standard naming convention of member names:
-            // 1. Names are lower case.
-            // 2. Names use the hyphen minus '-' as word separators.
-            var newName = oldName.Underscore()
-                                 .Camelize();
+            var newName = oldName.Camelize();
             return newName;
         }
         #endregion

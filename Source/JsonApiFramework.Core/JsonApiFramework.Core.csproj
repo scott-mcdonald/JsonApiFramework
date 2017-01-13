@@ -37,6 +37,7 @@
     <Compile Include="Conventions\IConventions.cs" />
     <Compile Include="Conventions\IComplexTypeConvention.cs" />
     <Compile Include="Conventions\IComplexTypeConventionsBuilder.cs" />
+    <Compile Include="Conventions\Internal\CamelCaseNamingConvention.cs" />
     <Compile Include="Conventions\Internal\ComplexTypeConventionsBuilder.cs" />
     <Compile Include="Conventions\Internal\PropertyDiscoveryComplexTypeConvention.cs" />
     <Compile Include="JsonApi\ApiProperty.cs" />

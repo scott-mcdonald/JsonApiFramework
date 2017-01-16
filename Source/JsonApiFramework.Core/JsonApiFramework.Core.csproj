@@ -89,11 +89,14 @@
     <Compile Include="JsonApi\Dom\Internal\DomTreeStringNodeVisitor.cs" />
     <Compile Include="JsonApi\Dom\Extensions\JPropertyExtensions.cs" />
     <Compile Include="JsonApi\Dom\Extensions\JObjectExtensions.cs" />
+    <Compile Include="JsonApi\IGetResourceIdentity.cs" />
+    <Compile Include="JsonApi\Internal\GetResourceIdentityExtensions.cs" />
     <Compile Include="JsonApi\JsonApiException.cs" />
     <Compile Include="JsonApi\JsonApiVersion.cs" />
     <Compile Include="JsonApi\Keywords.cs" />
     <Compile Include="JsonApi\LinkNotFoundException.cs" />
     <Compile Include="JsonApi\Links.cs" />
+    <Compile Include="JsonApi\ResourceIdentifier.cs" />
     <Compile Include="Properties\InternalsVisibleTo.cs" />
     <Compile Include="JsonApi\Link.cs" />
     <Compile Include="Json\IJsonObject.cs" />

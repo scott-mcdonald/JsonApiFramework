@@ -78,6 +78,7 @@
     <Compile Include="JsonApi\Dom\DomObjectTests.cs" />
     <Compile Include="JsonApi\Dom\DomValueTests.cs" />
     <Compile Include="JsonApi\LinksTests.cs" />
+    <Compile Include="JsonApi\ResourceIdentifierTests.cs" />
     <Compile Include="JsonApi\LinkTests.cs" />
     <Compile Include="Json\JsonReadOnlyDictionaryTests.cs" />
     <Compile Include="Json\JsonObjectTests.cs" />

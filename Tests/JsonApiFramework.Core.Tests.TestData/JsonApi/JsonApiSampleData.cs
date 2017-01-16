@@ -4,7 +4,7 @@
 using System;
 
 using JsonApiFramework.Http;
-using JsonApiFramework.JsonApi2;
+using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Tests.JsonApi
 {

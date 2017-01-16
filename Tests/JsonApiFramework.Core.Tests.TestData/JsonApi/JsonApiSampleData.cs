@@ -4,7 +4,7 @@
 using System;
 
 using JsonApiFramework.Http;
-using JsonApiFramework.JsonApi;
+using JsonApiFramework.JsonApi2;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
@@ -49,44 +49,6 @@ namespace JsonApiFramework.Tests.JsonApi
         public const string ErrorId = "85319674-1da4-4f1c-8af4-b09e17755ab2";
         public const string ErrorId1 = "a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2";
         public const string ErrorId2 = "192ca96c-1b36-4721-aa12-110ee9c43958";
-        #endregion
-
-        #region Meta
-        public static readonly Meta DocumentMeta = Meta.Create(new DocumentMeta
-        {
-            IsPublic = true,
-            Version = 2.1m,
-            Copyright = "Copyright 2015 Example Corporation.",
-            Authors = new[] { "John Doe", "Jane Doe" }
-        });
-
-        public static readonly Meta ErrorMeta = Meta.Create(new ErrorMeta
-        {
-            StackTrace = "Foo.Method1 line 42\nFoo.Method2 line 24\nBar.Method1 line 86\nBar.Method2 line 68"
-        });
-
-        public static readonly Meta JsonApiVersionMeta = Meta.Create(new JsonApiVersionMeta
-        {
-            Website = "http://jsonapi.org"
-        });
-
-        public static readonly Meta LinkMeta = Meta.Create(new LinkMeta
-        {
-            IsPublic = true,
-            Version = "2.0"
-        });
-
-        public static readonly Meta RelationshipMeta = Meta.Create(new RelationshipMeta
-        {
-            CascadeDelete = true
-        });
-
-        public static readonly Meta ResourceMeta = Meta.Create(new ResourceMeta { Version = "2.0" });
-
-        public static readonly Meta ResourceMeta1 = Meta.Create(new ResourceMeta { Version = "2.0" });
-        public static readonly Meta ResourceMeta2 = Meta.Create(new ResourceMeta { Version = "2.1" });
-        public static readonly Meta ResourceMeta3 = Meta.Create(new ResourceMeta { Version = "2.2" });
-        public static readonly Meta ResourceMeta4 = Meta.Create(new ResourceMeta { Version = "2.3" });
         #endregion
 
         #region Relationship Names
@@ -202,15 +164,9 @@ namespace JsonApiFramework.Tests.JsonApi
         public static readonly Link CommentCollectionLink = new Link(CommentCollectionHRef);
         public static readonly Link PersonCollectionLink = new Link(PersonCollectionHRef);
 
-        public static readonly Link ArticleCollectionLinkWithMeta = new Link(ArticleCollectionHRef, LinkMeta);
-
         public static readonly Link ArticleLink = new Link(ArticleHRef);
         public static readonly Link ArticleLink1 = new Link(ArticleHRef1);
         public static readonly Link ArticleLink2 = new Link(ArticleHRef2);
-
-        public static readonly Link ArticleLinkWithMeta = new Link(ArticleHRef, LinkMeta);
-        public static readonly Link ArticleLinkWithMeta1 = new Link(ArticleHRef1, LinkMeta);
-        public static readonly Link ArticleLinkWithMeta2 = new Link(ArticleHRef2, LinkMeta);
 
         public static readonly Link ArticleToRelationshipsToAuthorLink = new Link(ArticleToRelationshipsToAuthorHRef);
         public static readonly Link ArticleToAuthorLink = new Link(ArticleToAuthorHRef);

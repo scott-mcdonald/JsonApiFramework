@@ -161,11 +161,20 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JsonApi deserialization error when reading array item JSON \&quot;{0}\&quot; text. Violates the JSON API specification..
+        /// </summary>
+        internal static string JsonApiDeserializationErrorInvalidArrayItemJsonDetail {
+            get {
+                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidArrayItemJsonDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to JsonApi deserialization error when reading property \&quot;{0}\&quot; in JSON \&quot;{1}\&quot; text. Violates the JSON API specification..
         /// </summary>
-        internal static string JsonApiDeserializationErrorInvalidJsonDetail {
+        internal static string JsonApiDeserializationErrorInvalidPropertyJsonDetail {
             get {
-                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidJsonDetail", resourceCulture);
+                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidPropertyJsonDetail", resourceCulture);
             }
         }
         

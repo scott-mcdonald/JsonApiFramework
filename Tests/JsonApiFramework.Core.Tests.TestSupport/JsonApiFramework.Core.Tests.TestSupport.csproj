@@ -53,10 +53,6 @@
     <Compile Include="JsonApi2\DomJsonSerializationUnitTestData.cs" />
     <Compile Include="JsonApi2\DomJsonSerializationUnitTestFactory.cs" />
     <Compile Include="JsonApi2\DomJsonSerializeUnitTest.cs" />
-    <Compile Include="JsonApi\DomTreeSerializationUnitTestData.cs" />
-    <Compile Include="JsonApi\DomTreeSerializeUnitTest.cs" />
-    <Compile Include="JsonApi\DomTreeDeserializeUnitTest.cs" />
-    <Compile Include="JsonApi\DomTreeSerializationUnitTestFactory.cs" />
     <Compile Include="Json\JsonObjectDeserializeUnitTest.cs" />
     <Compile Include="Json\JsonObjectSerializationUnitTestData.cs" />
     <Compile Include="Json\JsonObjectSerializationUnitTestFactory.cs" />

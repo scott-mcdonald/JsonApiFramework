@@ -5,10 +5,7 @@ using JsonApiFramework.Json;
 
 namespace JsonApiFramework.JsonApi2
 {
-    /// <summary>
-    /// Represents an immutable json:api version object.
-    /// </summary>
-    /// <see cref="http://jsonapi.org"/>
+    /// <summary>Represents an immutable json:api version object.</summary>
     public class JsonApiVersion : JsonObject
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

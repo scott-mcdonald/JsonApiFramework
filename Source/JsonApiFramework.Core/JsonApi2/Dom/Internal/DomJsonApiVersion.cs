@@ -17,7 +17,7 @@ namespace JsonApiFramework.JsonApi2.Dom.Internal
         { }
 
         public DomJsonApiVersion(IEnumerable<DomProperty> domProperties)
-            : base("jsonapi", domProperties)
+            : base("object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {

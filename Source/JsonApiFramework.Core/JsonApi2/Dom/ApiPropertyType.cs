@@ -4,11 +4,12 @@
 namespace JsonApiFramework.JsonApi2.Dom
 {
     /// <summary>
-    /// An enumeration that represents the json:api property type of a DOM property in a DOM tree.
+    /// Represents the json:api property type of a DOM property in a DOM tree.
     /// </summary>
     public enum ApiPropertyType
     {
         None,
+        JsonApi,
         Version,
         Meta,
         Links,

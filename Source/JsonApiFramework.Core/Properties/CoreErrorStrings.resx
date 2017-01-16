@@ -150,7 +150,10 @@
   <data name="DomExceptionTitle" xml:space="preserve">
     <value>Internal DOM Error</value>
   </data>
-  <data name="JsonApiDeserializationErrorInvalidJsonDetail" xml:space="preserve">
+  <data name="JsonApiDeserializationErrorInvalidArrayItemJsonDetail" xml:space="preserve">
+    <value>JsonApi deserialization error when reading array item JSON \"{0}\" text. Violates the JSON API specification.</value>
+  </data>
+  <data name="JsonApiDeserializationErrorInvalidPropertyJsonDetail" xml:space="preserve">
     <value>JsonApi deserialization error when reading property \"{0}\" in JSON \"{1}\" text. Violates the JSON API specification.</value>
   </data>
   <data name="JsonApiDeserializationErrorTitle" xml:space="preserve">

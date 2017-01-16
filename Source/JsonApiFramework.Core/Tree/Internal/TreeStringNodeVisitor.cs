@@ -44,10 +44,10 @@ namespace JsonApiFramework.Tree.Internal
 
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region TreeStringNodeVisitor Overrides
-        protected virtual bool ShouldAppendLine(Node node)
+        protected virtual bool ShouldIndent(Node node)
         { return true; }
 
-        protected virtual bool ShouldIdent(Node node)
+        protected virtual bool ShouldAppendLine(Node node)
         { return true; }
         #endregion
 
@@ -58,16 +58,16 @@ namespace JsonApiFramework.Tree.Internal
             Contract.Requires(node != null);
             Contract.Requires(depth >= 0);
 
-            this.AddIdentToTreeString(node, depth);
+            this.AddIndentToTreeString(node, depth);
             this.AddNodeDescriptionToTreeString(node);
         }
 
-        private void AddIdentToTreeString(Node node, int depth)
+        private void AddIndentToTreeString(Node node, int depth)
         {
             Contract.Requires(node != null);
             Contract.Requires(depth >= 0);
 
-            if (!this.ShouldIdent(node))
+            if (!this.ShouldIndent(node))
                 return;
 
             var indentSpace = depth * IndentSize;

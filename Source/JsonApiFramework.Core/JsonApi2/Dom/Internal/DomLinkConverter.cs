@@ -38,9 +38,10 @@ namespace JsonApiFramework.JsonApi2.Dom.Internal
             var tokenType = jsonReader.TokenType;
             switch (tokenType)
             {
-                case JsonToken.None:
                 case JsonToken.Null:
-                    return null;
+                    {
+                        return null;
+                    }
 
                 case JsonToken.String:
                     {

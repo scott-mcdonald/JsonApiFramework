@@ -50,24 +50,18 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
         #region Test Data
         private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettings = new DomJsonSerializerSettings
             {
-                MetaNullValueHandling = null
+                NullValueHandlingOverrides = null
             };
 
-        private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettingsIgnoreNullMetaOverride = new DomJsonSerializerSettings
+        private static readonly JsonSerializerSettings TestJsonSerializerSettings = new JsonSerializerSettings
             {
-                MetaNullValueHandling = NullValueHandling.Ignore
-            };
-
-        private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettingsIncludeNullMetaOverride = new DomJsonSerializerSettings
-            {
-                MetaNullValueHandling = NullValueHandling.Include
+                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
+                Formatting = Formatting.Indented
             };
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNull = new JsonSerializerSettings
             {
                 ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
             };
@@ -75,28 +69,8 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIncludeNull = new JsonSerializerSettings
             {
                 ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Include
-            };
-
-        private static readonly JsonSerializerSettings TestJsonSerializerSettingsIncludeNullAndIgnoreNullMetaOverride = new JsonSerializerSettings
-            {
-                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettingsIgnoreNullMetaOverride),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Include
-            };
-
-        private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNullAndIncludeNullMetaOverride = new JsonSerializerSettings
-            {
-                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettingsIncludeNullMetaOverride),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
             };
 
         public static readonly IEnumerable<object[]> DomLinkTestData = new[]
@@ -107,95 +81,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomLink>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLink>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithHRefAndMetaIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
-                                        new DomProperty("is-public", new DomValue<bool>(true)),
-                                        new DomProperty("version", new DomValue<string>("2.0"))))),
-@"{
-  ""href"": ""https://api.example.com/articles"",
-  ""meta"":  {
-    ""is-public"": true,
-    ""version"": ""2.0""
-  }
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefAndMetaIgnoreNullAndIncludeNullMetaOverride",
-                                TestJsonSerializerSettingsIgnoreNullAndIncludeNullMetaOverride,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
-                                        new DomProperty("is-public", new DomValue<bool>(true)),
-                                        new DomProperty("version", new DomValue<string>("2.0"))))),
-@"{
-  ""href"": ""https://api.example.com/articles"",
-  ""meta"":  {
-    ""is-public"": true,
-    ""version"": ""2.0""
-  }
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefAndMetaIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
-                                        new DomProperty("is-public", new DomValue<bool>(true)),
-                                        new DomProperty("version", new DomValue<string>("2.0"))))),
-@"{
-  ""href"": ""https://api.example.com/articles"",
-  ""meta"":  {
-    ""is-public"": true,
-    ""version"": ""2.0""
-  }
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefAndMetaIncludeNullAndIgnoreNullMetaOverride",
-                                TestJsonSerializerSettingsIncludeNullAndIgnoreNullMetaOverride,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
-                                        new DomProperty("is-public", new DomValue<bool>(true)),
-                                        new DomProperty("version", new DomValue<string>("2.0"))))),
-@"{
-  ""href"": ""https://api.example.com/articles"",
-  ""meta"":  {
-    ""is-public"": true,
-    ""version"": ""2.0""
-  }
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefAndNullMetaIgnoreNull",
+                                "WithHRefAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomLink(
                                     new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
@@ -211,24 +97,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomLink>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLink>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithHRefAndNullMetaIgnoreNullAndIncludeNullMetaOverride",
-                                TestJsonSerializerSettingsIgnoreNullAndIncludeNullMetaOverride,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
-@"{
-  ""href"": ""https://api.example.com/articles"",
-  ""meta"": null
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefAndNullMetaIncludeNull",
+                                "WithHRefAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomLink(
                                     new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
@@ -245,67 +114,22 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomLink>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLink>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithHRefAndNullMetaIncludeNullAndIgnoreNullMetaOverride",
-                                TestJsonSerializerSettingsIncludeNullAndIgnoreNullMetaOverride,
+                                "WithHRefAndMeta",
+                                TestJsonSerializerSettings,
                                 new DomLink(
                                     new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
-@"""https://api.example.com/articles"""))
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                        new DomProperty("is-public", new DomValue<bool>(true)),
+                                        new DomProperty("version", new DomValue<string>("2.0"))))),
+@"{
+  ""href"": ""https://api.example.com/articles"",
+  ""meta"":  {
+    ""is-public"": true,
+    ""version"": ""2.0""
+  }
+}"))
                     },
 
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
-@"""https://api.example.com/articles"""))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefIgnoreNullAndIncludeNullMetaOverride",
-                                TestJsonSerializerSettingsIgnoreNullAndIncludeNullMetaOverride,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
-@"""https://api.example.com/articles"""))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
-@"""https://api.example.com/articles"""))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLink>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLink>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithHRefIncludeNullAndIgnoreNullMetaOverride",
-                                TestJsonSerializerSettingsIncludeNullAndIgnoreNullMetaOverride,
-                                new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
-@"""https://api.example.com/articles"""))
-                    },
         };
         #endregion
     }

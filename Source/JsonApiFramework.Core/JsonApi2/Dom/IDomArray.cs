@@ -1,6 +1,7 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 
 namespace JsonApiFramework.JsonApi2.Dom
@@ -10,16 +11,19 @@ namespace JsonApiFramework.JsonApi2.Dom
     /// </summary>
     public interface IDomArray : IDomNode
     {
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region Properties
+        /// <summary>Gets the count of this DOM array.</summary>
+        int Count { get; }
+        #endregion
+
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        /// <summary>Gets the count of this DOM array.</summary>
-        int Count();
-
         /// <summary>Gets an indexed DOM node contained by this DOM array.</summary>
-        IDomNode DomItem(int index);
+        //IDomNode DomItem(int index);
 
         /// <summary>Gets the DOM node collection contained by this DOM array.</summary>
-        IEnumerable<IDomNode> DomItems();
+        IEnumerable<IDomItem> DomItems();
         #endregion
     }
 }

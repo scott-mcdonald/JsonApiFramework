@@ -9,10 +9,7 @@ using JsonApiFramework.Json;
 
 namespace JsonApiFramework.JsonApi2
 {
-    /// <summary>
-    /// Represents an immutable json:api link object.
-    /// </summary>
-    /// <see cref="http://jsonapi.org"/>
+    /// <summary>Represents an immutable json:api link object.</summary>
     public class Link : JsonObject
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

@@ -3,9 +3,7 @@
 
 namespace JsonApiFramework.JsonApi2
 {
-    /// <summary>
-    /// json:api reserved keywords.
-    /// </summary>
+    /// <summary>json:api reserved keywords.</summary>
     public static class Keywords
     {
         #region String Constants

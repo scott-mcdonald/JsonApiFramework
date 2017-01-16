@@ -64,7 +64,8 @@ namespace JsonApiFramework.Tests.JsonApi2
             // Use the FluentAssertion ShouldBeEquivalentTo method to compare
             // the expected and actual object graphs.
             this.ActualDomTree.ShouldBeEquivalentTo(this.ExpectedDomTree,
-                config => config.IncludingAllRuntimeProperties()
+                config => config.AllowingInfiniteRecursion()
+                                .IncludingAllRuntimeProperties()
                                 .IgnoringCyclicReferences());
 
             if (this.ActualDomTree == null)

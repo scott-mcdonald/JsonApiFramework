@@ -307,6 +307,13 @@ namespace JsonApiFramework.Tree
         /// <returns>True if this node has children nodes, false otherwise.</returns>
         public bool HasNodes()
         { return this.FirstNode != null; }
+
+        /// <summary>
+        /// Returns if this node has a parent node.
+        /// </summary>
+        /// <returns>True if this node has a parent node, false otherwise.</returns>
+        public bool HasParent()
+        { return this.ParentNode != null; }
         #endregion
 
         #region Add/Remove/Replace Node Methods

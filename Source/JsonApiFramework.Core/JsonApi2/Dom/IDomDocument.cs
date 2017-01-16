@@ -32,6 +32,33 @@ namespace JsonApiFramework.JsonApi2.Dom
         #region Properties
         /// <summary>Gets the document type of this DOM document.</summary>
         ApiDocumentType ApiDocumentType { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the json:api
+        /// version object of this json:api document.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. version is optional.
+        /// </remarks>
+        IDomProperty DomJsonApiVersion { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the json:api
+        /// meta object of this json:api document.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. meta is optional.
+        /// </remarks>
+        IDomProperty DomMeta { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the json:api
+        /// links object of this json:api document.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. links is optional.
+        /// </remarks>
+        IDomProperty DomLinks { get; }
         #endregion
     }
 }

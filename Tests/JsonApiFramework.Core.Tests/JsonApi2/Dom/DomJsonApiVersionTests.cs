@@ -50,22 +50,18 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
         #region Test Data
         private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettings = new DomJsonSerializerSettings
             {
-                MetaNullValueHandling = null
+                NullValueHandlingOverrides = null
             };
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented
             };
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNull = new JsonSerializerSettings
             {
                 ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
             };
@@ -73,8 +69,6 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIncludeNull = new JsonSerializerSettings
             {
                 ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                DateParseHandling = DateParseHandling.DateTimeOffset,
-                FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Include
             };
@@ -87,8 +81,11 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomJsonApiVersion>(x),
                             x => new DomJsonDeserializeUnitTest<IDomJsonApiVersion>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithVersionIgnoreNull",
+                                "WithVersionAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
+                                new DomJsonApiVersion(
+                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
+                                    new DomProperty(ApiPropertyType.Meta, "meta")),
                                 new DomJsonApiVersion(
                                     new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0"))),
 @"{
@@ -102,7 +99,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomJsonApiVersion>(x),
                             x => new DomJsonDeserializeUnitTest<IDomJsonApiVersion>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithVersionIncludeNull",
+                                "WithVersionAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomJsonApiVersion(
                                     new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),

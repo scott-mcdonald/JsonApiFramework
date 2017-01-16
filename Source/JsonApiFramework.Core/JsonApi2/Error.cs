@@ -10,10 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi2
 {
-    /// <summary>
-    /// Represents a json:api compliant error object.
-    /// </summary>
-    /// <see cref="http://jsonapi.org"/>
+    /// <summary>Represents a json:api compliant error object.</summary>
     public class Error : JsonObject
         //, IGetLinks
         //, IGetMeta

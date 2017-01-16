@@ -9,12 +9,12 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi2.Dom.Internal
 {
-    /// <summary>JSON.Net converter for IDomLinks or DomLinks nodes.</summary>
-    internal class DomLinksConverter : DomNodeConverter
+    /// <summary>JSON.Net converter for IDomDocument or DomDocument nodes.</summary>
+    internal class DomDocumentConverter : DomNodeConverter
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomLinksConverter(DomJsonSerializerSettings domJsonSerializerSettings)
+        public DomDocumentConverter(DomJsonSerializerSettings domJsonSerializerSettings)
             : base(domJsonSerializerSettings)
         { }
         #endregion
@@ -25,7 +25,7 @@ namespace JsonApiFramework.JsonApi2.Dom.Internal
         {
             Contract.Requires(objectType != null);
 
-            var canConvert = objectType == typeof(IDomLinks) || objectType == typeof(DomLinks);
+            var canConvert = objectType == typeof(IDomDocument) || objectType == typeof(DomDocument);
             return canConvert;
         }
 
@@ -46,8 +46,8 @@ namespace JsonApiFramework.JsonApi2.Dom.Internal
                 case JsonToken.StartObject:
                     {
                         var jObject = JObject.Load(jsonReader);
-                        var domLinks = CreateDomLinks(jObject);
-                        return domLinks;
+                        var domJsonApiVersion = CreateDomDocument(jObject);
+                        return domJsonApiVersion;
                     }
 
                 default:

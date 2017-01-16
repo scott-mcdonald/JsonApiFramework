@@ -20,7 +20,7 @@ namespace JsonApiFramework.JsonApi2.Dom.Internal
         { }
 
         public DomLink(IEnumerable<DomProperty> domProperties)
-            : base("link", domProperties)
+            : base("object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {

@@ -48,9 +48,14 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
+        private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettings = new DomJsonSerializerSettings
+            {
+                NullValueHandlingOverrides = null
+            };
+
         private static readonly JsonSerializerSettings TestJsonSerializerSettings = new JsonSerializerSettings
             {
-                ContractResolver = new DomContractResolver(),
+                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented
@@ -58,7 +63,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNull = new JsonSerializerSettings
             {
-                ContractResolver = new DomContractResolver(),
+                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
@@ -67,7 +72,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIncludeNull = new JsonSerializerSettings
             {
-                ContractResolver = new DomContractResolver(),
+                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 FloatParseHandling = FloatParseHandling.Decimal,
                 Formatting = Formatting.Indented,
@@ -109,7 +114,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithEmptyPointObjectIgnoreNull",
+                                "WithEmptyPointObjectAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomObject(),
 @"{}"))
@@ -121,7 +126,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithEmptyPointObjectIncludeNull",
+                                "WithEmptyPointObjectAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomObject(
                                     new DomProperty("x-coordinate"),
@@ -138,7 +143,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithPartialPointObjectIgnoreNull",
+                                "WithPartialPointObjectAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomObject(
                                     new DomProperty("x-coordinate", new DomValue<long>(24))),
@@ -153,7 +158,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithPartialPointObjectIncludeNull",
+                                "WithPartialPointObjectAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomObject(
                                     new DomProperty("x-coordinate", new DomValue<long>(24)),
@@ -187,7 +192,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithEmptyCircleObjectIgnoreNull",
+                                "WithEmptyCircleObjectAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomObject(),
 @"{}"))
@@ -199,7 +204,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithEmptyCircleObjectIncludeNull",
+                                "WithEmptyCircleObjectAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomObject(
                                     new DomProperty("enabled"),
@@ -222,7 +227,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithPartialCircleObjectIgnoreNull",
+                                "WithPartialCircleObjectAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomObject(
                                     new DomProperty("enabled", new DomValue<bool>(true)),
@@ -246,7 +251,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                             x => new DomJsonSerializeUnitTest<IDomObject>(x),
                             x => new DomJsonDeserializeUnitTest<IDomObject>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithPartialCircleObjectIncludeNull",
+                                "WithPartialCircleObjectAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomObject(
                                     new DomProperty("enabled", new DomValue<bool>(true)),

@@ -3,12 +3,11 @@
 
 namespace JsonApiFramework.JsonApi2.Dom
 {
-    /// <summary>
-    /// An enumeration that represents the type of DOM node in a DOM tree.
-    /// </summary>
+    /// <summary>An enumeration that represents the type of DOM node in a DOM tree.</summary>
     public enum DomNodeType
     {
         Array,
+        Item,
         Object,
         Property,
         Value

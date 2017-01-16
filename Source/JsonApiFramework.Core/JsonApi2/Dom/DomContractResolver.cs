@@ -61,6 +61,22 @@ namespace JsonApiFramework.JsonApi2.Dom
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Initialize Methods
+        private static void InitializeDomArrayContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomArrayConverter(domJsonSerializerSettings);
+        }
+
+        private static void InitializeDomDocumentContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomDocumentConverter(domJsonSerializerSettings);
+        }
+
         private static void InitializeDomJsonApiVersionContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
         {
             Contract.Requires(jsonContract != null);
@@ -106,18 +122,25 @@ namespace JsonApiFramework.JsonApi2.Dom
         #region Fields
         private static readonly DomJsonSerializerSettings DefaultDomJsonSerializerSettings =
             new DomJsonSerializerSettings
-            {
-                MetaNullValueHandling = NullValueHandling.Ignore
-            };
+                {
+                    NullValueHandlingOverrides = new Dictionary<ApiPropertyType, NullValueHandling>
+                        {
+                            {ApiPropertyType.Meta, NullValueHandling.Ignore}
+                        }
+                };
 
         private static readonly IReadOnlyDictionary<Type, Action<JsonContract, DomJsonSerializerSettings>> TypeToJsonContractInitializerDictionary = new Dictionary<Type, Action<JsonContract, DomJsonSerializerSettings>>
             {
+                { typeof(IDomArray), InitializeDomArrayContract },
+                { typeof(IDomDocument), InitializeDomDocumentContract },
                 { typeof(IDomJsonApiVersion), InitializeDomJsonApiVersionContract },
                 { typeof(IDomLink), InitializeDomLinkContract },
                 { typeof(IDomLinks), InitializeDomLinksContract },
                 { typeof(IDomObject), InitializeDomObjectContract },
                 { typeof(IDomValue), InitializeDomValueContract },
 
+                { typeof(DomArray), InitializeDomArrayContract },
+                { typeof(DomDocument), InitializeDomDocumentContract },
                 { typeof(DomJsonApiVersion), InitializeDomJsonApiVersionContract },
                 { typeof(DomLink), InitializeDomLinkContract },
                 { typeof(DomLinks), InitializeDomLinksContract },

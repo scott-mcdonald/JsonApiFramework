@@ -53,9 +53,14 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
+        private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettings = new DomJsonSerializerSettings
+            {
+                NullValueHandlingOverrides = null
+            };
+
         private static readonly JsonSerializerSettings TestJsonSerializerSettings = new JsonSerializerSettings
             {
-                ContractResolver = new DomContractResolver(),
+                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                 DateParseHandling = DateParseHandling.DateTimeOffset,
                 FloatParseHandling = FloatParseHandling.Decimal
             };
@@ -176,7 +181,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                                 "WithDateTime",
                                 new JsonSerializerSettings
                                     {
-                                        ContractResolver = new DomContractResolver(),
+                                        ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                                         DateParseHandling = DateParseHandling.DateTime
                                     },
                                 new DomValue<DateTime>(TestDateTime),
@@ -245,7 +250,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                                 "WithEnumString",
                                 new JsonSerializerSettings
                                     {
-                                        ContractResolver = new DomContractResolver(),
+                                        ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                                         Converters = new List<JsonConverter>
                                                 {
                                                     new StringEnumConverter()
@@ -408,7 +413,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                                 "WithNullableDateTimeAndValue",
                                 new JsonSerializerSettings
                                     {
-                                        ContractResolver = new DomContractResolver(),
+                                        ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                                         DateParseHandling = DateParseHandling.DateTime
                                     },
                                 new DomValue<DateTime?>(TestDateTime),
@@ -425,7 +430,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                                 "WithNullableDateTimeAndNull",
                                 new JsonSerializerSettings
                                     {
-                                        ContractResolver = new DomContractResolver(),
+                                        ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                                         DateParseHandling = DateParseHandling.DateTime
                                     },
                                 null,
@@ -533,7 +538,7 @@ namespace JsonApiFramework.Tests.JsonApi2.Dom
                                 "WithNullableEnumStringAndValue",
                                 new JsonSerializerSettings
                                     {
-                                        ContractResolver = new DomContractResolver(),
+                                        ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
                                         Converters = new List<JsonConverter>
                                             {
                                                 new StringEnumConverter()

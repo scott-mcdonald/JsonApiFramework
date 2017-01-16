@@ -17,6 +17,13 @@ namespace JsonApiFramework.JsonApi2.Dom
             return domNode.Type == DomNodeType.Array;
         }
 
+        public static bool IsItem(this IDomNode domNode)
+        {
+            Contract.Requires(domNode != null);
+
+            return domNode.Type == DomNodeType.Item;
+        }
+
         public static bool IsObject(this IDomNode domNode)
         {
             Contract.Requires(domNode != null);

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
@@ -12,7 +12,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static NullValueHandling ResolveNullValueHandling(this DomJsonSerializerSettings domJsonSerializerSettings, JsonSerializer jsonSerializer, ApiPropertyType apiPropertyType)
+        public static NullValueHandling ResolveNullValueHandling(this DomJsonSerializerSettings domJsonSerializerSettings, JsonSerializer jsonSerializer, PropertyType apiPropertyType)
         {
             Contract.Requires(domJsonSerializerSettings != null);
             Contract.Requires(jsonSerializer != null);
@@ -20,7 +20,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             // Handle special cases for certain type of DOM nodes.
             switch (apiPropertyType)
             {
-                case ApiPropertyType.Data:
+                case PropertyType.Data:
                     {
                         // Always include null resource or resource identifier DOM nodes.
                         return NullValueHandling.Include;

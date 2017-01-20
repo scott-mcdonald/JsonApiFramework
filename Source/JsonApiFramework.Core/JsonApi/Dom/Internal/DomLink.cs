@@ -27,11 +27,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case ApiPropertyType.Meta:
+                    case PropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
-                    case ApiPropertyType.HRef:
+                    case PropertyType.HRef:
                         this.DomHRef = domProperty;
                         break;
 
@@ -43,7 +43,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IDomResource Implementation
+        #region IDomLink Implementation
         public IDomProperty DomMeta { get; }
 
         public IDomProperty DomHRef { get; }
@@ -87,7 +87,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             if (this.DomMeta.HasValue())
                 return true;
 
-            var domMetaNullValueHandling = domJsonSerializerSettings.ResolveNullValueHandling(jsonSerializer, ApiPropertyType.Meta);
+            var domMetaNullValueHandling = domJsonSerializerSettings.ResolveNullValueHandling(jsonSerializer, PropertyType.Meta);
             switch (domMetaNullValueHandling)
             {
                 case NullValueHandling.Include:

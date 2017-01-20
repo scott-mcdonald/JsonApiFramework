@@ -63,12 +63,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClockTests.cs" />
+    <Compile Include="Collections\OrderedReadOnlyDictionaryTests.cs" />
     <Compile Include="DeepCloneableTests.cs" />
     <Compile Include="Expressions\ExpressionBuilderTests.cs" />
     <Compile Include="Extensions\UriTests.cs" />
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="JsonApi\Dom\DomResourceIdentifierTests.cs" />
+    <Compile Include="JsonApi\Dom\DomRelationshipTests.cs" />
     <Compile Include="JsonApi\Dom\DomDocumentTests.cs" />
     <Compile Include="JsonApi\Dom\DomJsonSerializerSettingsTests.cs" />
     <Compile Include="JsonApi\Dom\DomJsonApiVersionTests.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="JsonApi\Dom\DomArrayTests.cs" />
     <Compile Include="JsonApi\Dom\DomObjectTests.cs" />
     <Compile Include="JsonApi\Dom\DomValueTests.cs" />
+    <Compile Include="JsonApi\RelationshipsTests.cs" />
     <Compile Include="JsonApi\LinksTests.cs" />
     <Compile Include="JsonApi\ResourceIdentifierTests.cs" />
     <Compile Include="JsonApi\LinkTests.cs" />
@@ -92,10 +96,6 @@
     <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
       <Project>{cecdcc33-48eb-4c68-853a-784433bc46f6}</Project>
       <Name>JsonApiFramework.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestData\JsonApiFramework.Core.Tests.TestData.csproj">
-      <Project>{e89de5a5-d9c8-4bfa-beb0-b3a4597878c8}</Project>
-      <Name>JsonApiFramework.Core.Tests.TestData</Name>
     </ProjectReference>
     <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestSupport\JsonApiFramework.Core.Tests.TestSupport.csproj">
       <Project>{f692bfa5-fec0-44a8-ae15-a34a0c0d4120}</Project>

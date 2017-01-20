@@ -49,6 +49,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         }
         #endregion
 
+        // PUBLIC FIELDS ////////////////////////////////////////////////////
+        #region Constants
+        public static readonly DomObject Empty = new DomObject();
+        #endregion
+
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
         protected DomObject(string name)

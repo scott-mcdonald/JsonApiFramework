@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi.Dom.Internal
 {
-    /// <summary>JSON.Net converter for a DomValue node.</summary>
+    /// <summary>JSON.Net converter for DomValue{TValue} nodes.</summary>
     internal class DomValueConverter : DomNodeConverter
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

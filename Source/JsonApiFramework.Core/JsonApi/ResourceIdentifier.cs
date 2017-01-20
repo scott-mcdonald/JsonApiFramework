@@ -4,30 +4,32 @@
 using System;
 using System.Diagnostics.Contracts;
 
-using JsonApiFramework.Json;
-using JsonApiFramework.JsonApi.Internal;
-
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Represents an immutable json:api compliant resource identifier.</summary>
-    public class ResourceIdentifier : JsonObject
-        , IEquatable<ResourceIdentifier>
+    /// <summary>
+    /// Represents an immutable json:api compliant resource identifier.
+    /// </summary>
+    /// <remarks>
+    /// Resource identity per specification is the "type" and "id" string values paired together
+    /// like a compound primary key to uniquely identify a single resource for the ecosystem of resources for a particular system.
+    /// </remarks>
+    public class ResourceIdentifier : IEquatable<ResourceIdentifier>
         , IComparable<ResourceIdentifier>
         , IComparable
-        , IGetResourceIdentity
+        , IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ResourceIdentifier()
-            : this(null, null)
-        { }
-
-        public ResourceIdentifier(string type)
-            : this(type, null)
-        { }
-
         public ResourceIdentifier(string type, string id)
+            : this(null, type, id)
+        { }
+
+        public ResourceIdentifier(Meta meta, string type, string id)
         {
+            Contract.Requires(String.IsNullOrWhiteSpace(type) == false);
+            Contract.Requires(String.IsNullOrWhiteSpace(id) == false);
+
+            this.Meta = meta;
             this.Type = type;
             this.Id = id;
         }
@@ -35,17 +37,30 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        public string Type { get; set; }
-        public string Id { get; set; }
+        public Meta Meta { get; }
+        public string Type { get; }
+        public string Id { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Object Overrides
         public override bool Equals(object obj)
-        { return GetResourceIdentityExtensions.Equals(this, obj); }
+        {
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            var objAsResourceIdentifier = obj as ResourceIdentifier;
+            if (objAsResourceIdentifier == null)
+                return false;
+
+            var objType = objAsResourceIdentifier.Type;
+            var objId = objAsResourceIdentifier.Id;
+
+            return this.Type == objType && this.Id == objId;
+        }
 
         public override int GetHashCode()
-        { return GetResourceIdentityExtensions.GetHashCode(this); }
+        { return this.Type.GetHashCode() ^ this.Id.GetHashCode(); }
 
         public override string ToString()
         {
@@ -57,17 +72,36 @@ namespace JsonApiFramework.JsonApi
 
         #region IEquatable<T> Implementation
         public bool Equals(ResourceIdentifier other)
-        { return GetResourceIdentityExtensions.Equals(this, other); }
+        {
+            if (ReferenceEquals(this, other))
+                return true;
+
+            if (other == null)
+                return false;
+
+            return this.Type == other.Type && this.Id == other.Id;
+        }
         #endregion
 
         #region IComparable<T> Implementation
         public int CompareTo(ResourceIdentifier other)
-        { return GetResourceIdentityExtensions.CompareTo(this, other); }
+        {
+            if (ReferenceEquals(this, other))
+                return 0;
+
+            if (other == null)
+                return 1;
+
+            var typeCompare = String.Compare(this.Type, other.Type, StringComparison.Ordinal);
+            return typeCompare != 0
+                ? typeCompare
+                : String.Compare(this.Id, other.Id, StringComparison.Ordinal);
+        }
         #endregion
 
         #region IComparable Implementation
         public int CompareTo(object obj)
-        { return GetResourceIdentityExtensions.CompareTo(this, obj); }
+        { return this.CompareTo((ResourceIdentifier)obj); }
         #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////
@@ -80,7 +114,7 @@ namespace JsonApiFramework.JsonApi
             if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
                 return false;
 
-            return (a.Type == b.Type && a.Id == b.Id);
+            return a.Type == b.Type && a.Id == b.Id;
         }
 
         public static bool operator !=(ResourceIdentifier a, ResourceIdentifier b)
@@ -125,11 +159,6 @@ namespace JsonApiFramework.JsonApi
 
             return left.CompareTo(right) >= 0;
         }
-        #endregion
-
-        // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Fields
-        public static readonly ResourceIdentifier Empty = new ResourceIdentifier();
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////

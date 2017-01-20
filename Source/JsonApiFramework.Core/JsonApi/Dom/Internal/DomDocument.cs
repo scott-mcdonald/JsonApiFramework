@@ -14,11 +14,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomDocument(ApiDocumentType apiDocumentType, params DomProperty[] domProperties)
+        public DomDocument(DocumentType apiDocumentType, params DomProperty[] domProperties)
             : this(apiDocumentType, domProperties.AsEnumerable())
         { }
 
-        public DomDocument(ApiDocumentType apiDocumentType, IEnumerable<DomProperty> domProperties)
+        public DomDocument(DocumentType apiDocumentType, IEnumerable<DomProperty> domProperties)
             : base("document", domProperties)
         {
             this.ApiDocumentType = apiDocumentType;
@@ -28,15 +28,15 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case ApiPropertyType.JsonApi:
+                    case PropertyType.JsonApi:
                         this.DomJsonApiVersion = domProperty;
                         break;
 
-                    case ApiPropertyType.Meta:
+                    case PropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
-                    case ApiPropertyType.Links:
+                    case PropertyType.Links:
                         this.DomLinks = domProperty;
                         break;
 
@@ -45,14 +45,13 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 }
             }
         }
-
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomDocument Implementation
-        public ApiDocumentType ApiDocumentType
+        public DocumentType ApiDocumentType
         {
-            get { return this.GetAttributeValue<ApiDocumentType>(ApiDocumentTypeAttributeName); }
+            get { return this.GetAttributeValue<DocumentType>(ApiDocumentTypeAttributeName); }
             private set { this.SetAttributeValue(ApiDocumentTypeAttributeName, value); }
         }
 

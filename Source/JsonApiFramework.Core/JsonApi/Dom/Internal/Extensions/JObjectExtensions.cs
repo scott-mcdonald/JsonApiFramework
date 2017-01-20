@@ -1,29 +1,29 @@
-﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Newtonsoft.Json.Linq;
 
-namespace JsonApiFramework.JsonApi.Dom
+namespace JsonApiFramework.JsonApi.Dom.Internal
 {
     /// <summary>Extension methods for JSON.NET the JObject class.</summary>
-    public static class JObjectExtensions
+    internal static class JObjectExtensions
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        /// <summary>Gets the json:api data type that a JSON.NET object represents.</summary>
-        public static ApiDataType GetApiDataType(this JObject jObject)
+        /// <summary>Gets the json:api data type that the JSON.NET object represents.</summary>
+        public static DataType GetApiDataType(this JObject jObject)
         {
-            // Handle special case when JObject is null.
-            if (jObject == null)
-            {
-                return ApiDataType.Unknown;
-            }
+            Contract.Requires(jObject != null);
 
             // Determine if JObject represents one of the following:
-            // 1. Resource, or
-            // 2. ResourceIdentifier
+            // 1. None,
+            // 2. Resource, or
+            // 3. ResourceIdentifier
+            //
             // Assume if the JObject only has 2 child properties named with
             // the json:api "type" and "id" keywords then if must be a ResourceIdentifier.
             var propertiesCount = jObject.Properties().Count();
@@ -31,50 +31,52 @@ namespace JsonApiFramework.JsonApi.Dom
             {
                 case 0:
                     {
-                        // Invalid JSON
-                        var jObjectJson = jObject.ToString();
-                        var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
-                        throw new JsonApiException(title, detail);
+                        // JObject contains no properties, is not a resource or resource identifier.
+                        return DataType.None;
                     }
 
                 case 1:
                     {
+                        // JObject contains 1 property.
+                        //
+                        // If it is "type" then it must be a Resource for POST purposes (Server generates the identifier)
+                        // else is not a resource or resource identifier.
                         var property = jObject.Properties()
                                               .First();
-                        if (property.Name == Keywords.Type)
-                            return ApiDataType.Resource;
-
-                        // Invalid JSON
-                        var jObjectJson = jObject.ToString();
-                        var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
-                        throw new JsonApiException(title, detail);
+                        var propertyNameIsType = property.Name == Keywords.Type;
+                        return propertyNameIsType ? DataType.Resource : DataType.None;
                     }
 
                 case 2:
                     {
+                        // JObject contains 2 properties.
+                        //
+                        // If they are "type" and "id" it must be a ResourceIdentifier
+                        // else if one of the two properties is "type" then it must be a Resource for POST purposes (Server generates the identifier)
+                        // else is not a resource or resource identifier.
                         var propertyNames = jObject.Properties()
                                                    .OrderByDescending(x => x.Name)
                                                    .Select(x => x.Name)
                                                    .ToArray();
                         var propertyNamesContainOnlyTypeAndId = propertyNames[0] == Keywords.Type && propertyNames[1] == Keywords.Id;
                         if (propertyNamesContainOnlyTypeAndId)
-                            return ApiDataType.ResourceIdentifier;
+                            return DataType.ResourceIdentifier;
 
                         var propertyNamesContainType = propertyNames[0] == Keywords.Type || propertyNames[1] == Keywords.Type;
-                        if (propertyNamesContainType)
-                            return ApiDataType.Resource;
-
-                        // Invalid JSON
-                        var jObjectJson = jObject.ToString();
-                        var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
-                        throw new JsonApiException(title, detail);
+                        return propertyNamesContainType ? DataType.Resource : DataType.None;
                     }
 
                 case 3:
                     {
+                        // JObject contains 3 properties.
+                        //
+                        // If they are "type", "id", and "meta" it could be either a resource identifier or resource per the JSON API specification.
+                        // Because there is no "attributes", "relationships", or "links" properties the most likely intention is the JSON object is a resource
+                        // identifier although this is not 100% but my best guess.
+                        //
+                        // else if one of the three properties is "type" then it must be a Resource for POST purposes (Server generates the identifier)
+                        //
+                        // else is not a resource or resource identifier.
                         var propertyNames = jObject.Properties()
                                                    .OrderByDescending(x => x.Name)
                                                    .Select(x => x.Name)
@@ -82,47 +84,30 @@ namespace JsonApiFramework.JsonApi.Dom
                         var propertyNamesContainOnlyTypeAndMetaAndId = propertyNames[0] == Keywords.Type && propertyNames[1] == Keywords.Meta && propertyNames[2] == Keywords.Id;
                         if (propertyNamesContainOnlyTypeAndMetaAndId)
                         {
-                            // Note: A JSON object with "type", "id", and "meta" could be either a resource identifier or resource per the JSON API specification.
-                            // Because there is no "attributes", "relationships", or "links" properties the most likely intention is the JSON object is a resource
-                            // identifier although this is not 100% but my best guess.
-                            return ApiDataType.ResourceIdentifier;
+                            return DataType.ResourceIdentifier;
                         }
 
                         var propertyNamesContainType = propertyNames[0] == Keywords.Type || propertyNames[1] == Keywords.Type || propertyNames[2] == Keywords.Type;
-                        if (propertyNamesContainType)
-                            return ApiDataType.Resource;
-
-                        // Invalid JSON
-                        var jObjectJson = jObject.ToString();
-                        var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
-                        throw new JsonApiException(title, detail);
+                        return propertyNamesContainType ? DataType.Resource : DataType.None;
                     }
 
                 default:
                     {
-                        var typeProperty = jObject.Properties()
-                                                  .SingleOrDefault(x => x.Name == Keywords.Type);
-                        if (typeProperty != null)
-                            return ApiDataType.Resource;
-
-                        // Invalid JSON
-                        var jObjectJson = jObject.ToString();
-                        var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
-                        throw new JsonApiException(title, detail);
+                        // JObject contains 4+ properties.
+                        //
+                        // If one of the properties is "type" then it must be a Resource
+                        // else is not a resource or resource identifier.
+                        var propertyNamesContainType = jObject.Properties()
+                                                              .Any(x => x.Name == Keywords.Type);
+                        return propertyNamesContainType ? DataType.Resource : DataType.None;
                     }
             }
         }
 
-        /// <summary>Gets the json:api document type that a JSON.NET object represents.</summary>
-        public static ApiDocumentType GetApiDocumentType(this JObject jObject)
+        /// <summary>Gets the json:api document type that the JSON.NET object represents.</summary>
+        public static DocumentType GetApiDocumentType(this JObject jObject)
         {
-            // Handle special case when JObject is null.
-            if (jObject == null)
-            {
-                return ApiDocumentType.Document;
-            }
+            Contract.Requires(jObject != null);
 
             // Analyze "data" and "errors" nodes to determine the concrete
             // document type.
@@ -154,7 +139,7 @@ namespace JsonApiFramework.JsonApi.Dom
                 switch (dataJTokenType)
                 {
                     case JTokenType.Null:
-                        return ApiDocumentType.NullDocument;
+                        return DocumentType.NullDocument;
 
                     case JTokenType.Object:
                         {
@@ -162,11 +147,11 @@ namespace JsonApiFramework.JsonApi.Dom
                             var dataJObjectDataType = dataJObject.GetApiDataType();
                             switch (dataJObjectDataType)
                             {
-                                case ApiDataType.Resource:
-                                    return ApiDocumentType.ResourceDocument;
+                                case DataType.Resource:
+                                    return DocumentType.ResourceDocument;
 
-                                case ApiDataType.ResourceIdentifier:
-                                    return ApiDocumentType.ResourceIdentifierDocument;
+                                case DataType.ResourceIdentifier:
+                                    return DocumentType.ResourceIdentifierDocument;
 
                                 default:
                                     var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail
@@ -181,17 +166,17 @@ namespace JsonApiFramework.JsonApi.Dom
                             var dataJArrayFirstJObject = (JObject)dataJArray.FirstOrDefault();
                             if (dataJArrayFirstJObject == null)
                             {
-                                return ApiDocumentType.EmptyDocument;
+                                return DocumentType.EmptyDocument;
                             }
 
                             var dataJArrayFirstJObjectDataType = dataJArrayFirstJObject.GetApiDataType();
                             switch (dataJArrayFirstJObjectDataType)
                             {
-                                case ApiDataType.Resource:
-                                    return ApiDocumentType.ResourceCollectionDocument;
+                                case DataType.Resource:
+                                    return DocumentType.ResourceCollectionDocument;
 
-                                case ApiDataType.ResourceIdentifier:
-                                    return ApiDocumentType.ResourceIdentifierCollectionDocument;
+                                case DataType.ResourceIdentifier:
+                                    return DocumentType.ResourceIdentifierCollectionDocument;
 
                                 default:
                                     var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail
@@ -217,7 +202,7 @@ namespace JsonApiFramework.JsonApi.Dom
                 switch (errorsJTokenType)
                 {
                     case JTokenType.Array:
-                        return ApiDocumentType.ErrorsDocument;
+                        return DocumentType.ErrorsDocument;
 
                     default:
                         {
@@ -228,7 +213,38 @@ namespace JsonApiFramework.JsonApi.Dom
                 }
             }
 
-            return ApiDocumentType.Document;
+            return DocumentType.Document;
+        }
+
+        /// <summary>Gets the json:api relationship type that the JSON.NET object represents.</summary>
+        public static RelationshipType GetApiRelationshipType(this JObject jObject)
+        {
+            Contract.Requires(jObject != null);
+
+            // Analyze "data" nodes to determine the relationship type.
+            //
+            // 1. If "data" is not present, then "Relationship".
+            // 2. If "data" is present, then
+            //    2.1 If "data" is null, then "ToOneRelationship".
+            //    2.2 If "data" is an object, then "ToOneRelationship".
+            //    2.3 If "data" is an array, then "ToManyRelationship".
+            var dataJToken = jObject.SelectToken(Keywords.Data);
+            if (dataJToken == null)
+                return RelationshipType.Relationship;
+
+            var dataJTokenType = dataJToken.Type;
+            switch (dataJTokenType)
+            {
+                case JTokenType.Null:
+                case JTokenType.Object:
+                    return RelationshipType.ToOneRelationship;
+
+                case JTokenType.Array:
+                    return RelationshipType.ToManyRelationship;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
         #endregion
     }

@@ -1,10 +1,12 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 
 using FluentAssertions;
 
+using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.XUnit;
 
@@ -25,18 +27,18 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Fact]
-        public void TestLinksTryGetLinkWithLinkThatExists()
+        public void TestLinksTryGetLinkAndLinkExists()
         {
             // Arrange
             var links = new Links(
                 new Dictionary<string, Link>
                 {
-                    {Keywords.Up, JsonApiSampleData.ArticleCollectionLink},
-                    {Keywords.Self, JsonApiSampleData.ArticleLink}
+                    {Keywords.Up, ArticleCollectionLink},
+                    {Keywords.Self, ArticleLink}
                 });
 
             // Act
-            var expected = JsonApiSampleData.ArticleLink;
+            var expected = ArticleLink;
             Link actual;
             var actualLinkFound = links.TryGetLink(Keywords.Self, out actual);
 
@@ -46,14 +48,14 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Fact]
-        public void TestLinksTryGetLinkWithLinkThatDoesNotExists()
+        public void TestLinksTryGetLinkAndLinkNotExists()
         {
             // Arrange
             var links = new Links(
                 new Dictionary<string, Link>
                     {
-                        {Keywords.Up, JsonApiSampleData.ArticleCollectionLink},
-                        {Keywords.Self, JsonApiSampleData.ArticleLink}
+                        {Keywords.Up, ArticleCollectionLink},
+                        {Keywords.Self, ArticleLink}
                     });
 
             // Act
@@ -64,6 +66,17 @@ namespace JsonApiFramework.Tests.JsonApi
             actualLinkFound.Should().BeFalse();
             actual.Should().BeNull();
         }
+        #endregion
+
+        // PRIVATE FIELDS ///////////////////////////////////////////////////
+        #region Test Data
+        public static readonly IUrlBuilderConfiguration UrlBuilderConfiguration = new UrlBuilderConfiguration(Uri.UriSchemeHttps, "api.example.com");
+
+        public static readonly string ArticleCollectionHRef = UrlBuilder.Create(UrlBuilderConfiguration).Path("articles").Build();
+        public static readonly Link ArticleCollectionLink = new Link(ArticleCollectionHRef);
+
+        public static readonly string ArticleHRef = UrlBuilder.Create(UrlBuilderConfiguration).Path("articles").Path("42").Build();
+        public static readonly Link ArticleLink = new Link(ArticleHRef);
         #endregion
     }
 }

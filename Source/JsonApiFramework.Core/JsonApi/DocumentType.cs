@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-namespace JsonApiFramework.JsonApi.Dom
+namespace JsonApiFramework.JsonApi
 {
     /// <summary>
     /// Represents the document type for a json:api compliant document.
@@ -71,7 +71,7 @@ namespace JsonApiFramework.JsonApi.Dom
     /// </item>
     /// </list>>
     /// </remarks>
-    public enum ApiDocumentType
+    public enum DocumentType
     {
         Document,
         EmptyDocument,

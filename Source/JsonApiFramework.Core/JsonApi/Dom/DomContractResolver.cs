@@ -109,6 +109,38 @@ namespace JsonApiFramework.JsonApi.Dom
             jsonContract.Converter = new DomObjectConverter(domJsonSerializerSettings);
         }
 
+        private static void InitializeDomRelationshipContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomRelationshipConverter(domJsonSerializerSettings);
+        }
+
+        private static void InitializeDomRelationshipsContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomRelationshipsConverter(domJsonSerializerSettings);
+        }
+
+        private static void InitializeDomResourceContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomResourceConverter(domJsonSerializerSettings);
+        }
+
+        private static void InitializeDomResourceIdentifierContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomResourceIdentifierConverter(domJsonSerializerSettings);
+        }
+
         private static void InitializeDomValueContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
         {
             Contract.Requires(jsonContract != null);
@@ -123,9 +155,9 @@ namespace JsonApiFramework.JsonApi.Dom
         private static readonly DomJsonSerializerSettings DefaultDomJsonSerializerSettings =
             new DomJsonSerializerSettings
                 {
-                    NullValueHandlingOverrides = new Dictionary<ApiPropertyType, NullValueHandling>
+                    NullValueHandlingOverrides = new Dictionary<PropertyType, NullValueHandling>
                         {
-                            {ApiPropertyType.Meta, NullValueHandling.Ignore}
+                            {PropertyType.Meta, NullValueHandling.Ignore}
                         }
                 };
 
@@ -137,6 +169,10 @@ namespace JsonApiFramework.JsonApi.Dom
                 { typeof(IDomLink), InitializeDomLinkContract },
                 { typeof(IDomLinks), InitializeDomLinksContract },
                 { typeof(IDomObject), InitializeDomObjectContract },
+                { typeof(IDomRelationship), InitializeDomRelationshipContract },
+                { typeof(IDomRelationships), InitializeDomRelationshipsContract },
+                { typeof(IDomResource), InitializeDomResourceContract },
+                { typeof(IDomResourceIdentifier), InitializeDomResourceIdentifierContract },
                 { typeof(IDomValue), InitializeDomValueContract },
 
                 { typeof(DomArray), InitializeDomArrayContract },
@@ -145,6 +181,10 @@ namespace JsonApiFramework.JsonApi.Dom
                 { typeof(DomLink), InitializeDomLinkContract },
                 { typeof(DomLinks), InitializeDomLinksContract },
                 { typeof(DomObject), InitializeDomObjectContract },
+                { typeof(DomRelationship), InitializeDomRelationshipContract },
+                { typeof(DomRelationships), InitializeDomRelationshipsContract },
+                { typeof(DomResource), InitializeDomResourceContract },
+                { typeof(DomResourceIdentifier), InitializeDomResourceIdentifierContract },
             };
         #endregion
     }

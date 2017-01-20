@@ -1,10 +1,10 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-namespace JsonApiFramework.JsonApi.Dom
+namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// An enumeration that represents the json:api data type of a DOM "data" property in a DOM tree.
+    /// Represents the data type for a json:api compliant data property (object or array).
     /// </summary>
     /// <remarks>
     /// The enumeration values represent the following:
@@ -15,31 +15,31 @@ namespace JsonApiFramework.JsonApi.Dom
     /// </listheader>
     /// 
     /// <item>
-    ///     <term>Unknown</term>
+    ///     <term>None</term>
     ///     <description>
-    ///     The data property value is neither a resource or a resource identifier.
+    ///     The data property value is neither a resource nor a resource identifier.
     ///     </description>
     /// </item>
     /// 
     /// <item>
     ///     <term>Resource</term>
     ///     <description>
-    ///     The data property value is a resource.
+    ///     The data property value of the object or array is a resource.
     ///     </description>
     /// </item>
     /// 
     /// <item>
     ///     <term>ResourceIdentifier</term>
     ///     <description>
-    ///     The data property value is a resource identifier.
+    ///     The data property value of the object or array is a resource identifier.
     ///     </description>
     /// </item>
     /// 
     /// </list>>
     /// </remarks>
-    public enum ApiDataType
+    public enum DataType
     {
-        Unknown,
+        None,
         Resource,
         ResourceIdentifier
     };

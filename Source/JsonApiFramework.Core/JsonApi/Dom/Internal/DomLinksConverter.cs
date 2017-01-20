@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi.Dom.Internal
 {
-    /// <summary>JSON.Net converter for IDomLinks or DomLinks nodes.</summary>
+    /// <summary>JSON.Net converter for DomLinks nodes.</summary>
     internal class DomLinksConverter : DomNodeConverter
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

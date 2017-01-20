@@ -5,7 +5,7 @@ using System;
 
 using JsonApiFramework.XUnit;
 
-namespace JsonApiFramework.Tests.JsonApi
+namespace JsonApiFramework.Tests.JsonApi.Dom
 {
     public class DomJsonSerializationUnitTestFactory
     {

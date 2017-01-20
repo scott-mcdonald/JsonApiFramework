@@ -24,11 +24,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case ApiPropertyType.Meta:
+                    case PropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
-                    case ApiPropertyType.Version:
+                    case PropertyType.Version:
                         this.DomVersion = domProperty;
                         break;
 
@@ -40,7 +40,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IDomResource Implementation
+        #region IDomJsonApiVersion Implementation
         public IDomProperty DomMeta { get; }
 
         public IDomProperty DomVersion { get; }

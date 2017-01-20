@@ -5,7 +5,7 @@ using JsonApiFramework.JsonApi.Dom;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.Tests.JsonApi
+namespace JsonApiFramework.Tests.JsonApi.Dom
 {
     public class DomJsonSerializationUnitTestData
     {

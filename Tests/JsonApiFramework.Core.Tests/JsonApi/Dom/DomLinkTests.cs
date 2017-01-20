@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.JsonApi;
 using JsonApiFramework.JsonApi.Dom;
 using JsonApiFramework.JsonApi.Dom.Internal;
 using JsonApiFramework.XUnit;
@@ -84,10 +85,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithHRefAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
 @"""https://api.example.com/articles"""))
                     },
 
@@ -100,8 +101,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithHRefAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
   ""href"": ""https://api.example.com/articles"",
   ""meta"": null
@@ -117,8 +118,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithHRefAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<string>("2.0"))))),
 @"{

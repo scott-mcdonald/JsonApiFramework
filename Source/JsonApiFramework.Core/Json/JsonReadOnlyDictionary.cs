@@ -4,7 +4,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+
+using JsonApiFramework.Collections;
 
 using Newtonsoft.Json;
 
@@ -26,85 +27,42 @@ namespace JsonApiFramework.Json
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public JsonReadOnlyDictionary()
-        {
-            this.ReadOnlyDictionary = new Dictionary<string, int>();
-            this.ReadOnlyList = new List<KeyValuePair<string, TValue>>();
-        }
+            : this(null, null)
+        { }
 
         public JsonReadOnlyDictionary(IEnumerable<KeyValuePair<string, TValue>> source)
-            // ReSharper disable IntroduceOptionalParameters.Global
-            : this(source, null)
-            // ReSharper restore IntroduceOptionalParameters.Global
+            : this(source, StringComparer.OrdinalIgnoreCase)
         { }
 
         public JsonReadOnlyDictionary(IEnumerable<KeyValuePair<string, TValue>> source, IEqualityComparer<string> comparer)
         {
-            if (source == null)
-            {
-                this.ReadOnlyDictionary = new Dictionary<string, int>();
-                this.ReadOnlyList = new List<KeyValuePair<string, TValue>>();
-            }
-
-            this.ReadOnlyList = new List<KeyValuePair<string, TValue>>(source);
-
-            var count = this.ReadOnlyList.Count;
-            var dictionary = new Dictionary<string, int>(count, comparer ?? StringComparer.OrdinalIgnoreCase);
-            for (var index = 0; index < count; ++index)
-            {
-                var keyValuePair = this.ReadOnlyList[index];
-                var key = keyValuePair.Key;
-                dictionary.Add(key, index);
-            }
-
-            this.ReadOnlyDictionary = dictionary;
+            this.OrderedReadOnlyDictionary = new OrderedReadOnlyDictionary<string, TValue>(source, comparer);
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IReadOnlyCollection<KeyValuePair<string, Value>> Implementation
-        public int Count => this.ReadOnlyDictionary.Count;
+        public int Count => this.OrderedReadOnlyDictionary.Count;
         #endregion
 
         #region IReadOnlyDictionary<string, TValue> Implementation
-        public IEnumerable<string> Keys
-        { get { return this.ReadOnlyList.Select(x => x.Key); } }
-
-        public IEnumerable<TValue> Values
-        { get { return this.ReadOnlyList.Select(x => x.Value); } }
-
-        public TValue this[string key]
-        {
-            get
-            {
-                var index = this.ReadOnlyDictionary[key];
-                var value = this.ReadOnlyList[index].Value;
-                return value;
-            }
-        }
+        public IEnumerable<string> Keys => this.OrderedReadOnlyDictionary.Keys;
+        public IEnumerable<TValue> Values => this.OrderedReadOnlyDictionary.Values;
+        public TValue this[string key] => this.OrderedReadOnlyDictionary[key];
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IReadOnlyDictionary<string, TValue> Implementation
         public bool ContainsKey(string key)
-        { return this.ReadOnlyDictionary.ContainsKey(key); }
+        { return this.OrderedReadOnlyDictionary.ContainsKey(key); }
 
         public bool TryGetValue(string key, out TValue value)
-        {
-            int index;
-            if (!this.ReadOnlyDictionary.TryGetValue(key, out index))
-            {
-                value = default(TValue);
-                return false;
-            }
-
-            value = this.ReadOnlyList[index].Value;
-            return true;
-        }
+        { return this.OrderedReadOnlyDictionary.TryGetValue(key, out value); }
         #endregion
 
         #region IEnumerable<KeyValuePair<string, TValue>> Implementation
         public IEnumerator<KeyValuePair<string, TValue>> GetEnumerator()
-        { return this.ReadOnlyList.GetEnumerator(); }
+        { return this.OrderedReadOnlyDictionary.GetEnumerator(); }
         #endregion
 
         #region IEnumerable Implementation
@@ -113,9 +71,8 @@ namespace JsonApiFramework.Json
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Fields
-        private IReadOnlyDictionary<string, int> ReadOnlyDictionary { get; }
-        private IReadOnlyList<KeyValuePair<string, TValue>> ReadOnlyList { get; }
+        #region Properties
+        private OrderedReadOnlyDictionary<string, TValue> OrderedReadOnlyDictionary { get; }
         #endregion
     }
 }

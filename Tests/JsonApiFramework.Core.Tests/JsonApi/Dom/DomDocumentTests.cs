@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.JsonApi;
 using JsonApiFramework.JsonApi.Dom;
 using JsonApiFramework.JsonApi.Dom.Internal;
 using JsonApiFramework.XUnit;
@@ -81,11 +82,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithEmptyObjectAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
-                                new DomDocument(ApiDocumentType.Document),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document),
                             @"{}"))
                     },
 
@@ -97,10 +98,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithEmptyObjectAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
 @"{
   ""jsonapi"": null,
   ""meta"": null,
@@ -116,17 +117,17 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0"))))),
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0"))))),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -142,13 +143,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0"",
@@ -167,24 +168,24 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndMetaAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
@@ -215,19 +216,19 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndMetaAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Links, "links")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0"",
@@ -254,45 +255,45 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndMetaAndLinksAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(ApiPropertyType.Links, "links", new DomLinks(
-                                        new DomProperty(ApiPropertyType.Link, "up",
+                                    new DomProperty(PropertyType.Links, "links", new DomLinks(
+                                        new DomProperty(PropertyType.Link, "up",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                                new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                        new DomProperty(ApiPropertyType.Link, "self",
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                                new DomProperty(PropertyType.Meta, "meta"))),
+                                        new DomProperty(PropertyType.Link, "self",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                                new DomProperty(ApiPropertyType.Meta, "meta")))))),
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
+                                                new DomProperty(PropertyType.Meta, "meta")))))),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(ApiPropertyType.Links, "links", new DomLinks(
-                                        new DomProperty(ApiPropertyType.Link, "up",
+                                    new DomProperty(PropertyType.Links, "links", new DomLinks(
+                                        new DomProperty(PropertyType.Link, "up",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")))),
-                                        new DomProperty(ApiPropertyType.Link, "self",
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")))),
+                                        new DomProperty(PropertyType.Link, "self",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))))),
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))))),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -321,27 +322,27 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithJsonApiAndMetaAndLinksAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright", new DomValue<string>("Copyright 2015 Example Corporation.")),
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(ApiPropertyType.Links, "links", new DomLinks(
-                                        new DomProperty(ApiPropertyType.Link, "up",
+                                    new DomProperty(PropertyType.Links, "links", new DomLinks(
+                                        new DomProperty(PropertyType.Link, "up",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                                new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                        new DomProperty(ApiPropertyType.Link, "self",
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                                new DomProperty(PropertyType.Meta, "meta"))),
+                                        new DomProperty(PropertyType.Link, "self",
                                             new DomLink(
-                                                new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                                new DomProperty(ApiPropertyType.Meta, "meta")))))),
+                                                new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
+                                                new DomProperty(PropertyType.Meta, "meta")))))),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0"",

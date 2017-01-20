@@ -30,8 +30,8 @@ namespace JsonApiFramework.JsonApi.Dom
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        /// <summary>Gets the document type of this DOM document.</summary>
-        ApiDocumentType ApiDocumentType { get; }
+        /// <summary>Gets the json:api document type of this DOM document.</summary>
+        DocumentType ApiDocumentType { get; }
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api

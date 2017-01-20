@@ -279,6 +279,60 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to read or write the \&quot;data\&quot; member, not a relationship that contains a \&quot;data\&quot; member as an array of resource identifiers..
+        /// </summary>
+        internal static string RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail {
+            get {
+                return ResourceManager.GetString("RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to read or write the \&quot;data\&quot; member, not a relationship that contains a \&quot;data\&quot; member as a single resource identifier..
+        /// </summary>
+        internal static string RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail {
+            get {
+                return ResourceManager.GetString("RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not a ToManyRelationship.
+        /// </summary>
+        internal static string RelationshipNotToManyRelatioshipTitle {
+            get {
+                return ResourceManager.GetString("RelationshipNotToManyRelatioshipTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not a ToOneRelationship.
+        /// </summary>
+        internal static string RelationshipNotToOneRelatioshipTitle {
+            get {
+                return ResourceManager.GetString("RelationshipNotToOneRelatioshipTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find relationship for the rel={0}..
+        /// </summary>
+        internal static string RelationshipsRelationshipNotFoundDetail {
+            get {
+                return ResourceManager.GetString("RelationshipsRelationshipNotFoundDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship Not Found.
+        /// </summary>
+        internal static string RelationshipsRelationshipNotFoundTitle {
+            get {
+                return ResourceManager.GetString("RelationshipsRelationshipNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} node has already been added to a tree..
         /// </summary>
         internal static string TreeExceptionNodeAlreadyAddedMessage {

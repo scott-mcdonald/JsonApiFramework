@@ -5,37 +5,41 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-using JsonApiFramework.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api link object.</summary>
-    public class Link : JsonObject
+    public class Link : IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public Link(string hRef)
+            : this(null, hRef)
+        { }
+
+        public Link(Uri uri)
+            : this(null, uri.ToString())
+        { }
+
+        public Link(Meta meta, Uri uri)
+            : this(meta, uri.ToString())
+        { }
+
+        public Link(Meta meta, string hRef)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(hRef));
 
-            this.HRef = hRef.ToLowerInvariant();
-        }
-
-        public Link(Uri uri)
-        {
-            Contract.Requires(uri != null);
-
-            var hRef = uri.ToString();
+            this.Meta = meta;
             this.HRef = hRef.ToLowerInvariant();
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
+        public Meta Meta { get; }
         public string HRef { get; }
         #endregion
 
-        #region Non-JSON Properties
+        #region Calculated Properties
         public IEnumerable<string> PathSegments => this.Uri.GetPathSegments();
 
         public Uri Uri => new Uri(this.HRef, UriKind.RelativeOrAbsolute);
@@ -62,6 +66,20 @@ namespace JsonApiFramework.JsonApi
         {
             return new Link(uri);
         }
+        #endregion
+
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Object Overrides
+        public override string ToString()
+        {
+            var hRef = this.HRef ?? String.Empty;
+            return $"{TypeName} [hRef={hRef}]";
+        }
+        #endregion
+
+        // PRIVATE FIELDS ///////////////////////////////////////////////////
+        #region Fields
+        private static readonly string TypeName = typeof(Link).Name;
         #endregion
     }
 }

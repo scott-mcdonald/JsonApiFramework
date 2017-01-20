@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace JsonApiFramework.JsonApi.Dom.Internal
@@ -12,37 +13,38 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public DomResource(params DomProperty[] domProperties)
-            : base("resource", domProperties.AsEnumerable())
-        {
-            if (domProperties == null)
-                return;
+            : this(domProperties.AsEnumerable())
+        { }
 
-            foreach (var domProperty in domProperties)
+        public DomResource(IEnumerable<DomProperty> domProperties)
+            : base("resource", domProperties)
+        {
+            foreach (var domProperty in this.DomProperties())
             {
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case ApiPropertyType.Meta:
+                    case PropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
-                    case ApiPropertyType.Type:
+                    case PropertyType.Type:
                         this.DomType = domProperty;
                         break;
 
-                    case ApiPropertyType.Id:
+                    case PropertyType.Id:
                         this.DomId = domProperty;
                         break;
 
-                    case ApiPropertyType.Attributes:
+                    case PropertyType.Attributes:
                         this.DomAttributes = domProperty;
                         break;
 
-                    case ApiPropertyType.Relationships:
+                    case PropertyType.Relationships:
                         this.DomRelationships = domProperty;
                         break;
 
-                    case ApiPropertyType.Links:
+                    case PropertyType.Links:
                         this.DomLinks = domProperty;
                         break;
 

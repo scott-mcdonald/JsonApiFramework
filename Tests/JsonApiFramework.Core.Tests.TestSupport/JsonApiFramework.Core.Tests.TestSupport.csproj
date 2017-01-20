@@ -49,10 +49,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonApi\DomJsonDeserializeUnitTest.cs" />
-    <Compile Include="JsonApi\DomJsonSerializationUnitTestData.cs" />
-    <Compile Include="JsonApi\DomJsonSerializationUnitTestFactory.cs" />
-    <Compile Include="JsonApi\DomJsonSerializeUnitTest.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonDeserializeUnitTest.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonSerializationUnitTestData.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonSerializationUnitTestFactory.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonSerializeUnitTest.cs" />
     <Compile Include="Json\JsonObjectDeserializeUnitTest.cs" />
     <Compile Include="Json\JsonObjectSerializationUnitTestData.cs" />
     <Compile Include="Json\JsonObjectSerializationUnitTestFactory.cs" />

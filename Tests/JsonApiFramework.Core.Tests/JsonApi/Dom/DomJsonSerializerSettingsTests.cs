@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.JsonApi;
 using JsonApiFramework.JsonApi.Dom;
 using JsonApiFramework.JsonApi.Dom.Internal;
 using JsonApiFramework.XUnit;
@@ -50,17 +51,17 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         #region Test Data
         private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettingsMetaIgnoreNullOverride = new DomJsonSerializerSettings
             {
-                NullValueHandlingOverrides = new Dictionary<ApiPropertyType, NullValueHandling>
+                NullValueHandlingOverrides = new Dictionary<PropertyType, NullValueHandling>
                     {
-                        {ApiPropertyType.Meta, NullValueHandling.Ignore}
+                        {PropertyType.Meta, NullValueHandling.Ignore}
                     }
             };
 
         private static readonly DomJsonSerializerSettings TestDomJsonSerializerSettingsMetaIncludeNullOverride = new DomJsonSerializerSettings
             {
-                NullValueHandlingOverrides = new Dictionary<ApiPropertyType, NullValueHandling>
+                NullValueHandlingOverrides = new Dictionary<PropertyType, NullValueHandling>
                     {
-                        {ApiPropertyType.Meta, NullValueHandling.Include}
+                        {PropertyType.Meta, NullValueHandling.Include}
                     }
             };
 
@@ -93,10 +94,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithJsonApiVersionAndIncludeNullAndMetaIgnoreNullOverride",
                                 TestJsonSerializerSettingsIncludeNullAndMetaIgnoreNullOverride,
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0"))),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0"))),
 @"{
   ""version"": ""1.0""
 }"))
@@ -111,8 +112,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithJsonApiVersionAndIgnoreNullAndMetaIncludeNullOverride",
                                 TestJsonSerializerSettingsIgnoreNullAndMetaIncludeNullOverride,
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
   ""version"": ""1.0"",
   ""meta"": null
@@ -128,10 +129,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithLinkAndIncludeNullAndMetaIgnoreNullOverride",
                                 TestJsonSerializerSettingsIncludeNullAndMetaIgnoreNullOverride,
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles"))),
 @"""https://api.example.com/articles"""))
                     },
 
@@ -144,8 +145,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithLinkAndIgnoreNullAndMetaIncludeNullOverride",
                                 TestJsonSerializerSettingsIgnoreNullAndMetaIncludeNullOverride,
                                 new DomLink(
-                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
   ""href"": ""https://api.example.com/articles"",
   ""meta"": null
@@ -160,18 +161,18 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndIncludeNullAndMetaIgnoreNullOverride",
                                 TestJsonSerializerSettingsIncludeNullAndMetaIgnoreNullOverride,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(PropertyType.Links, "links")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -188,19 +189,19 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndIgnoreNullAndMetaIncludeNullOverride",
                                 TestJsonSerializerSettingsIgnoreNullAndMetaIncludeNullOverride,
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta"),
-                                    new DomProperty(ApiPropertyType.Links, "links")),
-                                new DomDocument(ApiDocumentType.Document,
-                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(DocumentType.Document,
+                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
                                         new DomJsonApiVersion(
-                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                            new DomProperty(ApiPropertyType.Meta, "meta"))),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                            new DomProperty(PropertyType.Meta, "meta"))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0"",

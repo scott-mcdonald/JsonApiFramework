@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.JsonApi;
 using JsonApiFramework.JsonApi.Dom;
 using JsonApiFramework.JsonApi.Dom.Internal;
 using JsonApiFramework.XUnit;
@@ -84,10 +85,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithVersionAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0"))),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0"))),
 @"{
   ""version"": ""1.0""
 }"))
@@ -102,8 +103,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithVersionAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta")),
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
   ""version"": ""1.0"",
   ""meta"": null
@@ -119,8 +120,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithVersionAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomJsonApiVersion(
-                                    new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.1")),
-                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
+                                    new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.1")),
+                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("website", new DomValue<string>("http://jsonapi.org"))))),
 @"{
   ""version"": ""1.1"",

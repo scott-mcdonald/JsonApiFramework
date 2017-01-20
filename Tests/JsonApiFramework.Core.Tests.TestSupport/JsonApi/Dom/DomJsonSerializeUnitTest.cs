@@ -12,7 +12,7 @@ using JsonApiFramework.XUnit;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.Tests.JsonApi
+namespace JsonApiFramework.Tests.JsonApi.Dom
 {
     public class DomJsonSerializeUnitTest<T> : UnitTest
         where T : IDomNode

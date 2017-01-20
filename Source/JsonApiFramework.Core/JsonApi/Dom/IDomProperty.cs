@@ -11,10 +11,10 @@ namespace JsonApiFramework.JsonApi.Dom
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        /// <summary>Gets the json:api property type this DOM property represents.</summary>
-        ApiPropertyType ApiPropertyType { get; }
+        /// <summary>Gets the json:api property type of this DOM property.</summary>
+        PropertyType ApiPropertyType { get; }
 
-        /// <summary>Gets the json:api property name this DOM property represents.</summary>
+        /// <summary>Gets the json:api property name of this DOM property.</summary>
         string ApiPropertyName { get; }
         #endregion
 

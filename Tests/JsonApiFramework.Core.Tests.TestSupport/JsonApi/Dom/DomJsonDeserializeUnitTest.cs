@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
@@ -12,7 +12,7 @@ using JsonApiFramework.XUnit;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.Tests.JsonApi
+namespace JsonApiFramework.Tests.JsonApi.Dom
 {
     public class DomJsonDeserializeUnitTest<T> : UnitTest
         where T : IDomNode

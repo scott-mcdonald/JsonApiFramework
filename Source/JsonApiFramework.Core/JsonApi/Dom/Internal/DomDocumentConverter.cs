@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi.Dom.Internal
 {
-    /// <summary>JSON.Net converter for IDomDocument or DomDocument nodes.</summary>
+    /// <summary>JSON.Net converter for DomDocument nodes.</summary>
     internal class DomDocumentConverter : DomNodeConverter
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

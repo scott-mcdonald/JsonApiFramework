@@ -189,6 +189,24 @@
   <data name="LinksLinkNotFoundTitle" xml:space="preserve">
     <value>Link Not Found</value>
   </data>
+  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as an array of resource identifiers.</value>
+  </data>
+  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail" xml:space="preserve">
+    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as a single resource identifier.</value>
+  </data>
+  <data name="RelationshipNotToManyRelatioshipTitle" xml:space="preserve">
+    <value>Not a ToManyRelationship</value>
+  </data>
+  <data name="RelationshipNotToOneRelatioshipTitle" xml:space="preserve">
+    <value>Not a ToOneRelationship</value>
+  </data>
+  <data name="RelationshipsRelationshipNotFoundDetail" xml:space="preserve">
+    <value>Could not find relationship for the rel={0}.</value>
+  </data>
+  <data name="RelationshipsRelationshipNotFoundTitle" xml:space="preserve">
+    <value>Relationship Not Found</value>
+  </data>
   <data name="TreeExceptionNodeAlreadyAddedMessage" xml:space="preserve">
     <value>{0} node has already been added to a tree.</value>
   </data>

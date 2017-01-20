@@ -6,46 +6,46 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.Json;
-
-using Newtonsoft.Json;
+using JsonApiFramework.Collections;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api links object.</summary>
-    [JsonDictionary]
-    public class Links : JsonReadOnlyDictionary<Link>
+    public class Links
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public Links()
+            : this(null)
         { }
 
         public Links(IReadOnlyDictionary<string, Link> dictionary)
-            : base(dictionary)
-        { }
+        {
+            this.OrderedReadOnlyLinkDictionary = new OrderedReadOnlyDictionary<string, Link>(dictionary ?? new Dictionary<string, Link>(), StringComparer.OrdinalIgnoreCase);
+        }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Standard Links
-        public Link About { get { this.ValidateLinkExists(Keywords.About); return this[Keywords.About]; } }
-        public Link Canonical { get { this.ValidateLinkExists(Keywords.Canonical); return this[Keywords.Canonical]; } }
-        public Link First { get { this.ValidateLinkExists(Keywords.First); return this[Keywords.First]; } }
-        public Link Last { get { this.ValidateLinkExists(Keywords.Last); return this[Keywords.Last]; } }
-        public Link Next { get { this.ValidateLinkExists(Keywords.Next); return this[Keywords.Next]; } }
-        public Link Prev { get { this.ValidateLinkExists(Keywords.Prev); return this[Keywords.Prev]; } }
-        public Link Related { get { this.ValidateLinkExists(Keywords.Related); return this[Keywords.Related]; } }
-        public Link Self { get { this.ValidateLinkExists(Keywords.Self); return this[Keywords.Self]; } }
+        public Link About { get { Link link; return this.TryGetLink(Keywords.About, out link) ? link : null; } }
+        public Link Canonical { get { Link link; return this.TryGetLink(Keywords.Canonical, out link) ? link : null; } }
+        public Link First { get { Link link; return this.TryGetLink(Keywords.First, out link) ? link : null; } }
+        public Link Last { get { Link link; return this.TryGetLink(Keywords.Last, out link) ? link : null; } }
+        public Link Next { get { Link link; return this.TryGetLink(Keywords.Next, out link) ? link : null; } }
+        public Link Prev { get { Link link; return this.TryGetLink(Keywords.Prev, out link) ? link : null; } }
+        public Link Related { get { Link link; return this.TryGetLink(Keywords.Related, out link) ? link : null; } }
+        public Link Self { get { Link link; return this.TryGetLink(Keywords.Self, out link) ? link : null; } }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Object Overrides
         public override string ToString()
         {
-            if (!this.Any())
+            if (!this.OrderedReadOnlyLinkDictionary.Any())
                 return "{0} []".FormatWith(TypeName);
 
-            var content = this.Select(x => $"{x.Key}={x.Value.ToString()}")
+            var content = this.OrderedReadOnlyLinkDictionary
+                              .Select(x => $"{x.Key}={x.Value.ToString()}")
                               .Aggregate((current, next) => $"{current} {next}");
 
             return "{0} [{1}]".FormatWith(TypeName, content);
@@ -57,7 +57,7 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            return this.ContainsKey(rel);
+            return this.OrderedReadOnlyLinkDictionary.ContainsKey(rel);
         }
         #endregion
 
@@ -103,7 +103,7 @@ namespace JsonApiFramework.JsonApi
                 return false;
 
             Link link;
-            if (this.TryGetValue(rel, out link) == false)
+            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out link) == false)
             {
                 return false;
             }
@@ -115,7 +115,7 @@ namespace JsonApiFramework.JsonApi
         public bool TryGetLink(string rel, out Link link)
         {
             link = null;
-            return !String.IsNullOrWhiteSpace(rel) && this.TryGetValue(rel, out link);
+            return !String.IsNullOrWhiteSpace(rel) && this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out link);
         }
 
         public bool TryGetUri(string rel, out Uri uri)
@@ -126,7 +126,7 @@ namespace JsonApiFramework.JsonApi
                 return false;
 
             Link link;
-            if (this.TryGetValue(rel, out link) == false)
+            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out link) == false)
             {
                 return false;
             }
@@ -136,18 +136,14 @@ namespace JsonApiFramework.JsonApi
         }
         #endregion
 
-        // PRIVATE METHODS //////////////////////////////////////////////////
-        #region Validation Methods
-        private void ValidateLinkExists(string rel)
-        {
-            if (String.IsNullOrWhiteSpace(rel))
-                throw new LinkNotFoundException(rel);
+        // PUBLIC FIELDS ////////////////////////////////////////////////////
+        #region Fields
+        public static readonly Links Empty = new Links();
+        #endregion
 
-            if (this.ContainsKey(rel))
-                return;
-
-            throw new LinkNotFoundException(rel);
-        }
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private OrderedReadOnlyDictionary<string, Link> OrderedReadOnlyLinkDictionary { get; }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////

@@ -13,21 +13,21 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public DomProperty(string apiPropertyName)
-            : this(ApiPropertyType.None, apiPropertyName)
+            : this(PropertyType.None, apiPropertyName)
         { }
 
         public DomProperty(string apiPropertyName, DomNode domPropertyValue)
-            : this(ApiPropertyType.None, apiPropertyName, domPropertyValue)
+            : this(PropertyType.None, apiPropertyName, domPropertyValue)
         { }
 
-        public DomProperty(ApiPropertyType apiPropertyType, string apiPropertyName)
+        public DomProperty(PropertyType apiPropertyType, string apiPropertyName)
             : base(DomNodeType.Property, apiPropertyName)
         {
             this.ApiPropertyType = apiPropertyType;
             this.ApiPropertyName = apiPropertyName;
         }
 
-        public DomProperty(ApiPropertyType apiPropertyType, string apiPropertyName, DomNode domPropertyValue)
+        public DomProperty(PropertyType apiPropertyType, string apiPropertyName, DomNode domPropertyValue)
             : base(DomNodeType.Property, apiPropertyName, domPropertyValue)
         {
             this.ApiPropertyType = apiPropertyType;
@@ -37,18 +37,18 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomProperty Implementation
-        public ApiPropertyType ApiPropertyType
+        public PropertyType ApiPropertyType
         {
             get
             {
-                ApiPropertyType apiPropertyType;
+                PropertyType apiPropertyType;
                 return this.TryGetAttributeValue(ApiPropertyTypeAttributeName, out apiPropertyType)
                     ? apiPropertyType
-                    : ApiPropertyType.None;
+                    : PropertyType.None;
             }
             private set
             {
-                if (value == ApiPropertyType.None)
+                if (value == PropertyType.None)
                 {
                     this.RemoveAttributeValue(ApiPropertyTypeAttributeName);
                     return;

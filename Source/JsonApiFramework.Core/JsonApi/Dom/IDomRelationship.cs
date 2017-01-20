@@ -8,9 +8,9 @@ namespace JsonApiFramework.JsonApi.Dom
     /// </summary>
     /// <remarks>
     /// A json:api relationship must have at least one of the following members:
-    /// - Meta (meta object that contains non-standard meta-information about the relationship)
-    /// - Data (to-one or to-many resource linkage)
     /// - Links (a links object containing at least a 'self' or 'related' json:api relationship link
+    /// - Data (to-one or to-many resource linkage)
+    /// - Meta (meta object that contains non-standard meta-information about the relationship)
     /// </remarks>
     public interface IDomRelationship : IDomObject
     {
@@ -21,12 +21,12 @@ namespace JsonApiFramework.JsonApi.Dom
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api
-        /// meta object of this json:api relationship object.
+        /// link sobject of this json:api relationship object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, i.e. links is optional.
         /// </remarks>
-        IDomProperty DomMeta { get; }
+        IDomProperty DomLinks { get; }
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api
@@ -39,12 +39,12 @@ namespace JsonApiFramework.JsonApi.Dom
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api
-        /// link sobject of this json:api relationship object.
+        /// meta object of this json:api relationship object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. links is optional.
+        /// This DOM property node is optional, i.e. meta is optional.
         /// </remarks>
-        IDomProperty DomLinks { get; }
+        IDomProperty DomMeta { get; }
         #endregion
     }
 }

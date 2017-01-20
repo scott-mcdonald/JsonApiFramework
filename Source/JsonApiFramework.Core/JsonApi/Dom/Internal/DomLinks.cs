@@ -16,7 +16,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomLinks(IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("links object", domProperties)
         { }
         #endregion
     }

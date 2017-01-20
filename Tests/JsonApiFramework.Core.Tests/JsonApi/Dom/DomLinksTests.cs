@@ -94,7 +94,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithOneLinkAndHRefAndIgnoreNull",
+                                "WithOneLinkAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "self",
@@ -116,7 +116,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithOneLinkAndHRefAndIncludeNull",
+                                "WithOneLinkAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "self",
@@ -137,7 +137,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithOneLinkAndHRefAndMeta",
+                                "WithOneLinkAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "self",
@@ -164,7 +164,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithTwoLinksAndHRefAndIgnoreNull",
+                                "WithTwoLinksAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "up",
@@ -194,7 +194,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithTwoLinksAndHRefAndIncludeNull",
+                                "WithTwoLinksAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "up",
@@ -223,7 +223,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithTwoLinksAndHRefAndMeta",
+                                "WithTwoLinksAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "up",

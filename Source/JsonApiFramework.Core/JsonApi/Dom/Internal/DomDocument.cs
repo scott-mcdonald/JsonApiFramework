@@ -19,7 +19,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomDocument(DocumentType apiDocumentType, IEnumerable<DomProperty> domProperties)
-            : base("document", domProperties)
+            : base("document object", domProperties)
         {
             this.ApiDocumentType = apiDocumentType;
 

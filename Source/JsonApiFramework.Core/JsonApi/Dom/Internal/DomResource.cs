@@ -17,17 +17,13 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomResource(IEnumerable<DomProperty> domProperties)
-            : base("resource", domProperties)
+            : base("resource object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Meta:
-                        this.DomMeta = domProperty;
-                        break;
-
                     case PropertyType.Type:
                         this.DomType = domProperty;
                         break;
@@ -48,6 +44,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         this.DomLinks = domProperty;
                         break;
 
+                    case PropertyType.Meta:
+                        this.DomMeta = domProperty;
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -57,8 +57,6 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomResource Implementation
-        public IDomProperty DomMeta { get; }
-
         public IDomProperty DomType { get; }
 
         public IDomProperty DomId { get; }
@@ -68,6 +66,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         public IDomProperty DomRelationships { get; }
 
         public IDomProperty DomLinks { get; }
+
+        public IDomProperty DomMeta { get; }
         #endregion
     }
 }

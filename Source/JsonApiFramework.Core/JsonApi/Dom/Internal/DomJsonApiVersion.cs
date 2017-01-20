@@ -17,19 +17,19 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomJsonApiVersion(IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("jsonapi version object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Meta:
-                        this.DomMeta = domProperty;
-                        break;
-
                     case PropertyType.Version:
                         this.DomVersion = domProperty;
+                        break;
+
+                    case PropertyType.Meta:
+                        this.DomMeta = domProperty;
                         break;
 
                     default:
@@ -41,9 +41,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomJsonApiVersion Implementation
-        public IDomProperty DomMeta { get; }
-
         public IDomProperty DomVersion { get; }
+
+        public IDomProperty DomMeta { get; }
         #endregion
     }
 }

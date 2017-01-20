@@ -95,7 +95,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                                             break;
 
                                         case DataType.Resource:
-                                            throw new NotImplementedException();
+                                            domObject = (DomNode)CreateDomResource(jObject);
+                                            break;
 
                                         case DataType.ResourceIdentifier:
                                             domObject = (DomNode)CreateDomResourceIdentifier(jObject);
@@ -389,6 +390,30 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region JPropertyToDomDocumentPropertyConverters
+        private static readonly Func<JProperty, DomProperty> AttributesJPropertyToDomPropertyConverter = (jProperty) =>
+            {
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                    {
+                        var domProperty = new DomProperty(PropertyType.Attributes, Keywords.Attributes);
+                        return domProperty;
+                    }
+
+                    case JTokenType.Object:
+                    {
+                        var apiPropertyJObject = (JObject)apiPropertyJToken;
+                        var domPropertyValue = (DomNode)CreateDomObject(apiPropertyJObject);
+                        var domProperty = new DomProperty(PropertyType.Attributes, Keywords.Attributes, domPropertyValue);
+                        return domProperty;
+                    }
+                }
+
+                return null;
+            };
+
         private static readonly Func<JProperty, DomProperty> HRefJPropertyToDomPropertyConverter = (jProperty) =>
             {
                 var apiPropertyJToken = jProperty.Value;
@@ -530,6 +555,30 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
+        private static readonly Func<JProperty, DomProperty> RelationshipsJPropertyToDomPropertyConverter = (jProperty) =>
+        {
+            var apiPropertyJToken = jProperty.Value;
+            var apiPropertyJTokenType = apiPropertyJToken.Type;
+            switch (apiPropertyJTokenType)
+            {
+                case JTokenType.Null:
+                    {
+                        var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships);
+                        return domProperty;
+                    }
+
+                case JTokenType.Object:
+                    {
+                        var apiPropertyJObject = (JObject)apiPropertyJToken;
+                        var domPropertyValue = (DomNode)CreateDomRelationships(apiPropertyJObject);
+                        var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships, domPropertyValue);
+                        return domProperty;
+                    }
+            }
+
+            return null;
+        };
+
         private static readonly Func<JProperty, DomProperty> TypeJPropertyToDomPropertyConverter = (jProperty) =>
         {
             var apiPropertyJToken = jProperty.Value;
@@ -591,46 +640,46 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region JPropertyToDomJsonApiVersionPropertyConverterDictionary
         private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomJsonApiVersionPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
             {
-                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.Version, VersionJPropertyToDomPropertyConverter },
+                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
             };
         #endregion
 
         #region JPropertyToDomLinkPropertyConverterDictionary
         private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomLinkPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
             {
-                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.HRef, HRefJPropertyToDomPropertyConverter },
+                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
             };
         #endregion
 
         #region JPropertyToDomRelationshipPropertyConverterDictionary
         private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomRelationshipPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
             {
-                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
-                { Keywords.Data, RelationshipDataJPropertyToDomPropertyConverter },
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
+                { Keywords.Data, RelationshipDataJPropertyToDomPropertyConverter },
+                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
             };
         #endregion
 
         #region JPropertyToDomResourcePropertyConverterDictionary
         private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomResourcePropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
             {
-                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },
-                //{ Keywords.Attributes, AttributesJPropertyToDomPropertyConverter },
-                //{ Keywords.Relationships, RelationshipsJPropertyToDomPropertyConverter },
+                { Keywords.Attributes, AttributesJPropertyToDomPropertyConverter },
+                { Keywords.Relationships, RelationshipsJPropertyToDomPropertyConverter },
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
+                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
             };
         #endregion
 
         #region JPropertyToDomResourceIdentifierPropertyConverterDictionary
         private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomResourceIdentifierPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
             {
-                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },
+                { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
             };
         #endregion
 

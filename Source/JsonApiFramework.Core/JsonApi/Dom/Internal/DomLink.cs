@@ -20,19 +20,19 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomLink(IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("link object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Meta:
-                        this.DomMeta = domProperty;
-                        break;
-
                     case PropertyType.HRef:
                         this.DomHRef = domProperty;
+                        break;
+
+                    case PropertyType.Meta:
+                        this.DomMeta = domProperty;
                         break;
 
                     default:
@@ -44,9 +44,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomLink Implementation
-        public IDomProperty DomMeta { get; }
-
         public IDomProperty DomHRef { get; }
+
+        public IDomProperty DomMeta { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

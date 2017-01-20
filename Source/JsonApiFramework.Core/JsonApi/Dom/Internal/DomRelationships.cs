@@ -16,7 +16,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomRelationships(IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("relationships object", domProperties)
         { }
         #endregion
     }

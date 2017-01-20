@@ -13,24 +13,24 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public Relationship(Links links)
-            : this(null, links)
+            : this(links, null)
         { }
 
         public Relationship(Meta meta)
-            : this(meta, null)
+            : this(null, meta)
         { }
 
-        public Relationship(Meta meta, Links links)
+        public Relationship(Links links, Meta meta)
         {
-            this.Meta = meta;
             this.Links = links;
+            this.Meta = meta;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        public Meta Meta { get; }
         public Links Links { get; }
+        public Meta Meta { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

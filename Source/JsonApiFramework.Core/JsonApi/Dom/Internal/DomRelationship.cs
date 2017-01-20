@@ -19,7 +19,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomRelationship(RelationshipType apiRelationshipType, IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("relationship object", domProperties)
         {
             this.ApiRelationshipType = apiRelationshipType;
 
@@ -28,16 +28,16 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Meta:
-                        this.DomMeta = domProperty;
+                    case PropertyType.Links:
+                        this.DomLinks = domProperty;
                         break;
 
                     case PropertyType.Data:
                         this.DomData = domProperty;
                         break;
 
-                    case PropertyType.Links:
-                        this.DomLinks = domProperty;
+                    case PropertyType.Meta:
+                        this.DomMeta = domProperty;
                         break;
 
                     default:
@@ -55,11 +55,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             private set { this.SetAttributeValue(ApiRelationshipTypeAttributeName, value); }
         }
 
-        public IDomProperty DomMeta { get; }
+        public IDomProperty DomLinks { get; }
 
         public IDomProperty DomData { get; }
 
-        public IDomProperty DomLinks { get; }
+        public IDomProperty DomMeta { get; }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////

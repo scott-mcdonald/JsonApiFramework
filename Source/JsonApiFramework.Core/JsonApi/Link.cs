@@ -13,30 +13,30 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public Link(string hRef)
-            : this(null, hRef)
+            : this(hRef, null)
         { }
 
         public Link(Uri uri)
-            : this(null, uri.ToString())
+            : this(uri.ToString(), null)
         { }
 
-        public Link(Meta meta, Uri uri)
-            : this(meta, uri.ToString())
+        public Link(Uri uri, Meta meta)
+            : this(uri.ToString(), meta)
         { }
 
-        public Link(Meta meta, string hRef)
+        public Link(string hRef, Meta meta)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(hRef));
 
-            this.Meta = meta;
             this.HRef = hRef.ToLowerInvariant();
+            this.Meta = meta;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        public Meta Meta { get; }
         public string HRef { get; }
+        public Meta Meta { get; }
         #endregion
 
         #region Calculated Properties

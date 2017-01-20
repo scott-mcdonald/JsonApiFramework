@@ -70,6 +70,8 @@
     <Compile Include="Extensions\EnumerableTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="JsonApi\Dom\DomRelationshipsTests.cs" />
+    <Compile Include="JsonApi\Dom\DomResourceTests.cs" />
     <Compile Include="JsonApi\Dom\DomResourceIdentifierTests.cs" />
     <Compile Include="JsonApi\Dom\DomRelationshipTests.cs" />
     <Compile Include="JsonApi\Dom\DomDocumentTests.cs" />

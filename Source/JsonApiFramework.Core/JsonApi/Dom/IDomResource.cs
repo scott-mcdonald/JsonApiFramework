@@ -11,15 +11,6 @@ namespace JsonApiFramework.JsonApi.Dom
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>
-        /// Gets the read-only DOM property node that represents the json:api
-        /// meta object of this json:api resource object.
-        /// </summary>
-        /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
-        /// </remarks>
-        IDomProperty DomMeta { get; }
-
-        /// <summary>
         /// Gets the read-only DOM property node that represents the "type" of
         /// this json:api resource object.
         /// </summary>
@@ -67,6 +58,15 @@ namespace JsonApiFramework.JsonApi.Dom
         /// This DOM property node is optional, i.e. links is optional.
         /// </remarks>
         IDomProperty DomLinks { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the json:api
+        /// meta object of this json:api resource object.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. meta is optional.
+        /// </remarks>
+        IDomProperty DomMeta { get; }
         #endregion
     }
 }

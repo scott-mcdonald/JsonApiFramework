@@ -21,25 +21,25 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public ResourceIdentifier(string type, string id)
-            : this(null, type, id)
+            : this(type, id, null)
         { }
 
-        public ResourceIdentifier(Meta meta, string type, string id)
+        public ResourceIdentifier(string type, string id, Meta meta)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(type) == false);
             Contract.Requires(String.IsNullOrWhiteSpace(id) == false);
 
-            this.Meta = meta;
             this.Type = type;
             this.Id = id;
+            this.Meta = meta;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        public Meta Meta { get; }
         public string Type { get; }
         public string Id { get; }
+        public Meta Meta { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

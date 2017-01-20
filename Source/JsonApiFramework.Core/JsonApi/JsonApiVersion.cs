@@ -11,20 +11,20 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public JsonApiVersion(string version)
-            : this(null, version)
+            : this(version, null)
         { }
 
-        public JsonApiVersion(Meta meta, string version)
+        public JsonApiVersion(string version, Meta meta)
         {
-            this.Meta = meta;
             this.Version = version;
+            this.Meta = meta;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region JSON Properties
-        public Meta Meta { get; }
         public string Version { get; }
+        public Meta Meta { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

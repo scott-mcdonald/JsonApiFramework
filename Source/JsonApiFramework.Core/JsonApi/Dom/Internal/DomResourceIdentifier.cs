@@ -17,23 +17,23 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { }
 
         public DomResourceIdentifier(IEnumerable<DomProperty> domProperties)
-            : base("object", domProperties)
+            : base("resource identifier object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Meta:
-                        this.DomMeta = domProperty;
-                        break;
-
                     case PropertyType.Type:
                         this.DomType = domProperty;
                         break;
 
                     case PropertyType.Id:
                         this.DomId = domProperty;
+                        break;
+
+                    case PropertyType.Meta:
+                        this.DomMeta = domProperty;
                         break;
 
                     default:
@@ -45,11 +45,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomResourceIdentifier Implementation
-        public IDomProperty DomMeta { get; }
-
         public IDomProperty DomType { get; }
 
         public IDomProperty DomId { get; }
+
+        public IDomProperty DomMeta { get; }
         #endregion
     }
 }

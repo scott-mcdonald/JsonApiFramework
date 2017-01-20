@@ -18,16 +18,16 @@ namespace JsonApiFramework.JsonApi
             : this(null, data, null)
         { }
 
-        public ToOneRelationship(ResourceIdentifier data, Links links)
-            : this(null, data, links)
+        public ToOneRelationship(Links links, ResourceIdentifier data)
+            : this(links, data, null)
         { }
 
-        public ToOneRelationship(Meta meta, ResourceIdentifier data)
-            : this(meta, data, null)
+        public ToOneRelationship(ResourceIdentifier data, Meta meta)
+            : this(null, data, meta)
         { }
 
-        public ToOneRelationship(Meta meta, ResourceIdentifier data, Links links)
-            : base(meta, links)
+        public ToOneRelationship(Links links, ResourceIdentifier data, Meta meta)
+            : base(links, meta)
         {
             this.Data = data;
         }

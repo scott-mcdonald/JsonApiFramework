@@ -92,8 +92,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithRelationshipAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.Relationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Links, "links"),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.Relationship),
 @"{}"))
                     },
@@ -107,11 +107,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithRelationshipAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.Relationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Links, "links"),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
-  ""links"": null
+  ""links"": null,
+  ""meta"": null
 }"))
                     },
 
@@ -124,7 +124,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithRelationshipAndLinksAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.Relationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -132,7 +131,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.Relationship,
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
@@ -159,7 +159,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithRelationshipAndLinksAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.Relationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -167,13 +166,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
   ""links"": {
     ""self"": ""https://api.example.com/articles/42/relationships/author"",
     ""related"": ""https://api.example.com/articles/42/author""
-  }
+  },
+  ""meta"": null
 }"))
                     },
 
@@ -186,9 +186,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithRelationshipAndLinksAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomRelationship(RelationshipType.Relationship,
-                                    new DomProperty(PropertyType.Meta, "meta",
-                                        new DomObject(
-                                            new DomProperty("cascade-delete", new DomValue<bool>(true)))),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -196,14 +193,17 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Meta, "meta",
+                                        new DomObject(
+                                            new DomProperty("cascade-delete", new DomValue<bool>(true))))),
 @"{
-  ""meta"": {
-    ""cascade-delete"": true
-  },
   ""links"": {
     ""self"": ""https://api.example.com/articles/42/relationships/author"",
     ""related"": ""https://api.example.com/articles/42/author""
+  },
+  ""meta"": {
+    ""cascade-delete"": true
   }
 }"))
                     },
@@ -218,9 +218,9 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.ToOneRelationship,
                                     new DomProperty(PropertyType.Data, "data")),
 @"{
@@ -237,13 +237,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": null,
   ""data"": null,
-  ""links"": null
+  ""meta"": null
 }"))
                     },
 
@@ -256,12 +256,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndDataAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomResourceIdentifier(
                                             new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
                                             new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.ToOneRelationship,
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomResourceIdentifier(
@@ -284,19 +284,19 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndDataAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomResourceIdentifier(
                                             new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
                                             new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": null,
   ""data"": {
     ""type"": ""people"",
     ""id"": ""42""
   },
-  ""links"": null
+  ""meta"": null
 }"))
                     },
 
@@ -309,11 +309,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndDataAndLinksAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResourceIdentifier(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -321,12 +316,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Data, "data",
+                                        new DomResourceIdentifier(
+                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
+                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResourceIdentifier(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -334,15 +330,19 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Data, "data",
+                                        new DomResourceIdentifier(
+                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
+                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42"))))),
 @"{
-  ""data"": {
-    ""type"": ""people"",
-    ""id"": ""42""
-  },
   ""links"": {
     ""self"": ""https://api.example.com/articles/42/relationships/author"",
     ""related"": ""https://api.example.com/articles/42/author""
+  },
+  ""data"": {
+    ""type"": ""people"",
+    ""id"": ""42""
   }
 }"))
                     },
@@ -356,11 +356,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndDataAndLinksAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResourceIdentifier(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -368,17 +363,22 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Data, "data",
+                                        new DomResourceIdentifier(
+                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
+                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/author"",
+    ""related"": ""https://api.example.com/articles/42/author""
+  },
   ""data"": {
     ""type"": ""people"",
     ""id"": ""42""
   },
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/author"",
-    ""related"": ""https://api.example.com/articles/42/author""
-  }
+  ""meta"": null
 }"))
                     },
 
@@ -391,13 +391,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToOneRelationshipAndDataAndLinksAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta",
-                                        new DomObject(
-                                            new DomProperty("cascade-delete", new DomValue<bool>(true)))),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResourceIdentifier(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
                                     new DomProperty(PropertyType.Links, "links",
                                         new DomLinks(
                                             new DomProperty(PropertyType.Link, "self",
@@ -405,18 +398,25 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                     new DomValue<string>("https://api.example.com/articles/42/relationships/author")))),
                                             new DomProperty(PropertyType.Link, "related",
                                                 new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/author"))))))),
+                                                    new DomValue<string>("https://api.example.com/articles/42/author")))))),
+                                    new DomProperty(PropertyType.Data, "data",
+                                        new DomResourceIdentifier(
+                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
+                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")))),
+                                    new DomProperty(PropertyType.Meta, "meta",
+                                        new DomObject(
+                                            new DomProperty("cascade-delete", new DomValue<bool>(true))))),
 @"{
-  ""meta"": {
-    ""cascade-delete"": true
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/author"",
+    ""related"": ""https://api.example.com/articles/42/author""
   },
   ""data"": {
     ""type"": ""people"",
     ""id"": ""42""
   },
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/author"",
-    ""related"": ""https://api.example.com/articles/42/author""
+  ""meta"": {
+    ""cascade-delete"": true
   }
 }"))
                     },
@@ -430,10 +430,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithToManyRelationshipAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Data, "data", new DomArray()),
-                                    new DomProperty(PropertyType.Links, "links")),
                                 new DomRelationship(RelationshipType.ToManyRelationship,
                                     new DomProperty(PropertyType.Data, "data", new DomArray())),
 @"{
@@ -450,13 +446,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data", new DomArray()),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": null,
   ""data"": [],
-  ""links"": null
+  ""meta"": null
 }"))
                     },
 
@@ -469,7 +465,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndDataAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -480,7 +476,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
                                                     new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.ToManyRelationship,
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
@@ -515,7 +511,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndDataAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links"),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -526,9 +522,9 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
                                                     new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": null,
   ""data"": [
     {
       ""type"": ""comments"",
@@ -539,7 +535,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
       ""id"": ""86""
     }
   ],
-  ""links"": null
+  ""meta"": null
 }"))
                     },
 
@@ -552,7 +548,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndDataAndLinksAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links",
+                                        new DomLinks(
+                                            new DomProperty(PropertyType.Link, "self",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
+                                            new DomProperty(PropertyType.Link, "related",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/comments")))))),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -563,15 +566,16 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
                                                     new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links",
-                                        new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
-                                            new DomProperty(PropertyType.Link, "related",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/comments"))))))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
                                 new DomRelationship(RelationshipType.ToManyRelationship,
+                                    new DomProperty(PropertyType.Links, "links",
+                                        new DomLinks(
+                                            new DomProperty(PropertyType.Link, "self",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
+                                            new DomProperty(PropertyType.Link, "related",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/comments")))))),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -581,16 +585,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                             new DomItem(1,
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links",
-                                        new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
-                                            new DomProperty(PropertyType.Link, "related",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/comments"))))))),
+                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("86"))))))),
 @"{
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
+    ""related"": ""https://api.example.com/articles/42/comments""
+  },
   ""data"": [
     {
       ""type"": ""comments"",
@@ -600,11 +600,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
       ""type"": ""comments"",
       ""id"": ""86""
     }
-  ],
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
-    ""related"": ""https://api.example.com/articles/42/comments""
-  }
+  ]
 }"))
                     },
 
@@ -617,7 +613,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndDataAndLinksAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta"),
+                                    new DomProperty(PropertyType.Links, "links",
+                                        new DomLinks(
+                                            new DomProperty(PropertyType.Link, "self",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
+                                            new DomProperty(PropertyType.Link, "related",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/comments")))))),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -628,16 +631,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
                                                     new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links",
-                                        new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
-                                            new DomProperty(PropertyType.Link, "related",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/comments"))))))),
+                                    new DomProperty(PropertyType.Meta, "meta")),
 @"{
-  ""meta"": null,
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
+    ""related"": ""https://api.example.com/articles/42/comments""
+  },
   ""data"": [
     {
       ""type"": ""comments"",
@@ -648,10 +647,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
       ""id"": ""86""
     }
   ],
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
-    ""related"": ""https://api.example.com/articles/42/comments""
-  }
+  ""meta"": null
 }"))
                     },
 
@@ -664,9 +660,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithToManyRelationshipAndDataAndLinksAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                    new DomProperty(PropertyType.Meta, "meta",
-                                        new DomObject(
-                                            new DomProperty("cascade-delete", new DomValue<bool>(true)))),
+                                    new DomProperty(PropertyType.Links, "links",
+                                        new DomLinks(
+                                            new DomProperty(PropertyType.Link, "self",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
+                                            new DomProperty(PropertyType.Link, "related",
+                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
+                                                    new DomValue<string>("https://api.example.com/articles/42/comments")))))),
                                     new DomProperty(PropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
@@ -677,17 +678,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                                 new DomResourceIdentifier(
                                                     new DomProperty(PropertyType.Type, "type", new DomValue<string>("comments")),
                                                     new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")))))),
-                                    new DomProperty(PropertyType.Links, "links",
-                                        new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/relationships/comments")))),
-                                            new DomProperty(PropertyType.Link, "related",
-                                                new DomLink(new DomProperty(PropertyType.HRef, "href",
-                                                    new DomValue<string>("https://api.example.com/articles/42/comments"))))))),
+                                    new DomProperty(PropertyType.Meta, "meta",
+                                        new DomObject(
+                                            new DomProperty("cascade-delete", new DomValue<bool>(true))))),
 @"{
-  ""meta"": {
-    ""cascade-delete"": true
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
+    ""related"": ""https://api.example.com/articles/42/comments""
   },
   ""data"": [
     {
@@ -699,9 +696,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
       ""id"": ""86""
     }
   ],
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/comments"",
-    ""related"": ""https://api.example.com/articles/42/comments""
+  ""meta"": {
+    ""cascade-delete"": true
   }
 }"))
                     },

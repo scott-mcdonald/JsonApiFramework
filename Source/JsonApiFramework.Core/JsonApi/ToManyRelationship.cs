@@ -21,16 +21,16 @@ namespace JsonApiFramework.JsonApi
             : this(null, data, null)
         { }
 
-        public ToManyRelationship(IEnumerable<ResourceIdentifier> data, Links links)
-            : this(null, data, links)
+        public ToManyRelationship(Links links, IEnumerable<ResourceIdentifier> data)
+            : this(links, data, null)
         { }
 
-        public ToManyRelationship(Meta meta, IEnumerable<ResourceIdentifier> data)
-            : this(meta, data, null)
+        public ToManyRelationship(IEnumerable<ResourceIdentifier> data, Meta meta)
+            : this(null, data, meta)
         { }
 
-        public ToManyRelationship(Meta meta, IEnumerable<ResourceIdentifier> data, Links links)
-            : base(meta, links)
+        public ToManyRelationship(Links links, IEnumerable<ResourceIdentifier> data, Meta meta)
+            : base(links, meta)
         {
             this.Data = data;
         }

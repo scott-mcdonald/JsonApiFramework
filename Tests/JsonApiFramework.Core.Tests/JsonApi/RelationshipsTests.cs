@@ -82,7 +82,7 @@ namespace JsonApiFramework.Tests.JsonApi
 
         public static readonly ResourceIdentifier ArticleToAuthorResourceIdentifier = new ResourceIdentifier("people", "42");
 
-        public static readonly Relationship ArticleToAuthorRelationship = new ToOneRelationship(ArticleToAuthorResourceIdentifier, ArticleToAuthorLinks);
+        public static readonly Relationship ArticleToAuthorRelationship = new ToOneRelationship(ArticleToAuthorLinks, ArticleToAuthorResourceIdentifier);
 
 
         public const string ArticleToCommentsSelfHRef = "https://api.example.com/articles/42/relationships/comments";
@@ -108,7 +108,7 @@ namespace JsonApiFramework.Tests.JsonApi
 
                 };
 
-        public static readonly Relationship ArticleToCommentsRelationship = new ToManyRelationship(ArticleToCommentsResourceIdentifiers, ArticleToCommentsLinks);
+        public static readonly Relationship ArticleToCommentsRelationship = new ToManyRelationship(ArticleToCommentsLinks, ArticleToCommentsResourceIdentifiers);
         #endregion
     }
 }

@@ -8,6 +8,7 @@ using FluentAssertions;
 
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi.Dom;
+using JsonApiFramework.JsonApi.Dom.Internal;
 using JsonApiFramework.XUnit;
 
 using Newtonsoft.Json;
@@ -62,9 +63,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         {
             // Use the FluentAssertion ShouldBeEquivalentTo method to compare
             // the expected and actual object graphs.
-            this.ActualDomTree.ShouldBeEquivalentTo(this.ExpectedDomTree,
+
+            // Using the actual types DomNode instead of using the FluentAssertions
+            // "IncludingAllRuntimeProperties()" configuration with IDomNode is much faster.
+            var actualDomTree = this.ActualDomTree as DomNode;
+            var expectedDomTree = this.ExpectedDomTree as DomNode;
+
+            actualDomTree.ShouldBeEquivalentTo(expectedDomTree,
                 config => config.AllowingInfiniteRecursion()
-                                .IncludingAllRuntimeProperties()
                                 .IgnoringCyclicReferences());
 
             if (this.ActualDomTree == null)

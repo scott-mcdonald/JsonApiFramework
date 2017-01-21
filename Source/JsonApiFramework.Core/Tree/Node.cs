@@ -95,6 +95,24 @@ namespace JsonApiFramework.Tree
         }
 
         /// <summary>
+        /// Returns a collection starting with this node followed by the direct child nodes for this node, in document order.
+        /// </summary>
+        public IEnumerable<INode> NodesIncludeSelf()
+        {
+            yield return this;
+
+            if (this.HasNodes() == false)
+                yield break;
+
+            var node = this.FirstNode;
+            while (node != null)
+            {
+                yield return node;
+                node = node.NextNode;
+            }
+        }
+
+        /// <summary>
         /// Returns a collection of the descendant nodes for this node, in document order.
         /// </summary>
         public IEnumerable<INode> DescendantNodes()
@@ -126,7 +144,40 @@ namespace JsonApiFramework.Tree
         }
 
         /// <summary>
-        /// Create a string that represents the object tree.
+        /// Returns a collection starting with this node followed by the descendant nodes for this node, in document order.
+        /// </summary>
+        public IEnumerable<INode> DescendantNodesIncludeSelf()
+        {
+            yield return this;
+
+            if (this.HasNodes() == false)
+                yield break;
+
+            var node = this.FirstNode;
+            while (true)
+            {
+                yield return node;
+
+                if (node.FirstNode != null)
+                {
+                    node = node.FirstNode;         // walk down
+                }
+                else
+                {
+                    while (node.NextNode == null)
+                    {
+                        if (ReferenceEquals(node, this))
+                            yield break;
+
+                        node = node.ParentNode;     // walk up ...
+                    }
+                    node = node.NextNode;           // ... and right
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create a string representation of this 1-N object tree.
         /// </summary>
         public string ToTreeString()
         {

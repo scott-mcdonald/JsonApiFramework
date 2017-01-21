@@ -414,6 +414,51 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
+        private static readonly Func<JProperty, DomProperty> DocumentDataJPropertyToDomPropertyConverter = (jProperty) =>
+                {
+                    var apiPropertyJToken = jProperty.Value;
+                    var apiPropertyJTokenType = apiPropertyJToken.Type;
+                    switch (apiPropertyJTokenType)
+                    {
+                        case JTokenType.Null:
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        case JTokenType.Object:
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        case JTokenType.Array:
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+
+                    return null;
+                };
+
+        private static readonly Func<JProperty, DomProperty> ErrorsJPropertyToDomPropertyConverter = (jProperty) =>
+                {
+                    var apiPropertyJToken = jProperty.Value;
+                    var apiPropertyJTokenType = apiPropertyJToken.Type;
+                    switch (apiPropertyJTokenType)
+                    {
+                        case JTokenType.Null:
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        case JTokenType.Array:
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+
+                    return null;
+                };
+
         private static readonly Func<JProperty, DomProperty> HRefJPropertyToDomPropertyConverter = (jProperty) =>
             {
                 var apiPropertyJToken = jProperty.Value;
@@ -428,28 +473,48 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             };
 
         private static readonly Func<JProperty, DomProperty> IdJPropertyToDomPropertyConverter = (jProperty) =>
-        {
-            var apiPropertyJToken = jProperty.Value;
-            var apiPropertyJTokenType = apiPropertyJToken.Type;
-            switch (apiPropertyJTokenType)
             {
-                case JTokenType.Null:
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
                     {
                         var domProperty = new DomProperty(PropertyType.Id, Keywords.Id);
                         return domProperty;
                     }
 
-                case JTokenType.String:
+                    case JTokenType.String:
                     {
                         var apiPropertyJValue = (JValue)apiPropertyJToken;
                         var domPropertyValue = (DomNode)CreateDomValue(apiPropertyJValue);
                         var domProperty = new DomProperty(PropertyType.Id, Keywords.Id, domPropertyValue);
                         return domProperty;
                     }
-            }
+                }
 
-            return null;
-        };
+                return null;
+            };
+
+        private static readonly Func<JProperty, DomProperty> IncludedDataJPropertyToDomPropertyConverter = (jProperty) =>
+                {
+                    var apiPropertyJToken = jProperty.Value;
+                    var apiPropertyJTokenType = apiPropertyJToken.Type;
+                    switch (apiPropertyJTokenType)
+                    {
+                        case JTokenType.Null:
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        case JTokenType.Array:
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+
+                    return null;
+                };
 
         private static readonly Func<JProperty, DomProperty> JsonApiVersionJPropertyToDomPropertyConverter = (jProperty) =>
                 {
@@ -634,6 +699,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 { Keywords.JsonApi, JsonApiVersionJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
+                { Keywords.Data, DocumentDataJPropertyToDomPropertyConverter },
+                { Keywords.Included, IncludedDataJPropertyToDomPropertyConverter },
+                { Keywords.Errors, ErrorsJPropertyToDomPropertyConverter },
             };
         #endregion
 

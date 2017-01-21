@@ -24,9 +24,19 @@ namespace JsonApiFramework.Tree
         IEnumerable<INode> Nodes();
 
         /// <summary>
+        /// Returns a collection starting with this node followed by the direct child nodes for this node, in document order.
+        /// </summary>
+        IEnumerable<INode> NodesIncludeSelf();
+
+        /// <summary>
         /// Returns a collection of the descendant nodes for this node, in document order.
         /// </summary>
         IEnumerable<INode> DescendantNodes();
+
+        /// <summary>
+        /// Returns a collection starting with this node followed by the descendant nodes for this node, in document order.
+        /// </summary>
+        IEnumerable<INode> DescendantNodesIncludeSelf();
 
         /// <summary>
         /// Create a string representation of this 1-N object tree.

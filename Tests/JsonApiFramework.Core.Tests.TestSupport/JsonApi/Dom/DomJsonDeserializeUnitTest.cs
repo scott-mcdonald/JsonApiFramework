@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using FluentAssertions;
 
@@ -61,20 +62,23 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 
         protected override void Assert()
         {
-            // Use the FluentAssertion ShouldBeEquivalentTo method to compare
-            // the expected and actual object graphs.
-
-            // Using the actual types DomNode instead of using the FluentAssertions
-            // "IncludingAllRuntimeProperties()" configuration with IDomNode is much faster.
-            var actualDomTree = this.ActualDomTree as DomNode;
-            var expectedDomTree = this.ExpectedDomTree as DomNode;
-
-            actualDomTree.ShouldBeEquivalentTo(expectedDomTree,
-                config => config.AllowingInfiniteRecursion()
-                                .IgnoringCyclicReferences());
-
-            if (this.ActualDomTree == null)
+            if (this.ExpectedDomTree == null)
+            {
+                this.ActualDomTree.Should().BeNull();
                 return;
+            }
+
+            this.ActualDomTree.Should().NotBeNull();
+
+            var actualDomTreeList = this.ActualDomTree
+                                        .DescendantDomNodesIncludeSelf()
+                                        .ToList();
+
+            var expectedDomTreeList = this.ExpectedDomTree
+                                          .DescendantDomNodesIncludeSelf()
+                                          .ToList();
+
+            actualDomTreeList.ShouldAllBeEquivalentTo(expectedDomTreeList);
 
             if (this.AdditionalAsserts == null)
                 return;

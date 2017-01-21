@@ -40,6 +40,18 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         this.DomLinks = domProperty;
                         break;
 
+                    case PropertyType.Data:
+                        this.DomData = domProperty;
+                        break;
+
+                    case PropertyType.Included:
+                        this.DomIncluded = domProperty;
+                        break;
+
+                    case PropertyType.Errors:
+                        this.DomErrors = domProperty;
+                        break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -60,6 +72,12 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         public IDomProperty DomMeta { get; }
 
         public IDomProperty DomLinks { get; }
+
+        public IDomProperty DomData { get; }
+
+        public IDomProperty DomIncluded { get; }
+
+        public IDomProperty DomErrors { get; }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////

@@ -26,8 +26,14 @@ namespace JsonApiFramework.JsonApi.Dom
         /// <summary>Gets the direct child DOM node collection contained by this DOM node, in document order.</summary>
         IEnumerable<IDomNode> DomNodes();
 
+        /// <summary>Gets this DOM node and the direct child DOM node collection contained by this DOM node, in document order.</summary>
+        IEnumerable<IDomNode> DomNodesIncludeSelf();
+
         /// <summary>Gets the descendant child DOM node collection contained by this DOM node, in document order.</summary>
         IEnumerable<IDomNode> DescendantDomNodes();
+
+        /// <summary>Gets this DOM node and the descendant child DOM node collection contained by this DOM node, in document order.</summary>
+        IEnumerable<IDomNode> DescendantDomNodesIncludeSelf();
         #endregion
     }
 }

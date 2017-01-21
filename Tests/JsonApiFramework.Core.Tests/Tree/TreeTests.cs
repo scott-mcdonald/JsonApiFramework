@@ -2083,7 +2083,7 @@ namespace JsonApiFramework.Tests.Tree
 
         #region LINQ Test Methods
         [Theory]
-        [MemberData("TestTreeNodesTestData")]
+        [MemberData(nameof(TestTreeNodesTestData))]
         public void TestTreeNodes(string name, int maxDepth, int maxChildren)
         {
             // Arrange
@@ -2104,7 +2104,7 @@ namespace JsonApiFramework.Tests.Tree
             this.WriteLine("Nodes from   = {0}", tree.Name);
 
             var expected = nodeDictionary.Values
-                                         .Where(x => Object.ReferenceEquals(x.ParentNode, tree))
+                                         .Where(x => ReferenceEquals(x.ParentNode, tree))
                                          .Select(x => x.Name)
                                          .OrderBy(x => x)
                                          .ToList();
@@ -2128,7 +2128,52 @@ namespace JsonApiFramework.Tests.Tree
         }
 
         [Theory]
-        [MemberData("TestTreeDescendentNodesTestData")]
+        [MemberData(nameof(TestTreeNodesTestData))]
+        public void TestTreeNodesIncludeSelf(string name, int maxDepth, int maxChildren)
+        {
+            // Arrange
+            this.WriteLine("Test Name: {0}", name);
+            this.WriteLine();
+
+            this.WriteLine("Max Depth    = {0}", maxDepth);
+            this.WriteLine("Max Children = {0}", maxChildren);
+
+            IDictionary<string, Node> nodeDictionary;
+
+            // Act
+            var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
+            this.WriteLine();
+            this.WriteLine("Tree");
+            this.WriteLine(tree.ToTreeString());
+            this.WriteLine();
+            this.WriteLine("Nodes from   = {0}", tree.Name);
+
+            var expected = nodeDictionary.Values
+                                         .Where(x => ReferenceEquals(x, tree) || ReferenceEquals(x.ParentNode, tree))
+                                         .Select(x => x.Name)
+                                         .OrderBy(x => x)
+                                         .ToList();
+            var expectedAsString = expected.Any()
+                ? expected.Aggregate((current, next) => current + " " + next)
+                : String.Empty;
+            this.WriteLine();
+            this.WriteLine("Expected     = {0}", expectedAsString);
+
+            var actual = tree.NodesIncludeSelf()
+                             .Select(x => x.Name)
+                             .ToList();
+            var actualAsString = actual.Any()
+                ? actual.Aggregate((current, next) => current + " " + next)
+                : String.Empty;
+            this.WriteLine();
+            this.WriteLine("Actual       = {0}", actualAsString);
+
+            // Assert
+            actual.ShouldAllBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestTreeDescendentNodesTestData))]
         public void TestTreeDescendentNodes(string name, int maxDepth, int maxChildren)
         {
             // Arrange
@@ -2173,7 +2218,51 @@ namespace JsonApiFramework.Tests.Tree
         }
 
         [Theory]
-        [MemberData("TestTreeAttributesTestData")]
+        [MemberData(nameof(TestTreeDescendentNodesTestData))]
+        public void TestTreeDescendentIncludeSelfNodes(string name, int maxDepth, int maxChildren)
+        {
+            // Arrange
+            this.WriteLine("Test Name: {0}", name);
+            this.WriteLine();
+
+            this.WriteLine("Max Depth    = {0}", maxDepth);
+            this.WriteLine("Max Children = {0}", maxChildren);
+
+            IDictionary<string, Node> nodeDictionary;
+
+            // Act
+            var tree = BuildTree(maxDepth, maxChildren, out nodeDictionary);
+            this.WriteLine();
+            this.WriteLine("Tree");
+            this.WriteLine(tree.ToTreeString());
+            this.WriteLine();
+            this.WriteLine("Nodes from   = {0}", tree.Name);
+
+            var expected = nodeDictionary.Values
+                                         .Select(x => x.Name)
+                                         .OrderBy(x => x)
+                                         .ToList();
+            var expectedAsString = expected.Any()
+                ? expected.Aggregate((current, next) => current + " " + next)
+                : String.Empty;
+            this.WriteLine();
+            this.WriteLine("Expected     = {0}", expectedAsString);
+
+            var actual = tree.DescendantNodesIncludeSelf()
+                             .Select(x => x.Name)
+                             .ToList();
+            var actualAsString = actual.Any()
+                ? actual.Aggregate((current, next) => current + " " + next)
+                : String.Empty;
+            this.WriteLine();
+            this.WriteLine("Actual       = {0}", actualAsString);
+
+            // Assert
+            actual.ShouldAllBeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestTreeAttributesTestData))]
         public void TestTreeAttributes(string name, int attributeCount)
         {
             // Arrange
@@ -2218,12 +2307,9 @@ namespace JsonApiFramework.Tests.Tree
         }
         #endregion
 
-        #region DescendentNodes Test Methods
-        #endregion
-
         #region Content Methods
         [Theory]
-        [MemberData("TestTreeContentTestData")]
+        [MemberData(nameof(TestTreeContentTestData))]
         public void TestTreeHasContent(string name, Content content)
         {
             // Arrange
@@ -2245,7 +2331,7 @@ namespace JsonApiFramework.Tests.Tree
         }
 
         [Theory]
-        [MemberData("TestTreeContentTestData")]
+        [MemberData(nameof(TestTreeContentTestData))]
         public void TestTreeGetContent(string name, Content content)
         {
             // Arrange
@@ -2266,7 +2352,7 @@ namespace JsonApiFramework.Tests.Tree
         }
 
         [Theory]
-        [MemberData("TestTreeContentTestData")]
+        [MemberData(nameof(TestTreeContentTestData))]
         public void TestTreeSetContent(string name, Content newContent)
         {
             // Arrange

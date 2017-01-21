@@ -8,22 +8,12 @@ namespace JsonApiFramework.JsonApi.Dom
     /// in the DOM document tree.
     /// </summary>
     /// <remarks> 
-    /// A JSON object MUST be at the root of every JSON API response
-    /// containing data. This object defines a document's "top level".
+    /// A document MUST contain at least one of the following members:
+    /// - data: the document primary data
+    /// - errors: an array of error objects
+    /// - meta: a meta object that contains non-standard meta-information
     ///
-    /// The document's "primary data" is a representation of the resource,
-    /// collection of resources, or resource relationship primarily targeted
-    /// by a request.
-    ///
-    /// A document MUST contain at least one of the following top-level
-    /// members:
-    /// - primary data
-    /// - array of error objects
-    /// - meta object
-    ///
-    /// Primary data MUST appear under a top-level key named "data". Primary
-    /// data MUST be either a single resource or resource identifier object,
-    /// an array of resource or resource identifier objects.
+    /// The members data and errors must not coexist in the same document.
     /// </remarks>
     /// <see cref="http://jsonapi.org"/>
     public interface IDomDocument : IDomObject
@@ -34,8 +24,8 @@ namespace JsonApiFramework.JsonApi.Dom
         DocumentType ApiDocumentType { get; }
 
         /// <summary>
-        /// Gets the read-only DOM property node that represents the json:api
-        /// version object of this json:api document.
+        /// Gets the read-only DOM property node that represents the document
+        /// json:api version object of this json:api document.
         /// </summary>
         /// <remarks>
         /// This DOM property node is optional, i.e. version is optional.
@@ -43,8 +33,8 @@ namespace JsonApiFramework.JsonApi.Dom
         IDomProperty DomJsonApiVersion { get; }
 
         /// <summary>
-        /// Gets the read-only DOM property node that represents the json:api
-        /// meta object of this json:api document.
+        /// Gets the read-only DOM property node that represents the document
+        /// json:api meta object of this json:api document.
         /// </summary>
         /// <remarks>
         /// This DOM property node is optional, i.e. meta is optional.
@@ -52,13 +42,47 @@ namespace JsonApiFramework.JsonApi.Dom
         IDomProperty DomMeta { get; }
 
         /// <summary>
-        /// Gets the read-only DOM property node that represents the json:api
-        /// links object of this json:api document.
+        /// Gets the read-only DOM property node that represents the document
+        /// json:api links object of this json:api document.
         /// </summary>
         /// <remarks>
         /// This DOM property node is optional, i.e. links is optional.
         /// </remarks>
         IDomProperty DomLinks { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the document
+        /// primary data of this json:api document object. Primary data can
+        /// only be 1 of the following:
+        /// 1. resource object
+        /// 2. resource identifier object
+        /// 3. array of resource objects
+        /// 4. array of resource identifier objects
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. data is optional.
+        /// </remarks>
+        IDomProperty DomData { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the document
+        /// included data of this json:api document object. Included data can
+        /// only be an array of resource objects when the primary data is a
+        /// resource object or array of resource objects.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. included is optional.
+        /// </remarks>
+        IDomProperty DomIncluded { get; }
+
+        /// <summary>
+        /// Gets the read-only DOM property node that represents the document
+        /// errors array of this json:api document object.
+        /// </summary>
+        /// <remarks>
+        /// This DOM property node is optional, i.e. errors is optional.
+        /// </remarks>
+        IDomProperty DomErrors { get; }
         #endregion
     }
 }

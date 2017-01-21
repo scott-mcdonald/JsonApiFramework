@@ -38,9 +38,21 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                        .Cast<IDomNode>();
         }
 
+        public IEnumerable<IDomNode> DomNodesIncludeSelf()
+        {
+            return this.NodesIncludeSelf()
+                       .Cast<IDomNode>();
+        }
+
         public IEnumerable<IDomNode> DescendantDomNodes()
         {
             return this.DescendantNodes()
+                       .Cast<IDomNode>();
+        }
+
+        public IEnumerable<IDomNode> DescendantDomNodesIncludeSelf()
+        {
+            return this.DescendantNodesIncludeSelf()
                        .Cast<IDomNode>();
         }
         #endregion

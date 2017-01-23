@@ -634,7 +634,7 @@ Requires NuGet 2.12 or higher
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.1.3-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.2.0-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -644,7 +644,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.1.3-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.2.0-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -656,7 +656,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.1.3-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.2.0-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -716,6 +716,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.2.0-beta
+    * Fix #26 Add camelCasing naming convention
 * v1.1.3-beta
     * Fix #24 Enhance Meta.Create<T> Static Method to Accept and Use JsonSerializerSettings
     * Fix #23 Included ToOne or ToMany Related Resource(s) Referenced Multiple Times Throwing Key Already Exists Exception
@@ -759,5 +761,4 @@ Please use the following support channels:
 ## License
 
 Licensed under the Apache License, Version 2.0. See `LICENSE.md` in the project root for license information.
-
 

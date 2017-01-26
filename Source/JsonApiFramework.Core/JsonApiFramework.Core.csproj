@@ -47,8 +47,11 @@
     <Compile Include="JsonApi\DataType.cs" />
     <Compile Include="JsonApi\Dom\DomContractResolver.cs" />
     <Compile Include="JsonApi\Dom\DomJsonSerializerSettings.cs" />
+    <Compile Include="JsonApi\Dom\IDomError.cs" />
     <Compile Include="JsonApi\Dom\IDomRelationships.cs" />
     <Compile Include="JsonApi\Dom\IDomResourceIdentifier.cs" />
+    <Compile Include="JsonApi\Dom\Internal\DomError.cs" />
+    <Compile Include="JsonApi\Dom\Internal\DomErrorConverter.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomRelationshipsConverter.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomRelationships.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomResourceConverter.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="JsonApi\Dom\Internal\DomObject.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomProperty.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomNode.cs" />
+    <Compile Include="JsonApi\ErrorSource.cs" />
     <Compile Include="JsonApi\RelationshipNotFoundException.cs" />
     <Compile Include="JsonApi\Relationships.cs" />
     <Compile Include="JsonApi\Meta.cs" />

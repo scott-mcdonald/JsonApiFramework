@@ -4,15 +4,15 @@
 namespace JsonApiFramework.JsonApi.Dom
 {
     /// <summary>
-    /// Abstracts read-only DOM node that represents a json:api object.
+    /// Abstracts read-only DOM node that represents a json:api jsonapi object.
     /// </summary>
     public interface IDomJsonApi : IDomObject
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>
-        /// Gets the read-only DOM property node that represents the version of
-        /// this json:api object.
+        /// Gets the read-only DOM property node that represents the version
+        /// of this json:api jsonapi object.
         /// </summary>
         /// <remarks>
         /// This DOM property node is optional, version is optional.
@@ -21,7 +21,7 @@ namespace JsonApiFramework.JsonApi.Dom
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api
-        /// meta object of this json:api object.
+        /// meta object of this json:api jsonapi object.
         /// </summary>
         /// <remarks>
         /// This DOM property node is optional, meta is optional.

@@ -15,17 +15,17 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public RelationshipNotFoundException(string rel)
-            : base(null, HttpStatusCode.NotFound, null, CoreErrorStrings.RelationshipsRelationshipNotFoundTitle, CoreErrorStrings.RelationshipsRelationshipNotFoundDetail.FormatWith(rel))
+            : base(null, null, HttpStatusCode.NotFound, null, CoreErrorStrings.RelationshipsRelationshipNotFoundTitle, CoreErrorStrings.RelationshipsRelationshipNotFoundDetail.FormatWith(rel), null, null)
         { this.Rel = rel; }
 
         public RelationshipNotFoundException(string rel, Exception innerException)
-            : base(null, HttpStatusCode.NotFound, null, CoreErrorStrings.RelationshipsRelationshipNotFoundTitle, CoreErrorStrings.RelationshipsRelationshipNotFoundDetail.FormatWith(rel), innerException)
+            : base(null, null, HttpStatusCode.NotFound, null, CoreErrorStrings.RelationshipsRelationshipNotFoundTitle, CoreErrorStrings.RelationshipsRelationshipNotFoundDetail.FormatWith(rel), null, null, innerException)
         { this.Rel = rel; }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        public string Rel { get; private set; }
+        public string Rel { get; }
         #endregion
     }
 }

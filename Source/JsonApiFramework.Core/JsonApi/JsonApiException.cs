@@ -12,11 +12,11 @@ namespace JsonApiFramework.JsonApi
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public JsonApiException(string title, string detail)
-            : base(null, HttpStatusCode.BadRequest, null, title, detail)
+            : base(null, null, HttpStatusCode.BadRequest, null, title, detail, null, null)
         { }
 
         public JsonApiException(string title, string detail, Exception innerException)
-            : base(null, HttpStatusCode.BadRequest, null, title, detail, innerException)
+            : base(null, null, HttpStatusCode.BadRequest, null, title, detail, null, null, innerException)
         { }
         #endregion
     }

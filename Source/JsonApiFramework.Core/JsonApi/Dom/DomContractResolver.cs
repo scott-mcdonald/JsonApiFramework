@@ -77,6 +77,14 @@ namespace JsonApiFramework.JsonApi.Dom
             jsonContract.Converter = new DomDocumentConverter(domJsonSerializerSettings);
         }
 
+        private static void InitializeDomErrorContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomErrorConverter(domJsonSerializerSettings);
+        }
+
         private static void InitializeDomJsonApiContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
         {
             Contract.Requires(jsonContract != null);
@@ -165,6 +173,7 @@ namespace JsonApiFramework.JsonApi.Dom
             {
                 { typeof(IDomArray), InitializeDomArrayContract },
                 { typeof(IDomDocument), InitializeDomDocumentContract },
+                { typeof(IDomError), InitializeDomErrorContract },
                 { typeof(IDomJsonApi), InitializeDomJsonApiContract },
                 { typeof(IDomLink), InitializeDomLinkContract },
                 { typeof(IDomLinks), InitializeDomLinksContract },
@@ -177,6 +186,7 @@ namespace JsonApiFramework.JsonApi.Dom
 
                 { typeof(DomArray), InitializeDomArrayContract },
                 { typeof(DomDocument), InitializeDomDocumentContract },
+                { typeof(DomError), InitializeDomErrorContract },
                 { typeof(DomJsonApi), InitializeDomJsonApiContract },
                 { typeof(DomLink), InitializeDomLinkContract },
                 { typeof(DomLinks), InitializeDomLinksContract },

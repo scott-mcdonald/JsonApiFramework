@@ -2,90 +2,80 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Net;
-
-using JsonApiFramework.Json;
-
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Represents a json:api compliant error object.</summary>
-    public class Error : JsonObject
-        //, IGetLinks
-        //, IGetMeta
-        //, ISetLinks
-        //, ISetMeta
+    /// <summary>Represents an immutable json:api error object.</summary>
+    public class Error
+        : IGetLinks
+        , IGetMeta
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region JSON Properties
-        public string Id { get; set; }
-        public string Status { get; set; }
-        public string Code { get; set; }
-        public string Title { get; set; }
-        public string Detail { get; set; }
-        public JObject Source { get; set; }
-        //public Links Links { get; set; }
-        //public Meta Meta { get; set; }
+        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+        #region Constructors
+        public Error(string id,
+                     Links links,
+                     string status,
+                     string code,
+                     string title,
+                     string detail,
+                     ErrorSource source,
+                     Meta meta)
+        {
+            this.Id = GetOrCreateId(id);
+            this.Links = links;
+            this.Status = status;
+            this.Code = code;
+            this.Title = title;
+            this.Detail = detail;
+            this.Source = source;
+            this.Meta = meta;
+        }
         #endregion
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        //#region IGetMeta Implementation
-        //public Meta GetMeta()
-        //{ return this.Meta; }
-        //#endregion
-
-        //#region IGetLinks Implementation
-        //public Links GetLinks()
-        //{ return this.Links; }
-        //#endregion
-
-        //#region ISetMeta Implementation
-        //public void SetMeta(Meta meta)
-        //{ this.Meta = meta; }
-        //#endregion
-
-        //#region ISetLinks Implementation
-        //public void SetLinks(Links links)
-        //{ this.Links = links; }
-        //#endregion
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region JSON Properties
+        public string Id { get; }
+        public Links Links { get; }
+        public string Status { get; }
+        public string Code { get; }
+        public string Title { get; }
+        public string Detail { get; }
+        public ErrorSource Source { get; }
+        public Meta Meta { get; }
+        #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////
         #region Conversion Operators
         public static implicit operator Error(ErrorException errorException)
         {
-            return errorException != null
-                ? new Error
-                    {
-                        Id = errorException.Id,
-                        Status = errorException.Status?.ToString(),
-                        Code = errorException.Code,
-                        Title = errorException.Title,
-                        Detail = errorException.Detail,
-                        Source = !String.IsNullOrWhiteSpace(errorException.Source) ? JObject.Parse(errorException.Source) : null,
-                        //Links = errorException.Links,
-                        //Meta = errorException.Meta
-                    }
-                : new Error
-                    {
-                        Id = CreateNewId()
-                    };
+            Contract.Requires(errorException != null);
+
+            var id = errorException.Id;
+            var links = errorException.Links;
+            var status = errorException.Status.ToString();
+            var code = errorException.Code;
+            var title = errorException.Title;
+            var detail = errorException.Detail;
+            var source = errorException.ErrorSource;
+            var meta = errorException.Meta;
+
+            var error = new Error(id, links, status, code, title, detail, source, meta);
+            return error;
         }
 
         public static implicit operator Error(Exception exception)
         {
-            return exception != null
-                ? new Error
-                    {
-                        Id = CreateNewId(),
-                        Status = HttpStatusCode.InternalServerError.ToString(),
-                        Title = exception.GetType().Name,
-                        Detail = exception.Message
-                    }
-                : new Error
-                    {
-                        Id = CreateNewId()
-                    };
+            Contract.Requires(exception != null);
+
+            var id = CreateId();
+            var status = HttpStatusCode.InternalServerError.ToString();
+            var title = exception.GetType().Name;
+            var detail = exception.Message;
+
+            var error = new Error(id, null, status, null, title, detail, null, null);
+            return error;
         }
         #endregion
 
@@ -103,15 +93,16 @@ namespace JsonApiFramework.JsonApi
         #endregion
 
         #region Helper Methods
-        public static string CreateId(string id)
+        public static string CreateId()
         {
-            return !String.IsNullOrWhiteSpace(id) ? id : CreateNewId();
+            var idAsGuid = Guid.NewGuid();
+            var isAsGuidString = idAsGuid.ToString();
+            return isAsGuidString;
         }
 
-        public static string CreateNewId()
+        public static string GetOrCreateId(string id)
         {
-            var idAsGuid = Guid.NewGuid().ToString();
-            return idAsGuid;
+            return !String.IsNullOrWhiteSpace(id) ? id : CreateId();
         }
         #endregion
 

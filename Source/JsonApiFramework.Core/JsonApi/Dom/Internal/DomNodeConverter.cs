@@ -85,27 +85,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.Object:
                                 {
                                     var jObject = (JObject)jToken;
-                                    var jObjectDataType = jObject.GetApiDataType();
-
-                                    DomNode domObject;
-                                    switch (jObjectDataType)
-                                    {
-                                        case DataType.None:
-                                            domObject = (DomNode)CreateDomObject(jObject);
-                                            break;
-
-                                        case DataType.Resource:
-                                            domObject = (DomNode)CreateDomResource(jObject);
-                                            break;
-
-                                        case DataType.ResourceIdentifier:
-                                            domObject = (DomNode)CreateDomResourceIdentifier(jObject);
-                                            break;
-
-                                        default:
-                                            throw new ArgumentOutOfRangeException(nameof(jObjectDataType));
-                                    }
-
+                                    var domObject = (DomNode)CreateDomObject(jObject);
                                     var domItem = new DomItem(index++, domObject);
                                     return domItem;
                                 }
@@ -125,25 +105,98 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
+        protected static IDomArray CreateDomResourceArray(JArray jArray)
+        {
+            if (jArray == null)
+                return null;
+
+            var index = 0;
+            var domItems = jArray
+                .Select(jToken =>
+                    {
+                        var jTokenType = jToken.Type;
+                        switch (jTokenType)
+                        {
+                            case JTokenType.Object:
+                            {
+                                var jObject = (JObject)jToken;
+                                var domObject = (DomNode)CreateDomResource(jObject);
+                                var domItem = new DomItem(index++, domObject);
+                                return domItem;
+                            }
+
+                            default:
+                            {
+                                var json = jToken.ToString();
+                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
+                                throw new JsonApiException(title, detail);
+                            }
+                        }
+                    });
+
+            var domArray = new DomArray(domItems);
+            return domArray;
+        }
+
+        protected static IDomArray CreateDomResourceIdentifierArray(JArray jArray)
+        {
+            if (jArray == null)
+                return null;
+
+            var index = 0;
+            var domItems = jArray
+                .Select(jToken =>
+                    {
+                        var jTokenType = jToken.Type;
+                        switch (jTokenType)
+                        {
+                            case JTokenType.Object:
+                            {
+                                var jObject = (JObject)jToken;
+                                var domObject = (DomNode)CreateDomResourceIdentifier(jObject);
+                                var domItem = new DomItem(index++, domObject);
+                                return domItem;
+                            }
+
+                            default:
+                            {
+                                var json = jToken.ToString();
+                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
+                                throw new JsonApiException(title, detail);
+                            }
+                        }
+                    });
+
+            var domArray = new DomArray(domItems);
+            return domArray;
+        }
+
         protected static IDomDocument CreateDomDocument(JObject jObject)
         {
             if (jObject == null)
                 return null;
 
             var apiDocumentType = jObject.GetApiDocumentType();
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomDocumentPropertyConverterDictionary);
+            var deserializationContext = new DeserializationContext
+                {
+                    ApiDocumentType = apiDocumentType
+                };
+
+            var domProperties = CreateDomProperties(jObject, deserializationContext, JPropertyToDomDocumentPropertyConverterDictionary);
             var domDocument = new DomDocument(apiDocumentType, domProperties);
             return domDocument;
         }
 
-        protected static IDomJsonApiVersion CreateDomJsonApiVersion(JObject jObject)
+        protected static IDomJsonApi CreateDomJsonApi(JObject jObject)
         {
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomJsonApiVersionPropertyConverterDictionary);
-            var domJsonApiVersion = new DomJsonApiVersion(domProperties);
-            return domJsonApiVersion;
+            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomJsonApiPropertyConverterDictionary);
+            var domJsonApi = new DomJsonApi(domProperties);
+            return domJsonApi;
         }
 
         protected static IDomLink CreateDomLink(JObject jObject)
@@ -151,7 +204,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomLinkPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomLinkPropertyConverterDictionary);
             var domLink = new DomLink(domProperties);
             return domLink;
         }
@@ -274,7 +327,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
 
             var apiRelationshipType = jObject.GetApiRelationshipType();
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomRelationshipPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomRelationshipPropertyConverterDictionary);
             var domRelationship = new DomRelationship(apiRelationshipType, domProperties);
             return domRelationship;
         }
@@ -318,7 +371,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomResourcePropertyConverterDictionary);
+            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomResourcePropertyConverterDictionary);
             var domResource = new DomResource(domProperties);
             return domResource;
         }
@@ -328,7 +381,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, JPropertyToDomResourceIdentifierPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomResourceIdentifierPropertyConverterDictionary);
             var domResourceIdentifier = new DomResourceIdentifier(domProperties);
             return domResourceIdentifier;
         }
@@ -356,7 +409,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static IEnumerable<DomProperty> CreateDomProperties(JObject jObject, IReadOnlyDictionary<string, Func<JProperty, DomProperty>> jPropertyToDomPropertyConverterDictionary)
+        private static IEnumerable<DomProperty> CreateDomProperties(JObject jObject, DeserializationContext deserializationContext, IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> jPropertyToDomPropertyConverterDictionary)
         {
             Contract.Requires(jObject != null);
             Contract.Requires(jPropertyToDomPropertyConverterDictionary != null);
@@ -367,10 +420,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 {
                     var apiPropertyName = jProperty.GetApiPropertyName();
 
-                    Func<JProperty, DomProperty> jPropertyToDomPropertyConverter;
+                    Func<JProperty, DeserializationContext, DomProperty> jPropertyToDomPropertyConverter;
                     if (jPropertyToDomPropertyConverterDictionary.TryGetValue(apiPropertyName, out jPropertyToDomPropertyConverter))
                     {
-                        var domProperty = jPropertyToDomPropertyConverter(jProperty);
+                        var domProperty = jPropertyToDomPropertyConverter(jProperty, deserializationContext);
                         if (domProperty != null)
                             return domProperty;
                     }
@@ -388,9 +441,19 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { return new DomValue<TValue>(clrValue); }
         #endregion
 
+        // PRIVATE TYPES ////////////////////////////////////////////////////
+        #region Types
+        private class DeserializationContext
+        {
+            #region Properties
+            public DocumentType ApiDocumentType { get; set; }
+            #endregion
+        };
+        #endregion
+
         // PRIVATE FIELDS ///////////////////////////////////////////////////
-        #region JPropertyToDomDocumentPropertyConverters
-        private static readonly Func<JProperty, DomProperty> AttributesJPropertyToDomPropertyConverter = (jProperty) =>
+        #region JPropertyToDomPropertyConverters
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> AttributesJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -414,18 +477,95 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, DomProperty> DocumentDataJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> DocumentDataJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
+            {
+                var apiDocumentType = deserializationContext.ApiDocumentType;
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                        {
+                            var domProperty = new DomProperty(PropertyType.Data, Keywords.Data);
+                            return domProperty;
+                        }
+
+                    case JTokenType.Object:
+                        {
+                            var apiPropertyJObject = (JObject)apiPropertyJToken;
+                            switch (apiDocumentType)
+                            {
+                                case DocumentType.ResourceDocument:
+                                    {
+                                        var domPropertyValue = (DomNode)CreateDomResource(apiPropertyJObject);
+                                        var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
+                                        return domProperty;
+                                    }
+
+                                case DocumentType.ResourceIdentifierDocument:
+                                    {
+                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifier(apiPropertyJObject);
+                                        var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
+                                        return domProperty;
+                                    }
+
+                                default:
+                                    {
+                                        var json = apiPropertyJToken.ToString();
+                                        var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(json);
+                                        throw new JsonApiException(title, detail);
+                                    }
+                            }
+                        }
+
+                    case JTokenType.Array:
+                        {
+                            var apiPropertyJArray = (JArray)apiPropertyJToken;
+                            switch (apiDocumentType)
+                            {
+                                case DocumentType.EmptyDocument:
+                                    {
+                                        var domPropertyValue = new DomArray();
+                                        var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
+                                        return domProperty;
+                                    }
+
+                                case DocumentType.ResourceCollectionDocument:
+                                    {
+                                        var domPropertyValue = (DomNode)CreateDomResourceArray(apiPropertyJArray);
+                                        var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
+                                        return domProperty;
+                                    }
+
+                                case DocumentType.ResourceIdentifierCollectionDocument:
+                                    {
+                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(apiPropertyJArray);
+                                        var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
+                                        return domProperty;
+                                    }
+
+                                default:
+                                    {
+                                        var json = apiPropertyJToken.ToString();
+                                        var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                        var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(json);
+                                        throw new JsonApiException(title, detail);
+                                    }
+                            }
+                        }
+                }
+
+                return null;
+            };
+
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> ErrorsJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
                 {
                     var apiPropertyJToken = jProperty.Value;
                     var apiPropertyJTokenType = apiPropertyJToken.Type;
                     switch (apiPropertyJTokenType)
                     {
                         case JTokenType.Null:
-                        {
-                            throw new NotImplementedException();
-                        }
-
-                        case JTokenType.Object:
                         {
                             throw new NotImplementedException();
                         }
@@ -439,27 +579,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     return null;
                 };
 
-        private static readonly Func<JProperty, DomProperty> ErrorsJPropertyToDomPropertyConverter = (jProperty) =>
-                {
-                    var apiPropertyJToken = jProperty.Value;
-                    var apiPropertyJTokenType = apiPropertyJToken.Type;
-                    switch (apiPropertyJTokenType)
-                    {
-                        case JTokenType.Null:
-                        {
-                            throw new NotImplementedException();
-                        }
-
-                        case JTokenType.Array:
-                        {
-                            throw new NotImplementedException();
-                        }
-                    }
-
-                    return null;
-                };
-
-        private static readonly Func<JProperty, DomProperty> HRefJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> HRefJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -472,7 +592,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return domProperty;
             };
 
-        private static readonly Func<JProperty, DomProperty> IdJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> IdJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -496,27 +616,31 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, DomProperty> IncludedDataJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> IncludedDataJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
                 {
                     var apiPropertyJToken = jProperty.Value;
                     var apiPropertyJTokenType = apiPropertyJToken.Type;
                     switch (apiPropertyJTokenType)
                     {
                         case JTokenType.Null:
-                        {
-                            throw new NotImplementedException();
-                        }
+                            {
+                                var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, new DomArray());
+                                return domProperty;
+                            }
 
                         case JTokenType.Array:
-                        {
-                            throw new NotImplementedException();
-                        }
+                            {
+                                var apiPropertyJArray = (JArray)apiPropertyJToken;
+                                var domPropertyValue = (DomNode)CreateDomResourceArray(apiPropertyJArray);
+                                var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, domPropertyValue);
+                                return domProperty;
+                            }
                     }
 
                     return null;
                 };
 
-        private static readonly Func<JProperty, DomProperty> JsonApiVersionJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> JsonApiJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
                 {
                     var apiPropertyJToken = jProperty.Value;
                     var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -531,7 +655,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                         {
                             var apiPropertyJObject = (JObject)apiPropertyJToken;
-                            var domPropertyValue = (DomNode)CreateDomJsonApiVersion(apiPropertyJObject);
+                            var domPropertyValue = (DomNode)CreateDomJsonApi(apiPropertyJObject);
                             var domProperty = new DomProperty(PropertyType.JsonApi, Keywords.JsonApi, domPropertyValue);
                             return domProperty;
                         }
@@ -540,7 +664,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     return null;
                 };
 
-        private static readonly Func<JProperty, DomProperty> LinksJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> LinksJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -564,7 +688,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, DomProperty> MetaJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> MetaJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -588,7 +712,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, DomProperty> RelationshipDataJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> RelationshipDataJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -611,7 +735,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Array:
                         {
                             var apiPropertyJArray = (JArray)apiPropertyJToken;
-                            var domPropertyValue = (DomNode)CreateDomArray(apiPropertyJArray);
+                            var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(apiPropertyJArray);
                             var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                             return domProperty;
                         }
@@ -620,7 +744,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, DomProperty> RelationshipsJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> RelationshipsJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
         {
             var apiPropertyJToken = jProperty.Value;
             var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -644,7 +768,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return null;
         };
 
-        private static readonly Func<JProperty, DomProperty> TypeJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> TypeJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
         {
             var apiPropertyJToken = jProperty.Value;
             var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -668,7 +792,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return null;
         };
 
-        private static readonly Func<JProperty, DomProperty> VersionJPropertyToDomPropertyConverter = (jProperty) =>
+        private static readonly Func<JProperty, DeserializationContext, DomProperty> VersionJPropertyToDomPropertyConverter = (jProperty, deserializationContext) =>
             {
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
@@ -694,9 +818,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomDocumentPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomDocumentPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomDocumentPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
-                { Keywords.JsonApi, JsonApiVersionJPropertyToDomPropertyConverter },
+                { Keywords.JsonApi, JsonApiJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
                 { Keywords.Data, DocumentDataJPropertyToDomPropertyConverter },
@@ -705,8 +829,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             };
         #endregion
 
-        #region JPropertyToDomJsonApiVersionPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomJsonApiVersionPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        #region JPropertyToDomJsonApiPropertyConverterDictionary
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomJsonApiPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
                 { Keywords.Version, VersionJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
@@ -714,7 +838,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomLinkPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomLinkPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomLinkPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
                 { Keywords.HRef, HRefJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
@@ -722,7 +846,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomRelationshipPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomRelationshipPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomRelationshipPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
                 { Keywords.Data, RelationshipDataJPropertyToDomPropertyConverter },
@@ -731,7 +855,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomResourcePropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomResourcePropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomResourcePropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },
@@ -743,7 +867,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomResourceIdentifierPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, DomProperty>> JPropertyToDomResourceIdentifierPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<JProperty, DeserializationContext, DomProperty>> JPropertyToDomResourceIdentifierPropertyConverterDictionary = new Dictionary<string, Func<JProperty, DeserializationContext, DomProperty>>
             {
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },

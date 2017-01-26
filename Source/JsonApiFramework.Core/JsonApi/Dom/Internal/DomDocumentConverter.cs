@@ -46,8 +46,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 case JsonToken.StartObject:
                     {
                         var jObject = JObject.Load(jsonReader);
-                        var domJsonApiVersion = CreateDomDocument(jObject);
-                        return domJsonApiVersion;
+                        var domDocument = CreateDomDocument(jObject);
+                        return domDocument;
                     }
 
                 default:

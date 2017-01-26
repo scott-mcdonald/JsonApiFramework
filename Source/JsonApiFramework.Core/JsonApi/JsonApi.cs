@@ -5,16 +5,16 @@ using System;
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>Represents an immutable json:api version object.</summary>
-    public class JsonApiVersion : IGetMeta
+    /// <summary>Represents an immutable json:api object.</summary>
+    public class JsonApi : IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public JsonApiVersion(string version)
+        public JsonApi(string version)
             : this(version, null)
         { }
 
-        public JsonApiVersion(string version, Meta meta)
+        public JsonApi(string version, Meta meta)
         {
             this.Version = version;
             this.Meta = meta;
@@ -38,8 +38,8 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Fields
-        public static readonly JsonApiVersion Version10 = new JsonApiVersion(Version10String);
-        public static readonly JsonApiVersion Version11 = new JsonApiVersion(Version11String);
+        public static readonly JsonApi Version10 = new JsonApi(Version10String);
+        public static readonly JsonApi Version11 = new JsonApi(Version11String);
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
@@ -50,7 +50,7 @@ namespace JsonApiFramework.JsonApi
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
-        private static readonly string TypeName = typeof(JsonApiVersion).Name;
+        private static readonly string TypeName = typeof(JsonApi).Name;
         #endregion
     }
 }

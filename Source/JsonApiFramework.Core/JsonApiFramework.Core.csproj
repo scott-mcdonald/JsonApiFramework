@@ -67,7 +67,7 @@
     <Compile Include="JsonApi\Dom\Internal\DomRelationship.cs" />
     <Compile Include="JsonApi\Dom\Internal\Extensions\DomJsonSerializerSettingsExtensions.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomDocumentConverter.cs" />
-    <Compile Include="JsonApi\Dom\Internal\DomJsonApiVersionConverter.cs" />
+    <Compile Include="JsonApi\Dom\Internal\DomJsonApiConverter.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomLinkConverter.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomLinksConverter.cs" />
     <Compile Include="JsonApi\Dom\DomPropertyExtensions.cs" />
@@ -82,11 +82,11 @@
     <Compile Include="JsonApi\Error.cs" />
     <Compile Include="JsonApi\ErrorException.cs" />
     <Compile Include="JsonApi\Dom\IDomArray.cs" />
-    <Compile Include="JsonApi\Dom\IDomJsonApiVersion.cs" />
+    <Compile Include="JsonApi\Dom\IDomJsonApi.cs" />
     <Compile Include="JsonApi\Dom\IDomLink.cs" />
     <Compile Include="JsonApi\Dom\IDomLinks.cs" />
     <Compile Include="JsonApi\Dom\IDomResource.cs" />
-    <Compile Include="JsonApi\Dom\Internal\DomJsonApiVersion.cs" />
+    <Compile Include="JsonApi\Dom\Internal\DomJsonApi.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomLinks.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomLink.cs" />
     <Compile Include="JsonApi\Dom\Internal\DomResource.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="JsonApi\Dom\Internal\Extensions\JPropertyExtensions.cs" />
     <Compile Include="JsonApi\Dom\Internal\Extensions\JObjectExtensions.cs" />
     <Compile Include="JsonApi\JsonApiException.cs" />
-    <Compile Include="JsonApi\JsonApiVersion.cs" />
+    <Compile Include="JsonApi\JsonApi.cs" />
     <Compile Include="JsonApi\Keywords.cs" />
     <Compile Include="JsonApi\LinkNotFoundException.cs" />
     <Compile Include="JsonApi\Links.cs" />
@@ -174,8 +174,8 @@
     <Compile Include="Tree\VisitResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations.PCL328, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.10.1.5\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\JetBrains.Annotations.PCL328.dll</HintPath>
+    <Reference Include="JetBrains.Annotations.PCL328, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.10.2.1\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\JetBrains.Annotations.PCL328.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

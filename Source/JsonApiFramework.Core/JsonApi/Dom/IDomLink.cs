@@ -24,7 +24,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// meta object of this json:api link object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
         #endregion

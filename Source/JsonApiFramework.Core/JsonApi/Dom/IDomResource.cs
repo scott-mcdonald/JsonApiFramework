@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is required, i.e. "type" is required.
+        /// This DOM property node is required, "type" is required.
         /// </remarks>
         IDomProperty DomType { get; }
 
@@ -24,7 +24,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is required, i.e. "id" is required.
+        /// This DOM property node is required, "id" is required.
         /// 
         /// The ONE exception to "id" being required is when the resource
         /// originates at the client and represents a new resource to be
@@ -37,7 +37,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// attributes object of this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. attributes is optional.
+        /// This DOM property node is optional, attributes is optional.
         /// </remarks>
         IDomProperty DomAttributes { get; }
 
@@ -46,7 +46,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// relationships object of this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. relationships is optional.
+        /// This DOM property node is optional, relationships is optional.
         /// </remarks>
         IDomProperty DomRelationships { get; }
 
@@ -55,7 +55,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// links object of this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. links is optional.
+        /// This DOM property node is optional, links is optional.
         /// </remarks>
         IDomProperty DomLinks { get; }
 
@@ -64,7 +64,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// meta object of this json:api resource object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
         #endregion

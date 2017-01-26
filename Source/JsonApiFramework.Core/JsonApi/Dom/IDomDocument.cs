@@ -13,6 +13,14 @@ namespace JsonApiFramework.JsonApi.Dom
     /// - errors: an array of error objects
     /// - meta: a meta object that contains non-standard meta-information
     ///
+    /// The document primary data must be a single resource object, a single
+    /// resource identifier object, or null, for requests that target single
+    /// resources.
+    /// 
+    /// The document primary data must be an array of resource objects, an
+    /// array of resource identifier objects, or an empty array for requests
+    /// that target resource collections.
+    /// 
     /// The members data and errors must not coexist in the same document.
     /// </remarks>
     /// <see cref="http://jsonapi.org"/>
@@ -25,19 +33,19 @@ namespace JsonApiFramework.JsonApi.Dom
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the document
-        /// json:api version object of this json:api document.
+        /// json:api jsonapi object of this json:api document.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. version is optional.
+        /// This DOM property node is optional, jsonapi is optional.
         /// </remarks>
-        IDomProperty DomJsonApiVersion { get; }
+        IDomProperty DomJsonApi { get; }
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the document
         /// json:api meta object of this json:api document.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
 
@@ -46,7 +54,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// json:api links object of this json:api document.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. links is optional.
+        /// This DOM property node is optional, links is optional.
         /// </remarks>
         IDomProperty DomLinks { get; }
 
@@ -60,7 +68,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// 4. array of resource identifier objects
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. data is optional.
+        /// This DOM property node is optional, data is optional.
         /// </remarks>
         IDomProperty DomData { get; }
 
@@ -71,7 +79,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// resource object or array of resource objects.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. included is optional.
+        /// This DOM property node is optional, included is optional.
         /// </remarks>
         IDomProperty DomIncluded { get; }
 
@@ -80,7 +88,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// errors array of this json:api document object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. errors is optional.
+        /// This DOM property node is optional, errors is optional.
         /// </remarks>
         IDomProperty DomErrors { get; }
         #endregion

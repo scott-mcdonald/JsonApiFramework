@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.Tests.JsonApi
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class JsonApiVersionMeta : JsonObject
+    public class JsonApiMeta : JsonObject
     {
         // ReSharper disable UnusedAutoPropertyAccessor.Global
         [JsonProperty("website")] public string Website { get; set; }

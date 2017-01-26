@@ -4,7 +4,8 @@
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
-    /// Represents the property type for a json:api compliant property.
+    /// Represents the property type for a json:api compliant property contained
+    /// by a json:api compliant object.
     /// </summary>
     public enum PropertyType
     {
@@ -16,13 +17,11 @@ namespace JsonApiFramework.JsonApi
         Link,
         HRef,
         Data,
-        Resource,
         Type,
         Id,
         Attributes,
         Relationships,
         Relationship,
-        ResourceIdentifier,
         Included,
         Errors,
         Error,

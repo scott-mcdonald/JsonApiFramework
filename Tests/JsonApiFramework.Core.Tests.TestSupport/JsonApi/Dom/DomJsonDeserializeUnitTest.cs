@@ -80,6 +80,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 
             actualDomTreeList.ShouldAllBeEquivalentTo(expectedDomTreeList);
 
+            var actualDomAttributeList = actualDomTreeList.SelectMany(x => x.Attributes())
+                                                          .ToList();
+
+            var expectedDomAttributeList = expectedDomTreeList.SelectMany(x => x.Attributes())
+                                                              .ToList();
+
+            actualDomAttributeList.ShouldAllBeEquivalentTo(expectedDomAttributeList, config => config.RespectingRuntimeTypes());
+
             if (this.AdditionalAsserts == null)
                 return;
 

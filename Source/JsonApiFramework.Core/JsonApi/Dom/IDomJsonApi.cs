@@ -4,27 +4,27 @@
 namespace JsonApiFramework.JsonApi.Dom
 {
     /// <summary>
-    /// Abstracts read-only DOM node that represents a json:api version object.
+    /// Abstracts read-only DOM node that represents a json:api object.
     /// </summary>
-    public interface IDomJsonApiVersion : IDomObject
+    public interface IDomJsonApi : IDomObject
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>
         /// Gets the read-only DOM property node that represents the version of
-        /// this json:api version object.
+        /// this json:api object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. version is optional.
+        /// This DOM property node is optional, version is optional.
         /// </remarks>
         IDomProperty DomVersion { get; }
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the json:api
-        /// meta object of this json:api version object.
+        /// meta object of this json:api object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
         #endregion

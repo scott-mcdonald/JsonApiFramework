@@ -29,7 +29,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 switch (apiPropertyType)
                 {
                     case PropertyType.JsonApi:
-                        this.DomJsonApiVersion = domProperty;
+                        this.DomJsonApi = domProperty;
                         break;
 
                     case PropertyType.Meta:
@@ -67,7 +67,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             private set { this.SetAttributeValue(ApiDocumentTypeAttributeName, value); }
         }
 
-        public IDomProperty DomJsonApiVersion { get; }
+        public IDomProperty DomJsonApi { get; }
 
         public IDomProperty DomMeta { get; }
 

@@ -22,6 +22,41 @@ namespace JsonApiFramework.JsonApi
     /// </item>
     /// 
     /// <item>
+    ///     <term>ResourceDocument</term>
+    ///     <description>
+    ///     Document that contains primary data as a single resource object.
+    ///     </description>
+    /// </item>
+    /// 
+    /// <item>
+    ///     <term>ResourceCollectionDocument</term>
+    ///     <description>
+    ///     Document that contains primary data as a collection of resource objects.
+    ///     </description>
+    /// </item>
+    /// 
+    /// <item>
+    ///     <term>ResourceIdentifierDocument</term>
+    ///     <description>
+    ///     Document that contains primary data as a single resource identifier object.
+    ///     </description>
+    /// </item>
+    /// 
+    /// <item>
+    ///     <term>ResourceIdentifierCollectionDocument</term>
+    ///     <description>
+    ///     Document that contains primary data as a collection of resource identifier objects.
+    ///     </description>
+    /// </item>
+    /// 
+    /// <item>
+    ///     <term>NullDocument</term>
+    ///     <description>
+    ///     Document that contains primary data but is a null object. Only used when deserializing JSON into a DOM tree.
+    ///     </description>
+    /// </item>
+    /// 
+    /// <item>
     ///     <term>EmptyDocument</term>
     ///     <description>
     ///     Document that contains primary data but is an empty data array. Only used when deserializing JSON into a DOM tree.
@@ -35,51 +70,17 @@ namespace JsonApiFramework.JsonApi
     ///     </description>
     /// </item>
     /// 
-    /// <item>
-    ///     <term>NullDocument</term>
-    ///     <description>
-    ///     Document that contains primary data but is a null object. Only used when deserializing JSON into a DOM tree.
-    ///     </description>
-    /// </item>
-    /// 
-    /// <item>
-    ///     <term>ResourceCollectionDocument</term>
-    ///     <description>
-    ///     Document that contains primary data as a collection of resource objects.
-    ///     </description>
-    /// </item>
-    /// 
-    /// <item>
-    ///     <term>ResourceDocument</term>
-    ///     <description>
-    ///     Document that contains primary data as a single resource object.
-    ///     </description>
-    /// </item>
-    /// 
-    /// <item>
-    ///     <term>ResourceIdentifierCollectionDocument</term>
-    ///     <description>
-    ///     Document that contains primary data as a collection of resource identifier objects.
-    ///     </description>
-    /// </item>
-    /// 
-    /// <item>
-    ///     <term>ResourceIdentifierDocument</term>
-    ///     <description>
-    ///     Document that contains primary data as a single resource identifier object.
-    ///     </description>
-    /// </item>
     /// </list>>
     /// </remarks>
     public enum DocumentType
     {
         Document,
-        EmptyDocument,
-        ErrorsDocument,
-        NullDocument,
-        ResourceCollectionDocument,
         ResourceDocument,
+        ResourceCollectionDocument,
+        ResourceIdentifierDocument,
         ResourceIdentifierCollectionDocument,
-        ResourceIdentifierDocument
+        NullDocument,
+        EmptyDocument,
+        ErrorsDocument
     };
 }

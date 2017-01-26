@@ -24,7 +24,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// link sobject of this json:api relationship object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. links is optional.
+        /// This DOM property node is optional, links is optional.
         /// </remarks>
         IDomProperty DomLinks { get; }
 
@@ -33,7 +33,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// data object of this json:api relationship object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. data is optional.
+        /// This DOM property node is optional, data is optional.
         /// </remarks>
         IDomProperty DomData { get; }
 
@@ -42,7 +42,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// meta object of this json:api relationship object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
         #endregion

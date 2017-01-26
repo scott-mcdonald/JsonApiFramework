@@ -15,11 +15,11 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi.Dom
 {
-    public class DomJsonApiVersionTests : XUnitTests
+    public class DomJsonApiTests : XUnitTests
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomJsonApiVersionTests(ITestOutputHelper output)
+        public DomJsonApiTests(ITestOutputHelper output)
             : base(output)
         { }
         #endregion
@@ -27,7 +27,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(DomJsonApiVersionTestData))]
+        [MemberData(nameof(DomJsonApiTestData))]
         public void TestJsonSerialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
         {
             var data = domJsonSerializationUnitTestFactory.Data;
@@ -37,7 +37,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         }
 
         [Theory]
-        [MemberData(nameof(DomJsonApiVersionTestData))]
+        [MemberData(nameof(DomJsonApiTestData))]
         public void TestJsonDeserialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
         {
             var data = domJsonSerializationUnitTestFactory.Data;
@@ -74,20 +74,20 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                 NullValueHandling = NullValueHandling.Include
             };
 
-        public static readonly IEnumerable<object[]> DomJsonApiVersionTestData = new[]
+        public static readonly IEnumerable<object[]> DomJsonApiTestData = new[]
             {
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomJsonApiVersion>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomJsonApiVersion>(x),
+                            x => new DomJsonSerializeUnitTest<IDomJsonApi>(x),
+                            x => new DomJsonDeserializeUnitTest<IDomJsonApi>(x),
                             new DomJsonSerializationUnitTestData(
                                 "WithVersionAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomJsonApiVersion(
+                                new DomJsonApi(
                                     new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
                                     new DomProperty(PropertyType.Meta, "meta")),
-                                new DomJsonApiVersion(
+                                new DomJsonApi(
                                     new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0"))),
 @"{
   ""version"": ""1.0""
@@ -97,12 +97,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomJsonApiVersion>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomJsonApiVersion>(x),
+                            x => new DomJsonSerializeUnitTest<IDomJsonApi>(x),
+                            x => new DomJsonDeserializeUnitTest<IDomJsonApi>(x),
                             new DomJsonSerializationUnitTestData(
                                 "WithVersionAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomJsonApiVersion(
+                                new DomJsonApi(
                                     new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")),
                                     new DomProperty(PropertyType.Meta, "meta")),
 @"{
@@ -114,12 +114,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomJsonApiVersion>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomJsonApiVersion>(x),
+                            x => new DomJsonSerializeUnitTest<IDomJsonApi>(x),
+                            x => new DomJsonDeserializeUnitTest<IDomJsonApi>(x),
                             new DomJsonSerializationUnitTestData(
                                 "WithVersionAndMeta",
                                 TestJsonSerializerSettings,
-                                new DomJsonApiVersion(
+                                new DomJsonApi(
                                     new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.1")),
                                     new DomProperty(PropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("website", new DomValue<string>("http://jsonapi.org"))))),

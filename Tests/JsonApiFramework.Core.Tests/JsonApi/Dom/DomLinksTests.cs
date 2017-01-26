@@ -60,20 +60,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                 Formatting = Formatting.Indented
             };
 
-        private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNull = new JsonSerializerSettings
-            {
-                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
-
-        private static readonly JsonSerializerSettings TestJsonSerializerSettingsIncludeNull = new JsonSerializerSettings
-            {
-                ContractResolver = new DomContractResolver(TestDomJsonSerializerSettings),
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Include
-            };
-
         public static readonly IEnumerable<object[]> DomLinksTestData = new[]
             {
                 new object[]
@@ -94,40 +80,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithOneLinkAndIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomLinks(
-                                    new DomProperty(PropertyType.Link, "self",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta")))),
+                                "WithOneLink",
+                                TestJsonSerializerSettings,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "self",
                                         new DomLink(
                                             new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))),
 @"{
   ""self"":  ""https://api.example.com/articles/42""
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLinks>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithOneLinkAndIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomLinks(
-                                    new DomProperty(PropertyType.Link, "self",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta")))),
-@"{
-  ""self"":  {
-    ""href"": ""https://api.example.com/articles/42"",
-    ""meta"": null
-  }
 }"))
                     },
 
@@ -164,17 +124,8 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomLinks>(x),
                             x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithTwoLinksAndIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomLinks(
-                                    new DomProperty(PropertyType.Link, "up",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                            new DomProperty(PropertyType.Meta, "meta"))),
-                                    new DomProperty(PropertyType.Link, "self",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta")))),
+                                "WithTwoLinks",
+                                TestJsonSerializerSettings,
                                 new DomLinks(
                                     new DomProperty(PropertyType.Link, "up",
                                         new DomLink(
@@ -185,35 +136,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 @"{
   ""up"": ""https://api.example.com/articles"",
   ""self"": ""https://api.example.com/articles/42""
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomLinks>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomLinks>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithTwoLinksAndIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomLinks(
-                                    new DomProperty(PropertyType.Link, "up",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                            new DomProperty(PropertyType.Meta, "meta"))),
-                                    new DomProperty(PropertyType.Link, "self",
-                                        new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta")))),
-@"{
-  ""up"":  {
-    ""href"": ""https://api.example.com/articles"",
-    ""meta"": null
-  },
-  ""self"":  {
-    ""href"": ""https://api.example.com/articles/42"",
-    ""meta"": null
-  }
 }"))
                     },
 

@@ -15,7 +15,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// of this json:api resource identifier object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is required, i.e. "type" is required.
+        /// This DOM property node is required, "type" is required.
         /// </remarks>
         IDomProperty DomType { get; }
 
@@ -24,7 +24,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// of this json:api resource identifier object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is required, i.e. "id" is required.
+        /// This DOM property node is required, "id" is required.
         /// </remarks>
         IDomProperty DomId { get; }
 
@@ -33,7 +33,7 @@ namespace JsonApiFramework.JsonApi.Dom
         /// meta object of this json:api resource identifier object.
         /// </summary>
         /// <remarks>
-        /// This DOM property node is optional, i.e. meta is optional.
+        /// This DOM property node is optional, meta is optional.
         /// </remarks>
         IDomProperty DomMeta { get; }
         #endregion

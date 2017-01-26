@@ -31,7 +31,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             {
                 case 0:
                     {
-                        // JObject contains no properties, is not a resource or resource identifier.
+                        // JObject contains no properties, is NOT a resource or resource identifier.
                         return DataType.None;
                     }
 
@@ -39,8 +39,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     {
                         // JObject contains 1 property.
                         //
-                        // If it is "type" then it must be a Resource for POST purposes (Server generates the identifier)
-                        // else is not a resource or resource identifier.
+                        // If it is "type" then it MUST be a Resource for POST purposes (Server generates the identifier)
+                        // else is NOT a resource or resource identifier.
                         var property = jObject.Properties()
                                               .First();
                         var propertyNameIsType = property.Name == Keywords.Type;
@@ -51,9 +51,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     {
                         // JObject contains 2 properties.
                         //
-                        // If they are "type" and "id" it must be a ResourceIdentifier
-                        // else if one of the two properties is "type" then it must be a Resource for POST purposes (Server generates the identifier)
-                        // else is not a resource or resource identifier.
+                        // If they are "type" and "id" it is MOST LIKELY a ResourceIdentifier
+                        // else if one of the two properties is "type" then it MUST be a Resource for POST purposes (Server generates the identifier)
+                        // else is NOT a resource or resource identifier.
                         var propertyNames = jObject.Properties()
                                                    .OrderByDescending(x => x.Name)
                                                    .Select(x => x.Name)
@@ -70,13 +70,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     {
                         // JObject contains 3 properties.
                         //
-                        // If they are "type", "id", and "meta" it could be either a resource identifier or resource per the JSON API specification.
-                        // Because there is no "attributes", "relationships", or "links" properties the most likely intention is the JSON object is a resource
-                        // identifier although this is not 100% but my best guess.
-                        //
-                        // else if one of the three properties is "type" then it must be a Resource for POST purposes (Server generates the identifier)
-                        //
-                        // else is not a resource or resource identifier.
+                        // If they are "type", "id", and "meta" it is MOST LIKELY a ResourceIdentifier
+                        // else if one of the three properties is "type" then it MUST be a Resource for POST purposes (Server generates the identifier)
+                        // else is NOT a resource or resource identifier.
                         var propertyNames = jObject.Properties()
                                                    .OrderByDescending(x => x.Name)
                                                    .Select(x => x.Name)
@@ -95,8 +91,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     {
                         // JObject contains 4+ properties.
                         //
-                        // If one of the properties is "type" then it must be a Resource
-                        // else is not a resource or resource identifier.
+                        // If one of the properties is "type" then it MUST be a Resource
+                        // else is NOT a resource or resource identifier.
                         var propertyNamesContainType = jObject.Properties()
                                                               .Any(x => x.Name == Keywords.Type);
                         return propertyNamesContainType ? DataType.Resource : DataType.None;

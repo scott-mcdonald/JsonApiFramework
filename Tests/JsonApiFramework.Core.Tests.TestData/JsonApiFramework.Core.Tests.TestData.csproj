@@ -42,7 +42,7 @@
     <Compile Include="JsonApi\DocumentMeta.cs" />
     <Compile Include="JsonApi\ErrorMeta.cs" />
     <Compile Include="JsonApi\JsonApiSampleData.cs" />
-    <Compile Include="JsonApi\JsonApiVersionMeta.cs" />
+    <Compile Include="JsonApi\JsonApiMeta.cs" />
     <Compile Include="JsonApi\LinkMeta.cs" />
     <Compile Include="JsonApi\RelationshipMeta.cs" />
     <Compile Include="JsonApi\ResourceMeta.cs" />

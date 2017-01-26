@@ -7,17 +7,17 @@ using System.Linq;
 
 namespace JsonApiFramework.JsonApi.Dom.Internal
 {
-    internal class DomJsonApiVersion : DomObject
-        , IDomJsonApiVersion
+    internal class DomJsonApi : DomObject
+        , IDomJsonApi
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomJsonApiVersion(params DomProperty[] domProperties)
+        public DomJsonApi(params DomProperty[] domProperties)
             : this(domProperties.AsEnumerable())
         { }
 
-        public DomJsonApiVersion(IEnumerable<DomProperty> domProperties)
-            : base("jsonapi version object", domProperties)
+        public DomJsonApi(IEnumerable<DomProperty> domProperties)
+            : base("jsonapi object", domProperties)
         {
             foreach (var domProperty in this.DomProperties())
             {
@@ -40,7 +40,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IDomJsonApiVersion Implementation
+        #region IDomJsonApi Implementation
         public IDomProperty DomVersion { get; }
 
         public IDomProperty DomMeta { get; }

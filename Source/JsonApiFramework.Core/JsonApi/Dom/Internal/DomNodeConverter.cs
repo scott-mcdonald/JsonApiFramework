@@ -105,74 +105,6 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
-        protected static IDomArray CreateDomResourceArray(JArray jArray)
-        {
-            if (jArray == null)
-                return null;
-
-            var index = 0;
-            var domItems = jArray
-                .Select(jToken =>
-                    {
-                        var jTokenType = jToken.Type;
-                        switch (jTokenType)
-                        {
-                            case JTokenType.Object:
-                            {
-                                var jObject = (JObject)jToken;
-                                var domObject = (DomNode)CreateDomResource(jObject);
-                                var domItem = new DomItem(index++, domObject);
-                                return domItem;
-                            }
-
-                            default:
-                            {
-                                var json = jToken.ToString();
-                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
-                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
-                                throw new JsonApiException(title, detail);
-                            }
-                        }
-                    });
-
-            var domArray = new DomArray(domItems);
-            return domArray;
-        }
-
-        protected static IDomArray CreateDomResourceIdentifierArray(JArray jArray)
-        {
-            if (jArray == null)
-                return null;
-
-            var index = 0;
-            var domItems = jArray
-                .Select(jToken =>
-                    {
-                        var jTokenType = jToken.Type;
-                        switch (jTokenType)
-                        {
-                            case JTokenType.Object:
-                            {
-                                var jObject = (JObject)jToken;
-                                var domObject = (DomNode)CreateDomResourceIdentifier(jObject);
-                                var domItem = new DomItem(index++, domObject);
-                                return domItem;
-                            }
-
-                            default:
-                            {
-                                var json = jToken.ToString();
-                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
-                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
-                                throw new JsonApiException(title, detail);
-                            }
-                        }
-                    });
-
-            var domArray = new DomArray(domItems);
-            return domArray;
-        }
-
         protected static IDomDocument CreateDomDocument(JObject jObject)
         {
             if (jObject == null)
@@ -419,6 +351,40 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private static IDomArray CreateDomErrorArray(JArray jArray)
+        {
+            if (jArray == null)
+                return null;
+
+            var index = 0;
+            var domItems = jArray
+                .Select(jToken =>
+                {
+                    var jTokenType = jToken.Type;
+                    switch (jTokenType)
+                    {
+                        case JTokenType.Object:
+                            {
+                                var jObject = (JObject)jToken;
+                                var domObject = (DomNode)CreateDomError(jObject);
+                                var domItem = new DomItem(index++, domObject);
+                                return domItem;
+                            }
+
+                        default:
+                            {
+                                var json = jToken.ToString();
+                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
+                                throw new JsonApiException(title, detail);
+                            }
+                    }
+                });
+
+            var domArray = new DomArray(domItems);
+            return domArray;
+        }
+
         private static IEnumerable<DomProperty> CreateDomProperties(JObject jObject, ParseContext parseContext, IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> jPropertyToDomPropertyConverterDictionary)
         {
             Contract.Requires(jObject != null);
@@ -445,6 +411,74 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 });
 
             return domProperties;
+        }
+
+        private static IDomArray CreateDomResourceArray(JArray jArray)
+        {
+            if (jArray == null)
+                return null;
+
+            var index = 0;
+            var domItems = jArray
+                .Select(jToken =>
+                {
+                    var jTokenType = jToken.Type;
+                    switch (jTokenType)
+                    {
+                        case JTokenType.Object:
+                            {
+                                var jObject = (JObject)jToken;
+                                var domObject = (DomNode)CreateDomResource(jObject);
+                                var domItem = new DomItem(index++, domObject);
+                                return domItem;
+                            }
+
+                        default:
+                            {
+                                var json = jToken.ToString();
+                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
+                                throw new JsonApiException(title, detail);
+                            }
+                    }
+                });
+
+            var domArray = new DomArray(domItems);
+            return domArray;
+        }
+
+        private static IDomArray CreateDomResourceIdentifierArray(JArray jArray)
+        {
+            if (jArray == null)
+                return null;
+
+            var index = 0;
+            var domItems = jArray
+                .Select(jToken =>
+                {
+                    var jTokenType = jToken.Type;
+                    switch (jTokenType)
+                    {
+                        case JTokenType.Object:
+                            {
+                                var jObject = (JObject)jToken;
+                                var domObject = (DomNode)CreateDomResourceIdentifier(jObject);
+                                var domItem = new DomItem(index++, domObject);
+                                return domItem;
+                            }
+
+                        default:
+                            {
+                                var json = jToken.ToString();
+                                var title = CoreErrorStrings.JsonApiDeserializationErrorTitle;
+                                var detail = CoreErrorStrings.JsonApiDeserializationErrorInvalidArrayItemJsonDetail.FormatWith(json);
+                                throw new JsonApiException(title, detail);
+                            }
+                    }
+                });
+
+            var domArray = new DomArray(domItems);
+            return domArray;
         }
 
         private static IDomValue CreateDomValue<TValue>(TValue clrValue)
@@ -607,14 +641,18 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     switch (apiPropertyJTokenType)
                     {
                         case JTokenType.Null:
-                        {
-                            throw new NotImplementedException();
-                        }
+                            {
+                                var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, new DomArray());
+                                return domProperty;
+                            }
 
                         case JTokenType.Array:
-                        {
-                            throw new NotImplementedException();
-                        }
+                            {
+                                var apiPropertyJArray = (JArray)apiPropertyJToken;
+                                var domPropertyValue = (DomNode)CreateDomErrorArray(apiPropertyJArray);
+                                var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, domPropertyValue);
+                                return domProperty;
+                            }
                     }
 
                     return null;

@@ -1,0 +1,35 @@
+{
+    "version": "1.0.0-*",
+
+    "testRunner": "xunit",
+
+    "dependencies": {
+        "dotnet-test-xunit": "2.2.0-preview2-build1029",
+        "FluentAssertions": "4.19.0",
+        "JsonApiFramework.Core": {
+            "target": "project",
+            "version": "1.0.0-*"
+        },
+        "JsonApiFramework.Core.Tests.TestSupport": {
+            "target": "project",
+            "version": "1.0.0-*"
+        },
+        "JsonApiFramework.XUnit": {
+            "target": "project",
+            "version": "1.0.0-*"
+        },
+        "Microsoft.NETCore.App": "1.1.0",
+        "NETStandard.Library": "1.6.1",
+        "xunit": "2.2.0-beta5-build3474"
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": "dnxcore50"
+        }
+    },
+
+    "runtimes": {
+        "win81-x64": {}
+    }
+}

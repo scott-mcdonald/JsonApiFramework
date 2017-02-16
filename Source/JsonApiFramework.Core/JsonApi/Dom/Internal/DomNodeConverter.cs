@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JsonApiFramework.Properties;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -51,8 +53,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Methods
-        protected static IDomArray CreateDomArray(JArray jArray)
+        protected static IDomArray CreateDomArray(DomReadJsonContext domReadJsonContext, JArray jArray)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jArray == null)
                 return null;
 
@@ -77,7 +81,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.String:
                                 {
                                     var jValue = (JValue)jToken;
-                                    var domValue = (DomNode)CreateDomValue(jValue);
+                                    var domValue = (DomNode)CreateDomValue(domReadJsonContext, jValue);
                                     var domItem = new DomItem(index++, domValue);
                                     return domItem;
                                 }
@@ -85,7 +89,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.Object:
                                 {
                                     var jObject = (JObject)jToken;
-                                    var domObject = (DomNode)CreateDomObject(jObject);
+                                    var domObject = (DomNode)CreateDomObject(domReadJsonContext, jObject);
                                     var domItem = new DomItem(index++, domObject);
                                     return domItem;
                                 }
@@ -105,63 +109,72 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
-        protected static IDomDocument CreateDomDocument(JObject jObject)
+        protected static IDomDocument CreateDomDocument(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
             var apiDocumentType = jObject.GetApiDocumentType();
-            var parseContext = new ParseContext
-                {
-                    ApiDocumentType = apiDocumentType
-                };
+            domReadJsonContext.SetApiDocumentType(apiDocumentType);
 
-            var domProperties = CreateDomProperties(jObject, parseContext, JPropertyToDomDocumentPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomDocumentPropertyConverterDictionary);
             var domDocument = new DomDocument(apiDocumentType, domProperties);
             return domDocument;
         }
 
-        protected static IDomError CreateDomError(JObject jObject)
+        protected static IDomError CreateDomError(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomErrorPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomErrorPropertyConverterDictionary);
             var domError = new DomError(domProperties);
             return domError;
         }
 
-        protected static IDomJsonApi CreateDomJsonApi(JObject jObject)
+        protected static IDomJsonApi CreateDomJsonApi(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomJsonApiPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomJsonApiPropertyConverterDictionary);
             var domJsonApi = new DomJsonApi(domProperties);
             return domJsonApi;
         }
 
-        protected static IDomLink CreateDomLink(JObject jObject)
+        protected static IDomLink CreateDomLink(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomLinkPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomLinkPropertyConverterDictionary);
             var domLink = new DomLink(domProperties);
             return domLink;
         }
 
-        protected static IDomLink CreateDomLink(JValue jValue)
+        protected static IDomLink CreateDomLink(DomReadJsonContext domReadJsonContext, JValue jValue)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             var hRef = (string)jValue;
-            var domValue = CreateDomValue(hRef);
+            var domValue = CreateDomValue(domReadJsonContext, hRef);
             var domProperty = new DomProperty(PropertyType.HRef, Keywords.HRef, (DomNode)domValue);
             var domLink = new DomLink(domProperty);
             return domLink;
         }
 
-        protected static IDomLinks CreateDomLinks(JObject jObject)
+        protected static IDomLinks CreateDomLinks(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
@@ -178,7 +191,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.String:
                             {
                                 var apiPropertyJValue = (JValue)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomLink(apiPropertyJValue);
+                                var domPropertyValue = (DomNode)CreateDomLink(domReadJsonContext, apiPropertyJValue);
                                 var domProperty = new DomProperty(PropertyType.Link, apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -186,7 +199,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                             {
                                 var apiPropertyJObject = (JObject)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomLink(apiPropertyJObject);
+                                var domPropertyValue = (DomNode)CreateDomLink(domReadJsonContext, apiPropertyJObject);
                                 var domProperty = new DomProperty(PropertyType.Link, apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -202,8 +215,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domLinks;
         }
 
-        protected static IDomObject CreateDomObject(JObject jObject)
+        protected static IDomObject CreateDomObject(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
@@ -231,7 +246,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.String:
                             {
                                 var apiPropertyJValue = (JValue)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomValue(apiPropertyJValue);
+                                var domPropertyValue = (DomNode)CreateDomValue(domReadJsonContext, apiPropertyJValue);
                                 var domProperty = new DomProperty(apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -239,7 +254,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.Object:
                             {
                                 var apiPropertyJObject = (JObject)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomObject(apiPropertyJObject);
+                                var domPropertyValue = (DomNode)CreateDomObject(domReadJsonContext, apiPropertyJObject);
                                 var domProperty = new DomProperty(apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -247,7 +262,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             case JTokenType.Array:
                             {
                                 var apiPropertyJArray = (JArray)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomArray(apiPropertyJArray);
+                                var domPropertyValue = (DomNode)CreateDomArray(domReadJsonContext, apiPropertyJArray);
                                 var domProperty = new DomProperty(apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -263,19 +278,23 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domObject;
         }
 
-        protected static IDomRelationship CreateDomRelationship(JObject jObject)
+        protected static IDomRelationship CreateDomRelationship(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
             var apiRelationshipType = jObject.GetApiRelationshipType();
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomRelationshipPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomRelationshipPropertyConverterDictionary);
             var domRelationship = new DomRelationship(apiRelationshipType, domProperties);
             return domRelationship;
         }
 
-        protected static IDomRelationships CreateDomRelationships(JObject jObject)
+        protected static IDomRelationships CreateDomRelationships(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
@@ -292,7 +311,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                             {
                                 var apiPropertyJObject = (JObject)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomRelationship(apiPropertyJObject);
+                                var domPropertyValue = (DomNode)CreateDomRelationship(domReadJsonContext, apiPropertyJObject);
                                 var domProperty = new DomProperty(PropertyType.Relationship, apiPropertyName, domPropertyValue);
                                 return domProperty;
                             }
@@ -308,28 +327,34 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domRelationships;
         }
 
-        protected static IDomResource CreateDomResource(JObject jObject)
+        protected static IDomResource CreateDomResource(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomResourcePropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomResourcePropertyConverterDictionary);
             var domResource = new DomResource(domProperties);
             return domResource;
         }
 
-        protected static IDomResourceIdentifier CreateDomResourceIdentifier(JObject jObject)
+        protected static IDomResourceIdentifier CreateDomResourceIdentifier(DomReadJsonContext domReadJsonContext, JObject jObject)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jObject == null)
                 return null;
 
-            var domProperties = CreateDomProperties(jObject, null, JPropertyToDomResourceIdentifierPropertyConverterDictionary);
+            var domProperties = CreateDomProperties(domReadJsonContext, jObject, JPropertyToDomResourceIdentifierPropertyConverterDictionary);
             var domResourceIdentifier = new DomResourceIdentifier(domProperties);
             return domResourceIdentifier;
         }
 
-        protected static IDomValue CreateDomValue(JValue jValue)
+        protected static IDomValue CreateDomValue(DomReadJsonContext domReadJsonContext, JValue jValue)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jValue == null)
                 return null;
 
@@ -351,8 +376,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static IDomArray CreateDomErrorArray(JArray jArray)
+        private static IDomArray CreateDomErrorArray(DomReadJsonContext domReadJsonContext, JArray jArray)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jArray == null)
                 return null;
 
@@ -366,7 +393,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                             {
                                 var jObject = (JObject)jToken;
-                                var domObject = (DomNode)CreateDomError(jObject);
+                                var domObject = (DomNode)CreateDomError(domReadJsonContext, jObject);
                                 var domItem = new DomItem(index++, domObject);
                                 return domItem;
                             }
@@ -385,8 +412,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
-        private static IEnumerable<DomProperty> CreateDomProperties(JObject jObject, ParseContext parseContext, IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> jPropertyToDomPropertyConverterDictionary)
+        private static IEnumerable<DomProperty> CreateDomProperties(DomReadJsonContext domReadJsonContext, JObject jObject, IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> jPropertyToDomPropertyConverterDictionary)
         {
+            Contract.Requires(domReadJsonContext != null);
             Contract.Requires(jObject != null);
             Contract.Requires(jPropertyToDomPropertyConverterDictionary != null);
 
@@ -396,10 +424,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 {
                     var apiPropertyName = jProperty.GetApiPropertyName();
 
-                    Func<JProperty, ParseContext, DomProperty> jPropertyToDomPropertyConverter;
+                    Func<DomReadJsonContext, JProperty, DomProperty> jPropertyToDomPropertyConverter;
                     if (jPropertyToDomPropertyConverterDictionary.TryGetValue(apiPropertyName, out jPropertyToDomPropertyConverter))
                     {
-                        var domProperty = jPropertyToDomPropertyConverter(jProperty, parseContext);
+                        var domProperty = jPropertyToDomPropertyConverter(domReadJsonContext, jProperty);
                         if (domProperty != null)
                             return domProperty;
                     }
@@ -413,8 +441,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domProperties;
         }
 
-        private static IDomArray CreateDomResourceArray(JArray jArray)
+        private static IDomArray CreateDomResourceArray(DomReadJsonContext domReadJsonContext, JArray jArray)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jArray == null)
                 return null;
 
@@ -428,7 +458,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                             {
                                 var jObject = (JObject)jToken;
-                                var domObject = (DomNode)CreateDomResource(jObject);
+                                var domObject = (DomNode)CreateDomResource(domReadJsonContext, jObject);
                                 var domItem = new DomItem(index++, domObject);
                                 return domItem;
                             }
@@ -447,8 +477,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
-        private static IDomArray CreateDomResourceIdentifierArray(JArray jArray)
+        private static IDomArray CreateDomResourceIdentifierArray(DomReadJsonContext domReadJsonContext, JArray jArray)
         {
+            Contract.Requires(domReadJsonContext != null);
+
             if (jArray == null)
                 return null;
 
@@ -462,7 +494,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                         case JTokenType.Object:
                             {
                                 var jObject = (JObject)jToken;
-                                var domObject = (DomNode)CreateDomResourceIdentifier(jObject);
+                                var domObject = (DomNode)CreateDomResourceIdentifier(domReadJsonContext, jObject);
                                 var domItem = new DomItem(index++, domObject);
                                 return domItem;
                             }
@@ -481,11 +513,16 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             return domArray;
         }
 
-        private static IDomValue CreateDomValue<TValue>(TValue clrValue)
-        { return new DomValue<TValue>(clrValue); }
-
-        private static DomProperty JPropertyToDomStringPropertyConverter(JProperty jProperty, ParseContext parseContext, PropertyType apiPropertyType, string apiPropertyName)
+        private static IDomValue CreateDomValue<TValue>(DomReadJsonContext domReadJsonContext, TValue clrValue)
         {
+            Contract.Requires(domReadJsonContext != null);
+
+            return new DomValue<TValue>(clrValue);
+        }
+
+        private static DomProperty JPropertyToDomStringPropertyConverter(DomReadJsonContext domReadJsonContext, JProperty jProperty, PropertyType apiPropertyType, string apiPropertyName)
+        {
+            Contract.Requires(domReadJsonContext != null);
             Contract.Requires(jProperty != null);
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);
 
@@ -502,7 +539,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 case JTokenType.String:
                     {
                         var apiPropertyJValue = (JValue)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomValue(apiPropertyJValue);
+                        var domPropertyValue = (DomNode)CreateDomValue(domReadJsonContext, apiPropertyJValue);
                         var domProperty = new DomProperty(apiPropertyType, apiPropertyName, domPropertyValue);
                         return domProperty;
                     }
@@ -512,20 +549,13 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         }
         #endregion
 
-        // PRIVATE TYPES ////////////////////////////////////////////////////
-        #region Types
-        private class ParseContext
-        {
-            #region Properties
-            public DocumentType ApiDocumentType { get; set; }
-            #endregion
-        };
-        #endregion
-
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region JPropertyToDomPropertyConverters
-        private static readonly Func<JProperty, ParseContext, DomProperty> AttributesJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> AttributesJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
                 switch (apiPropertyJTokenType)
@@ -539,7 +569,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Object:
                     {
                         var apiPropertyJObject = (JObject)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomObject(apiPropertyJObject);
+                        var domPropertyValue = (DomNode)CreateDomObject(domReadJsonContext, apiPropertyJObject);
                         var domProperty = new DomProperty(PropertyType.Attributes, Keywords.Attributes, domPropertyValue);
                         return domProperty;
                     }
@@ -548,13 +578,16 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> CodeJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Code, Keywords.Code);
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> CodeJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Code, Keywords.Code);
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> DetailJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Detail, Keywords.Detail);
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> DetailJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Detail, Keywords.Detail);
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> DocumentDataJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> DocumentDataJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
-                var apiDocumentType = parseContext.ApiDocumentType;
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
+                var apiDocumentType = domReadJsonContext.ApiDocumentType;
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
                 switch (apiPropertyJTokenType)
@@ -572,14 +605,14 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                             {
                                 case DocumentType.ResourceDocument:
                                     {
-                                        var domPropertyValue = (DomNode)CreateDomResource(apiPropertyJObject);
+                                        var domPropertyValue = (DomNode)CreateDomResource(domReadJsonContext, apiPropertyJObject);
                                         var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                                         return domProperty;
                                     }
 
                                 case DocumentType.ResourceIdentifierDocument:
                                     {
-                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifier(apiPropertyJObject);
+                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifier(domReadJsonContext, apiPropertyJObject);
                                         var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                                         return domProperty;
                                     }
@@ -608,14 +641,14 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
                                 case DocumentType.ResourceCollectionDocument:
                                     {
-                                        var domPropertyValue = (DomNode)CreateDomResourceArray(apiPropertyJArray);
+                                        var domPropertyValue = (DomNode)CreateDomResourceArray(domReadJsonContext, apiPropertyJArray);
                                         var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                                         return domProperty;
                                     }
 
                                 case DocumentType.ResourceIdentifierCollectionDocument:
                                     {
-                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(apiPropertyJArray);
+                                        var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(domReadJsonContext, apiPropertyJArray);
                                         var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                                         return domProperty;
                                     }
@@ -634,84 +667,96 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> ErrorsJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
-                {
-                    var apiPropertyJToken = jProperty.Value;
-                    var apiPropertyJTokenType = apiPropertyJToken.Type;
-                    switch (apiPropertyJTokenType)
-                    {
-                        case JTokenType.Null:
-                            {
-                                var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, new DomArray());
-                                return domProperty;
-                            }
-
-                        case JTokenType.Array:
-                            {
-                                var apiPropertyJArray = (JArray)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomErrorArray(apiPropertyJArray);
-                                var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, domPropertyValue);
-                                return domProperty;
-                            }
-                    }
-
-                    return null;
-                };
-
-        private static readonly Func<JProperty, ParseContext, DomProperty> HRefJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.HRef, Keywords.HRef);
-
-        private static readonly Func<JProperty, ParseContext, DomProperty> IdJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Id, Keywords.Id);
-
-        private static readonly Func<JProperty, ParseContext, DomProperty> IncludedDataJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
-                {
-                    var apiPropertyJToken = jProperty.Value;
-                    var apiPropertyJTokenType = apiPropertyJToken.Type;
-                    switch (apiPropertyJTokenType)
-                    {
-                        case JTokenType.Null:
-                            {
-                                var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, new DomArray());
-                                return domProperty;
-                            }
-
-                        case JTokenType.Array:
-                            {
-                                var apiPropertyJArray = (JArray)apiPropertyJToken;
-                                var domPropertyValue = (DomNode)CreateDomResourceArray(apiPropertyJArray);
-                                var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, domPropertyValue);
-                                return domProperty;
-                            }
-                    }
-
-                    return null;
-                };
-
-        private static readonly Func<JProperty, ParseContext, DomProperty> JsonApiJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
-                {
-                    var apiPropertyJToken = jProperty.Value;
-                    var apiPropertyJTokenType = apiPropertyJToken.Type;
-                    switch (apiPropertyJTokenType)
-                    {
-                        case JTokenType.Null:
-                        {
-                            var domProperty = new DomProperty(PropertyType.JsonApi, Keywords.JsonApi);
-                            return domProperty;
-                        }
-
-                        case JTokenType.Object:
-                        {
-                            var apiPropertyJObject = (JObject)apiPropertyJToken;
-                            var domPropertyValue = (DomNode)CreateDomJsonApi(apiPropertyJObject);
-                            var domProperty = new DomProperty(PropertyType.JsonApi, Keywords.JsonApi, domPropertyValue);
-                            return domProperty;
-                        }
-                    }
-
-                    return null;
-                };
-
-        private static readonly Func<JProperty, ParseContext, DomProperty> LinksJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> ErrorsJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                        {
+                            var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, new DomArray());
+                            return domProperty;
+                        }
+
+                    case JTokenType.Array:
+                        {
+                            var apiPropertyJArray = (JArray)apiPropertyJToken;
+                            var domPropertyValue = (DomNode)CreateDomErrorArray(domReadJsonContext, apiPropertyJArray);
+                            var domProperty = new DomProperty(PropertyType.Errors, Keywords.Errors, domPropertyValue);
+                            return domProperty;
+                        }
+                }
+
+                return null;
+            };
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> HRefJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.HRef, Keywords.HRef);
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> IdJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Id, Keywords.Id);
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> IncludedDataJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
+            {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                        {
+                            var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, new DomArray());
+                            return domProperty;
+                        }
+
+                    case JTokenType.Array:
+                        {
+                            var apiPropertyJArray = (JArray)apiPropertyJToken;
+                            var domPropertyValue = (DomNode)CreateDomResourceArray(domReadJsonContext, apiPropertyJArray);
+                            var domProperty = new DomProperty(PropertyType.Included, Keywords.Included, domPropertyValue);
+                            return domProperty;
+                        }
+                }
+
+                return null;
+            };
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> JsonApiJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
+            {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                    {
+                        var domProperty = new DomProperty(PropertyType.JsonApi, Keywords.JsonApi);
+                        return domProperty;
+                    }
+
+                    case JTokenType.Object:
+                    {
+                        var apiPropertyJObject = (JObject)apiPropertyJToken;
+                        var domPropertyValue = (DomNode)CreateDomJsonApi(domReadJsonContext, apiPropertyJObject);
+                        var domProperty = new DomProperty(PropertyType.JsonApi, Keywords.JsonApi, domPropertyValue);
+                        return domProperty;
+                    }
+                }
+
+                return null;
+            };
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> LinksJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
+            {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
                 switch (apiPropertyJTokenType)
@@ -725,7 +770,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Object:
                     {
                         var apiPropertyJObject = (JObject)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomLinks(apiPropertyJObject);
+                        var domPropertyValue = (DomNode)CreateDomLinks(domReadJsonContext, apiPropertyJObject);
                         var domProperty = new DomProperty(PropertyType.Links, Keywords.Links, domPropertyValue);
                         return domProperty;
                     }
@@ -734,8 +779,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> MetaJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> MetaJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
                 switch (apiPropertyJTokenType)
@@ -749,7 +797,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Object:
                     {
                         var apiPropertyJObject = (JObject)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomObject(apiPropertyJObject);
+                        var domPropertyValue = (DomNode)CreateDomObject(domReadJsonContext, apiPropertyJObject);
                         var domProperty = new DomProperty(PropertyType.Meta, Keywords.Meta, domPropertyValue);
                         return domProperty;
                     }
@@ -758,8 +806,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> RelationshipDataJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> RelationshipDataJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
+
                 var apiPropertyJToken = jProperty.Value;
                 var apiPropertyJTokenType = apiPropertyJToken.Type;
                 switch (apiPropertyJTokenType)
@@ -773,7 +824,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Object:
                         {
                             var apiPropertyJObject = (JObject)apiPropertyJToken;
-                            var domPropertyValue = (DomNode)CreateDomResourceIdentifier(apiPropertyJObject);
+                            var domPropertyValue = (DomNode)CreateDomResourceIdentifier(domReadJsonContext, apiPropertyJObject);
                             var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                             return domProperty;
                         }
@@ -781,7 +832,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                     case JTokenType.Array:
                         {
                             var apiPropertyJArray = (JArray)apiPropertyJToken;
-                            var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(apiPropertyJArray);
+                            var domPropertyValue = (DomNode)CreateDomResourceIdentifierArray(domReadJsonContext, apiPropertyJArray);
                             var domProperty = new DomProperty(PropertyType.Data, Keywords.Data, domPropertyValue);
                             return domProperty;
                         }
@@ -790,65 +841,71 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 return null;
             };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> RelationshipsJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
-        {
-            var apiPropertyJToken = jProperty.Value;
-            var apiPropertyJTokenType = apiPropertyJToken.Type;
-            switch (apiPropertyJTokenType)
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> RelationshipsJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
-                case JTokenType.Null:
-                    {
-                        var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships);
-                        return domProperty;
-                    }
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
 
-                case JTokenType.Object:
-                    {
-                        var apiPropertyJObject = (JObject)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomRelationships(apiPropertyJObject);
-                        var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships, domPropertyValue);
-                        return domProperty;
-                    }
-            }
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                        {
+                            var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships);
+                            return domProperty;
+                        }
 
-            return null;
-        };
+                    case JTokenType.Object:
+                        {
+                            var apiPropertyJObject = (JObject)apiPropertyJToken;
+                            var domPropertyValue = (DomNode)CreateDomRelationships(domReadJsonContext, apiPropertyJObject);
+                            var domProperty = new DomProperty(PropertyType.Relationships, Keywords.Relationships, domPropertyValue);
+                            return domProperty;
+                        }
+                }
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> SourceJPropertyToDomPropertyConverter = (jProperty, parseContext) =>
-        {
-            var apiPropertyJToken = jProperty.Value;
-            var apiPropertyJTokenType = apiPropertyJToken.Type;
-            switch (apiPropertyJTokenType)
+                return null;
+            };
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> SourceJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) =>
             {
-                case JTokenType.Null:
-                    {
-                        var domProperty = new DomProperty(PropertyType.Source, Keywords.Source);
-                        return domProperty;
-                    }
+                Contract.Requires(domReadJsonContext != null);
+                Contract.Requires(jProperty != null);
 
-                case JTokenType.Object:
-                    {
-                        var apiPropertyJObject = (JObject)apiPropertyJToken;
-                        var domPropertyValue = (DomNode)CreateDomObject(apiPropertyJObject);
-                        var domProperty = new DomProperty(PropertyType.Source, Keywords.Source, domPropertyValue);
-                        return domProperty;
-                    }
-            }
+                var apiPropertyJToken = jProperty.Value;
+                var apiPropertyJTokenType = apiPropertyJToken.Type;
+                switch (apiPropertyJTokenType)
+                {
+                    case JTokenType.Null:
+                        {
+                            var domProperty = new DomProperty(PropertyType.Source, Keywords.Source);
+                            return domProperty;
+                        }
 
-            return null;
-        };
+                    case JTokenType.Object:
+                        {
+                            var apiPropertyJObject = (JObject)apiPropertyJToken;
+                            var domPropertyValue = (DomNode)CreateDomObject(domReadJsonContext, apiPropertyJObject);
+                            var domProperty = new DomProperty(PropertyType.Source, Keywords.Source, domPropertyValue);
+                            return domProperty;
+                        }
+                }
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> StatusJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Status, Keywords.Status);
+                return null;
+            };
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> TitleJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Title, Keywords.Title);
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> StatusJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Status, Keywords.Status);
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> TypeJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Type, Keywords.Type);
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> TitleJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Title, Keywords.Title);
 
-        private static readonly Func<JProperty, ParseContext, DomProperty> VersionJPropertyToDomPropertyConverter = (jProperty, parseContext) => JPropertyToDomStringPropertyConverter(jProperty, parseContext, PropertyType.Version, Keywords.Version);
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> TypeJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Type, Keywords.Type);
+
+        private static readonly Func<DomReadJsonContext, JProperty, DomProperty> VersionJPropertyToDomPropertyConverter = (domReadJsonContext, jProperty) => JPropertyToDomStringPropertyConverter(domReadJsonContext, jProperty, PropertyType.Version, Keywords.Version);
         #endregion
 
         #region JPropertyToDomDocumentPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomDocumentPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomDocumentPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.JsonApi, JsonApiJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
@@ -860,7 +917,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomErrorPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomErrorPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomErrorPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
@@ -874,7 +931,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomJsonApiPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomJsonApiPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomJsonApiPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.Version, VersionJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
@@ -882,7 +939,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomLinkPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomLinkPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomLinkPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.HRef, HRefJPropertyToDomPropertyConverter },
                 { Keywords.Meta, MetaJPropertyToDomPropertyConverter },
@@ -890,7 +947,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomRelationshipPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomRelationshipPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomRelationshipPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.Links, LinksJPropertyToDomPropertyConverter },
                 { Keywords.Data, RelationshipDataJPropertyToDomPropertyConverter },
@@ -899,7 +956,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomResourcePropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomResourcePropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomResourcePropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },
@@ -911,7 +968,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #endregion
 
         #region JPropertyToDomResourceIdentifierPropertyConverterDictionary
-        private static readonly IReadOnlyDictionary<string, Func<JProperty, ParseContext, DomProperty>> JPropertyToDomResourceIdentifierPropertyConverterDictionary = new Dictionary<string, Func<JProperty, ParseContext, DomProperty>>
+        private static readonly IReadOnlyDictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>> JPropertyToDomResourceIdentifierPropertyConverterDictionary = new Dictionary<string, Func<DomReadJsonContext, JProperty, DomProperty>>
             {
                 { Keywords.Type, TypeJPropertyToDomPropertyConverter },
                 { Keywords.Id, IdJPropertyToDomPropertyConverter },

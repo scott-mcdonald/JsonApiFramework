@@ -1,0 +1,30 @@
+{
+    "version": "2.0.1",
+
+    "dependencies": {
+        "xunit.abstractions": "2.0.1"
+    },
+
+    "frameworks": {
+        "net452": {
+            "buildOptions": {
+                "define": [
+                    "NET452"
+                ]
+            }
+        },
+
+        "netstandard1.6": {
+            "buildOptions": {
+                "define": [
+                    "NETSTANDARD1_6"
+                ]
+            },
+            "imports": "dnxcore50",
+            "dependencies": {
+                "NETStandard.Library": "1.6.1",
+                "System.Diagnostics.Contracts": "4.3.0"
+            }
+        }
+    }
+}

@@ -211,7 +211,7 @@ namespace JsonApiFramework.Expressions
             var objectType = typeof(TObject);
             var argumentType = typeof(TArgument);
             var argumentExpression = Expression.Parameter(argumentType, "a");
-            var constructorInfo = objectType.GetConstructor(argumentType);
+            var constructorInfo = TypeReflection.GetConstructor(objectType, argumentType);
             var newExpression = Expression.New(constructorInfo, argumentExpression);
             var lambdaExpression = Expression.Lambda<Func<TArgument, TObject>>(newExpression, argumentExpression);
             return lambdaExpression;
@@ -224,7 +224,7 @@ namespace JsonApiFramework.Expressions
             var argument2Type = typeof(TArgument2);
             var argument1Expression = Expression.Parameter(argument1Type, "a");
             var argument2Expression = Expression.Parameter(argument2Type, "b");
-            var constructorInfo = objectType.GetConstructor(argument1Type, argument2Type);
+            var constructorInfo = TypeReflection.GetConstructor(objectType, argument1Type, argument2Type);
             var newExpression = Expression.New(constructorInfo, argument1Expression, argument2Expression);
             var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TObject>>(newExpression, argument1Expression, argument2Expression);
             return lambdaExpression;
@@ -243,8 +243,8 @@ namespace JsonApiFramework.Expressions
             var propertyNameSplit = propertyName.Split('.');
             foreach (var name in propertyNameSplit)
             {
-                var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-                var isPropertyStatic = propertyInfo.IsStatic();
+                var propertyInfo = TypeReflection.GetProperty(type, name, ReflectionFlags.Public | ReflectionFlags.Instance | ReflectionFlags.Static);
+                var isPropertyStatic = PropertyReflection.IsStatic(propertyInfo);
                 propertyExpression = Expression.Property(!isPropertyStatic ? propertyExpression : null, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
@@ -265,8 +265,8 @@ namespace JsonApiFramework.Expressions
             var propertyNameSplit = propertyName.Split('.');
             foreach (var name in propertyNameSplit)
             {
-                var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-                var isPropertyStatic = propertyInfo.IsStatic();
+                var propertyInfo = TypeReflection.GetProperty(type, name, ReflectionFlags.Public | ReflectionFlags.Instance | ReflectionFlags.Static);
+                var isPropertyStatic = PropertyReflection.IsStatic(propertyInfo);
                 propertyExpression = Expression.Property(!isPropertyStatic ? propertyExpression : null, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
@@ -285,8 +285,8 @@ namespace JsonApiFramework.Expressions
             var propertyNameSplit = propertyName.Split('.');
             foreach (var name in propertyNameSplit)
             {
-                var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
-                var isPropertyStatic = propertyInfo.IsStatic();
+                var propertyInfo = TypeReflection.GetProperty(type, name, ReflectionFlags.Public | ReflectionFlags.Static | ReflectionFlags.Instance);
+                var isPropertyStatic = PropertyReflection.IsStatic(propertyInfo);
                 propertyExpression = Expression.Property(isPropertyStatic ? null : propertyExpression, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
@@ -306,8 +306,8 @@ namespace JsonApiFramework.Expressions
             var propertyNameSplit = propertyName.Split('.');
             foreach (var name in propertyNameSplit)
             {
-                var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
-                var isPropertyStatic = propertyInfo.IsStatic();
+                var propertyInfo = TypeReflection.GetProperty(type, name, ReflectionFlags.Public | ReflectionFlags.Static | ReflectionFlags.Instance);
+                var isPropertyStatic = PropertyReflection.IsStatic(propertyInfo);
                 propertyExpression = Expression.Property(isPropertyStatic ? null : propertyExpression, propertyInfo);
                 type = propertyInfo.PropertyType;
             }
@@ -326,7 +326,7 @@ namespace JsonApiFramework.Expressions
 
             var objectType = typeof(TObject);
 
-            var methodInfo = objectType.GetMethod(methodName);
+            var methodInfo = TypeReflection.GetMethod(objectType, methodName);
 
             instanceExpression = Expression.Parameter(objectType, "x");
             var callExpression = Expression.Call(instanceExpression, methodInfo);
@@ -342,7 +342,7 @@ namespace JsonApiFramework.Expressions
             var objectType = typeof(TObject);
             var argumentType = typeof(TArgument);
 
-            var methodInfo = objectType.GetMethod(methodName, argumentType);
+            var methodInfo = TypeReflection.GetMethod(objectType, methodName, argumentType);
 
             instanceExpression = Expression.Parameter(objectType, "x");
             argumentExpression = Expression.Parameter(argumentType, "a");
@@ -361,7 +361,7 @@ namespace JsonApiFramework.Expressions
             var argument1Type = typeof(TArgument1);
             var argument2Type = typeof(TArgument2);
 
-            var methodInfo = objectType.GetMethod(methodName, argument1Type, argument2Type);
+            var methodInfo = TypeReflection.GetMethod(objectType, methodName, argument1Type, argument2Type);
 
             instanceExpression = Expression.Parameter(objectType, "x");
             argument1Expression = Expression.Parameter(argument1Type, "a");
@@ -376,7 +376,7 @@ namespace JsonApiFramework.Expressions
 
             var classType = typeof(TClass);
 
-            var methodInfo = classType.GetMethod(methodName);
+            var methodInfo = TypeReflection.GetMethod(classType, methodName);
 
             var callExpression = Expression.Call(methodInfo);
             return callExpression;
@@ -390,7 +390,7 @@ namespace JsonApiFramework.Expressions
             var classType = typeof(TClass);
             var argumentType = typeof(TArgument);
 
-            var methodInfo = classType.GetMethod(methodName, argumentType);
+            var methodInfo = TypeReflection.GetMethod(classType, methodName, argumentType);
 
             argumentExpression = Expression.Parameter(argumentType, "a");
             var callExpression = Expression.Call(methodInfo, argumentExpression);
@@ -407,7 +407,7 @@ namespace JsonApiFramework.Expressions
             var argument1Type = typeof(TArgument1);
             var argument2Type = typeof(TArgument2);
 
-            var methodInfo = classType.GetMethod(methodName, argument1Type, argument2Type);
+            var methodInfo = TypeReflection.GetMethod(classType, methodName, argument1Type, argument2Type);
 
             argument1Expression = Expression.Parameter(argument1Type, "a");
             argument2Expression = Expression.Parameter(argument2Type, "b");

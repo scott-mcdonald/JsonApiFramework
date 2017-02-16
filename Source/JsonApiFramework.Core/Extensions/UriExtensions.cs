@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework
 {
     public static class UriExtensions

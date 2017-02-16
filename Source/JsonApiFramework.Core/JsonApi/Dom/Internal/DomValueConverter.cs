@@ -3,7 +3,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Net;
 
+using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
 
 using Newtonsoft.Json;
@@ -27,7 +29,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         {
             Contract.Requires(objectType != null);
 
-            var canConvert = objectType == typeof(IDomValue) || objectType.IsImplementationOf(typeof(IDomValue));
+            var canConvert = objectType == typeof(IDomValue) || TypeReflection.IsImplementationOf(objectType, typeof(IDomValue));
             return canConvert;
         }
 
@@ -37,6 +39,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             Contract.Requires(objectType != null);
             Contract.Requires(jsonSerializer != null);
 
+            var domReadJsonContext = new DomReadJsonContext();
             var tokenType = jsonReader.TokenType;
             switch (tokenType)
             {
@@ -53,13 +56,25 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 case JsonToken.String:
                     {
                         var jValue = (JValue)JToken.Load(jsonReader);
-                        var domValue = CreateDomValue(jValue);
-                        return domValue;
+                        var domValue = CreateDomValue(domReadJsonContext, jValue);
+                        if (!domReadJsonContext.AnyErrors())
+                            return domValue;
                     }
+                    break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(tokenType));
+                    {
+                        var title = CoreErrorStrings.JsonReadErrorTitle;
+                        var detail = "Expected JSON null, JSON boolean, JSON number, or JSON string when reading JSON representing a JSON value.";
+                        var source = ErrorSource.CreatePointer(jsonReader.Path);
+                        var error = new Error(null, null, HttpStatusCode.BadRequest, null, title, detail, source, null);
+                        domReadJsonContext.AddError(error);
+                    }
+                    break;
             }
+
+            var errorsCollection = domReadJsonContext.ErrorsCollection;
+            throw new ErrorsException(HttpStatusCode.BadRequest, errorsCollection);
         }
         #endregion
     }

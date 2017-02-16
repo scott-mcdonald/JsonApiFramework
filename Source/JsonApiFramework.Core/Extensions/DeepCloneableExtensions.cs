@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework
 {
     /// <summary>

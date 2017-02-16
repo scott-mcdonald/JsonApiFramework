@@ -5,8 +5,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 
-using JetBrains.Annotations;
-
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework
 {
     /// <summary>
@@ -32,7 +31,6 @@ namespace JsonApiFramework
         /// Format a string object the same as the Format static method with
         /// optional arguments.
         /// </summary>
-        [StringFormatMethod("format")]
         public static string FormatWith(this string format, params object[] args)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(format) == false);
@@ -44,7 +42,6 @@ namespace JsonApiFramework
         /// Format a string object the same as the Format static method with
         /// a format provider and optional arguments.
         /// </summary>
-        [StringFormatMethod("format")]
         public static string FormatWith(this string format, IFormatProvider provider, params object[] args)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(format) == false);

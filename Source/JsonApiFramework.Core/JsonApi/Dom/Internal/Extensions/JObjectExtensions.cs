@@ -2,8 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+
+using JsonApiFramework.Properties;
 
 using Newtonsoft.Json.Linq;
 
@@ -241,6 +244,116 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        #endregion
+
+        // PRIVATE METHODS //////////////////////////////////////////////////
+        #region Methods
+        public static DocumentType GetApiDocumentType(JToken dataJToken, JToken errorsJToken)
+        {
+            // Analyze "data" and "errors" nodes to determine the concrete
+            // document type.
+            //
+            // 1. If "data" is present, then
+            //    1.1 If "data" is an object, then
+            //        1.1.1 If "data" is null, then "NullDocument".
+            //        1.1.2 If "data" is a resource, then "ResourceDocument".
+            //        1.1.3 If "data" is a resource identifier, then "ResourceIdentifierDocument".
+            //    1.2 If "data" is an array, then
+            //        1.2.1 If "data" is an empty array, then "EmptyDocument".
+            //        1.2.2 If "data" is an array of resources, then "ResourceCollectionDocument".
+            //        1.2.3 If "data" is an array of resource identifiers, then "ResourceIdentifierCollectionDocument".
+            // 2. If "errors" is present, then
+            //    2.1 If "errors" is an array, then "ErrorsDocument".
+            // 3. Else "Document".
+            if (dataJToken != null && errorsJToken != null)
+            {
+                var detail = CoreErrorStrings.JsonApiDocumentContainsBothMembersDetail
+                                             .FormatWith(Keywords.Data, Keywords.Errors);
+                throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
+            }
+
+            if (dataJToken != null)
+            {
+                var dataJTokenType = dataJToken.Type;
+                switch (dataJTokenType)
+                {
+                    case JTokenType.Null:
+                        return DocumentType.NullDocument;
+
+                    case JTokenType.Object:
+                        {
+                            var dataJObject = (JObject)dataJToken;
+                            var dataJObjectDataType = dataJObject.GetApiDataType();
+                            switch (dataJObjectDataType)
+                            {
+                                case DataType.Resource:
+                                    return DocumentType.ResourceDocument;
+
+                                case DataType.ResourceIdentifier:
+                                    return DocumentType.ResourceIdentifierDocument;
+
+                                default:
+                                    var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail
+                                                                 .FormatWith(Keywords.Data);
+                                    throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
+                            }
+                        }
+
+                    case JTokenType.Array:
+                        {
+                            var dataJArray = (JArray)dataJToken;
+                            var dataJArrayFirstJObject = (JObject)dataJArray.FirstOrDefault();
+                            if (dataJArrayFirstJObject == null)
+                            {
+                                return DocumentType.EmptyDocument;
+                            }
+
+                            var dataJArrayFirstJObjectDataType = dataJArrayFirstJObject.GetApiDataType();
+                            switch (dataJArrayFirstJObjectDataType)
+                            {
+                                case DataType.Resource:
+                                    return DocumentType.ResourceCollectionDocument;
+
+                                case DataType.ResourceIdentifier:
+                                    return DocumentType.ResourceIdentifierCollectionDocument;
+
+                                default:
+                                    var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail
+                                                                 .FormatWith(Keywords.Data);
+                                    throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
+                            }
+
+                        }
+
+                    default:
+                        {
+                            var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail
+                                                         .FormatWith(Keywords.Data);
+                            throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
+                        }
+                }
+            }
+
+            // ReSharper disable once InvertIf
+            if (errorsJToken != null)
+            {
+                var errorsJTokenType = errorsJToken.Type;
+                switch (errorsJTokenType)
+                {
+                    case JTokenType.Array:
+                        return DocumentType.ErrorsDocument;
+
+                    default:
+                        {
+                            var detail = CoreErrorStrings.JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail
+                                                         .FormatWith(Keywords.Errors);
+                            throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
+                        }
+                }
+            }
+
+            return DocumentType.Document;
         }
         #endregion
     }

@@ -150,6 +150,9 @@
   <data name="DomExceptionTitle" xml:space="preserve">
     <value>Internal DOM Error</value>
   </data>
+  <data name="ErrorsExceptionMessage" xml:space="preserve">
+    <value>One or more errors has occurred. See the Errors property for details.</value>
+  </data>
   <data name="JsonApiDeserializationErrorInvalidArrayItemJsonDetail" xml:space="preserve">
     <value>JsonApi deserialization error when reading array item JSON \"{0}\" text. Violates the JSON API specification.</value>
   </data>
@@ -176,6 +179,9 @@
   </data>
   <data name="JsonApiErrorTitle" xml:space="preserve">
     <value>JsonApi Error</value>
+  </data>
+  <data name="JsonReadErrorTitle" xml:space="preserve">
+    <value>JSON Read Error</value>
   </data>
   <data name="JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail" xml:space="preserve">
     <value>Invalid JSON \"{0}\" for either a Resource or ResourceIdentifier.</value>

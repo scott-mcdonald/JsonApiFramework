@@ -16,7 +16,7 @@ namespace JsonApiFramework.JsonApi
         #region Constructors
         public Error(string id,
                      Links links,
-                     string status,
+                     HttpStatusCode status,
                      string code,
                      string title,
                      string detail,
@@ -25,7 +25,7 @@ namespace JsonApiFramework.JsonApi
         {
             this.Id = GetOrCreateId(id);
             this.Links = links;
-            this.Status = status;
+            this.Status = ((int)status).ToString();
             this.Code = code;
             this.Title = title;
             this.Detail = detail;
@@ -54,7 +54,7 @@ namespace JsonApiFramework.JsonApi
 
             var id = errorException.Id;
             var links = errorException.Links;
-            var status = errorException.Status.ToString();
+            var status = errorException.Status;
             var code = errorException.Code;
             var title = errorException.Title;
             var detail = errorException.Detail;
@@ -70,7 +70,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(exception != null);
 
             var id = CreateId();
-            var status = HttpStatusCode.InternalServerError.ToString();
+            var status = HttpStatusCode.InternalServerError;
             var title = exception.GetType().Name;
             var detail = exception.Message;
 

@@ -3,6 +3,8 @@
 
 using System.Collections.Generic;
 
+using JsonApiFramework.Properties;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api relationship object.</summary>

@@ -255,40 +255,74 @@ namespace JsonApiFramework.Tests.Json
                                 "{\"one\":\"1\",\"two\":\"2\",\"three\":\"3\"}"))
                     },
 
+
+#if NET45 || NET451 || NET452
                 new object[]
-                    {
-                        new JsonObjectSerializationUnitTestFactory(
-                            x => new JsonReadOnlyDictionarySerializeUnitTest<object>(x),
-                            x => new JsonReadOnlyDictionaryDeserializeUnitTest<object>(x),
-                            new JsonObjectSerializationUnitTestData(
-                                "WithObjectDictionary",
-                                TestSettingsWithAutoTypeNameHandling,
-                                new JsonReadOnlyDictionary<object>(new List<KeyValuePair<string, object>>
-                                    {
-                                        new KeyValuePair<string, object>("OneAsInt", 1),
-                                        new KeyValuePair<string, object>("TwoAsString", "2"),
-                                        new KeyValuePair<string, object>("EmptyObject", new Empty()),
-                                        new KeyValuePair<string, object>("PersonObject", new Person
-                                            {
-                                                PersonId = "1234",
-                                                FirstName = "John",
-                                                LastName = "Doe"
-                                            }),
-                                    }),
-                                "{" +
-                                "\"OneAsInt\":1,\"TwoAsString\":\"2\"," +
-                                "\"EmptyObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Empty, JsonApiFramework.Core.Tests\"}," +
-                                "\"PersonObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Person, JsonApiFramework.Core.Tests\"," +
-                                "\"PersonId\":\"1234\"," +
-                                "\"FirstName\":\"John\"," +
-                                "\"LastName\":\"Doe\"}" +
-                                "}"))
-                    },
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonReadOnlyDictionarySerializeUnitTest<object>(x),
+                                x => new JsonReadOnlyDictionaryDeserializeUnitTest<object>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithObjectDictionary",
+                                    TestSettingsWithAutoTypeNameHandling,
+                                    new JsonReadOnlyDictionary<object>(new List<KeyValuePair<string, object>>
+                                        {
+                                            new KeyValuePair<string, object>("OneAsInt", 1),
+                                            new KeyValuePair<string, object>("TwoAsString", "2"),
+                                            new KeyValuePair<string, object>("EmptyObject", new Empty()),
+                                            new KeyValuePair<string, object>("PersonObject", new Person
+                                                {
+                                                    PersonId = "1234",
+                                                    FirstName = "John",
+                                                    LastName = "Doe"
+                                                }),
+                                        }),
+                                    "{" +
+                                    "\"OneAsInt\":1,\"TwoAsString\":\"2\"," +
+                                    "\"EmptyObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Empty, JsonApiFramework.Core.Tests.NetFramework\"}," +
+                                    "\"PersonObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Person, JsonApiFramework.Core.Tests.NetFramework\"," +
+                                    "\"PersonId\":\"1234\"," +
+                                    "\"FirstName\":\"John\"," +
+                                    "\"LastName\":\"Doe\"}" +
+                                    "}"))
+                        },
+#else
+                new object[]
+                        {
+                            new JsonObjectSerializationUnitTestFactory(
+                                x => new JsonReadOnlyDictionarySerializeUnitTest<object>(x),
+                                x => new JsonReadOnlyDictionaryDeserializeUnitTest<object>(x),
+                                new JsonObjectSerializationUnitTestData(
+                                    "WithObjectDictionary",
+                                    TestSettingsWithAutoTypeNameHandling,
+                                    new JsonReadOnlyDictionary<object>(new List<KeyValuePair<string, object>>
+                                        {
+                                            new KeyValuePair<string, object>("OneAsInt", 1),
+                                            new KeyValuePair<string, object>("TwoAsString", "2"),
+                                            new KeyValuePair<string, object>("EmptyObject", new Empty()),
+                                            new KeyValuePair<string, object>("PersonObject", new Person
+                                                {
+                                                    PersonId = "1234",
+                                                    FirstName = "John",
+                                                    LastName = "Doe"
+                                                }),
+                                        }),
+                                    "{" +
+                                    "\"OneAsInt\":1,\"TwoAsString\":\"2\"," +
+                                    "\"EmptyObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Empty, JsonApiFramework.Core.Tests\"}," +
+                                    "\"PersonObject\":{\"$type\":\"JsonApiFramework.Tests.Json.JsonReadOnlyDictionaryTests+Person, JsonApiFramework.Core.Tests\"," +
+                                    "\"PersonId\":\"1234\"," +
+                                    "\"FirstName\":\"John\"," +
+                                    "\"LastName\":\"Doe\"}" +
+                                    "}"))
+                        },
+#endif
+
             };
-        #endregion
+#endregion
 
         // PRIVATE TYPES ////////////////////////////////////////////////////
-        #region Test Types
+#region Test Types
         [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
         private class Empty : JsonObject
         {
@@ -310,6 +344,6 @@ namespace JsonApiFramework.Tests.Json
                 return "Person [id={0} firstName={1} lastName={2}]".FormatWith(this.PersonId, this.FirstName, this.LastName);
             }
         }
-        #endregion
+#endregion
     }
 }

@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
 
 namespace JsonApiFramework.Tree
@@ -102,7 +103,7 @@ namespace JsonApiFramework.Tree
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Properties
-        private static readonly bool IsValueType = typeof(TValue).IsValueType();
+        private static readonly bool IsValueType = TypeReflection.IsValueType(typeof(TValue));
         #endregion
     }
 }

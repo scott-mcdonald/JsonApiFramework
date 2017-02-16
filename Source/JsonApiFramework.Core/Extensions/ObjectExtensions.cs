@@ -3,6 +3,7 @@
 
 using System;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework
 {
     /// <summary>

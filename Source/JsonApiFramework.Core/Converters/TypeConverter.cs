@@ -116,7 +116,7 @@ namespace JsonApiFramework.Converters
         {
             var sourceType = typeof(TSource);
             var targetType = typeof(TTarget);
-            var isTargetTypeAssignableFromSourceType = targetType.IsAssignableFrom(sourceType);
+            var isTargetTypeAssignableFromSourceType = TypeReflection.IsAssignableFrom(targetType, sourceType);
             if (isTargetTypeAssignableFromSourceType == false)
             {
                 target = default(TTarget);
@@ -138,10 +138,10 @@ namespace JsonApiFramework.Converters
         private bool TryConvertForEnum<TSource, TTarget>(TSource source, TypeConverterContext context, out TTarget target)
         {
             var sourceType = typeof(TSource);
-            var isSourceTypeEnum = sourceType.IsEnum();
+            var isSourceTypeEnum = TypeReflection.IsEnum(sourceType);
 
             var targetType = typeof(TTarget);
-            var isTargetTypeEnum = targetType.IsEnum();
+            var isTargetTypeEnum = TypeReflection.IsEnum(targetType);
 
             if (isSourceTypeEnum)
             {
@@ -164,10 +164,10 @@ namespace JsonApiFramework.Converters
         private bool TryConvertForNullable<TSource, TTarget>(TSource source, TypeConverterContext context, out TTarget target)
         {
             var sourceType = typeof(TSource);
-            var isSourceTypeNullable = sourceType.IsNullableType();
+            var isSourceTypeNullable = TypeReflection.IsNullableType(sourceType);
 
             var targetType = typeof(TTarget);
-            var isTargetTypeNullable = targetType.IsNullableType();
+            var isTargetTypeNullable = TypeReflection.IsNullableType(targetType);
 
             if (isSourceTypeNullable)
             {
@@ -318,9 +318,9 @@ namespace JsonApiFramework.Converters
         private static Type GetValidateType<T>()
         {
             var type = typeof(T);
-            if (type.IsNullableType())
+            if (TypeReflection.IsNullableType(type))
                 type = Nullable.GetUnderlyingType(type);
-            if (type.IsEnum())
+            if (TypeReflection.IsEnum(type))
                 type = Enum.GetUnderlyingType(type);
             return type;
         }
@@ -358,7 +358,7 @@ namespace JsonApiFramework.Converters
             if (this.TypeConverterDefinitions.ContainsKey(key))
                 return;
 
-            var isTargetTypeAssignableFromSourceType = targetType.IsAssignableFrom(sourceType);
+            var isTargetTypeAssignableFromSourceType = TypeReflection.IsAssignableFrom(targetType, sourceType);
             if (isTargetTypeAssignableFromSourceType)
                 return;
 
@@ -411,12 +411,12 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<byte[], string>((s, c) => s != null ? System.Convert.ToBase64String(s) : null),
 
                 // CharToXXX
-                new TypeConverterDefinitionFunc<char, bool>((s, c) => System.Convert.ToBoolean(s)),
+                new TypeConverterDefinitionFunc<char, bool>((s, c) => System.Convert.ToBoolean(System.Convert.ToInt32(s))),
                 new TypeConverterDefinitionFunc<char, byte>((s, c) => System.Convert.ToByte(s)),
                 new TypeConverterDefinitionFunc<char, char>((s, c) => s),
-                new TypeConverterDefinitionFunc<char, decimal>((s, c) => System.Convert.ToDecimal(s)),
-                new TypeConverterDefinitionFunc<char, double>((s, c) => System.Convert.ToDouble(s)),
-                new TypeConverterDefinitionFunc<char, float>((s, c) => System.Convert.ToSingle(s)),
+                new TypeConverterDefinitionFunc<char, decimal>((s, c) => System.Convert.ToDecimal(System.Convert.ToInt32(s))),
+                new TypeConverterDefinitionFunc<char, double>((s, c) => System.Convert.ToDouble(System.Convert.ToInt32(s))),
+                new TypeConverterDefinitionFunc<char, float>((s, c) => System.Convert.ToSingle(System.Convert.ToInt32(s))),
                 new TypeConverterDefinitionFunc<char, int>((s, c) => System.Convert.ToInt32(s)),
                 new TypeConverterDefinitionFunc<char, long>((s, c) => System.Convert.ToInt64(s)),
                 new TypeConverterDefinitionFunc<char, sbyte>((s, c) => System.Convert.ToSByte(s)),
@@ -603,7 +603,7 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<TimeSpan, TimeSpan>((s, c) => s),
 
                 // TypeToXXX
-                new TypeConverterDefinitionFunc<Type, string>((s, c) => s?.GetCompactQualifiedName()),
+                new TypeConverterDefinitionFunc<Type, string>((s, c) => s != null ? TypeReflection.GetCompactQualifiedName(s) : null),
                 new TypeConverterDefinitionFunc<Type, Type>((s, c) => s),
 
                 // UIntToXXX
@@ -659,20 +659,20 @@ namespace JsonApiFramework.Converters
                 new TypeConverterDefinitionFunc<ushort, ushort>((s, c) => s)
             };
 
-        private static readonly MethodInfo ConvertMethodInfoOpen = typeof(TypeConverter)
-            .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        private static readonly MethodInfo ConvertMethodInfoOpen = TypeReflection
+            .GetMethods(typeof(TypeConverter), JsonApiFramework.Reflection.ReflectionFlags.DeclaredOnly | JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance)
             .Single(x => x.Name == "Convert");
 
-        private static readonly MethodInfo StringIsNullOrWhiteSpaceMethodInfo = typeof(String)
-            .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static)
+        private static readonly MethodInfo StringIsNullOrWhiteSpaceMethodInfo = TypeReflection
+            .GetMethods(typeof(String), JsonApiFramework.Reflection.ReflectionFlags.DeclaredOnly | JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Static)
             .Single(x => x.Name == "IsNullOrWhiteSpace");
 
-        private static readonly MethodInfo ParseEnumMethodInfoOpen = typeof(TypeConverter)
-            .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Static)
+        private static readonly MethodInfo ParseEnumMethodInfoOpen = TypeReflection
+            .GetMethods(typeof(TypeConverter), JsonApiFramework.Reflection.ReflectionFlags.DeclaredOnly | JsonApiFramework.Reflection.ReflectionFlags.NonPublic | JsonApiFramework.Reflection.ReflectionFlags.Static)
             .Single(x => x.Name == "ParseEnum");
 
-        private static readonly MethodInfo ValidateConvertMethodInfoOpen = typeof(TypeConverter)
-            .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance)
+        private static readonly MethodInfo ValidateConvertMethodInfoOpen = TypeReflection
+            .GetMethods(typeof(TypeConverter), JsonApiFramework.Reflection.ReflectionFlags.DeclaredOnly | JsonApiFramework.Reflection.ReflectionFlags.NonPublic | JsonApiFramework.Reflection.ReflectionFlags.Instance)
             .Single(x => x.Name == "ValidateConvert");
         #endregion
 
@@ -791,7 +791,7 @@ namespace JsonApiFramework.Converters
                     var contextParameterExpression = Expression.Parameter(contextType, "context");
 
                     // Special case of source string
-                    if (sourceType.IsString())
+                    if (TypeReflection.IsString(sourceType))
                     {
                         var callStringIsNullOrWhitespaceExpression = Expression.Call(
                             StringIsNullOrWhiteSpaceMethodInfo,
@@ -856,14 +856,14 @@ namespace JsonApiFramework.Converters
                     var contextParameterExpression = Expression.Parameter(contextType, "context");
 
                     // Special case of target string.
-                    if (targetType.IsString())
+                    if (TypeReflection.IsString(targetType))
                     {
                         var enumType = typeof(Enum);
-                        var enumToStringWithFormatMethod = enumType
-                            .GetMethod("ToString", BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance, typeof(string));
+                        var enumToStringWithFormatMethod = TypeReflection
+                            .GetMethod(enumType, "ToString", JsonApiFramework.Reflection.ReflectionFlags.DeclaredOnly | JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance, typeof(string));
 
                         var typeConverterContextExtensionsType = typeof(TypeConverterContextExtensions);
-                        var contextSafeGetFormatMethod = typeConverterContextExtensionsType.GetMethod("SafeGetFormat", contextType);
+                        var contextSafeGetFormatMethod = TypeReflection.GetMethod(typeConverterContextExtensionsType, "SafeGetFormat", contextType);
 
                         var callContextSafeGetFormatExpression = Expression.Call(contextSafeGetFormatMethod, contextParameterExpression);
 
@@ -963,7 +963,7 @@ namespace JsonApiFramework.Converters
 
                     var castConvertMethodExpression = Expression.ConvertChecked(callConvertMethodExpression, targetType);
 
-                    var isValueType = sourceType.IsValueType();
+                    var isValueType = TypeReflection.IsValueType(sourceType);
                     if (isValueType)
                     {
                         var convertValueToNullableTargetLambdaExpression = Expression
@@ -1023,8 +1023,8 @@ namespace JsonApiFramework.Converters
                     var contextParameterExpression = Expression.Parameter(contextType, "context");
 
                     var convertMethodInfoClosed = ConvertMethodInfoOpen.MakeGenericMethod(sourceUnderlyingType, targetType);
-                    var sourceHasValuePropertyInfo = sourceType.GetProperty("HasValue", BindingFlags.Public | BindingFlags.Instance);
-                    var sourceValuePropertyInfo = sourceType.GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
+                    var sourceHasValuePropertyInfo = TypeReflection.GetProperty(sourceType, "HasValue", JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance);
+                    var sourceValuePropertyInfo = TypeReflection.GetProperty(sourceType, "Value", JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance);
 
                     var sourceParameterValuePropertyExpression = Expression.Property(sourceParameterExpression, sourceValuePropertyInfo);
 
@@ -1082,8 +1082,8 @@ namespace JsonApiFramework.Converters
                     var contextParameterExpression = Expression.Parameter(contextType, "context");
 
                     var convertMethodInfoClosed = ConvertMethodInfoOpen.MakeGenericMethod(sourceUnderlyingType, targetUnderlyingType);
-                    var sourceHasValuePropertyInfo = sourceType.GetProperty("HasValue", BindingFlags.Public | BindingFlags.Instance);
-                    var sourceValuePropertyInfo = sourceType.GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
+                    var sourceHasValuePropertyInfo = TypeReflection.GetProperty(sourceType, "HasValue", JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance);
+                    var sourceValuePropertyInfo = TypeReflection.GetProperty(sourceType, "Value", JsonApiFramework.Reflection.ReflectionFlags.Public | JsonApiFramework.Reflection.ReflectionFlags.Instance);
 
                     var sourceParameterValuePropertyExpression = Expression.Property(sourceParameterExpression, sourceValuePropertyInfo);
 

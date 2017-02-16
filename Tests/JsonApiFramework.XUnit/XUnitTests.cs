@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Text;
 
-using JetBrains.Annotations;
-
 using Xunit.Abstractions;
 
 namespace JsonApiFramework.XUnit
@@ -49,7 +47,6 @@ namespace JsonApiFramework.XUnit
             this.Output.WriteLine(message);
         }
 
-        [StringFormatMethod("format")]
         public void WriteLine(string format, params object[] args)
         {
             if (this.BufferOutput)
@@ -74,6 +71,19 @@ namespace JsonApiFramework.XUnit
 
             this.Output.WriteLine(SingleDashedLine);
         }
+
+        public void WriteDoubleDashedLine()
+        {
+            if (this.BufferOutput)
+            {
+                this.OutputBuffer = this.OutputBuffer ?? new StringBuilder();
+                this.OutputBuffer.AppendLine(SingleDashedLine);
+                return;
+            }
+
+            this.Output.WriteLine(DoubleDashedLine);
+        }
+
         #endregion
 
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////

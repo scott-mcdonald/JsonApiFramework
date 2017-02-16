@@ -12,6 +12,7 @@ using JsonApiFramework.XUnit;
 using Xunit;
 using Xunit.Abstractions;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework.Tests
 {
     public class UriTests : XUnitTests
@@ -26,7 +27,7 @@ namespace JsonApiFramework.Tests
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("GetPathSegmentsTestData")]
+        [MemberData(nameof(GetPathSegmentsTestData))]
         public void TestUriGetPathSegments(IUnitTest unitTest)
         {
             unitTest.Execute(this);

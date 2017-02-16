@@ -4,6 +4,8 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Properties;
+
 namespace JsonApiFramework.Converters
 {
     /// <summary>

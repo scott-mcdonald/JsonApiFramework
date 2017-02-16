@@ -4,6 +4,8 @@
 using System;
 using System.Net;
 
+using JsonApiFramework.Properties;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>

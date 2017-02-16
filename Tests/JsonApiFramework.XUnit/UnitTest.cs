@@ -1,8 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+
+using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-
-using JetBrains.Annotations;
 
 namespace JsonApiFramework.XUnit
 {
@@ -10,19 +11,14 @@ namespace JsonApiFramework.XUnit
     /// Base class to capture boilerplate code for an individual unit test
     /// executed inside an xUnitTests object.
     /// </summary>
-    public abstract class UnitTest : IUnitTest
+    public abstract class UnitTest : XUnitSerializable
+        , IUnitTest
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IUnitTest Implementation
-        public string Name { get; }
-        public Stopwatch Stopwatch { get; }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IUnitTest Implementation
-        public void Execute(XUnitTests xUnitTest)
+        public void Execute(XUnitTests xUnitTests)
         {
-            this.XUnitTest = xUnitTest;
+            this.XUnitTests = xUnitTests;
 
             this.WriteLine("Test Name: {0}", this.Name);
             this.WriteLine();
@@ -33,25 +29,16 @@ namespace JsonApiFramework.XUnit
         }
         #endregion
 
-        #region Object Overrides
-        public override string ToString()
-        { return this.Name; }
-        #endregion
-
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
         protected UnitTest(string name)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(name) == false);
-
-            this.Name = name;
-            this.Stopwatch = new Stopwatch();
-        }
+            : base(name)
+        { }
         #endregion
 
         // PROTECTED PROPERTIES /////////////////////////////////////////////
         #region Properties
-        protected XUnitTests XUnitTest { get; private set; }
+        protected XUnitTests XUnitTests { get; private set; }
         #endregion
 
         // PROTECTED METHODS ////////////////////////////////////////////////
@@ -68,17 +55,16 @@ namespace JsonApiFramework.XUnit
 
         #region Write Methods
         protected void WriteLine()
-        { this.XUnitTest.WriteLine(); }
+        { this.XUnitTests.WriteLine(); }
 
         protected void WriteLine(string message)
-        { this.XUnitTest.WriteLine(message); }
+        { this.XUnitTests.WriteLine(message); }
 
-        [StringFormatMethod("format")]
         protected void WriteLine(string format, params object[] args)
-        { this.XUnitTest.WriteLine(format, args); }
+        { this.XUnitTests.WriteLine(format, args); }
 
         protected void WriteDashedLine()
-        { this.XUnitTest.WriteDashedLine(); }
+        { this.XUnitTests.WriteDashedLine(); }
         #endregion
     }
 }

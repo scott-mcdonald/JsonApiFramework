@@ -46,7 +46,7 @@ namespace JsonApiFramework.JsonApi.Dom
             else
             {
                 // Special case of the generic DomValue<TValue> type.
-                if (objectType.IsImplementationOf(typeof(IDomValue)))
+                if (TypeReflection.IsImplementationOf(objectType, typeof(IDomValue)))
                     InitializeDomValueContract(jsonContract, this.DomJsonSerializerSettings);
             }
 

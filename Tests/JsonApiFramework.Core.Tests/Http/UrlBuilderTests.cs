@@ -29,7 +29,7 @@ namespace JsonApiFramework.Tests.Http
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("BuildTestData")]
+        [MemberData(nameof(BuildTestData))]
         public void TestHttpBuilderBuild(IUnitTest unitTest)
         {
             unitTest.Execute(this);
@@ -38,9 +38,9 @@ namespace JsonApiFramework.Tests.Http
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
-        public static readonly IUrlBuilderConfiguration TestConfiguration = new UrlBuilderConfiguration(Uri.UriSchemeHttps, "api.example.com");
-        public static readonly IUrlBuilderConfiguration TestConfigurationWithPort = new UrlBuilderConfiguration(Uri.UriSchemeHttps, "api.example.com", 443);
-        public static readonly IUrlBuilderConfiguration TestConfigurationWithPortAndRootPathSegments = new UrlBuilderConfiguration(Uri.UriSchemeHttps, "api.example.com", 443, new[]{"api", "en-us"});
+        public static readonly IUrlBuilderConfiguration TestConfiguration = new UrlBuilderConfiguration("https", "api.example.com");
+        public static readonly IUrlBuilderConfiguration TestConfigurationWithPort = new UrlBuilderConfiguration("https", "api.example.com", 443);
+        public static readonly IUrlBuilderConfiguration TestConfigurationWithPortAndRootPathSegments = new UrlBuilderConfiguration("https", "api.example.com", 443, new[]{"api", "en-us"});
 
         public static readonly byte[] TestByteArray = { 42, 24, 48, 84, 12, 21, 68, 86 };
         public const string TestByteArrayString = "KhgwVAwVRFY=";
@@ -69,7 +69,7 @@ namespace JsonApiFramework.Tests.Http
         public static readonly string TestTimeSpanString = TestTimeSpan.ToString(DefaultTimeSpanFormat);
 
         public static readonly Type TestType = typeof(UrlBuilderTests);
-        public static readonly string TestTypeString = TestType.GetCompactQualifiedName();
+        public static readonly string TestTypeString = TypeReflection.GetCompactQualifiedName(TestType);
 
         public static readonly IEnumerable<object[]> BuildTestData = new[]
             {
@@ -162,7 +162,7 @@ namespace JsonApiFramework.Tests.Http
 
         // PRIVATE TYPES ////////////////////////////////////////////////////
         #region Test Types
-        private class NullPathSegments : IPath
+        public class NullPathSegments : IPath
         {
             public NullPathSegments()
             {
@@ -173,7 +173,7 @@ namespace JsonApiFramework.Tests.Http
             { get; private set; }
         }
 
-        private class EmptyPathSegments : IPath
+        public class EmptyPathSegments : IPath
         {
             public EmptyPathSegments()
             {
@@ -184,7 +184,7 @@ namespace JsonApiFramework.Tests.Http
             { get; private set; }
         }
 
-        private class LeftRightPath : IPath
+        public class LeftRightPath : IPath
         {
             public LeftRightPath(string left, string right)
             {

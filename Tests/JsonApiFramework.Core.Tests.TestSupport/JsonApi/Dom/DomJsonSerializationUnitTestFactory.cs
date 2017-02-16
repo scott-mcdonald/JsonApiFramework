@@ -7,14 +7,14 @@ using JsonApiFramework.XUnit;
 
 namespace JsonApiFramework.Tests.JsonApi.Dom
 {
-    public class DomJsonSerializationUnitTestFactory
+    public class DomJsonSerializationUnitTestFactory: XUnitSerializable
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////
         #region Constructors
-        public DomJsonSerializationUnitTestFactory(
-            Func<DomJsonSerializationUnitTestData, IUnitTest> domJsonSerializeUnitTestFactory,
-            Func<DomJsonSerializationUnitTestData, IUnitTest> domJsonDeserializeUnitTestFactory,
-            DomJsonSerializationUnitTestData data)
+        public DomJsonSerializationUnitTestFactory(Func<DomJsonSerializationUnitTestData, IUnitTest> domJsonSerializeUnitTestFactory,
+                                                   Func<DomJsonSerializationUnitTestData, IUnitTest> domJsonDeserializeUnitTestFactory,
+                                                   DomJsonSerializationUnitTestData data)
+            : base(data.Name)
         {
             this.DomJsonSerializeUnitTestFactory = domJsonSerializeUnitTestFactory;
             this.DomJsonDeserializeUnitTestFactory = domJsonDeserializeUnitTestFactory;
@@ -27,12 +27,6 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         public Func<DomJsonSerializationUnitTestData, IUnitTest> DomJsonSerializeUnitTestFactory { get; }
         public Func<DomJsonSerializationUnitTestData, IUnitTest> DomJsonDeserializeUnitTestFactory { get; }
         public DomJsonSerializationUnitTestData Data { get; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        { return this.Data.Name; }
         #endregion
     }
 }

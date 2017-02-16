@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework.Tests
 {
     public class EnumerableTests : XUnitTests
@@ -27,49 +28,49 @@ namespace JsonApiFramework.Tests
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("EmptyIfNullTestData")]
+        [MemberData(nameof(EmptyIfNullTestData))]
         public void TestEnumerableEmptyIfNull(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("IsNullOrEmptyTestData")]
+        [MemberData(nameof(IsNullOrEmptyTestData))]
         public void TestEnumerableIsNullOrEmpty(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("SafeCastTestData")]
+        [MemberData(nameof(SafeCastTestData))]
         public void TestEnumerableSafeCast(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("SafeToArrayTestData")]
+        [MemberData(nameof(SafeToArrayTestData))]
         public void TestEnumerableSafeToArray(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("SafeToListTestData")]
+        [MemberData(nameof(SafeToListTestData))]
         public void TestEnumerableSafeToList(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("SafeToReadOnlyCollectionTestData")]
+        [MemberData(nameof(SafeToReadOnlyCollectionTestData))]
         public void TestEnumerableSafeToReadOnlyCollection(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("SafeToReadOnlyListTestData")]
+        [MemberData(nameof(SafeToReadOnlyListTestData))]
         public void TestEnumerableSafeToReadOnlyList(IUnitTest unitTest)
         {
             unitTest.Execute(this);
@@ -96,7 +97,7 @@ namespace JsonApiFramework.Tests
             {
                 new object[] { new SafeCastUnitTest<object, string>("WithNullCollection", default(IEnumerable<object>), Enumerable.Empty<string>()) },
                 new object[] { new SafeCastUnitTest<object, string>("WithEmptyCollection", Enumerable.Empty<object>(), Enumerable.Empty<string>()) },
-                new object[] { new SafeCastUnitTest<object, string>("WithNonEmptyCollection", new object[] { "String 1", "String 2", "String 3" }, new string[] { "String 1", "String 2", "String 3" }) },
+                new object[] { new SafeCastUnitTest<object, string>("WithNonEmptyCollection", new object[] { "String 1", "String 2", "String 3" }, new [] { "String 1", "String 2", "String 3" }) },
             };
 
         public static readonly IEnumerable<object[]> SafeToArrayTestData = new[]

@@ -7,14 +7,14 @@ using JsonApiFramework.XUnit;
 
 namespace JsonApiFramework.Tests.Json
 {
-    public class JsonObjectSerializationUnitTestFactory
+    public class JsonObjectSerializationUnitTestFactory : XUnitSerializable
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////
         #region Constructors
-        public JsonObjectSerializationUnitTestFactory(
-            Func<JsonObjectSerializationUnitTestData, IUnitTest> jsonObjectSerializeUnitTestFactory,
-            Func<JsonObjectSerializationUnitTestData, IUnitTest> jsonObjectDeserializeUnitTestFactory,
-            JsonObjectSerializationUnitTestData data)
+        public JsonObjectSerializationUnitTestFactory(Func<JsonObjectSerializationUnitTestData, IUnitTest> jsonObjectSerializeUnitTestFactory,
+                                                      Func<JsonObjectSerializationUnitTestData, IUnitTest> jsonObjectDeserializeUnitTestFactory,
+                                                      JsonObjectSerializationUnitTestData data)
+            : base(data.Name)
         {
             this.JsonObjectSerializeUnitTestFactory = jsonObjectSerializeUnitTestFactory;
             this.JsonObjectDeserializeUnitTestFactory = jsonObjectDeserializeUnitTestFactory;
@@ -27,12 +27,6 @@ namespace JsonApiFramework.Tests.Json
         public Func<JsonObjectSerializationUnitTestData, IUnitTest> JsonObjectSerializeUnitTestFactory { get; }
         public Func<JsonObjectSerializationUnitTestData, IUnitTest> JsonObjectDeserializeUnitTestFactory { get; }
         public JsonObjectSerializationUnitTestData Data { get; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        { return this.Data.Name; }
         #endregion
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 
 using JsonApiFramework.Expressions;
+using JsonApiFramework.Reflection;
 using JsonApiFramework.XUnit;
 
 using Xunit;
@@ -26,49 +27,49 @@ namespace JsonApiFramework.Tests.Expressions
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderCall(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("CastTestData")]
+        [MemberData(nameof(CastTestData))]
         public void TestExpressionBuilderCast(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("CastAsTestData")]
+        [MemberData(nameof(CastAsTestData))]
         public void TestExpressionBuilderCastAs(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("DefaultTestData")]
+        [MemberData(nameof(DefaultTestData))]
         public void TestExpressionBuilderDefault(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("NewTestData")]
+        [MemberData(nameof(NewTestData))]
         public void TestExpressionBuilderNew(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("PropertyGetterTestData")]
+        [MemberData(nameof(PropertyGetterTestData))]
         public void TestExpressionBuilderPropertyGetter(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("PropertySetterTestData")]
+        [MemberData(nameof(PropertySetterTestData))]
         public void TestExpressionBuilderPropertySetter(IUnitTest unitTest)
         {
             unitTest.Execute(this);
@@ -107,9 +108,9 @@ namespace JsonApiFramework.Tests.Expressions
                 new object[] { new StaticMethodCallWith1ArgumentsUnitTest<IsEquals<long>, long, bool>("WithIsEqualsClassAnd1ArgumentsAndReturnValue", "StaticIsEqual", 20, true) },
                 new object[] { new StaticMethodCallWith2ArgumentsUnitTest<IsEquals<long>, long, long, bool>("WithIsEqualsClassAnd2ArgumentsAndReturnValue", "StaticIsEqual", 20, 22, false) },
 
-                new object[] { new StaticVoidMethodCallWith0ArgumentsUnitTest<IsEquals<long>>("WithIsEqualsClassAnd0ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", () => IsEquals<long>.StaticAreEqual.Should().Be(false)) },
-                new object[] { new StaticVoidMethodCallWith1ArgumentsUnitTest<IsEquals<long>, long>("WithIsEqualsClassAnd1ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", 20, () => IsEquals<long>.StaticAreEqual.Should().Be(true)) },
-                new object[] { new StaticVoidMethodCallWith2ArgumentsUnitTest<IsEquals<long>, long, long>("WithIsEqualsClassAnd2ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", 20, 22, () => IsEquals<long>.StaticAreEqual.Should().Be(false)) },
+                new object[] { new StaticVoidMethodCallWith0ArgumentsUnitTest<IsEquals<long>>("WithIsEqualsClassAnd0ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", () => IsEquals<long>.StaticAreEqual0Arguments.Should().Be(false)) },
+                new object[] { new StaticVoidMethodCallWith1ArgumentsUnitTest<IsEquals<long>, long>("WithIsEqualsClassAnd1ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", 20, () => IsEquals<long>.StaticAreEqual1Arguments.Should().Be(true)) },
+                new object[] { new StaticVoidMethodCallWith2ArgumentsUnitTest<IsEquals<long>, long, long>("WithIsEqualsClassAnd2ArgumentsAndNoReturnValue", "StaticIsEqualNoReturnValue", 20, 22, () => IsEquals<long>.StaticAreEqual2Arguments.Should().Be(false)) },
             };
 
         public static readonly IEnumerable<object[]> CastTestData = new[]
@@ -138,7 +139,7 @@ namespace JsonApiFramework.Tests.Expressions
                 new object[] { new CastUnitTest<object, int?>("FromIntegerObjectToNullableInteger", 42, true, 42)},
 
                 new object[] { new CastAsUnitTest<string, string>("FromStringToString", "This is a test.", true, "This is a test.")},
-                new object[] { new CastAsUnitTest<string, Uri>("FromStringToUri", "This is a test.", false)},
+                new object[] { new CastAsUnitTest<string, Foo>("FromStringToBaseClass", "This is a test.", false)},
 
                 new object[] { new CastAsUnitTest<Foo, IFoo>("FromBaseClassToInterface", new Foo(42, "42"), true, new Foo(42, "42"))},
                 new object[] { new CastAsUnitTest<Foo, FooExtended>("FromBaseClassToDerivedClass", new Foo(42, "42"), false)},
@@ -248,7 +249,7 @@ namespace JsonApiFramework.Tests.Expressions
                     return false;
 
                 var otherType = other.GetType();
-                if (!typeof(Foo).IsAssignableFrom(otherType))
+                if (!TypeReflection.IsAssignableFrom(typeof(Foo), otherType))
                     return false;
 
                 var otherAsFoo = (Foo)other;
@@ -312,7 +313,7 @@ namespace JsonApiFramework.Tests.Expressions
                     return false;
 
                 var otherType = other.GetType();
-                if (!typeof(Complex).IsAssignableFrom(otherType))
+                if (!TypeReflection.IsAssignableFrom(typeof(Complex), otherType))
                     return false;
 
                 var otherAsComplex = (Complex)other;
@@ -360,7 +361,7 @@ namespace JsonApiFramework.Tests.Expressions
                     return false;
 
                 var otherType = other.GetType();
-                if (!typeof(ComplexChildA).IsAssignableFrom(otherType))
+                if (!TypeReflection.IsAssignableFrom(typeof(ComplexChildA), otherType))
                     return false;
 
                 var otherAsComplexChildA = (ComplexChildA)other;
@@ -408,7 +409,7 @@ namespace JsonApiFramework.Tests.Expressions
                     return false;
 
                 var otherType = other.GetType();
-                if (!typeof(ComplexChildB).IsAssignableFrom(otherType))
+                if (!TypeReflection.IsAssignableFrom(typeof(ComplexChildB), otherType))
                     return false;
 
                 var otherAsComplexChildB = (ComplexChildB)other;
@@ -452,7 +453,7 @@ namespace JsonApiFramework.Tests.Expressions
                     return false;
 
                 var otherType = other.GetType();
-                if (!typeof(ComplexChildC).IsAssignableFrom(otherType))
+                if (!TypeReflection.IsAssignableFrom(typeof(ComplexChildC), otherType))
                     return false;
 
                 var otherAsComplexChildC = (ComplexChildC)other;
@@ -502,10 +503,13 @@ namespace JsonApiFramework.Tests.Expressions
             where T : IEquatable<T>
         {
             public IsEquals() { this.AreEqual = default(bool); }
-            static IsEquals() { StaticAreEqual = default(bool); }
 
             public bool AreEqual { get; set; }
-            public static bool StaticAreEqual { get; set; }
+            // ReSharper disable StaticMemberInGenericType
+            public static bool StaticAreEqual0Arguments { get; set; }
+            public static bool StaticAreEqual1Arguments { get; set; }
+            public static bool StaticAreEqual2Arguments { get; set; }
+            // ReSharper restore StaticMemberInGenericType
 
             public bool IsEqual() { return this.AreEqual; }
             public bool IsEqual(T x) { return x.Equals(x); }
@@ -515,13 +519,13 @@ namespace JsonApiFramework.Tests.Expressions
             public void IsEqualNoReturnValue(T x) { this.AreEqual = x.Equals(x); }
             public void IsEqualNoReturnValue(T x, T y) { this.AreEqual = x.Equals(y); }
 
-            public static bool StaticIsEqual() { return StaticAreEqual; }
+            public static bool StaticIsEqual() { return StaticAreEqual0Arguments; }
             public static bool StaticIsEqual(T x) { return x.Equals(x); }
             public static bool StaticIsEqual(T x, T y) { return x.Equals(y); }
 
-            public static void StaticIsEqualNoReturnValue() { StaticAreEqual = default(bool); }
-            public static void StaticIsEqualNoReturnValue(T x) { StaticAreEqual = x.Equals(x); }
-            public static void StaticIsEqualNoReturnValue(T x, T y) { StaticAreEqual = x.Equals(y); }
+            public static void StaticIsEqualNoReturnValue() { StaticAreEqual0Arguments = default(bool); }
+            public static void StaticIsEqualNoReturnValue(T x) { StaticAreEqual1Arguments = x.Equals(x); }
+            public static void StaticIsEqualNoReturnValue(T x, T y) { StaticAreEqual2Arguments = x.Equals(y); }
         }
         #endregion
 

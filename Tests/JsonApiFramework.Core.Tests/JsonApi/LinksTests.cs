@@ -70,7 +70,7 @@ namespace JsonApiFramework.Tests.JsonApi
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
-        public static readonly IUrlBuilderConfiguration UrlBuilderConfiguration = new UrlBuilderConfiguration(Uri.UriSchemeHttps, "api.example.com");
+        public static readonly IUrlBuilderConfiguration UrlBuilderConfiguration = new UrlBuilderConfiguration("https", "api.example.com");
 
         public static readonly string ArticleCollectionHRef = UrlBuilder.Create(UrlBuilderConfiguration).Path("articles").Build();
         public static readonly Link ArticleCollectionLink = new Link(ArticleCollectionHRef);

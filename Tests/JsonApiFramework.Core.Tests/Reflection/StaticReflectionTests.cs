@@ -28,28 +28,28 @@ namespace JsonApiFramework.Tests.Reflection
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("GetMemberNameStaticVersionWithReturnValueTestData")]
+        [MemberData(nameof(GetMemberNameStaticVersionWithReturnValueTestData))]
         public void TestStaticReflectionGetMemberNameStaticVersionWithReturnValue(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("GetMemberNameStaticVersionWithNoReturnValueTestData")]
+        [MemberData(nameof(GetMemberNameStaticVersionWithNoReturnValueTestData))]
         public void TestStaticReflectionGetMemberNameStaticVersionWithNoReturnValue(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("GetMemberNameInstanceVersionWithReturnValueTestData")]
+        [MemberData(nameof(GetMemberNameInstanceVersionWithReturnValueTestData))]
         public void TestStaticReflectionGetMemberNameInstanceVersionWithReturnValue(IUnitTest unitTest)
         {
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData("GetMemberNameInstanceVersionWithNoReturnValueTestData")]
+        [MemberData(nameof(GetMemberNameInstanceVersionWithNoReturnValueTestData))]
         public void TestStaticReflectionGetMemberNameInstanceVersionWithNoReturnValue(IUnitTest unitTest)
         {
             unitTest.Execute(this);

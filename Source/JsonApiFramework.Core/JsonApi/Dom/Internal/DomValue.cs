@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Converters;
+using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
 
 using Newtonsoft.Json;
@@ -70,8 +71,9 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region Static Constructors
         static DomValue()
         {
-            IsNullableType = typeof(TValue).IsNullableType();
-            IsValueType = typeof(TValue).IsValueType();
+            var valueType = typeof(TValue);
+            IsNullableType = TypeReflection.IsNullableType(valueType);
+            IsValueType = TypeReflection.IsValueType(valueType);
         }
         #endregion
 

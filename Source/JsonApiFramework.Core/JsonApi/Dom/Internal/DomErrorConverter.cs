@@ -3,6 +3,9 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Net;
+
+using JsonApiFramework.Properties;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,6 +38,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             Contract.Requires(objectType != null);
             Contract.Requires(jsonSerializer != null);
 
+            var domReadJsonContext = new DomReadJsonContext();
             var tokenType = jsonReader.TokenType;
             switch (tokenType)
             {
@@ -46,13 +50,25 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 case JsonToken.StartObject:
                     {
                         var jObject = JObject.Load(jsonReader);
-                        var domError = CreateDomError(jObject);
-                        return domError;
+                        var domError = CreateDomError(domReadJsonContext, jObject);
+                        if (!domReadJsonContext.AnyErrors())
+                            return domError;
                     }
+                    break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(tokenType));
+                    {
+                        var title = CoreErrorStrings.JsonReadErrorTitle;
+                        var detail = "Expected JSON null or JSON object when reading JSON representing a json:api error object.";
+                        var source = ErrorSource.CreatePointer(jsonReader.Path);
+                        var error = new Error(null, null, HttpStatusCode.BadRequest, null, title, detail, source, null);
+                        domReadJsonContext.AddError(error);
+                    }
+                    break;
             }
+
+            var errorsCollection = domReadJsonContext.ErrorsCollection;
+            throw new ErrorsException(HttpStatusCode.BadRequest, errorsCollection);
         }
         #endregion
     }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// ReSharper disable CheckNamespace
 namespace JsonApiFramework
 {
     /// <summary>

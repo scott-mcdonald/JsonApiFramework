@@ -84,7 +84,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         public const string TestByteArrayString = "KhgwVAwVRFY=";
 
         public static readonly Type TestType = typeof(DateTimeOffset);
-        public static readonly string TestTypeString = TestType.GetCompactQualifiedName();
+        public static readonly string TestTypeString = TypeReflection.GetCompactQualifiedName(TestType);
 
         public const int TestRedOrdinalValue0 = 0;
         public const int TestGreenOrdinalValue24 = 24;

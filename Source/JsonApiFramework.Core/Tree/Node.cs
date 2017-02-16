@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Converters;
+using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.Tree.Internal;
 
@@ -679,7 +680,7 @@ namespace JsonApiFramework.Tree
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Properties
-        private static readonly bool IsContentValueType = typeof(TContent).IsValueType();
+        private static readonly bool IsContentValueType = TypeReflection.IsValueType(typeof(TContent));
         #endregion
     }
 }

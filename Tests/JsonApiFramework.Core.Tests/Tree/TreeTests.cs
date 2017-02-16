@@ -3594,14 +3594,11 @@ namespace JsonApiFramework.Tests.Tree
             { return this.Number.ToString(CultureInfo.InvariantCulture); }
         }
 
-        public class Content
+        public class Content : XUnitSerializable
         {
             public Content(string name)
-            {
-                this.Name = name;
-            }
-
-            public string Name { get; private set; }
+                : base(name)
+            { }
 
             public override string ToString()
             {

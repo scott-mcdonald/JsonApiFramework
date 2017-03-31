@@ -1314,7 +1314,7 @@ namespace JsonApiFramework.Tests.Internal
 
                 new object[]
                     {
-                        "WithPosSystemAndNonNullStoreCountResourceDocument",
+                        "WithPosSystemAndNonNullEndOfLifeDateResourceDocument",
                         new GetResourceTest<PosSystem>(
                             ClrSampleData.ServiceModelWithOrderResourceTypes,
                             new ResourceDocument
@@ -1341,7 +1341,7 @@ namespace JsonApiFramework.Tests.Internal
 
                 new object[]
                     {
-                        "WithPosSystemAndNullStoreCountResourceDocument",
+                        "WithPosSystemAndNullEndOfLifeDateResourceDocument",
                         new GetResourceTest<PosSystem>(
                             ClrSampleData.ServiceModelWithOrderResourceTypes,
                             new ResourceDocument

@@ -395,6 +395,9 @@ namespace JsonApiFramework.TestData.ClrResources
                 this.Attribute(x => x.PosSystemName)
                     .SetApiPropertyName("pos-system-name");
 
+                this.Attribute(x => x.EndOfLifeDate)
+                    .SetApiPropertyName("end-of-life-date");
+
                 // Relationships
                 this.ToManyRelationship<StoreConfiguration>(ClrSampleData.PosSystemToStoreConfigurationsRel)
                     .SetApiRelPathSegment(ClrSampleData.PosSystemToStoreConfigurationsRelPathSegment)

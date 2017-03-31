@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -352,8 +353,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                                                 }
                                                             },
                                                         Data =
-                                                            new ResourceIdentifier(ClrSampleData.PosSystemType,
-                                                                "RadiantRest")
+                                                            new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantWcf")
                                                     }
                                             },
                                         },
@@ -365,8 +365,10 @@ namespace JsonApiFramework.TestData.ClrResources
                             new Resource
                                 {
                                     Type = ClrSampleData.PosSystemType,
-                                    Id = "RadiantRest",
-                                    Attributes = new ApiObject(ApiProperty.Create("pos-system-name", "Radiant REST-Based Api")),
+                                    Id = "RadiantWcf",
+                                    Attributes = new ApiObject(
+                                        ApiProperty.Create("pos-system-name", "Radiant WCF-Based Api"),
+                                        ApiProperty.Create("end-of-life-date", new DateTime(1999, 12, 31))),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -377,11 +379,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/pos-systems/RadiantRest/relationships/store-configurations"
+                                                                    "http://api.example.com/pos-systems/RadiantWcf/relationships/store-configurations"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/pos-systems/RadiantRest/store-configurations"
+                                                                    "http://api.example.com/pos-systems/RadiantWcf/store-configurations"
                                                                 }
                                                             }
                                                     }
@@ -389,7 +391,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                         },
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"},
+                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"},
                                         },
                                 },
                         }

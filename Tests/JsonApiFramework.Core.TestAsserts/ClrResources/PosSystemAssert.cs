@@ -25,6 +25,7 @@ namespace JsonApiFramework.TestAsserts.ClrResources
 
             Assert.Equal(expected.PosSystemId, actual.PosSystemId);
             Assert.Equal(expected.PosSystemName, actual.PosSystemName);
+            Assert.Equal(expected.EndOfLifeDate, actual.EndOfLifeDate);
         }
 
         public static void Equal(IEnumerable<PosSystem> expected, IEnumerable<PosSystem> actual)

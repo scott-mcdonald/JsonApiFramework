@@ -393,6 +393,10 @@ namespace JsonApiFramework.Reflection
                 return ConvertResult.Success;
             }
 
+            // Handle special case JToken => object
+            if (HandleSpecialCaseTypesOfJTokenAndObject(sourceValue, targetType, ref targetValue))
+                return ConvertResult.Success;
+
             // Handle case when target is a Nullable<T> type. Special CLR
             // rules for Nullable<T> and boxing:
             // 1. If source is null, then no boxing occurs and null is returned.

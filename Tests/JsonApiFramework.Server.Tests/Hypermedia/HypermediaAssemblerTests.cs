@@ -468,7 +468,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             SamplePosSystems.PosSystem,
                             new[]
                                 {
-                                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/pos-systems/RadiantRest")
+                                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/pos-systems/RadiantWcf")
                                 })
                     },
                 new object[]

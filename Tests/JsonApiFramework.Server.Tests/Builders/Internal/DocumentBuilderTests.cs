@@ -2209,8 +2209,10 @@ namespace JsonApiFramework.Server.Tests.Internal
                                 Data = new Resource
                                     {
                                         Type = ClrSampleData.PosSystemType,
-                                        Id = "RadiantRest",
-                                        Attributes = new ApiObject(ApiProperty.Create("pos-system-name", SamplePosSystems.PosSystem.PosSystemName)),
+                                        Id = "RadiantWcf",
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("pos-system-name", SamplePosSystems.PosSystem.PosSystemName),
+                                            ApiProperty.Create("end-of-life-date", SamplePosSystems.PosSystem.EndOfLifeDate)),
                                         Relationships = new Relationships
                                             {
                                                 {
@@ -2218,15 +2220,15 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             Links = new Links 
                                                                 {
-                                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest/relationships/store-configurations"},
-                                                                    {Keywords.Related, "http://api.example.com/pos-systems/RadiantRest/store-configurations"}
+                                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf/relationships/store-configurations"},
+                                                                    {Keywords.Related, "http://api.example.com/pos-systems/RadiantWcf/store-configurations"}
                                                                 }
                                                         }
                                                 },
                                             },
                                         Links = new Links
                                             {
-                                                {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"},
+                                                {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"},
                                             },
                                     }
                             },
@@ -3144,7 +3146,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                                             {Keywords.Self, "http://api.example.com/en-us/stores/50/configuration/relationships/pos"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/stores/50/configuration/pos"}
                                                                         },
-                                                                    Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest")
+                                                                    Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantWcf")
                                                                 }
                                                         },
                                                     },
@@ -3156,8 +3158,10 @@ namespace JsonApiFramework.Server.Tests.Internal
                                         new Resource
                                             {
                                                 Type = ClrSampleData.PosSystemType,
-                                                Id = "RadiantRest",
-                                                Attributes = new ApiObject(ApiProperty.Create("pos-system-name", "Radiant REST-Based Api")),
+                                                Id = "RadiantWcf",
+                                                Attributes = new ApiObject(
+                                                    ApiProperty.Create("pos-system-name", "Radiant WCF-Based Api"),
+                                                    ApiProperty.Create("end-of-life-date", new DateTime(1999, 12, 31))),
                                                 Relationships = new Relationships
                                                     {
                                                         {
@@ -3165,15 +3169,15 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                                 {
                                                                     Links = new Links 
                                                                         {
-                                                                            {Keywords.Self, "http://api.example.com/en-us/pos-systems/RadiantRest/relationships/store-configurations"},
-                                                                            {Keywords.Related, "http://api.example.com/en-us/pos-systems/RadiantRest/store-configurations"}
+                                                                            {Keywords.Self, "http://api.example.com/en-us/pos-systems/RadiantWcf/relationships/store-configurations"},
+                                                                            {Keywords.Related, "http://api.example.com/en-us/pos-systems/RadiantWcf/store-configurations"}
                                                                         }
                                                                 }
                                                         },
                                                     },
                                                 Links = new Links
                                                     {
-                                                        {Keywords.Self, "http://api.example.com/en-us/pos-systems/RadiantRest"},
+                                                        {Keywords.Self, "http://api.example.com/en-us/pos-systems/RadiantWcf"},
                                                     },
                                             },
                                     }
@@ -3268,7 +3272,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                     .LinksEnd()
                                 .ToOneEnd()
 
-                                .ToOne(ToOneResourceLinkage.Create(SampleStoreConfigurations.Store50Configuration, ClrSampleData.StoreToStoreConfigurationToPosSystemRel, SamplePosSystems.PosSystemRadiantRest))
+                                .ToOne(ToOneResourceLinkage.Create(SampleStoreConfigurations.Store50Configuration, ClrSampleData.StoreToStoreConfigurationToPosSystemRel, SamplePosSystems.PosSystemRadiantWcf))
                                     .Paths()
                                         .AddPath("en-us")
                                     .PathsEnd()

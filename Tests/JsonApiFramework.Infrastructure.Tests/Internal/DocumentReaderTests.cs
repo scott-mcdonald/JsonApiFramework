@@ -1186,8 +1186,7 @@ namespace JsonApiFramework.Tests.Internal
                                                                         }
                                                                     },
                                                                 Data =
-                                                                    new ResourceIdentifier(ClrSampleData.PosSystemType,
-                                                                        "RadiantRest")
+                                                                    new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest")
                                                             }
                                                     },
                                                 },
@@ -1311,6 +1310,60 @@ namespace JsonApiFramework.Tests.Internal
                                         }
                                 },
                             SampleDrawings.Drawing)
+                    },
+
+                new object[]
+                    {
+                        "WithPosSystemAndNonNullStoreCountResourceDocument",
+                        new GetResourceTest<PosSystem>(
+                            ClrSampleData.ServiceModelWithOrderResourceTypes,
+                            new ResourceDocument
+                                {
+                                    Links = new Links
+                                        {
+                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"}
+                                        },
+                                    Data = new Resource
+                                        {
+                                            Type = ClrSampleData.PosSystemType,
+                                            Id = "RadiantWcf",
+                                            Attributes = new ApiObject(
+                                                ApiProperty.Create("pos-system-name", "Radiant WCF-Based Api"),
+                                                ApiProperty.Create("end-of-life-date", new DateTime(1999, 12, 31))),
+                                            Links = new Links
+                                                {
+                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"},
+                                                },
+                                        }
+                                },
+                            SamplePosSystems.PosSystemRadiantWcf)
+                    },
+
+                new object[]
+                    {
+                        "WithPosSystemAndNullStoreCountResourceDocument",
+                        new GetResourceTest<PosSystem>(
+                            ClrSampleData.ServiceModelWithOrderResourceTypes,
+                            new ResourceDocument
+                                {
+                                    Links = new Links
+                                        {
+                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"}
+                                        },
+                                    Data = new Resource
+                                        {
+                                            Type = ClrSampleData.PosSystemType,
+                                            Id = "RadiantRest",
+                                            Attributes = new ApiObject(
+                                                ApiProperty.Create("pos-system-name", "Radiant REST-Based Api"),
+                                                ApiProperty.Create("end-of-life-date", new DateTime?())),
+                                            Links = new Links
+                                                {
+                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"},
+                                                },
+                                        }
+                                },
+                            SamplePosSystems.PosSystemRadiantRest)
                     },
             };
         #endregion

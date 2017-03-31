@@ -202,9 +202,12 @@ namespace JsonApiFramework.TestData.ClrResources
 
         // PosSystem Attributes
         public static readonly IAttributeInfo PosSystemNameAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName), typeof(string), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo PosSystemEndOfLifeDateAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate), typeof(DateTime?), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate).Underscore().Dasherize(), false);
+
         public static readonly IAttributeInfo[] PosSystemAttributesInfoCollection =
             {
-                PosSystemNameAttributeInfo
+                PosSystemNameAttributeInfo,
+                PosSystemEndOfLifeDateAttributeInfo
             };
         public static readonly IAttributesInfo PosSystemAttributesInfo = new AttributesInfo(typeof(PosSystem), PosSystemAttributesInfoCollection);
 

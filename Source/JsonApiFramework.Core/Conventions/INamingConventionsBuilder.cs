@@ -6,6 +6,7 @@ namespace JsonApiFramework.Conventions
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
+        INamingConventionsBuilder AddCamelCaseNamingConvention();
         INamingConventionsBuilder AddLowerCaseNamingConvention();
         INamingConventionsBuilder AddPluralNamingConvention();
         INamingConventionsBuilder AddSingularNamingConvention();

@@ -634,7 +634,7 @@ Requires NuGet 2.12 or higher
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.2.1-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.3.0-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -644,7 +644,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.2.1-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.3.0-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -656,7 +656,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.2.1-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.3.0-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -707,8 +707,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 ## Contributing
 
 1. Fork it!
-2. Checkout *develop* branch: `git checkout develop`
-2. Create your **feature** branch from *develop* branch: `git checkout -b my-new-feature`
+2. Checkout *master* branch: `git checkout master`
+2. Create your **feature** branch from *master* branch: `git checkout -b my-new-feature`
 3. Add your changes: `git add --all`
 3. Sign-off and commit your changes with a message: `git commit -sm 'commit message'`
 4. Push to the branch: `git push origin my-new-feature`
@@ -716,6 +716,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.3.0-beta
+    * Fix #38 Expose AddCamelCaseNamingConvention as an available naming convention
 * v1.2.1-beta
     * Fix #32 Handle nullable properties when reading resources
 * v1.2.0-beta

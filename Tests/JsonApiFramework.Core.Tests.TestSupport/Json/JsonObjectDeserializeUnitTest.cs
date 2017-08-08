@@ -62,8 +62,7 @@ namespace JsonApiFramework.Tests.Json
             // Use the FluentAssertion ShouldBeEquivalentTo method to compare
             // the expected and actual object graphs.
             var type = typeof(T);
-            var typeInfo = type.GetTypeInfo();
-            var typeHasAnyPublicInstanceProperties = typeInfo.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any();
+            var typeHasAnyPublicInstanceProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any();
             if (typeHasAnyPublicInstanceProperties)
             {
                 this.ActualObject.ShouldBeEquivalentTo(this.ExpectedObject);

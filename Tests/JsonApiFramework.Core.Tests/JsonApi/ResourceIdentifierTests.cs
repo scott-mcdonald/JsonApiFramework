@@ -80,28 +80,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 == resourceIdentifier0).Should().BeFalse();
-            (resourceIdentifier1 == resourceIdentifier1).Should().BeTrue();
+            //(resourceIdentifier1 == resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier1 == resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier1 == resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier1 == resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier2 == resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier2 == resourceIdentifier1).Should().BeFalse();
-            (resourceIdentifier2 == resourceIdentifier2).Should().BeTrue();
+            //(resourceIdentifier2 == resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier2 == resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier2 == resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier3 == resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier3 == resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier3 == resourceIdentifier2).Should().BeFalse();
-            (resourceIdentifier3 == resourceIdentifier3).Should().BeTrue();
+            //(resourceIdentifier3 == resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier3 == resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier4 == resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier4 == resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier4 == resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier4 == resourceIdentifier3).Should().BeFalse();
-            (resourceIdentifier4 == resourceIdentifier4).Should().BeTrue();
+            //(resourceIdentifier4 == resourceIdentifier4).Should().BeTrue();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }
@@ -123,28 +123,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 != resourceIdentifier0).Should().BeTrue();
-            (resourceIdentifier1 != resourceIdentifier1).Should().BeFalse();
+            //(resourceIdentifier1 != resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier1 != resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier1 != resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier1 != resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier2 != resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier2 != resourceIdentifier1).Should().BeTrue();
-            (resourceIdentifier2 != resourceIdentifier2).Should().BeFalse();
+            //(resourceIdentifier2 != resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier2 != resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier2 != resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier3 != resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier3 != resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier3 != resourceIdentifier2).Should().BeTrue();
-            (resourceIdentifier3 != resourceIdentifier3).Should().BeFalse();
+            //(resourceIdentifier3 != resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier3 != resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier4 != resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier4 != resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier4 != resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier4 != resourceIdentifier3).Should().BeTrue();
-            (resourceIdentifier4 != resourceIdentifier4).Should().BeFalse();
+            //(resourceIdentifier4 != resourceIdentifier4).Should().BeFalse();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }
@@ -207,28 +207,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 < resourceIdentifier0).Should().BeFalse();
-            (resourceIdentifier1 < resourceIdentifier1).Should().BeFalse();
+            //(resourceIdentifier1 < resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier1 < resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier1 < resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier1 < resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier2 < resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier2 < resourceIdentifier1).Should().BeFalse();
-            (resourceIdentifier2 < resourceIdentifier2).Should().BeFalse();
+            //(resourceIdentifier2 < resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier2 < resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier2 < resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier3 < resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier3 < resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier3 < resourceIdentifier2).Should().BeTrue();
-            (resourceIdentifier3 < resourceIdentifier3).Should().BeFalse();
+            //(resourceIdentifier3 < resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier3 < resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier4 < resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier4 < resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier4 < resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier4 < resourceIdentifier3).Should().BeTrue();
-            (resourceIdentifier4 < resourceIdentifier4).Should().BeFalse();
+            //(resourceIdentifier4 < resourceIdentifier4).Should().BeFalse();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
         }
@@ -250,28 +250,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 <= resourceIdentifier0).Should().BeFalse();
-            (resourceIdentifier1 <= resourceIdentifier1).Should().BeTrue();
+            //(resourceIdentifier1 <= resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier1 <= resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier1 <= resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier1 <= resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier2 <= resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier2 <= resourceIdentifier1).Should().BeFalse();
-            (resourceIdentifier2 <= resourceIdentifier2).Should().BeTrue();
+            //(resourceIdentifier2 <= resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier2 <= resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier2 <= resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier3 <= resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier3 <= resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier3 <= resourceIdentifier2).Should().BeTrue();
-            (resourceIdentifier3 <= resourceIdentifier3).Should().BeTrue();
+            //(resourceIdentifier3 <= resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier3 <= resourceIdentifier4).Should().BeFalse();
 
             (resourceIdentifier4 <= resourceIdentifier0).Should().BeFalse();
             (resourceIdentifier4 <= resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier4 <= resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier4 <= resourceIdentifier3).Should().BeTrue();
-            (resourceIdentifier4 <= resourceIdentifier4).Should().BeTrue();
+            //(resourceIdentifier4 <= resourceIdentifier4).Should().BeTrue();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
         }
@@ -293,28 +293,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 > resourceIdentifier0).Should().BeTrue();
-            (resourceIdentifier1 > resourceIdentifier1).Should().BeFalse();
+            //(resourceIdentifier1 > resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier1 > resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier1 > resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier1 > resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier2 > resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier2 > resourceIdentifier1).Should().BeTrue();
-            (resourceIdentifier2 > resourceIdentifier2).Should().BeFalse();
+            //(resourceIdentifier2 > resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier2 > resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier2 > resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier3 > resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier3 > resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier3 > resourceIdentifier2).Should().BeFalse();
-            (resourceIdentifier3 > resourceIdentifier3).Should().BeFalse();
+            //(resourceIdentifier3 > resourceIdentifier3).Should().BeFalse();
             (resourceIdentifier3 > resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier4 > resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier4 > resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier4 > resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier4 > resourceIdentifier3).Should().BeFalse();
-            (resourceIdentifier4 > resourceIdentifier4).Should().BeFalse();
+            //(resourceIdentifier4 > resourceIdentifier4).Should().BeFalse();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
         }
@@ -336,28 +336,28 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             (resourceIdentifier1 >= resourceIdentifier0).Should().BeTrue();
-            (resourceIdentifier1 >= resourceIdentifier1).Should().BeTrue();
+            //(resourceIdentifier1 >= resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier1 >= resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier1 >= resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier1 >= resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier2 >= resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier2 >= resourceIdentifier1).Should().BeTrue();
-            (resourceIdentifier2 >= resourceIdentifier2).Should().BeTrue();
+            //(resourceIdentifier2 >= resourceIdentifier2).Should().BeTrue();
             (resourceIdentifier2 >= resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier2 >= resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier3 >= resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier3 >= resourceIdentifier1).Should().BeTrue();
             (resourceIdentifier3 >= resourceIdentifier2).Should().BeFalse();
-            (resourceIdentifier3 >= resourceIdentifier3).Should().BeTrue();
+            //(resourceIdentifier3 >= resourceIdentifier3).Should().BeTrue();
             (resourceIdentifier3 >= resourceIdentifier4).Should().BeTrue();
 
             (resourceIdentifier4 >= resourceIdentifier0).Should().BeTrue();
             (resourceIdentifier4 >= resourceIdentifier1).Should().BeFalse();
             (resourceIdentifier4 >= resourceIdentifier2).Should().BeFalse();
             (resourceIdentifier4 >= resourceIdentifier3).Should().BeFalse();
-            (resourceIdentifier4 >= resourceIdentifier4).Should().BeTrue();
+            //(resourceIdentifier4 >= resourceIdentifier4).Should().BeTrue();
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
         }

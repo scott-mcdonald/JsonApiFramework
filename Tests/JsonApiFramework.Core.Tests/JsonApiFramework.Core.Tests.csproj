@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project=".\..\..\Build\JsonApiFramework.Commons.props" />
+  
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="4.19.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
+    <PackageReference Include="xunit" Version="2.3.0-beta3-build3705" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta3-build3705" />
+    <PackageReference Include="xunit.analyzers" Version="0.6.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta2-build3683" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
+    <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestSupport\JsonApiFramework.Core.Tests.TestSupport.csproj" />
+    <ProjectReference Include="..\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj" />
+  </ItemGroup>
+
+</Project>

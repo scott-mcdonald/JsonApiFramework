@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>

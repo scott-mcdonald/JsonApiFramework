@@ -3,8 +3,6 @@
 
 using System;
 
-using JsonApiFramework.Json;
-
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>

@@ -1,20 +1,23 @@
 # JsonApiFramework
 
-> **JsonApiFramework** is a fast, extensible, and portable **C#/.NET framework** for the reading and writing of client-side and server-side [JSON API](http://jsonapi.org) documents based on the domain model of the hypermedia API resources.
+> **JsonApiFramework** is a fast, extensible, and portable **.NET framework** for the reading and writing of client-side and server-side [JSON API](http://jsonapi.org) documents based on the domain model of the hypermedia API resources.
 
 ![](LogoBanner.png)
 
 ## Overview
 
-[JSON API](http://jsonapi.org) is an excellent specification for building hypermedia ([Level 3 REST API](http://martinfowler.com/articles/richardsonMaturityModel.html)) APIs in JSON. Using this standard solves the problem of how to **format** your hypermedia API responses (server) as well as requests for creating, updating, and deleting resources (client) with JSON. Adopting this standard promotes standardized communication protocols between client applications and hypermedia API servers making development and consumption of the hypermedia API effortless.
+[JSON API](http://jsonapi.org) is an excellent specification for building hypermedia ([Level 3 REST API](http://martinfowler.com/articles/richardsonMaturityModel.html)) APIs in [JSON](http://www.json.org). Using this standard solves the problem of how to **format** your hypermedia API responses (server) as well as requests for creating, updating, and deleting resources (client) with JSON. Adopting this standard promotes standardized communication protocols between client applications and hypermedia API servers making development and consumption of the hypermedia API effortless.
 
-**JsonApiFramework** is a fast, extensible, and portable **C#/.NET framework** that implements the [JSON API](http://jsonapi.org) 1.0 version of the specification that enables .NET developers to work with JSON API documents at a high level using .NET objects. Therefore the JsonApiFramework helps .NET developers focus on core application functionality rather than on protocol implementation.
+**JsonApiFramework** implements the [JSON API](http://jsonapi.org) 1.0 version of the specification that enables .NET developers to work with JSON API documents at a high level using .NET objects. Therefore **JsonApiFramework** helps .NET developers focus on core application functionality rather than on protocol implementation.
+
+**JsonApiFramework** is a framework where developers define a **service model** that represents the domain model of the resources produced and consumed by a hypermedia API server or client application either through *explicit configuration* and/or *implicit conventions*. With a **service model** developers can use a **document context** that represents a session with a JSON API **document** for reading and/or writing of various JSON API concepts such as resources, relationships, links, meta information, error objects, and JSON API version information encapsulated as high level CLR objects.
+
 
 ### Benefits and Features
 
-- **Never** have to work with JSON directly, instead work with C# objects
-- Reading JSON API documents through a *C# reader interface*
-- Building and Writing JSON API documents through a **C# fluent-style progressive builder interface** for
+- **Never** have to work with JSON directly, instead work with .NET CLR objects
+- Reading JSON API documents through a *reader interface*
+- Building and Writing JSON API documents through a **fluent-style progressive builder interface** for
     - *Resource* object documents
     - *Resource Identifier* object documents
     - *Error* object documents
@@ -22,25 +25,19 @@
     - Document links
     - Resource relationships and links	
 - Automatic conversion between JSON API resources and .NET CLR resources
-- Support for both **client-side** and **server-side** specific JSON API document building
+- Support for both **client-side** and **server-side** specific JSON API document building styles
 - Support for JSON API **compound documents** by
     - Inclusion of related resources
     - Circular resource references supported
     - Automatic generation of resource linkage between related resources 
-- Support for **HATEOAS** (Hypermedia as the Engine of Application State) for resource relationship and links 
+- Support for **HATEOAS** (**H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate) for resource relationship and links inclusion or exclusion with lambda expression predicates
 - Support for **complex types** at the resource level
-- Support for meta information at the document, resource, relationship, link, error, and JSON API object levels
-- Support for JSON API protocol version information at the document JSON API object level
-- Support for cross-platform development via PCL (**P**ortable **C**lass **L**ibrary) with `Profile 78`
-    - .NET Framework 4.5
-    - Windows Phone 8
-    - .NET for Windows Store apps
-    - Xamarin.Android
-    - Xamarin.iOS
-    - Xamarin.iOS (Classic)
+- Support for *meta* information at the document, resource, relationship, link, error, and JSON API version levels
+- Support for **portable** development with **JsonApiFramework** binaries compiled as [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) 1.0 class libraries
+    - Targeting the .NET Standard 1.0 version maximizes the number of platforms the JsonApiFramework binaries can be used on, see the [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) documentation for details
 - Fast reading and writing of JSON API documents
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
-    - Internally uses little reflection (slow), instead favoring compiled .NET expressions for **fast conversion** between JSON API and .NET CLR resources
+    - Internally uses *compiled* .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
 Extreme high code quality with **1,900+ unit tests**. Production ready.
 

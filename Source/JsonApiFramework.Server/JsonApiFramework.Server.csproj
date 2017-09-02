@@ -1,241 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <PropertyGroup>
-        <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{72E84D1D-4002-4666-810E-F98696A915B3}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>JsonApiFramework.Server</RootNamespace>
-        <AssemblyName>JsonApiFramework.Server</AssemblyName>
-        <DefaultLanguage>en-US</DefaultLanguage>
-        <FileAlignment>512</FileAlignment>
-        <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-        <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
-        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <!-- A reference to the entire .NET Framework is automatically included -->
-        <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
-            <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
-            <Name>JsonApiFramework.Core</Name>
-        </ProjectReference>
-        <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj">
-            <Project>{f822e6c0-4a05-45ca-bcef-8334bd78e4b0}</Project>
-            <Name>JsonApiFramework.Infrastructure</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Builders\Extensions\ResourceLinksBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\ResourceBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\RelationshipLinksBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\RelationshipBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\RelationshipsBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\LinkBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\LinksBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\IncludedResourcesBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\ErrorsBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\DocumentLinksBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\DocumentBuilderExtensions.cs" />
-        <Compile Include="Builders\Extensions\ResourcePathContextBuilderExtensions.cs" />
-        <Compile Include="DocumentContext.cs" />
-        <Compile Include="Hypermedia\HypermediaAssembler.cs" />
-        <Compile Include="Hypermedia\HypermediaAssemblerRegistry.cs" />
-        <Compile Include="Hypermedia\HypermediaAssemblerRegistryExtensions.cs" />
-        <Compile Include="Hypermedia\HypermediaContextExtensions.cs" />
-        <Compile Include="Hypermedia\HypermediaPathExtensions.cs" />
-        <Compile Include="Hypermedia\HypermediaPathType.cs" />
-        <Compile Include="Hypermedia\IDocumentPathContext.cs" />
-        <Compile Include="Hypermedia\IHypermediaAssembler.cs" />
-        <Compile Include="Hypermedia\IHypermediaAssemblerRegistry.cs" />
-        <Compile Include="Hypermedia\IHypermediaContext.cs" />
-        <Compile Include="Hypermedia\IHypermediaPath.cs" />
-        <Compile Include="Hypermedia\ILinkContext.cs" />
-        <Compile Include="Hypermedia\Internal\DocumentPathContext.cs" />
-        <Compile Include="Hypermedia\Internal\HypermediaContext.cs" />
-        <Compile Include="Hypermedia\Internal\LinkContext.cs" />
-        <Compile Include="Hypermedia\Internal\NonResourceHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\RelationshipContext.cs" />
-        <Compile Include="Hypermedia\Internal\ResourceCollectionHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\ResourceHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\ResourcePathContext.cs" />
-        <Compile Include="Hypermedia\Internal\ToManyRelationshipContext.cs" />
-        <Compile Include="Hypermedia\Internal\ToManyResourceCollectionHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\ToManyResourceHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\ToOneRelationshipContext.cs" />
-        <Compile Include="Hypermedia\Internal\ToOneResourceHypermediaPath.cs" />
-        <Compile Include="Hypermedia\Internal\UriExtensions.cs" />
-        <Compile Include="Hypermedia\IPathContext.cs" />
-        <Compile Include="Hypermedia\IRelationshipContext.cs" />
-        <Compile Include="Hypermedia\IResourcePathContext.cs" />
-        <Compile Include="Hypermedia\RelationshipContextExtensions.cs" />
-        <Compile Include="Hypermedia\ResourcePathContextExtensions.cs" />
-        <Compile Include="Hypermedia\ResourcePathMode.cs" />
-        <Compile Include="Builders\IDocumentBuilder.cs" />
-        <Compile Include="IDocumentFactory.cs" />
-        <Compile Include="Builders\IDocumentLinksBuilder.cs" />
-        <Compile Include="Builders\IErrorsBuilder.cs" />
-        <Compile Include="Builders\IIncludedBuilder.cs" />
-        <Compile Include="Builders\IIncludedResourcesBuilder.cs" />
-        <Compile Include="Builders\ILinkBuilder.cs" />
-        <Compile Include="Builders\ILinksBuilder.cs" />
-        <Compile Include="Builders\Internal\DocumentBuilder.cs" />
-        <Compile Include="Builders\Internal\DocumentBuilderContext.cs" />
-        <Compile Include="Internal\DocumentContextImplementationExtensions.cs" />
-        <Compile Include="Builders\Internal\DocumentLinksBuilder.cs" />
-        <Compile Include="Internal\Dom\DomExtensions.cs" />
-        <Compile Include="Builders\Internal\ErrorsBuilder.cs" />
-        <Compile Include="Builders\Internal\LinkBuilder.cs" />
-        <Compile Include="Builders\Internal\LinkCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\LinksBuilder.cs" />
-        <Compile Include="Builders\Internal\LinksCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\NullLinkBuilder.cs" />
-        <Compile Include="Builders\Internal\NullLinksBuilder.cs" />
-        <Compile Include="Builders\Internal\NullRelationshipBuilder.cs" />
-        <Compile Include="Builders\Internal\NullRelationshipLinksBuilder.cs" />
-        <Compile Include="Builders\Internal\NullRelationshipsBuilder.cs" />
-        <Compile Include="Builders\Internal\NullResourceLinksBuilder.cs" />
-        <Compile Include="Builders\Internal\NullResourcePathContextBuilder.cs" />
-        <Compile Include="Builders\Internal\PrimaryResourceBuilder.cs" />
-        <Compile Include="Builders\Internal\PrimaryResourceCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipLinksBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipLinksCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipsBuilder.cs" />
-        <Compile Include="Builders\Internal\RelationshipsCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\ResourceBuilder.cs" />
-        <Compile Include="Builders\Internal\ResourceCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\ResourceLinkage.cs" />
-        <Compile Include="Builders\Internal\ResourceLinkageKey.cs" />
-        <Compile Include="Builders\Internal\ResourceLinkageType.cs" />
-        <Compile Include="Builders\Internal\ResourceLinksBuilder.cs" />
-        <Compile Include="Builders\Internal\ResourceLinksCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\ResourcePathContextBuilder.cs" />
-        <Compile Include="Configuration\Internal\ServerDocumentContextExtension.cs" />
-        <Compile Include="Builders\Internal\ToManyResourceLinkage.cs" />
-        <Compile Include="Builders\Internal\ToManyResourceLinkageBuilder.cs" />
-        <Compile Include="Builders\Internal\ToManyResourceLinkageCollectionBuilder.cs" />
-        <Compile Include="Builders\Internal\ToOneResourceLinkage.cs" />
-        <Compile Include="Builders\Internal\ToOneResourceLinkageBuilder.cs" />
-        <Compile Include="Builders\Internal\ToOneResourceLinkageCollectionBuilder.cs" />
-        <Compile Include="Builders\IPrimaryResourceBuilder.cs" />
-        <Compile Include="Builders\IPrimaryResourceCollectionBuilder.cs" />
-        <Compile Include="Builders\IRelationshipBuilder.cs" />
-        <Compile Include="Builders\IRelationshipLinksBuilder.cs" />
-        <Compile Include="Builders\IRelationshipsBuilder.cs" />
-        <Compile Include="Builders\IResourceBuilder.cs" />
-        <Compile Include="Builders\IResourceLinksBuilder.cs" />
-        <Compile Include="Builders\IResourcePathContextBuilder.cs" />
-        <Compile Include="Builders\IToManyResourceLinkage.cs" />
-        <Compile Include="Builders\IToManyResourceLinkageBuilder.cs" />
-        <Compile Include="Builders\IToManyResourceLinkageCollectionSource.cs" />
-        <Compile Include="Builders\IToManyResourceLinkageSource.cs" />
-        <Compile Include="Builders\IToOneResourceLinkage.cs" />
-        <Compile Include="Builders\IToOneResourceLinkageBuilder.cs" />
-        <Compile Include="Builders\IToOneResourceLinkageCollectionSource.cs" />
-        <Compile Include="Builders\IToOneResourceLinkageSource.cs" />
-        <Compile Include="Properties\AssemblyVersion.cs" />
-        <Compile Include="Properties\InternalsVisibleTo.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Properties\ServerErrorStrings.Designer.cs">
-            <AutoGen>True</AutoGen>
-            <DesignTime>True</DesignTime>
-            <DependentUpon>ServerErrorStrings.resx</DependentUpon>
-        </Compile>
-        <Compile Include="Configuration\ServerDocumentContextExtensionBuilder.cs" />
-        <Compile Include="Builders\ToManyResourceLinkage.cs" />
-        <Compile Include="Builders\ToOneResourceLinkage.cs" />
-    </ItemGroup>
-    <ItemGroup>
-        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-            <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Include="Properties\ServerErrorStrings.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>ServerErrorStrings.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>JsonApiFramework.Server</CustomToolNamespace>
-        </EmbeddedResource>
-    </ItemGroup>
-    <ItemGroup />
-    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-    <Import Project="..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-        <PropertyGroup>
-            <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-        </PropertyGroup>
-        <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets'))" />
-    </Target>
-    <!--
-    To modify your build process, add your task inside one of the targets below and uncomment it. 
-    Other similar extension points exist, see Microsoft.Common.targets.
-    -->
-    <Target Name="BeforeBuild" Condition=" '$(Configuration)' == 'Release' ">
+<Project Sdk="Microsoft.NET.Sdk">
 
-        <!-- Version Number -->
-        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Server.version" XPath="version/major">
-            <Output TaskParameter="Value" PropertyName="Major" />
-        </XmlRead>
-        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Server.version" XPath="version/minor">
-            <Output TaskParameter="Value" PropertyName="Minor" />
-        </XmlRead>
-        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Server.version" XPath="version/patch">
-            <Output TaskParameter="Value" PropertyName="Patch" />
-        </XmlRead>
-        <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Server.version" XPath="version/buildnumber">
-            <Output TaskParameter="Value" PropertyName="BuildNumber" />
-        </XmlRead>
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <Version>1.4.0-beta</Version>
+    <Authors>Scott McDonald</Authors>
+    <Company>Scott McDonald</Company>
+    <Product>JsonApiFramework [Server]</Product>
+    <Description>Portable .NET framework-level classes that are specific for server-side JSON API document building creating an internal DOM tree representation in a progressive builder fluent style.</Description>
+    <Copyright>Copyright © 2015–2017 Scott McDonald</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+    <PackageTags>.net portable json api framework</PackageTags>
+    <FileVersion>1.4.0.14</FileVersion>
+  </PropertyGroup>
 
-        <PropertyGroup>
-            <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
-            <ProjectProperties>BuildNumber=$(BuildNumber);</ProjectProperties>
-        </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 
-        <Message Text="Version: $(Major).$(Minor).$(Patch).$(BuildNumber)" />
+  <ItemGroup>
+    <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
+    <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
+  </ItemGroup>
 
-        <Time>
-            <Output TaskParameter="Year" PropertyName="Year" />
-        </Time>
+  <ItemGroup>
+    <Compile Update="Properties\ServerErrorStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServerErrorStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
-        <Attrib Files="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" ReadOnly="False" />
-        <AssemblyInfo CodeLanguage="CS"
-                      OutputFile="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs"
-                      GenerateClass="true"
-                      AssemblyCopyright="Copyright © 2015–$(Year) Scott McDonald"
-                      AssemblyVersion="$(Major).$(Minor).0.0"
-                      AssemblyFileVersion="$(Major).$(Minor).$(Patch).$(BuildNumber)"
-                      AssemblyInformationalVersion="$(Major).$(Minor).$(Patch)-beta" />
-        <!-- End of Version Number -->
-    </Target>
-
-    <!--
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\ServerErrorStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServerErrorStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>JsonApiFramework.Server</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

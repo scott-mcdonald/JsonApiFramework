@@ -1,200 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F822E6C0-4A05-45CA-BCEF-8334BD78E4B0}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <AssemblyName>JsonApiFramework.Infrastructure</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Version>1.4.0-beta</Version>
+    <Authors>Scott McDonald</Authors>
+    <Company>Scott McDonald</Company>
+    <Product>JsonApiFramework [Infrastructure]</Product>
+    <PackageTags>.net portable json api framework</PackageTags>
+    <FileVersion>1.4.0.14</FileVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+    <Copyright>Copyright © 2015–2017 Scott McDonald</Copyright>
+    <Description>Portable .NET framework-level classes that include common client-side and server-side JSON API document reading and writing from an internal DOM tree representation of the JSON API document.</Description>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="DocumentReaderExtensions.cs" />
-    <Compile Include="Builders\ResourceIdentifierBuilderExtensions.cs" />
-    <Compile Include="Configuration\IDocumentContextExtension.cs" />
-    <Compile Include="Configuration\IDocumentContextOptions.cs" />
-    <Compile Include="Configuration\IDocumentContextOptionsBuilder.cs" />
-    <Compile Include="IDocumentReader.cs" />
-    <Compile Include="IDocumentWriter.cs" />
-    <Compile Include="Builders\IPrimaryResourceIdentifierBuilder.cs" />
-    <Compile Include="Builders\IPrimaryResourceIdentifierCollectionBuilder.cs" />
-    <Compile Include="Builders\IResourceCollectionSource.cs" />
-    <Compile Include="Builders\IResourceIdentfierBuilder.cs" />
-    <Compile Include="Builders\IResourceIdentifierCollectionSource.cs" />
-    <Compile Include="Builders\IResourceIdentifierSource.cs" />
-    <Compile Include="Builders\IResourceSource.cs" />
-    <Compile Include="Builders\DocumentBuildException.cs" />
-    <Compile Include="DocumentContextBase.cs" />
-    <Compile Include="Configuration\DocumentContextOptions.cs" />
-    <Compile Include="Configuration\DocumentContextOptionsBuilder.cs" />
-    <Compile Include="DocumentReadException.cs" />
-    <Compile Include="DocumentWriteException.cs" />
-    <Compile Include="Internal\Dom\DomIndex.cs" />
-    <Compile Include="Properties\InfrastructureErrorStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\InfrastructureErrorStrings.Designer.cs">
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>InfrastructureErrorStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\CoreDocumentContextExtensionBuilder.cs" />
-    <Compile Include="Configuration\DocumentContextOptionsExtensions.cs" />
-    <Compile Include="InternalErrorException.cs" />
-    <Compile Include="Configuration\Internal\CoreDocumentContextExtension.cs" />
-    <Compile Include="Internal\DocumentContextImplementation.cs" />
-    <Compile Include="Internal\DocumentContextImplementationExtensions.cs" />
-    <Compile Include="Internal\DocumentReader.cs" />
-    <Compile Include="Internal\DocumentWriter.cs" />
-    <Compile Include="Internal\Dom\DomAttribute.cs" />
-    <Compile Include="Internal\Dom\DomAttributes.cs" />
-    <Compile Include="Internal\Dom\DomData.cs" />
-    <Compile Include="Internal\Dom\DomDataCollection.cs" />
-    <Compile Include="Internal\Dom\DomDocument.cs" />
-    <Compile Include="Internal\Dom\DomException.cs" />
-    <Compile Include="Internal\Dom\DomExtensions.cs" />
-    <Compile Include="Internal\Dom\DomHRef.cs" />
-    <Compile Include="Internal\Dom\DomId.cs" />
-    <Compile Include="Internal\Dom\DomIncluded.cs" />
-    <Compile Include="Internal\Dom\DomNodeType.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyError.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyErrors.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyJsonApiVersion.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyLink.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyLinks.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyMeta.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyRelationship.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyRelationships.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyResource.cs" />
-    <Compile Include="Internal\Dom\DomReadOnlyResourceIdentifier.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteErrors.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteLink.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteLinks.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteRelationship.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteRelationships.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteResource.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteResourceIdentifier.cs" />
-    <Compile Include="Internal\Dom\DomReadWriteResourceIdentity.cs" />
-    <Compile Include="Internal\Dom\DomType.cs" />
-    <Compile Include="Internal\Dom\IDomError.cs" />
-    <Compile Include="Internal\Dom\IDomErrors.cs" />
-    <Compile Include="Internal\Dom\IDomJsonApiVersion.cs" />
-    <Compile Include="Internal\Dom\IDomLink.cs" />
-    <Compile Include="Internal\Dom\IDomLinks.cs" />
-    <Compile Include="Internal\Dom\IDomMeta.cs" />
-    <Compile Include="Internal\Dom\IDomRelationship.cs" />
-    <Compile Include="Internal\Dom\IDomRelationships.cs" />
-    <Compile Include="Internal\Dom\IDomResource.cs" />
-    <Compile Include="Internal\Dom\IDomResourceIdentifier.cs" />
-    <Compile Include="Internal\Dom\IDomResourceIdentity.cs" />
-    <Compile Include="Internal\Dom\IGetDomDocument.cs" />
-    <Compile Include="Internal\Dom\IGetIsReadOnly.cs" />
-    <Compile Include="Internal\Dom\ResourceTypeExtensions.cs" />
-    <Compile Include="Internal\IDocumentContextImplementation.cs" />
-    <Compile Include="Builders\Internal\PrimaryResourceIdentifierBuilder.cs" />
-    <Compile Include="Builders\Internal\PrimaryResourceIdentifierCollectionBuilder.cs" />
-    <Compile Include="Builders\Internal\ResourceIdentifierBuilder.cs" />
-    <Compile Include="Builders\Internal\ResourceIdentifierCollectionBuilder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="Properties\InternalsVisibleTo.cs" />
-    <Compile Include="Internal\Tree\ContainerNodeExtensions.cs" />
-    <Compile Include="Internal\Tree\IContainerNode.cs" />
-    <Compile Include="Internal\Tree\INodeAttributeValue.cs" />
-    <Compile Include="Internal\Tree\Node.cs" />
-    <Compile Include="Internal\Tree\NodeAttribute.cs" />
-    <Compile Include="Internal\Tree\NodeContainer.cs" />
-    <Compile Include="Internal\Tree\NodesContainer.cs" />
-    <Compile Include="Internal\Tree\NodeVisitor.cs" />
-    <Compile Include="Internal\Tree\TreeException.cs" />
-    <Compile Include="Internal\Tree\TreeStringNodeVisitor.cs" />
-    <Compile Include="Internal\Tree\VisitResult.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\InfrastructureErrorStrings.resx">
+    <EmbeddedResource Update="Properties\InfrastructureErrorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InfrastructureErrorStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
-      <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
-      <Name>JsonApiFramework.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets'))" />
-  </Target>
-  <!--
-    To modify your build process, add your task inside one of the targets below and uncomment it. 
-    Other similar extension points exist, see Microsoft.Common.targets.
-    -->
-  <Target Name="BeforeBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <!-- Version Number -->
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Infrastructure.version" XPath="version/major">
-      <Output TaskParameter="Value" PropertyName="Major" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Infrastructure.version" XPath="version/minor">
-      <Output TaskParameter="Value" PropertyName="Minor" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Infrastructure.version" XPath="version/patch">
-      <Output TaskParameter="Value" PropertyName="Patch" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Infrastructure.version" XPath="version/buildnumber">
-      <Output TaskParameter="Value" PropertyName="BuildNumber" />
-    </XmlRead>
-    <PropertyGroup>
-      <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
-      <ProjectProperties>BuildNumber=$(BuildNumber);</ProjectProperties>
-    </PropertyGroup>
-    <Message Text="Version: $(Major).$(Minor).$(Patch).$(BuildNumber)" />
-    <Time>
-      <Output TaskParameter="Year" PropertyName="Year" />
-    </Time>
-    <Attrib Files="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" ReadOnly="False" />
-    <AssemblyInfo CodeLanguage="CS" OutputFile="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" GenerateClass="true" AssemblyCopyright="Copyright © 2015–$(Year) Scott McDonald" AssemblyVersion="$(Major).$(Minor).0.0" AssemblyFileVersion="$(Major).$(Minor).$(Patch).$(BuildNumber)" AssemblyInformationalVersion="$(Major).$(Minor).$(Patch)-beta" />
-    <!-- End of Version Number -->
-  </Target>
-  <!--
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+
 </Project>

@@ -1,317 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E57F74BE-36F1-4D59-B1D8-FDD4CCEBF4CB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <AssemblyName>JsonApiFramework.Core</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Version>1.4.0-beta</Version>
+    <Authors>Scott McDonald</Authors>
+    <Company>Scott McDonald</Company>
+    <Product>JsonApiFramework [Core]</Product>
+    <Description>Portable .NET foundation-level 'json api' classes used for serializing and deserializing between raw JSON and CLR objects that represent the domain model of the JSON API specification.
+
+Portable .NET foundation-level 'convention' classes used for defining what conventions are to be used by the hypermedia API server or client application.
+
+Portable .NET foundation-level 'service model' classes that represent the domain model of the resources produced and consumed by the hypermedia API server or client application. The 'service model' contains the metadata of individual resources and the schema of how resources are related to each other through relationships (to-one or to-many).</Description>
+    <Copyright>Copyright © 2015–2017 Scott McDonald</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+    <PackageTags>.net portable json api framework</PackageTags>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.14</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="Conventions\IConventions.cs" />
-    <Compile Include="Conventions\IComplexTypeConvention.cs" />
-    <Compile Include="Conventions\IComplexTypeConventionsBuilder.cs" />
-    <Compile Include="Conventions\Internal\CamelCaseNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\ComplexTypeConventionsBuilder.cs" />
-    <Compile Include="Conventions\Internal\PropertyDiscoveryComplexTypeConvention.cs" />
-    <Compile Include="JsonApi\ApiProperty.cs" />
-    <Compile Include="JsonApi\ApiObject.cs" />
-    <Compile Include="JsonApi\ApiObjectConverter.cs" />
-    <Compile Include="JsonApi\ApiReadProperty.cs" />
-    <Compile Include="JsonApi\ApiWriteProperty.cs" />
-    <Compile Include="Json\IJsonObject.cs" />
-    <Compile Include="Clock\SystemClock.cs" />
-    <Compile Include="Extensions\ClockExtensions.cs" />
-    <Compile Include="Extensions\DeepCloneableExtensions.cs" />
-    <Compile Include="Expressions\ExpressionBuilder.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="IClock.cs" />
-    <Compile Include="IDeepCloneable.cs" />
-    <Compile Include="IResource.cs" />
-    <Compile Include="Http\IPath.cs" />
-    <Compile Include="Http\IUrlBuilderConfiguration.cs" />
-    <Compile Include="Http\UrlBuilder.cs" />
-    <Compile Include="Http\UrlBuilderConfiguration.cs" />
-    <Compile Include="JsonApi\Converter.cs" />
-    <Compile Include="JsonApi\DataType.cs" />
-    <Compile Include="JsonApi\Document.cs" />
-    <Compile Include="JsonApi\DocumentConverter.cs" />
-    <Compile Include="JsonApi\DocumentExtensions.cs" />
-    <Compile Include="JsonApi\DocumentType.cs" />
-    <Compile Include="JsonApi\DocumentTypeExtensions.cs" />
-    <Compile Include="JsonApi\EmptyDocument.cs" />
-    <Compile Include="JsonApi\Error.cs" />
-    <Compile Include="JsonApi\ErrorConverter.cs" />
-    <Compile Include="JsonApi\ErrorException.cs" />
-    <Compile Include="JsonApi\ErrorsDocument.cs" />
-    <Compile Include="Properties\CoreStrings.Designer.cs">
-      <DependentUpon>CoreStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
+    <PackageReference Include="Humanizer.Core" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\CoreErrorStrings.Designer.cs">
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\CoreErrorStrings.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>CoreErrorStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="JsonApi\GetJsonApiVersionExtensions.cs" />
-    <Compile Include="JsonApi\GetLinksExtensions.cs" />
-    <Compile Include="JsonApi\GetMetaExtensions.cs" />
-    <Compile Include="JsonApi\GetRelationshipsExtensions.cs" />
-    <Compile Include="JsonApi\GetResourceIdentityExtensions.cs" />
-    <Compile Include="JsonApi\IGetAttributes.cs" />
-    <Compile Include="JsonApi\IGetErrors.cs" />
-    <Compile Include="JsonApi\IGetIncluded.cs" />
-    <Compile Include="JsonApi\IGetJsonApiVersion.cs" />
-    <Compile Include="JsonApi\IGetLinks.cs" />
-    <Compile Include="JsonApi\IGetMeta.cs" />
-    <Compile Include="JsonApi\IGetRelationships.cs" />
-    <Compile Include="JsonApi\IGetResourceIdentity.cs" />
-    <Compile Include="JsonApi\ISetAttributes.cs" />
-    <Compile Include="JsonApi\ISetErrors.cs" />
-    <Compile Include="JsonApi\ISetIncluded.cs" />
-    <Compile Include="JsonApi\ISetJsonApiVersion.cs" />
-    <Compile Include="JsonApi\ISetLinks.cs" />
-    <Compile Include="JsonApi\ISetMeta.cs" />
-    <Compile Include="JsonApi\ISetRelationships.cs" />
-    <Compile Include="JsonApi\ISetResourceIdentity.cs" />
-    <Compile Include="JsonApi\JObjectExtensions.cs" />
-    <Compile Include="JsonApi\JsonApiVersion.cs" />
-    <Compile Include="JsonApi\JsonApiVersionConverter.cs" />
-    <Compile Include="JsonApi\JsonApiException.cs" />
-    <Compile Include="JsonApi\Keywords.cs" />
-    <Compile Include="JsonApi\Link.cs" />
-    <Compile Include="JsonApi\LinkConverter.cs" />
-    <Compile Include="JsonApi\LinkNotFoundException.cs" />
-    <Compile Include="JsonApi\Links.cs" />
-    <Compile Include="JsonApi\Meta.cs" />
-    <Compile Include="JsonApi\MetaConverter.cs" />
-    <Compile Include="JsonApi\NullDocument.cs" />
-    <Compile Include="JsonApi\Relationship.cs" />
-    <Compile Include="JsonApi\RelationshipConverter.cs" />
-    <Compile Include="JsonApi\RelationshipNotFoundException.cs" />
-    <Compile Include="JsonApi\Relationships.cs" />
-    <Compile Include="JsonApi\RelationshipType.cs" />
-    <Compile Include="JsonApi\Resource.cs" />
-    <Compile Include="JsonApi\ResourceCollectionDocument.cs" />
-    <Compile Include="JsonApi\ResourceConverter.cs" />
-    <Compile Include="JsonApi\ResourceDocument.cs" />
-    <Compile Include="JsonApi\ResourceIdentifier.cs" />
-    <Compile Include="JsonApi\ResourceIdentifierCollectionDocument.cs" />
-    <Compile Include="JsonApi\ResourceIdentifierConverter.cs" />
-    <Compile Include="JsonApi\ResourceIdentifierDocument.cs" />
-    <Compile Include="JsonApi\SetMetaExtensions.cs" />
-    <Compile Include="JsonApi\ToManyRelationship.cs" />
-    <Compile Include="JsonApi\ToOneRelationship.cs" />
-    <Compile Include="Json\JsonDictionary.cs" />
-    <Compile Include="Json\JsonObject.cs" />
-    <Compile Include="Json\JsonReadOnlyDictionary.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\UriExtensions.cs" />
-    <Compile Include="Properties\InternalsVisibleTo.cs" />
-    <Compile Include="Reflection\BindingFlags.cs" />
-    <Compile Include="Reflection\ObjectFactory.cs" />
-    <Compile Include="Reflection\StaticReflection.cs" />
-    <Compile Include="Reflection\TypeConverter.cs" />
-    <Compile Include="Reflection\TypeConverterException.cs" />
-    <Compile Include="Reflection\TypeExtensions.cs" />
-    <Compile Include="ServiceModel\Configuration\ClrTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IClrTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IComplexTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IComplexTypeFactory.cs" />
-    <Compile Include="ServiceModel\Configuration\ComplexTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\ClrTypeBuilderExtensions.cs" />
-    <Compile Include="ServiceModel\Configuration\ResourceTypeBuilderExtensions.cs" />
-    <Compile Include="ServiceModel\Configuration\IAttributeInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IConfigurationCollection.cs" />
-    <Compile Include="ServiceModel\Configuration\IHypermediaInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\ILinkInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\ILinksInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IMetaInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\AttributeInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\AttributesInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\ConfigurationCollection.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\HypermediaInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\LinkInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\LinksInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\MetaInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\RelationshipInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\RelationshipsInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\Internal\ResourceIdentityInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IRelationshipInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IRelationshipsInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IResourceIdentityInfoBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IResourceTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IResourceTypeFactory.cs" />
-    <Compile Include="ServiceModel\Configuration\IServiceModelBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\IServiceModelFactory.cs" />
-    <Compile Include="ServiceModel\Configuration\ResourceTypeBuilder.cs" />
-    <Compile Include="ServiceModel\Configuration\ServiceModelBuilder.cs" />
-    <Compile Include="Conventions\Internal\Conventions.cs" />
-    <Compile Include="Conventions\ConventionsBuilder.cs" />
-    <Compile Include="Conventions\IConventionsBuilder.cs" />
-    <Compile Include="Conventions\IConventionsFactory.cs" />
-    <Compile Include="Conventions\INamingConvention.cs" />
-    <Compile Include="Conventions\INamingConventionsBuilder.cs" />
-    <Compile Include="Conventions\Internal\HypermediaDiscoveryConvention.cs" />
-    <Compile Include="Conventions\Internal\LowercaseNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\NamingConventionsBuilder.cs" />
-    <Compile Include="Conventions\Internal\PluralNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\PropertyDiscoveryResourceTypeConvention.cs" />
-    <Compile Include="Conventions\Internal\ResourceTypeConventionsBuilder.cs" />
-    <Compile Include="Conventions\Internal\SingularNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\StandardMemberNamingConvention.cs" />
-    <Compile Include="Conventions\Internal\UpperCaseNamingConvention.cs" />
-    <Compile Include="Conventions\IResourceTypeConvention.cs" />
-    <Compile Include="Conventions\IResourceTypeConventionsBuilder.cs" />
-    <Compile Include="ServiceModel\Converters\AttributeInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\AttributesInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\HypermediaInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\LinkInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\LinksInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\MetaInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\PropertyInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\RelationshipInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\RelationshipsInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\ResourceIdentityInfoConverter.cs" />
-    <Compile Include="ServiceModel\Converters\ComplexTypeConverter.cs" />
-    <Compile Include="ServiceModel\Converters\ResourceTypeConverter.cs" />
-    <Compile Include="ServiceModel\Converters\ServiceModelConverter.cs" />
-    <Compile Include="ServiceModel\Extensions\AttributeInfoExtensions.cs" />
-    <Compile Include="ServiceModel\Extensions\ServiceModelExtensions.cs" />
-    <Compile Include="ServiceModel\Extensions\ResourceTypeExtensions.cs" />
-    <Compile Include="ServiceModel\Extensions\PropertyInfoExtensions.cs" />
-    <Compile Include="ServiceModel\IAttributeInfo.cs" />
-    <Compile Include="ServiceModel\IAttributesInfo.cs" />
-    <Compile Include="ServiceModel\IClrTypeInfo.cs" />
-    <Compile Include="ServiceModel\ComplexTypesContractResolver.cs" />
-    <Compile Include="ServiceModel\IComplexType.cs" />
-    <Compile Include="ServiceModel\IGetServiceModel.cs" />
-    <Compile Include="ServiceModel\IHypermediaInfo.cs" />
-    <Compile Include="ServiceModel\IMemberInfo.cs" />
-    <Compile Include="ServiceModel\ILinkInfo.cs" />
-    <Compile Include="ServiceModel\ILinksInfo.cs" />
-    <Compile Include="ServiceModel\IMetaInfo.cs" />
-    <Compile Include="ServiceModel\Internal\AttributeInfo.cs" />
-    <Compile Include="ServiceModel\Internal\AttributesInfo.cs" />
-    <Compile Include="ServiceModel\Internal\HypermediaInfo.cs" />
-    <Compile Include="ServiceModel\Internal\MemberInfo.cs" />
-    <Compile Include="ServiceModel\Internal\LinkInfo.cs" />
-    <Compile Include="ServiceModel\Internal\LinksInfo.cs" />
-    <Compile Include="ServiceModel\Internal\ComplexType.cs" />
-    <Compile Include="ServiceModel\Internal\MetaInfo.cs" />
-    <Compile Include="ServiceModel\Internal\PropertyInfo.cs" />
-    <Compile Include="ServiceModel\Internal\RelationshipInfo.cs" />
-    <Compile Include="ServiceModel\Internal\RelationshipsInfo.cs" />
-    <Compile Include="ServiceModel\Internal\ResourceIdentityInfo.cs" />
-    <Compile Include="ServiceModel\Internal\ClrTypeInfo.cs" />
-    <Compile Include="ServiceModel\Internal\ResourceType.cs" />
-    <Compile Include="ServiceModel\Internal\ServiceModel.cs" />
-    <Compile Include="ServiceModel\IPropertyInfo.cs" />
-    <Compile Include="ServiceModel\IRelationshipInfo.cs" />
-    <Compile Include="ServiceModel\IRelationshipsInfo.cs" />
-    <Compile Include="ServiceModel\IResourceIdentityInfo.cs" />
-    <Compile Include="ServiceModel\IResourceType.cs" />
-    <Compile Include="ServiceModel\IServiceModel.cs" />
-    <Compile Include="ServiceModel\ServiceModelException.cs" />
-    <Compile Include="ServiceModel\RelationshipCanonicalRelPathMode.cs" />
-    <Compile Include="ServiceModel\RelationshipCardinality.cs" />
+    <Compile Update="Properties\CoreStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CoreStrings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="Humanizer, Version=2.0.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\portable-win+net45+wp8+wpa81\Humanizer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\CoreStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CoreStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\CoreErrorStrings.resx">
+    <EmbeddedResource Update="Properties\CoreErrorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CoreErrorStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
-      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\CoreStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoreStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.196\build\MSBuildTasks.targets'))" />
-  </Target>
-  <!--
-    To modify your build process, add your task inside one of the targets below and uncomment it. 
-    Other similar extension points exist, see Microsoft.Common.targets.
-    -->
-  <Target Name="BeforeBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <!-- Version Number -->
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Core.version" XPath="version/major">
-      <Output TaskParameter="Value" PropertyName="Major" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Core.version" XPath="version/minor">
-      <Output TaskParameter="Value" PropertyName="Minor" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Core.version" XPath="version/patch">
-      <Output TaskParameter="Value" PropertyName="Patch" />
-    </XmlRead>
-    <XmlRead XmlFileName="$(MSBuildProjectDirectory)\..\..\.build\JsonApiFramework.Core.version" XPath="version/buildnumber">
-      <Output TaskParameter="Value" PropertyName="BuildNumber" />
-    </XmlRead>
-    <PropertyGroup>
-      <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
-      <ProjectProperties>BuildNumber=$(BuildNumber);</ProjectProperties>
-    </PropertyGroup>
-    <Message Text="Version: $(Major).$(Minor).$(Patch).$(BuildNumber)" />
-    <Time>
-      <Output TaskParameter="Year" PropertyName="Year" />
-    </Time>
-    <Attrib Files="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" ReadOnly="False" />
-    <AssemblyInfo CodeLanguage="CS" OutputFile="$(MSBuildProjectDirectory)\Properties\AssemblyVersion.cs" GenerateClass="true" AssemblyCopyright="Copyright © 2015–$(Year) Scott McDonald" AssemblyVersion="$(Major).$(Minor).0.0" AssemblyFileVersion="$(Major).$(Minor).$(Patch).$(BuildNumber)" AssemblyInformationalVersion="$(Major).$(Minor).$(Patch)-beta" />
-    <!-- End of Version Number -->
-  </Target>
-  <!--
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+
 </Project>

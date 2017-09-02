@@ -11,3 +11,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("JsonApiFramework.Core.TestAsserts")]
 [assembly: InternalsVisibleTo("JsonApiFramework.Core.TestData")]
 [assembly: InternalsVisibleTo("JsonApiFramework.Core.Tests")]
+
+[assembly: InternalsVisibleTo("JsonApiFramework.Infrastructure.Tests")]

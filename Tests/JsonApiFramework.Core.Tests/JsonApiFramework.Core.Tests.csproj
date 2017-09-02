@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
-      <Project>{e57f74be-36f1-4d59-b1d8-fdd4ccebf4cb}</Project>
+      <Project>{01789fba-ffc9-41fc-8bd3-a12b09015cb6}</Project>
       <Name>JsonApiFramework.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\JsonApiFramework.Core.TestAsserts\JsonApiFramework.Core.TestAsserts.csproj">

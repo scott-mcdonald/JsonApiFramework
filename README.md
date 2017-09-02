@@ -610,14 +610,14 @@ From a JSON API document reading and writing standpoint, the reading of JSON API
 
 ### Projects
 
-| Project | PCL Assembly \* | Summary |
+| Project | Assembly \* | Summary |
 | --- | --- |--- |
 | JsonApiFramework.Core | JsonApiFramework.Core.dll | Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources. Portable core-level .NET framework for ServiceModel and Conventions. |
 | JsonApiFramework.Infrastructure | JsonApiFramework.Infrastructure.dll | Portable client-side and server-side .NET framework for JSON API document reading and writing. Depends on the JsonApiFramework.Core project. |
 | JsonApiFramework.Client | JsonApiFramework.Client.dll | Portable client-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
 | JsonApiFramework.Server | JsonApiFramework.Server.dll | Portable server-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
 
-> \* All assemblies are **P**ortable **C**lass **L**ibrary binaries to support cross-platform development.
+> \* All assemblies are **.NET Standard** class libraries to support cross-platform development.
 
 ## Installation
 
@@ -625,13 +625,11 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 ### Option 1: From [NuGet](https://www.nuget.org) (easy peasy)
 
-Requires NuGet 2.12 or higher
-
 #### Client-Side Document Reading/Building/Writing
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.3.0-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.4.0-beta |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -641,7 +639,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.3.0-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.4.0-beta |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -653,7 +651,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.3.0-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.4.0-beta |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -677,17 +675,14 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 ## Development setup
 
-JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2013.
+JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2017.
 
 ### Prerequisites
 
-The only thing needed is **Visual Studio** 2013 or higher installed on your development machine. JsonApiFramework has dependencies on the *.NET Framework* and *nuget* packages, more specifically: 
-- **.NET Framework** 4.5 SDK
-- [JSON.NET](http://www.newtonsoft.com/json) 9.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
-- [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.1 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
+The only thing needed is **Visual Studio** 2017 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
+- [JSON.NET](http://www.newtonsoft.com/json) 10.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
+- [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.2 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
-
-.NET Framework SDK's are automatically installed with **Visual Studio** installations and when you rebuild the solution file nuget packages are automatically downloaded as needed.
 
 ### Running the tests
 
@@ -713,6 +708,10 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.4.0-beta
+    * Fix #35 Add support for .NET Standard/Core
+    * Update README.md to reflect the change to .NET Standard for portability reasons
+    * Update README.md to reflect the change of the minimum version of Visual Studio to 2017
 * v1.3.0-beta
     * Fix #38 Expose AddCamelCaseNamingConvention as an available naming convention
 * v1.2.1-beta

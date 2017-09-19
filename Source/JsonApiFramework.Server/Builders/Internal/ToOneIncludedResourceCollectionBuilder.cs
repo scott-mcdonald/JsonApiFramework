@@ -15,7 +15,7 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IToOneIncludedResourceBuilder<TResource> Implementation
-        public IIncludedResourcesBuilder ToOneEnd()
+        public IIncludedResourcesBuilder IncludeEnd()
         {
             // Notify base class building is done.
             this.OnBuildEnd();

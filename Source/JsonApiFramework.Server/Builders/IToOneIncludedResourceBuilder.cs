@@ -8,7 +8,7 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IIncludedResourcesBuilder ToOneEnd();
+        IIncludedResourcesBuilder IncludeEnd();
         #endregion
     }
 }

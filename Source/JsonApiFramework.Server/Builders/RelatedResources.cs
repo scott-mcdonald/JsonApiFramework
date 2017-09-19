@@ -10,7 +10,7 @@ using JsonApiFramework.Server.Internal;
 
 namespace JsonApiFramework.Server
 {
-    public static class IncludedResources
+    public static class RelatedResources
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
@@ -32,7 +32,7 @@ namespace JsonApiFramework.Server
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toManyIncludedResources = IncludedResources.Create(fromResource, fromRel, toResourceCollection.AsEnumerable());
+            var toManyIncludedResources = RelatedResources.Create(fromResource, fromRel, toResourceCollection.AsEnumerable());
             return toManyIncludedResources;
         }
         #endregion

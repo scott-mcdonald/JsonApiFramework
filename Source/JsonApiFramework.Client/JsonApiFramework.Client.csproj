@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>JsonApiFramework.Client</PackageId>
-    <Version>1.4.0-beta</Version>
+    <Version>1.5.0</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Client]</Product>
@@ -13,7 +13,8 @@
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageTags>.net portable json api framework</PackageTags>
-    <FileVersion>1.4.0.14</FileVersion>
+    <FileVersion>1.5.0.15</FileVersion>
+    <AssemblyVersion>1.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

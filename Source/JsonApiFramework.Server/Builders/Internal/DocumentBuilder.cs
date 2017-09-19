@@ -267,7 +267,7 @@ namespace JsonApiFramework.Server.Internal
         { return this; }
 
         // ToOneIncludedResource /////////////////////////////////////////////
-        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
+        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -277,7 +277,7 @@ namespace JsonApiFramework.Server.Internal
             return toOneIncludedResourceBuilder;
         }
 
-        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
+        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -287,7 +287,7 @@ namespace JsonApiFramework.Server.Internal
             return toOneIncludedResourceBuilder;
         }
 
-        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
+        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -298,7 +298,7 @@ namespace JsonApiFramework.Server.Internal
             return toOneIncludedResourceBuilder;
         }
 
-        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
+        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -309,52 +309,52 @@ namespace JsonApiFramework.Server.Internal
             return toOneIncludedResourceBuilder;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toOneIncludedResource != null);
 
-            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResource);
-            toOneIncludedResourceBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResource);
+            toOneIncludedResourceBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toOneIncludedResourceCollection != null);
 
-            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceCollection);
-            toOneIncludedResourceBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceCollection);
+            toOneIncludedResourceBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toOneIncludedResourceSource != null);
 
-            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceSource);
-            toOneIncludedResourceBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceSource);
+            toOneIncludedResourceBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toOneIncludedResourceCollectionSource != null);
 
-            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceCollectionSource);
-            toOneIncludedResourceBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceCollectionSource);
+            toOneIncludedResourceBuilder.IncludeEnd();
             return this;
         }
 
         // ToManyIncludedResources ////////////////////////////////////////////
-        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
+        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -364,7 +364,7 @@ namespace JsonApiFramework.Server.Internal
             return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
+        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -374,7 +374,7 @@ namespace JsonApiFramework.Server.Internal
             return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
+        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -385,7 +385,7 @@ namespace JsonApiFramework.Server.Internal
             return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
+        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -396,47 +396,47 @@ namespace JsonApiFramework.Server.Internal
             return toManyIncludedResourcesBuilder;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toManyIncludedResources != null);
 
-            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResources);
-            toManyIncludedResourcesBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResources);
+            toManyIncludedResourcesBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toManyIncludedResourcesCollection != null);
 
-            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesCollection);
-            toManyIncludedResourcesBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesCollection);
+            toManyIncludedResourcesBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toManyIncludedResourcesSource != null);
 
-            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesSource);
-            toManyIncludedResourcesBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesSource);
+            toManyIncludedResourcesBuilder.IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
+        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(toManyIncludedResourcesCollectionSource != null);
 
-            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesCollectionSource);
-            toManyIncludedResourcesBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesCollectionSource);
+            toManyIncludedResourcesBuilder.IncludeEnd();
             return this;
         }
         #endregion

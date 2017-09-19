@@ -8,7 +8,7 @@ using JsonApiFramework.Server.Internal;
 
 namespace JsonApiFramework.Server
 {
-    public static class IncludedResource
+    public static class RelatedResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods

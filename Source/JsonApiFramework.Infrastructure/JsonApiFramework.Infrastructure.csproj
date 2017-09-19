@@ -3,17 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <Version>1.4.0-beta</Version>
+    <Version>1.5.0</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Infrastructure]</Product>
     <PackageTags>.net portable json api framework</PackageTags>
-    <FileVersion>1.4.0.14</FileVersion>
+    <FileVersion>1.5.0.15</FileVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
     <Copyright>Copyright © 2015–2017 Scott McDonald</Copyright>
     <Description>Portable .NET framework-level classes that include common client-side and server-side JSON API document reading and writing from an internal DOM tree representation of the JSON API document.</Description>
+    <AssemblyVersion>1.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

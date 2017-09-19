@@ -8,19 +8,19 @@ using JsonApiFramework.Server.Internal;
 
 namespace JsonApiFramework.Server
 {
-    public static class ToOneResourceLinkage
+    public static class IncludedResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
-        public static IToOneResourceLinkage<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, TToResource toResource)
+        public static IToOneIncludedResource<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, TToResource toResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toOneResourceLinkage = new ToOneResourceLinkage<TFromResource, TToResource>(fromResource, fromRel, toResource);
-            return toOneResourceLinkage;
+            var toOneIncludedResource = new ToOneIncludedResource<TFromResource, TToResource>(fromResource, fromRel, toResource);
+            return toOneIncludedResource;
         }
         #endregion
     }

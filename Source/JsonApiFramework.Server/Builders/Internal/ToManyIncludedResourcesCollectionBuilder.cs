@@ -9,12 +9,12 @@ using JsonApiFramework.Internal.Dom;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ToManyResourceLinkageCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToManyResourceLinkageBuilder<TToResource>, TToResource>, IToManyResourceLinkageBuilder<TToResource>
+    internal class ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder<TToResource>, TToResource>, IToManyIncludedResourcesBuilder<TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IToManyResourceLinkageBuilder<TResource> Implementation
+        #region IToManyIncludedResourcesBuilder<TResource> Implementation
         public IIncludedResourcesBuilder ToManyEnd()
         {
             // Notify base class building is done.
@@ -28,27 +28,27 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ToManyResourceLinkageCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyResourceLinkage<TFromResource, TToResource>> toManyResourceLinkageCollection)
-            : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyResourceLinkageCollection.SelectMany(x => x.ToResourceCollection))
+        internal ToManyIncludedResourcesCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
+            : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyIncludedResourcesCollection.SelectMany(x => x.ToResourceCollection))
         {
-            Contract.Requires(toManyResourceLinkageCollection != null);
+            Contract.Requires(toManyIncludedResourcesCollection != null);
 
             this.Builder = this;
 
-            foreach (var toManyResourceLinkage in toManyResourceLinkageCollection)
+            foreach (var toManyIncludedResources in toManyIncludedResourcesCollection)
             {
-                this.AddResourceLinkage(toManyResourceLinkage);
+                this.AddResourceLinkage(toManyIncludedResources);
             }
         }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private void AddResourceLinkage(IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        private void AddResourceLinkage(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
         {
-            Contract.Requires(toManyResourceLinkage != null);
+            Contract.Requires(toManyIncludedResources != null);
 
-            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyResourceLinkage);
+            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyIncludedResources);
         }
         #endregion
     }

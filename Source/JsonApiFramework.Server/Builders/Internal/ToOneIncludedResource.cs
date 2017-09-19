@@ -6,12 +6,12 @@ using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ToOneResourceLinkage<TFromResource, TToResource> : IToOneResourceLinkage<TFromResource, TToResource>
+    internal class ToOneIncludedResource<TFromResource, TToResource> : IToOneIncludedResource<TFromResource, TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IToOneResourceLinkage<TFromResource, TToResource> Implementation
+        #region IToOneIncludedResource<TFromResource, TToResource> Implementation
         public Type FromClrResourceType { get { return typeof(TFromResource); } }
         public TFromResource FromResource { get; private set; }
 
@@ -23,7 +23,7 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ToOneResourceLinkage(TFromResource fromClrResource, string fromRel, TToResource toClrResource)
+        internal ToOneIncludedResource(TFromResource fromClrResource, string fromRel, TToResource toClrResource)
         {
             Contract.Requires(fromClrResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel) == false);

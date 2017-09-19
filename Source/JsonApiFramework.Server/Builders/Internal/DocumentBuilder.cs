@@ -266,177 +266,177 @@ namespace JsonApiFramework.Server.Internal
         public IDocumentWriter IncludedEnd()
         { return this; }
 
-        // ToOneResourceLinkage /////////////////////////////////////////////
-        public IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        // ToOneIncludedResource /////////////////////////////////////////////
+        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
-            var toOneResourceLinkageBuilder = new ToOneResourceLinkageBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneResourceLinkage);
-            return toOneResourceLinkageBuilder;
+            var toOneIncludedResourceBuilder = new ToOneIncludedResourceBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResource);
+            return toOneIncludedResourceBuilder;
         }
 
-        public IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>> toOneResourceLinkageCollection)
+        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageCollection != null);
+            Contract.Requires(toOneIncludedResourceCollection != null);
 
-            var toOneResourceLinkageBuilder = new ToOneResourceLinkageCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneResourceLinkageCollection.SafeToReadOnlyCollection());
-            return toOneResourceLinkageBuilder;
+            var toOneIncludedResourceBuilder = new ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
+            return toOneIncludedResourceBuilder;
         }
 
-        public IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkageSource<TFromResource, TToResource> toOneResourceLinkageSource)
+        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageSource != null);
+            Contract.Requires(toOneIncludedResourceSource != null);
 
-            var toOneResourceLinkage = toOneResourceLinkageSource.GetToOneResourceLinkage();
-            var toOneResourceLinkageBuilder = new ToOneResourceLinkageBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneResourceLinkage);
-            return toOneResourceLinkageBuilder;
+            var toOneIncludedResource = toOneIncludedResourceSource.GetToOneIncludedResource();
+            var toOneIncludedResourceBuilder = new ToOneIncludedResourceBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResource);
+            return toOneIncludedResourceBuilder;
         }
 
-        public IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        public IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageCollectionSource != null);
+            Contract.Requires(toOneIncludedResourceCollectionSource != null);
 
-            var toOneResourceLinkageCollection = toOneResourceLinkageCollectionSource.GetToOneResourceLinkageCollection();
-            var toOneResourceLinkageBuilder = new ToOneResourceLinkageCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneResourceLinkageCollection.SafeToReadOnlyCollection());
-            return toOneResourceLinkageBuilder;
+            var toOneIncludedResourceCollection = toOneIncludedResourceCollectionSource.GetToOneIncludedResourceCollection();
+            var toOneIncludedResourceBuilder = new ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
+            return toOneIncludedResourceBuilder;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
-            var toOneResourceLinkageBuilder = this.ToOne(toOneResourceLinkage);
-            toOneResourceLinkageBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResource);
+            toOneIncludedResourceBuilder.ToOneEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>> toOneResourceLinkageCollection)
+        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageCollection != null);
+            Contract.Requires(toOneIncludedResourceCollection != null);
 
-            var toOneResourceLinkageBuilder = this.ToOne(toOneResourceLinkageCollection);
-            toOneResourceLinkageBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceCollection);
+            toOneIncludedResourceBuilder.ToOneEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkageSource<TFromResource, TToResource> toOneResourceLinkageSource)
+        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageSource != null);
+            Contract.Requires(toOneIncludedResourceSource != null);
 
-            var toOneResourceLinkageBuilder = this.ToOne(toOneResourceLinkageSource);
-            toOneResourceLinkageBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceSource);
+            toOneIncludedResourceBuilder.ToOneEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        public IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toOneResourceLinkageCollectionSource != null);
+            Contract.Requires(toOneIncludedResourceCollectionSource != null);
 
-            var toOneResourceLinkageBuilder = this.ToOne(toOneResourceLinkageCollectionSource);
-            toOneResourceLinkageBuilder.ToOneEnd();
+            var toOneIncludedResourceBuilder = this.ToOne(toOneIncludedResourceCollectionSource);
+            toOneIncludedResourceBuilder.ToOneEnd();
             return this;
         }
 
-        // ToManyResourceLinkage ////////////////////////////////////////////
-        public IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        // ToManyIncludedResources ////////////////////////////////////////////
+        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkage != null);
+            Contract.Requires(toManyIncludedResources != null);
 
-            var toManyResourceLinkageBuilder = new ToManyResourceLinkageBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyResourceLinkage);
-            return toManyResourceLinkageBuilder;
+            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResources);
+            return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IEnumerable<IToManyResourceLinkage<TFromResource, TToResource>> toManyResourceLinkageCollection)
+        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageCollection != null);
+            Contract.Requires(toManyIncludedResourcesCollection != null);
 
-            var toManyResourceLinkageBuilder = new ToManyResourceLinkageCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyResourceLinkageCollection.SafeToReadOnlyCollection());
-            return toManyResourceLinkageBuilder;
+            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
+            return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkageSource<TFromResource, TToResource> toManyResourceLinkageSource)
+        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageSource != null);
+            Contract.Requires(toManyIncludedResourcesSource != null);
 
-            var toManyResourceLinkage = toManyResourceLinkageSource.GetToManyResourceLinkage();
-            var toManyResourceLinkageBuilder = new ToManyResourceLinkageBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyResourceLinkage);
-            return toManyResourceLinkageBuilder;
+            var toManyIncludedResources = toManyIncludedResourcesSource.GetToManyIncludedResources();
+            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResources);
+            return toManyIncludedResourcesBuilder;
         }
 
-        public IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkageCollectionSource<TFromResource, TToResource> toManyResourceLinkageCollectionSource)
+        public IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageCollectionSource != null);
+            Contract.Requires(toManyIncludedResourcesCollectionSource != null);
 
-            var toManyResourceLinkageCollection = toManyResourceLinkageCollectionSource.GetToManyResourceLinkageCollection();
-            var toManyResourceLinkageBuilder = new ToManyResourceLinkageCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyResourceLinkageCollection.SafeToReadOnlyCollection());
-            return toManyResourceLinkageBuilder;
+            var toManyIncludedResourcesCollection = toManyIncludedResourcesCollectionSource.GetToManyIncludedResourcesCollection();
+            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
+            return toManyIncludedResourcesBuilder;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkage != null);
+            Contract.Requires(toManyIncludedResources != null);
 
-            var toManyResourceLinkageBuilder = this.ToMany(toManyResourceLinkage);
-            toManyResourceLinkageBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResources);
+            toManyIncludedResourcesBuilder.ToManyEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IEnumerable<IToManyResourceLinkage<TFromResource, TToResource>> toManyResourceLinkageCollection)
+        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageCollection != null);
+            Contract.Requires(toManyIncludedResourcesCollection != null);
 
-            var toManyResourceLinkageBuilder = this.ToMany(toManyResourceLinkageCollection);
-            toManyResourceLinkageBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesCollection);
+            toManyIncludedResourcesBuilder.ToManyEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkageSource<TFromResource, TToResource> toManyResourceLinkageSource)
+        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageSource != null);
+            Contract.Requires(toManyIncludedResourcesSource != null);
 
-            var toManyResourceLinkageBuilder = this.ToMany(toManyResourceLinkageSource);
-            toManyResourceLinkageBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesSource);
+            toManyIncludedResourcesBuilder.ToManyEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkageCollectionSource<TFromResource, TToResource> toManyResourceLinkageCollectionSource)
+        public IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(toManyResourceLinkageCollectionSource != null);
+            Contract.Requires(toManyIncludedResourcesCollectionSource != null);
 
-            var toManyResourceLinkageBuilder = this.ToMany(toManyResourceLinkageCollectionSource);
-            toManyResourceLinkageBuilder.ToManyEnd();
+            var toManyIncludedResourcesBuilder = this.ToMany(toManyIncludedResourcesCollectionSource);
+            toManyIncludedResourcesBuilder.ToManyEnd();
             return this;
         }
         #endregion

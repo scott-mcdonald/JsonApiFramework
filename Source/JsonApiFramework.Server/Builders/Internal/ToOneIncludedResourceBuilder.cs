@@ -7,12 +7,12 @@ using JsonApiFramework.Internal.Dom;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ToOneResourceLinkageBuilder<TFromResource, TToResource> : ResourceBuilder<IToOneResourceLinkageBuilder<TToResource>, TToResource>, IToOneResourceLinkageBuilder<TToResource>
+    internal class ToOneIncludedResourceBuilder<TFromResource, TToResource> : ResourceBuilder<IToOneIncludedResourceBuilder<TToResource>, TToResource>, IToOneIncludedResourceBuilder<TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IToOneResourceLinkageBuilder<TResource> Implementation
+        #region IToOneIncludedResourceBuilder<TResource> Implementation
         public IIncludedResourcesBuilder ToOneEnd()
         {
             // Notify base class building is done.
@@ -26,24 +26,24 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ToOneResourceLinkageBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
-            : base(parentBuilder, domDocument.GetOrAddIncluded(), toOneResourceLinkage.ToResource)
+        internal ToOneIncludedResourceBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
+            : base(parentBuilder, domDocument.GetOrAddIncluded(), toOneIncludedResource.ToResource)
         {
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
             this.Builder = this;
 
-            this.AddResourceLinkage(toOneResourceLinkage);
+            this.AddResourceLinkage(toOneIncludedResource);
         }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private void AddResourceLinkage(IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        private void AddResourceLinkage(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
         {
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
-            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toOneResourceLinkage);
+            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toOneIncludedResource);
         }
         #endregion
     }

@@ -10,30 +10,30 @@ using JsonApiFramework.Server.Internal;
 
 namespace JsonApiFramework.Server
 {
-    public static class ToManyResourceLinkage
+    public static class IncludedResources
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
-        public static IToManyResourceLinkage<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
+        public static IToManyIncludedResources<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toManyResourceLinkage = new ToManyResourceLinkage<TFromResource, TToResource>(fromResource, fromRel, toResourceCollection);
-            return toManyResourceLinkage;
+            var toManyIncludedResources = new ToManyIncludedResources<TFromResource, TToResource>(fromResource, fromRel, toResourceCollection);
+            return toManyIncludedResources;
         }
 
-        public static IToManyResourceLinkage<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, params TToResource[] toResourceCollection)
+        public static IToManyIncludedResources<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, params TToResource[] toResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toManyResourceLinkage = ToManyResourceLinkage.Create(fromResource, fromRel, toResourceCollection.AsEnumerable());
-            return toManyResourceLinkage;
+            var toManyIncludedResources = IncludedResources.Create(fromResource, fromRel, toResourceCollection.AsEnumerable());
+            return toManyIncludedResources;
         }
         #endregion
     }

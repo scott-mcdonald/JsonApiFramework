@@ -360,8 +360,8 @@ namespace JsonApiFramework.Server.Tests
                                                 .AddLink(Keywords.Self)
                                             .LinksEnd()
                                         .ToManyEnd()
-                                        .ToOne(ToOneResourceLinkage.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
-                                               ToOneResourceLinkage.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2))
+                                        .ToOne(IncludedResource.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
+                                               IncludedResource.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2))
                                             .SetMeta(ApiSampleData.ResourceMeta)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
@@ -488,8 +488,8 @@ namespace JsonApiFramework.Server.Tests
                                         .LinksEnd()
                                     .ResourceCollectionEnd()
                                     .Included()
-                                        .ToOne(ToOneResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1),
-                                               ToOneResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person2))
+                                        .ToOne(IncludedResource.Create(SampleArticles.Article1, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1),
+                                               IncludedResource.Create(SampleArticles.Article2, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person2))
                                             .SetMeta(ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
@@ -498,8 +498,8 @@ namespace JsonApiFramework.Server.Tests
                                                 .AddLink(Keywords.Self)
                                             .LinksEnd()
                                         .ToOneEnd()
-                                        .ToMany(ToManyResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment1, SampleComments.Comment2),
-                                                ToManyResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment3, SampleComments.Comment4))
+                                        .ToMany(IncludedResources.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment1, SampleComments.Comment2),
+                                                IncludedResources.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment3, SampleComments.Comment4))
                                             .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2, ApiSampleData.ResourceMeta3, ApiSampleData.ResourceMeta4)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
@@ -559,8 +559,8 @@ namespace JsonApiFramework.Server.Tests
                                         .LinksEnd()
                                     .ResourceCollectionEnd()
                                     .Included()
-                                        .ToOne(ToOneResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1),
-                                               ToOneResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person2))
+                                        .ToOne(IncludedResource.Create(SampleArticles.Article1, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person1),
+                                               IncludedResource.Create(SampleArticles.Article2, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person2))
                                             .SetMeta(ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)
@@ -569,8 +569,8 @@ namespace JsonApiFramework.Server.Tests
                                                 .AddLink(Keywords.Self)
                                             .LinksEnd()
                                         .ToOneEnd()
-                                        .ToMany(ToManyResourceLinkage.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment1, SampleComments.Comment2),
-                                                ToManyResourceLinkage.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment3, SampleComments.Comment4))
+                                        .ToMany(IncludedResources.Create(SampleArticles.Article1, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment1, SampleComments.Comment2),
+                                                IncludedResources.Create(SampleArticles.Article2, ApiSampleData.ArticleToCommentsRel, SampleComments.Comment3, SampleComments.Comment4))
                                             .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2, ApiSampleData.ResourceMeta3, ApiSampleData.ResourceMeta4)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.CommentToAuthorRel, Keywords.Self, Keywords.Related)
@@ -579,10 +579,10 @@ namespace JsonApiFramework.Server.Tests
                                                 .AddLink(Keywords.Self)
                                             .LinksEnd()
                                         .ToManyEnd()
-                                        .ToOne(ToOneResourceLinkage.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
-                                               ToOneResourceLinkage.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2),
-                                               ToOneResourceLinkage.Create(SampleComments.Comment3, ApiSampleData.CommentToAuthorRel, SamplePersons.Person3),
-                                               ToOneResourceLinkage.Create(SampleComments.Comment4, ApiSampleData.CommentToAuthorRel, SamplePersons.Person4))
+                                        .ToOne(IncludedResource.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
+                                               IncludedResource.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2),
+                                               IncludedResource.Create(SampleComments.Comment3, ApiSampleData.CommentToAuthorRel, SamplePersons.Person3),
+                                               IncludedResource.Create(SampleComments.Comment4, ApiSampleData.CommentToAuthorRel, SamplePersons.Person4))
                                             .SetMeta(ApiSampleData.ResourceMeta)
                                             .Relationships()
                                                 .AddRelationship(ApiSampleData.PersonToCommentsRel, Keywords.Self, Keywords.Related)

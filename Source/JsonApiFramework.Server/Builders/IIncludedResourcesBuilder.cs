@@ -11,69 +11,69 @@ namespace JsonApiFramework.Server
         #region Methods
         IDocumentWriter IncludedEnd();
 
-        // ToOneResourceLinkage /////////////////////////////////////////////
-        IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        // ToOneIncludedResource /////////////////////////////////////////////
+        IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>> toOneResourceLinkageCollection)
+        IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkageSource<TFromResource, TToResource> toOneResourceLinkageSource)
+        IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>> toOneResourceLinkageCollection)
+        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkageSource<TFromResource, TToResource> toOneResourceLinkageSource)
+        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        // ToManyResourceLinkage ////////////////////////////////////////////
-        IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        // ToManyIncludedResources ////////////////////////////////////////////
+        IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IEnumerable<IToManyResourceLinkage<TFromResource, TToResource>> toManyResourceLinkageCollection)
+        IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkageSource<TFromResource, TToResource> toManyResourceLinkageSource)
+        IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toOneIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IEnumerable<IToManyResourceLinkage<TFromResource, TToResource>> toManyResourceLinkageCollection)
+        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkageSource<TFromResource, TToResource> toOneResourceLinkageSource)
+        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toOneIncludedResourcesSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
 
-        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyResourceLinkageCollectionSource<TFromResource, TToResource> toOneResourceLinkageCollectionSource)
+        IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toOneIncludedResourcesCollectionSource)
             where TFromResource : class, IResource
             where TToResource : class, IResource;
         #endregion

@@ -7,12 +7,12 @@ using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ToManyResourceLinkage<TFromResource, TToResource> : IToManyResourceLinkage<TFromResource, TToResource>
+    internal class ToManyIncludedResources<TFromResource, TToResource> : IToManyIncludedResources<TFromResource, TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IToManyResourceLinkage<TFromResource, TToResource> Implementation
+        #region IToManyIncludedResources<TFromResource, TToResource> Implementation
         public Type FromClrResourceType { get { return typeof(TFromResource); } }
         public TFromResource FromResource { get; private set; }
 
@@ -24,7 +24,7 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ToManyResourceLinkage(TFromResource fromClrResource, string fromRel, IEnumerable<TToResource> toClrResourceCollection)
+        internal ToManyIncludedResources(TFromResource fromClrResource, string fromRel, IEnumerable<TToResource> toClrResourceCollection)
         {
             Contract.Requires(fromClrResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel) == false);

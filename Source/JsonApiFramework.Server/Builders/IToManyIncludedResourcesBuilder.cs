@@ -3,7 +3,7 @@
 
 namespace JsonApiFramework.Server
 {
-    public interface IToManyResourceLinkageBuilder<out TResource> : IResourceBuilder<IToManyResourceLinkageBuilder<TResource>, TResource>
+    public interface IToManyIncludedResourcesBuilder<out TResource> : IResourceBuilder<IToManyIncludedResourcesBuilder<TResource>, TResource>
         where TResource : class, IResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -13,7 +13,7 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, TFromResource fromResource, string fromRel, TToResource toResource)
+        public static IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, TFromResource fromResource, string fromRel, TToResource toResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -21,20 +21,20 @@ namespace JsonApiFramework.Server
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toOneResourceLinkage = new ToOneResourceLinkage<TFromResource, TToResource>(fromResource, fromRel, toResource);
-            return includedResourcesBuilder.ToOne(toOneResourceLinkage);
+            var toOneIncludedResource = new ToOneIncludedResource<TFromResource, TToResource>(fromResource, fromRel, toResource);
+            return includedResourcesBuilder.ToOne(toOneIncludedResource);
         }
 
-        public static IToOneResourceLinkageBuilder<TToResource> ToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneResourceLinkage<TFromResource, TToResource>[] toOneResourceLinkageCollection)
+        public static IToOneIncludedResourceBuilder<TToResource> ToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneIncludedResource<TFromResource, TToResource>[] toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(includedResourcesBuilder != null);
 
-            return includedResourcesBuilder.ToOne(toOneResourceLinkageCollection);
+            return includedResourcesBuilder.ToOne(toOneIncludedResourceCollection);
         }
 
-        public static IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
+        public static IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
@@ -42,35 +42,35 @@ namespace JsonApiFramework.Server
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toManyResourceLinkage = new ToManyResourceLinkage<TFromResource, TToResource>(fromResource, fromRel, toResourceCollection);
-            return includedResourcesBuilder.ToMany(toManyResourceLinkage);
+            var toManyIncludedResources = new ToManyIncludedResources<TFromResource, TToResource>(fromResource, fromRel, toResourceCollection);
+            return includedResourcesBuilder.ToMany(toManyIncludedResources);
         }
 
-        public static IToManyResourceLinkageBuilder<TToResource> ToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyResourceLinkage<TFromResource, TToResource>[] toManyResourceLinkageCollection)
+        public static IToManyIncludedResourcesBuilder<TToResource> ToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyIncludedResources<TFromResource, TToResource>[] toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(includedResourcesBuilder != null);
 
-            return includedResourcesBuilder.ToMany(toManyResourceLinkageCollection);
+            return includedResourcesBuilder.ToMany(toManyIncludedResourcesCollection);
         }
 
-        public static IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneResourceLinkage<TFromResource, TToResource>[] toOneResourceLinkageCollection)
+        public static IIncludedResourcesBuilder AddToOne<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneIncludedResource<TFromResource, TToResource>[] toOneIncludedResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(includedResourcesBuilder != null);
 
-            return includedResourcesBuilder.AddToOne(toOneResourceLinkageCollection);
+            return includedResourcesBuilder.AddToOne(toOneIncludedResourceCollection);
         }
 
-        public static IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyResourceLinkage<TFromResource, TToResource>[] toManyResourceLinkageCollection)
+        public static IIncludedResourcesBuilder AddToMany<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyIncludedResources<TFromResource, TToResource>[] toManyIncludedResourcesCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(includedResourcesBuilder != null);
 
-            return includedResourcesBuilder.AddToMany(toManyResourceLinkageCollection);
+            return includedResourcesBuilder.AddToMany(toManyIncludedResourcesCollection);
         }
         #endregion
     }

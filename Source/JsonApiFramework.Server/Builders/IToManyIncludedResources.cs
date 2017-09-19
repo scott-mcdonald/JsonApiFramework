@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JsonApiFramework.Server
 {
-    public interface IToManyResourceLinkage<out TFromResource, out TToResource>
+    public interface IToManyIncludedResources<out TFromResource, out TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {

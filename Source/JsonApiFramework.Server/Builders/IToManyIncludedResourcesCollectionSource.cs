@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace JsonApiFramework.Server
 {
-    public interface IToOneResourceLinkageCollectionSource<TFromResource, TToResource>
+    public interface IToManyIncludedResourcesCollectionSource<TFromResource, TToResource>
         where TFromResource : class, IResource
         where TToResource : class, IResource
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Properties
-        IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>> GetToOneResourceLinkageCollection();
+        IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> GetToManyIncludedResourcesCollection();
 
-        Task<IEnumerable<IToOneResourceLinkage<TFromResource, TToResource>>> GetToOneResourceLinkageCollectionAsync();
+        Task<IEnumerable<IToManyIncludedResources<TFromResource, TToResource>>> GetToManyIncludedResourcesCollectionAsync();
         #endregion
     }
 }

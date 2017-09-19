@@ -51,28 +51,28 @@ namespace JsonApiFramework.Server.Internal
             return this.DomReadWriteResourceDictionary.ContainsKey(domResourceKey);
         }
 
-        public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(serviceModel != null);
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
-            // Create ResourceLinkageKey from ToOneResourceLinkage.
+            // Create ResourceLinkageKey from ToOneIncludedResource.
             var fromClrResourceType = typeof(TFromResource);
             var fromResourceType = serviceModel.GetResourceType(fromClrResourceType);
 
-            var fromClrResource = toOneResourceLinkage.FromResource;
+            var fromClrResource = toOneIncludedResource.FromResource;
             var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
 
-            var fromApiRel = toOneResourceLinkage.FromRel;
+            var fromApiRel = toOneIncludedResource.FromRel;
 
             var resourceLinkageKey = new ResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
 
-            // Create ResourceLinkage from ToOneResourceLinkage
+            // Create ResourceLinkage from ToOneIncludedResource
             var toApiResourceIdentifier = default(ResourceIdentifier);
 
-            var toClrResource = toOneResourceLinkage.ToResource;
+            var toClrResource = toOneIncludedResource.ToResource;
             if (toClrResource != null)
             {
                 var toClrResourceType = typeof(TToResource);
@@ -87,29 +87,29 @@ namespace JsonApiFramework.Server.Internal
             this.AddResourceLinkage(resourceLinkageKey, resourceLinkage);
         }
 
-        public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(serviceModel != null);
-            Contract.Requires(toManyResourceLinkage != null);
+            Contract.Requires(toManyIncludedResources != null);
 
-            // Create ResourceLinkageKey from ToManyResourceLinkage.
+            // Create ResourceLinkageKey from ToManyIncludedResources.
             var fromClrResourceType = typeof(TFromResource);
             var fromResourceType = serviceModel.GetResourceType(fromClrResourceType);
 
-            var fromClrResource = toManyResourceLinkage.FromResource;
+            var fromClrResource = toManyIncludedResources.FromResource;
             var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
 
-            var fromApiRel = toManyResourceLinkage.FromRel;
+            var fromApiRel = toManyIncludedResources.FromRel;
 
             var resourceLinkageKey = new ResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
 
-            // Create ResourceLinkage from ToManyResourceLinkage.
+            // Create ResourceLinkage from ToManyIncludedResources.
             var toApiResourceIdentifierCollection = Enumerable.Empty<ResourceIdentifier>()
                                                               .ToList();
 
-            var toClrResourceCollection = toManyResourceLinkage.ToResourceCollection;
+            var toClrResourceCollection = toManyIncludedResources.ToResourceCollection;
             if (toClrResourceCollection != null)
             {
                 var toClrResourceType = typeof(TToResource);

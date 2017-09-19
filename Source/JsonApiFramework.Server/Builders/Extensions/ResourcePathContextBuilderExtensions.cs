@@ -9,29 +9,29 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToOneResourceLinkage<TFromResource, TToResource> toOneResourceLinkage)
+        public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TParentBuilder : class
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(resourcePathContextBuilder != null);
-            Contract.Requires(toOneResourceLinkage != null);
+            Contract.Requires(toOneIncludedResource != null);
 
-            var fromResource = toOneResourceLinkage.FromResource;
-            var fromRel = toOneResourceLinkage.FromRel;
+            var fromResource = toOneIncludedResource.FromResource;
+            var fromRel = toOneIncludedResource.FromRel;
             return resourcePathContextBuilder.AddPath(fromResource, fromRel);
         }
 
-        public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToManyResourceLinkage<TFromResource, TToResource> toManyResourceLinkage)
+        public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TParentBuilder : class
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(resourcePathContextBuilder != null);
-            Contract.Requires(toManyResourceLinkage != null);
+            Contract.Requires(toManyIncludedResources != null);
 
-            var fromResource = toManyResourceLinkage.FromResource;
-            var fromRel = toManyResourceLinkage.FromRel;
+            var fromResource = toManyIncludedResources.FromResource;
+            var fromRel = toManyIncludedResources.FromRel;
             return resourcePathContextBuilder.AddPath(fromResource, fromRel);
         }
         #endregion

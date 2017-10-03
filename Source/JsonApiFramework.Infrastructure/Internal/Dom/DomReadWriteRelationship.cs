@@ -18,24 +18,17 @@ namespace JsonApiFramework.Internal.Dom
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region DomNode Overrides
-        public override DomNodeType NodeType
-        { get { return DomNodeType.Relationship; } }
-
-        public override string Name
-        { get { return "ReadWriteRelationship ({0})".FormatWith(this.Rel); } }
+        public override DomNodeType NodeType => DomNodeType.Relationship;
+        public override string Name => "ReadWriteRelationship ({0})".FormatWith(this.Rel);
         #endregion
 
         #region IGetReadOnly Implementation
-        public bool IsReadOnly
-        { get { return false; } }
+        public bool IsReadOnly => false;
         #endregion
 
         #region IDomRelationship Implementation
-        public string Rel
-        { get; private set; }
-
-        public Relationship Relationship
-        { get { return this.GetRelationship(); } }
+        public string Rel { get; }
+        public Relationship Relationship => this.GetRelationship();
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

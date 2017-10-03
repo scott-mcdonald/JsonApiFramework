@@ -9,11 +9,11 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ResourceLinkage
+    internal class ApiResourceLinkage
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        public ResourceLinkageType Type { get; private set; }
+        public ApiResourceLinkageType Type { get; private set; }
 
         public ResourceIdentifier ToOneResourceLinkage { get; private set; }
         public IEnumerable<ResourceIdentifier> ToManyResourceLinkage { get; private set; }
@@ -27,7 +27,7 @@ namespace JsonApiFramework.Server.Internal
             var resourceLinkageTypeAsString = resourceLinkageType.ToString();
             switch (resourceLinkageType)
             {
-                case ResourceLinkageType.ToOneResourceLinkage:
+                case ApiResourceLinkageType.ToOneResourceLinkage:
                     {
                         var toOneResourceLinkageAsString = this.ToOneResourceLinkage != null
                             ? this.ToOneResourceLinkage.ToString()
@@ -35,7 +35,7 @@ namespace JsonApiFramework.Server.Internal
                         return String.Format("{0} [type={1} data={2}]", TypeName, resourceLinkageTypeAsString, toOneResourceLinkageAsString);
                     }
 
-                case ResourceLinkageType.ToManyResourceLinkage:
+                case ApiResourceLinkageType.ToManyResourceLinkage:
                     {
                         var toManyResourceLinkageAsString = String.Format("[{0}]", this.ToManyResourceLinkage
                             .Select(x => x.ToString())
@@ -46,7 +46,7 @@ namespace JsonApiFramework.Server.Internal
                 default:
                     {
                         var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(ResourceLinkageType).Name, resourceLinkageType);
+                                                               .FormatWith(typeof(ApiResourceLinkageType).Name, resourceLinkageType);
                         throw new InternalErrorException(detail);
                     }
             }
@@ -55,22 +55,22 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ResourceLinkage(ResourceIdentifier toOneResourceLinkage)
+        internal ApiResourceLinkage(ResourceIdentifier toOneResourceLinkage)
         {
-            this.Type = ResourceLinkageType.ToOneResourceLinkage;
+            this.Type = ApiResourceLinkageType.ToOneResourceLinkage;
             this.ToOneResourceLinkage = toOneResourceLinkage;
         }
 
-        internal ResourceLinkage(IEnumerable<ResourceIdentifier> toManyResourceLinkage)
+        internal ApiResourceLinkage(IEnumerable<ResourceIdentifier> toManyResourceLinkage)
         {
-            this.Type = ResourceLinkageType.ToManyResourceLinkage;
-            this.ToManyResourceLinkage = EnumerableExtensions.EmptyIfNull(toManyResourceLinkage);
+            this.Type = ApiResourceLinkageType.ToManyResourceLinkage;
+            this.ToManyResourceLinkage = toManyResourceLinkage.EmptyIfNull();
         }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
-        private static readonly string TypeName = typeof(ResourceLinkage).Name;
+        private static readonly string TypeName = typeof(ApiResourceLinkage).Name;
         #endregion
     }
 }

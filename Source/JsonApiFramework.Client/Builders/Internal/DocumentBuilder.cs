@@ -115,7 +115,7 @@ namespace JsonApiFramework.Client.Internal
 
             var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             var resourceId = resourceIdentifierSource.GetResourceId();
-            primaryResourceIdentifierBuilder.SetId(resourceId);
+            primaryResourceIdentifierBuilder.SetId(Id.Create(resourceId));
             return primaryResourceIdentifierBuilder;
         }
 
@@ -164,7 +164,7 @@ namespace JsonApiFramework.Client.Internal
 
             var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             var resourceIdCollection = resourceIdentifierCollectionSource.GetResourceIdCollection();
-            primaryResourceIdentifierCollectionBuilder.SetId(resourceIdCollection);
+            primaryResourceIdentifierCollectionBuilder.SetId(IdCollection.Create(resourceIdCollection));
             return primaryResourceIdentifierCollectionBuilder;
 
         }

@@ -15,37 +15,26 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Relationship relationship)
-        { return this; }
-
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Relationship relationship)
-        { return this; }
-
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IEnumerable<Relationship> relationshipCollection)
         { return this; }
 
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<Relationship> relationshipCollection)
         { return this; }
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IEnumerable<string> linkRelCollection)
-        { return this; }
-
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection)
         { return this; }
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Meta meta, IEnumerable<string> linkRelCollection)
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage)
         { return this; }
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Meta meta, IEnumerable<string> linkRelCollection)
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         { return this; }
 
-        public IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage)
+        { return this; }
 
-            var relationshipBuilder = new NullRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource>(this);
-            return relationshipBuilder;
-        }
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+        { return this; }
 
         public IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel, Func<TResource, bool> predicate)
         {

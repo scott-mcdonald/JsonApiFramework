@@ -69,15 +69,5 @@ namespace JsonApiFramework.Client {
                 return ResourceManager.GetString("DocumentBuildExceptionDetailBuildAttributeAlreadyExists", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to build the &apos;to-one&apos; CLR resource [type={0}] relationship [rel={1] resource linkage with a collection of &apos;to-many&apos; resource identifiers. Only build the &apos;to-one&apos; relationship resource linkage with one resource identifier..
-        /// </summary>
-        internal static string DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch {
-            get {
-                return ResourceManager.GetString("DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMisma" +
-                        "tch", resourceCulture);
-            }
-        }
     }
 }

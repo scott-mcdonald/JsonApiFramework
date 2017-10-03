@@ -438,6 +438,16 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = PersonResourceIdentifier
         };
 
+        public static readonly Relationship ArticleToAuthorToOneRelationshipNull = new ToOneRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink},
+                {Keywords.Related, ApiSampleData.ArticleToAuthorLink}
+            },
+            Data = default(ResourceIdentifier)
+        };
+
         public static readonly Relationship ArticleToAuthorToOneRelationship1 = new ToOneRelationship
         {
             Links = new Links
@@ -448,6 +458,16 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = PersonResourceIdentifier1
         };
 
+        public static readonly Relationship ArticleToAuthorToOneRelationshipNull1 = new ToOneRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink1},
+                {Keywords.Related, ApiSampleData.ArticleToAuthorLink1}
+            },
+            Data = default(ResourceIdentifier)
+        };
+
         public static readonly Relationship ArticleToAuthorToOneRelationship2 = new ToOneRelationship
         {
             Links = new Links
@@ -456,6 +476,16 @@ namespace JsonApiFramework.TestData.ApiResources
                         {Keywords.Related, ApiSampleData.ArticleToAuthorLink2}
                     },
             Data = PersonResourceIdentifier2
+        };
+
+        public static readonly Relationship ArticleToAuthorToOneRelationshipNull2 = new ToOneRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink2},
+                {Keywords.Related, ApiSampleData.ArticleToAuthorLink2}
+            },
+            Data = default(ResourceIdentifier)
         };
 
         public static readonly Relationship ArticleToBlogToOneRelationship = new ToOneRelationship
@@ -478,6 +508,16 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = CommentResourceIdentifiers
         };
 
+        public static readonly Relationship ArticleToCommentsToManyRelationshipEmpty = new ToManyRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
+                {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
+            },
+            Data = new List<ResourceIdentifier>()
+        };
+
         public static readonly Relationship ArticleToCommentsToManyRelationship1 = new ToManyRelationship
         {
             Links = new Links
@@ -488,6 +528,16 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = ArticleToCommentResourceIdentifiers1
         };
 
+        public static readonly Relationship ArticleToCommentsToManyRelationshipEmpty1 = new ToManyRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink1},
+                {Keywords.Related, ApiSampleData.ArticleToCommentsLink1}
+            },
+            Data = new List<ResourceIdentifier>()
+        };
+
         public static readonly Relationship ArticleToCommentsToManyRelationship2 = new ToManyRelationship
         {
             Links = new Links
@@ -496,6 +546,16 @@ namespace JsonApiFramework.TestData.ApiResources
                         {Keywords.Related, ApiSampleData.ArticleToCommentsLink2}
                     },
             Data = ArticleToCommentResourceIdentifiers2
+        };
+
+        public static readonly Relationship ArticleToCommentsToManyRelationshipEmpty2 = new ToManyRelationship
+        {
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink2},
+                {Keywords.Related, ApiSampleData.ArticleToCommentsLink2}
+            },
+            Data = new List<ResourceIdentifier>()
         };
 
         public static readonly Relationship BlogToArticlesRelationship = new Relationship
@@ -769,6 +829,24 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource ArticleResourceWithNullAndEmptyResourceLinkage = new Resource
+        {
+            Type = ArticleType,
+            Id = ArticleId,
+            Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationshipNull},
+                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationshipEmpty}
+            },
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleLink},
+                {Keywords.Canonical, ApiSampleData.ArticleLink}
+            },
+            Meta = ResourceMeta
+        };
+
         public static readonly Resource ArticleResourceWithResourceLinkage1 = new Resource
             {
                 Type = ArticleType,
@@ -787,6 +865,24 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource ArticleResourceWithNullAndEmptyResourceLinkage1 = new Resource
+        {
+            Type = ArticleType,
+            Id = ArticleId1,
+            Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationshipNull1},
+                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationshipEmpty1}
+            },
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleLink1},
+                {Keywords.Canonical, ApiSampleData.ArticleLink1}
+            },
+            Meta = ResourceMeta
+        };
+
         public static readonly Resource ArticleResourceWithResourceLinkage2 = new Resource
             {
                 Type = ArticleType,
@@ -804,6 +900,24 @@ namespace JsonApiFramework.TestData.ApiResources
                     },
                 Meta = ResourceMeta
             };
+
+        public static readonly Resource ArticleResourceWithNullAndEmptyResourceLinkage2 = new Resource
+        {
+            Type = ArticleType,
+            Id = ArticleId2,
+            Attributes = new Attributes(Attribute.Create("title", "JSON API paints my house!")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationshipNull2},
+                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationshipEmpty2}
+            },
+            Links = new Links
+            {
+                {Keywords.Self, ApiSampleData.ArticleLink2},
+                {Keywords.Canonical, ApiSampleData.ArticleLink2}
+            },
+            Meta = ResourceMeta
+        };
 
         public static readonly Resource ArticleResourceWithIdentityOnly = new Resource
             {

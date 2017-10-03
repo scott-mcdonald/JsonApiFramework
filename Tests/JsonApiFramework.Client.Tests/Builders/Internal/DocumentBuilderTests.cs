@@ -587,7 +587,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                     .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                 .AttributesEnd()
                                 .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                 .RelationshipsEnd()
                             .ResourceEnd()
                     },
@@ -630,7 +630,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 .Relationships()
                                     .Relationship(ApiSampleData.ArticleToCommentsRel)
                                         .SetMeta(ApiSampleData.RelationshipMeta)
-                                        .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                        .SetId(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                     .RelationshipEnd()
                                 .RelationshipsEnd()
                             .ResourceEnd()
@@ -1022,7 +1022,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
                             .Resource(new Article { Title = "JSON API paints my bikeshed!" })
                                 .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                 .RelationshipsEnd()
                             .ResourceEnd()
                     },
@@ -1062,7 +1062,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 .Relationships()
                                     .Relationship(ApiSampleData.ArticleToCommentsRel)
                                         .SetMeta(ApiSampleData.RelationshipMeta)
-                                        .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                        .SetId(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                     .RelationshipEnd()
                                 .RelationshipsEnd()
                             .ResourceEnd()
@@ -1543,7 +1543,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                     .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                 .AttributesEnd()
                                 .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                 .RelationshipsEnd()
                             .ResourceEnd()
                     },
@@ -1588,7 +1588,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 .Relationships()
                                     .Relationship(ApiSampleData.ArticleToCommentsRel)
                                         .SetMeta(ApiSampleData.RelationshipMeta)
-                                        .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                        .SetId(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                     .RelationshipEnd()
                                 .RelationshipsEnd()
                             .ResourceEnd()
@@ -1980,7 +1980,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
                             .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my bikeshed!" })
                                 .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                 .RelationshipsEnd()
                             .ResourceEnd()
                     },
@@ -2021,7 +2021,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 .Relationships()
                                     .Relationship(ApiSampleData.ArticleToCommentsRel)
                                         .SetMeta(ApiSampleData.RelationshipMeta)
-                                        .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                        .SetId(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                     .RelationshipEnd()
                                 .RelationshipsEnd()
                             .ResourceEnd()
@@ -2073,7 +2073,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
                             .ResourceIdentifierCollection<Comment>()
-                                .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2)
+                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
                             .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
@@ -2092,7 +2092,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                             .SetMeta(ApiSampleData.DocumentMeta)
                             .ResourceIdentifierCollection<Comment>()
                                 .SetMeta(ApiSampleData.ResourceMeta)
-                                .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2)
+                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
                             .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
@@ -2103,7 +2103,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 Data = new List<ResourceIdentifier>()
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(default(Comment), default(Comment))
+                            .SetResourceIdentifierCollection(new []{ default(Comment), default(Comment) })
                     },
                 new object[]
                     {
@@ -2113,7 +2113,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                 Data = new List<ResourceIdentifier>()
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(new Comment(), new Comment())
+                            .SetResourceIdentifierCollection(new []{ new Comment(), new Comment() })
                     },
                 new object[]
                     {
@@ -2127,7 +2127,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                                     }
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(SampleComments.Comment1, SampleComments.Comment2)
+                            .SetResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
                     },
                 new object[]
                     {
@@ -2143,8 +2143,8 @@ namespace JsonApiFramework.Client.Tests.Internal
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
                             .SetMeta(ApiSampleData.DocumentMeta)
-                            .ResourceIdentifierCollection(SampleComments.Comment1, SampleComments.Comment2)
-                                .SetMeta(ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
+                                .SetMeta(new []{ ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta })
                             .ResourceIdentifierCollectionEnd()
                     },
             };
@@ -2179,7 +2179,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
                             .ResourceIdentifier<Person>()
-                                .SetId(ApiSampleData.PersonId)
+                                .SetId(Id.Create(ApiSampleData.PersonId))
                             .ResourceIdentifierEnd()
                     },
                 new object[]
@@ -2194,7 +2194,7 @@ namespace JsonApiFramework.Client.Tests.Internal
                             .SetMeta(ApiSampleData.DocumentMeta)
                             .ResourceIdentifier<Person>()
                                 .SetMeta(ApiSampleData.ResourceMeta)
-                                .SetId(ApiSampleData.PersonId)
+                                .SetId(Id.Create(ApiSampleData.PersonId))
                             .ResourceIdentifierEnd()
                     },
                 new object[]

@@ -76,7 +76,7 @@ namespace JsonApiFramework.Server.Internal
         {
             var relationshipsBuilder = this.NotBuildingResourceCollection
                 ? (IRelationshipsBuilder<TBuilder, TResource>)(new NullRelationshipsBuilder<TBuilder, TResource>(this.Builder))
-                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsCollectionBuilder<TBuilder, TResource>(this.Builder, this.DomReadWriteResourceCollection, this.ClrResourceCollection));
+                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsCollectionBuilder<TBuilder, TResource>(this.Builder, this.ServiceModel, this.DomReadWriteResourceCollection, this.ClrResourceCollection));
             return relationshipsBuilder;
         }
 

@@ -2,25 +2,27 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 using JsonApiFramework.Server.Internal;
 
 namespace JsonApiFramework.Server
 {
-    public static class RelatedResource
+    public static class ToManyIncludedResources
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
-        public static IToOneIncludedResource<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, TToResource toResource)
+        public static IToManyIncludedResources<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));
 
-            var toOneIncludedResource = new ToOneIncludedResource<TFromResource, TToResource>(fromResource, fromRel, toResource);
-            return toOneIncludedResource;
+            var toManyIncludedResources = new ToManyIncludedResources<TFromResource, TToResource>(fromResource, fromRel, toResourceCollection);
+            return toManyIncludedResources;
         }
         #endregion
     }

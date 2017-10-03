@@ -126,6 +126,12 @@
   <data name="DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects" xml:space="preserve">
     <value>Unable to build '{0}' for a single CLR resource or CLR resource identifier [type={1}] with a collection of '{0}' objects.</value>
   </data>
+  <data name="DocumentBuildExceptionDetailBuildToManyRelationshipResourceLinkageCardinalityMismatch" xml:space="preserve">
+    <value>Unable to build CLR resource[type={0}] relationship[rel={1}] 'to-many' resource linkage with 'to-one' resource linkage.</value>
+  </data>
+  <data name="DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch" xml:space="preserve">
+    <value>Unable to build CLR resource[type={0}] relationship[rel={1}] 'to-one' resource linkage with 'to-many' resource linkage.</value>
+  </data>
   <data name="DocumentBuildExceptionTitle" xml:space="preserve">
     <value>Document Build Error</value>
   </data>
@@ -149,6 +155,9 @@
   </data>
   <data name="DocumentWriteExceptionTitle" xml:space="preserve">
     <value>Document Write Error</value>
+  </data>
+  <data name="DocumentWriteToOneResourceLinkageMismatch" xml:space="preserve">
+    <value>The CLR resource [type={0} id={1}] has a 'to-one' relationship [rel={2}] with different 'to-one' resource linkage from user building [{3}] compared to user include [{4}].</value>
   </data>
   <data name="DomExceptionDetailNodeAlreadyContainsChildNode" xml:space="preserve">
     <value>The DOM node [type={0}] already contains DOM child node [type={1}]. Only add the DOM child node [type={1}] once.</value>

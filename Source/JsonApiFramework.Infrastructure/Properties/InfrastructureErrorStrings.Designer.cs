@@ -89,6 +89,26 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to build CLR resource[type={0}] relationship[rel={1}] &apos;to-many&apos; resource linkage with &apos;to-one&apos; resource linkage..
+        /// </summary>
+        internal static string DocumentBuildExceptionDetailBuildToManyRelationshipResourceLinkageCardinalityMismatch {
+            get {
+                return ResourceManager.GetString("DocumentBuildExceptionDetailBuildToManyRelationshipResourceLinkageCardinalityMism" +
+                        "atch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to build CLR resource[type={0}] relationship[rel={1}] &apos;to-one&apos; resource linkage with &apos;to-many&apos; resource linkage..
+        /// </summary>
+        internal static string DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch {
+            get {
+                return ResourceManager.GetString("DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMisma" +
+                        "tch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document Build Error.
         /// </summary>
         internal static string DocumentBuildExceptionTitle {
@@ -157,6 +177,15 @@ namespace JsonApiFramework {
         internal static string DocumentWriteExceptionTitle {
             get {
                 return ResourceManager.GetString("DocumentWriteExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The CLR resource [type={0} id={1}] has a &apos;to-one&apos; relationship [rel={2}] with different &apos;to-one&apos; resource linkage from user building [{3}] compared to user include [{4}]..
+        /// </summary>
+        internal static string DocumentWriteToOneResourceLinkageMismatch {
+            get {
+                return ResourceManager.GetString("DocumentWriteToOneResourceLinkageMismatch", resourceCulture);
             }
         }
         

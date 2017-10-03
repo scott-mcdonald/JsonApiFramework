@@ -120,7 +120,4 @@
   <data name="DocumentBuildExceptionDetailBuildAttributeAlreadyExists" xml:space="preserve">
     <value>Unable to build CLR attribute [name={0}] for CLR resource [type={1}], attribute has already been added.</value>
   </data>
-  <data name="DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch" xml:space="preserve">
-    <value>Unable to build the 'to-one' CLR resource [type={0}] relationship [rel={1] resource linkage with a collection of 'to-many' resource identifiers. Only build the 'to-one' relationship resource linkage with one resource identifier.</value>
-  </data>
 </root>

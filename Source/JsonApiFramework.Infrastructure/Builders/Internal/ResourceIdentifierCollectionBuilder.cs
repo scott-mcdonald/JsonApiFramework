@@ -65,18 +65,21 @@ namespace JsonApiFramework.Internal
             return this.Builder;
         }
 
-        public TBuilder SetId<TResourceId>(TResourceId clrResourceId)
+        public TBuilder SetId<T>(IId<T> id)
         {
+            Contract.Requires(id != null);
+
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceCollectionWithSingleObject
                                                    .FormatWith(DomNodeType.Id, typeof(TResource).Name);
             throw new DocumentBuildException(detail);
         }
 
-        public TBuilder SetId<TResourceId>(IEnumerable<TResourceId> clrResourceIdCollection)
+        public TBuilder SetId<T>(IIdCollection<T> idCollection)
         {
-            Contract.Requires(clrResourceIdCollection != null);
+            Contract.Requires(idCollection != null);
 
-            var clrResourceIdReadOnlyList = clrResourceIdCollection.SafeToReadOnlyList();
+            var clrIdCollection = idCollection.ClrIdCollection;
+            var clrResourceIdReadOnlyList = clrIdCollection.SafeToReadOnlyList();
             var clrResourceIdReadOnlyListCount = clrResourceIdReadOnlyList.Count;
 
             this.CreateAndAddDomReadWriteResourceIdentifierCollectionIfNeeded(clrResourceIdReadOnlyListCount);

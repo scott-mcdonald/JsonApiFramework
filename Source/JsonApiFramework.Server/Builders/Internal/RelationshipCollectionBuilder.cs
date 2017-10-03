@@ -4,9 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.JsonApi;
+using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Internal
 {
@@ -65,6 +67,236 @@ namespace JsonApiFramework.Server.Internal
             return linksCollectionBuilder;
         }
 
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToOneResourceLinkage toOneResourceLinkage)
+        {
+            if (toOneResourceLinkage == null || toOneResourceLinkage.HasValue == false)
+            {
+                this.SetDataNullOrEmpty();
+                return this;
+            }
+
+            var rel = this.Rel;
+            var resourceType = this.ResourceType;
+            var relationship = resourceType.GetRelationshipInfo(rel);
+
+            var toCardinality = relationship.ToCardinality;
+            var toClrType = relationship.ToClrType;
+            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
+
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    var toApiResourceIdentifier = toOneResourceLinkage.CreateApiResourceIdentifier(toResourceType);
+                    foreach (var domReadWriteRelationship in this.DomReadWriteRelationshipCollection)
+                    {
+                        domReadWriteRelationship.SetDomData(toApiResourceIdentifier, toClrType);
+                    }
+                }
+                break;
+
+                case RelationshipCardinality.ToMany:
+                {
+                    var clrResourceTypeName = resourceType.ClrType.Name;
+                    var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
+                                                           .FormatWith(clrResourceTypeName, rel);
+                    throw new DocumentBuildException(detail);
+                }
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
+
+            return this;
+        }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
+        {
+            if (toOneResourceLinkageCollection == null)
+            {
+                this.SetDataNullOrEmpty();
+                return this;
+            }
+
+            var rel = this.Rel;
+            var resourceType = this.ResourceType;
+            var relationship = resourceType.GetRelationshipInfo(rel);
+
+            var toCardinality = relationship.ToCardinality;
+            var toClrType = relationship.ToClrType;
+            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
+
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    var toOneResourceLinkageList = toOneResourceLinkageCollection.SafeToReadOnlyList();
+                    var toOneResourceLinkageListCount = toOneResourceLinkageList.Count;
+                    var domReadWriteRelationshipCollectionCount = this.DomReadWriteRelationshipCollection.Count;
+                    if (toOneResourceLinkageListCount != domReadWriteRelationshipCollectionCount)
+                    {
+                        var detail = ServerErrorStrings
+                            .DocumentBuildExceptionDetailBuildRelationshipCollectionCountMismatch
+                            .FormatWith(DomNodeType.Data, domReadWriteRelationshipCollectionCount, rel, toOneResourceLinkageListCount);
+                        throw new DocumentBuildException(detail);
+                    }
+
+                    var count = this.Count;
+                    for (var i = 0; i < count; ++i)
+                    {
+                        var domReadWriteRelationship = this.DomReadWriteRelationshipCollection[i];
+                        var toOneResourceLinkage = toOneResourceLinkageList[i];
+                        if (toOneResourceLinkage.HasValue)
+                        {
+                            var toApiResourceIdentifier = toOneResourceLinkage.CreateApiResourceIdentifier(toResourceType);
+                            domReadWriteRelationship.SetDomData(toApiResourceIdentifier, toClrType);
+                        }
+                        else
+                        {
+                            domReadWriteRelationship.SetDomDataNull();
+                        }
+                    }
+                }
+                break;
+
+                case RelationshipCardinality.ToMany:
+                {
+                    var clrResourceTypeName = resourceType.ClrType.Name;
+                    var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
+                                                           .FormatWith(clrResourceTypeName, rel);
+                    throw new DocumentBuildException(detail);
+                }
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
+
+            return this;
+        }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToManyResourceLinkage toManyResourceLinkage)
+        {
+            if (toManyResourceLinkage == null || toManyResourceLinkage.HasValueCollection == false)
+            {
+                this.SetDataNullOrEmpty();
+                return this;
+            }
+
+            var rel = this.Rel;
+            var resourceType = this.ResourceType;
+            var relationship = resourceType.GetRelationshipInfo(rel);
+
+            var toCardinality = relationship.ToCardinality;
+            var toClrType = relationship.ToClrType;
+            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
+
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    var clrResourceTypeName = resourceType.ClrType.Name;
+                    var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToManyRelationshipResourceLinkageCardinalityMismatch
+                                                           .FormatWith(clrResourceTypeName, rel);
+                    throw new DocumentBuildException(detail);
+                }
+
+                case RelationshipCardinality.ToMany:
+                {
+                    var toApiResourceIdentifierCollection = toManyResourceLinkage.CreateApiResourceIdentifierCollection(toResourceType);
+                    foreach (var domReadWriteRelationship in this.DomReadWriteRelationshipCollection)
+                    {
+                        domReadWriteRelationship.SetDomDataCollection(toApiResourceIdentifierCollection, toClrType);
+                    }
+                }
+                break;
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
+
+            return this;
+        }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+        {
+            if (toManyResourceLinkageCollection == null)
+            {
+                this.SetDataNullOrEmpty();
+                return this;
+            }
+
+            var rel = this.Rel;
+            var resourceType = this.ResourceType;
+            var relationship = resourceType.GetRelationshipInfo(rel);
+
+            var toCardinality = relationship.ToCardinality;
+            var toClrType = relationship.ToClrType;
+            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
+
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    var clrResourceTypeName = resourceType.ClrType.Name;
+                    var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToManyRelationshipResourceLinkageCardinalityMismatch
+                                                           .FormatWith(clrResourceTypeName, rel);
+                    throw new DocumentBuildException(detail);
+                }
+
+                case RelationshipCardinality.ToMany:
+                {
+                    var toManyResourceLinkageList = toManyResourceLinkageCollection.SafeToReadOnlyList();
+                    var toManyResourceLinkageListCount = toManyResourceLinkageList.Count;
+                    var domReadWriteRelationshipCollectionCount = this.DomReadWriteRelationshipCollection.Count;
+                    if (toManyResourceLinkageListCount != domReadWriteRelationshipCollectionCount)
+                    {
+                        var detail = ServerErrorStrings
+                            .DocumentBuildExceptionDetailBuildRelationshipCollectionCountMismatch
+                            .FormatWith(DomNodeType.Data, domReadWriteRelationshipCollectionCount, rel, toManyResourceLinkageListCount);
+                        throw new DocumentBuildException(detail);
+                    }
+
+                    var count = this.Count;
+                    for (var i = 0; i < count; ++i)
+                    {
+                        var domReadWriteRelationship = this.DomReadWriteRelationshipCollection[i];
+                        var toManyResourceLinkage = toManyResourceLinkageList[i];
+                        if (toManyResourceLinkage.HasValueCollection)
+                        {
+                            var toApiResourceIdentifierCollection = toManyResourceLinkage.CreateApiResourceIdentifierCollection(toResourceType);
+                            domReadWriteRelationship.SetDomDataCollection(toApiResourceIdentifierCollection, toClrType);
+                        }
+                        else
+                        {
+                            domReadWriteRelationship.SetDomDataCollectionEmpty();
+                        }
+                    }
+                }
+                break;
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
+
+            return this;
+        }
+
         public TParentBuilder RelationshipEnd()
         {
             var parentBuilder = this.ParentBuilder;
@@ -74,9 +306,10 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal RelationshipCollectionBuilder(TParentBuilder parentBuilder, IReadOnlyList<DomReadWriteRelationships> domReadWriteRelationshipsCollection, IReadOnlyList<TResource> clrResourceCollection, string rel, Func<TResource, bool> predicate)
+        internal RelationshipCollectionBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, IReadOnlyList<DomReadWriteRelationships> domReadWriteRelationshipsCollection, IReadOnlyList<TResource> clrResourceCollection, string rel, Func<TResource, bool> predicate)
         {
             Contract.Requires(parentBuilder != null);
+            Contract.Requires(serviceModel != null);
             Contract.Requires(domReadWriteRelationshipsCollection != null);
             Contract.Requires(clrResourceCollection != null);
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -92,6 +325,13 @@ namespace JsonApiFramework.Server.Internal
             }
 
             this.ParentBuilder = parentBuilder;
+
+            this.ServiceModel = serviceModel;
+
+            var resourceType = serviceModel.GetResourceType<TResource>();
+            this.ResourceType = resourceType;
+
+            this.Rel = rel;
 
             var domReadWriteRelationshipCollection = new List<DomReadWriteRelationship>();
             var clrResourceCollectionFiltered = new List<TResource>();
@@ -113,18 +353,57 @@ namespace JsonApiFramework.Server.Internal
 
             this.DomReadWriteRelationshipCollection = domReadWriteRelationshipCollection;
             this.ClrResourceCollection = clrResourceCollectionFiltered;
-
-            this.Rel = rel;
         }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private int Count { get { return this.ClrResourceCollection.Count; } }
-        private IReadOnlyList<DomReadWriteRelationship> DomReadWriteRelationshipCollection { get; set; }
-        private IReadOnlyList<TResource> ClrResourceCollection { get; set; }
-        private string Rel { get; set; }
+        private TParentBuilder ParentBuilder { get; }
+        private IServiceModel ServiceModel { get; }
+        private IResourceType ResourceType { get; }
+        private string Rel { get; }
+        private int Count => this.ClrResourceCollection.Count;
+        private IReadOnlyList<DomReadWriteRelationship> DomReadWriteRelationshipCollection { get; }
+        private IReadOnlyList<TResource> ClrResourceCollection { get; }
+        #endregion
+
+        // PRIVATE METHODS //////////////////////////////////////////////////
+        #region Methods
+        private void SetDataNullOrEmpty()
+        {
+            var rel = this.Rel;
+            var resourceType = this.ResourceType;
+            var relationship = resourceType.GetRelationshipInfo(rel);
+
+            var toCardinality = relationship.ToCardinality;
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    foreach (var domReadWriteRelationship in this.DomReadWriteRelationshipCollection)
+                    {
+                        domReadWriteRelationship.SetDomDataNull();
+                    }
+                }
+                break;
+
+                case RelationshipCardinality.ToMany:
+                {
+                    foreach (var domReadWriteRelationship in this.DomReadWriteRelationshipCollection)
+                    {
+                        domReadWriteRelationship.SetDomDataCollectionEmpty();
+                    }
+                }
+                break;
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
+        }
         #endregion
     }
 }

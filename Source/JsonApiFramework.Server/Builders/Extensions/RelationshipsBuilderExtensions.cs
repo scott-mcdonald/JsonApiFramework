@@ -2,8 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 using JsonApiFramework.JsonApi;
 
@@ -13,49 +13,76 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, params Relationship[] relationshipCollection)
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, Relationship relationship)
             where TParentBuilder : class
             where TResource : class, IResource
         {
             Contract.Requires(relationshipsBuilder != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(relationshipCollection != null);
 
-            return relationshipsBuilder.AddRelationship(rel, relationshipCollection.AsEnumerable());
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), relationship);
         }
 
-        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, Func<TResource, bool> predicate, params Relationship[] relationshipCollection)
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<Relationship> relationshipCollection)
             where TParentBuilder : class
             where TResource : class, IResource
         {
             Contract.Requires(relationshipsBuilder != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(predicate != null);
-            Contract.Requires(relationshipCollection != null);
 
-            return relationshipsBuilder.AddRelationship(rel, predicate, relationshipCollection.AsEnumerable());
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), relationshipCollection);
         }
 
-        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, params string[] linkRelCollection)
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection)
             where TParentBuilder : class
             where TResource : class, IResource
         {
             Contract.Requires(relationshipsBuilder != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
-            return relationshipsBuilder.AddRelationship(rel, linkRelCollection.AsEnumerable());
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection);
         }
 
-        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, Func<TResource, bool> predicate, params string[] linkRelCollection)
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage)
             where TParentBuilder : class
             where TResource : class, IResource
         {
             Contract.Requires(relationshipsBuilder != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
-            return relationshipsBuilder.AddRelationship(rel, predicate, linkRelCollection.AsEnumerable());
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection, toOneResourceLinkage);
+        }
+
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
+            where TParentBuilder : class
+            where TResource : class, IResource
+        {
+            Contract.Requires(relationshipsBuilder != null);
+
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection, toOneResourceLinkageCollection);
+        }
+
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage)
+            where TParentBuilder : class
+            where TResource : class, IResource
+        {
+            Contract.Requires(relationshipsBuilder != null);
+
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection, toManyResourceLinkage);
+        }
+
+        public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+            where TParentBuilder : class
+            where TResource : class, IResource
+        {
+            Contract.Requires(relationshipsBuilder != null);
+
+            return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection, toManyResourceLinkageCollection);
+        }
+
+        public static IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel)
+            where TParentBuilder : class
+            where TResource : class, IResource
+        {
+            Contract.Requires(relationshipsBuilder != null);
+
+            return relationshipsBuilder.Relationship(rel, default(Func<TResource, bool>));
         }
         #endregion
     }

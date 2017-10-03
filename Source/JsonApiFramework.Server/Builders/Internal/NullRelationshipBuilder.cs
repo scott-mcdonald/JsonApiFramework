@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -25,6 +26,18 @@ namespace JsonApiFramework.Server.Internal
             var linksBuilder = new NullRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>>(this);
             return linksBuilder;
         }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToOneResourceLinkage toOneResourceLinkage)
+        { return this; }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
+        { return this; }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToManyResourceLinkage toManyResourceLinkage)
+        { return this; }
+
+        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+        { return this; }
 
         public TParentBuilder RelationshipEnd()
         {

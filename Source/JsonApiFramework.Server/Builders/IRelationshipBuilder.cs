@@ -18,6 +18,12 @@ namespace JsonApiFramework.Server
 
         IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>> Links();
 
+        IRelationshipBuilder<TParentBuilder, TResource> SetData(IToOneResourceLinkage toOneResourceLinkage);
+        IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection);
+
+        IRelationshipBuilder<TParentBuilder, TResource> SetData(IToManyResourceLinkage toManyResourceLinkage);
+        IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection);
+
         TParentBuilder RelationshipEnd();
         #endregion
     }

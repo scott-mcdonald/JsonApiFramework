@@ -23,8 +23,8 @@ namespace JsonApiFramework
         TBuilder SetMeta(Meta meta);
         TBuilder SetMeta(IEnumerable<Meta> metaCollection);
 
-        TBuilder SetId<TResourceId>(TResourceId clrResourceId);
-        TBuilder SetId<TResourceId>(IEnumerable<TResourceId> clrResourceIdCollection);
+        TBuilder SetId<T>(IId<T> id);
+        TBuilder SetId<T>(IIdCollection<T> idCollection);
         #endregion
     }
 }

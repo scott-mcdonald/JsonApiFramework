@@ -36,17 +36,20 @@ namespace JsonApiFramework.Internal
             throw new DocumentBuildException(detail);
         }
 
-        public TBuilder SetId<TResourceId>(TResourceId clrResourceId)
+        public TBuilder SetId<T>(IId<T> id)
         {
+            Contract.Requires(id != null);
+
             this.CreateAndAddDomReadWriteResourceIdentifierIfNeeded();
 
-            this.DomReadWriteResourceIdentifier.SetDomIdFromClrResourceId(this.ResourceType, clrResourceId);
+            var clrId = id.ClrId;
+            this.DomReadWriteResourceIdentifier.SetDomIdFromClrResourceId(this.ResourceType, clrId);
             return this.Builder;
         }
 
-        public TBuilder SetId<TResourceId>(IEnumerable<TResourceId> clrResourceIdCollection)
+        public TBuilder SetId<T>(IIdCollection<T> idCollection)
         {
-            Contract.Requires(clrResourceIdCollection != null);
+            Contract.Requires(idCollection != null);
 
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
                                                    .FormatWith(DomNodeType.Id, typeof(TResource).Name);

@@ -8,9 +8,9 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ResourceLinkageKey
-        : IEquatable<ResourceLinkageKey>
-        , IComparable<ResourceLinkageKey>
+    internal class ApiResourceLinkageKey
+        : IEquatable<ApiResourceLinkageKey>
+        , IComparable<ApiResourceLinkageKey>
         , IComparable
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
@@ -29,7 +29,7 @@ namespace JsonApiFramework.Server.Internal
             if (obj == null)
                 return false;
 
-            var objAsResourceLinkageKey = obj as ResourceLinkageKey;
+            var objAsResourceLinkageKey = obj as ApiResourceLinkageKey;
             if (objAsResourceLinkageKey == null)
                 return false;
 
@@ -51,7 +51,7 @@ namespace JsonApiFramework.Server.Internal
         #endregion
 
         #region IEquatable<ResourceLinkageKey> Implementation
-        public bool Equals(ResourceLinkageKey other)
+        public bool Equals(ApiResourceLinkageKey other)
         {
             if (System.Object.ReferenceEquals(this, other))
                 return true;
@@ -64,7 +64,7 @@ namespace JsonApiFramework.Server.Internal
         #endregion
 
         #region IComparable<ResourceLinkageKey>
-        public int CompareTo(ResourceLinkageKey other)
+        public int CompareTo(ApiResourceLinkageKey other)
         {
             if (System.Object.ReferenceEquals(this, other))
                 return 0;
@@ -82,29 +82,29 @@ namespace JsonApiFramework.Server.Internal
         #region IComparable
         int IComparable.CompareTo(object obj)
         {
-            return this.CompareTo((ResourceLinkageKey)obj);
+            return this.CompareTo((ApiResourceLinkageKey)obj);
         }
         #endregion
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////
         #region Equality Operators
-        public static bool operator ==(ResourceLinkageKey a, ResourceLinkageKey b)
+        public static bool operator ==(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
         {
-            if (System.Object.ReferenceEquals(a, b))
+            if (System.Object.ReferenceEquals(left, right))
                 return true;
 
-            if (System.Object.ReferenceEquals(a, null) || System.Object.ReferenceEquals(b, null))
+            if (System.Object.ReferenceEquals(left, null) || System.Object.ReferenceEquals(right, null))
                 return false;
 
-            return (a.FromResourceIdentifier == b.FromResourceIdentifier && a.FromRel == b.FromRel);
+            return (left.FromResourceIdentifier == right.FromResourceIdentifier && left.FromRel == right.FromRel);
         }
 
-        public static bool operator !=(ResourceLinkageKey a, ResourceLinkageKey b)
-        { return !(a == b); }
+        public static bool operator !=(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
+        { return !(left == right); }
         #endregion
 
         #region Comparison Operators
-        public static bool operator <(ResourceLinkageKey left, ResourceLinkageKey right)
+        public static bool operator <(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
         {
             if (left == null && right == null)
                 return false;
@@ -115,7 +115,7 @@ namespace JsonApiFramework.Server.Internal
             return left.CompareTo(right) < 0;
         }
 
-        public static bool operator <=(ResourceLinkageKey left, ResourceLinkageKey right)
+        public static bool operator <=(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
         {
             if (left == null)
                 return true;
@@ -123,7 +123,7 @@ namespace JsonApiFramework.Server.Internal
             return left.CompareTo(right) <= 0;
         }
 
-        public static bool operator >(ResourceLinkageKey left, ResourceLinkageKey right)
+        public static bool operator >(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
         {
             if (left == null)
                 return false;
@@ -131,7 +131,7 @@ namespace JsonApiFramework.Server.Internal
             return left.CompareTo(right) > 0;
         }
 
-        public static bool operator >=(ResourceLinkageKey left, ResourceLinkageKey right)
+        public static bool operator >=(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
         {
             if (left == null && right == null)
                 return true;
@@ -145,7 +145,7 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ResourceLinkageKey(ResourceIdentifier fromResourceIdentifier, string fromRel)
+        internal ApiResourceLinkageKey(ResourceIdentifier fromResourceIdentifier, string fromRel)
         {
             Contract.Requires(fromResourceIdentifier != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel) == false);
@@ -157,7 +157,7 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
-        private static readonly string TypeName = typeof(ResourceLinkageKey).Name;
+        private static readonly string TypeName = typeof(ApiResourceLinkageKey).Name;
         #endregion
     }
 }

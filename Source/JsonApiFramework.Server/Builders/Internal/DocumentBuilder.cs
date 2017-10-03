@@ -60,22 +60,22 @@ namespace JsonApiFramework.Server.Internal
             {
                 case DocumentType.ResourceCollectionDocument:
                 case DocumentType.ResourceDocument:
-                    {
-                        // Resolve all read-write resource nodes if needed.
-                        this.ResolveResourceNodes();
+                {
+                    // Resolve all read-write resource nodes if needed.
+                    this.ResolveResourceNodes();
 
-                        // Compact all read-write resource nodes to read-only resource nodes.
-                        this.CompactResourceNodes();
-                    }
-                    break;
+                    // Compact all read-write resource nodes to read-only resource nodes.
+                    this.CompactResourceNodes();
+                }
+                break;
 
                 case DocumentType.ResourceIdentifierCollectionDocument:
                 case DocumentType.ResourceIdentifierDocument:
-                    {
-                        // Compact all read-write resource identifier nodes to read-only resource identifier nodes.
-                        this.CompactResourceIdentifierNodes();
-                    }
-                    break;
+                {
+                    // Compact all read-write resource identifier nodes to read-only resource identifier nodes.
+                    this.CompactResourceIdentifierNodes();
+                }
+                break;
             }
 
             // Resolve all document nodes if needed.
@@ -174,7 +174,7 @@ namespace JsonApiFramework.Server.Internal
 
             var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             var resourceId = resourceIdentifierSource.GetResourceId();
-            primaryResourceIdentifierBuilder.SetId(resourceId);
+            primaryResourceIdentifierBuilder.SetId(Id.Create(resourceId));
             return primaryResourceIdentifierBuilder;
         }
 
@@ -223,7 +223,7 @@ namespace JsonApiFramework.Server.Internal
 
             var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             var resourceIdCollection = resourceIdentifierCollectionSource.GetResourceIdCollection();
-            primaryResourceIdentifierCollectionBuilder.SetId(resourceIdCollection);
+            primaryResourceIdentifierCollectionBuilder.SetId(IdCollection.Create(resourceIdCollection));
             return primaryResourceIdentifierCollectionBuilder;
 
         }
@@ -657,117 +657,117 @@ namespace JsonApiFramework.Server.Internal
                 {
                     case DocumentType.Document:
                     case DocumentType.ErrorsDocument:
-                        {
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
-                        }
-                        break;
+                    {
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.EmptyDocument:
-                        {
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, Enumerable.Empty<object>(), linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
-                        }
-                        break;
+                    {
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, Enumerable.Empty<object>(), linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.NullDocument:
-                        {
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, null, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
-                        }
-                        break;
+                    {
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, null, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.ResourceCollectionDocument:
-                        {
-                            var domResourceCollection = this.DomDocument
-                                                            .DomResources(false)
-                                                            .ToList();
-                            var clrResourceType = domResourceCollection.Any()
-                                ? domResourceCollection.First().ClrResourceType
-                                : default(Type);
-                            var clrResourceCollection = domResourceCollection.Select(x => x.ClrResource)
-                                                                             .ToList();
+                    {
+                        var domResourceCollection = this.DomDocument
+                                                        .DomResources(false)
+                                                        .ToList();
+                        var clrResourceType = domResourceCollection.Any()
+                            ? domResourceCollection.First().ClrResourceType
+                            : default(Type);
+                        var clrResourceCollection = domResourceCollection.Select(x => x.ClrResource)
+                                                                         .ToList();
 
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
-                        }
-                        break;
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.ResourceDocument:
-                        {
-                            var domResource = this.DomDocument
-                                                  .DomResources(false)
-                                                  .SingleOrDefault();
-                            var clrResourceType = domResource != null ? domResource.ClrResourceType : default(Type);
-                            var clrResource = domResource != null ? domResource.ClrResource : default(object);
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
-                        }
-                        break;
+                    {
+                        var domResource = this.DomDocument
+                                              .DomResources(false)
+                                              .SingleOrDefault();
+                        var clrResourceType = domResource != null ? domResource.ClrResourceType : default(Type);
+                        var clrResource = domResource != null ? domResource.ClrResource : default(object);
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.ResourceIdentifierCollectionDocument:
+                    {
+                        var domResourceIdentifierCollection = this.DomDocument
+                                                                  .DomResourceIdentitifiers()
+                                                                  .ToList();
+                        var clrResourceType = domResourceIdentifierCollection.Any()
+                            ? domResourceIdentifierCollection.First().ClrResourceType
+                            : default(Type);
+                        var clrResourceCollection = Enumerable.Empty<object>();
+                        if (clrResourceType != null)
                         {
-                            var domResourceIdentifierCollection = this.DomDocument
-                                                                      .DomResourceIdentitifiers()
-                                                                      .ToList();
-                            var clrResourceType = domResourceIdentifierCollection.Any()
-                                ? domResourceIdentifierCollection.First().ClrResourceType
-                                : default(Type);
-                            var clrResourceCollection = Enumerable.Empty<object>();
-                            if (clrResourceType != null)
-                            {
-                                var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-                                clrResourceCollection = domResourceIdentifierCollection
-                                    .Select(domResourceIdentifier =>
-                                    {
-                                        var clrResource = resourceType.CreateClrObject();
+                            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
+                            clrResourceCollection = domResourceIdentifierCollection
+                                .Select(domResourceIdentifier =>
+                                {
+                                    var clrResource = resourceType.CreateClrObject();
 
-                                        var apiResourceId = domResourceIdentifier.ApiResourceId;
-                                        resourceType.SetClrId(clrResource, apiResourceId);
-                                        return clrResource;
-                                    })
-                                    .ToList();
-                            }
-
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                                    var apiResourceId = domResourceIdentifier.ApiResourceId;
+                                    resourceType.SetClrId(clrResource, apiResourceId);
+                                    return clrResource;
+                                })
+                                .ToList();
                         }
-                        break;
+
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     case DocumentType.ResourceIdentifierDocument:
+                    {
+                        var domResourceIdentifier = this.DomDocument
+                                                        .DomResourceIdentitifiers()
+                                                        .SingleOrDefault();
+                        var clrResourceType = domResourceIdentifier != null ? domResourceIdentifier.ClrResourceType : default(Type);
+                        var clrResource = default(object);
+                        if (clrResourceType != null)
                         {
-                            var domResourceIdentifier = this.DomDocument
-                                                            .DomResourceIdentitifiers()
-                                                            .SingleOrDefault();
-                            var clrResourceType = domResourceIdentifier != null ? domResourceIdentifier.ClrResourceType : default(Type);
-                            var clrResource = default(object);
-                            if (clrResourceType != null)
-                            {
-                                var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-                                clrResource = resourceType.CreateClrObject();
+                            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
+                            clrResource = resourceType.CreateClrObject();
 
-                                var apiResourceId = domResourceIdentifier.ApiResourceId;
-                                resourceType.SetClrId(clrResource, apiResourceId);
-                            }
-
-                            var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
-                            var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
-                            domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                            var apiResourceId = domResourceIdentifier.ApiResourceId;
+                            resourceType.SetClrId(clrResource, apiResourceId);
                         }
-                        break;
+
+                        var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
+                        var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
+                        domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
+                    }
+                    break;
 
                     default:
-                        {
-                            var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                                   .FormatWith(typeof(DocumentType).Name, apiDocumentType);
-                            throw new InternalErrorException(detail);
-                        }
+                    {
+                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                               .FormatWith(typeof(DocumentType).Name, apiDocumentType);
+                        throw new InternalErrorException(detail);
+                    }
                 }
             }
         }
@@ -926,12 +926,87 @@ namespace JsonApiFramework.Server.Internal
             }
 
             // .. Data
-            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-            var fromApiResourceIdentifier = resourceType.GetApiResourceIdentifier(clrResource);
+            var relationshipTypeToCreate = RelationshipType.Relationship;
+            var toOneResourceLinkage = default(ResourceIdentifier);
+            var toManyResourceLinkage = default(IEnumerable<ResourceIdentifier>);
 
-            var resourceLinkageKey = new ResourceLinkageKey(fromApiResourceIdentifier, apiRelationshipRel);
-            ResourceLinkage resourceLinkage;
-            var hasResourceLinkage = this.DocumentBuilderContext.TryGetResourceLinkage(resourceLinkageKey, out resourceLinkage);
+            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
+            var relationship = resourceType.GetRelationshipInfo(apiRelationshipRel);
+
+            var fromApiResourceIdentifier = resourceType.GetApiResourceIdentifier(clrResource);
+            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, apiRelationshipRel);
+
+            var apiRelationship = domReadWriteRelationship.Relationship;
+
+            var toCardinality = relationship.ToCardinality;
+            switch (toCardinality)
+            {
+                case RelationshipCardinality.ToOne:
+                {
+                    var hasToOneResourceLinkageFromDom = apiRelationship.IsToOneRelationship();
+                    var toOneResourceLinkageFromDom = hasToOneResourceLinkageFromDom ? apiRelationship.GetToOneResourceLinkage() : default(ResourceIdentifier);
+
+                    var hasToOneResourceLinkageFromInclude = this.DocumentBuilderContext.TryGetResourceLinkage(apiResourceLinkageKey, out var apiResourceLinkage);
+                    var toOneResourceLinkageFromInclude = hasToOneResourceLinkageFromInclude ? apiResourceLinkage.ToOneResourceLinkage : default(ResourceIdentifier);
+
+                    if (hasToOneResourceLinkageFromDom && hasToOneResourceLinkageFromInclude)
+                    {
+                        if (toOneResourceLinkageFromDom != toOneResourceLinkageFromInclude)
+                        {
+                            var detail = InfrastructureErrorStrings.DocumentWriteToOneResourceLinkageMismatch
+                                                                   .FormatWith(fromApiResourceIdentifier.Type, fromApiResourceIdentifier.Id, apiRelationshipRel, toOneResourceLinkageFromDom, toOneResourceLinkageFromInclude);
+                            throw new DocumentWriteException(detail);
+                        }
+
+                        relationshipTypeToCreate = RelationshipType.ToOneRelationship;
+                        toOneResourceLinkage = toOneResourceLinkageFromInclude;
+                    }
+                    else if (hasToOneResourceLinkageFromDom)
+                    {
+                        relationshipTypeToCreate = RelationshipType.ToOneRelationship;
+                        toOneResourceLinkage = toOneResourceLinkageFromDom;
+                    }
+                    else if (hasToOneResourceLinkageFromInclude)
+                    {
+                        relationshipTypeToCreate = RelationshipType.ToOneRelationship;
+                        toOneResourceLinkage = toOneResourceLinkageFromInclude;
+                    }
+                }
+                break;
+
+                case RelationshipCardinality.ToMany:
+                {
+                    var hasToManyResourceLinkageFromDom = apiRelationship.IsToManyRelationship();
+                    var toManyResourceLinkageFromDom = hasToManyResourceLinkageFromDom ? apiRelationship.GetToManyResourceLinkage() : Enumerable.Empty<ResourceIdentifier>();
+
+                    var hasToManyResourceLinkageFromInclude = this.DocumentBuilderContext.TryGetResourceLinkage(apiResourceLinkageKey, out var apiResourceLinkage);
+                    var toManyResourceLinkageFromInclude = hasToManyResourceLinkageFromInclude ? apiResourceLinkage.ToManyResourceLinkage : Enumerable.Empty<ResourceIdentifier>();
+
+                    if (hasToManyResourceLinkageFromDom && hasToManyResourceLinkageFromInclude)
+                    {
+                        relationshipTypeToCreate = RelationshipType.ToManyRelationship;
+                        toManyResourceLinkage = toManyResourceLinkageFromDom.Union(toManyResourceLinkageFromInclude);
+                    }
+                    else if (hasToManyResourceLinkageFromDom)
+                    {
+                        relationshipTypeToCreate = RelationshipType.ToManyRelationship;
+                        toManyResourceLinkage = toManyResourceLinkageFromDom;
+                    }
+                    else if (hasToManyResourceLinkageFromInclude)
+                    {
+                        relationshipTypeToCreate = RelationshipType.ToManyRelationship;
+                        toManyResourceLinkage = toManyResourceLinkageFromInclude;
+                    }
+                }
+                break;
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
+            }
 
             // .. Meta
             var apiRelationshipMeta = default(Meta);
@@ -943,36 +1018,32 @@ namespace JsonApiFramework.Server.Internal
 
             // Create the correct relationship context based on resource linkage (if any).
             RelationshipContext relationshipContext;
-            if (hasResourceLinkage)
+            switch (relationshipTypeToCreate)
             {
-                var resourceLinkageType = resourceLinkage.Type;
-                switch (resourceLinkageType)
+                case RelationshipType.Relationship:
                 {
-                    case ResourceLinkageType.ToOneResourceLinkage:
-                        {
-                            var toOneResourceLinkage = resourceLinkage.ToOneResourceLinkage;
-                            relationshipContext = new ToOneRelationshipContext(apiRelationshipRel, linkContexts, toOneResourceLinkage, apiRelationshipMeta);
-                        }
-                        break;
-
-                    case ResourceLinkageType.ToManyResourceLinkage:
-                        {
-                            var toManyResourceLinkage = resourceLinkage.ToManyResourceLinkage;
-                            relationshipContext = new ToManyRelationshipContext(apiRelationshipRel, linkContexts, toManyResourceLinkage, apiRelationshipMeta);
-                        }
-                        break;
-
-                    default:
-                        {
-                            var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                                   .FormatWith(typeof(ResourceLinkageType).Name, resourceLinkageType);
-                            throw new InternalErrorException(detail);
-                        }
+                    relationshipContext = new RelationshipContext(apiRelationshipRel, linkContexts, apiRelationshipMeta);
                 }
-            }
-            else
-            {
-                relationshipContext = new RelationshipContext(apiRelationshipRel, linkContexts, apiRelationshipMeta);
+                break;
+
+                case RelationshipType.ToOneRelationship:
+                {
+                    relationshipContext = new ToOneRelationshipContext(apiRelationshipRel, linkContexts, toOneResourceLinkage, apiRelationshipMeta);
+                }
+                break;
+
+                case RelationshipType.ToManyRelationship:
+                {
+                    relationshipContext = new ToManyRelationshipContext(apiRelationshipRel, linkContexts, toManyResourceLinkage, apiRelationshipMeta);
+                }
+                break;
+
+                default:
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipType).Name, relationshipTypeToCreate);
+                    throw new InternalErrorException(detail);
+                }
             }
 
             // Create relationship.

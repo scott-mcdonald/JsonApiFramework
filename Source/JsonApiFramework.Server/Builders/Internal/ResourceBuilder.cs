@@ -51,7 +51,7 @@ namespace JsonApiFramework.Server.Internal
         {
             var relationshipsBuilder = this.NotBuildingResource
                 ? (IRelationshipsBuilder<TBuilder, TResource>)(new NullRelationshipsBuilder<TBuilder, TResource>(this.Builder))
-                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsBuilder<TBuilder, TResource>(this.Builder, this.DomReadWriteResource, this.ClrResource));
+                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsBuilder<TBuilder, TResource>(this.Builder, this.ServiceModel, this.DomReadWriteResource, this.ClrResource));
             return relationshipsBuilder;
         }
 
@@ -85,11 +85,8 @@ namespace JsonApiFramework.Server.Internal
         #endregion
 
         #region Inherited Properties
-        protected IServiceModel ServiceModel
-        { get { return this.ParentBuilder.ServiceModel; } }
-
-        protected DocumentBuilderContext DocumentBuilderContext
-        { get { return this.ParentBuilder.DocumentBuilderContext; } }
+        protected IServiceModel ServiceModel => this.ParentBuilder.ServiceModel;
+        protected DocumentBuilderContext DocumentBuilderContext => this.ParentBuilder.DocumentBuilderContext;
         #endregion
 
         // PROTECTED METHODS ////////////////////////////////////////////////
@@ -106,10 +103,10 @@ namespace JsonApiFramework.Server.Internal
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private Lazy<ResourcePathContextBuilder<TBuilder, TResource>> LazyResourcePathContextBuilder { get; set; }
-        private ResourcePathContextBuilder<TBuilder, TResource> ResourcePathContextBuilder { get { return this.LazyResourcePathContextBuilder.Value; } }
+        private ResourcePathContextBuilder<TBuilder, TResource> ResourcePathContextBuilder => this.LazyResourcePathContextBuilder.Value;
 
         private bool BuildingResource { get; set; }
-        private bool NotBuildingResource { get { return !this.BuildingResource; } }
+        private bool NotBuildingResource => !this.BuildingResource;
 
         private DomReadWriteResource DomReadWriteResource { get; set; }
         private TResource ClrResource { get; set; }

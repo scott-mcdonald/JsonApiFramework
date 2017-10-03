@@ -37,23 +37,23 @@ namespace JsonApiFramework.Client.Internal
             switch (toCardinality)
             {
                 case RelationshipCardinality.ToOne:
-                    {
-                        var domData = this.DomReadWriteRelationship.SetDomDataNull();
-                    }
-                    break;
+                {
+                    var domData = this.DomReadWriteRelationship.SetDomDataNull();
+                }
+                break;
 
                 case RelationshipCardinality.ToMany:
-                    {
-                        var domDataCollection = this.DomReadWriteRelationship.SetDomDataCollectionEmpty();
-                    }
-                    break;
+                {
+                    var domDataCollection = this.DomReadWriteRelationship.SetDomDataCollectionEmpty();
+                }
+                break;
 
                 default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
             }
 
             return this;
@@ -75,27 +75,27 @@ namespace JsonApiFramework.Client.Internal
             switch (toCardinality)
             {
                 case RelationshipCardinality.ToOne:
-                    {
-                        var domData = toApiResourceIdentifier != null
-                            ? this.DomReadWriteRelationship.SetDomData(toApiResourceIdentifier, toClrType)
-                            : this.DomReadWriteRelationship.SetDomDataNull();
-                    }
-                    break;
+                {
+                    var domData = toApiResourceIdentifier != null
+                        ? this.DomReadWriteRelationship.SetDomData(toApiResourceIdentifier, toClrType)
+                        : this.DomReadWriteRelationship.SetDomDataNull();
+                }
+                break;
 
                 case RelationshipCardinality.ToMany:
-                    {
-                        var domDataCollection = toApiResourceIdentifier != null
-                            ? this.DomReadWriteRelationship.SetDomDataCollection(new[] {toApiResourceIdentifier}, toClrType)
-                            : this.DomReadWriteRelationship.SetDomDataCollectionEmpty();
-                    }
-                    break;
+                {
+                    var domDataCollection = toApiResourceIdentifier != null
+                        ? this.DomReadWriteRelationship.SetDomDataCollection(new[] { toApiResourceIdentifier }, toClrType)
+                        : this.DomReadWriteRelationship.SetDomDataCollectionEmpty();
+                }
+                break;
 
                 default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
             }
 
             return this;
@@ -121,25 +121,25 @@ namespace JsonApiFramework.Client.Internal
             switch (toCardinality)
             {
                 case RelationshipCardinality.ToOne:
-                    {
-                        var clrResourceTypeName = resourceType.ClrType.Name;
-                        var detail = ClientErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
-                                                       .FormatWith(clrResourceTypeName, rel);
-                        throw new DocumentBuildException(detail);
-                    }
+                {
+                    var clrResourceTypeName = resourceType.ClrType.Name;
+                    var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
+                                                           .FormatWith(clrResourceTypeName, rel);
+                    throw new DocumentBuildException(detail);
+                }
 
                 case RelationshipCardinality.ToMany:
-                    {
-                        this.DomReadWriteRelationship.SetDomDataCollection(toApiResourceIdentifierCollection, toClrType);
-                    }
-                    break;
+                {
+                    this.DomReadWriteRelationship.SetDomDataCollection(toApiResourceIdentifierCollection, toClrType);
+                }
+                break;
 
                 default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
+                    throw new InternalErrorException(detail);
+                }
             }
 
             return this;

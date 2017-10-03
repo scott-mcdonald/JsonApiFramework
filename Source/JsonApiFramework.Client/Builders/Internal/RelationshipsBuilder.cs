@@ -173,8 +173,8 @@ namespace JsonApiFramework.Client.Internal
                 case RelationshipCardinality.ToOne:
                     {
                         var clrResourceTypeName = resourceType.ClrType.Name;
-                        var detail = ClientErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
-                                                       .FormatWith(clrResourceTypeName, rel);
+                        var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
+                                                               .FormatWith(clrResourceTypeName, rel);
                         throw new DocumentBuildException(detail);
                     }
 

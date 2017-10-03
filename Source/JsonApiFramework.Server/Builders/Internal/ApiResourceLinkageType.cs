@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 namespace JsonApiFramework.Server.Internal
 {
-    internal enum ResourceLinkageType
+    internal enum ApiResourceLinkageType
     {
         ToOneResourceLinkage,
         ToManyResourceLinkage

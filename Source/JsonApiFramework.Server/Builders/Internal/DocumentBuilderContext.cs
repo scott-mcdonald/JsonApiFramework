@@ -21,7 +21,7 @@ namespace JsonApiFramework.Server.Internal
             this.CurrentRequestUrl = currentRequestUrl;
 
             this.DomReadWriteResourceDictionary = new Dictionary<ResourceIdentifier, DomReadWriteResource>();
-            this.ResourceLinkageDictionary = new Dictionary<ResourceLinkageKey, ResourceLinkage>();
+            this.ApiResourceLinkageDictionary = new Dictionary<ApiResourceLinkageKey, ApiResourceLinkage>();
         }
 
         public DocumentBuilderContext(string currentRequestUrl)
@@ -67,7 +67,7 @@ namespace JsonApiFramework.Server.Internal
 
             var fromApiRel = toOneIncludedResource.FromRel;
 
-            var resourceLinkageKey = new ResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
+            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
 
             // Create ResourceLinkage from ToOneIncludedResource
             var toApiResourceIdentifier = default(ResourceIdentifier);
@@ -81,10 +81,10 @@ namespace JsonApiFramework.Server.Internal
                 toApiResourceIdentifier = toResourceType.GetApiResourceIdentifier(toClrResource);
             }
 
-            var resourceLinkage = new ResourceLinkage(toApiResourceIdentifier);
+            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifier);
 
             // Add ResourceLinkage to this DocumentBuilderContext
-            this.AddResourceLinkage(resourceLinkageKey, resourceLinkage);
+            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
         }
 
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
@@ -103,7 +103,7 @@ namespace JsonApiFramework.Server.Internal
 
             var fromApiRel = toManyIncludedResources.FromRel;
 
-            var resourceLinkageKey = new ResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
+            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
 
             // Create ResourceLinkage from ToManyIncludedResources.
             var toApiResourceIdentifierCollection = Enumerable.Empty<ResourceIdentifier>()
@@ -116,69 +116,68 @@ namespace JsonApiFramework.Server.Internal
                 var toResourceType = serviceModel.GetResourceType(toClrResourceType);
 
                 toApiResourceIdentifierCollection = toClrResourceCollection.Select(toResourceType.GetApiResourceIdentifier)
-                                                                        .ToList();
+                                                                           .ToList();
             }
 
-            var resourceLinkage = new ResourceLinkage(toApiResourceIdentifierCollection);
+            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifierCollection);
 
             // Add ResourceLinkage to this DocumentBuilderContext
-            this.AddResourceLinkage(resourceLinkageKey, resourceLinkage);
+            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
         }
 
-        public bool TryGetResourceLinkage(ResourceLinkageKey resourceLinkageKey, out ResourceLinkage resourceLinkage)
-        { return this.ResourceLinkageDictionary.TryGetValue(resourceLinkageKey, out resourceLinkage); }
+        public bool TryGetResourceLinkage(ApiResourceLinkageKey apiResourceLinkageKey, out ApiResourceLinkage apiResourceLinkage)
+        { return this.ApiResourceLinkageDictionary.TryGetValue(apiResourceLinkageKey, out apiResourceLinkage); }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private IDictionary<ResourceIdentifier, DomReadWriteResource> DomReadWriteResourceDictionary { get; set; }
-        private IDictionary<ResourceLinkageKey, ResourceLinkage> ResourceLinkageDictionary { get; set; }
+        private IDictionary<ApiResourceLinkageKey, ApiResourceLinkage> ApiResourceLinkageDictionary { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private void AddResourceLinkage(ResourceLinkageKey resourceLinkageKey, ResourceLinkage resourceLinkageNew)
+        private void AddResourceLinkage(ApiResourceLinkageKey apiResourceLinkageKey, ApiResourceLinkage apiResourceLinkageNew)
         {
-            Contract.Requires(resourceLinkageKey != null);
-            Contract.Requires(resourceLinkageNew != null);
+            Contract.Requires(apiResourceLinkageKey != null);
+            Contract.Requires(apiResourceLinkageNew != null);
 
-            ResourceLinkage resourceLinkageExisting;
-            if (this.ResourceLinkageDictionary.TryGetValue(resourceLinkageKey, out resourceLinkageExisting) == false)
+            if (this.ApiResourceLinkageDictionary.TryGetValue(apiResourceLinkageKey, out var apiResourceLinkageExisting) == false)
             {
                 // Add initial new resource linkage
-                this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageNew);
+                this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageNew);
                 return;
             }
 
             // Merge existing and new resource linkage
-            var resourceLinkageExistingType = resourceLinkageExisting.Type;
-            switch (resourceLinkageExistingType)
+            var apiResourceLinkageExistingType = apiResourceLinkageExisting.Type;
+            switch (apiResourceLinkageExistingType)
             {
-                case ResourceLinkageType.ToOneResourceLinkage:
-                    {
-                        this.ResourceLinkageDictionary.Remove(resourceLinkageKey);
-                        this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageNew);
-                    }
-                    break;
+                case ApiResourceLinkageType.ToOneResourceLinkage:
+                {
+                    this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
+                    this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageNew);
+                }
+                break;
 
-                case ResourceLinkageType.ToManyResourceLinkage:
-                    {
-                        var toManyResourceLinkage = resourceLinkageExisting.ToManyResourceLinkage
-                                                                           .SafeToList();
-                        toManyResourceLinkage.AddRange(resourceLinkageNew.ToManyResourceLinkage);
+                case ApiResourceLinkageType.ToManyResourceLinkage:
+                {
+                    var toManyResourceLinkage = apiResourceLinkageExisting.ToManyResourceLinkage
+                                                                          .SafeToList();
+                    toManyResourceLinkage.AddRange(apiResourceLinkageNew.ToManyResourceLinkage);
 
-                        toManyResourceLinkage = toManyResourceLinkage.Distinct()
-                                                                     .SafeToList();
+                    toManyResourceLinkage = toManyResourceLinkage.Distinct()
+                                                                 .SafeToList();
 
-                        var resourceLinkageMerged = new ResourceLinkage(toManyResourceLinkage);
+                    var apiResourceLinkageMerged = new ApiResourceLinkage(toManyResourceLinkage);
 
-                        this.ResourceLinkageDictionary.Remove(resourceLinkageKey);
-                        this.ResourceLinkageDictionary.Add(resourceLinkageKey, resourceLinkageMerged);
-                    }
-                    break;
+                    this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
+                    this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageMerged);
+                }
+                break;
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
         }
         #endregion

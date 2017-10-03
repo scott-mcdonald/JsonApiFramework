@@ -242,7 +242,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -381,7 +381,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId2, ApiSampleData.CommentId4)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -583,7 +583,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId2, ApiSampleData.CommentId4)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -728,7 +728,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.CommentId2, ApiSampleData.CommentId4)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -791,7 +791,7 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .ResourceIdentifier<Person>()
-                                    .SetId(ApiSampleData.PersonId)
+                                    .SetId(Id.Create(ApiSampleData.PersonId))
                                 .ResourceIdentifierEnd())
                     },
 
@@ -873,7 +873,7 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .ResourceIdentifierCollection<Comment>()
-                                    .SetId(ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4)
+                                    .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 }))
                                 .ResourceIdentifierCollectionEnd())
                     },
 
@@ -921,7 +921,7 @@ namespace JsonApiFramework.Client.Tests
                             },
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
-                                .ResourceIdentifierCollection(SampleComments.Comment1, SampleComments.Comment2, SampleComments.Comment3, SampleComments.Comment4)
+                                .ResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2, SampleComments.Comment3, SampleComments.Comment4 })
                                 .ResourceIdentifierCollectionEnd())
                     },
 

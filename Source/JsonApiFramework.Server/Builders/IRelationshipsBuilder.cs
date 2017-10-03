@@ -14,16 +14,17 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Relationship relationship);
         IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Relationship relationship);
-
-        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IEnumerable<Relationship> relationshipCollection);
         IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<Relationship> relationshipCollection);
 
-        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IEnumerable<string> linkRelCollection);
         IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection);
 
-        IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel);
+        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage);
+        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection);
+
+        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage);
+        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection);
+
         IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel, Func<TResource, bool> predicate);
 
         TParentBuilder RelationshipsEnd();

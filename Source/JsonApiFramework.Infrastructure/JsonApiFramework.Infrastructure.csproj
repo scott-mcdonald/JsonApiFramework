@@ -7,7 +7,7 @@
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Infrastructure]</Product>
-    <PackageTags>.net portable json api framework</PackageTags>
+    <PackageTags>.net portable jsonapi framework</PackageTags>
     <FileVersion>1.5.0.15</FileVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>

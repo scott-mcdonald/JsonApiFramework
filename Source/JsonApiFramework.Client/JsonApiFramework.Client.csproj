@@ -12,7 +12,7 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
-    <PackageTags>.net portable json api framework</PackageTags>
+    <PackageTags>.net portable jsonapi framework client</PackageTags>
     <FileVersion>1.5.0.15</FileVersion>
     <AssemblyVersion>1.5.0.0</AssemblyVersion>
   </PropertyGroup>

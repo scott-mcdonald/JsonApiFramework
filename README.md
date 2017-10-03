@@ -756,7 +756,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Client -Pre`
+> `PM> Install-Package JsonApiFramework.Client`
 
 #### Server-Side Document Reading/Building/Writing
 
@@ -766,7 +766,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Server -Pre`
+> `PM> Install-Package JsonApiFramework.Server`
 
 #### Shared Service Model Only
 
@@ -778,7 +778,7 @@ Special case of creating an assembly containing just the service model where the
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Core -Pre`
+> `PM> Install-Package JsonApiFramework.Core`
 
 ### Option 2: From source
 

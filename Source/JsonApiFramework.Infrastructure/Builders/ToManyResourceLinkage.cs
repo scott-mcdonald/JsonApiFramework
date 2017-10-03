@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 
-using JsonApiFramework.Server.Internal;
+using JsonApiFramework.Internal;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework
 {
     public static class ToManyResourceLinkage
     {

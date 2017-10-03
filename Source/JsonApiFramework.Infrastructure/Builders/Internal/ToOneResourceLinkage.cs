@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.Internal
 {
     internal class ToOneResourceLinkage<TResourceId> : IToOneResourceLinkage<TResourceId>
     {

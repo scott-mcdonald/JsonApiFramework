@@ -62,6 +62,15 @@ namespace JsonApiFramework {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to build &apos;{0}&apos; for a single json:api relationship [rel={1}] with a collection of &apos;{0}&apos; objects..
+        /// </summary>
+        internal static string DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects {
+            get {
+                return ResourceManager.GetString("DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to build &apos;{0}&apos; for a collection [count={1}] of CLR resources or CLR resource identifiers [type={2}] with a collection [count={3}] of &apos;{0}&apos; objects, collection counts mismatch. Make sure the collection counts are the same..
         /// </summary>
         internal static string DocumentBuildExceptionDetailBuildResourceCollectionCountMismatch {

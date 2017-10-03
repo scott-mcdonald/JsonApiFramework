@@ -134,15 +134,6 @@ namespace JsonApiFramework.Server {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to build &apos;{0}&apos; for a single json:api relationship [rel={1}] with a collection of &apos;{0}&apos; objects..
-        /// </summary>
-        internal static string DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects {
-            get {
-                return ResourceManager.GetString("DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to create json:api relationship [rel={0}] from CLR resource [type={1} to CLR resource [type={2}], relationship cardinality mismatch between built document [value={3}] and service model schema [value={4}]..
         /// </summary>
         internal static string DocumentBuildExceptionDetailBuildResourceRelationshipCardinalityMismatch {

@@ -12,7 +12,7 @@ namespace JsonApiFramework.Client
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         TBuilder SetMeta(Meta meta);
-        TBuilder SetId<TResourceId>(TResourceId clrResourceId);
+        TBuilder SetId<T>(IId<T> id);
 
         IAttributesBuilder<TBuilder, TResource> Attributes();
 

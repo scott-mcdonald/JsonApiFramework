@@ -8,7 +8,7 @@ using System.Linq;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.Internal
 {
     internal class NullToManyResourceLinkage : IToManyResourceLinkage
     {

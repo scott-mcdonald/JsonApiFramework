@@ -21,8 +21,8 @@ namespace JsonApiFramework.Server.Internal
             var linkRel = rel;
             var relationshipRel = this.Rel;
             var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, linkRel);
-            var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects
-                                           .FormatWith(linkDescription, relationshipRel);
+            var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects
+                                                   .FormatWith(linkDescription, relationshipRel);
             throw new DocumentBuildException(detail);
         }
         #endregion

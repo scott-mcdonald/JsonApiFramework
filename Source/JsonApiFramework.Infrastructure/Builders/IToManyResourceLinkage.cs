@@ -1,29 +1,31 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Collections.Generic;
+
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework
 {
-    public interface IToOneResourceLinkage
+    public interface IToManyResourceLinkage
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        bool HasValue { get; }
+        bool HasValueCollection { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        ResourceIdentifier CreateApiResourceIdentifier(IResourceType resourceType);
+        IEnumerable<ResourceIdentifier> CreateApiResourceIdentifierCollection(IResourceType resourceType);
         #endregion
     }
 
-    public interface IToOneResourceLinkage<out TResourceId> : IToOneResourceLinkage
+    public interface IToManyResourceLinkage<out TResourceId> : IToManyResourceLinkage
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        TResourceId Value { get; }
+        IEnumerable<TResourceId> ValueCollection { get; }
         #endregion
     }
 }

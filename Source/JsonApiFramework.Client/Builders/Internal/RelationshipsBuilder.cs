@@ -2,13 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Internal.Tree;
-using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Client.Internal
@@ -19,33 +16,27 @@ namespace JsonApiFramework.Client.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel)
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToOneResourceLinkage toOneResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            var apiRelationship = this.CreateApiRelationship(rel);
+            var relationshipBuilder = this.Relationship(rel);
 
-            this.DomReadWriteRelationships.AddDomReadOnlyRelationship(rel, apiRelationship);
+            // Data
+            relationshipBuilder.SetData(toOneResourceLinkage);
+
             return this;
         }
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TResourceId>(string rel, TResourceId clrResourceId)
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToManyResourceLinkage toManyResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            var apiRelationship = this.CreateApiRelationship(rel, clrResourceId);
+            var relationshipBuilder = this.Relationship(rel);
 
-            this.DomReadWriteRelationships.AddDomReadOnlyRelationship(rel, apiRelationship);
-            return this;
-        }
+            // Data
+            relationshipBuilder.SetData(toManyResourceLinkage);
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TResourceId>(string rel, IEnumerable<TResourceId> clrResourceIdCollection)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-
-            var apiRelationship = this.CreateApiRelationship(rel, clrResourceIdCollection);
-
-            this.DomReadWriteRelationships.AddDomReadOnlyRelationship(rel, apiRelationship);
             return this;
         }
 
@@ -90,110 +81,6 @@ namespace JsonApiFramework.Client.Internal
         private IServiceModel ServiceModel { get; set; }
         private IResourceType ResourceType { get; set; }
         private DomReadWriteRelationships DomReadWriteRelationships { get; set; }
-        #endregion
-
-        // PRIVATE METHODS //////////////////////////////////////////////////
-        #region Methods
-        private Relationship CreateApiRelationship(string rel)
-        {
-            // Build a JSON API relationship from the given relation name and CLR related resource identifier.
-            var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationshipInfo(rel);
-
-            var toCardinality = relationship.ToCardinality;
-            switch (toCardinality)
-            {
-                case RelationshipCardinality.ToOne: return new ToOneRelationship();
-                case RelationshipCardinality.ToMany: return new ToManyRelationship();
-
-                default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
-            }
-        }
-
-        private Relationship CreateApiRelationship<TResourceId>(string rel, TResourceId clrResourceId)
-        {
-            // Build a JSON API relationship from the given relation name and CLR related resource identifier.
-            var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationshipInfo(rel);
-
-            var toClrType = relationship.ToClrType;
-
-            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
-            var toApiResourceIdentifier = toResourceType.CreateApiResourceIdentifier(clrResourceId);
-
-            var toCardinality = relationship.ToCardinality;
-            switch (toCardinality)
-            {
-                case RelationshipCardinality.ToOne:
-                    {
-                        return toApiResourceIdentifier != null
-                            ? new ToOneRelationship { Data = toApiResourceIdentifier }
-                            : new ToOneRelationship();
-                    }
-
-                case RelationshipCardinality.ToMany:
-                    {
-                        return toApiResourceIdentifier != null
-                            ? new ToManyRelationship {Data = new List<ResourceIdentifier> {toApiResourceIdentifier}}
-                            : new ToManyRelationship();
-                    }
-
-                default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
-            }
-        }
-
-        private Relationship CreateApiRelationship<TResourceId>(string rel, IEnumerable<TResourceId> clrResourceIdCollection)
-        {
-            // Build a JSON API relationship from the given relation name and CLR related resource identifier collection.
-            var resourceType = this.ResourceType;
-            var relationship = resourceType.GetRelationshipInfo(rel);
-
-            var toClrType = relationship.ToClrType;
-
-            var toResourceType = this.ServiceModel.GetResourceType(toClrType);
-            var toApiResourceIdentifierCollection = clrResourceIdCollection
-                .EmptyIfNull()
-                .Select(toResourceType.CreateApiResourceIdentifier)
-                .Where(toApiResourceIdentifier => toApiResourceIdentifier != null)
-                .ToList();
-
-            var toCardinality = relationship.ToCardinality;
-            switch (toCardinality)
-            {
-                case RelationshipCardinality.ToOne:
-                    {
-                        var clrResourceTypeName = resourceType.ClrType.Name;
-                        var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildToOneRelationshipResourceLinkageCardinalityMismatch
-                                                               .FormatWith(clrResourceTypeName, rel);
-                        throw new DocumentBuildException(detail);
-                    }
-
-                case RelationshipCardinality.ToMany:
-                    {
-                        return new ToManyRelationship
-                            {
-                                Data = toApiResourceIdentifierCollection
-                            };
-                    }
-
-                default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, toCardinality);
-                        throw new InternalErrorException(detail);
-                    }
-            }
-        }
         #endregion
     }
 }

@@ -141,9 +141,6 @@
   <data name="DocumentBuildExceptionDetailBuildRelationshipCollectionWithSingleObject" xml:space="preserve">
     <value>Unable to build '{0}' for a collection of json:api relationship [rel={1}] with a single '{0}' object.</value>
   </data>
-  <data name="DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects" xml:space="preserve">
-    <value>Unable to build '{0}' for a single json:api relationship [rel={1}] with a collection of '{0}' objects.</value>
-  </data>
   <data name="DocumentBuildExceptionDetailBuildResourceRelationshipCardinalityMismatch" xml:space="preserve">
     <value>Unable to create json:api relationship [rel={0}] from CLR resource [type={1} to CLR resource [type={2}], relationship cardinality mismatch between built document [value={3}] and service model schema [value={4}].</value>
   </data>

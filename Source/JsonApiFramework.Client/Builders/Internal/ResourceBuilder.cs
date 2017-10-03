@@ -24,9 +24,10 @@ namespace JsonApiFramework.Client.Internal
             return this.Builder;
         }
 
-        public TBuilder SetId<TResourceId>(TResourceId clrResourceId)
+        public TBuilder SetId<T>(IId<T> id)
         {
-            this.DomReadWriteResource.SetDomIdFromClrResourceId(this.ResourceType, clrResourceId);
+            var clrId = id.ClrId;
+            this.DomReadWriteResource.SetDomIdFromClrResourceId(this.ResourceType, clrId);
             return this.Builder;
         }
 

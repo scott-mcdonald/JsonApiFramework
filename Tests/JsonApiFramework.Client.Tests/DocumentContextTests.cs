@@ -173,7 +173,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.PersonId)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.Create(ApiSampleData.PersonId))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -203,7 +203,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.CreateNull())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -242,7 +242,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 })
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.Create(new List<string>{ ApiSampleData.CommentId1, ApiSampleData.CommentId2, ApiSampleData.CommentId3, ApiSampleData.CommentId4 }))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -272,7 +272,7 @@ namespace JsonApiFramework.Client.Tests
                                         .AddAttribute(x => x.Title, "JSON API paints my bikeshed!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -320,7 +320,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.PersonId2)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.Create(ApiSampleData.PersonId2))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -347,7 +347,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.CreateNull())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -381,7 +381,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.Create(new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 }))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -408,7 +408,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -434,7 +434,7 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                 .ResourceEnd())
                     },
 
@@ -455,7 +455,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource<Article>()
                                     .SetMeta(ApiSampleData.ResourceMeta)
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                 .ResourceEnd())
                     },
 
@@ -475,7 +475,7 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                     .Attributes()
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
@@ -507,12 +507,12 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                     .Attributes()
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.PersonId2)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.Create(ApiSampleData.PersonId2))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -539,12 +539,12 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                     .Attributes()
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.CreateNull())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -578,12 +578,12 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                     .Attributes()
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.Create(new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 }))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -610,12 +610,12 @@ namespace JsonApiFramework.Client.Tests
                         new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
                             .NewDocument()
                                 .Resource<Article>()
-                                    .SetId(ApiSampleData.ArticleId)
+                                    .SetId(Id.Create(ApiSampleData.ArticleId))
                                     .Attributes()
                                         .AddAttribute(x => x.Title, "JSON API paints my house!")
                                     .AttributesEnd()
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -665,7 +665,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.PersonId2)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.Create(ApiSampleData.PersonId2))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -693,7 +693,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel)
+                                        .AddRelationship(ApiSampleData.ArticleToAuthorRel, ToOneResourceLinkage.CreateNull())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -728,7 +728,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 })
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.Create(new []{ ApiSampleData.CommentId2, ApiSampleData.CommentId4 }))
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
@@ -756,7 +756,7 @@ namespace JsonApiFramework.Client.Tests
                             .NewDocument()
                                 .Resource(new Article { Id = ApiSampleData.ArticleId, Title = "JSON API paints my house!" })
                                     .Relationships()
-                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel)
+                                        .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },

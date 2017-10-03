@@ -50,26 +50,35 @@ The following are some brief but concise usage examples to get an overall feel f
 Assume the following for the usage examples:
 
 ``` cs
-JsonApiFramework CLR Types
---------------------------
-Document                    Represents a JSON API document.
-DocumentContext             Represents a session with a JSON API document.
-IResource                   Abstracts the concept of a CLR resource. This is a marker interface
-                            and has no methods.
-
-                            Rationale for requiring this interface is to "mark" resource classes
-                            for compile-time generic constraint purposes.
-
-                            This aids in compile-time checks and generic inferences in the
-                            progressive fluent style builder interfaces/classes of the framework.
-
-Blogging CLR Types
-------------------
-BloggingDocumentContext     Specialization of DocumentContext for blogging resource types.
-
-                            Internally contains the service model (think metadata) of the
-                            blogging resource types with optional naming conventions to apply
-                            when converting between JSON API and .NET CLR resources.     
+// JsonApiFramework CLR Types
+// --------------------------
+// Document                    Represents a JSON API document.
+// DocumentContext             Represents a session with a JSON API document.
+// IResource                   Abstracts the concept of a CLR resource. This is a marker interface
+//                             and has no methods.
+// 
+//                             Rationale for requiring this interface is to "mark" resource classes
+//                             for compile-time generic constraint purposes.
+// 
+//                             This aids in compile-time checks and generic inferences in the
+//                             progressive fluent style builder interfaces/classes of the framework.
+// 
+// Blogging CLR Types
+// ------------------
+// BloggingDocumentContext     Specialization of DocumentContext for blogging resource types.
+// 
+//                             Internally contains the service model (think metadata) of the
+//                             blogging resource types with optional naming conventions to apply
+//                             when converting between JSON API and .NET CLR resources.     
+// 
+// Blogging Relationships
+// ----------------------
+// Blog has "to-many" relationship to Article named "articles"
+// 
+// Article has "to-one" relationship to Person named "author"
+// Article has "to-many" relationship to Comment named "comments"
+// 
+// Comment has "to-one" relationship to Person named "author"
 
 public class Blog : IResource
 {
@@ -97,15 +106,6 @@ public class Person : IResource
     public string LastName { get; set; }
     public string Twitter { get; set; }
 }
-
-Relationships
--------------
-Blog has "to-many" relationship to Article named "articles"
-
-Article has "to-one" relationship to Person named "author"
-Article has "to-many" relationship to Comment named "comments"
-
-Comment has "to-one" relationship to Person named "author"
 ```
 
 ### Server-side document building example #1:
@@ -145,14 +145,16 @@ public class ArticlesController : ApiController
                     .Resource(article)
                         // Article relationships
                         .Relationships()
-                            .Relationship("author") // article -> author
+                            // article -> author
+                            .Relationship("author")
                                 .Links()
                                     .AddSelfLink()
                                     .AddRelatedLink()
                                 .LinksEnd()
                             .RelationshipEnd()
 
-                            .Relationship("comments") // article -> comments
+                            // article -> comments
+                            .Relationship("comments")
                                 .Links()
                                     .AddSelfLink()
                                     .AddRelatedLink()
@@ -215,7 +217,7 @@ will create the following example JSON
 
 ### Server-side document building example #2:
 
-This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's related author and comments:
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's related author and comments resources:
 
 ``` http
 GET http://example.com/articles/1
@@ -252,8 +254,11 @@ public class ArticlesController : ApiController
                     .Resource(article)
                         // Article relationships
                         .Relationships()
-                            .AddRelationship("author", "self", "related")   // article -> author
-                            .AddRelationship("comments", "self", "related") // article -> comments
+                            // article -> author
+                            .AddRelationship("author", new [] { "self", "related" })
+
+                            // article -> comments
+                            .AddRelationship("comments", new [] { "self", "related" })
                         .RelationshipsEnd()
 
                         // Article links
@@ -267,31 +272,33 @@ public class ArticlesController : ApiController
 
                         // Convert related "to-one" CLR Person resource to JSON API resource
                         // Automatically generate "to-one" resource linkage in article to related author
-                        .ToOne(article, "author", author)
+                        .Include(ToOneIncludedResource.Create(article, "author", author))
                             // Author(Person) relationships
                             .Relationships()
-                                .AddRelationship("comments", "self", "related") // author -> comments
+                                 // author -> comments
+                                .AddRelationship("comments", new [] { "self", "related" })
                             .RelationshipsEnd()
 
                             // Author(Person) links
                             .Links()
                                 .AddLink("self")
                             .LinksEnd()
-                        .ToOneEnd()
+                        .IncludeEnd()
 
                         // Convert related "to-many" CLR Comment resources to JSON API resources
                         // Automatically generate "to-many" resource linkage in article to related comments
-                        .ToMany(article, "comments", comments)
+                        .Include(ToManyIncludedResources.Create(article, "comments", comments))
                             // Comments relationships
                             .Relationships()
-                                .AddRelationship("author", "self", "related") // comments -> author
+                                 // comments -> author
+                                .AddRelationship("author", new [] { "self", "related" })
                             .RelationshipsEnd()
 
                             // Comments links
                             .Links()
                                 .AddLink("self")
                             .LinksEnd()
-                        .ToManyEnd()
+                        .IncludeEnd()
 
                     .IncludedEnd()
 
@@ -405,6 +412,122 @@ will create the following example JSON
 }
 ```
 
+### Server-side document building example #3:
+
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's resource linkage to related author and comments resources without including the related author and comments resources in the included section:
+
+``` http
+GET http://example.com/articles/1
+```
+
+``` cs
+public class ArticlesController : ApiController
+{
+    [Route("articles/{id}")]
+    public async Task<IHttpActionResult> GetAsync(string id)
+    {
+        Contract.Requires(String.IsNullOrWhitespace(id) == false);
+
+        // Get article and related author and comments /////////////////////
+        var article = await GetArticle();
+        var author = await GetArticleAuthor(article);
+        var comments = await GetArticleComments(article);
+
+        // Build and return JSON API document ////////////////////////////// 
+        var currentRequestUrl = HttpContext.Current.Request.Url;
+        using (var documentContext = new BloggingDocumentContext())
+        {
+            // Build new document.
+            var document = documentContext
+                .NewDocument(currentRequestUrl)
+
+                    // Document links
+                    .Links()
+                        .AddLink("up")
+                        .AddLink("self")
+                    .LinksEnd()
+
+                    // Resource document (convert CLR Article resource to JSON API resource)
+                    .Resource(article)
+                        // Article relationships
+                        .Relationships()
+                            // article -> author
+                            .Relationship("author")
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                                .SetData(ToOneResourceLinkage.Create(9))
+                            .RelationshipEnd()
+
+                            // article -> comments
+                            .Relationship("comments")
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                                .SetData(ToManyResourceLinkage.Create(new [] {5, 12}))
+                            .RelationshipEnd()
+                        .RelationshipsEnd()
+
+                        // Article links
+                        .Links()
+                            .AddLink("self")
+                        .LinksEnd()
+                    .ResourceEnd()
+
+                .WriteDocument();
+    
+            // Return 200 OK
+            // Note: WebApi JsonMediaTypeFormatter serializes the JSON API document into JSON. 
+            return this.Ok(document);
+        }
+    }
+}
+```
+
+will create the following example JSON
+
+``` json
+{
+  "links": {
+    "up": "http://example.com/articles",
+    "self": "http://example.com/articles/1"
+  },
+  "data": {
+      "type": "articles",
+      "id": "1",
+      "attributes": {
+        "title": "JSON API paints my bikeshed!",
+        "text": "If you’ve ever argued with your team about the way your JSON responses should be
+                 formatted, JSON API can be your anti-bikeshedding tool."
+      },
+      "relationships": {
+        "author": {
+          "links": {
+            "self": "http://example.com/articles/1/relationships/author",
+            "related": "http://example.com/articles/1/author"
+          },
+          "data": { "type": "people", "id": "9" }
+        },
+        "comments": {
+          "links": {
+            "self": "http://example.com/articles/1/relationships/comments",
+            "related": "http://example.com/articles/1/comments"
+          },
+          "data": [
+            { "type": "comments", "id": "5" },
+            { "type": "comments", "id": "12" }
+          ]
+        }
+      },
+      "links": {
+        "self": "http://example.com/articles/1"
+      }
+    }
+}
+```
+
 ### Client-side document building for POST example:
 
 This example shows how a client-side ViewModel could construct and send a `POST` request with a JSON API document for creating resource purposes:
@@ -431,7 +554,7 @@ public class ArticlesViewModel : ViewModel
                     .Resource(article)
                         // Link new article to an existing author.
                         .Relationships()
-                            .AddRelationship("author", authorId)
+                            .AddRelationship("author", ToOneResourceLinkage.Create(authorId))
                         .RelationshipsEnd()
                     .ResourceEnd()
                 .WriteDocument();
@@ -495,7 +618,7 @@ public class ArticlesViewModel : ViewModel
                     // Resource document (manually build an Article JSON API resource)
                     .Resource<Article>()
                         // Set primary key
-                        .SetId(articleId)
+                        .SetId(Id.Create(articleId))
 
                         // Update title attribute
                         .Attributes()
@@ -629,7 +752,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.4.0-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.5.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -639,7 +762,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.4.0-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.5.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -651,7 +774,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.4.0-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.5.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -708,6 +831,11 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.5.0
+    * Fix #41 Add support setting resource linkage without needing to include related resources
+    * Initial non-beta release.
+        * Note this initial non-beta release contains some breaking changes to the previous beta releases. These changes were made to simplify and make explicit building of a json:api documents. Should be obvious how to port previous code to this initial release but if any questions/issues submit an issue as needed.  
+    * Update README.md examples to reflect initial non-beta release of the framework.
 * v1.4.0-beta
     * Fix #35 Add support for .NET Standard/Core
     * Update README.md to reflect the change to .NET Standard for portability reasons

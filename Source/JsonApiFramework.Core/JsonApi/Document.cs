@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Collections.Generic;
+using System.Linq;
 
 using JsonApiFramework.Json;
 
@@ -76,35 +77,75 @@ namespace JsonApiFramework.JsonApi
         #region Document Overrides
         /// <summary>Adds an error to this errors document.</summary>
         public virtual void AddError(Error error)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotErrorsDocumentTitle, CoreErrorStrings.DocumentDoesNotContainErrorsMemberDetail); }
+        {
+            if (error == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotErrorsDocumentTitle, CoreErrorStrings.DocumentDoesNotContainErrorsMemberDetail);
+        }
 
         /// <summary>Adds an error collection to this errors document.</summary>
         public virtual void AddErrors(IEnumerable<Error> errorCollection)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotErrorsDocumentTitle, CoreErrorStrings.DocumentDoesNotContainErrorsMemberDetail); }
+        {
+            if (errorCollection == null || !errorCollection.Any())
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotErrorsDocumentTitle, CoreErrorStrings.DocumentDoesNotContainErrorsMemberDetail);
+        }
 
         /// <summary>Adds an included resource to this resource document or resource collection document.</summary>
         public virtual void AddIncludedResource(Resource resource)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceOrResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainIncludedMemberDetail); }
+        {
+            if (resource == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceOrResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainIncludedMemberDetail);
+        }
 
         /// <summary>Adds an included resource collection to this resource document or resource collection document.</summary>
         public virtual void AddIncludedResources(IEnumerable<Resource> resourceCollection)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceOrResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainIncludedMemberDetail); }
+        {
+            if (resourceCollection == null || !resourceCollection.Any())
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceOrResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainIncludedMemberDetail);
+        }
 
         /// <summary>Adds a primary resource to this resource collection document.</summary>
         public virtual void AddResource(Resource resource)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceCollectionDetail); }
+        {
+            if (resource == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceCollectionDetail);
+        }
 
         /// <summary>Adds a primary resource collection to this resource collection document.</summary>
         public virtual void AddResourceRange(IEnumerable<Resource> resourceCollection)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceCollectionDetail); }
+        {
+            if (resourceCollection == null || !resourceCollection.Any())
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceCollectionDetail);
+        }
 
         /// <summary>Adds a primary resource identifier to this resource identifier document or resource identifier collection document.</summary>
         public virtual void AddResourceIdentifier(ResourceIdentifier resourceIdentifier)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierCollectionDetail); }
+        {
+            if (resourceIdentifier == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierCollectionDetail);
+        }
 
         /// <summary>Adds a primary resource identifier collection to this resource identifier collection document.</summary>
         public virtual void AddResourceIdentifierRange(IEnumerable<ResourceIdentifier> resourceIdentifierCollection)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierCollectionDetail); }
+        {
+            if (resourceIdentifierCollection == null || !resourceIdentifierCollection.Any())
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierCollectionDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierCollectionDetail);
+        }
 
         /// <summary>Gets the primary data from this document.</summary>
         public virtual object GetData()
@@ -140,11 +181,21 @@ namespace JsonApiFramework.JsonApi
 
         /// <summary>Sets the primary resource on this resource document.</summary>
         public virtual void SetResource(Resource resource)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceDetail); }
+        {
+            if (resource == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceDetail);
+        }
 
         /// <summary>Sets the primary resource identifier on this resource identifier document.</summary>
         public virtual void SetResourceIdentifier(ResourceIdentifier resourceIdentifier)
-        { throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierDetail); }
+        {
+            if (resourceIdentifier == null)
+                return;
+
+            throw new JsonApiException(CoreErrorStrings.DocumentNotResourceIdentifierDocumentTitle, CoreErrorStrings.DocumentDoesNotContainDataMemberAsResourceIdentifierDetail);
+        }
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////

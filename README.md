@@ -30,6 +30,7 @@
     - Inclusion of related resources
     - Circular resource references supported
     - Automatic generation of resource linkage between related resources 
+- Support for manual adding of resource linkage between related resources without needing to include related resources
 - Support for **HATEOAS** (**H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate) for resource relationship and links inclusion or exclusion with lambda expression predicates
 - Support for **complex types** at the resource level
 - Support for *meta* information at the document, resource, relationship, link, error, and JSON API version levels
@@ -41,7 +42,7 @@
 
 Extreme high code quality with **1,900+ unit tests**. Production ready.
 
-**For further details, please check out the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
+**For further details, please check out the [Wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [.NET Core Samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
 
 ## Usage examples
 
@@ -752,7 +753,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.5.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.5.1 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -762,7 +763,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.5.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.5.1 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -774,7 +775,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.5.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.5.1 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -831,6 +832,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.5.1
+    * Fix #42 Fix exception being thrown if including empty/null resources in an empty/null document
 * v1.5.0
     * Fix #41 Add support setting resource linkage without needing to include related resources
     * Initial non-beta release.

@@ -562,11 +562,6 @@ namespace JsonApiFramework.Tree
         }
         #endregion
 
-        // INTERNAL FIELDS //////////////////////////////////////////////////
-        #region Properties
-        internal static readonly TypeConverter TypeConverter = new TypeConverter();
-        #endregion
-
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
         private void AddNodeImpl(Node newNode)
@@ -661,14 +656,16 @@ namespace JsonApiFramework.Tree
         /// <summary>Gets the content contained in this node.</summary>
         public override T GetContent<T>()
         {
-            var content = TypeConverter.Convert<TContent, T>(this.Content, null);
+            var defaultTypeConverter = TypeConverter.Default;
+            var content = defaultTypeConverter.Convert<TContent, T>(this.Content, null);
             return content;
         }
 
         /// <summary>Sets the content contained in this node.</summary>
         public override void SetContent<T>(T content)
         {
-            var value = TypeConverter.Convert<T, TContent>(content, null);
+            var defaultTypeConverter = TypeConverter.Default;
+            var value = defaultTypeConverter.Convert<T, TContent>(content, null);
             this.Content = value;
         }
         #endregion

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Text;
 
 namespace JsonApiFramework.Tree.Internal
@@ -71,7 +71,7 @@ namespace JsonApiFramework.Tree.Internal
                 return;
 
             var indentSpace = depth * IndentSize;
-            this.StringBuilder.Append(Whitespace, indentSpace);
+            this.StringBuilder.Append(WhitespaceAsCharacter, indentSpace);
         }
 
         private void AddNodeDescriptionToTreeString(Node node)
@@ -94,9 +94,7 @@ namespace JsonApiFramework.Tree.Internal
             var nodeHasAttributes = node.HasAttributes();
             if (nodeHasAttributes)
             {
-                var attributesAsStrings = node.Attributes()
-                                              .Select(x => x.ToString())
-                                              .Aggregate((current, next) => "{0} {1}".FormatWith(current, next));
+                var attributesAsStrings = String.Join(WhitespaceAsString, node.Attributes());
                 var nodeDescriptionWithAttributes = "<{0} {1}>".FormatWith(node.Name, attributesAsStrings);
                 return nodeDescriptionWithAttributes;
             }
@@ -108,7 +106,8 @@ namespace JsonApiFramework.Tree.Internal
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Constants
-        private const char Whitespace = ' ';
+        private const char WhitespaceAsCharacter = ' ';
+        private const string WhitespaceAsString = " ";
         private const int IndentSize = 2;
         #endregion
     }

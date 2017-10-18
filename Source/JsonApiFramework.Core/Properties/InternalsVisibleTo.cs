@@ -10,5 +10,4 @@ using System.Runtime.CompilerServices;
 
 // Allow unit tests to be a friend assembly
 [assembly: InternalsVisibleTo("JsonApiFramework.Core.Tests")]
-[assembly: InternalsVisibleTo("JsonApiFramework.Core.Tests.NetFramework")]
 [assembly: InternalsVisibleTo("JsonApiFramework.Core.Tests.TestSupport")]

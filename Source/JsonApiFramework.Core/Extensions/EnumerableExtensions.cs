@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 // ReSharper disable CheckNamespace
 namespace JsonApiFramework
@@ -102,32 +101,17 @@ namespace JsonApiFramework
         }
 
         /// <summary> 
-        /// Aggregates all the collection items representations as a string (via ToString)
-        /// into a single delimited list represented as a single string.
+        /// Joins all the collection items representations as strings (via ToString)
+        /// into a single string with respect to the given delimiter even if the collection is null.
+        /// 
+        /// If the source collection is null, returns an empty string.
         /// </summary>
-        /// <returns></returns>
         public static string SafeToDelimitedString<T>(this IEnumerable<T> source, string delimiter)
         {
             if (source == null)
                 return String.Empty;
 
-            var sourceAsList = source.ToList();
-            if (sourceAsList.Count == 0)
-                return String.Empty;
-            if (sourceAsList.Count == 1)
-                return sourceAsList.First().SafeToString();
-
-            var delimitedString = sourceAsList
-                .EmptyIfNull()
-                .Select(x => x.SafeToString())
-                .Aggregate((current, next) =>
-                    {
-                        var stringBuilder = new StringBuilder();
-                        stringBuilder.Append(current);
-                        stringBuilder.Append(delimiter);
-                        stringBuilder.Append(next);
-                        return stringBuilder.ToString();
-                    });
+            var delimitedString = String.Join(delimiter, source);
             return delimitedString;
         }
         #endregion

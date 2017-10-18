@@ -5,18 +5,23 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Net;
 
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api error object.</summary>
-    public class Error
-        : IGetLinks
+    [JsonConverter(typeof(ErrorConverter))]
+    public class Error : JsonObject
+        , IGetLinks
         , IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public Error(string id,
                      Links links,
-                     HttpStatusCode status,
+                     HttpStatusCode? status,
                      string code,
                      string title,
                      string detail,
@@ -25,7 +30,7 @@ namespace JsonApiFramework.JsonApi
         {
             this.Id = GetOrCreateId(id);
             this.Links = links;
-            this.Status = ((int)status).ToString();
+            this.Status = status;
             this.Code = code;
             this.Title = title;
             this.Detail = detail;
@@ -38,7 +43,7 @@ namespace JsonApiFramework.JsonApi
         #region JSON Properties
         public string Id { get; }
         public Links Links { get; }
-        public string Status { get; }
+        public HttpStatusCode? Status { get; }
         public string Code { get; }
         public string Title { get; }
         public string Detail { get; }
@@ -48,29 +53,12 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////
         #region Conversion Operators
-        public static implicit operator Error(ErrorException errorException)
-        {
-            Contract.Requires(errorException != null);
-
-            var id = errorException.Id;
-            var links = errorException.Links;
-            var status = errorException.Status;
-            var code = errorException.Code;
-            var title = errorException.Title;
-            var detail = errorException.Detail;
-            var source = errorException.ErrorSource;
-            var meta = errorException.Meta;
-
-            var error = new Error(id, links, status, code, title, detail, source, meta);
-            return error;
-        }
-
         public static implicit operator Error(Exception exception)
         {
             Contract.Requires(exception != null);
 
             var id = CreateId();
-            var status = HttpStatusCode.InternalServerError;
+            const HttpStatusCode status = HttpStatusCode.InternalServerError;
             var title = exception.GetType().Name;
             var detail = exception.Message;
 
@@ -83,12 +71,8 @@ namespace JsonApiFramework.JsonApi
         #region Object Overrides
         public override string ToString()
         {
-            return "{0} [id={1} status={2} code={3} title={4}]".FormatWith(
-                TypeName,
-                this.Id,
-                this.Status,
-                this.Code,
-                this.Title);
+            var json = this.ToJson();
+            return json;
         }
         #endregion
 
@@ -102,13 +86,8 @@ namespace JsonApiFramework.JsonApi
 
         public static string GetOrCreateId(string id)
         {
-            return !String.IsNullOrWhiteSpace(id) ? id : CreateId();
+            return String.IsNullOrWhiteSpace(id) ? CreateId() : id;
         }
-        #endregion
-
-        // PRIVATE FIELDS ///////////////////////////////////////////////////
-        #region Fields
-        private static readonly string TypeName = typeof(Error).Name;
         #endregion
     }
 }

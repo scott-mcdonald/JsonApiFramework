@@ -28,15 +28,15 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Links:
+                    case ApiPropertyType.Links:
                         this.DomLinks = domProperty;
                         break;
 
-                    case PropertyType.Data:
+                    case ApiPropertyType.Data:
                         this.DomData = domProperty;
                         break;
 
-                    case PropertyType.Meta:
+                    case ApiPropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
@@ -51,8 +51,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region IDomRelationship Implementation
         public RelationshipType ApiRelationshipType
         {
-            get { return this.GetAttributeValue<RelationshipType>(ApiRelationshipTypeAttributeName); }
-            private set { this.SetAttributeValue(ApiRelationshipTypeAttributeName, value); }
+            get => this.GetAttributeValue<RelationshipType>(ApiRelationshipTypeAttributeName);
+            private set => this.SetAttributeValue(ApiRelationshipTypeAttributeName, value);
         }
 
         public IDomProperty DomLinks { get; }

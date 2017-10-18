@@ -85,12 +85,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithTypeAndIdAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
                                 new DomResourceIdentifier(
-                                    new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                    new DomProperty(PropertyType.Meta, "meta")),
+                                    new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                    new DomProperty(ApiPropertyType.Meta, "meta")),
                                 new DomResourceIdentifier(
-                                    new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42"))),
+                                    new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42"))),
 @"{
   ""type"": ""articles"",
   ""id"": ""42""
@@ -106,9 +106,9 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithTypeAndIdAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
                                 new DomResourceIdentifier(
-                                    new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                    new DomProperty(PropertyType.Meta, "meta")),
+                                    new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                    new DomProperty(ApiPropertyType.Meta, "meta")),
 @"{
   ""type"": ""articles"",
   ""id"": ""42"",
@@ -122,12 +122,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomResourceIdentifier>(x),
                             x => new DomJsonDeserializeUnitTest<IDomResourceIdentifier>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithVersionAndMeta",
+                                "WithTypeAndIdAndAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomResourceIdentifier(
-                                    new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
+                                    new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("version", new DomValue<string>("2.0"))))),
 @"{
   ""type"": ""articles"",

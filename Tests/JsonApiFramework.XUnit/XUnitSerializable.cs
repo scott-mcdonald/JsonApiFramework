@@ -1,3 +1,6 @@
+// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+
 using System;
 using System.Diagnostics.Contracts;
 
@@ -14,12 +17,12 @@ namespace JsonApiFramework.XUnit
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IXunitSerializable Implementation
-        public void Deserialize(IXunitSerializationInfo info)
+        public virtual void Deserialize(IXunitSerializationInfo info)
         {
             this.Name = info.GetValue<string>(nameof(this.Name));
         }
 
-        public void Serialize(IXunitSerializationInfo info)
+        public virtual void Serialize(IXunitSerializationInfo info)
         {
             info.AddValue(nameof(this.Name), this.Name, typeof(string));
         }

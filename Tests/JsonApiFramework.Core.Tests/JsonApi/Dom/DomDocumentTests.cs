@@ -91,11 +91,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
-                                new DomDocument(DocumentType.Document),
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                new DomDocument(ApiDocumentType.Document),
 @"{}"))
                     },
 
@@ -107,10 +107,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links")),
 @"{
   ""jsonapi"": null,
   ""meta"": null,
@@ -126,16 +126,16 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndJsonApiAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0"))))),
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0"))))),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -151,12 +151,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndJsonApiAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -174,11 +174,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndJsonApiAndMetaAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright",
@@ -186,12 +186,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(PropertyType.Links, "links")),
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                    new DomProperty(ApiPropertyType.Links, "links")),
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright",
@@ -223,11 +223,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndJsonApiAndMetaAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright",
@@ -235,7 +235,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(PropertyType.Links, "links")),
+                                    new DomProperty(ApiPropertyType.Links, "links")),
 @"{
   ""jsonapi"": {
     ""version"": ""1.0""
@@ -261,11 +261,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithDocumentAndJsonApiAndMetaAndLinks",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.Document,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.Document,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Meta, "meta", new DomObject(
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Meta, "meta", new DomObject(
                                         new DomProperty("is-public", new DomValue<bool>(true)),
                                         new DomProperty("version", new DomValue<decimal>(2.1m)),
                                         new DomProperty("copyright",
@@ -273,14 +273,14 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                         new DomProperty("authors", new DomArray(
                                             new DomItem(0, new DomValue<string>("John Doe")),
                                             new DomItem(1, new DomValue<string>("Jane Doe")))))),
-                                    new DomProperty(PropertyType.Links, "links", new DomLinks(
-                                        new DomProperty(PropertyType.Link, "up",
+                                    new DomProperty(ApiPropertyType.Links, "links", new DomLinks(
+                                        new DomProperty(ApiPropertyType.Link, "up",
                                             new DomLink(
-                                                new DomProperty(PropertyType.HRef, "href",
+                                                new DomProperty(ApiPropertyType.HRef, "href",
                                                     new DomValue<string>("https://api.example.com/articles")))),
-                                        new DomProperty(PropertyType.Link, "self",
+                                        new DomProperty(ApiPropertyType.Link, "self",
                                             new DomLink(
-                                                new DomProperty(PropertyType.HRef, "href",
+                                                new DomProperty(ApiPropertyType.HRef, "href",
                                                     new DomValue<string>("https://api.example.com/articles/42"))))))),
 @"{
   ""jsonapi"": {
@@ -303,22 +303,22 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                     },
                 #endregion
 
-                #region Resource Document
+                #region Data Document
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceDocumentAndNullResourceAndIgnoreNull",
+                                "WithDataDocumentAndNullDataAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.ResourceDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
-                                new DomDocument(DocumentType.NullDocument,
-                                    new DomProperty(PropertyType.Data, "data")),
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Data, "data")),
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.Data, "data")),
 @"{
   ""data"": null
 }"))
@@ -330,18 +330,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceDocumentAndNullResourceAndIncludeNull",
+                                "WithDataDocumentAndNullDataAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.ResourceDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
-                                new DomDocument(DocumentType.NullDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Data, "data")),
 @"{
   ""jsonapi"": null,
   ""meta"": null,
@@ -356,52 +351,52 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceDocumentAndArticleResource",
+                                "WithDataDocumentAndArticleResource",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>("https://api.example.com/articles/42")))))),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResource(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                            new DomProperty(PropertyType.Attributes, "attributes",
+                                    new DomProperty(ApiPropertyType.Data, "data",
+                                        new DomData(
+                                            new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                            new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                            new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                 new DomObject(
                                                     new DomProperty("title",
                                                         new DomValue<string>("JSON API paints my bikeshed!")))),
-                                            new DomProperty(PropertyType.Relationships, "relationships",
+                                            new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                 new DomRelationships(
-                                                    new DomProperty(PropertyType.Relationship, "author",
+                                                    new DomProperty(ApiPropertyType.Relationship, "author",
                                                         new DomRelationship(RelationshipType.Relationship,
-                                                            new DomProperty(PropertyType.Links, "links",
+                                                            new DomProperty(ApiPropertyType.Links, "links",
                                                                 new DomLinks(
-                                                                    new DomProperty(PropertyType.Link, "related",
-                                                                        new DomLink(new DomProperty(PropertyType.HRef,
+                                                                    new DomProperty(ApiPropertyType.Link, "related",
+                                                                        new DomLink(new DomProperty(ApiPropertyType.HRef,
                                                                             "href",
                                                                             new DomValue<string>(
                                                                                 "https://api.example.com/articles/42/author")))))))),
-                                                    new DomProperty(PropertyType.Relationship, "comments",
+                                                    new DomProperty(ApiPropertyType.Relationship, "comments",
                                                         new DomRelationship(RelationshipType.Relationship,
-                                                            new DomProperty(PropertyType.Links, "links",
+                                                            new DomProperty(ApiPropertyType.Links, "links",
                                                                 new DomLinks(
-                                                                    new DomProperty(PropertyType.Link, "related",
-                                                                        new DomLink(new DomProperty(PropertyType.HRef,
+                                                                    new DomProperty(ApiPropertyType.Link, "related",
+                                                                        new DomLink(new DomProperty(ApiPropertyType.HRef,
                                                                             "href",
                                                                             new DomValue<string>(
                                                                                 "https://api.example.com/articles/42/comments"))))))))
                                                 )),
-                                            new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Links, "links",
                                                 new DomLinks(
-                                                    new DomProperty(PropertyType.Link, "self",
+                                                    new DomProperty(ApiPropertyType.Link, "self",
                                                         new DomLink(
-                                                            new DomProperty(PropertyType.HRef, "href",
+                                                            new DomProperty(ApiPropertyType.HRef, "href",
                                                                 new DomValue<string>(
                                                                     "https://api.example.com/articles/42"))))))))),
 @"{
@@ -442,144 +437,144 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceDocumentAndArticleResourceAndIncludedResources",
+                                "WithDataDocumentAndArticleResourceAndIncludedResources",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>("https://api.example.com/articles/42")))))),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResource(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("articles")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                            new DomProperty(PropertyType.Attributes, "attributes",
+                                    new DomProperty(ApiPropertyType.Data, "data",
+                                        new DomData(
+                                            new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("articles")),
+                                            new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                            new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                 new DomObject(
                                                     new DomProperty("title",
                                                         new DomValue<string>("JSON API paints my bikeshed!")))),
-                                            new DomProperty(PropertyType.Relationships, "relationships",
+                                            new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                 new DomRelationships(
-                                                    new DomProperty(PropertyType.Relationship, "author",
+                                                    new DomProperty(ApiPropertyType.Relationship, "author",
                                                         new DomRelationship(RelationshipType.ToOneRelationship,
-                                                            new DomProperty(PropertyType.Links, "links",
+                                                            new DomProperty(ApiPropertyType.Links, "links",
                                                                 new DomLinks(
-                                                                    new DomProperty(PropertyType.Link, "related",
-                                                                        new DomLink(new DomProperty(PropertyType.HRef,
+                                                                    new DomProperty(ApiPropertyType.Link, "related",
+                                                                        new DomLink(new DomProperty(ApiPropertyType.HRef,
                                                                             "href",
                                                                             new DomValue<string>(
                                                                                 "https://api.example.com/articles/42/author")))))),
-                                                            new DomProperty(PropertyType.Data, "data",
+                                                            new DomProperty(ApiPropertyType.Data, "data",
                                                                 new DomResourceIdentifier(
-                                                                    new DomProperty(PropertyType.Type, "type",
+                                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                                         new DomValue<string>("people")),
-                                                                    new DomProperty(PropertyType.Id, "id",
+                                                                    new DomProperty(ApiPropertyType.Id, "id",
                                                                         new DomValue<string>("42")))))),
-                                                    new DomProperty(PropertyType.Relationship, "comments",
+                                                    new DomProperty(ApiPropertyType.Relationship, "comments",
                                                         new DomRelationship(RelationshipType.ToManyRelationship,
-                                                            new DomProperty(PropertyType.Links, "links",
+                                                            new DomProperty(ApiPropertyType.Links, "links",
                                                                 new DomLinks(
-                                                                    new DomProperty(PropertyType.Link, "related",
-                                                                        new DomLink(new DomProperty(PropertyType.HRef,
+                                                                    new DomProperty(ApiPropertyType.Link, "related",
+                                                                        new DomLink(new DomProperty(ApiPropertyType.HRef,
                                                                             "href",
                                                                             new DomValue<string>(
                                                                                 "https://api.example.com/articles/42/comments")))))),
-                                                            new DomProperty(PropertyType.Data, "data",
+                                                            new DomProperty(ApiPropertyType.Data, "data",
                                                                 new DomArray(
                                                                     new DomItem(0,
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("comments")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("68")))),
                                                                     new DomItem(1,
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("comments")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("86"))))))))
                                                 )),
-                                            new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Links, "links",
                                                 new DomLinks(
-                                                    new DomProperty(PropertyType.Link, "self",
+                                                    new DomProperty(ApiPropertyType.Link, "self",
                                                         new DomLink(
-                                                            new DomProperty(PropertyType.HRef, "href",
+                                                            new DomProperty(ApiPropertyType.HRef, "href",
                                                                 new DomValue<string>(
                                                                     "https://api.example.com/articles/42")))))))),
-                                    new DomProperty(PropertyType.Included, "included",
+                                    new DomProperty(ApiPropertyType.Included, "included",
                                         new DomArray(
                                             new DomItem(0,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("people")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("first-name", new DomValue<string>("Scott")),
                                                             new DomProperty("last-name",
                                                                 new DomValue<string>("McDonald")),
                                                             new DomProperty("twitter", new DomValue<string>("smcdonald")))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/people/42")))))))),
                                             new DomItem(1,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("68")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("68")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>("My first comment.")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("2")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/68")))))))),
                                             new DomItem(2,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("86")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("86")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>("I like C# better.")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("42")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/86"))))))))))),
 @"{
@@ -677,25 +672,62 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
   ]
 }"))
                     },
-                #endregion
 
-                #region Resource Collection Document
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceCollectionDocumentAndEmptyCollectionAndIgnoreNull",
+                                "WithDataDocumentAndPersonResourceIdentifier",
+                                TestJsonSerializerSettings,
+                                new DomDocument(ApiDocumentType.DataDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
+                                        new DomJsonApi(
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
+                                        new DomLinks(
+                                            new DomProperty(ApiPropertyType.Link, "self",
+                                                new DomLink(
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
+                                                        new DomValue<string>(
+                                                            "https://api.example.com/articles/42/relationships/author")))))),
+                                    new DomProperty(ApiPropertyType.Data, "data",
+                                        new DomData(
+                                            new DomProperty(ApiPropertyType.Type, "type", new DomValue<string>("people")),
+                                            new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("24"))))),
+@"{
+  ""jsonapi"": {
+    ""version"": ""1.0""
+  },
+  ""links"": {
+    ""self"": ""https://api.example.com/articles/42/relationships/author""
+  },
+  ""data"": {
+    ""type"": ""people"",
+    ""id"": ""24""
+  }
+}"))
+                    },
+                #endregion
+
+                #region Data Collection Document
+                new object[]
+                    {
+                        new DomJsonSerializationUnitTestFactory(
+                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
+                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
+                            new DomJsonSerializationUnitTestData(
+                                "WithDataCollectionDocumentAndEmptyCollectionAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.ResourceCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray())),
-                                new DomDocument(DocumentType.EmptyDocument,
-                                    new DomProperty(PropertyType.Data, "data",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray())),
 @"{
   ""data"": []
@@ -708,19 +740,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceCollectionDocumentAndEmptyCollectionAndIncludeNull",
+                                "WithDataCollectionDocumentAndEmptyCollectionAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.ResourceCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomArray())),
-                                new DomDocument(DocumentType.EmptyDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray())),
 @"{
   ""jsonapi"": null,
@@ -736,96 +762,96 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceCollectionDocumentAndArticleResources",
+                                "WithDataCollectionDocumentAndArticleResources",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>("https://api.example.com/articles")))))),
-                                    new DomProperty(PropertyType.Data, "data",
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("articles")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("24")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("24")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("title",
                                                                 new DomValue<string>("JSON API paints my bikeshed!")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.Relationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/24/author")))))))),
-                                                            new DomProperty(PropertyType.Relationship, "comments",
+                                                            new DomProperty(ApiPropertyType.Relationship, "comments",
                                                                 new DomRelationship(RelationshipType.Relationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/24/comments"))))))))
                                                         )),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/articles/24")))))))),
                                             new DomItem(1,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("articles")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("title",
                                                                 new DomValue<string>("JSON API paints my house!")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.Relationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/42/author")))))))),
-                                                            new DomProperty(PropertyType.Relationship, "comments",
+                                                            new DomProperty(ApiPropertyType.Relationship, "comments",
                                                                 new DomRelationship(RelationshipType.Relationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/42/comments"))))))))
                                                         )),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/articles/42"))))))))))),
 @"{
@@ -890,284 +916,284 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceCollectionDocumentAndArticleResourcesAndIncludedResources",
+                                "WithDataCollectionDocumentAndArticleResourcesAndIncludedResources",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>("https://api.example.com/articles")))))),
-                                    new DomProperty(PropertyType.Data, "data",
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("articles")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("24")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("24")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("title",
                                                                 new DomValue<string>("JSON API paints my bikeshed!")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/24/author")))))),
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("1")))))),
-                                                            new DomProperty(PropertyType.Relationship, "comments",
+                                                            new DomProperty(ApiPropertyType.Relationship, "comments",
                                                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/24/comments")))))),
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomArray(
                                                                             new DomItem(0,
                                                                                 new DomResourceIdentifier(
-                                                                                    new DomProperty(PropertyType.Type,
+                                                                                    new DomProperty(ApiPropertyType.Type,
                                                                                         "type",
                                                                                         new DomValue<string>("comments")),
-                                                                                    new DomProperty(PropertyType.Id,
+                                                                                    new DomProperty(ApiPropertyType.Id,
                                                                                         "id",
                                                                                         new DomValue<string>("100")))),
                                                                             new DomItem(1,
                                                                                 new DomResourceIdentifier(
-                                                                                    new DomProperty(PropertyType.Type,
+                                                                                    new DomProperty(ApiPropertyType.Type,
                                                                                         "type",
                                                                                         new DomValue<string>("comments")),
-                                                                                    new DomProperty(PropertyType.Id,
+                                                                                    new DomProperty(ApiPropertyType.Id,
                                                                                         "id",
                                                                                         new DomValue<string>("101")))))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/articles/24")))))))),
                                             new DomItem(1,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("articles")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("42")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("42")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("title",
                                                                 new DomValue<string>("JSON API paints my house!")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/42/author")))))),
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("2")))))),
-                                                            new DomProperty(PropertyType.Relationship, "comments",
+                                                            new DomProperty(ApiPropertyType.Relationship, "comments",
                                                                 new DomRelationship(RelationshipType.ToManyRelationship,
-                                                                    new DomProperty(PropertyType.Links, "links",
+                                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                                         new DomLinks(
-                                                                            new DomProperty(PropertyType.Link, "related",
+                                                                            new DomProperty(ApiPropertyType.Link, "related",
                                                                                 new DomLink(
-                                                                                    new DomProperty(PropertyType.HRef,
+                                                                                    new DomProperty(ApiPropertyType.HRef,
                                                                                         "href",
                                                                                         new DomValue<string>(
                                                                                             "https://api.example.com/articles/42/comments")))))),
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomArray(
                                                                             new DomItem(0,
                                                                                 new DomResourceIdentifier(
-                                                                                    new DomProperty(PropertyType.Type,
+                                                                                    new DomProperty(ApiPropertyType.Type,
                                                                                         "type",
                                                                                         new DomValue<string>("comments")),
-                                                                                    new DomProperty(PropertyType.Id,
+                                                                                    new DomProperty(ApiPropertyType.Id,
                                                                                         "id",
                                                                                         new DomValue<string>("200")))),
                                                                             new DomItem(1,
                                                                                 new DomResourceIdentifier(
-                                                                                    new DomProperty(PropertyType.Type,
+                                                                                    new DomProperty(ApiPropertyType.Type,
                                                                                         "type",
                                                                                         new DomValue<string>("comments")),
-                                                                                    new DomProperty(PropertyType.Id,
+                                                                                    new DomProperty(ApiPropertyType.Id,
                                                                                         "id",
                                                                                         new DomValue<string>("201")))))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/articles/42")))))))))),
-                                    new DomProperty(PropertyType.Included, "included",
+                                    new DomProperty(ApiPropertyType.Included, "included",
                                         new DomArray(
                                             new DomItem(0,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("people")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("1")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("1")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("first-name", new DomValue<string>("John")),
                                                             new DomProperty("last-name", new DomValue<string>("Doe")),
                                                             new DomProperty("twitter", new DomValue<string>("johndoe")))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/people/1")))))))),
                                             new DomItem(1,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("people")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("2")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("2")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("first-name", new DomValue<string>("Jane")),
                                                             new DomProperty("last-name", new DomValue<string>("doe")),
                                                             new DomProperty("twitter", new DomValue<string>("janedoe")))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/people/2")))))))),
 
                                             new DomItem(2,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("100")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("100")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>("What is a bikeshed?")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("10")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/100")))))))),
                                             new DomItem(3,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("101")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("101")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>(
                                                                     "What color would you paint the bikeshed?")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("10")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/101")))))))),
                                             new DomItem(4,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("200")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("200")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>("JSON API rocks!")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("20")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/200")))))))),
                                             new DomItem(5,
-                                                new DomResource(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("201")),
-                                                    new DomProperty(PropertyType.Attributes, "attributes",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("201")),
+                                                    new DomProperty(ApiPropertyType.Attributes, "attributes",
                                                         new DomObject(
                                                             new DomProperty("body",
                                                                 new DomValue<string>("JsonApiFramework kicks ass...")))),
-                                                    new DomProperty(PropertyType.Relationships, "relationships",
+                                                    new DomProperty(ApiPropertyType.Relationships, "relationships",
                                                         new DomRelationships(
-                                                            new DomProperty(PropertyType.Relationship, "author",
+                                                            new DomProperty(ApiPropertyType.Relationship, "author",
                                                                 new DomRelationship(RelationshipType.ToOneRelationship,
-                                                                    new DomProperty(PropertyType.Data, "data",
+                                                                    new DomProperty(ApiPropertyType.Data, "data",
                                                                         new DomResourceIdentifier(
-                                                                            new DomProperty(PropertyType.Type, "type",
+                                                                            new DomProperty(ApiPropertyType.Type, "type",
                                                                                 new DomValue<string>("people")),
-                                                                            new DomProperty(PropertyType.Id, "id",
+                                                                            new DomProperty(ApiPropertyType.Id, "id",
                                                                                 new DomValue<string>("20")))))))),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "self",
+                                                            new DomProperty(ApiPropertyType.Link, "self",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                                         new DomValue<string>(
                                                                             "https://api.example.com/comments/201"))))))))))),
 @"{
@@ -1352,171 +1378,37 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 }"))
                     },
 
-                #endregion
-
-                #region Resource Identifier Document
                 new object[]
                     {
                         new DomJsonSerializationUnitTestFactory(
                             x => new DomJsonSerializeUnitTest<IDomDocument>(x),
                             x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
                             new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierDocumentAndNullResourceIdentifierAndIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.ResourceIdentifierDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
-                                new DomDocument(DocumentType.NullDocument,
-                                    new DomProperty(PropertyType.Data, "data")),
-@"{
-  ""data"": null
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierDocumentAndNullResourceIdentifierAndIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.ResourceIdentifierDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
-                                new DomDocument(DocumentType.NullDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data")),
-@"{
-  ""jsonapi"": null,
-  ""meta"": null,
-  ""links"": null,
-  ""data"": null
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierDocumentAndPersonResourceIdentifier",
+                                "WithDataCollectionDocumentAndCommentResourceIdentifiers",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceIdentifierDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.DataCollectionDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
-                                                        new DomValue<string>(
-                                                            "https://api.example.com/articles/42/relationships/author")))))),
-                                    new DomProperty(PropertyType.Data, "data",
-                                        new DomResourceIdentifier(
-                                            new DomProperty(PropertyType.Type, "type", new DomValue<string>("people")),
-                                            new DomProperty(PropertyType.Id, "id", new DomValue<string>("24"))))),
-@"{
-  ""jsonapi"": {
-    ""version"": ""1.0""
-  },
-  ""links"": {
-    ""self"": ""https://api.example.com/articles/42/relationships/author""
-  },
-  ""data"": {
-    ""type"": ""people"",
-    ""id"": ""24""
-  }
-}"))
-                    },
-                #endregion
-
-                #region Resource Identifier Collection Document
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierCollectionDocumentAndEmptyResourceIdentifiersAndIgnoreNull",
-                                TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.ResourceIdentifierCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data", new DomArray())),
-                                new DomDocument(DocumentType.EmptyDocument,
-                                    new DomProperty(PropertyType.Data, "data", new DomArray())),
-@"{
-  ""data"": []
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierCollectionDocumentAndEmptyResourceIdentifiersAndIncludeNull",
-                                TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.ResourceIdentifierCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data", new DomArray())),
-                                new DomDocument(DocumentType.EmptyDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Data, "data", new DomArray())),
-@"{
-  ""jsonapi"": null,
-  ""meta"": null,
-  ""links"": null,
-  ""data"": []
-}"))
-                    },
-
-                new object[]
-                    {
-                        new DomJsonSerializationUnitTestFactory(
-                            x => new DomJsonSerializeUnitTest<IDomDocument>(x),
-                            x => new DomJsonDeserializeUnitTest<IDomDocument>(x),
-                            new DomJsonSerializationUnitTestData(
-                                "WithResourceIdentifierCollectionDocumentAndCommentResourceIdentifiers",
-                                TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ResourceIdentifierCollectionDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
-                                        new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
-                                        new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
-                                                new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>(
                                                             "https://api.example.com/articles/42/relationships/comments")))))),
-                                    new DomProperty(PropertyType.Data, "data",
+                                    new DomProperty(ApiPropertyType.Data, "data",
                                         new DomArray(
                                             new DomItem(0,
-                                                new DomResourceIdentifier(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("200")))),
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("200")))),
                                             new DomItem(1,
-                                                new DomResourceIdentifier(
-                                                    new DomProperty(PropertyType.Type, "type",
+                                                new DomData(
+                                                    new DomProperty(ApiPropertyType.Type, "type",
                                                         new DomValue<string>("comments")),
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("201")))))
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("201")))))
                                     )),
 @"{
   ""jsonapi"": {
@@ -1548,13 +1440,13 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithErrorsDocumentAndEmptyCollectionAndIgnoreNull",
                                 TestJsonSerializerSettingsIgnoreNull,
-                                new DomDocument(DocumentType.ErrorsDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Errors, "errors", new DomArray())),
-                                new DomDocument(DocumentType.ErrorsDocument,
-                                    new DomProperty(PropertyType.Errors, "errors", new DomArray())),
+                                new DomDocument(ApiDocumentType.ErrorsDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Errors, "errors", new DomArray())),
+                                new DomDocument(ApiDocumentType.ErrorsDocument,
+                                    new DomProperty(ApiPropertyType.Errors, "errors", new DomArray())),
 @"{
   ""errors"": []
 }"))
@@ -1568,11 +1460,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithErrorsDocumentAndEmptyCollectionAndIncludeNull",
                                 TestJsonSerializerSettingsIncludeNull,
-                                new DomDocument(DocumentType.ErrorsDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi"),
-                                    new DomProperty(PropertyType.Meta, "meta"),
-                                    new DomProperty(PropertyType.Links, "links"),
-                                    new DomProperty(PropertyType.Errors, "errors", new DomArray())),
+                                new DomDocument(ApiDocumentType.ErrorsDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi"),
+                                    new DomProperty(ApiPropertyType.Meta, "meta"),
+                                    new DomProperty(ApiPropertyType.Links, "links"),
+                                    new DomProperty(ApiPropertyType.Errors, "errors", new DomArray())),
 @"{
   ""jsonapi"": null,
   ""meta"": null,
@@ -1589,35 +1481,35 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithErrorsDocumentAnd1ErrorObjects",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ErrorsDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.ErrorsDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>(
                                                             "https://api.example.com/articles")))))),
-                                    new DomProperty(PropertyType.Errors, "errors",
+                                    new DomProperty(ApiPropertyType.Errors, "errors",
                                         new DomArray(
                                             new DomItem(0,
                                                 new DomError(
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2")),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2")),
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "about",
+                                                            new DomProperty(ApiPropertyType.Link, "about",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/first-name-minimum-requirement")))))),
-                                                    new DomProperty(PropertyType.Status, "status", new DomValue<string>("422")),
-                                                    new DomProperty(PropertyType.Code, "code", new DomValue<string>("24")),
-                                                    new DomProperty(PropertyType.Title, "title", new DomValue<string>("Invalid Attribute")),
-                                                    new DomProperty(PropertyType.Detail, "detail", new DomValue<string>("First name must contain at least three characters.")),
-                                                    new DomProperty(PropertyType.Source, "source",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/first-name-minimum-requirement")))))),
+                                                    new DomProperty(ApiPropertyType.Status, "status", new DomValue<string>("422")),
+                                                    new DomProperty(ApiPropertyType.Code, "code", new DomValue<string>("24")),
+                                                    new DomProperty(ApiPropertyType.Title, "title", new DomValue<string>("Invalid Attribute")),
+                                                    new DomProperty(ApiPropertyType.Detail, "detail", new DomValue<string>("First name must contain at least three characters.")),
+                                                    new DomProperty(ApiPropertyType.Source, "source",
                                                         new DomObject(
                                                             new DomProperty("pointer", new DomValue<string>("/data/attributes/first-name")))),
-                                                    new DomProperty(PropertyType.Meta, "meta",
+                                                    new DomProperty(ApiPropertyType.Meta, "meta",
                                                         new DomObject(
                                                             new DomProperty("stack-trace", new DomValue<string>("Foo.Method1 line 42\nFoo.Method2 line 24\nBar.Method1 line 86\nBar.Method2 line 68"))))))))),
 @"{
@@ -1656,53 +1548,53 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                             new DomJsonSerializationUnitTestData(
                                 "WithErrorsDocumentAnd2ErrorObjects",
                                 TestJsonSerializerSettings,
-                                new DomDocument(DocumentType.ErrorsDocument,
-                                    new DomProperty(PropertyType.JsonApi, "jsonapi",
+                                new DomDocument(ApiDocumentType.ErrorsDocument,
+                                    new DomProperty(ApiPropertyType.JsonApi, "jsonapi",
                                         new DomJsonApi(
-                                            new DomProperty(PropertyType.Version, "version", new DomValue<string>("1.0")))),
-                                    new DomProperty(PropertyType.Links, "links",
+                                            new DomProperty(ApiPropertyType.Version, "version", new DomValue<string>("1.0")))),
+                                    new DomProperty(ApiPropertyType.Links, "links",
                                         new DomLinks(
-                                            new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.Link, "self",
                                                 new DomLink(
-                                                    new DomProperty(PropertyType.HRef, "href",
+                                                    new DomProperty(ApiPropertyType.HRef, "href",
                                                         new DomValue<string>(
                                                             "https://api.example.com/articles?include=author")))))),
-                                    new DomProperty(PropertyType.Errors, "errors",
+                                    new DomProperty(ApiPropertyType.Errors, "errors",
                                         new DomArray(
                                             new DomItem(0,
                                                 new DomError(
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2")),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2")),
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "about",
+                                                            new DomProperty(ApiPropertyType.Link, "about",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/first-name-minimum-requirement")))))),
-                                                    new DomProperty(PropertyType.Status, "status", new DomValue<string>("422")),
-                                                    new DomProperty(PropertyType.Code, "code", new DomValue<string>("24")),
-                                                    new DomProperty(PropertyType.Title, "title", new DomValue<string>("Invalid Attribute")),
-                                                    new DomProperty(PropertyType.Detail, "detail", new DomValue<string>("First name must contain at least three characters.")),
-                                                    new DomProperty(PropertyType.Source, "source",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/first-name-minimum-requirement")))))),
+                                                    new DomProperty(ApiPropertyType.Status, "status", new DomValue<string>("422")),
+                                                    new DomProperty(ApiPropertyType.Code, "code", new DomValue<string>("24")),
+                                                    new DomProperty(ApiPropertyType.Title, "title", new DomValue<string>("Invalid Attribute")),
+                                                    new DomProperty(ApiPropertyType.Detail, "detail", new DomValue<string>("First name must contain at least three characters.")),
+                                                    new DomProperty(ApiPropertyType.Source, "source",
                                                         new DomObject(
                                                             new DomProperty("pointer", new DomValue<string>("/data/attributes/first-name")))),
-                                                    new DomProperty(PropertyType.Meta, "meta",
+                                                    new DomProperty(ApiPropertyType.Meta, "meta",
                                                         new DomObject(
                                                             new DomProperty("stack-trace", new DomValue<string>("Foo.Method1 line 42\nFoo.Method2 line 24\nBar.Method1 line 86\nBar.Method2 line 68")))))),
                                             new DomItem(1,
                                                 new DomError(
-                                                    new DomProperty(PropertyType.Id, "id", new DomValue<string>("192ca96c-1b36-4721-aa12-110ee9c43958")),
-                                                    new DomProperty(PropertyType.Links, "links",
+                                                    new DomProperty(ApiPropertyType.Id, "id", new DomValue<string>("192ca96c-1b36-4721-aa12-110ee9c43958")),
+                                                    new DomProperty(ApiPropertyType.Links, "links",
                                                         new DomLinks(
-                                                            new DomProperty(PropertyType.Link, "about",
+                                                            new DomProperty(ApiPropertyType.Link, "about",
                                                                 new DomLink(
-                                                                    new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/include-query-parameter")))))),
-                                                    new DomProperty(PropertyType.Status, "status", new DomValue<string>("400")),
-                                                    new DomProperty(PropertyType.Code, "code", new DomValue<string>("42")),
-                                                    new DomProperty(PropertyType.Title, "title", new DomValue<string>("Invalid Query Parameter")),
-                                                    new DomProperty(PropertyType.Detail, "detail", new DomValue<string>("The resource does not have an `author` relationship path.")),
-                                                    new DomProperty(PropertyType.Source, "source",
+                                                                    new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/about/include-query-parameter")))))),
+                                                    new DomProperty(ApiPropertyType.Status, "status", new DomValue<string>("400")),
+                                                    new DomProperty(ApiPropertyType.Code, "code", new DomValue<string>("42")),
+                                                    new DomProperty(ApiPropertyType.Title, "title", new DomValue<string>("Invalid Query Parameter")),
+                                                    new DomProperty(ApiPropertyType.Detail, "detail", new DomValue<string>("The resource does not have an `author` relationship path.")),
+                                                    new DomProperty(ApiPropertyType.Source, "source",
                                                         new DomObject(
                                                             new DomProperty("parameter", new DomValue<string>("include")))),
-                                                    new DomProperty(PropertyType.Meta, "meta",
+                                                    new DomProperty(ApiPropertyType.Meta, "meta",
                                                         new DomObject(
                                                             new DomProperty("stack-trace", new DomValue<string>("Foo.Method12 line 84\nFoo.Method22 line 164\nBar.Method32 line 256\nBar.Method64 line 8"))))))))),
 @"{

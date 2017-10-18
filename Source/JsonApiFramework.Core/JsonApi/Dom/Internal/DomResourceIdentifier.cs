@@ -24,15 +24,15 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.Type:
+                    case ApiPropertyType.Type:
                         this.DomType = domProperty;
                         break;
 
-                    case PropertyType.Id:
+                    case ApiPropertyType.Id:
                         this.DomId = domProperty;
                         break;
 
-                    case PropertyType.Meta:
+                    case ApiPropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 

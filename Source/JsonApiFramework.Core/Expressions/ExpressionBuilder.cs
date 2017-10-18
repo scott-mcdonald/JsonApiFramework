@@ -27,8 +27,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            var callExpression = CreateMethodCallExpression<TObject>(methodName, out instanceExpression);
+            var callExpression = CreateMethodCallExpression<TObject>(methodName, out var instanceExpression);
 
             var lambdaExpression = Expression.Lambda<Func<TObject, TResult>>(callExpression, instanceExpression);
             return lambdaExpression;
@@ -38,9 +37,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            ParameterExpression argumentExpression;
-            var callExpression = CreateMethodCallExpression<TObject, TArgument>(methodName, out instanceExpression, out argumentExpression);
+            var callExpression = CreateMethodCallExpression<TObject, TArgument>(methodName, out var instanceExpression, out var argumentExpression);
 
             var lambdaExpression = Expression.Lambda<Func<TObject, TArgument, TResult>>(callExpression, instanceExpression, argumentExpression);
             return lambdaExpression;
@@ -50,10 +47,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            ParameterExpression argument1Expression;
-            ParameterExpression argument2Expression;
-            var callExpression = CreateMethodCallExpression<TObject, TArgument1, TArgument2>(methodName, out instanceExpression, out argument1Expression, out argument2Expression);
+            var callExpression = CreateMethodCallExpression<TObject, TArgument1, TArgument2>(methodName, out var instanceExpression, out var argument1Expression, out var argument2Expression);
 
             var lambdaExpression = Expression.Lambda<Func<TObject, TArgument1, TArgument2, TResult>>(callExpression, instanceExpression, argument1Expression, argument2Expression);
             return lambdaExpression;
@@ -64,8 +58,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            var callExpression = CreateMethodCallExpression<TObject>(methodName, out instanceExpression);
+            var callExpression = CreateMethodCallExpression<TObject>(methodName, out var instanceExpression);
 
             var lambdaExpression = Expression.Lambda<Action<TObject>>(callExpression, instanceExpression);
             return lambdaExpression;
@@ -75,9 +68,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            ParameterExpression argumentExpression;
-            var callExpression = CreateMethodCallExpression<TObject, TArgument>(methodName, out instanceExpression, out argumentExpression);
+            var callExpression = CreateMethodCallExpression<TObject, TArgument>(methodName, out var instanceExpression, out var argumentExpression);
 
             var lambdaExpression = Expression.Lambda<Action<TObject, TArgument>>(callExpression, instanceExpression, argumentExpression);
             return lambdaExpression;
@@ -87,10 +78,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression instanceExpression;
-            ParameterExpression argument1Expression;
-            ParameterExpression argument2Expression;
-            var callExpression = CreateMethodCallExpression<TObject, TArgument1, TArgument2>(methodName, out instanceExpression, out argument1Expression, out argument2Expression);
+            var callExpression = CreateMethodCallExpression<TObject, TArgument1, TArgument2>(methodName, out var instanceExpression, out var argument1Expression, out var argument2Expression);
 
             var lambdaExpression = Expression.Lambda<Action<TObject, TArgument1, TArgument2>>(callExpression, instanceExpression, argument1Expression, argument2Expression);
             return lambdaExpression;
@@ -111,8 +99,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression argumentExpression;
-            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument>(methodName, out argumentExpression);
+            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument>(methodName, out var argumentExpression);
 
             var lambdaExpression = Expression.Lambda<Func<TArgument, TResult>>(callExpression, argumentExpression);
             return lambdaExpression;
@@ -122,9 +109,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression argument1Expression;
-            ParameterExpression argument2Expression;
-            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument1, TArgument2>(methodName, out argument1Expression, out argument2Expression);
+            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument1, TArgument2>(methodName, out var argument1Expression, out var argument2Expression);
 
             var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TResult>>(callExpression, argument1Expression, argument2Expression);
             return lambdaExpression;
@@ -145,8 +130,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression argumentExpression;
-            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument>(methodName, out argumentExpression);
+            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument>(methodName, out var argumentExpression);
 
             var lambdaExpression = Expression.Lambda<Action<TArgument>>(callExpression, argumentExpression);
             return lambdaExpression;
@@ -156,9 +140,7 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            ParameterExpression argument1Expression;
-            ParameterExpression argument2Expression;
-            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument1, TArgument2>(methodName, out argument1Expression, out argument2Expression);
+            var callExpression = CreateStaticMethodCallExpression<TClass, TArgument1, TArgument2>(methodName, out var argument1Expression, out var argument2Expression);
 
             var lambdaExpression = Expression.Lambda<Action<TArgument1, TArgument2>>(callExpression, argument1Expression, argument2Expression);
             return lambdaExpression;

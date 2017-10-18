@@ -13,17 +13,28 @@ namespace JsonApiFramework.Tests.Json
         {
             this.Name = name;
             this.Settings = settings;
-            this.ExpectedObject = expectedObject;
+            this.ExpectedSerializeObject = expectedObject;
+            this.ExpectedDeserializeObject = expectedObject;
+            this.ExpectedJson = expectedJson;
+        }
+
+        public JsonObjectSerializationUnitTestData(string name, JsonSerializerSettings settings, object expectedSerializeObject, object expectedDeserializeObject, string expectedJson)
+        {
+            this.Name = name;
+            this.Settings = settings;
+            this.ExpectedSerializeObject = expectedSerializeObject;
+            this.ExpectedDeserializeObject = expectedDeserializeObject;
             this.ExpectedJson = expectedJson;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////
         #region User Supplied Properties
-        public string Name { get; private set; }
-        public JsonSerializerSettings Settings { get; private set; }
-        public object ExpectedObject { get; private set; }
-        public string ExpectedJson { get; private set; }
+        public string Name { get; }
+        public JsonSerializerSettings Settings { get; }
+        public object ExpectedSerializeObject { get; }
+        public object ExpectedDeserializeObject { get; }
+        public string ExpectedJson { get; }
         #endregion
     }
 }

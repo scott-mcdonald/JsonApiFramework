@@ -62,31 +62,6 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         { throw new NotImplementedException(); }
         #endregion
 
-        //#region AddOrUpdate Methods
-        //public void AddOrUpdateDomNode(ApiType apiType, DomNode newDomNode)
-        //{
-        //    Contract.Requires(newDomNode != null);
-
-        //    var oldDomNode = this.GetDomNode(apiType);
-        //    if (oldDomNode == null)
-        //    {
-        //        this.AddNode(newDomNode);
-        //        return;
-        //    }
-
-        //    this.ReplaceNode(oldDomNode, newDomNode);
-        //}
-        //#endregion
-
-        //#region Get Methods
-        //public DomNode GetDomNode(ApiType apiType)
-        //{
-        //    return this.Nodes()
-        //               .Cast<DomNode>()
-        //               .SingleOrDefault(x => x.ApiType() == apiType);
-        //}
-        //#endregion
-
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
         protected DomNode(DomNodeType type, string name)
@@ -106,11 +81,6 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         {
             this.Type = type;
         }
-        #endregion
-
-        // PROTECTED FIELDS /////////////////////////////////////////////////
-        #region Constants
-        protected static readonly ITypeConverter DefaultTypeConverter = new TypeConverter();
         #endregion
 
         // INTERNAL METHODS /////////////////////////////////////////////////

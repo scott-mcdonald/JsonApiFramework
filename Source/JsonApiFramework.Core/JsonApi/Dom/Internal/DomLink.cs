@@ -27,11 +27,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.HRef:
+                    case ApiPropertyType.HRef:
                         this.DomHRef = domProperty;
                         break;
 
-                    case PropertyType.Meta:
+                    case ApiPropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
@@ -87,7 +87,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             if (this.DomMeta.HasValue())
                 return true;
 
-            var domMetaNullValueHandling = domJsonSerializerSettings.ResolveNullValueHandling(jsonSerializer, PropertyType.Meta);
+            var domMetaNullValueHandling = domJsonSerializerSettings.ResolveNullValueHandling(jsonSerializer, ApiPropertyType.Meta);
             switch (domMetaNullValueHandling)
             {
                 case NullValueHandling.Include:

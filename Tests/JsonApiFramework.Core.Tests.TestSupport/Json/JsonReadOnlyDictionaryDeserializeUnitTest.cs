@@ -19,7 +19,7 @@ namespace JsonApiFramework.Tests.Json
         {
             this.Settings = data.Settings;
             this.SourceJson = data.ExpectedJson;
-            this.ExpectedDictionary = (JsonReadOnlyDictionary<T>)data.ExpectedObject;
+            this.ExpectedDictionary = (JsonReadOnlyDictionary<T>)data.ExpectedDeserializeObject;
         }
         #endregion
 

@@ -84,8 +84,7 @@ namespace JsonApiFramework.Collections
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            int index;
-            if (!this.ReadOnlyDictionary.TryGetValue(key, out index))
+            if (!this.ReadOnlyDictionary.TryGetValue(key, out var index))
             {
                 value = default(TValue);
                 return false;

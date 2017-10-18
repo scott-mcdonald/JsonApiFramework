@@ -4,7 +4,10 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
 using JsonApiFramework.Properties;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
@@ -15,7 +18,9 @@ namespace JsonApiFramework.JsonApi
     /// Resource identity per specification is the "type" and "id" string values paired together
     /// like a compound primary key to uniquely identify a single resource for the ecosystem of resources for a particular system.
     /// </remarks>
-    public class ResourceIdentifier : IEquatable<ResourceIdentifier>
+    [JsonConverter(typeof(ResourceIdentifierConverter))]
+    public class ResourceIdentifier : JsonObject
+        , IEquatable<ResourceIdentifier>
         , IComparable<ResourceIdentifier>
         , IComparable
         , IGetMeta

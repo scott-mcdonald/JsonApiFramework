@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6C2B3A29-6604-43DC-8796-9D4A4D3C9852}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JsonApiFramework.Tests</RootNamespace>
+    <AssemblyName>JsonApiFramework.Core.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.2\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.3.0-beta1-build3642\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.3.0.3642, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.3.0-beta1-build3642\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClockTests.cs" />
+    <Compile Include="Collections\OrderedReadOnlyDictionaryTests.cs" />
+    <Compile Include="Converters\BaseClassConverterTests.cs" />
+    <Compile Include="Converters\BoolConverterTests.cs" />
+    <Compile Include="Converters\ByteArrayConverterTests.cs" />
+    <Compile Include="Converters\ByteConverterTests.cs" />
+    <Compile Include="Converters\CharConverterTests.cs" />
+    <Compile Include="Converters\ConverterTests.cs" />
+    <Compile Include="Converters\DateTimeConverterTests.cs" />
+    <Compile Include="Converters\DateTimeOffsetConverterTests.cs" />
+    <Compile Include="Converters\DecimalConverterTests.cs" />
+    <Compile Include="Converters\DerivedClassConverterTests.cs" />
+    <Compile Include="Converters\DoubleConverterTests.cs" />
+    <Compile Include="Converters\EnumConverterTests.cs" />
+    <Compile Include="Converters\FloatConverterTests.cs" />
+    <Compile Include="Converters\GuidConverterTests.cs" />
+    <Compile Include="Converters\IntConverterTests.cs" />
+    <Compile Include="Converters\LongConverterTests.cs" />
+    <Compile Include="Converters\NullableBoolConverterTests.cs" />
+    <Compile Include="Converters\NullableByteConverterTests.cs" />
+    <Compile Include="Converters\NullableCharConverterTests.cs" />
+    <Compile Include="Converters\NullableDateTimeConverterTests.cs" />
+    <Compile Include="Converters\NullableDateTimeOffsetConverterTests.cs" />
+    <Compile Include="Converters\NullableDecimalConverterTests.cs" />
+    <Compile Include="Converters\NullableDoubleConverterTests.cs" />
+    <Compile Include="Converters\NullableEnumConverterTests.cs" />
+    <Compile Include="Converters\NullableFloatConverterTests.cs" />
+    <Compile Include="Converters\NullableGuidConverterTests.cs" />
+    <Compile Include="Converters\NullableIntConverterTests.cs" />
+    <Compile Include="Converters\NullableLongConverterTests.cs" />
+    <Compile Include="Converters\NullableSByteConverterTests.cs" />
+    <Compile Include="Converters\NullableShortConverterTests.cs" />
+    <Compile Include="Converters\NullableTimeSpanConverterTests.cs" />
+    <Compile Include="Converters\NullableUIntConverterTests.cs" />
+    <Compile Include="Converters\NullableULongConverterTests.cs" />
+    <Compile Include="Converters\NullableUShortConverterTests.cs" />
+    <Compile Include="Converters\SByteConverterTests.cs" />
+    <Compile Include="Converters\ShortConverterTests.cs" />
+    <Compile Include="Converters\StringConverterTests.cs" />
+    <Compile Include="Converters\TimeSpanConverterTests.cs" />
+    <Compile Include="Converters\TypeConverterTests.cs" />
+    <Compile Include="Converters\UIntConverterTests.cs" />
+    <Compile Include="Converters\ULongConverterTests.cs" />
+    <Compile Include="Converters\UriConverterTests.cs" />
+    <Compile Include="Converters\UShortConverterTests.cs" />
+    <Compile Include="DeepCloneableTests.cs" />
+    <Compile Include="Expressions\ExpressionBuilderTests.cs" />
+    <Compile Include="Extensions\EnumerableTests.cs" />
+    <Compile Include="Extensions\StringTests.cs" />
+    <Compile Include="Extensions\UriTests.cs" />
+    <Compile Include="Http\UrlBuilderTests.cs" />
+    <Compile Include="JsonApi\Dom\DomArrayTests.cs" />
+    <Compile Include="JsonApi\Dom\DomDataTests.cs" />
+    <Compile Include="JsonApi\Dom\DomDocumentTests.cs" />
+    <Compile Include="JsonApi\Dom\DomErrorTests.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonApiTests.cs" />
+    <Compile Include="JsonApi\Dom\DomJsonSerializerSettingsTests.cs" />
+    <Compile Include="JsonApi\Dom\DomLinksTests.cs" />
+    <Compile Include="JsonApi\Dom\DomLinkTests.cs" />
+    <Compile Include="JsonApi\Dom\DomObjectTests.cs" />
+    <Compile Include="JsonApi\Dom\DomRelationshipsTests.cs" />
+    <Compile Include="JsonApi\Dom\DomRelationshipTests.cs" />
+    <Compile Include="JsonApi\Dom\DomResourceIdentifierTests.cs" />
+    <Compile Include="JsonApi\Dom\DomValidationTests.cs" />
+    <Compile Include="JsonApi\Dom\DomValueTests.cs" />
+    <Compile Include="JsonApi\LinksTests.cs" />
+    <Compile Include="JsonApi\LinkTests.cs" />
+    <Compile Include="JsonApi\ErrorSourceTests.cs" />
+    <Compile Include="JsonApi\MetaTests.cs" />
+    <Compile Include="JsonApi\RelationshipsTests.cs" />
+    <Compile Include="JsonApi\ErrorTests.cs" />
+    <Compile Include="JsonApi\RelationshipTests.cs" />
+    <Compile Include="JsonApi\ResourceIdentifierTests.cs" />
+    <Compile Include="Json\JsonObjectTests.cs" />
+    <Compile Include="Json\JsonReadOnlyDictionaryTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\StaticReflectionTests.cs" />
+    <Compile Include="Reflection\TypeReflectionTests.cs" />
+    <Compile Include="Tree\TreeTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj">
+      <Project>{34e655a5-9192-441b-8f9a-6a0cfefa9623}</Project>
+      <Name>JsonApiFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.Core.Tests.TestSupport\JsonApiFramework.Core.Tests.TestSupport.csproj">
+      <Project>{4965adbb-733f-4848-9034-1d2cf255682d}</Project>
+      <Name>JsonApiFramework.Core.Tests.TestSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj">
+      <Project>{1a15b55d-cf81-47ad-ae85-5d57942a9bdd}</Project>
+      <Name>JsonApiFramework.XUnit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

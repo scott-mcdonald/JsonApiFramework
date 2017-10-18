@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,9 +32,7 @@ namespace JsonApiFramework.JsonApi
 
         public ToManyRelationship(Links links, IEnumerable<ResourceIdentifier> data, Meta meta)
             : base(links, meta)
-        {
-            this.Data = data;
-        }
+        { this.Data = data ?? Enumerable.Empty<ResourceIdentifier>(); }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
@@ -46,10 +45,9 @@ namespace JsonApiFramework.JsonApi
         public override string ToString()
         {
             var links = this.Links ?? Links.Empty;
-            var dataCollection = this.Data ?? Enumerable.Empty<ResourceIdentifier>();
-            var data = dataCollection.Select(x => x.ToString())
-                                     .Aggregate((current, next) => current.ToString() + ", " + next.ToString());
-            return $"{TypeName} [links={links} data={data}]";
+            var data = this.Data;
+            var dataAsString = String.Join(",", data.Select(x => x.ToString()));
+            return $"{TypeName} [links={links} data=[{dataAsString}]]";
         }
         #endregion
 
@@ -61,7 +59,7 @@ namespace JsonApiFramework.JsonApi
         { return this.Data; }
 
         public override bool IsResourceLinkageNullOrEmpty()
-        { return this.Data == null || !this.Data.Any(); }
+        { return this.Data.Any() == false; }
 
         public override bool IsToManyRelationship()
         { return true; }

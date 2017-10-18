@@ -29,8 +29,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region IDomItem Implementation
         public int Index
         {
-            get { return this.GetAttributeValue<int>(IndexAttributeName); }
-            private set { this.SetAttributeValue(IndexAttributeName, value); }
+            get => this.GetAttributeValue<int>(IndexAttributeName);
+            private set => this.SetAttributeValue(IndexAttributeName, value);
         }
         #endregion
 

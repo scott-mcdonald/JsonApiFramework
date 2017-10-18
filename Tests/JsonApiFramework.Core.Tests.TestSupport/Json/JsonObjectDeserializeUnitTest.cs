@@ -1,10 +1,12 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Linq;
 using System.Reflection;
 
 using FluentAssertions;
+using FluentAssertions.Common;
 
 using JsonApiFramework.Json;
 using JsonApiFramework.XUnit;
@@ -22,7 +24,7 @@ namespace JsonApiFramework.Tests.Json
         {
             this.Settings = data.Settings;
             this.SourceJson = data.ExpectedJson;
-            this.ExpectedObject = (T)data.ExpectedObject;
+            this.ExpectedObject = (T)data.ExpectedDeserializeObject;
         }
         #endregion
 
@@ -59,11 +61,21 @@ namespace JsonApiFramework.Tests.Json
 
         protected override void Assert()
         {
+            if (!typeof(T).IsValueType)
+            {
+                if (this.ExpectedObject == null)
+                {
+                    this.ActualObject.Should().BeNull();
+                    return;
+                }
+            }
+
             // Use the FluentAssertion ShouldBeEquivalentTo method to compare
             // the expected and actual object graphs.
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
-            var typeHasAnyPublicInstanceProperties = typeInfo.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any();
+            //var typeHasAnyPublicInstanceProperties = typeInfo.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any();
+            var typeHasAnyPublicInstanceProperties = typeInfo.DeclaredProperties.Any();
             if (typeHasAnyPublicInstanceProperties)
             {
                 this.ActualObject.ShouldBeEquivalentTo(this.ExpectedObject);
@@ -72,7 +84,7 @@ namespace JsonApiFramework.Tests.Json
 
             // Handle special case where the type has no members for the
             // FluentAssertion ShouldBeEquivalentTo method to work with.
-            this.ActualObject.Should().BeOfType<T>();
+            this.ActualObject.Should().BeAssignableTo<T>();
         }
         #endregion
 

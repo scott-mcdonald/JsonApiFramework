@@ -30,9 +30,7 @@ namespace JsonApiFramework.JsonApi
 
         public ToOneRelationship(Links links, ResourceIdentifier data, Meta meta)
             : base(links, meta)
-        {
-            this.Data = data;
-        }
+        { this.Data = data; }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////

@@ -16,6 +16,18 @@ namespace JsonApiFramework.JsonApi
 
             return getMeta.Meta != null;
         }
+
+        public static T GetMetaObject<T>(this IGetMeta getMeta)
+        {
+            Contract.Requires(getMeta != null);
+
+            var meta = getMeta.Meta;
+            if (meta == null)
+                return default(T);
+
+            var metaObject = meta.GetObject<T>();
+            return metaObject;
+        }
         #endregion
     }
 }

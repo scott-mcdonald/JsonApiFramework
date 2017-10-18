@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 
 using Newtonsoft.Json;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework.JsonApi.Dom.Internal
 {
     /// <summary>Extension methods for the <c>DomJsonSerializerSettings</c> class.</summary>
@@ -12,7 +13,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static NullValueHandling ResolveNullValueHandling(this DomJsonSerializerSettings domJsonSerializerSettings, JsonSerializer jsonSerializer, PropertyType apiPropertyType)
+        public static NullValueHandling ResolveNullValueHandling(this DomJsonSerializerSettings domJsonSerializerSettings, JsonSerializer jsonSerializer, ApiPropertyType apiPropertyType)
         {
             Contract.Requires(domJsonSerializerSettings != null);
             Contract.Requires(jsonSerializer != null);
@@ -20,7 +21,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             // Handle special cases for certain type of DOM nodes.
             switch (apiPropertyType)
             {
-                case PropertyType.Data:
+                case ApiPropertyType.Data:
                     {
                         // Always include null resource or resource identifier DOM nodes.
                         return NullValueHandling.Include;
@@ -32,8 +33,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             // ReSharper disable once InvertIf
             if (nullValueHandlingOverrides != null)
             {
-                NullValueHandling nullValueHandling;
-                if (nullValueHandlingOverrides.TryGetValue(apiPropertyType, out nullValueHandling))
+                if (nullValueHandlingOverrides.TryGetValue(apiPropertyType, out var nullValueHandling))
                 {
                     return nullValueHandling;
                 }

@@ -26,7 +26,7 @@ namespace JsonApiFramework.JsonApi
             if (relationships != null)
                 return relationships.GetRelationship(rel);
 
-            throw new RelationshipNotFoundException(rel);
+            throw RelationshipsException.CreateNotFoundException(rel);
         }
 
         public static bool TryGetRelationship(this IGetRelationships getRelationships, string rel, out Relationship relationship)

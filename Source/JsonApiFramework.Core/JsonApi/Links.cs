@@ -2,16 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Collections;
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api links object.</summary>
-    public class Links
+    [JsonConverter(typeof(LinksConverter))]
+    public class Links : JsonObject
+        , IEnumerable<KeyValuePair<string, Link>>
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -27,29 +33,33 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Standard Links
-        public Link About { get { Link link; return this.TryGetLink(Keywords.About, out link) ? link : null; } }
-        public Link Canonical { get { Link link; return this.TryGetLink(Keywords.Canonical, out link) ? link : null; } }
-        public Link First { get { Link link; return this.TryGetLink(Keywords.First, out link) ? link : null; } }
-        public Link Last { get { Link link; return this.TryGetLink(Keywords.Last, out link) ? link : null; } }
-        public Link Next { get { Link link; return this.TryGetLink(Keywords.Next, out link) ? link : null; } }
-        public Link Prev { get { Link link; return this.TryGetLink(Keywords.Prev, out link) ? link : null; } }
-        public Link Related { get { Link link; return this.TryGetLink(Keywords.Related, out link) ? link : null; } }
-        public Link Self { get { Link link; return this.TryGetLink(Keywords.Self, out link) ? link : null; } }
+        public Link About => this.TryGetLink(Keywords.About, out var link) ? link : null;
+        public Link Canonical => this.TryGetLink(Keywords.Canonical, out var link) ? link : null;
+        public Link First => this.TryGetLink(Keywords.First, out var link) ? link : null;
+        public Link Last => this.TryGetLink(Keywords.Last, out var link) ? link : null;
+        public Link Next => this.TryGetLink(Keywords.Next, out var link) ? link : null;
+        public Link Prev => this.TryGetLink(Keywords.Prev, out var link) ? link : null;
+        public Link Related => this.TryGetLink(Keywords.Related, out var link) ? link : null;
+        public Link Self => this.TryGetLink(Keywords.Self, out var link) ? link : null;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Object Overrides
         public override string ToString()
         {
-            if (!this.OrderedReadOnlyLinkDictionary.Any())
-                return "{0} []".FormatWith(TypeName);
-
-            var content = this.OrderedReadOnlyLinkDictionary
-                              .Select(x => $"{x.Key}={x.Value.ToString()}")
-                              .Aggregate((current, next) => $"{current} {next}");
-
+            var content = String.Join(ToStringDelimiter, this.OrderedReadOnlyLinkDictionary.Select(x => $"{x.Key}={x.Value.ToString()}"));
             return "{0} [{1}]".FormatWith(TypeName, content);
         }
+        #endregion
+
+        #region IEnumerable<KeyValuePair<string, Link>> Implementation
+        public IEnumerator<KeyValuePair<string, Link>> GetEnumerator()
+        { return this.OrderedReadOnlyLinkDictionary.GetEnumerator(); }
+        #endregion
+
+        #region IEnumerable Implementation
+        IEnumerator IEnumerable.GetEnumerator()
+        { return this.GetEnumerator(); }
         #endregion
 
         #region Contains Methods
@@ -66,34 +76,37 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            Link link;
-            if (this.TryGetLink(rel, out link))
+            if (this.TryGetLink(rel, out var link))
                 return link.HRef;
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
 
         public Link GetLink(string rel)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            Link link;
-            if (this.TryGetLink(rel, out link))
+            if (this.TryGetLink(rel, out var link))
                 return link;
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
+
+        public IEnumerable<Link> GetLinks()
+        { return this.OrderedReadOnlyLinkDictionary.Values; }
 
         public Uri GetUri(string rel)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            Link link;
-            if (this.TryGetLink(rel, out link))
+            if (this.TryGetLink(rel, out var link))
                 return new Uri(link.HRef);
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
+
+        public IEnumerable<string> GetRels()
+        { return this.OrderedReadOnlyLinkDictionary.Keys; }
 
         public bool TryGetHRef(string rel, out string hRef)
         {
@@ -102,8 +115,7 @@ namespace JsonApiFramework.JsonApi
             if (String.IsNullOrWhiteSpace(rel))
                 return false;
 
-            Link link;
-            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out link) == false)
+            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out var link) == false)
             {
                 return false;
             }
@@ -125,8 +137,7 @@ namespace JsonApiFramework.JsonApi
             if (String.IsNullOrWhiteSpace(rel))
                 return false;
 
-            Link link;
-            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out link) == false)
+            if (this.OrderedReadOnlyLinkDictionary.TryGetValue(rel, out var link) == false)
             {
                 return false;
             }
@@ -148,6 +159,7 @@ namespace JsonApiFramework.JsonApi
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
+        private const string ToStringDelimiter = " ";
         private static readonly string TypeName = typeof(Links).Name;
         #endregion
     }

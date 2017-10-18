@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Net;
 
-using JsonApiFramework.Properties;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -38,46 +36,42 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             Contract.Requires(objectType != null);
             Contract.Requires(jsonSerializer != null);
 
-            var domReadJsonContext = new DomReadJsonContext();
+            var domDeserializationContext = new DomDeserializationContext();
             var tokenType = jsonReader.TokenType;
             switch (tokenType)
             {
                 case JsonToken.Null:
-                    {
-                        return null;
-                    }
+                {
+                    return null;
+                }
 
                 case JsonToken.String:
-                    {
-                        var jValue = (JValue)JToken.Load(jsonReader);
-                        var domLink = CreateDomLink(domReadJsonContext, jValue);
-                        if (!domReadJsonContext.AnyErrors())
-                            return domLink;
-                    }
-                    break;
+                {
+                    var jValue = (JValue)JToken.Load(jsonReader);
+                    var domLink = CreateDomLink(domDeserializationContext, jValue);
+                    if (!domDeserializationContext.AnyErrors())
+                        return domLink;
+                }
+                break;
 
                 case JsonToken.StartObject:
-                    {
-                        var jObject = JObject.Load(jsonReader);
-                        var domLink = CreateDomLink(domReadJsonContext, jObject);
-                        if (!domReadJsonContext.AnyErrors())
-                            return domLink;
-                    }
-                    break;
+                {
+                    var jObject = JObject.Load(jsonReader);
+                    var domLink = CreateDomLink(domDeserializationContext, jObject);
+                    if (!domDeserializationContext.AnyErrors())
+                        return domLink;
+                }
+                break;
 
                 default:
-                    {
-                        var title = CoreErrorStrings.JsonReadErrorTitle;
-                        var detail = "Expected JSON null, JSON string, or JSON object when reading JSON representing a json:api link object.";
-                        var source = ErrorSource.CreatePointer(jsonReader.Path);
-                        var error = new Error(null, null, HttpStatusCode.BadRequest, null, title, detail, source, null);
-                        domReadJsonContext.AddError(error);
-                    }
-                    break;
+                {
+                    domDeserializationContext.AddJsonApiLinkError(jsonReader.Path);
+                }
+                break;
             }
 
-            var errorsCollection = domReadJsonContext.ErrorsCollection;
-            throw new ErrorsException(HttpStatusCode.BadRequest, errorsCollection);
+            var errorsCollection = domDeserializationContext.ErrorsCollection;
+            throw new JsonApiDeserializationException(HttpStatusCode.BadRequest, errorsCollection);
         }
         #endregion
     }

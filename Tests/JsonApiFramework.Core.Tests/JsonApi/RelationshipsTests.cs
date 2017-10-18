@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using FluentAssertions;
 
 using JsonApiFramework.JsonApi;
+using JsonApiFramework.Tests.Json;
 using JsonApiFramework.XUnit;
+
+using Newtonsoft.Json;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -24,6 +27,26 @@ namespace JsonApiFramework.Tests.JsonApi
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
+        [Theory]
+        [MemberData(nameof(RelationshipsTestData))]
+        public void TestRelationshipsSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        {
+            var data = jsonObjectSerializationUnitTestFactory.Data;
+            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var unitTest = factory(data);
+            unitTest.Execute(this);
+        }
+
+        [Theory]
+        [MemberData(nameof(RelationshipsTestData))]
+        public void TestRelationshipsDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        {
+            var data = jsonObjectSerializationUnitTestFactory.Data;
+            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var unitTest = factory(data);
+            unitTest.Execute(this);
+        }
+
         [Fact]
         public void TestRelationshipsTryGetRelationshipAndRelationshipExists()
         {
@@ -101,14 +124,100 @@ namespace JsonApiFramework.Tests.JsonApi
 
         public static readonly ResourceIdentifier ArticleToCommentsResourceIdentifier1 = new ResourceIdentifier("comment", "68");
         public static readonly ResourceIdentifier ArticleToCommentsResourceIdentifier2 = new ResourceIdentifier("comment", "86");
-        public static readonly List<ResourceIdentifier> ArticleToCommentsResourceIdentifiers = new List<ResourceIdentifier>
-                {
-                    ArticleToCommentsResourceIdentifier1,
-                    ArticleToCommentsResourceIdentifier2
 
-                };
+        public static readonly List<ResourceIdentifier> ArticleToCommentsResourceIdentifiers = new List<ResourceIdentifier>
+        {
+            ArticleToCommentsResourceIdentifier1,
+            ArticleToCommentsResourceIdentifier2
+
+        };
 
         public static readonly Relationship ArticleToCommentsRelationship = new ToManyRelationship(ArticleToCommentsLinks, ArticleToCommentsResourceIdentifiers);
+
+        private static readonly JsonSerializerSettings TestJsonSerializerSettings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
+        public static readonly IEnumerable<object[]> RelationshipsTestData = new[]
+        {
+            new object[]
+            {
+                new JsonObjectSerializationUnitTestFactory(
+                    x => new JsonObjectSerializeUnitTest<Relationships>(x),
+                    x => new JsonObjectDeserializeUnitTest<Relationships>(x),
+                    new JsonObjectSerializationUnitTestData(
+                        "WithNullObject",
+                        TestJsonSerializerSettings,
+                        default(Relationships),
+                        "null"))
+            },
+
+            new object[]
+            {
+                new JsonObjectSerializationUnitTestFactory(
+                    x => new JsonObjectSerializeUnitTest<Relationships>(x),
+                    x => new JsonObjectDeserializeUnitTest<Relationships>(x),
+                    new JsonObjectSerializationUnitTestData(
+                        "With0Relationships",
+                        TestJsonSerializerSettings,
+                        new Relationships(),
+                        "{}"))
+            },
+
+            new object[]
+            {
+                new JsonObjectSerializationUnitTestFactory(
+                    x => new JsonObjectSerializeUnitTest<Relationships>(x),
+                    x => new JsonObjectDeserializeUnitTest<Relationships>(x),
+                    new JsonObjectSerializationUnitTestData(
+                        "With1Relationships",
+                        TestJsonSerializerSettings,
+                        new Relationships(new Dictionary<string, Relationship>
+                        {
+                            {"blog", new Relationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/blog")}, {Keywords.Related, new Link("https://api.example.com/articles/42/blog")}}))}
+                        }),
+                        "{\"blog\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/blog\",\"related\":\"https://api.example.com/articles/42/blog\"}}}"))
+            },
+
+            new object[]
+            {
+                new JsonObjectSerializationUnitTestFactory(
+                    x => new JsonObjectSerializeUnitTest<Relationships>(x),
+                    x => new JsonObjectDeserializeUnitTest<Relationships>(x),
+                    new JsonObjectSerializationUnitTestData(
+                        "With2Relationships",
+                        TestJsonSerializerSettings,
+                        new Relationships(new Dictionary<string, Relationship>
+                        {
+                            {"blog", new Relationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/blog")}, {Keywords.Related, new Link("https://api.example.com/articles/42/blog")}}))},
+                            {"author", new ToOneRelationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/author")}, {Keywords.Related, new Link("https://api.example.com/articles/42/author")}}), new ResourceIdentifier("people", "42"), null)}
+                        }),
+                        "{\"blog\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/blog\",\"related\":\"https://api.example.com/articles/42/blog\"}}," +
+                        "\"author\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/author\",\"related\":\"https://api.example.com/articles/42/author\"},\"data\":{\"type\":\"people\",\"id\":\"42\"}}}"))
+            },
+
+            new object[]
+            {
+                new JsonObjectSerializationUnitTestFactory(
+                    x => new JsonObjectSerializeUnitTest<Relationships>(x),
+                    x => new JsonObjectDeserializeUnitTest<Relationships>(x),
+                    new JsonObjectSerializationUnitTestData(
+                        "With3Relationships",
+                        TestJsonSerializerSettings,
+                        new Relationships(new Dictionary<string, Relationship>
+                        {
+                            {"blog", new Relationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/blog")}, {Keywords.Related, new Link("https://api.example.com/articles/42/blog")}}))},
+                            {"author", new ToOneRelationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/author")}, {Keywords.Related, new Link("https://api.example.com/articles/42/author")}}), new ResourceIdentifier("people", "42"), null)},
+                            {"comments", new ToManyRelationship(new Links(new Dictionary<string, Link> {{Keywords.Self, new Link("https://api.example.com/articles/42/relationships/comments")}, {Keywords.Related, new Link("https://api.example.com/articles/42/comments")}}), new[] {new ResourceIdentifier("comments", "24"), new ResourceIdentifier("comments", "42"),}, null)}
+                        }),
+                        "{\"blog\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/blog\",\"related\":\"https://api.example.com/articles/42/blog\"}}," +
+                        "\"author\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/author\",\"related\":\"https://api.example.com/articles/42/author\"},\"data\":{\"type\":\"people\",\"id\":\"42\"}}," +
+                        "\"comments\":{\"links\":{\"self\":\"https://api.example.com/articles/42/relationships/comments\",\"related\":\"https://api.example.com/articles/42/comments\"},\"data\":[{\"type\":\"comments\",\"id\":\"24\"},{\"type\":\"comments\",\"id\":\"42\"}]}}"))
+            },
+
+        };
         #endregion
     }
 }

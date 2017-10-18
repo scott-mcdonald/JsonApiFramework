@@ -83,9 +83,9 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithOneLink",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
-                                    new DomProperty(PropertyType.Link, "self",
+                                    new DomProperty(ApiPropertyType.Link, "self",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))),
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))),
 @"{
   ""self"":  ""https://api.example.com/articles/42""
 }"))
@@ -100,10 +100,10 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithOneLinkAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
-                                    new DomProperty(PropertyType.Link, "self",
+                                    new DomProperty(ApiPropertyType.Link, "self",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta",
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
+                                            new DomProperty(ApiPropertyType.Meta, "meta",
                                                 new DomObject(
                                                     new DomProperty("is-public", new DomValue<bool>(true)),
                                                     new DomProperty("version", new DomValue<string>("2.0"))))))),
@@ -127,12 +127,12 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithTwoLinks",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
-                                    new DomProperty(PropertyType.Link, "up",
+                                    new DomProperty(ApiPropertyType.Link, "up",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")))),
-                                    new DomProperty(PropertyType.Link, "self",
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")))),
+                                    new DomProperty(ApiPropertyType.Link, "self",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))),
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42"))))),
 @"{
   ""up"": ""https://api.example.com/articles"",
   ""self"": ""https://api.example.com/articles/42""
@@ -148,17 +148,17 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                                 "WithTwoLinksAndMeta",
                                 TestJsonSerializerSettings,
                                 new DomLinks(
-                                    new DomProperty(PropertyType.Link, "up",
+                                    new DomProperty(ApiPropertyType.Link, "up",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
-                                            new DomProperty(PropertyType.Meta, "meta",
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles")),
+                                            new DomProperty(ApiPropertyType.Meta, "meta",
                                                 new DomObject(
                                                     new DomProperty("is-public", new DomValue<bool>(true)),
                                                     new DomProperty("version", new DomValue<string>("2.0")))))),
-                                    new DomProperty(PropertyType.Link, "self",
+                                    new DomProperty(ApiPropertyType.Link, "self",
                                         new DomLink(
-                                            new DomProperty(PropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
-                                            new DomProperty(PropertyType.Meta, "meta",
+                                            new DomProperty(ApiPropertyType.HRef, "href", new DomValue<string>("https://api.example.com/articles/42")),
+                                            new DomProperty(ApiPropertyType.Meta, "meta",
                                                 new DomObject(
                                                     new DomProperty("is-public", new DomValue<bool>(true)),
                                                     new DomProperty("version", new DomValue<string>("2.0"))))))),

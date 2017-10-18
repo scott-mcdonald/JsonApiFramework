@@ -84,16 +84,14 @@ namespace JsonApiFramework.Http
 
         public string Build()
         {
-            var path = this.PathSegments.Any()
-                ? this.PathSegments.Aggregate((current, next) => current + "/" + next)
-                : String.Empty;
+            var path = String.Join("/", this.PathSegments);
 
             var uriBuilder = new UriBuilder
-                {
-                    Scheme = this.Scheme,
-                    Host = this.Host,
-                    Path = path
-                };
+            {
+                Scheme = this.Scheme,
+                Host = this.Host,
+                Path = path
+            };
 
             if (this.Port.HasValue)
             {

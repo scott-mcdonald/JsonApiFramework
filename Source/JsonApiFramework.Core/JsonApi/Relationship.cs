@@ -3,13 +3,16 @@
 
 using System.Collections.Generic;
 
-using JsonApiFramework.Properties;
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api relationship object.</summary>
-    public class Relationship
-        : IGetLinks
+    [JsonConverter(typeof(RelationshipConverter))]
+    public class Relationship : JsonObject
+        , IGetLinks
         , IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -51,11 +54,11 @@ namespace JsonApiFramework.JsonApi
 
         /// <summary>Gets the "to-one" resource linkage from this relationship.</summary>
         public virtual ResourceIdentifier GetToOneResourceLinkage()
-        { throw new JsonApiException(CoreErrorStrings.RelationshipNotToOneRelatioshipTitle, CoreErrorStrings.RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail); }
+        { throw RelationshipException.CreateToOneResourceLinkageException(); }
 
         /// <summary>Gets the "to-many" resource linkage from this relationship.</summary>
         public virtual IEnumerable<ResourceIdentifier> GetToManyResourceLinkage()
-        { throw new JsonApiException(CoreErrorStrings.RelationshipNotToOneRelatioshipTitle, CoreErrorStrings.RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail); }
+        { throw RelationshipException.CreateToManyResourceLinkageException(); }
 
         /// <summary>Returns if this relationship resource linkage is null or empty.</summary>
         public virtual bool IsResourceLinkageNullOrEmpty()

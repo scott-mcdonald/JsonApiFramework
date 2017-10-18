@@ -14,11 +14,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DomDocument(DocumentType apiDocumentType, params DomProperty[] domProperties)
+        public DomDocument(ApiDocumentType apiDocumentType, params DomProperty[] domProperties)
             : this(apiDocumentType, domProperties.AsEnumerable())
         { }
 
-        public DomDocument(DocumentType apiDocumentType, IEnumerable<DomProperty> domProperties)
+        public DomDocument(ApiDocumentType apiDocumentType, IEnumerable<DomProperty> domProperties)
             : base("document object", domProperties)
         {
             this.ApiDocumentType = apiDocumentType;
@@ -28,27 +28,27 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
                 var apiPropertyType = domProperty.ApiPropertyType;
                 switch (apiPropertyType)
                 {
-                    case PropertyType.JsonApi:
+                    case ApiPropertyType.JsonApi:
                         this.DomJsonApi = domProperty;
                         break;
 
-                    case PropertyType.Meta:
+                    case ApiPropertyType.Meta:
                         this.DomMeta = domProperty;
                         break;
 
-                    case PropertyType.Links:
+                    case ApiPropertyType.Links:
                         this.DomLinks = domProperty;
                         break;
 
-                    case PropertyType.Data:
+                    case ApiPropertyType.Data:
                         this.DomData = domProperty;
                         break;
 
-                    case PropertyType.Included:
+                    case ApiPropertyType.Included:
                         this.DomIncluded = domProperty;
                         break;
 
-                    case PropertyType.Errors:
+                    case ApiPropertyType.Errors:
                         this.DomErrors = domProperty;
                         break;
 
@@ -61,10 +61,10 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IDomDocument Implementation
-        public DocumentType ApiDocumentType
+        public ApiDocumentType ApiDocumentType
         {
-            get { return this.GetAttributeValue<DocumentType>(ApiDocumentTypeAttributeName); }
-            private set { this.SetAttributeValue(ApiDocumentTypeAttributeName, value); }
+            get => this.GetAttributeValue<ApiDocumentType>(ApiDocumentTypeAttributeName);
+            private set => this.SetAttributeValue(ApiDocumentTypeAttributeName, value);
         }
 
         public IDomProperty DomJsonApi { get; }

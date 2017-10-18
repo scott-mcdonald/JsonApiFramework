@@ -5,10 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api link object.</summary>
-    public class Link : IGetMeta
+    [JsonConverter(typeof(LinkConverter))]
+    public class Link : JsonObject
+        , IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

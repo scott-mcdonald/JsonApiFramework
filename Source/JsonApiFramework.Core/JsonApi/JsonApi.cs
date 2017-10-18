@@ -3,10 +3,13 @@
 
 using System;
 
+using JsonApiFramework.Json;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api object.</summary>
-    public class JsonApi : IGetMeta
+    public class JsonApi : JsonObject
+        , IGetMeta
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors

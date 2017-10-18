@@ -3,33 +3,30 @@
 
 namespace JsonApiFramework.JsonApi.Dom
 {
-    /// <summary>
-    /// Abstracts read-only DOM node that represents the root document node
-    /// in the DOM document tree.
-    /// </summary>
-    /// <remarks> 
-    /// A document MUST contain at least one of the following members:
-    /// - data: the document primary data
-    /// - errors: an array of error objects
-    /// - meta: a meta object that contains non-standard meta-information
-    ///
-    /// The document primary data must be a single resource object, a single
-    /// resource identifier object, or null, for requests that target single
-    /// resources.
-    /// 
-    /// The document primary data must be an array of resource objects, an
-    /// array of resource identifier objects, or an empty array for requests
-    /// that target resource collections.
-    /// 
-    /// The members data and errors must not coexist in the same document.
-    /// </remarks>
-    /// <see cref="http://jsonapi.org"/>
+    ///  <summary>
+    ///  Abstracts read-only DOM node that represents the root document node
+    ///  in the DOM document tree.
+    ///  </summary>
+    ///  <remarks> 
+    ///  A document MUST contain at least one of the following members:
+    ///  - data: the document primary data
+    ///  - errors: an array of error objects
+    ///  - meta: a meta object that contains non-standard meta-information
+    ///  The document primary data must be a single resource object, a single
+    ///  resource identifier object, or null, for requests that target single
+    ///  resources.
+    ///  The document primary data must be an array of resource objects, an
+    ///  array of resource identifier objects, or an empty array for requests
+    ///  that target resource collections.
+    ///  The members data and errors must not coexist in the same document.
+    ///  </remarks>
+    ///  <see cref="!:http://jsonapi.org" />
     public interface IDomDocument : IDomObject
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Gets the json:api document type of this DOM document.</summary>
-        DocumentType ApiDocumentType { get; }
+        ApiDocumentType ApiDocumentType { get; }
 
         /// <summary>
         /// Gets the read-only DOM property node that represents the document

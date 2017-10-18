@@ -11,5 +11,5 @@ namespace JsonApiFramework.JsonApi.Dom
         Object,
         Property,
         Value
-    };
+    }
 }

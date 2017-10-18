@@ -1,41 +1,33 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using JsonApiFramework.JsonApi.Dom;
-using JsonApiFramework.JsonApi.Dom.Internal;
+using JsonApiFramework.Json;
+using JsonApiFramework.JsonApi.Internal;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>
-    /// Represents an immutable json:api meta object.
-    /// </summary>
-    /// <remarks>
-    /// The <c>Meta</c> object is a thin wrapper around a <c>IDomObject</c>
-    /// that represents the json:api meta object as a DOM tree. 
-    /// </remarks>
-    public class Meta
+    /// <summary>Abstracts an immutable json:api meta object.</summary>
+    [JsonConverter(typeof(MetaConverter))]
+    public abstract class Meta : JsonObject
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public Meta(IDomObject domObject)
-        {
-            this.DomObject = domObject;
-        }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
+        #region Factory Methods
+        public static Meta Create<T>(T clrObject)
         {
-            var domObject = (DomObject)this.DomObject ?? Dom.Internal.DomObject.Empty;
-            var domObjectTreeString = domObject.ToTreeString();
-            return domObjectTreeString;
+            var writeMeta = new WriteMeta<T>(clrObject);
+            return writeMeta;
         }
         #endregion
 
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region JSON Properties
-        private IDomObject DomObject { get; }
+        #region Meta Overrides
+        public abstract T GetObject<T>();
+        #endregion
+
+        // PROTECTED/INTERNAL METHODS ///////////////////////////////////////
+        #region Meta Overrides
+        protected internal abstract void WriteJson(JsonWriter writer, JsonSerializer serializer);
         #endregion
     }
 }

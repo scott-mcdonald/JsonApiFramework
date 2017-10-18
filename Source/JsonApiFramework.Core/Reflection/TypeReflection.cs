@@ -190,8 +190,7 @@ namespace JsonApiFramework.Reflection
         {
             Contract.Requires(type != null);
 
-            Type enumerableType;
-            return IsEnumerableOfT(type, out enumerableType);
+            return IsEnumerableOfT(type, out var enumerableType);
         }
 
         public static bool IsEnumerableOfT(Type type, out Type enumerableType)

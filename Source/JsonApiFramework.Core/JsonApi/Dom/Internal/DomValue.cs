@@ -15,7 +15,6 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
 {
     internal class DomValue<TValue> : DomNode
         , IDomValue
-        , IDomWriteable
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -35,7 +34,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region IDomValue Implementation
         public TTarget ClrValue<TTarget>(ITypeConverter typeConverter, TypeConverterContext typeConverterContext)
         {
-            typeConverter = typeConverter ?? DefaultTypeConverter;
+            typeConverter = typeConverter ?? TypeConverter.Default;
             var clrValue = typeConverter.Convert<TValue, TTarget>(this.ClrUnderlyingValue, typeConverterContext);
             return clrValue;
         }
@@ -97,7 +96,7 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             }
 
             var clrValueAsObject = (object)clrValue;
-            return clrValueAsObject != null ? clrValueAsObject.ToString() : CoreStrings.NullText;
+            return clrValueAsObject?.ToString() ?? CoreStrings.NullText;
         }
 
         private void WriteValue(JsonWriter jsonWriter, JsonSerializer jsonSerializer)

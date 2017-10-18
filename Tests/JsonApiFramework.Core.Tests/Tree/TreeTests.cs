@@ -2108,18 +2108,14 @@ namespace JsonApiFramework.Tests.Tree
                                          .Select(x => x.Name)
                                          .OrderBy(x => x)
                                          .ToList();
-            var expectedAsString = expected.Any()
-                ? expected.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var expectedAsString = String.Join(" ", expected);
             this.WriteLine();
             this.WriteLine("Expected     = {0}", expectedAsString);
 
             var actual = tree.Nodes()
                              .Select(x => x.Name)
                              .ToList();
-            var actualAsString = actual.Any()
-                ? actual.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var actualAsString = String.Join(" ", actual);
             this.WriteLine();
             this.WriteLine("Actual       = {0}", actualAsString);
 
@@ -2153,18 +2149,14 @@ namespace JsonApiFramework.Tests.Tree
                                          .Select(x => x.Name)
                                          .OrderBy(x => x)
                                          .ToList();
-            var expectedAsString = expected.Any()
-                ? expected.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var expectedAsString = String.Join(" ", expected);
             this.WriteLine();
             this.WriteLine("Expected     = {0}", expectedAsString);
 
             var actual = tree.NodesIncludeSelf()
                              .Select(x => x.Name)
                              .ToList();
-            var actualAsString = actual.Any()
-                ? actual.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var actualAsString = String.Join(" ", actual);
             this.WriteLine();
             this.WriteLine("Actual       = {0}", actualAsString);
 
@@ -2198,18 +2190,14 @@ namespace JsonApiFramework.Tests.Tree
                                          .OrderBy(x => x)
                                          .Skip(1) // skip the node where Nodes is being called on.
                                          .ToList();
-            var expectedAsString = expected.Any()
-                ? expected.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var expectedAsString = String.Join(" ", expected);
             this.WriteLine();
             this.WriteLine("Expected     = {0}", expectedAsString);
 
             var actual = tree.DescendantNodes()
                              .Select(x => x.Name)
                              .ToList();
-            var actualAsString = actual.Any()
-                ? actual.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var actualAsString = String.Join(" ", actual);
             this.WriteLine();
             this.WriteLine("Actual       = {0}", actualAsString);
 
@@ -2242,18 +2230,14 @@ namespace JsonApiFramework.Tests.Tree
                                          .Select(x => x.Name)
                                          .OrderBy(x => x)
                                          .ToList();
-            var expectedAsString = expected.Any()
-                ? expected.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var expectedAsString = String.Join(" ", expected);
             this.WriteLine();
             this.WriteLine("Expected     = {0}", expectedAsString);
 
             var actual = tree.DescendantNodesIncludeSelf()
                              .Select(x => x.Name)
                              .ToList();
-            var actualAsString = actual.Any()
-                ? actual.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var actualAsString = String.Join(" ", actual);
             this.WriteLine();
             this.WriteLine("Actual       = {0}", actualAsString);
 
@@ -2287,18 +2271,14 @@ namespace JsonApiFramework.Tests.Tree
                                                   .Select(x => x.Name)
                                                   .OrderBy(x => x)
                                                   .ToList();
-            var expectedAsString = expected.Any()
-                ? expected.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var expectedAsString = String.Join(" ", expected);
             this.WriteLine();
             this.WriteLine("Expected        = {0}", expectedAsString);
 
             var actual = tree.Attributes()
                              .Select(x => x.Name)
                              .ToList();
-            var actualAsString = actual.Any()
-                ? actual.Aggregate((current, next) => current + " " + next)
-                : String.Empty;
+            var actualAsString = String.Join(" ", actual);
             this.WriteLine();
             this.WriteLine("Actual          = {0}", actualAsString);
 

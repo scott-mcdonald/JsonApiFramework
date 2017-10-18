@@ -35,14 +35,18 @@ namespace JsonApiFramework.Converters
         }
         #endregion
 
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region Properties
+        public static ITypeConverter Default => LazyDefaultTypeConverter.Value;
+        #endregion
+
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Convert Methods
         public TTarget Convert<TSource, TTarget>(TSource source, TypeConverterContext context)
         {
-            TTarget target;
 
             // If source and target type are the same, return source.
-            if (TryConvertForSameTypes(source, out target))
+            if (TryConvertForSameTypes(source, out TTarget target))
                 return target;
 
             // Try convert with a type converter definition, if possible.
@@ -74,6 +78,8 @@ namespace JsonApiFramework.Converters
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private IDictionary<Tuple<Type, Type>, ITypeConverterDefinition> TypeConverterDefinitions { get; set; }
+
+        private static Lazy<ITypeConverter> LazyDefaultTypeConverter => new Lazy<ITypeConverter>(() => new TypeConverter(), LazyThreadSafetyMode.ExecutionAndPublication);
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -93,8 +99,7 @@ namespace JsonApiFramework.Converters
 
         private bool TryConvertByDefinition<TSource, TTarget>(TSource source, TypeConverterContext context, out TTarget target)
         {
-            ITypeConverterDefinition<TSource, TTarget> definition;
-            if (!this.TryGetTypeConverterDefinition(out definition))
+            if (!this.TryGetTypeConverterDefinition(out ITypeConverterDefinition<TSource, TTarget> definition))
             {
                 target = default(TTarget);
                 return false;
@@ -235,8 +240,7 @@ namespace JsonApiFramework.Converters
             var targetType = typeof(TTarget);
 
             var key = CreateTypeConverterDefinitionKey(sourceType, targetType);
-            ITypeConverterDefinition value;
-            if (!this.TypeConverterDefinitions.TryGetValue(key, out value))
+            if (!this.TypeConverterDefinitions.TryGetValue(key, out var value))
                 return false;
 
             definition = (ITypeConverterDefinition<TSource, TTarget>)value;
@@ -332,8 +336,7 @@ namespace JsonApiFramework.Converters
         // ReSharper restore UnusedMember.Local
             where TEnum : struct
         {
-            TEnum enumeration;
-            if (Enum.TryParse(value, true, out enumeration))
+            if (Enum.TryParse(value, true, out TEnum enumeration))
             {
                 return enumeration;
             }

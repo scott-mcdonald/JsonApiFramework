@@ -38,8 +38,7 @@ namespace JsonApiFramework.JsonApi.Dom
             var jsonContract = base.CreateContract(objectType);
 
             // Initialize contract for DOM object types.
-            Action<JsonContract, DomJsonSerializerSettings> contractInitializer;
-            if (TypeToJsonContractInitializerDictionary.TryGetValue(objectType, out contractInitializer))
+            if (TypeToJsonContractInitializerDictionary.TryGetValue(objectType, out var contractInitializer))
             {
                 contractInitializer(jsonContract, this.DomJsonSerializerSettings);
             }
@@ -67,6 +66,14 @@ namespace JsonApiFramework.JsonApi.Dom
             Contract.Requires(domJsonSerializerSettings != null);
 
             jsonContract.Converter = new DomArrayConverter(domJsonSerializerSettings);
+        }
+
+        private static void InitializeDomDataContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
+        {
+            Contract.Requires(jsonContract != null);
+            Contract.Requires(domJsonSerializerSettings != null);
+
+            jsonContract.Converter = new DomDataConverter(domJsonSerializerSettings);
         }
 
         private static void InitializeDomDocumentContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
@@ -133,14 +140,6 @@ namespace JsonApiFramework.JsonApi.Dom
             jsonContract.Converter = new DomRelationshipsConverter(domJsonSerializerSettings);
         }
 
-        private static void InitializeDomResourceContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
-        {
-            Contract.Requires(jsonContract != null);
-            Contract.Requires(domJsonSerializerSettings != null);
-
-            jsonContract.Converter = new DomResourceConverter(domJsonSerializerSettings);
-        }
-
         private static void InitializeDomResourceIdentifierContract(JsonContract jsonContract, DomJsonSerializerSettings domJsonSerializerSettings)
         {
             Contract.Requires(jsonContract != null);
@@ -163,15 +162,16 @@ namespace JsonApiFramework.JsonApi.Dom
         private static readonly DomJsonSerializerSettings DefaultDomJsonSerializerSettings =
             new DomJsonSerializerSettings
                 {
-                    NullValueHandlingOverrides = new Dictionary<PropertyType, NullValueHandling>
+                    NullValueHandlingOverrides = new Dictionary<ApiPropertyType, NullValueHandling>
                         {
-                            {PropertyType.Meta, NullValueHandling.Ignore}
+                            {ApiPropertyType.Meta, NullValueHandling.Ignore}
                         }
                 };
 
         private static readonly IReadOnlyDictionary<Type, Action<JsonContract, DomJsonSerializerSettings>> TypeToJsonContractInitializerDictionary = new Dictionary<Type, Action<JsonContract, DomJsonSerializerSettings>>
             {
                 { typeof(IDomArray), InitializeDomArrayContract },
+                { typeof(IDomData), InitializeDomDataContract },
                 { typeof(IDomDocument), InitializeDomDocumentContract },
                 { typeof(IDomError), InitializeDomErrorContract },
                 { typeof(IDomJsonApi), InitializeDomJsonApiContract },
@@ -180,11 +180,11 @@ namespace JsonApiFramework.JsonApi.Dom
                 { typeof(IDomObject), InitializeDomObjectContract },
                 { typeof(IDomRelationship), InitializeDomRelationshipContract },
                 { typeof(IDomRelationships), InitializeDomRelationshipsContract },
-                { typeof(IDomResource), InitializeDomResourceContract },
                 { typeof(IDomResourceIdentifier), InitializeDomResourceIdentifierContract },
                 { typeof(IDomValue), InitializeDomValueContract },
 
                 { typeof(DomArray), InitializeDomArrayContract },
+                { typeof(DomData), InitializeDomDataContract },
                 { typeof(DomDocument), InitializeDomDocumentContract },
                 { typeof(DomError), InitializeDomErrorContract },
                 { typeof(DomJsonApi), InitializeDomJsonApiContract },
@@ -193,7 +193,6 @@ namespace JsonApiFramework.JsonApi.Dom
                 { typeof(DomObject), InitializeDomObjectContract },
                 { typeof(DomRelationship), InitializeDomRelationshipContract },
                 { typeof(DomRelationships), InitializeDomRelationshipsContract },
-                { typeof(DomResource), InitializeDomResourceContract },
                 { typeof(DomResourceIdentifier), InitializeDomResourceIdentifierContract },
             };
         #endregion

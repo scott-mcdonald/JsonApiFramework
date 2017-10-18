@@ -32,12 +32,12 @@ namespace JsonApiFramework.Tests.Converters
             #region Constructors
             public ConvertGenericTest(string name, TSource source, ConvertResult expectedResult, TTarget expectedValue, TypeConverterContext context = null)
                             : base(name)
-                        {
-                            this.Source = source;
-                            this.ExpectedResult = expectedResult;
-                            this.ExpectedValue = expectedValue;
-                            this.Context = context;
-                        }
+            {
+                this.Source = source;
+                this.ExpectedResult = expectedResult;
+                this.ExpectedValue = expectedValue;
+                this.Context = context;
+            }
             #endregion
 
             // PROTECTED METHODS ////////////////////////////////////////////
@@ -142,56 +142,56 @@ namespace JsonApiFramework.Tests.Converters
                 switch (this.ActualResult)
                 {
                     case ConvertResult.Success:
+                    {
+                        var isExpectedValueEqualToDefaultTarget = ReferenceEquals(this.ExpectedValue, default(TTarget));
+                        if (isExpectedValueEqualToDefaultTarget)
                         {
-                            var isExpectedValueEqualToDefaultTarget = ReferenceEquals(this.ExpectedValue, default(TTarget));
-                            if (isExpectedValueEqualToDefaultTarget)
-                            {
-                                // Source is default(TSource)
-                                this.ActualValue.Should().Be(default(TTarget));
-                            }
-                            else
-                            {
-                                // Special case if target is byte array.
-                                if (typeof(TTarget) == typeof(byte[]))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<TTarget>();
-
-                                    var expectedValue = this.ExpectedValue as byte[];
-                                    var actualValue = this.ActualValue as byte[];
-                                    actualValue.Should().ContainInOrder(expectedValue);
-                                    return;
-                                }
-
-                                // Special case if target is nullable
-                                if (TypeReflection.IsNullableType(typeof(TTarget)))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<TTarget>();
-                                    this.ActualValue.Should().Be(this.ExpectedValue);
-                                    return;
-                                }
-
-                                // Special case if target is type.
-                                if (typeof(TTarget) == typeof(Type))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<Type>();
-                                    this.ActualValue.Should().Be(this.ExpectedValue);
-                                    return;
-                                }
-
-                                this.ActualValue.Should().BeAssignableTo<TTarget>();
-                                this.ActualValue.Should().Be(this.ExpectedValue);
-                            }
-                        }
-                        break;
-
-                    case ConvertResult.Failure:
-                        {
+                            // Source is default(TSource)
                             this.ActualValue.Should().Be(default(TTarget));
                         }
-                        break;
+                        else
+                        {
+                            // Special case if target is byte array.
+                            if (typeof(TTarget) == typeof(byte[]))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<TTarget>();
+
+                                var expectedValue = this.ExpectedValue as byte[];
+                                var actualValue = this.ActualValue as byte[];
+                                actualValue.Should().ContainInOrder(expectedValue);
+                                return;
+                            }
+
+                            // Special case if target is nullable
+                            if (TypeReflection.IsNullableType(typeof(TTarget)))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<TTarget>();
+                                this.ActualValue.Should().Be(this.ExpectedValue);
+                                return;
+                            }
+
+                            // Special case if target is type.
+                            if (typeof(TTarget) == typeof(Type))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<Type>();
+                                this.ActualValue.Should().Be(this.ExpectedValue);
+                                return;
+                            }
+
+                            this.ActualValue.Should().BeAssignableTo<TTarget>();
+                            this.ActualValue.Should().Be(this.ExpectedValue);
+                        }
+                    }
+                    break;
+
+                    case ConvertResult.Failure:
+                    {
+                        this.ActualValue.Should().Be(default(TTarget));
+                    }
+                    break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -200,16 +200,16 @@ namespace JsonApiFramework.Tests.Converters
                 switch (this.ExpectedResult)
                 {
                     case ConvertResult.Success:
-                        this.ActualException.Should().BeNull();
-                        break;
+                    this.ActualException.Should().BeNull();
+                    break;
 
                     case ConvertResult.Failure:
-                        this.ActualException.Should().NotBeNull();
-                        this.ActualException.Should().BeOfType<TypeConverterException>();
-                        break;
+                    this.ActualException.Should().NotBeNull();
+                    this.ActualException.Should().BeOfType<TypeConverterException>();
+                    break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -307,56 +307,56 @@ namespace JsonApiFramework.Tests.Converters
                 switch (this.ActualResult)
                 {
                     case ConvertResult.Success:
+                    {
+                        var isExpectedValueEqualToDefaultTarget = ReferenceEquals(this.ExpectedValue, default(TTarget));
+                        if (isExpectedValueEqualToDefaultTarget)
                         {
-                            var isExpectedValueEqualToDefaultTarget = ReferenceEquals(this.ExpectedValue, default(TTarget));
-                            if (isExpectedValueEqualToDefaultTarget)
-                            {
-                                // Source is default(TSource)
-                                this.ActualValue.Should().Be(default(TTarget));
-                            }
-                            else
-                            {
-                                // Special case if target is byte array.
-                                if (typeof(TTarget) == typeof(byte[]))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<TTarget>();
-
-                                    var expectedValue = this.ExpectedValue as byte[];
-                                    var actualValue = this.ActualValue as byte[];
-                                    actualValue.Should().ContainInOrder(expectedValue);
-                                    return;
-                                }
-
-                                // Special case if target is nullable
-                                if (TypeReflection.IsNullableType(typeof(TTarget)))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<TTarget>();
-                                    this.ActualValue.Should().Be(this.ExpectedValue);
-                                    return;
-                                }
-
-                                // Special case if target is type.
-                                if (typeof(TTarget) == typeof(Type))
-                                {
-                                    this.ActualValue.Should().BeAssignableTo<Type>();
-                                    this.ActualValue.Should().Be(this.ExpectedValue);
-                                    return;
-                                }
-
-                                this.ActualValue.Should().BeAssignableTo<TTarget>();
-                                this.ActualValue.Should().Be(this.ExpectedValue);
-                            }
-                        }
-                        break;
-
-                    case ConvertResult.Failure:
-                        {
+                            // Source is default(TSource)
                             this.ActualValue.Should().Be(default(TTarget));
                         }
-                        break;
+                        else
+                        {
+                            // Special case if target is byte array.
+                            if (typeof(TTarget) == typeof(byte[]))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<TTarget>();
+
+                                var expectedValue = this.ExpectedValue as byte[];
+                                var actualValue = this.ActualValue as byte[];
+                                actualValue.Should().ContainInOrder(expectedValue);
+                                return;
+                            }
+
+                            // Special case if target is nullable
+                            if (TypeReflection.IsNullableType(typeof(TTarget)))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<TTarget>();
+                                this.ActualValue.Should().Be(this.ExpectedValue);
+                                return;
+                            }
+
+                            // Special case if target is type.
+                            if (typeof(TTarget) == typeof(Type))
+                            {
+                                this.ActualValue.Should().BeAssignableTo<Type>();
+                                this.ActualValue.Should().Be(this.ExpectedValue);
+                                return;
+                            }
+
+                            this.ActualValue.Should().BeAssignableTo<TTarget>();
+                            this.ActualValue.Should().Be(this.ExpectedValue);
+                        }
+                    }
+                    break;
+
+                    case ConvertResult.Failure:
+                    {
+                        this.ActualValue.Should().Be(default(TTarget));
+                    }
+                    break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException();
                 }
             }
             #endregion
@@ -429,30 +429,30 @@ namespace JsonApiFramework.Tests.Converters
         public static readonly IFormatProvider SpanishMexicoCulture = new CultureInfo("es-MX");
 
         public static readonly TypeConverterContext FormatDateTimeContext = new TypeConverterContext
-            {
-                Format = FullDateTimeFormat,
-                DateTimeStyles = DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal
-            };
+        {
+            Format = FullDateTimeFormat,
+            DateTimeStyles = DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal
+        };
 
         public static readonly TypeConverterContext FormatAndFormatProviderDateTimeContext = new TypeConverterContext
-            {
-                Format = FullDateTimeFormat,
-                FormatProvider = SpanishMexicoCulture,
-                DateTimeStyles = DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal
-            };
+        {
+            Format = FullDateTimeFormat,
+            FormatProvider = SpanishMexicoCulture,
+            DateTimeStyles = DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal
+        };
 
         public static readonly TypeConverterContext FormatDateTimeOffsetContext = new TypeConverterContext
-            {
-                Format = FullDateTimeFormat,
-                DateTimeStyles = DateTimeStyles.AssumeUniversal
-            };
+        {
+            Format = FullDateTimeFormat,
+            DateTimeStyles = DateTimeStyles.AssumeUniversal
+        };
 
         public static readonly TypeConverterContext FormatAndFormatProviderDateTimeOffsetContext = new TypeConverterContext
-            {
-                Format = FullDateTimeFormat,
-                FormatProvider = SpanishMexicoCulture,
-                DateTimeStyles = DateTimeStyles.AssumeUniversal
-            };
+        {
+            Format = FullDateTimeFormat,
+            FormatProvider = SpanishMexicoCulture,
+            DateTimeStyles = DateTimeStyles.AssumeUniversal
+        };
 
         public static readonly DateTime TestDateTime = new DateTime(1968, 5, 20, 20, 2, 42, 0, DateTimeKind.Utc);
         public static readonly string TestDateTimeString = TestDateTime.ToString(DefaultDateTimeFormat);
@@ -470,15 +470,15 @@ namespace JsonApiFramework.Tests.Converters
         public static readonly IFormatProvider FrenchFranceCulture = new CultureInfo("fr-FR");
 
         public static readonly TypeConverterContext FormatTimeSpanContext = new TypeConverterContext
-            {
-                Format = GeneralShortTimeSpanFormat
-            };
+        {
+            Format = GeneralShortTimeSpanFormat
+        };
 
         public static readonly TypeConverterContext FormatAndFormatProviderTimeSpanContext = new TypeConverterContext
-            {
-                Format = GeneralShortTimeSpanFormat,
-                FormatProvider = FrenchFranceCulture
-            };
+        {
+            Format = GeneralShortTimeSpanFormat,
+            FormatProvider = FrenchFranceCulture
+        };
 
         public static readonly TimeSpan TestTimeSpan = new TimeSpan(42, 12, 24, 36, 123);
         public static readonly string TestTimeSpanString = TestTimeSpan.ToString(DefaultTimeSpanFormat);
@@ -507,9 +507,9 @@ namespace JsonApiFramework.Tests.Converters
         public const string TestBlueOrdinalAsString = "42";
 
         public static readonly TypeConverterContext FormatEnumContext = new TypeConverterContext
-            {
-                Format = IntegerEnumFormat
-            };
+        {
+            Format = IntegerEnumFormat
+        };
 
         // ReSharper disable UnusedMember.Global
         public enum PrimaryColor

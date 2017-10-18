@@ -1,51 +1,51 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using JsonApiFramework.JsonApi.Dom;
-using JsonApiFramework.JsonApi.Dom.Internal;
+using System;
+using System.Diagnostics.Contracts;
+
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api error source object.</summary>
-    public class ErrorSource
+    [JsonConverter(typeof(ErrorSourceConverter))]
+    public class ErrorSource : JsonObject
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ErrorSource(IDomObject domObject)
+        public ErrorSource(string parameter, string pointer)
         {
-            this.DomObject = domObject;
+            this.Parameter = parameter;
+            this.Pointer = pointer;
         }
+        #endregion
+
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region JSON Properties
+        public string Parameter { get; }
+        public string Pointer { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Object Overrides
-        public override string ToString()
-        {
-            var domObject = (DomObject)this.DomObject ?? Dom.Internal.DomObject.Empty;
-            var domObjectTreeString = domObject.ToTreeString();
-            return domObjectTreeString;
-        }
-        #endregion
-
         #region Factory Methods
-        public static ErrorSource CreateParameter(string parameter)
+        public static ErrorSource CreateFromJsonPointer(string jsonPointer)
         {
-            var domObject = new DomObject(new DomProperty(Keywords.Parameter, new DomValue<string>(parameter)));
-            var errorSource = new ErrorSource(domObject);
+            Contract.Requires(String.IsNullOrWhiteSpace(jsonPointer) == false);
+
+            var errorSource = new ErrorSource(null, jsonPointer);
             return errorSource;
         }
 
-        public static ErrorSource CreatePointer(string pointer)
+        public static ErrorSource CreateFromQueryParameter(string queryParameter)
         {
-            var domObject = new DomObject(new DomProperty(Keywords.Pointer, new DomValue<string>(pointer)));
-            var errorSource = new ErrorSource(domObject);
+            Contract.Requires(String.IsNullOrWhiteSpace(queryParameter) == false);
+
+            var errorSource = new ErrorSource(queryParameter, null);
             return errorSource;
         }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region JSON Properties
-        private IDomObject DomObject { get; }
         #endregion
     }
 }

@@ -32,11 +32,11 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////
         #region User Supplied Properties
-        public string Name { get; private set; }
-        public JsonSerializerSettings Settings { get; private set; }
-        public IDomNode ExpectedSerializeDomTree { get; private set; }
-        public IDomNode ExpectedDeserializeDomTree { get; private set; }
-        public string ExpectedJson { get; private set; }
+        public string Name { get; }
+        public JsonSerializerSettings Settings { get; }
+        public IDomNode ExpectedSerializeDomTree { get; }
+        public IDomNode ExpectedDeserializeDomTree { get; }
+        public string ExpectedJson { get; }
         #endregion
     }
 }

@@ -19,5 +19,5 @@ namespace JsonApiFramework.Tree
         /// Visiting is done and should stop immediately.
         /// </summary>
         Done
-    };
+    }
 }

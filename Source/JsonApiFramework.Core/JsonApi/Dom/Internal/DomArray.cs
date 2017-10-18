@@ -33,8 +33,8 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         #region IDomArray Implementation
         public int Count
         {
-            get { return this.GetAttributeValue<int>(CountAttributeName); }
-            private set { this.SetAttributeValue(CountAttributeName, value); }
+            get => this.GetAttributeValue<int>(CountAttributeName);
+            private set => this.SetAttributeValue(CountAttributeName, value);
         }
         #endregion
 

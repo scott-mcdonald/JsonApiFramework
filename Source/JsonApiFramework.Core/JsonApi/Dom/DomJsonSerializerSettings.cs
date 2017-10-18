@@ -7,15 +7,13 @@ using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi.Dom
 {
-    /// <summary>
-    /// Represents specialized JSON.NET settings for the JSON serialization and deserialization of the DOM.
-    /// </summary>
+    /// <summary>Represents specialized JSON.NET settings for the JSON serialization and deserialization of the DOM.</summary>
     public class DomJsonSerializerSettings
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Represents null value handling overrides per json:api property type.</summary>
-        public IReadOnlyDictionary<PropertyType, NullValueHandling> NullValueHandlingOverrides { get; set; }
+        public IReadOnlyDictionary<ApiPropertyType, NullValueHandling> NullValueHandlingOverrides { get; set; }
         #endregion
     }
 }

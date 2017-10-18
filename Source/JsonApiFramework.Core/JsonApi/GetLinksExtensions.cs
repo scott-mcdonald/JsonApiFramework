@@ -26,7 +26,7 @@ namespace JsonApiFramework.JsonApi
             if (links != null)
                 return links.GetHRef(rel);
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
 
         public static Link GetLink(this IGetLinks getLinks, string rel)
@@ -37,7 +37,7 @@ namespace JsonApiFramework.JsonApi
             if (links != null)
                 return links.GetLink(rel);
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
 
         public static Uri GetUri(this IGetLinks getLinks, string rel)
@@ -48,7 +48,7 @@ namespace JsonApiFramework.JsonApi
             if (links != null)
                 return links.GetUri(rel);
 
-            throw new LinkNotFoundException(rel);
+            throw LinksException.CreateNotFoundException(rel);
         }
 
         public static bool TryGetHRef(this IGetLinks getLinks, string rel, out string hRef)

@@ -2,16 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Collections;
+using JsonApiFramework.Json;
+
+using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Represents an immutable json:api relationships object.</summary>
-    public class Relationships
+    [JsonConverter(typeof(RelationshipsConverter))]
+    public class Relationships : JsonObject
+        , IEnumerable<KeyValuePair<string, Relationship>>
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -29,15 +35,19 @@ namespace JsonApiFramework.JsonApi
         #region Object Overrides
         public override string ToString()
         {
-            if (!this.OrderedReadOnlyRelationshipDictionary.Any())
-                return "{0} []".FormatWith(TypeName);
-
-            var content = this.OrderedReadOnlyRelationshipDictionary
-                              .Select(x => $"{x.Key}={x.Value.ToString()}")
-                              .Aggregate((current, next) => $"{current} {next}");
-
+            var content = String.Join(ToStringDelimiter, this.OrderedReadOnlyRelationshipDictionary.Select(x => $"{x.Key}={x.Value.ToString()}"));
             return "{0} [{1}]".FormatWith(TypeName, content);
         }
+        #endregion
+
+        #region IEnumerable<KeyValuePair<string, Link>> Implementation
+        public IEnumerator<KeyValuePair<string, Relationship>> GetEnumerator()
+        { return this.OrderedReadOnlyRelationshipDictionary.GetEnumerator(); }
+        #endregion
+
+        #region IEnumerable Implementation
+        IEnumerator IEnumerable.GetEnumerator()
+        { return this.GetEnumerator(); }
         #endregion
 
         #region Contains Methods
@@ -54,12 +64,17 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            Relationship relationship;
-            if (this.TryGetRelationship(rel, out relationship))
+            if (this.TryGetRelationship(rel, out var relationship))
                 return relationship;
 
-            throw new RelationshipNotFoundException(rel);
+            throw RelationshipsException.CreateNotFoundException(rel);
         }
+
+        public IEnumerable<Relationship> GetRelationships()
+        { return this.OrderedReadOnlyRelationshipDictionary.Values; }
+
+        public IEnumerable<string> GetRels()
+        { return this.OrderedReadOnlyRelationshipDictionary.Keys; }
 
         public bool TryGetRelationship(string rel, out Relationship relationship)
         {
@@ -80,6 +95,7 @@ namespace JsonApiFramework.JsonApi
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
+        private const string ToStringDelimiter = " ";
         private static readonly string TypeName = typeof(Relationships).Name;
         #endregion
     }

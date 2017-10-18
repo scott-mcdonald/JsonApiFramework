@@ -41,5 +41,5 @@ namespace JsonApiFramework.JsonApi
         Relationship,
         ToOneRelationship,
         ToManyRelationship
-    };
+    }
 }

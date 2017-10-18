@@ -3,7 +3,7 @@
 
 namespace JsonApiFramework.JsonApi
 {
-    /// <summary>json:api reserved keywords.</summary>
+    /// <summary>json:api keywords.</summary>
     public static class Keywords
     {
         #region String Constants
@@ -13,6 +13,8 @@ namespace JsonApiFramework.JsonApi
         public const string Code = "code";
         public const string Data = "data";
         public const string Detail = "detail";
+        public const string Document = "document";
+        public const string Error = "error";
         public const string Errors = "errors";
         public const string First = "first";
         public const string HRef = "href";
@@ -30,6 +32,8 @@ namespace JsonApiFramework.JsonApi
         public const string Related = "related";
         public const string Relationship = "relationship";
         public const string Relationships = "relationships";
+        public const string Resource = "resource";
+        public const string ResourceIdentifier = "resource identifier";
         public const string Self = "self";
         public const string Source = "source";
         public const string Status = "status";

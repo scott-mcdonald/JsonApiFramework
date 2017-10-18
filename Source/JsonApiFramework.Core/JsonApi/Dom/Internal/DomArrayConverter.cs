@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Net;
 
-using JsonApiFramework.Properties;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -38,37 +36,36 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
             Contract.Requires(objectType != null);
             Contract.Requires(jsonSerializer != null);
 
-            var domReadJsonContext = new DomReadJsonContext();
+            var domDeserializationContext = new DomDeserializationContext();
             var tokenType = jsonReader.TokenType;
             switch (tokenType)
             {
                 case JsonToken.Null:
-                    {
-                        return null;
-                    }
+                {
+                    // Convert JSON null into an empty array.
+                    var domArray = new DomArray();
+                    return domArray;
+                }
 
                 case JsonToken.StartArray:
-                    {
-                        var jArray = JArray.Load(jsonReader);
-                        var domArray = CreateDomArray(domReadJsonContext, jArray);
-                        if (!domReadJsonContext.AnyErrors())
-                            return domArray;
-                    }
-                    break;
+                {
+                    var jArray = JArray.Load(jsonReader);
+                    var domArray = CreateDomArray(domDeserializationContext, jArray);
+                    if (!domDeserializationContext.AnyErrors())
+                        return domArray;
+                }
+                break;
 
                 default:
-                    {
-                        var title = CoreErrorStrings.JsonReadErrorTitle;
-                        var detail = "Expected JSON null or JSON array when reading JSON representing a JSON array.";
-                        var source = ErrorSource.CreatePointer(jsonReader.Path);
-                        var error = new Error(null, null, HttpStatusCode.BadRequest, null, title, detail, source, null);
-                        domReadJsonContext.AddError(error);
-                    }
-                    break;
+                {
+                    var jsonPointer = jsonReader.GetJsonPointer();
+                    domDeserializationContext.AddJsonArrayError(jsonPointer);
+                }
+                break;
             }
 
-            var errorsCollection = domReadJsonContext.ErrorsCollection;
-            throw new ErrorsException(HttpStatusCode.BadRequest, errorsCollection);
+            var errorsCollection = domDeserializationContext.ErrorsCollection;
+            throw new JsonApiDeserializationException(HttpStatusCode.BadRequest, errorsCollection);
         }
         #endregion
     }

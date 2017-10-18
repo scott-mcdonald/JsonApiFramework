@@ -1,20 +1,23 @@
 # JsonApiFramework
 
-> **JsonApiFramework** is a fast, extensible, and portable **C#/.NET framework** for the reading and writing of client-side and server-side [JSON API](http://jsonapi.org) documents based on the domain model of the hypermedia API resources.
+> **JsonApiFramework** is a fast, extensible, and portable **.NET framework** for the reading and writing of client-side and server-side [JSON API](http://jsonapi.org) documents based on the domain model of the hypermedia API resources.
 
 ![](LogoBanner.png)
 
 ## Overview
 
-[JSON API](http://jsonapi.org) is an excellent specification for building hypermedia ([Level 3 REST API](http://martinfowler.com/articles/richardsonMaturityModel.html)) APIs in JSON. Using this standard solves the problem of how to **format** your hypermedia API responses (server) as well as requests for creating, updating, and deleting resources (client) with JSON. Adopting this standard promotes standardized communication protocols between client applications and hypermedia API servers making development and consumption of the hypermedia API effortless.
+[JSON API](http://jsonapi.org) is an excellent specification for building hypermedia ([Level 3 REST API](http://martinfowler.com/articles/richardsonMaturityModel.html)) APIs in [JSON](http://www.json.org). Using this standard solves the problem of how to **format** your hypermedia API responses (server) as well as requests for creating, updating, and deleting resources (client) with JSON. Adopting this standard promotes standardized communication protocols between client applications and hypermedia API servers making development and consumption of the hypermedia API effortless.
 
-**JsonApiFramework** is a fast, extensible, and portable **C#/.NET framework** that implements the [JSON API](http://jsonapi.org) 1.0 version of the specification that enables .NET developers to work with JSON API documents at a high level using .NET objects. Therefore the JsonApiFramework helps .NET developers focus on core application functionality rather than on protocol implementation.
+**JsonApiFramework** implements the [JSON API](http://jsonapi.org) 1.0 version of the specification that enables .NET developers to work with JSON API documents at a high level using .NET objects. Therefore **JsonApiFramework** helps .NET developers focus on core application functionality rather than on protocol implementation.
+
+**JsonApiFramework** is a framework where developers define a **service model** that represents the domain model of the resources produced and consumed by a hypermedia API server or client application either through *explicit configuration* and/or *implicit conventions*. With a **service model** developers can use a **document context** that represents a session with a JSON API **document** for reading and/or writing of various JSON API concepts such as resources, relationships, links, meta information, error objects, and JSON API version information encapsulated as high level CLR objects.
+
 
 ### Benefits and Features
 
-- **Never** have to work with JSON directly, instead work with C# objects
-- Reading JSON API documents through a *C# reader interface*
-- Building and Writing JSON API documents through a **C# fluent-style progressive builder interface** for
+- **Never** have to work with JSON directly, instead work with .NET CLR objects
+- Reading JSON API documents through a *reader interface*
+- Building and Writing JSON API documents through a **fluent-style progressive builder interface** for
     - *Resource* object documents
     - *Resource Identifier* object documents
     - *Error* object documents
@@ -22,29 +25,24 @@
     - Document links
     - Resource relationships and links	
 - Automatic conversion between JSON API resources and .NET CLR resources
-- Support for both **client-side** and **server-side** specific JSON API document building
+- Support for both **client-side** and **server-side** specific JSON API document building styles
 - Support for JSON API **compound documents** by
     - Inclusion of related resources
     - Circular resource references supported
     - Automatic generation of resource linkage between related resources 
-- Support for **HATEOAS** (Hypermedia as the Engine of Application State) for resource relationship and links 
+- Support for manual adding of resource linkage between related resources without needing to include related resources
+- Support for **HATEOAS** (**H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate) for resource relationship and links inclusion or exclusion with lambda expression predicates
 - Support for **complex types** at the resource level
-- Support for meta information at the document, resource, relationship, link, error, and JSON API object levels
-- Support for JSON API protocol version information at the document JSON API object level
-- Support for cross-platform development via PCL (**P**ortable **C**lass **L**ibrary) with `Profile 78`
-    - .NET Framework 4.5
-    - Windows Phone 8
-    - .NET for Windows Store apps
-    - Xamarin.Android
-    - Xamarin.iOS
-    - Xamarin.iOS (Classic)
+- Support for *meta* information at the document, resource, relationship, link, error, and JSON API version levels
+- Support for **portable** development with **JsonApiFramework** binaries compiled as [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) 1.0 class libraries
+    - Targeting the .NET Standard 1.0 version maximizes the number of platforms the JsonApiFramework binaries can be used on, see the [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) documentation for details
 - Fast reading and writing of JSON API documents
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
-    - Internally uses little reflection (slow), instead favoring compiled .NET expressions for **fast conversion** between JSON API and .NET CLR resources
+    - Internally uses *compiled* .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
 Extreme high code quality with **1,900+ unit tests**. Production ready.
 
-**For further details, please check out the [wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
+**For further details, please check out the [Wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [.NET Core Samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
 
 ## Usage examples
 
@@ -53,26 +51,35 @@ The following are some brief but concise usage examples to get an overall feel f
 Assume the following for the usage examples:
 
 ``` cs
-JsonApiFramework CLR Types
---------------------------
-Document                    Represents a JSON API document.
-DocumentContext             Represents a session with a JSON API document.
-IResource                   Abstracts the concept of a CLR resource. This is a marker interface
-                            and has no methods.
-
-                            Rationale for requiring this interface is to "mark" resource classes
-                            for compile-time generic constraint purposes.
-
-                            This aids in compile-time checks and generic inferences in the
-                            progressive fluent style builder interfaces/classes of the framework.
-
-Blogging CLR Types
-------------------
-BloggingDocumentContext     Specialization of DocumentContext for blogging resource types.
-
-                            Internally contains the service model (think metadata) of the
-                            blogging resource types with optional naming conventions to apply
-                            when converting between JSON API and .NET CLR resources.     
+// JsonApiFramework CLR Types
+// --------------------------
+// Document                    Represents a JSON API document.
+// DocumentContext             Represents a session with a JSON API document.
+// IResource                   Abstracts the concept of a CLR resource. This is a marker interface
+//                             and has no methods.
+// 
+//                             Rationale for requiring this interface is to "mark" resource classes
+//                             for compile-time generic constraint purposes.
+// 
+//                             This aids in compile-time checks and generic inferences in the
+//                             progressive fluent style builder interfaces/classes of the framework.
+// 
+// Blogging CLR Types
+// ------------------
+// BloggingDocumentContext     Specialization of DocumentContext for blogging resource types.
+// 
+//                             Internally contains the service model (think metadata) of the
+//                             blogging resource types with optional naming conventions to apply
+//                             when converting between JSON API and .NET CLR resources.     
+// 
+// Blogging Relationships
+// ----------------------
+// Blog has "to-many" relationship to Article named "articles"
+// 
+// Article has "to-one" relationship to Person named "author"
+// Article has "to-many" relationship to Comment named "comments"
+// 
+// Comment has "to-one" relationship to Person named "author"
 
 public class Blog : IResource
 {
@@ -100,15 +107,6 @@ public class Person : IResource
     public string LastName { get; set; }
     public string Twitter { get; set; }
 }
-
-Relationships
--------------
-Blog has "to-many" relationship to Article named "articles"
-
-Article has "to-one" relationship to Person named "author"
-Article has "to-many" relationship to Comment named "comments"
-
-Comment has "to-one" relationship to Person named "author"
 ```
 
 ### Server-side document building example #1:
@@ -148,14 +146,16 @@ public class ArticlesController : ApiController
                     .Resource(article)
                         // Article relationships
                         .Relationships()
-                            .Relationship("author") // article -> author
+                            // article -> author
+                            .Relationship("author")
                                 .Links()
                                     .AddSelfLink()
                                     .AddRelatedLink()
                                 .LinksEnd()
                             .RelationshipEnd()
 
-                            .Relationship("comments") // article -> comments
+                            // article -> comments
+                            .Relationship("comments")
                                 .Links()
                                     .AddSelfLink()
                                     .AddRelatedLink()
@@ -218,7 +218,7 @@ will create the following example JSON
 
 ### Server-side document building example #2:
 
-This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's related author and comments:
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's related author and comments resources:
 
 ``` http
 GET http://example.com/articles/1
@@ -255,8 +255,11 @@ public class ArticlesController : ApiController
                     .Resource(article)
                         // Article relationships
                         .Relationships()
-                            .AddRelationship("author", "self", "related")   // article -> author
-                            .AddRelationship("comments", "self", "related") // article -> comments
+                            // article -> author
+                            .AddRelationship("author", new [] { "self", "related" })
+
+                            // article -> comments
+                            .AddRelationship("comments", new [] { "self", "related" })
                         .RelationshipsEnd()
 
                         // Article links
@@ -270,31 +273,33 @@ public class ArticlesController : ApiController
 
                         // Convert related "to-one" CLR Person resource to JSON API resource
                         // Automatically generate "to-one" resource linkage in article to related author
-                        .ToOne(article, "author", author)
+                        .Include(ToOneIncludedResource.Create(article, "author", author))
                             // Author(Person) relationships
                             .Relationships()
-                                .AddRelationship("comments", "self", "related") // author -> comments
+                                 // author -> comments
+                                .AddRelationship("comments", new [] { "self", "related" })
                             .RelationshipsEnd()
 
                             // Author(Person) links
                             .Links()
                                 .AddLink("self")
                             .LinksEnd()
-                        .ToOneEnd()
+                        .IncludeEnd()
 
                         // Convert related "to-many" CLR Comment resources to JSON API resources
                         // Automatically generate "to-many" resource linkage in article to related comments
-                        .ToMany(article, "comments", comments)
+                        .Include(ToManyIncludedResources.Create(article, "comments", comments))
                             // Comments relationships
                             .Relationships()
-                                .AddRelationship("author", "self", "related") // comments -> author
+                                 // comments -> author
+                                .AddRelationship("author", new [] { "self", "related" })
                             .RelationshipsEnd()
 
                             // Comments links
                             .Links()
                                 .AddLink("self")
                             .LinksEnd()
-                        .ToManyEnd()
+                        .IncludeEnd()
 
                     .IncludedEnd()
 
@@ -408,6 +413,122 @@ will create the following example JSON
 }
 ```
 
+### Server-side document building example #3:
+
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article and server-side include of the article's resource linkage to related author and comments resources without including the related author and comments resources in the included section:
+
+``` http
+GET http://example.com/articles/1
+```
+
+``` cs
+public class ArticlesController : ApiController
+{
+    [Route("articles/{id}")]
+    public async Task<IHttpActionResult> GetAsync(string id)
+    {
+        Contract.Requires(String.IsNullOrWhitespace(id) == false);
+
+        // Get article and related author and comments /////////////////////
+        var article = await GetArticle();
+        var author = await GetArticleAuthor(article);
+        var comments = await GetArticleComments(article);
+
+        // Build and return JSON API document ////////////////////////////// 
+        var currentRequestUrl = HttpContext.Current.Request.Url;
+        using (var documentContext = new BloggingDocumentContext())
+        {
+            // Build new document.
+            var document = documentContext
+                .NewDocument(currentRequestUrl)
+
+                    // Document links
+                    .Links()
+                        .AddLink("up")
+                        .AddLink("self")
+                    .LinksEnd()
+
+                    // Resource document (convert CLR Article resource to JSON API resource)
+                    .Resource(article)
+                        // Article relationships
+                        .Relationships()
+                            // article -> author
+                            .Relationship("author")
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                                .SetData(ToOneResourceLinkage.Create(9))
+                            .RelationshipEnd()
+
+                            // article -> comments
+                            .Relationship("comments")
+                                .Links()
+                                    .AddSelfLink()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                                .SetData(ToManyResourceLinkage.Create(new [] {5, 12}))
+                            .RelationshipEnd()
+                        .RelationshipsEnd()
+
+                        // Article links
+                        .Links()
+                            .AddLink("self")
+                        .LinksEnd()
+                    .ResourceEnd()
+
+                .WriteDocument();
+    
+            // Return 200 OK
+            // Note: WebApi JsonMediaTypeFormatter serializes the JSON API document into JSON. 
+            return this.Ok(document);
+        }
+    }
+}
+```
+
+will create the following example JSON
+
+``` json
+{
+  "links": {
+    "up": "http://example.com/articles",
+    "self": "http://example.com/articles/1"
+  },
+  "data": {
+      "type": "articles",
+      "id": "1",
+      "attributes": {
+        "title": "JSON API paints my bikeshed!",
+        "text": "If you’ve ever argued with your team about the way your JSON responses should be
+                 formatted, JSON API can be your anti-bikeshedding tool."
+      },
+      "relationships": {
+        "author": {
+          "links": {
+            "self": "http://example.com/articles/1/relationships/author",
+            "related": "http://example.com/articles/1/author"
+          },
+          "data": { "type": "people", "id": "9" }
+        },
+        "comments": {
+          "links": {
+            "self": "http://example.com/articles/1/relationships/comments",
+            "related": "http://example.com/articles/1/comments"
+          },
+          "data": [
+            { "type": "comments", "id": "5" },
+            { "type": "comments", "id": "12" }
+          ]
+        }
+      },
+      "links": {
+        "self": "http://example.com/articles/1"
+      }
+    }
+}
+```
+
 ### Client-side document building for POST example:
 
 This example shows how a client-side ViewModel could construct and send a `POST` request with a JSON API document for creating resource purposes:
@@ -434,7 +555,7 @@ public class ArticlesViewModel : ViewModel
                     .Resource(article)
                         // Link new article to an existing author.
                         .Relationships()
-                            .AddRelationship("author", authorId)
+                            .AddRelationship("author", ToOneResourceLinkage.Create(authorId))
                         .RelationshipsEnd()
                     .ResourceEnd()
                 .WriteDocument();
@@ -498,7 +619,7 @@ public class ArticlesViewModel : ViewModel
                     // Resource document (manually build an Article JSON API resource)
                     .Resource<Article>()
                         // Set primary key
-                        .SetId(articleId)
+                        .SetId(Id.Create(articleId))
 
                         // Update title attribute
                         .Attributes()
@@ -613,14 +734,14 @@ From a JSON API document reading and writing standpoint, the reading of JSON API
 
 ### Projects
 
-| Project | PCL Assembly \* | Summary |
+| Project | Assembly \* | Summary |
 | --- | --- |--- |
 | JsonApiFramework.Core | JsonApiFramework.Core.dll | Portable core-level .NET class library for serializing and deserializing between raw JSON API documents and CLR resources. Portable core-level .NET framework for ServiceModel and Conventions. |
 | JsonApiFramework.Infrastructure | JsonApiFramework.Infrastructure.dll | Portable client-side and server-side .NET framework for JSON API document reading and writing. Depends on the JsonApiFramework.Core project. |
 | JsonApiFramework.Client | JsonApiFramework.Client.dll | Portable client-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
 | JsonApiFramework.Server | JsonApiFramework.Server.dll | Portable server-side .NET framework for JSON API document building. Depends on the JsonApiFramework.Core and JsonApiFramework.Infrastructure projects. |
 
-> \* All assemblies are **P**ortable **C**lass **L**ibrary binaries to support cross-platform development.
+> \* All assemblies are **.NET Standard** class libraries to support cross-platform development.
 
 ## Installation
 
@@ -628,27 +749,25 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 ### Option 1: From [NuGet](https://www.nuget.org) (easy peasy)
 
-Requires NuGet 2.12 or higher
-
 #### Client-Side Document Reading/Building/Writing
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.1.2-beta |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.5.1 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Client -Pre`
+> `PM> Install-Package JsonApiFramework.Client`
 
 #### Server-Side Document Reading/Building/Writing
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.1.2-beta |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.5.1 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Server -Pre`
+> `PM> Install-Package JsonApiFramework.Server`
 
 #### Shared Service Model Only
 
@@ -656,11 +775,11 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.1.2-beta |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.5.1 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
-> `PM> Install-Package JsonApiFramework.Core -Pre`
+> `PM> Install-Package JsonApiFramework.Core`
 
 ### Option 2: From source
 
@@ -680,17 +799,14 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 ## Development setup
 
-JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2013.
+JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2017.
 
 ### Prerequisites
 
-The only thing needed is **Visual Studio** 2013 or higher installed on your development machine. JsonApiFramework has dependencies on the *.NET Framework* and *nuget* packages, more specifically: 
-- **.NET Framework** 4.5 SDK
-- [JSON.NET](http://www.newtonsoft.com/json) 9.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
-- [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.1 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
+The only thing needed is **Visual Studio** 2017 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
+- [JSON.NET](http://www.newtonsoft.com/json) 10.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
+- [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.2 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
-
-.NET Framework SDK's are automatically installed with **Visual Studio** installations and when you rebuild the solution file nuget packages are automatically downloaded as needed.
 
 ### Running the tests
 
@@ -707,8 +823,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 ## Contributing
 
 1. Fork it!
-2. Checkout *develop* branch: `git checkout develop`
-2. Create your **feature** branch from *develop* branch: `git checkout -b my-new-feature`
+2. Checkout *master* branch: `git checkout master`
+2. Create your **feature** branch from *master* branch: `git checkout -b my-new-feature`
 3. Add your changes: `git add --all`
 3. Sign-off and commit your changes with a message: `git commit -sm 'commit message'`
 4. Push to the branch: `git push origin my-new-feature`
@@ -716,6 +832,26 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.5.1
+    * Fix #42 Fix exception being thrown if including empty/null resources in an empty/null document
+* v1.5.0
+    * Fix #41 Add support setting resource linkage without needing to include related resources
+    * Initial non-beta release.
+        * Note this initial non-beta release contains some breaking changes to the previous beta releases. These changes were made to simplify and make explicit building of a json:api documents. Should be obvious how to port previous code to this initial release but if any questions/issues submit an issue as needed.  
+    * Update README.md examples to reflect initial non-beta release of the framework.
+* v1.4.0-beta
+    * Fix #35 Add support for .NET Standard/Core
+    * Update README.md to reflect the change to .NET Standard for portability reasons
+    * Update README.md to reflect the change of the minimum version of Visual Studio to 2017
+* v1.3.0-beta
+    * Fix #38 Expose AddCamelCaseNamingConvention as an available naming convention
+* v1.2.1-beta
+    * Fix #32 Handle nullable properties when reading resources
+* v1.2.0-beta
+    * Fix #26 Add camelCasing naming convention
+* v1.1.3-beta
+    * Fix #24 Enhance Meta.Create<T> Static Method to Accept and Use JsonSerializerSettings
+    * Fix #23 Included ToOne or ToMany Related Resource(s) Referenced Multiple Times Throwing Key Already Exists Exception
 * v1.1.2-beta
     * Fix ResourceCollectionBuilder throwing NullReferenceException when document building
 * v1.1.1-beta
@@ -756,5 +892,4 @@ Please use the following support channels:
 ## License
 
 Licensed under the Apache License, Version 2.0. See `LICENSE.md` in the project root for license information.
-
 

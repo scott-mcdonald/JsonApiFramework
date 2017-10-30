@@ -100,7 +100,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("ClrTypeTestData")]
-        public void TestServiceModelNonGenericGetResourceType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
+        public void TestServiceModelNonGenericGetResourceTypeByClrType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -121,7 +121,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("ClrTypeTestData")]
-        public void TestServiceModelNonGenericTryGetResourceType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
+        public void TestServiceModelNonGenericTryGetResourceTypeByClrType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -147,7 +147,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("ApiTypeTestData")]
-        public void TestServiceModelNonGenericGetResourceType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
+        public void TestServiceModelNonGenericGetResourceTypeByApiType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);
@@ -168,7 +168,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         [Theory]
         [MemberData("ApiTypeTestData")]
-        public void TestServiceModelNonGenericTryGetResourceType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
+        public void TestServiceModelNonGenericTryGetResourceTypeByApiType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
             this.Output.WriteLine(String.Empty);

@@ -3,21 +3,24 @@
 
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
+using JsonApiFramework.JsonApi.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
-    public class ResourceIdentifierConverter : Converter<ResourceIdentifier>
+    public class ResourceIdentifierConverter : JsonConverter<ResourceIdentifier>
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
-        #region Converter<T> Overrides
+        #region JsonConverter<T> Overrides
         protected override ResourceIdentifier DeserializeJsonObject(JObject jObject, JsonSerializer serializer)
         {
             Contract.Requires(jObject != null);
             Contract.Requires(serializer != null);
 
-            var clrResourceIdentifier = ReadResourceIdentifierObject(jObject, serializer);
+            var clrResourceIdentifier = jObject.ReadResourceIdentifierObject(serializer);
             return clrResourceIdentifier;
         }
 
@@ -27,7 +30,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(clrResourceIdentifier != null);
 
-            WriteResourceIdentifierObject(writer, serializer, clrResourceIdentifier);
+            writer.WriteResourceIdentifierObject(serializer, clrResourceIdentifier);
         }
         #endregion
     }

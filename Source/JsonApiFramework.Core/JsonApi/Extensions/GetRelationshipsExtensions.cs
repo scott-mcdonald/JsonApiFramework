@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System;
 using System.Diagnostics.Contracts;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Extension methods for any object that implements the <c>IGetRelationships</c> interface.</summary>

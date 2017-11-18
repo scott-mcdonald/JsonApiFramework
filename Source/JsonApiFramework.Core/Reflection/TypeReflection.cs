@@ -179,6 +179,18 @@ namespace JsonApiFramework.Reflection
             return type.GetTypeInfo().IsClass;
         }
 
+        /// <summary>
+        /// A complex type is a type that cannot be converted with default "type converters".
+        /// </summary>
+        /// <param name="type">This type to query is a complex type or not.</param>
+        /// <returns>True is this type cannot be converted with a type converter, false otherwise.</returns>
+        public static bool IsComplex(Type type)
+        {
+            Contract.Requires(type != null);
+
+            return !TypeReflection.IsSimple(type);
+        }
+
         public static bool IsEnum(Type type)
         {
             Contract.Requires(type != null);
@@ -283,6 +295,34 @@ namespace JsonApiFramework.Reflection
 
             return type.GetTypeInfo().IsPrimitive || PrimitiveTypes.Contains(type);
 
+        }
+
+        /// <summary>
+        /// A simple type is a type that can be converted with default "type converters".
+        /// </summary>
+        /// <param name="type">This type to query is a simple type or not.</param>
+        /// <returns>True is this type can be converted with a type converter, false otherwise.</returns>
+        public static bool IsSimple(Type type)
+        {
+            Contract.Requires(type != null);
+
+            if (TypeReflection.IsPrimitive(type))
+                return true;
+
+            if (TypeReflection.IsNullableType(type))
+            {
+                var nullableUnderlyingType = Nullable.GetUnderlyingType(type);
+                return TypeReflection.IsSimple(nullableUnderlyingType);
+            }
+
+            // ReSharper disable once InvertIf
+            if (TypeReflection.IsEnum(type))
+            {
+                var enumUnderlyingType = Enum.GetUnderlyingType(type);
+                return TypeReflection.IsSimple(enumUnderlyingType);
+            }
+
+            return false;
         }
 
         public static bool IsString(Type type)
@@ -694,12 +734,15 @@ namespace JsonApiFramework.Reflection
 
         private static readonly HashSet<Type> PrimitiveTypes = new HashSet<Type>
             {
-                typeof(string),
+                typeof(byte[]),
                 typeof(decimal),
+                typeof(string),
                 typeof(DateTime),
                 typeof(DateTimeOffset),
+                typeof(Guid),
                 typeof(TimeSpan),
-                typeof(Guid)
+                typeof(Type),
+                typeof(Uri)
             };
         #endregion
     }

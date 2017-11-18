@@ -28,21 +28,21 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(DomDataTestData))]
-        public void TestJsonSerialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
+        [MemberData(nameof(DomJsonSerializationTestData))]
+        public void TestJsonSerialize(DomJsonSerializationUnitTestFactory domJsonSerializationTest)
         {
-            var data = domJsonSerializationUnitTestFactory.Data;
-            var factory = domJsonSerializationUnitTestFactory.DomJsonSerializeUnitTestFactory;
+            var data = domJsonSerializationTest.Data;
+            var factory = domJsonSerializationTest.DomJsonSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(DomDataTestData))]
-        public void TestJsonDeserialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
+        [MemberData(nameof(DomJsonSerializationTestData))]
+        public void TestJsonDeserialize(DomJsonSerializationUnitTestFactory domJsonSerializationTest)
         {
-            var data = domJsonSerializationUnitTestFactory.Data;
-            var factory = domJsonSerializationUnitTestFactory.DomJsonDeserializeUnitTestFactory;
+            var data = domJsonSerializationTest.Data;
+            var factory = domJsonSerializationTest.DomJsonDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -81,7 +81,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
                 NullValueHandling = NullValueHandling.Include
             };
 
-        public static readonly IEnumerable<object[]> DomDataTestData = new[]
+        public static readonly IEnumerable<object[]> DomJsonSerializationTestData = new[]
             {
                 new object[]
                     {

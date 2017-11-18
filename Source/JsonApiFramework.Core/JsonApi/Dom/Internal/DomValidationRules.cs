@@ -70,11 +70,11 @@ namespace JsonApiFramework.JsonApi.Dom.Internal
         private static IEnumerable<IDomValidationRule<TContext>> GetDomValidationRules<TContext>(IReadOnlyDictionary<Type, IEnumerable<IDomValidationRule>> domValidationRulesDictionary)
         {
             Contract.Requires(domValidationRulesDictionary != null);
-            
+
             var contextType = typeof(TContext);
             return domValidationRulesDictionary.TryGetValue(contextType, out var domValidationRules)
-    ? domValidationRules.Cast<IDomValidationRule<TContext>>()
-    : Enumerable.Empty<IDomValidationRule<TContext>>();
+                ? domValidationRules.Cast<IDomValidationRule<TContext>>()
+                : Enumerable.Empty<IDomValidationRule<TContext>>();
         }
 
         private static Dictionary<Type, IEnumerable<IDomValidationRule>> CreateDomValidationRulesDictionary(IEnumerable<IDomValidationRule> domValidationRules)

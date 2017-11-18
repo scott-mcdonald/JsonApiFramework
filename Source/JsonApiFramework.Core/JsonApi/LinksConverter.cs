@@ -3,12 +3,15 @@
 
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
+using JsonApiFramework.JsonApi.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
-    public class LinksConverter : Converter<Links>
+    public class LinksConverter : JsonConverter<Links>
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter<T> Overrides
@@ -17,7 +20,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(jObject != null);
             Contract.Requires(serializer != null);
 
-            var clrLinks = ReadLinksObject(jObject, serializer);
+            var clrLinks = jObject.ReadLinksObject(serializer);
             return clrLinks;
         }
 
@@ -27,7 +30,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(clrLinks != null);
 
-            WriteLinksObject(writer, serializer, clrLinks);
+            writer.WriteLinksObject(serializer, clrLinks);
         }
         #endregion
     }

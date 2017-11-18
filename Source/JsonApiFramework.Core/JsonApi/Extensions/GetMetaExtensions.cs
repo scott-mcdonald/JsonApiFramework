@@ -3,6 +3,7 @@
 
 using System.Diagnostics.Contracts;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Extension methods for any object that implements the <c>IGetMeta</c> interface.</summary>

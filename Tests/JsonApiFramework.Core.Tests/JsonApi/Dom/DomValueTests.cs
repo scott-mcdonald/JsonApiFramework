@@ -31,21 +31,21 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(DomValueTestData))]
-        public void TestJsonSerialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
+        [MemberData(nameof(DomJsonSerializationTestData))]
+        public void TestJsonSerialize(DomJsonSerializationUnitTestFactory domJsonSerializationTest)
         {
-            var data = domJsonSerializationUnitTestFactory.Data;
-            var factory = domJsonSerializationUnitTestFactory.DomJsonSerializeUnitTestFactory;
+            var data = domJsonSerializationTest.Data;
+            var factory = domJsonSerializationTest.DomJsonSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(DomValueTestData))]
-        public void TestJsonDeserialize(DomJsonSerializationUnitTestFactory domJsonSerializationUnitTestFactory)
+        [MemberData(nameof(DomJsonSerializationTestData))]
+        public void TestJsonDeserialize(DomJsonSerializationUnitTestFactory domJsonSerializationTest)
         {
-            var data = domJsonSerializationUnitTestFactory.Data;
-            var factory = domJsonSerializationUnitTestFactory.DomJsonDeserializeUnitTestFactory;
+            var data = domJsonSerializationTest.Data;
+            var factory = domJsonSerializationTest.DomJsonDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -105,7 +105,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
 
         public const string TestString = "The quick brown fox jumps over the lazy dog";
 
-        public static readonly IEnumerable<object[]> DomValueTestData = new[]
+        public static readonly IEnumerable<object[]> DomJsonSerializationTestData = new[]
             {
                 new object[]
                     {

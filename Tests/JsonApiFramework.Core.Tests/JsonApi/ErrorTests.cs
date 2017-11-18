@@ -30,21 +30,21 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(ErrorTestData))]
-        public void TestErrorSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ErrorTestData))]
-        public void TestErrorDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -74,7 +74,7 @@ namespace JsonApiFramework.Tests.JsonApi
             StackTrace = "Foo.Method1 line 42\nFoo.Method2 line 24\nBar.Method1 line 86\nBar.Method2 line 68"
         };
 
-        public static readonly IEnumerable<object[]> ErrorTestData = new[]
+        public static readonly IEnumerable<object[]> JsonSerializationTestData = new[]
         {
             new object[]
             {

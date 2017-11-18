@@ -53,16 +53,11 @@ namespace JsonApiFramework.JsonApi
 
         // PUBLIC OPERATORS /////////////////////////////////////////////////
         #region Conversion Operators
-        public static implicit operator Error(Exception exception)
+        public static explicit operator Error(Exception exception)
         {
             Contract.Requires(exception != null);
 
-            var id = CreateId();
-            const HttpStatusCode status = HttpStatusCode.InternalServerError;
-            var title = exception.GetType().Name;
-            var detail = exception.Message;
-
-            var error = new Error(id, null, status, null, title, detail, null, null);
+            var error = Create(exception);
             return error;
         }
         #endregion
@@ -87,6 +82,22 @@ namespace JsonApiFramework.JsonApi
         public static string GetOrCreateId(string id)
         {
             return String.IsNullOrWhiteSpace(id) ? CreateId() : id;
+        }
+        #endregion
+
+        // INTERNAL METHODS /////////////////////////////////////////////////
+        #region Methods
+        internal static Error Create(Exception exception, string title = null)
+        {
+            Contract.Requires(exception != null);
+
+            var id = CreateId();
+            const HttpStatusCode status = HttpStatusCode.InternalServerError;
+            title = title ?? exception.GetType().Name;
+            var detail = exception.Message;
+
+            var error = new Error(id, null, status, null, title, detail, null, null);
+            return error;
         }
         #endregion
     }

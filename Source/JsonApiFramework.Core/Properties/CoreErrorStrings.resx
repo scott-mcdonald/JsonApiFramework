@@ -213,6 +213,18 @@
   <data name="RelationshipsRelationshipNotFoundTitle" xml:space="preserve">
     <value>Relationship Not Found</value>
   </data>
+  <data name="MetadataExceptionMissingMetadataDetail" xml:space="preserve">
+    <value>{0} has missing {1} metadata. Ensure metadata is configured correctly for the respective domain/schema.</value>
+  </data>
+  <data name="MetadataExceptionTitle" xml:space="preserve">
+    <value>Metadata Error</value>
+  </data>
+    <data name="MetadataDeserializationExceptionTitle" xml:space="preserve">
+    <value>MetadataDeserialization Error</value>
+  </data>
+    <data name="MetadataDeserializationExceptionInvalidJsonDetail" xml:space="preserve">
+    <value>Unable to deserialize {0}, error with {1}.</value>
+  </data>
   <data name="TreeExceptionNodeAlreadyAddedMessage" xml:space="preserve">
     <value>{0} node has already been added to a tree.</value>
   </data>

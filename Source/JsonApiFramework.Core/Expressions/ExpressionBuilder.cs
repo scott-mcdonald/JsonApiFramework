@@ -180,17 +180,17 @@ namespace JsonApiFramework.Expressions
         #endregion
 
         #region New Methods
-        public static Expression<Func<TObject>> New<TObject>()
+        public static Expression<Func<TObject>> New<TObject>(Type objectType = null)
         {
-            var objectType = typeof(TObject);
+            objectType = objectType ?? typeof(TObject);
             var newExpression = Expression.New(objectType);
             var lambdaExpression = Expression.Lambda<Func<TObject>>(newExpression);
             return lambdaExpression;
         }
 
-        public static Expression<Func<TArgument, TObject>> New<TArgument, TObject>()
+        public static Expression<Func<TArgument, TObject>> New<TArgument, TObject>(Type objectType = null)
         {
-            var objectType = typeof(TObject);
+            objectType = objectType ?? typeof(TObject);
             var argumentType = typeof(TArgument);
             var argumentExpression = Expression.Parameter(argumentType, "a");
             var constructorInfo = TypeReflection.GetConstructor(objectType, argumentType);
@@ -199,9 +199,9 @@ namespace JsonApiFramework.Expressions
             return lambdaExpression;
         }
 
-        public static Expression<Func<TArgument1, TArgument2, TObject>> New<TArgument1, TArgument2, TObject>()
+        public static Expression<Func<TArgument1, TArgument2, TObject>> New<TArgument1, TArgument2, TObject>(Type objectType = null)
         {
-            var objectType = typeof(TObject);
+            objectType = objectType ?? typeof(TObject);
             var argument1Type = typeof(TArgument1);
             var argument2Type = typeof(TArgument2);
             var argument1Expression = Expression.Parameter(argument1Type, "a");
@@ -209,6 +209,57 @@ namespace JsonApiFramework.Expressions
             var constructorInfo = TypeReflection.GetConstructor(objectType, argument1Type, argument2Type);
             var newExpression = Expression.New(constructorInfo, argument1Expression, argument2Expression);
             var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TObject>>(newExpression, argument1Expression, argument2Expression);
+            return lambdaExpression;
+        }
+
+        public static Expression<Func<TArgument1, TArgument2, TArgument3, TObject>> New<TArgument1, TArgument2, TArgument3, TObject>(Type objectType = null)
+        {
+            objectType = objectType ?? typeof(TObject);
+            var argument1Type = typeof(TArgument1);
+            var argument2Type = typeof(TArgument2);
+            var argument3Type = typeof(TArgument3);
+            var argument1Expression = Expression.Parameter(argument1Type, "a");
+            var argument2Expression = Expression.Parameter(argument2Type, "b");
+            var argument3Expression = Expression.Parameter(argument3Type, "c");
+            var constructorInfo = TypeReflection.GetConstructor(objectType, argument1Type, argument2Type, argument3Type);
+            var newExpression = Expression.New(constructorInfo, argument1Expression, argument2Expression, argument3Expression);
+            var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TArgument3, TObject>>(newExpression, argument1Expression, argument2Expression, argument3Expression);
+            return lambdaExpression;
+        }
+
+        public static Expression<Func<TArgument1, TArgument2, TArgument3, TArgument4, TObject>> New<TArgument1, TArgument2, TArgument3, TArgument4, TObject>(Type objectType = null)
+        {
+            objectType = objectType ?? typeof(TObject);
+            var argument1Type = typeof(TArgument1);
+            var argument2Type = typeof(TArgument2);
+            var argument3Type = typeof(TArgument3);
+            var argument4Type = typeof(TArgument4);
+            var argument1Expression = Expression.Parameter(argument1Type, "a");
+            var argument2Expression = Expression.Parameter(argument2Type, "b");
+            var argument3Expression = Expression.Parameter(argument3Type, "c");
+            var argument4Expression = Expression.Parameter(argument4Type, "d");
+            var constructorInfo = TypeReflection.GetConstructor(objectType, argument1Type, argument2Type, argument3Type, argument4Type);
+            var newExpression = Expression.New(constructorInfo, argument1Expression, argument2Expression, argument3Expression, argument4Expression);
+            var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TArgument3, TArgument4, TObject>>(newExpression, argument1Expression, argument2Expression, argument3Expression, argument4Expression);
+            return lambdaExpression;
+        }
+
+        public static Expression<Func<TArgument1, TArgument2, TArgument3, TArgument4, TArgument5, TObject>> New<TArgument1, TArgument2, TArgument3, TArgument4, TArgument5, TObject>(Type objectType = null)
+        {
+            objectType = objectType ?? typeof(TObject);
+            var argument1Type = typeof(TArgument1);
+            var argument2Type = typeof(TArgument2);
+            var argument3Type = typeof(TArgument3);
+            var argument4Type = typeof(TArgument4);
+            var argument5Type = typeof(TArgument5);
+            var argument1Expression = Expression.Parameter(argument1Type, "a");
+            var argument2Expression = Expression.Parameter(argument2Type, "b");
+            var argument3Expression = Expression.Parameter(argument3Type, "c");
+            var argument4Expression = Expression.Parameter(argument4Type, "d");
+            var argument5Expression = Expression.Parameter(argument5Type, "e");
+            var constructorInfo = TypeReflection.GetConstructor(objectType, argument1Type, argument2Type, argument3Type, argument4Type, argument5Type);
+            var newExpression = Expression.New(constructorInfo, argument1Expression, argument2Expression, argument3Expression, argument4Expression, argument5Expression);
+            var lambdaExpression = Expression.Lambda<Func<TArgument1, TArgument2, TArgument3, TArgument4, TArgument5, TObject>>(newExpression, argument1Expression, argument2Expression, argument3Expression, argument4Expression, argument5Expression);
             return lambdaExpression;
         }
         #endregion

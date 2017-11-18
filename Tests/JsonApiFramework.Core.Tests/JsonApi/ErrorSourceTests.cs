@@ -26,21 +26,21 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(ErrorSourceTestData))]
-        public void TestErrorSourceSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ErrorSourceTestData))]
-        public void TestErrorSourceDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -60,7 +60,7 @@ namespace JsonApiFramework.Tests.JsonApi
             NullValueHandling = NullValueHandling.Include
         };
 
-        public static readonly IEnumerable<object[]> ErrorSourceTestData = new[]
+        public static readonly IEnumerable<object[]> JsonSerializationTestData = new[]
         {
             new object[]
             {

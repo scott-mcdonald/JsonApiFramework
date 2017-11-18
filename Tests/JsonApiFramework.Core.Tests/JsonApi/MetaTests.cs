@@ -29,21 +29,21 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(MetaTestData))]
-        public void TestMetaSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(MetaTestData))]
-        public void TestMetaDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(JsonSerializationTestData))]
+        public void TestJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -71,7 +71,7 @@ namespace JsonApiFramework.Tests.JsonApi
             Authors = new[] {"John Doe", "Jane Doe"}
         };
 
-        public static readonly IEnumerable<object[]> MetaTestData = new[]
+        public static readonly IEnumerable<object[]> JsonSerializationTestData = new[]
         {
             new object[]
             {

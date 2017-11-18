@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>Extension methods for any object that implements the <c>IGetLinks</c> interface.</summary>

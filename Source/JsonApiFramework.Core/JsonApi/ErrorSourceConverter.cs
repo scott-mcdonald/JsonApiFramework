@@ -3,12 +3,15 @@
 
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Json;
+using JsonApiFramework.JsonApi.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi
 {
-    public class ErrorSourceConverter : Converter<ErrorSource>
+    public class ErrorSourceConverter : JsonConverter<ErrorSource>
     {
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Converter<T> Overrides
@@ -17,7 +20,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(jObject != null);
             Contract.Requires(serializer != null);
 
-            var clrErrorSource = ReadErrorSourceObject(jObject, serializer);
+            var clrErrorSource = jObject.ReadErrorSourceObject(serializer);
             return clrErrorSource;
         }
 
@@ -27,7 +30,7 @@ namespace JsonApiFramework.JsonApi
             Contract.Requires(serializer != null);
             Contract.Requires(clrErrorSource != null);
 
-            WriteErrorSourceObject(writer, serializer, clrErrorSource);
+            writer.WriteErrorSourceObject(serializer, clrErrorSource);
         }
         #endregion
     }

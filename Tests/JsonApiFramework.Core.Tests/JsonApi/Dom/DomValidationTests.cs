@@ -32,7 +32,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(DomDeserializationValidationTestData))]
+        [MemberData(nameof(DomJsonSerializationTestData))]
         public void TestDomDeserializationValidation(IUnitTest unitTest)
         {
             unitTest.Execute(this);
@@ -53,7 +53,7 @@ namespace JsonApiFramework.Tests.JsonApi.Dom
             };
 
 
-        public static readonly IEnumerable<object[]> DomDeserializationValidationTestData = new[]
+        public static readonly IEnumerable<object[]> DomJsonSerializationTestData = new[]
             {
                 new object[]
                     {

@@ -27,20 +27,20 @@ namespace JsonApiFramework.Tests.Json
         #region Test Methods
         [Theory]
         [MemberData(nameof(JsonObjectTestData))]
-        public void TestJsonObjectSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        public void TestJsonObjectSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
         [MemberData(nameof(JsonObjectTestData))]
-        public void TestJsonObjectDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        public void TestJsonObjectDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }

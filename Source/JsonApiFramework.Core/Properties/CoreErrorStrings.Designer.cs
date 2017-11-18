@@ -10,7 +10,6 @@
 
 namespace JsonApiFramework.Properties {
     using System;
-    using System.Reflection;
     
     
     /// <summary>
@@ -20,7 +19,7 @@ namespace JsonApiFramework.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class CoreErrorStrings {
@@ -40,7 +39,7 @@ namespace JsonApiFramework.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    var temp = new global::System.Resources.ResourceManager("JsonApiFramework.Properties.CoreErrorStrings", typeof(CoreErrorStrings).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JsonApiFramework.Properties.CoreErrorStrings", typeof(CoreErrorStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -293,6 +292,42 @@ namespace JsonApiFramework.Properties {
         internal static string LinksLinkNotFoundTitle {
             get {
                 return ResourceManager.GetString("LinksLinkNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to deserialize {0}, error with {1}..
+        /// </summary>
+        internal static string MetadataDeserializationExceptionInvalidJsonDetail {
+            get {
+                return ResourceManager.GetString("MetadataDeserializationExceptionInvalidJsonDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MetadataDeserialization Error.
+        /// </summary>
+        internal static string MetadataDeserializationExceptionTitle {
+            get {
+                return ResourceManager.GetString("MetadataDeserializationExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has missing {1} metadata. Ensure metadata is configured correctly for the respective domain/schema..
+        /// </summary>
+        internal static string MetadataExceptionMissingMetadataDetail {
+            get {
+                return ResourceManager.GetString("MetadataExceptionMissingMetadataDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metadata Error.
+        /// </summary>
+        internal static string MetadataExceptionTitle {
+            get {
+                return ResourceManager.GetString("MetadataExceptionTitle", resourceCulture);
             }
         }
         

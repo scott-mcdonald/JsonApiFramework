@@ -29,61 +29,61 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData(nameof(RelationshipTestData))]
-        public void TestRelationshipSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(RelationshipJsonTestData))]
+        public void TestRelationshipJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(RelationshipTestData))]
-        public void TestRelationshipDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(RelationshipJsonTestData))]
+        public void TestRelationshipJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ToOneRelationshipTestData))]
-        public void TestToOneRelationshipSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(ToOneRelationshipJsonTestData))]
+        public void TestToOneRelationshipJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ToOneRelationshipTestData))]
-        public void TestToOneRelationshipDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(ToOneRelationshipJsonTestData))]
+        public void TestToOneRelationshipJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ToManyRelationshipTestData))]
-        public void TestToManyRelationshipSerialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(ToManyRelationshipJsonTestData))]
+        public void TestToManyRelationshipJsonSerialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectSerializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectSerializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
 
         [Theory]
-        [MemberData(nameof(ToManyRelationshipTestData))]
-        public void TestToManyRelationshipDeserialize(JsonObjectSerializationUnitTestFactory jsonObjectSerializationUnitTestFactory)
+        [MemberData(nameof(ToManyRelationshipJsonTestData))]
+        public void TestToManyRelationshipJsonDeserialize(JsonObjectSerializationUnitTestFactory jsonSerializationTest)
         {
-            var data = jsonObjectSerializationUnitTestFactory.Data;
-            var factory = jsonObjectSerializationUnitTestFactory.JsonObjectDeserializeUnitTestFactory;
+            var data = jsonSerializationTest.Data;
+            var factory = jsonSerializationTest.JsonObjectDeserializeUnitTestFactory;
             var unitTest = factory(data);
             unitTest.Execute(this);
         }
@@ -118,7 +118,7 @@ namespace JsonApiFramework.Tests.JsonApi
             Version = 1.23m
         };
 
-        public static readonly IEnumerable<object[]> RelationshipTestData = new[]
+        public static readonly IEnumerable<object[]> RelationshipJsonTestData = new[]
             {
                 new object[]
                     {
@@ -204,7 +204,7 @@ namespace JsonApiFramework.Tests.JsonApi
                 },
             };
 
-        public static readonly IEnumerable<object[]> ToOneRelationshipTestData = new[]
+        public static readonly IEnumerable<object[]> ToOneRelationshipJsonTestData = new[]
         {
             new object[]
             {
@@ -337,7 +337,7 @@ namespace JsonApiFramework.Tests.JsonApi
             },
         };
 
-        public static readonly IEnumerable<object[]> ToManyRelationshipTestData = new[]
+        public static readonly IEnumerable<object[]> ToManyRelationshipJsonTestData = new[]
         {
             new object[]
             {

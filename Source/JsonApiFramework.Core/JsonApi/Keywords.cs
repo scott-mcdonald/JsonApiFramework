@@ -33,7 +33,7 @@ namespace JsonApiFramework.JsonApi
         public const string Relationship = "relationship";
         public const string Relationships = "relationships";
         public const string Resource = "resource";
-        public const string ResourceIdentifier = "resource identifier";
+        public const string ResourceIdentifier = "resource-identifier";
         public const string Self = "self";
         public const string Source = "source";
         public const string Status = "status";

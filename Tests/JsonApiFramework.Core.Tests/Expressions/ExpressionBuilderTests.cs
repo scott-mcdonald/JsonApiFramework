@@ -78,6 +78,9 @@ namespace JsonApiFramework.Tests.Expressions
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Test Data
+        private static readonly Guid TestGuid = Guid.NewGuid();
+        private static readonly DateTime TestDateTime = DateTime.Now;
+
         public static readonly IEnumerable<object[]> CallTestData = new[]
             {
                 new object[] { new MethodCallWith0ArgumentsUnitTest<Adder, string>("WithAdderObjectAnd0ArgumentsAndReturnValue", new Adder(), "Add", Adder.DefaultSum) },
@@ -156,9 +159,19 @@ namespace JsonApiFramework.Tests.Expressions
 
         public static readonly IEnumerable<object[]> NewTestData = new[]
             {
-                new object[] { new NewWith0ArgumentsUnitTest<Foo>("With0Arguments", new Foo()) },
-                new object[] { new NewWith1ArgumentsUnitTest<int, Foo>("With1Arguments", 42, new Foo(42)) },
-                new object[] { new NewWith2ArgumentsUnitTest<int, string, Foo>("With2Arguments", 42, "42", new Foo(42, "42")) },
+                new object[] { new NewWith0ArgumentsUnitTest<Foo>("WithImplicitObjectTypeAnd0Arguments", new Foo(), null) },
+                new object[] { new NewWith1ArgumentsUnitTest<int, Foo>("WithImplicitObjectTypeAnd1Arguments", 42, new Foo(42), null) },
+                new object[] { new NewWith2ArgumentsUnitTest<int, string, Foo>("WithImplicitObjectTypeAnd2Arguments", 42, "42", new Foo(42, "42"), null) },
+                new object[] { new NewWith3ArgumentsUnitTest<int, string, decimal, Foo>("WithImplicitObjectTypeAnd3Arguments", 42, "42", 24.0m, new Foo(42, "42", 24.0m), null) },
+                new object[] { new NewWith4ArgumentsUnitTest<int, string, decimal, Guid, Foo>("WithImplicitObjectTypeAnd4Arguments", 42, "42", 24.0m, TestGuid, new Foo(42, "42", 24.0m, TestGuid), null) },
+                new object[] { new NewWith5ArgumentsUnitTest<int, string, decimal, Guid, DateTime, Foo>("WithImplicitObjectTypeAnd5Arguments", 42, "42", 24.0m, TestGuid, TestDateTime, new Foo(42, "42", 24.0m, TestGuid, TestDateTime), null) },
+
+                new object[] { new NewWith0ArgumentsUnitTest<IFoo>("WithExplicitObjectTypeAnd0Arguments", new Foo(), typeof(Foo)) },
+                new object[] { new NewWith1ArgumentsUnitTest<int, IFoo>("WithExplicitObjectTypeAnd1Arguments", 42, new Foo(42), typeof(Foo)) },
+                new object[] { new NewWith2ArgumentsUnitTest<int, string, IFoo>("WithExplicitObjectTypeAnd2Arguments", 42, "42", new Foo(42, "42"), typeof(Foo)) },
+                new object[] { new NewWith3ArgumentsUnitTest<int, string, decimal, IFoo>("WithExplicitObjectTypeAnd3Arguments", 42, "42", 24.0m, new Foo(42, "42", 24.0m), typeof(Foo)) },
+                new object[] { new NewWith4ArgumentsUnitTest<int, string, decimal, Guid, IFoo>("WithExplicitObjectTypeAnd4Arguments", 42, "42", 24.0m, TestGuid, new Foo(42, "42", 24.0m, TestGuid), typeof(Foo)) },
+                new object[] { new NewWith5ArgumentsUnitTest<int, string, decimal, Guid, DateTime, IFoo>("WithExplicitObjectTypeAnd5Arguments", 42, "42", 24.0m, TestGuid, TestDateTime, new Foo(42, "42", 24.0m, TestGuid, TestDateTime), typeof(Foo)) },
             };
 
         public static readonly IEnumerable<object[]> PropertyGetterTestData = new[]
@@ -209,6 +222,9 @@ namespace JsonApiFramework.Tests.Expressions
         {
             int IntProperty { get; set; }
             string StringProperty { get; set; }
+            decimal DecimalProperty { get; set; }
+            Guid GuidProperty { get; set; }
+            DateTime DateTimeProperty { get; set; }
 
             void Bar();
         }
@@ -234,11 +250,51 @@ namespace JsonApiFramework.Tests.Expressions
                 StaticStringProperty = stringValue;
             }
 
+            public Foo(int intValue, string stringValue, decimal decimalValue)
+            {
+                this.IntProperty = intValue;
+                this.StringProperty = stringValue;
+
+                StaticIntProperty = intValue;
+                StaticStringProperty = stringValue;
+
+                this.DecimalProperty = decimalValue;
+            }
+
+            public Foo(int intValue, string stringValue, decimal decimalValue, Guid guidValue)
+            {
+                this.IntProperty = intValue;
+                this.StringProperty = stringValue;
+
+                StaticIntProperty = intValue;
+                StaticStringProperty = stringValue;
+
+                this.DecimalProperty = decimalValue;
+                this.GuidProperty = guidValue;
+            }
+
+            public Foo(int intValue, string stringValue, decimal decimalValue, Guid guidValue, DateTime dateTimeValue)
+            {
+                this.IntProperty = intValue;
+                this.StringProperty = stringValue;
+
+                StaticIntProperty = intValue;
+                StaticStringProperty = stringValue;
+
+                this.DecimalProperty = decimalValue;
+                this.GuidProperty = guidValue;
+                this.DateTimeProperty = dateTimeValue;
+            }
+
             public int IntProperty { get; set; }
             public string StringProperty { get; set; }
 
             public static int StaticIntProperty { get; set; }
             public static string StaticStringProperty { get; set; }
+
+            public decimal DecimalProperty { get; set; }
+            public Guid GuidProperty { get; set; }
+            public DateTime DateTimeProperty { get; set; }
 
             public override bool Equals(object other)
             {
@@ -260,11 +316,14 @@ namespace JsonApiFramework.Tests.Expressions
             {
                 var intPropertyHashCode = this.IntProperty.GetHashCode();
                 var stringPropertyHashCode = (this.StringProperty ?? String.Empty).GetHashCode();
-                return intPropertyHashCode ^ stringPropertyHashCode;
+                var decimalHasCode = this.DecimalProperty.GetHashCode();
+                var guidHashCode = this.GuidProperty.GetHashCode();
+                var dateTimeHashCode = this.DateTimeProperty.GetHashCode();
+                return intPropertyHashCode ^ stringPropertyHashCode ^ decimalHasCode ^ guidHashCode ^ dateTimeHashCode;
             }
 
             public override string ToString()
-            { return "{0} [IntProperty={1} StringProperty={2}]".FormatWith(this.GetType().Name, this.IntProperty, this.StringProperty); }
+            { return "{0} [IntProperty={1} StringProperty={2} DecimalProperty={3} GuidProperty={4} DateTimeProperty={5}]".FormatWith(this.GetType().Name, this.IntProperty, this.StringProperty, this.DecimalProperty, this.GuidProperty, this.DateTimeProperty); }
 
             public virtual void Bar() { }
         }
@@ -280,6 +339,18 @@ namespace JsonApiFramework.Tests.Expressions
 
             public FooExtended(int intValue, string stringValue)
                 : base(intValue, stringValue)
+            { }
+
+            public FooExtended(int intValue, string stringValue, decimal decimalValue)
+                : base(intValue, stringValue, decimalValue)
+            { }
+
+            public FooExtended(int intValue, string stringValue, decimal decimalValue, Guid guidValue)
+                : base(intValue, stringValue, decimalValue, guidValue)
+            { }
+
+            public FooExtended(int intValue, string stringValue, decimal decimalValue, Guid guidValue, DateTime dateTimeValue)
+                : base(intValue, stringValue, decimalValue, guidValue, dateTimeValue)
             { }
 
             public override void Bar() { }
@@ -1300,10 +1371,11 @@ namespace JsonApiFramework.Tests.Expressions
         {
             // PUBLIC CONSTRUCTORS //////////////////////////////////////////
             #region Constructors
-            public NewWith0ArgumentsUnitTest(string name, TObject expected)
+            public NewWith0ArgumentsUnitTest(string name, TObject expected, Type objectType)
                 : base(name)
             {
                 this.Expected = expected;
+                this.ObjectType = objectType;
             }
             #endregion
 
@@ -1316,7 +1388,7 @@ namespace JsonApiFramework.Tests.Expressions
 
             protected override void Act()
             {
-                var newWith0ArgumentsLambdaExpression = ExpressionBuilder.New<TObject>();
+                var newWith0ArgumentsLambdaExpression = ExpressionBuilder.New<TObject>(this.ObjectType);
                 this.WriteLine("Lambda   = {0}", newWith0ArgumentsLambdaExpression);
 
                 var newWith0ArgumentsLambda = newWith0ArgumentsLambdaExpression.Compile();
@@ -1336,7 +1408,8 @@ namespace JsonApiFramework.Tests.Expressions
             #endregion
 
             #region User Supplied Properties
-            TObject Expected { get; set; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
             #endregion
         }
 
@@ -1344,11 +1417,12 @@ namespace JsonApiFramework.Tests.Expressions
         {
             // PUBLIC CONSTRUCTORS //////////////////////////////////////////
             #region Constructors
-            public NewWith1ArgumentsUnitTest(string name, TArgument argument, TObject expected)
+            public NewWith1ArgumentsUnitTest(string name, TArgument argument, TObject expected, Type objectType)
                 : base(name)
             {
                 this.Argument = argument;
                 this.Expected = expected;
+                this.ObjectType = objectType;
             }
             #endregion
 
@@ -1362,7 +1436,7 @@ namespace JsonApiFramework.Tests.Expressions
 
             protected override void Act()
             {
-                var newWith1ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument, TObject>();
+                var newWith1ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument, TObject>(this.ObjectType);
                 this.WriteLine("Lambda   = {0}", newWith1ArgumentsLambdaExpression);
 
                 var newWith1ArgumentsLambda = newWith1ArgumentsLambdaExpression.Compile();
@@ -1382,8 +1456,9 @@ namespace JsonApiFramework.Tests.Expressions
             #endregion
 
             #region User Supplied Properties
-            TArgument Argument { get; set; }
-            TObject Expected { get; set; }
+            TArgument Argument { get; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
             #endregion
         }
 
@@ -1391,12 +1466,13 @@ namespace JsonApiFramework.Tests.Expressions
         {
             // PUBLIC CONSTRUCTORS //////////////////////////////////////////
             #region Constructors
-            public NewWith2ArgumentsUnitTest(string name, TArgument1 argument1, TArgument2 argument2, TObject expected)
+            public NewWith2ArgumentsUnitTest(string name, TArgument1 argument1, TArgument2 argument2, TObject expected, Type objectType)
                 : base(name)
             {
                 this.Argument1 = argument1;
                 this.Argument2 = argument2;
                 this.Expected = expected;
+                this.ObjectType = objectType;
             }
             #endregion
 
@@ -1411,7 +1487,7 @@ namespace JsonApiFramework.Tests.Expressions
 
             protected override void Act()
             {
-                var newWith2ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument1, TArgument2, TObject>();
+                var newWith2ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument1, TArgument2, TObject>(this.ObjectType);
                 this.WriteLine("Lambda     = {0}", newWith2ArgumentsLambdaExpression);
 
                 var newWith2ArgumentsLambda = newWith2ArgumentsLambdaExpression.Compile();
@@ -1431,9 +1507,184 @@ namespace JsonApiFramework.Tests.Expressions
             #endregion
 
             #region User Supplied Properties
-            TArgument1 Argument1 { get; set; }
-            TArgument2 Argument2 { get; set; }
-            TObject Expected { get; set; }
+            TArgument1 Argument1 { get; }
+            TArgument2 Argument2 { get; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
+            #endregion
+        }
+
+        public class NewWith3ArgumentsUnitTest<TArgument1, TArgument2, TArgument3, TObject> : UnitTest
+        {
+            // PUBLIC CONSTRUCTORS //////////////////////////////////////////
+            #region Constructors
+            public NewWith3ArgumentsUnitTest(string name, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3, TObject expected, Type objectType)
+                : base(name)
+            {
+                this.Argument1 = argument1;
+                this.Argument2 = argument2;
+                this.Argument3 = argument3;
+                this.Expected = expected;
+                this.ObjectType = objectType;
+            }
+            #endregion
+
+            // PROTECTED METHODS ////////////////////////////////////////////
+            #region UnitTest Overrides
+            protected override void Arrange()
+            {
+                this.WriteLine("Argument 1 = {0} ({1})", this.Argument1.SafeToString(), typeof(TArgument1).Name);
+                this.WriteLine("Argument 2 = {0} ({1})", this.Argument2.SafeToString(), typeof(TArgument2).Name);
+                this.WriteLine("Argument 3 = {0} ({1})", this.Argument3.SafeToString(), typeof(TArgument3).Name);
+                this.WriteLine("Expected   = {0} ({1})", this.Expected.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Act()
+            {
+                var newWith3ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument1, TArgument2, TArgument3, TObject>(this.ObjectType);
+                this.WriteLine("Lambda     = {0}", newWith3ArgumentsLambdaExpression);
+
+                var newWith3ArgumentsLambda = newWith3ArgumentsLambdaExpression.Compile();
+                this.Actual = newWith3ArgumentsLambda(this.Argument1, this.Argument2, this.Argument3);
+                this.WriteLine("Actual     = {0} ({1})", this.Actual.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Assert()
+            {
+                this.Actual.ShouldBeEquivalentTo(this.Expected);
+            }
+            #endregion
+
+            // PRIVATE PROPERTIES ///////////////////////////////////////////
+            #region Calculated Properties
+            TObject Actual { get; set; }
+            #endregion
+
+            #region User Supplied Properties
+            TArgument1 Argument1 { get; }
+            TArgument2 Argument2 { get; }
+            TArgument3 Argument3 { get; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
+            #endregion
+        }
+
+        public class NewWith4ArgumentsUnitTest<TArgument1, TArgument2, TArgument3, TArgument4, TObject> : UnitTest
+        {
+            // PUBLIC CONSTRUCTORS //////////////////////////////////////////
+            #region Constructors
+            public NewWith4ArgumentsUnitTest(string name, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3, TArgument4 argument4, TObject expected, Type objectType)
+                : base(name)
+            {
+                this.Argument1 = argument1;
+                this.Argument2 = argument2;
+                this.Argument3 = argument3;
+                this.Argument4 = argument4;
+                this.Expected = expected;
+                this.ObjectType = objectType;
+            }
+            #endregion
+
+            // PROTECTED METHODS ////////////////////////////////////////////
+            #region UnitTest Overrides
+            protected override void Arrange()
+            {
+                this.WriteLine("Argument 1 = {0} ({1})", this.Argument1.SafeToString(), typeof(TArgument1).Name);
+                this.WriteLine("Argument 2 = {0} ({1})", this.Argument2.SafeToString(), typeof(TArgument2).Name);
+                this.WriteLine("Argument 3 = {0} ({1})", this.Argument3.SafeToString(), typeof(TArgument3).Name);
+                this.WriteLine("Argument 4 = {0} ({1})", this.Argument4.SafeToString(), typeof(TArgument4).Name);
+                this.WriteLine("Expected   = {0} ({1})", this.Expected.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Act()
+            {
+                var newWith4ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument1, TArgument2, TArgument3, TArgument4, TObject>(this.ObjectType);
+                this.WriteLine("Lambda     = {0}", newWith4ArgumentsLambdaExpression);
+
+                var newWith4ArgumentsLambda = newWith4ArgumentsLambdaExpression.Compile();
+                this.Actual = newWith4ArgumentsLambda(this.Argument1, this.Argument2, this.Argument3, this.Argument4);
+                this.WriteLine("Actual     = {0} ({1})", this.Actual.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Assert()
+            {
+                this.Actual.ShouldBeEquivalentTo(this.Expected);
+            }
+            #endregion
+
+            // PRIVATE PROPERTIES ///////////////////////////////////////////
+            #region Calculated Properties
+            TObject Actual { get; set; }
+            #endregion
+
+            #region User Supplied Properties
+            TArgument1 Argument1 { get; }
+            TArgument2 Argument2 { get; }
+            TArgument3 Argument3 { get; }
+            TArgument4 Argument4 { get; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
+            #endregion
+        }
+
+        public class NewWith5ArgumentsUnitTest<TArgument1, TArgument2, TArgument3, TArgument4, TArgument5, TObject> : UnitTest
+        {
+            // PUBLIC CONSTRUCTORS //////////////////////////////////////////
+            #region Constructors
+            public NewWith5ArgumentsUnitTest(string name, TArgument1 argument1, TArgument2 argument2, TArgument3 argument3, TArgument4 argument4, TArgument5 argument5, TObject expected, Type objectType)
+                : base(name)
+            {
+                this.Argument1 = argument1;
+                this.Argument2 = argument2;
+                this.Argument3 = argument3;
+                this.Argument4 = argument4;
+                this.Argument5 = argument5;
+                this.Expected = expected;
+                this.ObjectType = objectType;
+            }
+            #endregion
+
+            // PROTECTED METHODS ////////////////////////////////////////////
+            #region UnitTest Overrides
+            protected override void Arrange()
+            {
+                this.WriteLine("Argument 1 = {0} ({1})", this.Argument1.SafeToString(), typeof(TArgument1).Name);
+                this.WriteLine("Argument 2 = {0} ({1})", this.Argument2.SafeToString(), typeof(TArgument2).Name);
+                this.WriteLine("Argument 3 = {0} ({1})", this.Argument3.SafeToString(), typeof(TArgument3).Name);
+                this.WriteLine("Argument 4 = {0} ({1})", this.Argument4.SafeToString(), typeof(TArgument4).Name);
+                this.WriteLine("Argument 5 = {0} ({1})", this.Argument5.SafeToString(), typeof(TArgument5).Name);
+                this.WriteLine("Expected   = {0} ({1})", this.Expected.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Act()
+            {
+                var newWith5ArgumentsLambdaExpression = ExpressionBuilder.New<TArgument1, TArgument2, TArgument3, TArgument4, TArgument5, TObject>(this.ObjectType);
+                this.WriteLine("Lambda     = {0}", newWith5ArgumentsLambdaExpression);
+
+                var newWith5ArgumentsLambda = newWith5ArgumentsLambdaExpression.Compile();
+                this.Actual = newWith5ArgumentsLambda(this.Argument1, this.Argument2, this.Argument3, this.Argument4, this.Argument5);
+                this.WriteLine("Actual     = {0} ({1})", this.Actual.SafeToString(), typeof(TObject).Name);
+            }
+
+            protected override void Assert()
+            {
+                this.Actual.ShouldBeEquivalentTo(this.Expected);
+            }
+            #endregion
+
+            // PRIVATE PROPERTIES ///////////////////////////////////////////
+            #region Calculated Properties
+            TObject Actual { get; set; }
+            #endregion
+
+            #region User Supplied Properties
+            TArgument1 Argument1 { get; }
+            TArgument2 Argument2 { get; }
+            TArgument3 Argument3 { get; }
+            TArgument4 Argument4 { get; }
+            TArgument5 Argument5 { get; }
+            TObject Expected { get; }
+            Type ObjectType { get; }
             #endregion
         }
 

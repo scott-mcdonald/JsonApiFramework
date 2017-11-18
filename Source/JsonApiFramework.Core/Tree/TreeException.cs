@@ -5,10 +5,7 @@ using System;
 
 namespace JsonApiFramework.Tree
 {
-    /// <summary>
-    /// Represents an exception that is thrown for an invalid operation in an
-    /// object tree.
-    /// </summary>
+    /// <summary>Represents an exception that is thrown for an invalid operation in a tree object.</summary>
     public class TreeException : Exception
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

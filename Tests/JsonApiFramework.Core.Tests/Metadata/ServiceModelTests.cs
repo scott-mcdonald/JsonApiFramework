@@ -52,6 +52,16 @@ namespace JsonApiFramework.Tests.Metadata
         }
 
         [Theory]
+        [MemberData(nameof(CreateComplexObjectTestData))]
+        public void TestCreateComplexObject(IUnitTest unitTest)
+        { unitTest.Execute(this); }
+
+        [Theory]
+        [MemberData(nameof(CreateResourceObjectTestData))]
+        public void TestCreateResourceObject(IUnitTest unitTest)
+        { unitTest.Execute(this); }
+
+        [Theory]
         [MemberData(nameof(TryGetComplexTypeWithClrTypeTestData))]
         public void TestTryGetComplexTypeWithClrType(IUnitTest unitTest)
         { unitTest.Execute(this); }
@@ -70,104 +80,55 @@ namespace JsonApiFramework.Tests.Metadata
         // PRIVATE FIELDS ////////////////////////////////////////////////////
         #region Test Data
         private static readonly IComplexType MailingAddressComplexType = new ComplexType<MailingAddress>(
-            new AttributesInfo(
-                new[]
-                {
-                    new AttributeInfo(
-                        "street-address",
-                        nameof(MailingAddress.StreetAddress),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<MailingAddress, string>(nameof(MailingAddress.StreetAddress)),
-                            new PropertySetter<MailingAddress, string>(nameof(MailingAddress.StreetAddress)))),
+            Factory.CreateAttributesInfo(
+                Factory<MailingAddress>.CreateAttributeInfo("street-address", x => x.StreetAddress),
+                Factory<MailingAddress>.CreateAttributeInfo("city", x => x.City),
+                Factory<MailingAddress>.CreateAttributeInfo("state", x => x.State),
+                Factory<MailingAddress>.CreateAttributeInfo("zip-code", x => x.ZipCode)));
 
-                    new AttributeInfo(
-                        "city",
-                        nameof(MailingAddress.City),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<MailingAddress, string>(nameof(MailingAddress.City)),
-                            new PropertySetter<MailingAddress, string>(nameof(MailingAddress.City)))),
-
-                    new AttributeInfo(
-                        "state",
-                        nameof(MailingAddress.State),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<MailingAddress, string>(nameof(MailingAddress.State)),
-                            new PropertySetter<MailingAddress, string>(nameof(MailingAddress.State)))),
-
-                    new AttributeInfo(
-                        "zip-code",
-                        nameof(MailingAddress.ZipCode),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<MailingAddress, string>(nameof(MailingAddress.ZipCode)),
-                            new PropertySetter<MailingAddress, string>(nameof(MailingAddress.ZipCode)))),
-                })
-        );
+        private static readonly IComplexType PhoneNumberComplexType = new ComplexType<PhoneNumber>(
+            Factory.CreateAttributesInfo(
+                Factory<PhoneNumber>.CreateAttributeInfo("area-code", x => x.AreaCode),
+                Factory<PhoneNumber>.CreateAttributeInfo("number", x => x.Number)));
 
         private static readonly IResourceType ArticleResourceType = new ResourceType<Article>(
-            new ResourceIdentityInfo(
-                "articles",
-                nameof(Article.ArticleId),
-                typeof(int),
-                new ClrPropertyBinding(
-                    new PropertyGetter<Article, int>(nameof(Article.ArticleId)),
-                    new PropertySetter<Article, int>(nameof(Article.ArticleId)))),
+            Factory<Article>.CreateResourceIdentityInfo("articles", x => x.ArticleId),
 
-            new AttributesInfo(
-                new[]
-                {
-                    new AttributeInfo(
-                        "title",
-                        nameof(Article.Title),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<Article, string>(nameof(Article.Title)),
-                            new PropertySetter<Article, string>(nameof(Article.Title)))),
+            Factory.CreateAttributesInfo(
+                Factory<Article>.CreateAttributeInfo("title", x => x.Title),
+                Factory<Article>.CreateAttributeInfo("body", x => x.Body)),
 
-                    new AttributeInfo(
-                        "author",
-                        nameof(Article.Author),
-                        typeof(string),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<Article, string>(nameof(Article.Author)),
-                            new PropertySetter<Article, string>(nameof(Article.Author)))),
+            Factory<Article>.CreateRelationshipsInfo(x => x.Relationships,
+                Factory<Article>.CreateRelationshipInfo("author", x => x.Author),
+                Factory<Article>.CreateRelationshipInfo("comments", x => x.Comments)),
 
-                    new AttributeInfo(
-                        "author-mailing-address",
-                        nameof(Article.AuthorMailingAddress),
-                        typeof(MailingAddress),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<Article, MailingAddress>(nameof(Article.AuthorMailingAddress)),
-                            new PropertySetter<Article, MailingAddress>(nameof(Article.AuthorMailingAddress)))),
+            Factory<Article>.CreateLinksInfo(x => x.Links));
 
-                    new AttributeInfo(
-                        "author-phone-numbers",
-                        nameof(Article.AuthorPhoneNumbers),
-                        typeof(List<PhoneNumber>),
-                        new ClrPropertyBinding(
-                            new PropertyGetter<Article, List<PhoneNumber>>(nameof(Article.AuthorPhoneNumbers)),
-                            new PropertySetter<Article, List<PhoneNumber>>(nameof(Article.AuthorPhoneNumbers)))),
-                }),
-            new RelationshipsInfo(
-                nameof(Article.Relationships),
-                new ClrPropertyBinding(
-                    new PropertyGetter<Article, Relationships>(nameof(Article.Relationships)),
-                    new PropertySetter<Article, Relationships>(nameof(Article.Relationships))),
-                new []
-                {
-                    new RelationshipInfo("author", RelationshipCardinality.ToOne, typeof(Person)),
-                    new RelationshipInfo("comments", RelationshipCardinality.ToMany, typeof(Comment)),
-                }),
-            new LinksInfo(
-                nameof(Article.Links),
-                new ClrPropertyBinding(
-                    new PropertyGetter<Article, Links>(nameof(Article.Links)),
-                    new PropertySetter<Article, Links>(nameof(Article.Links)))));
+        private static readonly IResourceType PersonResourceType = new ResourceType<Person>(
+            Factory<Person>.CreateResourceIdentityInfo("people", x => x.PersonId),
 
-        private static readonly IServiceModel TestServiceModel = new ServiceModel("Test", new[] { MailingAddressComplexType }, new[] { ArticleResourceType });
+            Factory.CreateAttributesInfo(
+                Factory<Person>.CreateAttributeInfo("first-name", x => x.FirstName),
+                Factory<Person>.CreateAttributeInfo("last-name", x => x.LastName),
+                Factory<Person>.CreateAttributeInfo("mailing-address", x => x.MailingAddress),
+                Factory<Person>.CreateAttributeInfo("phone-numbers", x => x.PhoneNumbers)),
+
+            Factory.CreateRelationshipsInfo(),
+
+            Factory.CreateLinksInfo());
+
+        private static readonly IServiceModel TestServiceModel = new ServiceModel(
+            "Test",
+            new[]
+            {
+                MailingAddressComplexType,
+                PhoneNumberComplexType
+            },
+            new[]
+            {
+                ArticleResourceType,
+                PersonResourceType
+            });
 
         private static readonly JsonSerializerSettings TestJsonSerializerSettingsIgnoreNull = new JsonSerializerSettings
         {
@@ -203,31 +164,52 @@ namespace JsonApiFramework.Tests.Metadata
         ""AttributeInfoCollection"": [
           {
             ""ApiAttributeName"": ""street-address"",
-            ""ClrPropertyName"": ""StreetAddress"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""StreetAddress"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""city"",
-            ""ClrPropertyName"": ""City"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""City"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""state"",
-            ""ClrPropertyName"": ""State"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""State"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""zip-code"",
-            ""ClrPropertyName"": ""ZipCode"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""ZipCode"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          }
+        ]
+      }
+    },
+    {
+      ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests"",
+      ""AttributesInfo"": {
+        ""AttributeInfoCollection"": [
+          {
+            ""ApiAttributeName"": ""area-code"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""AreaCode"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""number"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Number"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           }
         ]
       }
@@ -238,61 +220,107 @@ namespace JsonApiFramework.Tests.Metadata
       ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Article, JsonApiFramework.Core.Tests"",
       ""ResourceIdentityInfo"": {
         ""ApiType"": ""articles"",
-        ""ClrIdPropertyName"": ""ArticleId"",
-        ""ClrIdPropertyType"": ""System.Int32, mscorlib""
+        ""ClrIdPropertyBinding"": {
+          ""ClrPropertyName"": ""ArticleId"",
+          ""ClrPropertyType"": ""System.Guid, mscorlib""
+        }
       },
       ""AttributesInfo"": {
         ""AttributeInfoCollection"": [
           {
             ""ApiAttributeName"": ""title"",
-            ""ClrPropertyName"": ""Title"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Title"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
-            ""ApiAttributeName"": ""author"",
-            ""ClrPropertyName"": ""Author"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false
-          },
-          {
-            ""ApiAttributeName"": ""author-mailing-address"",
-            ""ClrPropertyName"": ""AuthorMailingAddress"",
-            ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+MailingAddress, JsonApiFramework.Core.Tests"",
-            ""IsComplexType"": true,
-            ""IsCollection"": false
-          },
-          {
-            ""ApiAttributeName"": ""author-phone-numbers"",
-            ""ClrPropertyName"": ""AuthorPhoneNumbers"",
-            ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests]], mscorlib"",
-            ""IsComplexType"": true,
-            ""IsCollection"": true,
-            ""ClrCollectionItemType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests"",
-            ""IsCollectionItemComplexType"": true
+            ""ApiAttributeName"": ""body"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Body"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           }
         ]
       },
       ""RelationshipsInfo"": {
-        ""ClrPropertyName"": ""Relationships"",
+        ""ClrRelationshipsPropertyBinding"": {
+          ""ClrPropertyName"": ""Relationships"",
+          ""ClrPropertyType"": ""JsonApiFramework.JsonApi.Relationships, JsonApiFramework.Core""
+        },
         ""RelationshipInfoCollection"": [
           {
-            ""Rel"": ""author"",
-            ""ToCardinality"": ""ToOne"",
-            ""ToClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests""
+            ""ApiRel"": ""author"",
+            ""ApiCardinality"": ""ToOne"",
+            ""ClrRelatedResourceType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests"",
+            ""ClrRelatedResourcePropertyBinding"": {
+              ""ClrPropertyName"": ""Author"",
+              ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests""
+            }
           },
           {
-            ""Rel"": ""comments"",
-            ""ToCardinality"": ""ToMany"",
-            ""ToClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests""
+            ""ApiRel"": ""comments"",
+            ""ApiCardinality"": ""ToMany"",
+            ""ClrRelatedResourceType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests"",
+            ""ClrRelatedResourcePropertyBinding"": {
+              ""ClrPropertyName"": ""Comments"",
+              ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests]], mscorlib""
+            }
           }
         ]
       },
       ""LinksInfo"": {
-        ""ClrPropertyName"": ""Links""
+        ""ClrLinksPropertyBinding"": {
+          ""ClrPropertyName"": ""Links"",
+          ""ClrPropertyType"": ""JsonApiFramework.JsonApi.Links, JsonApiFramework.Core""
+        }
       }
+    },
+    {
+      ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests"",
+      ""ResourceIdentityInfo"": {
+        ""ApiType"": ""people"",
+        ""ClrIdPropertyBinding"": {
+          ""ClrPropertyName"": ""PersonId"",
+          ""ClrPropertyType"": ""System.Int32, mscorlib""
+        }
+      },
+      ""AttributesInfo"": {
+        ""AttributeInfoCollection"": [
+          {
+            ""ApiAttributeName"": ""first-name"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""FirstName"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""last-name"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""LastName"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""mailing-address"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""MailingAddress"",
+              ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+MailingAddress, JsonApiFramework.Core.Tests""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""phone-numbers"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""PhoneNumbers"",
+              ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests]], mscorlib""
+            }
+          }
+        ]
+      },
+      ""RelationshipsInfo"": {
+        ""RelationshipInfoCollection"": []
+      },
+      ""LinksInfo"": {}
     }
   ]
 }"))
@@ -316,39 +344,52 @@ namespace JsonApiFramework.Tests.Metadata
         ""AttributeInfoCollection"": [
           {
             ""ApiAttributeName"": ""street-address"",
-            ""ClrPropertyName"": ""StreetAddress"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""StreetAddress"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""city"",
-            ""ClrPropertyName"": ""City"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""City"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""state"",
-            ""ClrPropertyName"": ""State"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""State"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
             ""ApiAttributeName"": ""zip-code"",
-            ""ClrPropertyName"": ""ZipCode"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""ZipCode"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          }
+        ]
+      }
+    },
+    {
+      ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests"",
+      ""AttributesInfo"": {
+        ""AttributeInfoCollection"": [
+          {
+            ""ApiAttributeName"": ""area-code"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""AreaCode"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""number"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Number"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           }
         ]
       }
@@ -359,66 +400,109 @@ namespace JsonApiFramework.Tests.Metadata
       ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Article, JsonApiFramework.Core.Tests"",
       ""ResourceIdentityInfo"": {
         ""ApiType"": ""articles"",
-        ""ClrIdPropertyName"": ""ArticleId"",
-        ""ClrIdPropertyType"": ""System.Int32, mscorlib""
+        ""ClrIdPropertyBinding"": {
+          ""ClrPropertyName"": ""ArticleId"",
+          ""ClrPropertyType"": ""System.Guid, mscorlib""
+        }
       },
       ""AttributesInfo"": {
         ""AttributeInfoCollection"": [
           {
             ""ApiAttributeName"": ""title"",
-            ""ClrPropertyName"": ""Title"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Title"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           },
           {
-            ""ApiAttributeName"": ""author"",
-            ""ClrPropertyName"": ""Author"",
-            ""ClrPropertyType"": ""System.String, mscorlib"",
-            ""IsComplexType"": false,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
-          },
-          {
-            ""ApiAttributeName"": ""author-mailing-address"",
-            ""ClrPropertyName"": ""AuthorMailingAddress"",
-            ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+MailingAddress, JsonApiFramework.Core.Tests"",
-            ""IsComplexType"": true,
-            ""IsCollection"": false,
-            ""ClrCollectionItemType"": null,
-            ""IsCollectionItemComplexType"": null
-          },
-          {
-            ""ApiAttributeName"": ""author-phone-numbers"",
-            ""ClrPropertyName"": ""AuthorPhoneNumbers"",
-            ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests]], mscorlib"",
-            ""IsComplexType"": true,
-            ""IsCollection"": true,
-            ""ClrCollectionItemType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests"",
-            ""IsCollectionItemComplexType"": true
+            ""ApiAttributeName"": ""body"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""Body"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
           }
         ]
       },
       ""RelationshipsInfo"": {
-        ""ClrPropertyName"": ""Relationships"",
+        ""ClrRelationshipsPropertyBinding"": {
+          ""ClrPropertyName"": ""Relationships"",
+          ""ClrPropertyType"": ""JsonApiFramework.JsonApi.Relationships, JsonApiFramework.Core""
+        },
         ""RelationshipInfoCollection"": [
           {
-            ""Rel"": ""author"",
-            ""ToCardinality"": ""ToOne"",
-            ""ToClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests""
+            ""ApiRel"": ""author"",
+            ""ApiCardinality"": ""ToOne"",
+            ""ClrRelatedResourceType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests"",
+            ""ClrRelatedResourcePropertyBinding"": {
+              ""ClrPropertyName"": ""Author"",
+              ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests""
+            }
           },
           {
-            ""Rel"": ""comments"",
-            ""ToCardinality"": ""ToMany"",
-            ""ToClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests""
+            ""ApiRel"": ""comments"",
+            ""ApiCardinality"": ""ToMany"",
+            ""ClrRelatedResourceType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests"",
+            ""ClrRelatedResourcePropertyBinding"": {
+              ""ClrPropertyName"": ""Comments"",
+              ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+Comment, JsonApiFramework.Core.Tests]], mscorlib""
+            }
           }
         ]
       },
       ""LinksInfo"": {
-        ""ClrPropertyName"": ""Links""
+        ""ClrLinksPropertyBinding"": {
+          ""ClrPropertyName"": ""Links"",
+          ""ClrPropertyType"": ""JsonApiFramework.JsonApi.Links, JsonApiFramework.Core""
+        }
+      }
+    },
+    {
+      ""ClrType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+Person, JsonApiFramework.Core.Tests"",
+      ""ResourceIdentityInfo"": {
+        ""ApiType"": ""people"",
+        ""ClrIdPropertyBinding"": {
+          ""ClrPropertyName"": ""PersonId"",
+          ""ClrPropertyType"": ""System.Int32, mscorlib""
+        }
+      },
+      ""AttributesInfo"": {
+        ""AttributeInfoCollection"": [
+          {
+            ""ApiAttributeName"": ""first-name"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""FirstName"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""last-name"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""LastName"",
+              ""ClrPropertyType"": ""System.String, mscorlib""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""mailing-address"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""MailingAddress"",
+              ""ClrPropertyType"": ""JsonApiFramework.Tests.Metadata.ServiceModelTests+MailingAddress, JsonApiFramework.Core.Tests""
+            }
+          },
+          {
+            ""ApiAttributeName"": ""phone-numbers"",
+            ""ClrPropertyBinding"": {
+              ""ClrPropertyName"": ""PhoneNumbers"",
+              ""ClrPropertyType"": ""System.Collections.Generic.List`1[[JsonApiFramework.Tests.Metadata.ServiceModelTests+PhoneNumber, JsonApiFramework.Core.Tests]], mscorlib""
+            }
+          }
+        ]
+      },
+      ""RelationshipsInfo"": {
+        ""ClrRelationshipsPropertyBinding"": null,
+        ""RelationshipInfoCollection"": []
+      },
+      ""LinksInfo"": {
+        ""ClrLinksPropertyBinding"": null
       }
     }
   ]
@@ -426,10 +510,22 @@ namespace JsonApiFramework.Tests.Metadata
             },
         };
 
+        public static readonly IEnumerable<object[]> CreateComplexObjectTestData = new[]
+        {
+            new object[] { new CreateObjectUnitTest<MailingAddress>("WithKnownComplexType", s => s.CreateClrComplexObject<MailingAddress>(), TestServiceModel, new MailingAddress()) },
+            new object[] { new CreateObjectUnitTest<Point>("WithUnknownComplexType", s => s.CreateClrComplexObject<Point>(), TestServiceModel, default(Point)) },
+        };
+
+        public static readonly IEnumerable<object[]> CreateResourceObjectTestData = new[]
+        {
+            new object[] { new CreateObjectUnitTest<Article>("WithKnownResourceType", s => s.CreateClrResourceObject<Article>(), TestServiceModel, new Article()) },
+            new object[] { new CreateObjectUnitTest<Comment>("WithUnknownResourceType", s => s.CreateClrResourceObject<Comment>(), TestServiceModel, default(Comment)) },
+        };
+
         public static readonly IEnumerable<object[]> TryGetComplexTypeWithClrTypeTestData = new[]
         {
             new object[] { new TryGetComplexTypeWithClrTypeUnitTest("WithKnownComplexType", TestServiceModel, typeof(MailingAddress), MailingAddressComplexType) },
-            new object[] { new TryGetComplexTypeWithClrTypeUnitTest("WithUnknownComplexType", TestServiceModel, typeof(PhoneNumber), null) },
+            new object[] { new TryGetComplexTypeWithClrTypeUnitTest("WithUnknownComplexType", TestServiceModel, typeof(Comment), null) },
             new object[] { new TryGetComplexTypeWithClrTypeUnitTest("WithNullComplexType", TestServiceModel, null, null) },
         };
 
@@ -467,17 +563,27 @@ namespace JsonApiFramework.Tests.Metadata
             public string Number { get; set; }
             // ReSharper restore UnusedMember.Local
         }
+
+        private class Point
+        {
+            // ReSharper disable UnusedMember.Local
+            public int X { get; set; }
+            public int Y { get; set; }
+            // ReSharper restore UnusedMember.Local
+        }
         #endregion
 
         #region ResourceType Types
         private class Article
         {
             // ReSharper disable UnusedMember.Local
-            public int ArticleId { get; set; }
+            public Guid ArticleId { get; set; }
             public string Title { get; set; }
-            public string Author { get; set; }
-            public MailingAddress AuthorMailingAddress { get; set; }
-            public List<PhoneNumber> AuthorPhoneNumbers { get; set; }
+            public string Body { get; set; }
+
+            public Person Author { get; set; }
+            public List<Comment> Comments { get; set; }
+
             public Relationships Relationships { get; set; }
             public Links Links { get; set; }
             // ReSharper restore UnusedMember.Local
@@ -489,6 +595,9 @@ namespace JsonApiFramework.Tests.Metadata
             public int PersonId { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
+
+            public MailingAddress MailingAddress { get; set; }
+            public List<PhoneNumber> PhoneNumbers { get; set; }
             // ReSharper restore UnusedMember.Local
         }
 
@@ -502,6 +611,73 @@ namespace JsonApiFramework.Tests.Metadata
         #endregion
 
         #region Unit Tests
+        private class CreateObjectUnitTest<T> : UnitTest
+        {
+            #region Constructors
+            public CreateObjectUnitTest(string name, Func<IServiceModel, T> factoryMethod, IServiceModel serviceModel, T clrExpectedObject)
+                : base(name)
+            {
+                this.FactoryMethod = factoryMethod;
+                this.ServiceModel = serviceModel;
+                this.ClrExpectedObject = clrExpectedObject;
+                this.ExpectedSuccess = clrExpectedObject != null;
+            }
+            #endregion
+
+            #region UnitTest Overrides
+            protected override void Arrange()
+            {
+                var serviceModelDescription = this.ServiceModel.ToString();
+                this.WriteLine("ServiceModel: {0}", serviceModelDescription);
+
+                var clrTypeName = typeof(T).Name;
+                this.WriteLine("CLR Type    : {0}", clrTypeName);
+                this.WriteLine();
+
+                this.WriteLine("Expected");
+                this.WriteLine("  Success   : {0}", this.ExpectedSuccess);
+                this.WriteLine();
+            }
+
+            protected override void Act()
+            {
+                try
+                {
+                    var clrActualObject = this.FactoryMethod(this.ServiceModel);
+
+                    this.ClrActualObject = clrActualObject;
+                    this.ActualSuccess = this.ClrActualObject != null;
+                }
+                catch (MetadataException metadataException)
+                {
+                    this.ClrActualObject = default(T);
+                    this.ActualSuccess = false;
+                }
+
+                this.WriteLine("Actual");
+                this.WriteLine("  Success   : {0}", this.ActualSuccess);
+            }
+
+            protected override void Assert()
+            {
+                this.ActualSuccess.ShouldBeEquivalentTo(this.ExpectedSuccess);
+                this.ClrActualObject.ShouldBeEquivalentTo(this.ClrExpectedObject);
+            }
+            #endregion
+
+            #region User Supplied Properties
+            private Func<IServiceModel, T> FactoryMethod { get; }
+            private IServiceModel ServiceModel { get; }
+            private T ClrExpectedObject { get; }
+            #endregion
+
+            #region Calculated Properties
+            private bool ExpectedSuccess { get; }
+            private bool ActualSuccess { get; set; }
+            private T ClrActualObject { get; set; }
+            #endregion
+        }
+
         private class TryGetComplexTypeWithClrTypeUnitTest : UnitTest
         {
             #region Constructors

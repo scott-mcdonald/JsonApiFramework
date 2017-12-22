@@ -19,11 +19,10 @@ namespace JsonApiFramework.Metadata.Internal
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(attributeInfoCollection != null);
 
             writer.WriteStartArray();
 
-            foreach (var attributeInfo in attributeInfoCollection)
+            foreach (var attributeInfo in attributeInfoCollection.EmptyIfNull())
             {
                 writer.WriteAttributeInfoObject(serializer, attributeInfo);
             }
@@ -35,11 +34,10 @@ namespace JsonApiFramework.Metadata.Internal
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(complexTypes != null);
 
             writer.WriteStartArray();
 
-            foreach (var complexType in complexTypes)
+            foreach (var complexType in complexTypes.EmptyIfNull())
             {
                 writer.WriteComplexTypeObject(serializer, complexType);
             }
@@ -51,11 +49,10 @@ namespace JsonApiFramework.Metadata.Internal
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(relationshipInfoCollection != null);
 
             writer.WriteStartArray();
 
-            foreach (var relationshipInfo in relationshipInfoCollection)
+            foreach (var relationshipInfo in relationshipInfoCollection.EmptyIfNull())
             {
                 writer.WriteRelationshipInfoObject(serializer, relationshipInfo);
             }
@@ -67,11 +64,10 @@ namespace JsonApiFramework.Metadata.Internal
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(resourceTypes != null);
 
             writer.WriteStartArray();
 
-            foreach (var resourceType in resourceTypes)
+            foreach (var resourceType in resourceTypes.EmptyIfNull())
             {
                 writer.WriteResourceTypeObject(serializer, resourceType);
             }
@@ -90,12 +86,7 @@ namespace JsonApiFramework.Metadata.Internal
             writer.WriteStartObject();
 
             writer.WriteStringProperty(serializer, nameof(IAttributeInfo.ApiAttributeName), attributeInfo.ApiAttributeName);
-            writer.WriteStringProperty(serializer, nameof(IAttributeInfo.ClrPropertyName), attributeInfo.ClrPropertyName);
-            writer.WriteTypeProperty(serializer, nameof(IAttributeInfo.ClrPropertyType), attributeInfo.ClrPropertyType);
-            writer.WriteBoolProperty(serializer, nameof(IAttributeInfo.IsComplexType), attributeInfo.IsComplexType);
-            writer.WriteBoolProperty(serializer, nameof(IAttributeInfo.IsCollection), attributeInfo.IsCollection);
-            writer.WriteTypeProperty(serializer, nameof(IAttributeInfo.ClrCollectionItemType), attributeInfo.ClrCollectionItemType);
-            writer.WriteBoolProperty(serializer, nameof(IAttributeInfo.IsCollectionItemComplexType), attributeInfo.IsCollectionItemComplexType);
+            writer.WriteClrPropertyBindingProperty(serializer, nameof(IAttributeInfo.ClrPropertyBinding), attributeInfo.ClrPropertyBinding);
 
             writer.WriteEndObject();
         }
@@ -109,6 +100,20 @@ namespace JsonApiFramework.Metadata.Internal
             writer.WriteStartObject();
 
             writer.WriteAttributeInfoCollectionProperty(serializer, nameof(IAttributesInfo.AttributeInfoCollection), attributesInfo.AttributeInfoCollection);
+
+            writer.WriteEndObject();
+        }
+
+        public static void WriteClrPropertyBindingObject(this JsonWriter writer, JsonSerializer serializer, IClrPropertyBinding clrPropertyBinding)
+        {
+            Contract.Requires(writer != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(clrPropertyBinding != null);
+
+            writer.WriteStartObject();
+
+            writer.WriteStringProperty(serializer, nameof(IClrPropertyBinding.ClrPropertyName), clrPropertyBinding.ClrPropertyName);
+            writer.WriteTypeProperty(serializer, nameof(IClrPropertyBinding.ClrPropertyType), clrPropertyBinding.ClrPropertyType);
 
             writer.WriteEndObject();
         }
@@ -135,7 +140,7 @@ namespace JsonApiFramework.Metadata.Internal
 
             writer.WriteStartObject();
 
-            writer.WriteStringProperty(serializer, nameof(ILinksInfo.ClrPropertyName), linksInfo.ClrPropertyName);
+            writer.WriteClrPropertyBindingProperty(serializer, nameof(ILinksInfo.ClrLinksPropertyBinding), linksInfo.ClrLinksPropertyBinding);
 
             writer.WriteEndObject();
         }
@@ -148,9 +153,10 @@ namespace JsonApiFramework.Metadata.Internal
 
             writer.WriteStartObject();
 
-            writer.WriteStringProperty(serializer, nameof(IRelationshipInfo.Rel), relationshipInfo.Rel);
-            writer.WriteEnumProperty<RelationshipCardinality>(serializer, nameof(IRelationshipInfo.ToCardinality), relationshipInfo.ToCardinality);
-            writer.WriteTypeProperty(serializer, nameof(IRelationshipInfo.ToClrType), relationshipInfo.ToClrType);
+            writer.WriteStringProperty(serializer, nameof(IRelationshipInfo.ApiRel), relationshipInfo.ApiRel);
+            writer.WriteEnumProperty<RelationshipCardinality>(serializer, nameof(IRelationshipInfo.ApiCardinality), relationshipInfo.ApiCardinality);
+            writer.WriteTypeProperty(serializer, nameof(IRelationshipInfo.ClrRelatedResourceType), relationshipInfo.ClrRelatedResourceType);
+            writer.WriteClrPropertyBindingProperty(serializer, nameof(IRelationshipInfo.ClrRelatedResourcePropertyBinding), relationshipInfo.ClrRelatedResourcePropertyBinding);
 
             writer.WriteEndObject();
         }
@@ -163,7 +169,7 @@ namespace JsonApiFramework.Metadata.Internal
 
             writer.WriteStartObject();
 
-            writer.WriteStringProperty(serializer, nameof(IRelationshipsInfo.ClrPropertyName), relationshipsInfo.ClrPropertyName);
+            writer.WriteClrPropertyBindingProperty(serializer, nameof(IRelationshipsInfo.ClrRelationshipsPropertyBinding), relationshipsInfo.ClrRelationshipsPropertyBinding);
             writer.WriteRelationshipInfoCollectionProperty(serializer, nameof(IRelationshipsInfo.RelationshipInfoCollection), relationshipsInfo.RelationshipInfoCollection);
 
             writer.WriteEndObject();
@@ -178,8 +184,7 @@ namespace JsonApiFramework.Metadata.Internal
             writer.WriteStartObject();
 
             writer.WriteStringProperty(serializer, nameof(IResourceIdentityInfo.ApiType), resourceIdentityInfo.ApiType);
-            writer.WriteStringProperty(serializer, nameof(IResourceIdentityInfo.ClrIdPropertyName), resourceIdentityInfo.ClrIdPropertyName);
-            writer.WriteTypeProperty(serializer, nameof(IResourceIdentityInfo.ClrIdPropertyType), resourceIdentityInfo.ClrIdPropertyType);
+            writer.WriteClrPropertyBindingProperty(serializer, nameof(IResourceIdentityInfo.ClrIdPropertyBinding), resourceIdentityInfo.ClrIdPropertyBinding);
 
             writer.WriteEndObject();
         }
@@ -223,7 +228,6 @@ namespace JsonApiFramework.Metadata.Internal
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
-            Contract.Requires(attributeInfoCollection != null);
 
             writer.WritePropertyName(propertyName);
             writer.WriteAttributeInfoCollectionArray(serializer, attributeInfoCollection);
@@ -236,8 +240,31 @@ namespace JsonApiFramework.Metadata.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
             Contract.Requires(attributesInfo != null);
 
+            if (attributesInfo == null)
+            {
+                writer.WriteNullProperty(serializer, propertyName);
+                return;
+            }
+
             writer.WritePropertyName(propertyName);
             writer.WriteAttributesInfoObject(serializer, attributesInfo);
+        }
+
+        public static void WriteClrPropertyBindingProperty(this JsonWriter writer, JsonSerializer serializer, string propertyName, IClrPropertyBinding clrPropertyBinding)
+        {
+            Contract.Requires(writer != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
+            Contract.Requires(clrPropertyBinding != null);
+
+            if (clrPropertyBinding == null)
+            {
+                writer.WriteNullProperty(serializer, propertyName);
+                return;
+            }
+
+            writer.WritePropertyName(propertyName);
+            writer.WriteClrPropertyBindingObject(serializer, clrPropertyBinding);
         }
 
         public static void WriteComplexTypesProperty(this JsonWriter writer, JsonSerializer serializer, string propertyName, IEnumerable<IComplexType> complexTypes)
@@ -245,7 +272,6 @@ namespace JsonApiFramework.Metadata.Internal
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
-            Contract.Requires(complexTypes != null);
 
             writer.WritePropertyName(propertyName);
             writer.WriteComplexTypesArray(serializer, complexTypes);

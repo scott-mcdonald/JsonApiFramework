@@ -19,6 +19,13 @@ namespace JsonApiFramework.Reflection
             return GetMemberName(expression.Body);
         }
 
+        public static string GetMemberName<T, TProperty>(Expression<Func<T, TProperty>> expression)
+        {
+            Contract.Requires(expression != null);
+
+            return StaticReflection.GetMemberName(expression.Body);
+        }
+
         public static string GetMemberName<T>(Expression<Action<T>> expression)
         {
             Contract.Requires(expression != null);
@@ -27,6 +34,13 @@ namespace JsonApiFramework.Reflection
         }
 
         public static string GetMemberName<T>(this T instance, Expression<Func<T, object>> expression)
+        {
+            Contract.Requires(expression != null);
+
+            return GetMemberName(expression.Body);
+        }
+
+        public static string GetMemberName<T, TProperty>(this T instance, Expression<Func<T, TProperty>> expression)
         {
             Contract.Requires(expression != null);
 

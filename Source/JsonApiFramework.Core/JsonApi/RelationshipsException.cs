@@ -4,6 +4,8 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Properties;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            var message = $"Could not find relationship for the rel={rel}.";
+            var message = CoreErrorStrings.RelationshipNotFoundMessage.FormatWith(rel);
             throw new RelationshipsException(message);
         }
         #endregion

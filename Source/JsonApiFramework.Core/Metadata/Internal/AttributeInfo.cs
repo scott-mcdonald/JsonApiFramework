@@ -12,19 +12,16 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public AttributeInfo(string apiAttributeName, string clrPropertyName, Type clrPropertyType, IClrPropertyBinding clrPropertyBinding)
+        public AttributeInfo(string apiAttributeName, IClrPropertyBinding clrPropertyBinding)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiAttributeName) == false);
-            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
-            Contract.Requires(clrPropertyType != null);
             Contract.Requires(clrPropertyBinding != null);
 
             this.ApiAttributeName = apiAttributeName;
-            this.ClrPropertyName = clrPropertyName;
-            this.ClrPropertyType = clrPropertyType;
             this.ClrPropertyBinding = clrPropertyBinding;
 
             // Calculate and set calculated properties.
+            var clrPropertyType = clrPropertyBinding.ClrPropertyType;
             var isComplexType = GetIsComplexType(clrPropertyType);
             var isCollection = GetIsCollection(clrPropertyType, out var clrCollectionItemType);
             var isCollectionItemComplexType = isCollection ? GetIsComplexType(clrCollectionItemType) : default(bool?);
@@ -39,13 +36,14 @@ namespace JsonApiFramework.Metadata.Internal
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IAttributeInfo Implementation
         public string ApiAttributeName { get; }
-        public string ClrPropertyName { get; }
-        public Type ClrPropertyType { get; }
+        public IClrPropertyBinding ClrPropertyBinding { get; }
+        #endregion
+
+        #region Properties
+        public Type ClrCollectionItemType { get; }
         public bool IsComplexType { get; }
         public bool IsCollection { get; }
-        public Type ClrCollectionItemType { get; }
         public bool? IsCollectionItemComplexType { get; }
-        public IClrPropertyBinding ClrPropertyBinding { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////

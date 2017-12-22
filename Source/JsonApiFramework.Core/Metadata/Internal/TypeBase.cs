@@ -43,8 +43,8 @@ namespace JsonApiFramework.Metadata.Internal
         #region ITypeBase<T> Implementation
         public TObject CreateClrObject()
         {
-            var createdObject = FactoryLambda();
-            return createdObject;
+            var clrObject = ClrObjectFactoryLambda();
+            return clrObject;
         }
         #endregion
 
@@ -52,22 +52,22 @@ namespace JsonApiFramework.Metadata.Internal
         #region Constructors
         static TypeBase()
         {
-            FactoryLambda = CreateFactoryLambda();
+            ClrObjectFactoryLambda = CreateClrObjectFactoryLambda();
         }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private static Func<TObject> FactoryLambda { get; }
+        private static Func<TObject> ClrObjectFactoryLambda { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<TObject> CreateFactoryLambda()
+        private static Func<TObject> CreateClrObjectFactoryLambda()
         {
-            var factoryLambdaExpression = ExpressionBuilder.New<TObject>();
-            var factoryLambda = factoryLambdaExpression.Compile();
-            return factoryLambda;
+            var clrObjectFactoryLambdaExpression = ExpressionBuilder.New<TObject>();
+            var clrObjectFactoryLambda = clrObjectFactoryLambdaExpression.Compile();
+            return clrObjectFactoryLambda;
         }
         #endregion
     }

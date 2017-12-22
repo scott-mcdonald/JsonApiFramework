@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-using JsonApiFramework.Converters;
+using JsonApiFramework.TypeConversion;
 
 namespace JsonApiFramework.Http
 {

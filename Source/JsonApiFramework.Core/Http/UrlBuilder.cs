@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.Converters;
+using JsonApiFramework.TypeConversion;
 
 namespace JsonApiFramework.Http
 {

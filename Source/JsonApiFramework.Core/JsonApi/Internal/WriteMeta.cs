@@ -4,9 +4,9 @@
 using System;
 using System.Diagnostics.Contracts;
 
-using JsonApiFramework.Converters;
 using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
+using JsonApiFramework.TypeConversion;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

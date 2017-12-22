@@ -9,23 +9,16 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public RelationshipsInfo(IEnumerable<IRelationshipInfo> relationshipInfoCollection)
-            : this(null, null, relationshipInfoCollection)
-        { }
-
-        public RelationshipsInfo(string clrPropertyName, IClrPropertyBinding clrPropertyBinding, IEnumerable<IRelationshipInfo> relationshipInfoCollection)
+        public RelationshipsInfo(IClrPropertyBinding clrRelationshipsPropertyBinding, IEnumerable<IRelationshipInfo> relationshipInfoCollection)
         {
-            this.ClrPropertyName = clrPropertyName;
-            this.ClrPropertyBinding = clrPropertyBinding;
+            this.ClrRelationshipsPropertyBinding = clrRelationshipsPropertyBinding;
             this.RelationshipInfoCollection = relationshipInfoCollection.SafeToReadOnlyCollection();
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IRelationshipsInfo Implementation
-        public string ClrPropertyName { get; }
-
-        public IClrPropertyBinding ClrPropertyBinding { get; }
+        public IClrPropertyBinding ClrRelationshipsPropertyBinding { get; }
 
         public IReadOnlyCollection<IRelationshipInfo> RelationshipInfoCollection { get; }
         #endregion

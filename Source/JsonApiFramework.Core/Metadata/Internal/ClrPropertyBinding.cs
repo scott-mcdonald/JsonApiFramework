@@ -1,7 +1,10 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using JsonApiFramework.Converters;
+using System;
+using System.Diagnostics.Contracts;
+
+using JsonApiFramework.TypeConversion;
 
 namespace JsonApiFramework.Metadata.Internal
 {
@@ -9,39 +12,52 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ClrPropertyBinding(IPropertyGetter propertyGetter, IPropertySetter propertySetter)
+        public ClrPropertyBinding(string clrPropertyName, Type clrPropertyType, IClrPropertyGetter clrPropertyGetter, IClrPropertySetter clrPropertySetter)
         {
-            this.PropertyGetter = propertyGetter;
-            this.PropertySetter = propertySetter;
+            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
+            Contract.Requires(clrPropertyType != null);
+            Contract.Requires(clrPropertyGetter != null);
+            Contract.Requires(clrPropertySetter != null);
+
+            this.ClrPropertyName = clrPropertyName;
+            this.ClrPropertyType = clrPropertyType;
+            this.ClrPropertyGetter = clrPropertyGetter;
+            this.ClrPropertySetter = clrPropertySetter;
         }
         #endregion
 
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region IClrPropertyBinding Implementation
+        public string ClrPropertyName { get; }
+        public Type ClrPropertyType { get; }
+        #endregion
+
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IPropertyInfo Implementation
+        #region IClrPropertyBinding Implementation
         public TValue GetClrProperty<TObject, TValue>(TObject clrObject, ITypeConverter typeConverter, TypeConverterContext typeConverterContext)
         {
-            if (this.PropertyGetter == null)
+            if (this.ClrPropertyGetter == null)
                 return default(TValue);
 
-            var propertyGetter = (IPropertyGetter<TObject>)this.PropertyGetter;
-            var clrValue = propertyGetter.GetClrProperty<TValue>(clrObject, typeConverter, typeConverterContext);
+            var clrPropertyGetter = (IClrPropertyGetter<TObject>)this.ClrPropertyGetter;
+            var clrValue = clrPropertyGetter.GetClrProperty<TValue>(clrObject, typeConverter, typeConverterContext);
             return clrValue;
         }
 
         public void SetClrProperty<TObject, TValue>(TObject clrObject, TValue clrValue, ITypeConverter typeConverter, TypeConverterContext typeConverterContext)
         {
-            if (this.PropertySetter == null)
+            if (this.ClrPropertySetter == null)
                 return;
 
-            var propertySetter = (IPropertySetter<TObject>)this.PropertySetter;
-            propertySetter.SetClrProperty(clrObject, clrValue, typeConverter, typeConverterContext);
+            var clrPropertySetter = (IClrPropertySetter<TObject>)this.ClrPropertySetter;
+            clrPropertySetter.SetClrProperty(clrObject, clrValue, typeConverter, typeConverterContext);
         }
         #endregion
 
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private IPropertyGetter PropertyGetter { get; }
-        private IPropertySetter PropertySetter { get; }
+        private IClrPropertyGetter ClrPropertyGetter { get; }
+        private IClrPropertySetter ClrPropertySetter { get; }
         #endregion
     }
 }

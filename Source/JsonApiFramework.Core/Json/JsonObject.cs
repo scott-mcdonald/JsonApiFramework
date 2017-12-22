@@ -4,6 +4,8 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Infrastructure;
+
 using Newtonsoft.Json;
 
 namespace JsonApiFramework.Json

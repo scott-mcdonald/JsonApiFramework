@@ -10,11 +10,8 @@ namespace JsonApiFramework.Metadata
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        /// <summary>Gets the CLR property name of an optional <see cref="JsonApiFramework.JsonApi.Relationships"/> property for the CLR resource type.</summary>
-        string ClrPropertyName { get; }
-
-        /// <summary>Gets the CLR property binding of an optional <see cref="JsonApiFramework.JsonApi.Relationships"/> property for the CLR resource type.</summary>
-        IClrPropertyBinding ClrPropertyBinding { get; }
+        /// <summary>Gets the optional CLR property binding of a <see cref="JsonApiFramework.JsonApi.Relationships"/> property for the CLR resource type.</summary>
+        IClrPropertyBinding ClrRelationshipsPropertyBinding { get; }
 
         /// <summary>Gets the collection of all individual 'relationship' metadata for the json:api/CLR resource type.</summary>
         IReadOnlyCollection<IRelationshipInfo> RelationshipInfoCollection { get; }

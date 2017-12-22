@@ -17,11 +17,11 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        public static IAttributesInfo ReadAttributesInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static IAttributesInfo ReadAttributesInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -29,16 +29,16 @@ namespace JsonApiFramework.Metadata.Internal
                 return default(IAttributesInfo);
 
             var jObject = (JObject)jToken;
-            var attributesInfo = jObject.ReadAttributesInfoObject(serializer, clrDeclaringType);
+            var attributesInfo = jObject.ReadAttributesInfoObject(serializer, clrObjectType);
 
             return attributesInfo;
         }
 
-        public static IEnumerable<IAttributeInfo> ReadAttributeInfoCollectionPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static IEnumerable<IAttributeInfo> ReadAttributeInfoCollectionPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -46,9 +46,26 @@ namespace JsonApiFramework.Metadata.Internal
                 return Enumerable.Empty<IAttributeInfo>();
 
             var jArray = (JArray)jToken;
-            var attributeInfoCollection = jArray.ReadAttributeInfoCollectionArray(serializer, clrDeclaringType);
+            var attributeInfoCollection = jArray.ReadAttributeInfoCollectionArray(serializer, clrObjectType);
 
             return attributeInfoCollection;
+        }
+
+        public static IClrPropertyBinding ReadClrPropertyBindingPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
+        {
+            Contract.Requires(jProperty != null);
+            Contract.Requires(serializer != null);
+            Contract.Requires(clrObjectType != null);
+
+            var jToken = jProperty.Value;
+            var jTokenType = jToken.Type;
+            if (jTokenType != JTokenType.Object)
+                return default(IClrPropertyBinding);
+
+            var jObject = (JObject)jToken;
+            var clrPropertyBinding = jObject.ReadClrPropertyBindingObject(serializer, clrObjectType);
+
+            return clrPropertyBinding;
         }
 
         public static IEnumerable<IComplexType> ReadComplexTypesPropertyValue(this JProperty jProperty, JsonSerializer serializer)
@@ -67,11 +84,11 @@ namespace JsonApiFramework.Metadata.Internal
             return complexTypes;
         }
 
-        public static ILinksInfo ReadLinksInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static ILinksInfo ReadLinksInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -79,16 +96,16 @@ namespace JsonApiFramework.Metadata.Internal
                 return default(ILinksInfo);
 
             var jObject = (JObject)jToken;
-            var linksInfo = jObject.ReadLinksInfoObject(serializer, clrDeclaringType);
+            var linksInfo = jObject.ReadLinksInfoObject(serializer, clrObjectType);
 
             return linksInfo;
         }
 
-        public static IEnumerable<IRelationshipInfo> ReadRelationshipInfoCollectionPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static IEnumerable<IRelationshipInfo> ReadRelationshipInfoCollectionPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -96,16 +113,16 @@ namespace JsonApiFramework.Metadata.Internal
                 return Enumerable.Empty<IRelationshipInfo>();
 
             var jArray = (JArray)jToken;
-            var relationshipInfoCollection = jArray.ReadRelationshipInfoCollectionArray(serializer, clrDeclaringType);
+            var relationshipInfoCollection = jArray.ReadRelationshipInfoCollectionArray(serializer, clrObjectType);
 
             return relationshipInfoCollection;
         }
 
-        public static IRelationshipsInfo ReadRelationshipsInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static IRelationshipsInfo ReadRelationshipsInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -113,16 +130,16 @@ namespace JsonApiFramework.Metadata.Internal
                 return default(IRelationshipsInfo);
 
             var jObject = (JObject)jToken;
-            var relationshipsInfo = jObject.ReadRelationshipsInfoObject(serializer, clrDeclaringType);
+            var relationshipsInfo = jObject.ReadRelationshipsInfoObject(serializer, clrObjectType);
 
             return relationshipsInfo;
         }
 
-        public static IResourceIdentityInfo ReadResourceIdentityInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrDeclaringType)
+        public static IResourceIdentityInfo ReadResourceIdentityInfoPropertyValue(this JProperty jProperty, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jProperty != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var jToken = jProperty.Value;
             var jTokenType = jToken.Type;
@@ -130,7 +147,7 @@ namespace JsonApiFramework.Metadata.Internal
                 return default(IResourceIdentityInfo);
 
             var jObject = (JObject)jToken;
-            var resourceIdentityInfo = jObject.ReadResourceIdentityInfoObject(serializer, clrDeclaringType);
+            var resourceIdentityInfo = jObject.ReadResourceIdentityInfoObject(serializer, clrObjectType);
 
             return resourceIdentityInfo;
         }

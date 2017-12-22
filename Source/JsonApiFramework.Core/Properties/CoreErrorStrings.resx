@@ -117,101 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DomExceptionDetailNodeHasIncompatibleChildNodes" xml:space="preserve">
-    <value>The DOM node [type={0}] contains incompatible DOM child node [type={1}] and DOM child node [type={2}]. Violates the JSON API specification.</value>
-  </data>
-  <data name="DomExceptionDetailNodeHasUnexpectedChildNode" xml:space="preserve">
-    <value>The DOM node [type={0}] contains an unexpected DOM child node [type={1}]. Violates the JSON API specification.</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToAddAttribute" xml:space="preserve">
-    <value>Unable to add an attribute to a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToAddAttributes" xml:space="preserve">
-    <value>Unable to add attributes to a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToAddNode" xml:space="preserve">
-    <value>Unable to add a DOM node to a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToAddNodes" xml:space="preserve">
-    <value>Unable to add DOM nodes to a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToRemoveAttribute" xml:space="preserve">
-    <value>Unable to remove an attribute from a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToRemoveNode" xml:space="preserve">
-    <value>Unable to remove a DOM node from a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToReplaceAttribute" xml:space="preserve">
-    <value>Unable to replace an attribute from a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionDetailReadOnlyNodeUnableToReplaceNode" xml:space="preserve">
-    <value>Unable to replace a DOM node from a read-only DOM node [type={0}].</value>
-  </data>
-  <data name="DomExceptionTitle" xml:space="preserve">
-    <value>Internal DOM Error</value>
-  </data>
-  <data name="ErrorsExceptionMessage" xml:space="preserve">
-    <value>One or more errors has occurred. See the Errors property for details.</value>
-  </data>
-  <data name="JsonApiDeserializationErrorInvalidArrayItemJsonDetail" xml:space="preserve">
-    <value>JsonApi deserialization error when reading array item JSON \"{0}\" text. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDeserializationErrorInvalidPropertyJsonDetail" xml:space="preserve">
-    <value>JsonApi deserialization error when reading property \"{0}\" in JSON \"{1}\" text. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDeserializationErrorTitle" xml:space="preserve">
-    <value>JsonApi Deserialization Error</value>
-  </data>
-  <data name="JsonApiDocumentContainsBothMembersDetail" xml:space="preserve">
-    <value>Document contains both \"{0}\" and \"{1}\" members. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail" xml:space="preserve">
-    <value>Document contains an illegal \"{0}\" member. Member should be an array. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail" xml:space="preserve">
-    <value>Document contains an illegal \"{0}\" member. Member should be null, an object, or an array. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail" xml:space="preserve">
-    <value>Document contains an illegal \"{0}\" member. Member should be a resource or resource identifier. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDetail" xml:space="preserve">
-    <value>Document contains a hetergenous collection of Resources and ResourceIdentifiers, must be a homogenous collection of either Resources or ResourceIdentifiers. Violates the JSON API specification.</value>
-  </data>
-  <data name="JsonApiErrorTitle" xml:space="preserve">
-    <value>JsonApi Error</value>
-  </data>
   <data name="JsonReadErrorTitle" xml:space="preserve">
     <value>JSON Read Error</value>
   </data>
-  <data name="JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail" xml:space="preserve">
-    <value>Invalid JSON \"{0}\" for either a Resource or ResourceIdentifier.</value>
-  </data>
-  <data name="JsonTextContainsInvalidJsonTitle" xml:space="preserve">
-    <value>Invalid JSON</value>
-  </data>
-  <data name="LinksLinkNotFoundDetail" xml:space="preserve">
+  <data name="LinkNotFoundMessage" xml:space="preserve">
     <value>Could not find link for the rel={0}.</value>
   </data>
-  <data name="LinksLinkNotFoundTitle" xml:space="preserve">
-    <value>Link Not Found</value>
-  </data>
-  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail" xml:space="preserve">
-    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as an array of resource identifiers.</value>
-  </data>
-  <data name="RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail" xml:space="preserve">
-    <value>Unable to read or write the \"data\" member, not a relationship that contains a \"data\" member as a single resource identifier.</value>
-  </data>
-  <data name="RelationshipNotToManyRelatioshipTitle" xml:space="preserve">
-    <value>Not a ToManyRelationship</value>
-  </data>
-  <data name="RelationshipNotToOneRelatioshipTitle" xml:space="preserve">
-    <value>Not a ToOneRelationship</value>
-  </data>
-  <data name="RelationshipsRelationshipNotFoundDetail" xml:space="preserve">
+  <data name="RelationshipNotFoundMessage" xml:space="preserve">
     <value>Could not find relationship for the rel={0}.</value>
-  </data>
-  <data name="RelationshipsRelationshipNotFoundTitle" xml:space="preserve">
-    <value>Relationship Not Found</value>
   </data>
   <data name="MetadataExceptionMissingMetadataDetail" xml:space="preserve">
     <value>{0} has missing {1} metadata. Ensure metadata is configured correctly for the respective domain/schema.</value>
@@ -219,10 +132,7 @@
   <data name="MetadataExceptionTitle" xml:space="preserve">
     <value>Metadata Error</value>
   </data>
-    <data name="MetadataDeserializationExceptionTitle" xml:space="preserve">
-    <value>MetadataDeserialization Error</value>
-  </data>
-    <data name="MetadataDeserializationExceptionInvalidJsonDetail" xml:space="preserve">
+  <data name="MetadataDeserializationExceptionInvalidJsonDetail" xml:space="preserve">
     <value>Unable to deserialize {0}, error with {1}.</value>
   </data>
   <data name="TreeExceptionNodeAlreadyAddedMessage" xml:space="preserve">
@@ -233,5 +143,14 @@
   </data>
   <data name="TypeConverterExceptionMessage" xml:space="preserve">
     <value>Unable to convert from object {0} of type {1} to type {2}.</value>
+  </data>
+  <data name="MetadataExceptionAlreadyConfiguredDetail" xml:space="preserve">
+    <value>{0} has {1} already configured. Ensure {1} is configured only once.</value>
+  </data>
+  <data name="MetadataExceptionMissingRequiredConfigurationDetail" xml:space="preserve">
+    <value>{0} is missing required {1} configuration. Ensure {1} is configured because it is required.</value>
+  </data>
+  <data name="MetadataDeserializationExceptionTitle" xml:space="preserve">
+    <value>Metadata Deserialization Error</value>
   </data>
 </root>

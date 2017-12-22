@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0546B694-C662-4BDD-BD16-FD5C5653F3A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E1F5572-B8E5-4696-B5C2-EC56B890D79C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonApiFramework.Core", "Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj", "{34E655A5-9192-441B-8F9A-6A0CFEFA9623}"
 EndProject
@@ -16,6 +19,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonApiFramework.Core.Tests.TestSupport", "Tests\JsonApiFramework.Core.Tests.TestSupport\JsonApiFramework.Core.Tests.TestSupport.csproj", "{4965ADBB-733F-4848-9034-1D2CF255682D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Core.Tests", "Tests\JsonApiFramework.Core.Tests\JsonApiFramework.Core.Tests.csproj", "{6C2B3A29-6604-43DC-8796-9D4A4D3C9852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Foundation", "Source\JsonApiFramework.Foundation\JsonApiFramework.Foundation.csproj", "{261A7050-0ABE-4071-9101-88524F5E241C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Foundation.Tests", "Tests\JsonApiFramework.Foundation.Tests\JsonApiFramework.Foundation.Tests.csproj", "{489796A1-2749-4858-946F-E134BC3B2DB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Foundation.Tests.TestSupport", "Tests\JsonApiFramework.Foundation.Tests.TestSupport\JsonApiFramework.Foundation.Tests.TestSupport.csproj", "{40A273FE-1FCB-4C1F-A5EA-D84941B29033}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +48,18 @@ Global
 		{6C2B3A29-6604-43DC-8796-9D4A4D3C9852}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C2B3A29-6604-43DC-8796-9D4A4D3C9852}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C2B3A29-6604-43DC-8796-9D4A4D3C9852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261A7050-0ABE-4071-9101-88524F5E241C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261A7050-0ABE-4071-9101-88524F5E241C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261A7050-0ABE-4071-9101-88524F5E241C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261A7050-0ABE-4071-9101-88524F5E241C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{489796A1-2749-4858-946F-E134BC3B2DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{489796A1-2749-4858-946F-E134BC3B2DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{489796A1-2749-4858-946F-E134BC3B2DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{489796A1-2749-4858-946F-E134BC3B2DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A273FE-1FCB-4C1F-A5EA-D84941B29033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A273FE-1FCB-4C1F-A5EA-D84941B29033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A273FE-1FCB-4C1F-A5EA-D84941B29033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A273FE-1FCB-4C1F-A5EA-D84941B29033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +69,9 @@ Global
 		{1A15B55D-CF81-47AD-AE85-5D57942A9BDD} = {0546B694-C662-4BDD-BD16-FD5C5653F3A6}
 		{4965ADBB-733F-4848-9034-1D2CF255682D} = {0546B694-C662-4BDD-BD16-FD5C5653F3A6}
 		{6C2B3A29-6604-43DC-8796-9D4A4D3C9852} = {0546B694-C662-4BDD-BD16-FD5C5653F3A6}
+		{261A7050-0ABE-4071-9101-88524F5E241C} = {E6980D3D-20F7-492C-862C-EBAFCB9CC6CB}
+		{489796A1-2749-4858-946F-E134BC3B2DB5} = {0546B694-C662-4BDD-BD16-FD5C5653F3A6}
+		{40A273FE-1FCB-4C1F-A5EA-D84941B29033} = {0546B694-C662-4BDD-BD16-FD5C5653F3A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA258125-8998-4475-B04B-062D1F1C4CBF}

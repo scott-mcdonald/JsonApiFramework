@@ -17,18 +17,18 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        public static IEnumerable<IAttributeInfo> ReadAttributeInfoCollectionArray(this JArray jArray, JsonSerializer serializer, Type clrDeclaringType)
+        public static IEnumerable<IAttributeInfo> ReadAttributeInfoCollectionArray(this JArray jArray, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jArray != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var attributeInfoCollection = jArray
                 .Where(jToken => jToken.Type == JTokenType.Object)
                 .Select(jToken =>
                 {
                     var jObject = (JObject)jToken;
-                    var attribute = jObject.ReadAttributeInfoObject(serializer, clrDeclaringType);
+                    var attribute = jObject.ReadAttributeInfoObject(serializer, clrObjectType);
                     return attribute;
                 })
                 .ToList();
@@ -52,18 +52,18 @@ namespace JsonApiFramework.Metadata.Internal
             return complexTypes;
         }
 
-        public static IEnumerable<IRelationshipInfo> ReadRelationshipInfoCollectionArray(this JArray jArray, JsonSerializer serializer, Type clrDeclaringType)
+        public static IEnumerable<IRelationshipInfo> ReadRelationshipInfoCollectionArray(this JArray jArray, JsonSerializer serializer, Type clrObjectType)
         {
             Contract.Requires(jArray != null);
             Contract.Requires(serializer != null);
-            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(clrObjectType != null);
 
             var relationshipInfoCollection = jArray
                 .Where(jToken => jToken.Type == JTokenType.Object)
                 .Select(jToken =>
                 {
                     var jObject = (JObject)jToken;
-                    var relationship = jObject.ReadRelationshipInfoObject(serializer, clrDeclaringType);
+                    var relationship = jObject.ReadRelationshipInfoObject(serializer, clrObjectType);
                     return relationship;
                 })
                 .ToList();

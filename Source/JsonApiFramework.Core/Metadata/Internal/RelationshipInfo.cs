@@ -10,22 +10,24 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public RelationshipInfo(string rel, RelationshipCardinality toCardinality, Type toClrType)
+        public RelationshipInfo(string apiRel, RelationshipCardinality apiCardinality, Type clrRelatedResourceType, IClrPropertyBinding clrRelatedResourcePropertyBinding)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(toClrType != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(apiRel) == false);
+            Contract.Requires(clrRelatedResourceType != null);
 
-            this.Rel = rel;
-            this.ToCardinality = toCardinality;
-            this.ToClrType = toClrType;
+            this.ApiRel = apiRel;
+            this.ApiCardinality = apiCardinality;
+            this.ClrRelatedResourceType = clrRelatedResourceType;
+            this.ClrRelatedResourcePropertyBinding = clrRelatedResourcePropertyBinding;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IProperty Implementation
-        public string Rel { get; }
-        public RelationshipCardinality ToCardinality { get; }
-        public Type ToClrType { get; }
+        #region IRelationshipInfo Implementation
+        public string ApiRel { get; }
+        public RelationshipCardinality ApiCardinality { get; }
+        public Type ClrRelatedResourceType { get; }
+        public IClrPropertyBinding ClrRelatedResourcePropertyBinding { get; }
         #endregion
     }
 }

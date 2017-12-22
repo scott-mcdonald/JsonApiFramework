@@ -32,7 +32,7 @@ namespace JsonApiFramework.Metadata
         {
             Contract.Requires(metadataDeserializationException != null);
 
-            var error = Error.Create(metadataDeserializationException, CoreErrorStrings.MetadataExceptionTitle);
+            var error = Error.Create(metadataDeserializationException, CoreErrorStrings.MetadataDeserializationExceptionTitle);
             return error;
         }
         #endregion

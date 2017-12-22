@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.Converters;
 using JsonApiFramework.Properties;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.Tree.Internal;
+using JsonApiFramework.TypeConversion;
 
 namespace JsonApiFramework.Tree
 {

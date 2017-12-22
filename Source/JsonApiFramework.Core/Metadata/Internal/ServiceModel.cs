@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Json;
@@ -19,7 +20,6 @@ namespace JsonApiFramework.Metadata.Internal
             this.ComplexTypes = complexTypes.SafeToReadOnlyCollection();
             this.ResourceTypes = resourceTypes.SafeToReadOnlyCollection();
 
-            // ReSharper disable PossibleMultipleEnumeration
             this.ClrTypeToComplexTypeDictionary = this.ComplexTypes
                                                       .ToDictionary(x => x.ClrType);
 
@@ -28,12 +28,6 @@ namespace JsonApiFramework.Metadata.Internal
 
             this.ClrTypeToResourceTypeDictionary = this.ResourceTypes
                                                        .ToDictionary(x => x.ClrType);
-
-            var complexTypesAsTypeBase = this.ComplexTypes.Cast<ITypeBase>();
-            var resourceTypesAsTypeBase = this.ResourceTypes.Cast<ITypeBase>();
-            this.ClrTypeToTypeBaseDictionary = complexTypesAsTypeBase.Union(resourceTypesAsTypeBase).ToDictionary(x => x.ClrType);
-
-            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public ServiceModel(string name, IEnumerable<IResourceType> resourceTypes)
@@ -50,6 +44,20 @@ namespace JsonApiFramework.Metadata.Internal
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IServiceModel Implementation
+        public TComplex CreateClrComplexObject<TComplex>()
+        {
+            var complexType = this.GetComplexType<TComplex>();
+            var clrComplexObject = CreateClrObject<TComplex>(complexType);
+            return clrComplexObject;
+        }
+
+        public TResource CreateClrResourceObject<TResource>()
+        {
+            var resourceType = this.GetResourceType<TResource>();
+            var clrResourceObject = CreateClrObject<TResource>(resourceType);
+            return clrResourceObject;
+        }
+
         public bool TryGetComplexType(Type clrComplexType, out IComplexType complexType)
         {
             if (clrComplexType != null)
@@ -75,17 +83,6 @@ namespace JsonApiFramework.Metadata.Internal
 
             resourceType = null;
             return false;
-        }
-
-        public TObject CreateClrObject<TObject>()
-        {
-            var clrObjectType = typeof(TObject);
-            if (!this.TryGetTypeBase(clrObjectType, out var typeBase))
-                return default(TObject);
-
-            var typeBaseStronglyTyped = (ITypeBase<TObject>)typeBase;
-            var clrObject = typeBaseStronglyTyped.CreateClrObject();
-            return clrObject;
         }
         #endregion
 
@@ -113,18 +110,17 @@ namespace JsonApiFramework.Metadata.Internal
         private IReadOnlyDictionary<Type, IComplexType> ClrTypeToComplexTypeDictionary { get; }
         private IReadOnlyDictionary<string, IResourceType> ApiTypeToResourceTypeDictionary { get; }
         private IReadOnlyDictionary<Type, IResourceType> ClrTypeToResourceTypeDictionary { get; }
-        private IReadOnlyDictionary<Type, ITypeBase> ClrTypeToTypeBaseDictionary { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        public bool TryGetTypeBase(Type clrObjectType, out ITypeBase typeBase)
+        private static TObject CreateClrObject<TObject>(ITypeBase typeBase)
         {
-            if (clrObjectType != null)
-                return this.ClrTypeToTypeBaseDictionary.TryGetValue(clrObjectType, out typeBase);
+            Contract.Requires(typeBase != null);
 
-            typeBase = null;
-            return false;
+            var typeBaseStronglyTyped = (ITypeBase<TObject>)typeBase;
+            var clrObject = typeBaseStronglyTyped.CreateClrObject();
+            return clrObject;
         }
         #endregion
 

@@ -3,10 +3,12 @@
 
 using System;
 
+using JsonApiFramework.Json;
+
 namespace JsonApiFramework.Metadata
 {
     /// <summary>Represents the common metadata between complex/resource types.</summary>
-    public interface ITypeBase
+    public interface ITypeBase : IJsonObject
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

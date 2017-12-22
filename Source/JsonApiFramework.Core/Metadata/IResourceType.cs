@@ -1,9 +1,12 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using Newtonsoft.Json;
+
 namespace JsonApiFramework.Metadata
 {
-    /// <summary>Represents the metadata for a resource type in a service model.</summary>
+    /// <summary>Represents the metadata for a resource produced or consumed by a hypermedia API.</summary>
+    [JsonConverter(typeof(ResourceTypeConverter))]
     public interface IResourceType : ITypeBase
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////

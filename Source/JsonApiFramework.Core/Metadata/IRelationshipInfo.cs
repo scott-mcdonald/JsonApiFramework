@@ -11,13 +11,16 @@ namespace JsonApiFramework.Metadata
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         /// <summary>Gets the json:api 'rel' for the relationship.</summary>
-        string Rel { get; }
+        string ApiRel { get; }
 
         /// <summary>Gets the json:api 'relationship cardinality' from the source to the related resource type.</summary>
-        RelationshipCardinality ToCardinality { get; }
+        RelationshipCardinality ApiCardinality { get; }
 
         /// <summary>Gets the CLR 'type' of the related resource type.</summary>
-        Type ToClrType { get; }
+        Type ClrRelatedResourceType { get; }
+
+        /// <summary>Gets the optional CLR property binding object of the related CLR resource object.</summary>
+        IClrPropertyBinding ClrRelatedResourcePropertyBinding { get; }
         #endregion
     }
 }

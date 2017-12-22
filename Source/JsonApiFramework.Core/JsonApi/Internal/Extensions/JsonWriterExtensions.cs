@@ -268,20 +268,20 @@ namespace JsonApiFramework.JsonApi.Internal
             writer.WriteStringProperty(serializer, Keywords.Id, id);
         }
 
-        public static void WriteLinkProperty(this JsonWriter writer, JsonSerializer serializer, string rel, Link clrLink)
+        public static void WriteLinkProperty(this JsonWriter writer, JsonSerializer serializer, string rel, Link link)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            if (clrLink == null)
+            if (link == null)
             {
                 writer.WriteNullProperty(serializer, rel);
                 return;
             }
 
             writer.WritePropertyName(rel);
-            writer.WriteLinkObject(serializer, clrLink);
+            writer.WriteLinkObject(serializer, link);
         }
 
         public static void WriteLinksProperty(this JsonWriter writer, JsonSerializer serializer, Links clrLinks)
@@ -330,20 +330,20 @@ namespace JsonApiFramework.JsonApi.Internal
             writer.WriteStringProperty(serializer, Keywords.Pointer, pointer);
         }
 
-        public static void WriteRelationshipProperty(this JsonWriter writer, JsonSerializer serializer, string rel, Relationship clrRelationship)
+        public static void WriteRelationshipProperty(this JsonWriter writer, JsonSerializer serializer, string rel, Relationship relationship)
         {
             Contract.Requires(writer != null);
             Contract.Requires(serializer != null);
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            if (clrRelationship == null)
+            if (relationship == null)
             {
                 writer.WriteNullProperty(serializer, rel);
                 return;
             }
 
             writer.WritePropertyName(rel);
-            writer.WriteRelationshipObject(serializer, clrRelationship);
+            writer.WriteRelationshipObject(serializer, relationship);
         }
 
         public static void WriteStatusProperty(this JsonWriter writer, JsonSerializer serializer, HttpStatusCode? status)

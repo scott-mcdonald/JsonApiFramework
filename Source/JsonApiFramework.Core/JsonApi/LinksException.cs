@@ -4,6 +4,8 @@
 using System;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Properties;
+
 namespace JsonApiFramework.JsonApi
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            var message = $"Could not find link for the rel={rel}.";
+            var message = CoreErrorStrings.LinkNotFoundMessage.FormatWith(rel);
             throw new LinksException(message);
         }
         #endregion

@@ -61,196 +61,6 @@ namespace JsonApiFramework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The DOM node [type={0}] contains incompatible DOM child node [type={1}] and DOM child node [type={2}]. Violates the JSON API specification..
-        /// </summary>
-        internal static string DomExceptionDetailNodeHasIncompatibleChildNodes {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailNodeHasIncompatibleChildNodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The DOM node [type={0}] contains an unexpected DOM child node [type={1}]. Violates the JSON API specification..
-        /// </summary>
-        internal static string DomExceptionDetailNodeHasUnexpectedChildNode {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailNodeHasUnexpectedChildNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to add an attribute to a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToAddAttribute {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddAttribute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to add attributes to a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToAddAttributes {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddAttributes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to add a DOM node to a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToAddNode {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to add DOM nodes to a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToAddNodes {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToAddNodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to remove an attribute from a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToRemoveAttribute {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToRemoveAttribute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to remove a DOM node from a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToRemoveNode {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToRemoveNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to replace an attribute from a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToReplaceAttribute {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToReplaceAttribute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to replace a DOM node from a read-only DOM node [type={0}]..
-        /// </summary>
-        internal static string DomExceptionDetailReadOnlyNodeUnableToReplaceNode {
-            get {
-                return ResourceManager.GetString("DomExceptionDetailReadOnlyNodeUnableToReplaceNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Internal DOM Error.
-        /// </summary>
-        internal static string DomExceptionTitle {
-            get {
-                return ResourceManager.GetString("DomExceptionTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to One or more errors has occurred. See the Errors property for details..
-        /// </summary>
-        internal static string ErrorsExceptionMessage {
-            get {
-                return ResourceManager.GetString("ErrorsExceptionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JsonApi deserialization error when reading array item JSON \&quot;{0}\&quot; text. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDeserializationErrorInvalidArrayItemJsonDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidArrayItemJsonDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JsonApi deserialization error when reading property \&quot;{0}\&quot; in JSON \&quot;{1}\&quot; text. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDeserializationErrorInvalidPropertyJsonDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDeserializationErrorInvalidPropertyJsonDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JsonApi Deserialization Error.
-        /// </summary>
-        internal static string JsonApiDeserializationErrorTitle {
-            get {
-                return ResourceManager.GetString("JsonApiDeserializationErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Document contains both \&quot;{0}\&quot; and \&quot;{1}\&quot; members. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDocumentContainsBothMembersDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDocumentContainsBothMembersDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be an array. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeAnArrayDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be null, an object, or an array. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeNullAnObjectOrAnArrayDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Document contains an illegal \&quot;{0}\&quot; member. Member should be a resource or resource identifier. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDocumentContainsIllegalMemberShouldBeResourceOrResourceIdentifierDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Document contains a hetergenous collection of Resources and ResourceIdentifiers, must be a homogenous collection of either Resources or ResourceIdentifiers. Violates the JSON API specification..
-        /// </summary>
-        internal static string JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDetail {
-            get {
-                return ResourceManager.GetString("JsonApiDocumentMustContainHetergenousCollectionOrResourcesOrResourceIdentifiersDe" +
-                        "tail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to JsonApi Error.
-        /// </summary>
-        internal static string JsonApiErrorTitle {
-            get {
-                return ResourceManager.GetString("JsonApiErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to JSON Read Error.
         /// </summary>
         internal static string JsonReadErrorTitle {
@@ -260,38 +70,11 @@ namespace JsonApiFramework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid JSON \&quot;{0}\&quot; for either a Resource or ResourceIdentifier..
-        /// </summary>
-        internal static string JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail {
-            get {
-                return ResourceManager.GetString("JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid JSON.
-        /// </summary>
-        internal static string JsonTextContainsInvalidJsonTitle {
-            get {
-                return ResourceManager.GetString("JsonTextContainsInvalidJsonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not find link for the rel={0}..
         /// </summary>
-        internal static string LinksLinkNotFoundDetail {
+        internal static string LinkNotFoundMessage {
             get {
-                return ResourceManager.GetString("LinksLinkNotFoundDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Link Not Found.
-        /// </summary>
-        internal static string LinksLinkNotFoundTitle {
-            get {
-                return ResourceManager.GetString("LinksLinkNotFoundTitle", resourceCulture);
+                return ResourceManager.GetString("LinkNotFoundMessage", resourceCulture);
             }
         }
         
@@ -305,11 +88,20 @@ namespace JsonApiFramework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MetadataDeserialization Error.
+        ///   Looks up a localized string similar to Metadata Deserialization Error.
         /// </summary>
         internal static string MetadataDeserializationExceptionTitle {
             get {
                 return ResourceManager.GetString("MetadataDeserializationExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} has {1} already configured. Ensure {1} is configured only once..
+        /// </summary>
+        internal static string MetadataExceptionAlreadyConfiguredDetail {
+            get {
+                return ResourceManager.GetString("MetadataExceptionAlreadyConfiguredDetail", resourceCulture);
             }
         }
         
@@ -323,6 +115,15 @@ namespace JsonApiFramework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is missing required {1} configuration. Ensure {1} is configured because it is required..
+        /// </summary>
+        internal static string MetadataExceptionMissingRequiredConfigurationDetail {
+            get {
+                return ResourceManager.GetString("MetadataExceptionMissingRequiredConfigurationDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metadata Error.
         /// </summary>
         internal static string MetadataExceptionTitle {
@@ -332,56 +133,11 @@ namespace JsonApiFramework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to read or write the \&quot;data\&quot; member, not a relationship that contains a \&quot;data\&quot; member as an array of resource identifiers..
-        /// </summary>
-        internal static string RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail {
-            get {
-                return ResourceManager.GetString("RelationshipDoesNotContainDataMemberAsResourceIdentifierCollectionDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to read or write the \&quot;data\&quot; member, not a relationship that contains a \&quot;data\&quot; member as a single resource identifier..
-        /// </summary>
-        internal static string RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail {
-            get {
-                return ResourceManager.GetString("RelationshipDoesNotContainDataMemberAsResourceIdentifierDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not a ToManyRelationship.
-        /// </summary>
-        internal static string RelationshipNotToManyRelatioshipTitle {
-            get {
-                return ResourceManager.GetString("RelationshipNotToManyRelatioshipTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not a ToOneRelationship.
-        /// </summary>
-        internal static string RelationshipNotToOneRelatioshipTitle {
-            get {
-                return ResourceManager.GetString("RelationshipNotToOneRelatioshipTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not find relationship for the rel={0}..
         /// </summary>
-        internal static string RelationshipsRelationshipNotFoundDetail {
+        internal static string RelationshipNotFoundMessage {
             get {
-                return ResourceManager.GetString("RelationshipsRelationshipNotFoundDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Relationship Not Found.
-        /// </summary>
-        internal static string RelationshipsRelationshipNotFoundTitle {
-            get {
-                return ResourceManager.GetString("RelationshipsRelationshipNotFoundTitle", resourceCulture);
+                return ResourceManager.GetString("RelationshipNotFoundMessage", resourceCulture);
             }
         }
         

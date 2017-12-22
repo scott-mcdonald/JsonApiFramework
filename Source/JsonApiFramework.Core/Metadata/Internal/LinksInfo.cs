@@ -7,22 +7,15 @@ namespace JsonApiFramework.Metadata.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public LinksInfo()
-            : this(null, null)
-        { }
-
-        public LinksInfo(string clrPropertyName, IClrPropertyBinding clrPropertyBinding)
+        public LinksInfo(IClrPropertyBinding clrLinksPropertyBinding)
         {
-            this.ClrPropertyName = clrPropertyName;
-            this.ClrPropertyBinding = clrPropertyBinding;
+            this.ClrLinksPropertyBinding = clrLinksPropertyBinding;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region ILinksInfo Implementation
-        public string ClrPropertyName { get; }
-
-        public IClrPropertyBinding ClrPropertyBinding { get; }
+        public IClrPropertyBinding ClrLinksPropertyBinding { get; }
         #endregion
     }
 }

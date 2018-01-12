@@ -46,59 +46,54 @@ namespace JsonApiFramework
         /// <summary>
         /// Gets the single related CLR resource referenced by the "to-one" relationship.
         /// </summary>
-        /// <typeparam name="TResource">Type of related CLR resource to get.</typeparam>
+        /// <param name="clrRelatedResourceType">Type of CLR related resource to get.</param>
         /// <param name="relationship">The "to-one" relationship object that defines the
         /// single related CLR resource by json:api resource linkage.</param>
         /// <returns>Returns the single related CLR resource referenced by the "to-one"
         /// relationship if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-many" relationship instead of a "to-one" relationship.</exception>
-        TResource GetRelatedResource<TResource>(Relationship relationship)
-            where TResource : class, IResource;
+        IResource GetRelatedResource(Type clrRelatedResourceType, Relationship relationship);
 
         /// <summary>
         /// Gets the multiple related CLR resources referenced by the "to-many" relationship.
         /// </summary>
-        /// <typeparam name="TResource">Type of related CLR resource to get.</typeparam>
+        /// <param name="clrRelatedResourceType">Type of CLR related resource to get.</param>
         /// <param name="relationship">The "to-many" relationship object that defines the
         /// multiple related CLR resources by json:api resource linkage.</param>
         /// <returns>Returns the LINQ-to-objects collection of related CLR resources
         /// referenced by the "to-many" relationship if they exist, empty collection otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-one" relationship instead of a "to-many" relationship.</exception>
-        IEnumerable<TResource> GetRelatedResourceCollection<TResource>(Relationship relationship)
-            where TResource : class, IResource;
+        IEnumerable<IResource> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship);
 
         /// <summary>
         /// Gets the single CLR resource for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource to get.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource to get.</param>
         /// <returns>Returns the single CLR resource if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
-        TResource GetResource<TResource>()
-            where TResource : class, IResource;
+        IResource GetResource(Type clrResourceType);
 
         /// <summary>
         /// Gets the single CLR resource by resource identifier lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource to find.</typeparam>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource to find.</param>
         /// <param name="clrResourceId">CLR resource identifier value to lookup the single CLR resource with.</param>
         /// <returns>Returns the single CLR resource if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        TResource GetResource<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource;
+        IResource GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
 
         /// <summary>
         /// Gets the multiple CLR resources for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource to get.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource to get.</param>
         /// <returns>Returns the LINQ-to-objects collection of CLR resources if they exist,
         /// empty collection otherwise.</returns>
-        IEnumerable<TResource> GetResourceCollection<TResource>()
-            where TResource : class, IResource;
+        IEnumerable<IResource> GetResourceCollection(Type clrResourceType);
 
         /// <summary>
         /// Gets the single CLR resource identifier for the given CLR resource type.
@@ -107,13 +102,12 @@ namespace JsonApiFramework
         /// The CLR based resource identifier can come from either a json:api resource object or
         /// a resource identifier.
         /// </remarks>
-        /// <typeparam name="TResource">Type of CLR resource to find.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that contains the CLR resource identifier.</param>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
         /// <returns>Returns the single CLR resource identifier if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resource identifiers for the given CLR resource type.</exception>
-        TResourceId GetResourceId<TResource, TResourceId>()
-            where TResource : class, IResource;
+        TResourceId GetResourceId<TResourceId>(Type clrResourceType);
 
         /// <summary>
         /// Gets the multiple CLR resource identifiers for the given CLR resource type.
@@ -122,135 +116,119 @@ namespace JsonApiFramework
         /// The CLR based resource identifiers can come from either json:api resource objects or
         /// resource identifiers.
         /// </remarks>
-        /// <typeparam name="TResource">Type of CLR resource to find.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that contains the CLR resource identifier.</param>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
         /// <returns>Returns the LINQ-to-objects collection of CLR resource identifiers if they exist,
         /// empty collection otherwise.</returns>
-        IEnumerable<TResourceId> GetResourceIdCollection<TResource, TResourceId>()
-            where TResource : class, IResource;
+        IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource or resource identifier json:api meta object for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get meta for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has meta associated with it.</param>
         /// <returns>Returns the single <c>Meta</c> object if the CLR resource or resource identifier exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers for the given CLR resource type.</exception>
-        Meta GetResourceMeta<TResource>()
-            where TResource : class, IResource;
+        Meta GetResourceMeta(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource or resource identifier json:api meta object by resource lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
         /// <param name="clrResource">CLR resource to lookup the single json:api meta object with.</param>
         /// <returns>Returns the single json:api meta object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers with the same resource identifier for the given CLR resource type.</exception>
-        Meta GetResourceMeta<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+        Meta GetResourceMeta(IResource clrResource);
 
         /// <summary>
         /// Gets the single resource or resource identifier json:api meta object by resource identifier lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has meta associated with it.</param>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
         /// <param name="clrResourceId">CLR resource identifier value to lookup the single json:api meta object with.</param>
         /// <returns>Returns the single json:api meta object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers with the same resource identifier for the given CLR resource type.</exception>
-        Meta GetResourceMeta<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource;
+        Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
 
         /// <summary>
         /// Gets all resource or resource identifier json:api meta objects for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get meta collection for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has meta associated with it.</param>
         /// <returns>Collection of <c>Meta</c> objects in document order.</returns>
-        IEnumerable<Meta> GetResourceMetaCollection<TResource>()
-            where TResource : class, IResource;
+        IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource json:api links object for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get links for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has links associated with it.</param>
         /// <returns>Returns the single <c>Meta</c> object if the CLR resource exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
-        Links GetResourceLinks<TResource>()
-            where TResource : class, IResource;
+        Links GetResourceLinks(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource json:api links object by resource lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
         /// <param name="clrResource">CLR resource to lookup the single json:api links object with.</param>
         /// <returns>Returns the single json:api links object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Links GetResourceLinks<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+        Links GetResourceLinks(IResource clrResource);
 
         /// <summary>
         /// Gets the single resource json:api links object by resource identifier lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has links associated with it.</param>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
         /// <param name="clrResourceId">CLR resource identifier value to lookup the single json:api links object with.</param>
         /// <returns>Returns the single json:api links object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Links GetResourceLinks<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource;
+        Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
 
         /// <summary>
         /// Gets all resource json:api links objects for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get links collection for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has links associated with it.</param>
         /// <returns>Collection of <c>Links</c> objects in document order.</returns>
-        IEnumerable<Links> GetResourceLinksCollection<TResource>()
-            where TResource : class, IResource;
+        IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource json:api relationships object for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get relationships for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has relationships associated with it.</param>
         /// <returns>Returns the single <c>Meta</c> object if the CLR resource exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
-        Relationships GetResourceRelationships<TResource>()
-            where TResource : class, IResource;
+        Relationships GetResourceRelationships(Type clrResourceType);
 
         /// <summary>
         /// Gets the single resource json:api relationships object by resource lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
         /// <param name="clrResource">CLR resource to lookup the single json:api relationships object with.</param>
         /// <returns>Returns the single json:api relationships object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Relationships GetResourceRelationships<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+        Relationships GetResourceRelationships(IResource clrResource);
 
         /// <summary>
         /// Gets the single resource json:api relationships object by resource identifier lookup.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource.</typeparam>
         /// <typeparam name="TResourceId">Type of CLR resource identifier.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has relationships associated with it.</param>
         /// <param name="clrResourceId">CLR resource identifier value to lookup the single json:api relationships object with.</param>
         /// <returns>Returns the single json:api relationships object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Relationships GetResourceRelationships<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource;
+        Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
 
         /// <summary>
         /// Gets all resource json:api relationships objects for the given CLR resource type.
         /// </summary>
-        /// <typeparam name="TResource">Type of CLR resource or resource identifier to get relationships collection for.</typeparam>
+        /// <param name="clrResourceType">Type of CLR resource that has relationships associated with it.</param>
         /// <returns>Collection of <c>Relationships</c> objects in document order.</returns>
-        IEnumerable<Relationships> GetResourceRelationshipsCollection<TResource>()
-            where TResource : class, IResource;
+        IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType);
 
         /// <summary>
         /// Gets all CLR resource types in the document.

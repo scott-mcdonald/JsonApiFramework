@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <Version>1.5.0</Version>
+    <Version>1.6.0</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Core]</Product>
@@ -12,13 +12,13 @@
 Portable .NET foundation-level 'convention' classes used for defining what conventions are to be used by the hypermedia API server or client application.
 
 Portable .NET foundation-level 'service model' classes that represent the domain model of the resources produced and consumed by the hypermedia API server or client application. The 'service model' contains the metadata of individual resources and the schema of how resources are related to each other through relationships (to-one or to-many).</Description>
-    <Copyright>Copyright © 2015–2017 Scott McDonald</Copyright>
+    <Copyright>Copyright © 2015–2018 Scott McDonald</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageTags>.net portable jsonapi framework</PackageTags>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.15</FileVersion>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.16</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 

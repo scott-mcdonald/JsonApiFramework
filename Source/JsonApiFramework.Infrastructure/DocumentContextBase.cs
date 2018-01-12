@@ -44,81 +44,62 @@ namespace JsonApiFramework
         public Links GetDocumentLinks()
         { return this.Implementation.GetDocumentReader().GetDocumentLinks(); }
 
-        public TResource GetRelatedResource<TResource>(Relationship relationship)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetRelatedResource<TResource>(relationship); }
+        public IResource GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
+        { return this.Implementation.GetDocumentReader().GetRelatedResource(clrRelatedResourceType, relationship); }
 
-        public IEnumerable<TResource> GetRelatedResourceCollection<TResource>(Relationship relationship)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection<TResource>(relationship); }
+        public IEnumerable<IResource> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
+        { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection(clrRelatedResourceType, relationship); }
 
-        public TResource GetResource<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResource<TResource>(); }
+        public IResource GetResource(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResource(clrResourceType); }
 
-        public TResource GetResource<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResource<TResource, TResourceId>(clrResourceId); }
+        public IResource GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        { return this.Implementation.GetDocumentReader().GetResource<TResourceId>(clrResourceType, clrResourceId); }
 
-        public IEnumerable<TResource> GetResourceCollection<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceCollection<TResource>(); }
+        public IEnumerable<IResource> GetResourceCollection(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceCollection(clrResourceType); }
 
-        public TResourceId GetResourceId<TResource, TResourceId>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceId<TResource, TResourceId>(); }
+        public TResourceId GetResourceId<TResourceId>(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceId<TResourceId>(clrResourceType); }
 
-        public IEnumerable<TResourceId> GetResourceIdCollection<TResource, TResourceId>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceIdCollection<TResource, TResourceId>(); }
+        public IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceIdCollection<TResourceId>(clrResourceType); }
 
-        public Meta GetResourceMeta<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceMeta<TResource>(); }
+        public Meta GetResourceMeta(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType); }
 
-        public Meta GetResourceMeta<TResource>(TResource clrResource)
-            where TResource : class, IResource
+        public Meta GetResourceMeta(IResource clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResource); }
 
-        public Meta GetResourceMeta<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceMeta<TResource, TResourceId>(clrResourceId); }
+        public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType, clrResourceId); }
 
-        public IEnumerable<Meta> GetResourceMetaCollection<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceMetaCollection<TResource>(); }
+        public IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceMetaCollection(clrResourceType); }
 
-        public Links GetResourceLinks<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceLinks<TResource>(); }
+        public Links GetResourceLinks(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType); }
 
-        public Links GetResourceLinks<TResource>(TResource clrResource)
-            where TResource : class, IResource
+        public Links GetResourceLinks(IResource clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResource); }
 
-        public Links GetResourceLinks<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceLinks<TResource, TResourceId>(clrResourceId); }
+        public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType, clrResourceId); }
 
-        public IEnumerable<Links> GetResourceLinksCollection<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceLinksCollection<TResource>(); }
+        public IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceLinksCollection(clrResourceType); }
 
-        public Relationships GetResourceRelationships<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceRelationships<TResource>(); }
+        public Relationships GetResourceRelationships(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType); }
 
-        public Relationships GetResourceRelationships<TResource>(TResource clrResource)
-            where TResource : class, IResource
+        public Relationships GetResourceRelationships(IResource clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResource); }
 
-        public Relationships GetResourceRelationships<TResource, TResourceId>(TResourceId clrResourceId)
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceRelationships<TResource, TResourceId>(clrResourceId); }
+        public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType, clrResourceId); }
 
-        public IEnumerable<Relationships> GetResourceRelationshipsCollection<TResource>()
-            where TResource : class, IResource
-        { return this.Implementation.GetDocumentReader().GetResourceRelationshipsCollection<TResource>(); }
+        public IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType)
+        { return this.Implementation.GetDocumentReader().GetResourceRelationshipsCollection(clrResourceType); }
 
         public IEnumerable<Type> GetResourceTypeCollection()
         { return this.Implementation.GetDocumentReader().GetResourceTypeCollection(); }

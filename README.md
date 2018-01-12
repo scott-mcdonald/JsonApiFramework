@@ -753,7 +753,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.5.1 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.6.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -763,7 +763,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.5.1 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.6.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -775,7 +775,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.5.1 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.6.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -832,7 +832,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
-* v1.5.1
+* v1.6.0
+    * Fix #45 Add non-generic reading of resources to DocumentContext
     * Fix #42 Fix exception being thrown if including empty/null resources in an empty/null document
 * v1.5.0
     * Fix #41 Add support setting resource linkage without needing to include related resources

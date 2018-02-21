@@ -3194,6 +3194,25 @@ namespace JsonApiFramework.Tests.Internal
                                 },
                             new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} })
                     },
+                new object[]
+                {
+                    "WithCommentResourceDocumentAndRelationshipsMinusId",
+                    new GetResourceRelationshipsTest<Comment>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                        {
+                            Data = new Resource
+                            {
+                                Type = ApiSampleData.CommentType,
+                                Attributes = new ApiObject(ApiProperty.Create("body", "I disagree completely.")),
+                                Relationships = new Relationships
+                                {
+                                    {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1}
+                                }
+                            }
+                        },
+                        new Relationships { {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorRelationship1} })
+                },
             };
         #endregion
 

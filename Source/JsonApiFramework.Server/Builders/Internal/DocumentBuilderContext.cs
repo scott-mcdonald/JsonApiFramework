@@ -16,29 +16,34 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DocumentBuilderContext(Uri currentRequestUrl)
+        public DocumentBuilderContext(Uri currentRequestUrl, QueryParameters queryParameters, bool sparseFieldsetsEnabled)
         {
-            this.CurrentRequestUrl = currentRequestUrl;
+            this.CurrentRequestUrl      = currentRequestUrl;
+            this.QueryParameters        = queryParameters;
+            this.SparseFieldsetsEnabled = sparseFieldsetsEnabled;
 
             this.DomReadWriteResourceDictionary = new Dictionary<ResourceIdentifier, DomReadWriteResource>();
-            this.ApiResourceLinkageDictionary = new Dictionary<ApiResourceLinkageKey, ApiResourceLinkage>();
+            this.ApiResourceLinkageDictionary   = new Dictionary<ApiResourceLinkageKey, ApiResourceLinkage>();
         }
 
-        public DocumentBuilderContext(string currentRequestUrl)
-            : this(new Uri(currentRequestUrl))
-        { }
+        public DocumentBuilderContext(string currentRequestUrl, QueryParameters queryParameters, bool sparseFieldsetsEnabled)
+            : this(new Uri(currentRequestUrl), queryParameters, sparseFieldsetsEnabled)
+        {
+        }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        public Uri CurrentRequestUrl { get; private set; }
+        public Uri             CurrentRequestUrl      { get; }
+        public QueryParameters QueryParameters        { get; }
+        public bool            SparseFieldsetsEnabled { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         public void AddDomReadWriteResource(ResourceIdentifier domResourceKey, DomReadWriteResource domReadWriteResource)
         {
-            Contract.Requires(domResourceKey != null);
+            Contract.Requires(domResourceKey       != null);
             Contract.Requires(domReadWriteResource != null);
 
             this.DomReadWriteResourceDictionary.Add(domResourceKey, domReadWriteResource);
@@ -55,14 +60,14 @@ namespace JsonApiFramework.Server.Internal
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(serviceModel != null);
+            Contract.Requires(serviceModel          != null);
             Contract.Requires(toOneIncludedResource != null);
 
             // Create ResourceLinkageKey from ToOneIncludedResource.
             var fromClrResourceType = typeof(TFromResource);
-            var fromResourceType = serviceModel.GetResourceType(fromClrResourceType);
+            var fromResourceType    = serviceModel.GetResourceType(fromClrResourceType);
 
-            var fromClrResource = toOneIncludedResource.FromResource;
+            var fromClrResource           = toOneIncludedResource.FromResource;
             var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
 
             var fromApiRel = toOneIncludedResource.FromRel;
@@ -76,7 +81,7 @@ namespace JsonApiFramework.Server.Internal
             if (toClrResource != null)
             {
                 var toClrResourceType = typeof(TToResource);
-                var toResourceType = serviceModel.GetResourceType(toClrResourceType);
+                var toResourceType    = serviceModel.GetResourceType(toClrResourceType);
 
                 toApiResourceIdentifier = toResourceType.GetApiResourceIdentifier(toClrResource);
             }
@@ -91,14 +96,14 @@ namespace JsonApiFramework.Server.Internal
             where TFromResource : class, IResource
             where TToResource : class, IResource
         {
-            Contract.Requires(serviceModel != null);
+            Contract.Requires(serviceModel            != null);
             Contract.Requires(toManyIncludedResources != null);
 
             // Create ResourceLinkageKey from ToManyIncludedResources.
             var fromClrResourceType = typeof(TFromResource);
-            var fromResourceType = serviceModel.GetResourceType(fromClrResourceType);
+            var fromResourceType    = serviceModel.GetResourceType(fromClrResourceType);
 
-            var fromClrResource = toManyIncludedResources.FromResource;
+            var fromClrResource           = toManyIncludedResources.FromResource;
             var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
 
             var fromApiRel = toManyIncludedResources.FromRel;
@@ -113,7 +118,7 @@ namespace JsonApiFramework.Server.Internal
             if (toClrResourceCollection != null)
             {
                 var toClrResourceType = typeof(TToResource);
-                var toResourceType = serviceModel.GetResourceType(toClrResourceType);
+                var toResourceType    = serviceModel.GetResourceType(toClrResourceType);
 
                 toApiResourceIdentifierCollection = toClrResourceCollection.Select(toResourceType.GetApiResourceIdentifier)
                                                                            .ToList();
@@ -126,13 +131,15 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public bool TryGetResourceLinkage(ApiResourceLinkageKey apiResourceLinkageKey, out ApiResourceLinkage apiResourceLinkage)
-        { return this.ApiResourceLinkageDictionary.TryGetValue(apiResourceLinkageKey, out apiResourceLinkage); }
+        {
+            return this.ApiResourceLinkageDictionary.TryGetValue(apiResourceLinkageKey, out apiResourceLinkage);
+        }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private IDictionary<ResourceIdentifier, DomReadWriteResource> DomReadWriteResourceDictionary { get; set; }
-        private IDictionary<ApiResourceLinkageKey, ApiResourceLinkage> ApiResourceLinkageDictionary { get; set; }
+        private IDictionary<ResourceIdentifier, DomReadWriteResource>  DomReadWriteResourceDictionary { get; set; }
+        private IDictionary<ApiResourceLinkageKey, ApiResourceLinkage> ApiResourceLinkageDictionary   { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -158,7 +165,7 @@ namespace JsonApiFramework.Server.Internal
                     this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
                     this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageNew);
                 }
-                break;
+                    break;
 
                 case ApiResourceLinkageType.ToManyResourceLinkage:
                 {
@@ -174,10 +181,10 @@ namespace JsonApiFramework.Server.Internal
                     this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
                     this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageMerged);
                 }
-                break;
+                    break;
 
                 default:
-                throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException();
             }
         }
         #endregion

@@ -33,6 +33,8 @@
 - Support for manual adding of resource linkage between related resources without needing to include related resources
 - Support for **HATEOAS** (**H**ypermedia **a**s **t**he **E**ngine **o**f **A**pplication **S**tate) for resource relationship and links inclusion or exclusion with lambda expression predicates
 - Support for **complex types** at the resource level
+- Support for **sparse fieldsets** for **server-side** document building
+    - Feature can be enabled or disabled as needed
 - Support for *meta* information at the document, resource, relationship, link, error, and JSON API version levels
 - Support for **portable** development with **JsonApiFramework** binaries compiled as [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) 1.0 class libraries
     - Targeting the .NET Standard 1.0 version maximizes the number of platforms the JsonApiFramework binaries can be used on, see the [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) documentation for details
@@ -40,7 +42,7 @@
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
     - Internally uses *compiled* .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
-Extreme high code quality with **1,900+ unit tests**. Production ready.
+Extreme high code quality with **2,000+ unit tests**. Production ready.
 
 **For further details, please check out the [Wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [.NET Core Samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
 

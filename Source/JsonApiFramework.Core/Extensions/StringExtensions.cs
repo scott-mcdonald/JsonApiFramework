@@ -3,6 +3,7 @@
 
 using System;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace JsonApiFramework
         public static bool Contains(this string str, string value, StringComparison comparison)
         {
             if (str == null)
-                throw new ArgumentNullException("str");
+                throw new ArgumentNullException(nameof(str));
 
             return String.IsNullOrWhiteSpace(value) == false && str.IndexOf(value, comparison) >= 0;
         }
@@ -54,6 +55,25 @@ namespace JsonApiFramework
         public static bool TryParseEnum<TEnum>(this string str, out TEnum result, bool ignoreCase = true)
             where TEnum : struct
         { return Enum.TryParse(str, ignoreCase, out result); }
+
+        /// <summary>
+        /// Removes all white-space characters from the current string.
+        /// </summary>
+        public static string TrimAll(this string str)
+        {
+            if (str == null)
+                throw new ArgumentNullException(nameof(str));
+
+            var len    = str.Length;
+            var src    = str.ToCharArray();
+            var dstIdx = 0;
+            for (var i = 0; i < len; i++) {
+                var ch = src[i];
+                if (!char.IsWhiteSpace(ch))
+                    src[dstIdx++] = ch;
+            }
+            return new string(src, 0, dstIdx);
+        }
         #endregion
     }
 }

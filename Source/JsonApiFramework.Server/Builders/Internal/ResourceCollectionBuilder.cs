@@ -175,6 +175,10 @@ namespace JsonApiFramework.Server.Internal
                 .ToList();
 
             // Add the DOM read/write resource nodes to the DOM document.
+            var queryParameters    = this.DocumentBuilderContext.QueryParameters;
+            var apiType            = resourceType.ResourceIdentityInfo.ApiType;
+            var useSparseFieldsets = this.DocumentBuilderContext.SparseFieldsetsEnabled && queryParameters.ContainsField(apiType);
+
             var domResourceTupleCollection2 = new List<Tuple<ResourceIdentifier, DomReadWriteResource, TResource>>();
             foreach (var domResourceTuple in domResourceTupleCollection1)
             {
@@ -192,7 +196,14 @@ namespace JsonApiFramework.Server.Internal
                 // Finish mapping the DOM read/write resource attributes nodes to the DOM document.
                 var clrResource = domResourceTuple.Item3;
 
-                resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
+                if (!useSparseFieldsets)
+                {
+                    resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
+                }
+                else
+                {
+                    resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource, (x, y) => queryParameters.ContainsField(x, y));
+                }
 
                 // Keep track of the actual DOM read-write resource nodes added to the DOM document.
                 domResourceTupleCollection2.Add(domResourceTuple);

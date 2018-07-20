@@ -10,6 +10,7 @@ namespace JsonApiFramework.Server.Hypermedia
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         IEnumerable<IHypermediaPath> DocumentSelfPath { get; }
+        string DocumentSelfQuery { get; }
         #endregion
     }
 }

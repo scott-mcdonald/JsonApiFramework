@@ -98,6 +98,16 @@ namespace JsonApiFramework.Http
             return this;
         }
 
+        public UrlBuilder Query(string query, bool includeQuery = true)
+        {
+            if (includeQuery == false || string.IsNullOrWhiteSpace(query))
+                return this;
+
+            var queryStringMinusQuestionMark = query.TrimStart('?');
+            this.QueryString = queryStringMinusQuestionMark;
+            return this;
+        }
+
         public UrlBuilder RemoveLastPathSegment(bool removePathSegment = true)
         {
             if (removePathSegment == false || this.PathSegments.Count == 0)
@@ -131,6 +141,11 @@ namespace JsonApiFramework.Http
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(this.QueryString))
+            {
+                uriBuilder.Query = this.QueryString;
+            }
+
             var uri = uriBuilder.Uri;
             var url = uri.OriginalString;
             var urlTrimmedAtEnd = url.TrimEnd('/', '\\');
@@ -156,10 +171,11 @@ namespace JsonApiFramework.Http
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private string Scheme { get; set; }
-        private string Host { get; set; }
-        private int? Port { get; set; }
-        private List<string> PathSegments { get; set; }
+        private string Scheme { get; }
+        private string Host { get; }
+        private int? Port { get; }
+        private string QueryString { get; set; }
+        private List<string> PathSegments { get; }
         #endregion
     }
 }

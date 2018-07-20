@@ -35,6 +35,11 @@ namespace JsonApiFramework.Internal.Dom
 
         public static void MapClrAttributesToDomResource(this IResourceType resourceType, DomReadWriteResource domResource, object clrResource)
         {
+            resourceType.MapClrAttributesToDomResource(domResource, clrResource, null);
+        }
+
+        public static void MapClrAttributesToDomResource(this IResourceType resourceType, DomReadWriteResource domResource, object clrResource, Func<string, string, bool> attributePredicate)
+        {
             Contract.Requires(resourceType != null);
             Contract.Requires(domResource != null);
 
@@ -44,9 +49,17 @@ namespace JsonApiFramework.Internal.Dom
             var serviceModel = domResource.GetServiceModel();
             var domAttributes = domResource.CreateAndAddNode(() => DomAttributes.Create());
 
+            var apiType = resourceType.ResourceIdentityInfo.ApiType;
             var attributeInfoCollection = resourceType.AttributesInfo.Collection;
             foreach (var attributeInfo in attributeInfoCollection)
             {
+                var apiField = attributeInfo.ApiPropertyName;
+                if (attributePredicate != null && attributePredicate(apiType, apiField) == false)
+                {
+                    // Skip adding this attribute.
+                    continue;
+                }
+
                 var localAttributeInfo = attributeInfo;
                 domAttributes.CreateAndAddNode(() => DomAttribute.CreateFromClrResource(serviceModel, localAttributeInfo, clrResource));
             }

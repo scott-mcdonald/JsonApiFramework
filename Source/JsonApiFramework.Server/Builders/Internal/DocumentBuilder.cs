@@ -17,6 +17,8 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Internal
 {
+    using DomNode = Node<DomNodeType>;
+
     /// <summary>
     /// Implementation of the building of a DOM object tree used in the
     /// writing of a json:api document through a progressive fluent interface.
@@ -64,8 +66,14 @@ namespace JsonApiFramework.Server.Internal
                     // Resolve all read-write resource nodes if needed.
                     this.ResolveResourceNodes();
 
+                    // Prune all resource relationships from sparse fieldsets if needed.
+                    this.PruneResourceRelationshipNodes();
+
                     // Compact all read-write resource nodes to read-only resource nodes.
                     this.CompactResourceNodes();
+
+                    // Sort included resource nodes
+                    this.SortIncludedResourceNodes();
                 }
                 break;
 
@@ -608,12 +616,99 @@ namespace JsonApiFramework.Server.Internal
             return documentPathContext;
         }
 
+        private DocumentType GetDocumentType()
+        {
+            var documentType = this.DomDocument.GetDocumentType();
+            return documentType;
+        }
+
         private static IResourcePathContext GetResourcePathContext(DomReadWriteResource domReadWriteResource)
         {
             Contract.Requires(domReadWriteResource != null);
 
             var resourcePathContext = domReadWriteResource.GetResourcePathContext();
             return resourcePathContext;
+        }
+
+        private void PruneResourceRelationshipNodes()
+        {
+            var areSparseFieldsetsEnabled = this.DocumentBuilderContext.SparseFieldsetsEnabled;
+            if (areSparseFieldsetsEnabled == false)
+                return;
+
+            foreach (var domResource in this.DomDocument.DomResources())
+            {
+                this.PruneResourceRelationshipNodes(domResource);
+            }
+        }
+
+        private void PruneResourceRelationshipNodes(IDomResource domResource)
+        {
+            Contract.Requires(domResource != null);
+
+            if (domResource.IsReadOnly)
+                return;
+
+            var queryParameters    = this.DocumentBuilderContext.QueryParameters;
+            var apiType            = domResource.ApiResourceType;
+            var useSparseFieldsets = queryParameters.ContainsField(apiType);
+            if (useSparseFieldsets == false)
+                return;
+
+            var domReadWriteResource = (DomReadWriteResource)domResource;
+
+            var domRelationships = (IDomRelationships)domReadWriteResource.GetNode(DomNodeType.Relationships);
+            if (domRelationships == null || domRelationships.IsReadOnly)
+                return;
+
+            var domReadWriteRelationships = (DomReadWriteRelationships)domRelationships;
+            foreach (var domRelationship in domReadWriteRelationships.Nodes().Cast<IDomRelationship>())
+            {
+                var apiField = domRelationship.Rel;
+                if (queryParameters.ContainsField(apiType, apiField))
+                    continue;
+
+                // Prune this relationship.
+                // 1. If this doesn't have resource linkage, just remove relationship node.
+                // 2. If this does have resource linkage, remove the links and meta but keep the resource linkage.
+                var apiRelationship = domRelationship.Relationship;
+                var apiRelationshipType = apiRelationship.GetRelationshipType();
+                switch (apiRelationshipType)
+                {
+                    case RelationshipType.Relationship:
+                        {
+                            domReadWriteRelationships.RemoveNode((DomNode)domRelationship);
+                        }
+                        break;
+
+                    case RelationshipType.ToOneRelationship:
+                        {
+                            var apiRelationshipDataOnly = new ToOneRelationship
+                                                          {
+                                                              Data = apiRelationship.GetToOneResourceLinkage()
+                                                          };
+                            var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
+
+                            domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
+                        }
+                        break;
+
+                    case RelationshipType.ToManyRelationship:
+                        {
+                            var apiRelationshipDataOnly = new ToManyRelationship
+                                                          {
+                                                              Data = apiRelationship.GetToManyResourceLinkage().SafeToList()
+                                                          };
+                            var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
+
+                            domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
+                        }
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         private void ResolveDocumentNodes()
@@ -1063,10 +1158,20 @@ namespace JsonApiFramework.Server.Internal
             this.DomDocument.SetDocumentPathContext(documentPathContext);
         }
 
-        private DocumentType GetDocumentType()
+        private void SortIncludedResourceNodes()
         {
-            var documentType = this.DomDocument.GetDocumentType();
-            return documentType;
+            var domIncludedNode = this.DomDocument.GetNode<DomNodeType, DomIncluded>(DomNodeType.Included);
+            if (domIncludedNode == null)
+                return;
+
+            var domIncludedNodesSorted = domIncludedNode.Nodes()
+                                                        .Cast<DomReadOnlyResource>()
+                                                        .OrderBy(x => x.ApiResource)
+                                                        .Select(x => DomReadOnlyResource.Create(x.ApiResource, x.ClrResource))
+                                                        .ToList();
+
+            var domIncludedNodeSorted = DomIncluded.Create(domIncludedNodesSorted);
+            this.DomDocument.ReplaceNode(domIncludedNode, domIncludedNodeSorted);
         }
         #endregion
     }

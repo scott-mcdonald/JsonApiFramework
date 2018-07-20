@@ -270,7 +270,7 @@ namespace JsonApiFramework.Server.Tests.Internal
             {
                 var documentWriter = new DocumentWriter(serviceModel);
                 var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration);
-                var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl);
+                var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl, QueryParameters.Empty, false);
                 var documentBuilder = new DocumentBuilder(documentWriter, hypermediaAssemblerRegistry, hypermediaContext, documentBuilderContext);
                 return documentBuilder;
             }

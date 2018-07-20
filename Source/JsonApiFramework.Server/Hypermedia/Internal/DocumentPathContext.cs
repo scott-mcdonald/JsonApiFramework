@@ -31,6 +31,8 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
 
             var documentSelfPath = url.ParseDocumentSelfPath(serviceModel, urlBuilderConfiguration);
             this.DocumentSelfPath = documentSelfPath;
+
+            this.DocumentSelfQuery = url.Query;
         }
 
         public DocumentPathContext(IHypermediaContext hypermediaContext, string urlString)
@@ -40,13 +42,15 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IPathContext Implementation
-        public IEnumerable<Type> ClrResourceTypes
-        { get { return this.DocumentSelfPath.GetClrResourceTypes(); } }
+        public IEnumerable<Type> ClrResourceTypes => this.DocumentSelfPath.GetClrResourceTypes();
         #endregion
 
         #region IDocumentPathContext Implementation
         public IEnumerable<IHypermediaPath> DocumentSelfPath
-        { get; private set; }
+        { get; }
+
+        public string DocumentSelfQuery
+        { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -63,7 +67,12 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                 return String.Empty;
 
             var documentSelfPathAsString = documentSelfPathSegments.Aggregate((current, next) => current + "/" + next);
-            return documentSelfPathAsString;
+
+            if (string.IsNullOrWhiteSpace(this.DocumentSelfQuery))
+                return documentSelfPathAsString;
+
+            var documentSelfPathAndQueryAsString = documentSelfPathAsString + this.DocumentSelfQuery;
+            return documentSelfPathAndQueryAsString;
         }
         #endregion
     }

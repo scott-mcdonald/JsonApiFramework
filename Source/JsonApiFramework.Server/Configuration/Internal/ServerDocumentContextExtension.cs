@@ -23,6 +23,9 @@ namespace JsonApiFramework.Server.Internal
 
         /// <summary>Server hypermedia context for building framework-level hypermedia.</summary>
         public IHypermediaContext HypermediaContext { get; set; }
+
+        /// <summary>Predicate controlling the enablement of sparse fieldsets feature.</summary>
+        public bool SparseFieldsetsEnabled { get; set; } = true;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

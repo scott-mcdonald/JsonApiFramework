@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Collections.Generic;
+using System.Linq;
+
 using JsonApiFramework.Internal.Tree;
 
 namespace JsonApiFramework.Internal.Dom
@@ -23,6 +26,12 @@ namespace JsonApiFramework.Internal.Dom
         #region Factory Methods
         public static DomIncluded Create(params Node<DomNodeType>[] domResources)
         {
+            var domIncluded = new DomIncluded(domResources.AsEnumerable());
+            return domIncluded;
+        }
+
+        public static DomIncluded Create(IEnumerable<Node<DomNodeType>> domResources)
+        {
             var domIncluded = new DomIncluded(domResources);
             return domIncluded;
         }
@@ -30,7 +39,7 @@ namespace JsonApiFramework.Internal.Dom
 
         // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
         #region Constructors
-        private DomIncluded(params Node<DomNodeType>[] domResources)
+        private DomIncluded(IEnumerable<Node<DomNodeType>> domResources)
             : base(domResources)
         { }
         #endregion

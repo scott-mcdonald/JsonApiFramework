@@ -134,8 +134,10 @@ namespace JsonApiFramework.Server
             var documentWriter = this.Implementation.GetDocumentWriter();
             var hypermediaAssemblerRegistry = this.Implementation.GetHypermediaAssemblerRegistry();
             var hypermediaContext = this.Implementation.GetHypermediaContext();
+            var queryParameters = QueryParameters.Create(currentRequestUrl);
+            var sparseFieldsetsEnabled = this.Implementation.IsSparseFieldsetsEnabled();
 
-            var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl);
+            var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl, queryParameters, sparseFieldsetsEnabled);
             var documentBuilder = new DocumentBuilder(domDocument, serviceModel, documentWriter, hypermediaAssemblerRegistry, hypermediaContext, documentBuilderContext);
             return documentBuilder;
         }

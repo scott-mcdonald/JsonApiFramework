@@ -775,6 +775,23 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource ArticleResourceWithNoAttributes = new Resource
+            {
+                Type       = ArticleType,
+                Id         = ArticleId,
+                Relationships = new Relationships
+                    {
+                        {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship},
+                        {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship}
+                    },
+                Links = new Links
+                    {
+                        {Keywords.Self, ApiSampleData.ArticleLink},
+                        {Keywords.Canonical, ApiSampleData.ArticleLink}
+                    },
+                Meta = ResourceMeta
+            };
+
         public static readonly Resource ArticleResource1 = new Resource
             {
                 Type = ArticleType,

@@ -147,7 +147,18 @@ namespace JsonApiFramework.Server.Internal
             domContainerNode.Add(domReadWriteResource);
 
             // Finish mapping the DOM read/write resource attributes nodes to the DOM document.
-            resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
+            var queryParameters    = this.DocumentBuilderContext.QueryParameters;
+            var apiType            = resourceType.ResourceIdentityInfo.ApiType;
+            var useSparseFieldsets = this.DocumentBuilderContext.SparseFieldsetsEnabled && queryParameters.ContainsField(apiType);
+
+            if (!useSparseFieldsets)
+            {
+                resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource);
+            }
+            else
+            {
+                resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource, (x, y) => queryParameters.ContainsField(x, y));
+            }
 
             this.BuildingResource = true;
             this.DomReadWriteResource = domReadWriteResource;

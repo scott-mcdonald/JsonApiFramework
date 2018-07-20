@@ -140,10 +140,12 @@ namespace JsonApiFramework.Server.Hypermedia
                     {
                         var urlBuilderConfiguration = hypermediaContext.UrlBuilderConfiguration;
                         var apiDocumentSelfPath = documentPathContext.DocumentSelfPath;
+                        var query = documentPathContext.DocumentSelfQuery;
 
                         var apiHRef = UrlBuilder.Create(urlBuilderConfiguration)
                                                 .Path(apiDocumentSelfPath)
                                                 .RemoveLastPathSegment(apiRel == Keywords.Up)
+                                                .Query(query)
                                                 .Build();
                         var apiDocumentLink = new Link
                             {

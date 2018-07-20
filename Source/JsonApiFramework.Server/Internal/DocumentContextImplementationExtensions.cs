@@ -17,7 +17,7 @@ namespace JsonApiFramework.Server.Internal
         {
             Contract.Requires(implementation != null);
 
-            var serverExtension = implementation.Options.GetExtension<ServerDocumentContextExtension>();
+            var serverExtension             = implementation.Options.GetExtension<ServerDocumentContextExtension>();
             var hypermediaAssemblerRegistry = serverExtension.HypermediaAssemblerRegistry;
             return hypermediaAssemblerRegistry;
         }
@@ -26,23 +26,32 @@ namespace JsonApiFramework.Server.Internal
         {
             Contract.Requires(implementation != null);
 
-            var serverExtension = implementation.Options.GetExtension<ServerDocumentContextExtension>();
+            var serverExtension   = implementation.Options.GetExtension<ServerDocumentContextExtension>();
             var hypermediaContext = serverExtension.HypermediaContext;
             return hypermediaContext;
+        }
+
+        public static bool IsSparseFieldsetsEnabled(this IDocumentContextImplementation implementation)
+        {
+            Contract.Requires(implementation != null);
+
+            var serverExtension        = implementation.Options.GetExtension<ServerDocumentContextExtension>();
+            var sparseFieldsetsEnabled = serverExtension.SparseFieldsetsEnabled;
+            return sparseFieldsetsEnabled;
         }
 
         public static IUrlBuilderConfiguration GetUrlBuilderConfiguration(this IDocumentContextImplementation implementation)
         {
             Contract.Requires(implementation != null);
 
-            var serverExtension = implementation.Options.GetExtension<ServerDocumentContextExtension>();
+            var serverExtension         = implementation.Options.GetExtension<ServerDocumentContextExtension>();
             var urlBuilderConfiguration = serverExtension.UrlBuilderConfiguration;
             return urlBuilderConfiguration;
         }
 
         public static void SetHypermediaAssemblerRegistry(this IDocumentContextImplementation implementation, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry)
         {
-            Contract.Requires(implementation != null);
+            Contract.Requires(implementation              != null);
             Contract.Requires(hypermediaAssemblerRegistry != null);
 
             implementation.Options.ModifyExtension<ServerDocumentContextExtension>(x => x.HypermediaAssemblerRegistry = hypermediaAssemblerRegistry);
@@ -50,7 +59,7 @@ namespace JsonApiFramework.Server.Internal
 
         public static void SetHypermediaContext(this IDocumentContextImplementation implementation, IHypermediaContext hypermediaContext)
         {
-            Contract.Requires(implementation != null);
+            Contract.Requires(implementation    != null);
             Contract.Requires(hypermediaContext != null);
 
             implementation.Options.ModifyExtension<ServerDocumentContextExtension>(x => x.HypermediaContext = hypermediaContext);
@@ -58,7 +67,7 @@ namespace JsonApiFramework.Server.Internal
 
         public static void SetUrlBuilderConfiguration(this IDocumentContextImplementation implementation, IUrlBuilderConfiguration urlBuilderConfiguration)
         {
-            Contract.Requires(implementation != null);
+            Contract.Requires(implementation          != null);
             Contract.Requires(urlBuilderConfiguration != null);
 
             implementation.Options.ModifyExtension<ServerDocumentContextExtension>(x => x.UrlBuilderConfiguration = urlBuilderConfiguration);

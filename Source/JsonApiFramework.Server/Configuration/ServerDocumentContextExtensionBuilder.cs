@@ -33,6 +33,14 @@ namespace JsonApiFramework.Server
             documentContextOptionsBuilder.ModifyExtension<ServerDocumentContextExtension>(x => x.UrlBuilderConfiguration = urlBuilderConfiguration);
             return documentContextOptionsBuilder;
         }
+
+        public static IDocumentContextOptionsBuilder UseSparseFieldsets(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, bool enabled)
+        {
+            Contract.Requires(documentContextOptionsBuilder != null);
+
+            documentContextOptionsBuilder.ModifyExtension<ServerDocumentContextExtension>(x => x.SparseFieldsetsEnabled = enabled);
+            return documentContextOptionsBuilder;
+        }
         #endregion
     }
 }

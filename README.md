@@ -531,6 +531,102 @@ will create the following example JSON
 }
 ```
 
+### Server-side document building example #4 - Sparse Fieldsets:
+
+This example shows how a server-side Web API Controller could construct and return a JSON API document for the following `GET` request for an individual article with client requested sparse fieldsets.
+
+``` http
+GET http://example.com/articles/1?fields[articles]=title,author
+```
+
+``` cs
+public class ArticlesController : ApiController
+{
+    [Route("articles/{id}")]
+    public async Task<IHttpActionResult> GetAsync(string id)
+    {
+        Contract.Requires(String.IsNullOrWhitespace(id) == false);
+
+        // Get article /////////////////////////////////////////////////////
+        var article = await GetArticle(id);
+
+        // Build and return JSON API document ////////////////////////////// 
+        var currentRequestUrl = HttpContext.Current.Request.Url;
+        using (var documentContext = new BloggingDocumentContext())
+        {
+            // Build new document.
+            var document = documentContext
+                .NewDocument(currentRequestUrl)
+
+                    // Document links
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+
+                    // Resource document (convert CLR Article resource to JSON API resource)
+                    .Resource(article)
+                        // Article relationships
+                        .Relationships()
+                            // article -> author
+                            .Relationship("author")
+                                .Links()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                            .RelationshipEnd()
+
+                            // article -> comments
+                            .Relationship("comments")
+                                .Links()
+                                    .AddRelatedLink()
+                                .LinksEnd()
+                            .RelationshipEnd()
+                        .RelationshipsEnd()
+
+                        // Article links
+                        .Links()
+                            .AddSelfLink()
+                        .LinksEnd()
+                    .ResourceEnd()
+
+                .WriteDocument();
+    
+            // Return 200 OK
+            // Note: WebApi JsonMediaTypeFormatter serializes the JSON API document into JSON. 
+            return this.Ok(document);
+        }
+    }
+}
+```
+
+will create the following example JSON
+
+``` json
+{
+  "links": {
+    "up": "http://example.com/articles",
+    "self": "http://example.com/articles/1?fields[articles]=title,author"
+  },
+  "data": {
+    "type": "articles",
+    "id": "1",
+    "attributes": {
+      "title": "JSON API paints my bikeshed!"
+    },
+    "relationships": {
+      "author": {
+        "links": {
+          "related": "http://example.com/articles/1/author"
+        }
+      }
+    },
+    "links": {
+      "self": "http://example.com/articles/1"
+    }
+  }
+}
+```
+
 ### Client-side document building for POST example:
 
 This example shows how a client-side ViewModel could construct and send a `POST` request with a JSON API document for creating resource purposes:

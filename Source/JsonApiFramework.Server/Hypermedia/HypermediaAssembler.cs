@@ -145,7 +145,7 @@ namespace JsonApiFramework.Server.Hypermedia
                         var apiHRef = UrlBuilder.Create(urlBuilderConfiguration)
                                                 .Path(apiDocumentSelfPath)
                                                 .RemoveLastPathSegment(apiRel == Keywords.Up)
-                                                .Query(query)
+                                                .Query(query, apiRel == Keywords.Self)
                                                 .Build();
                         var apiDocumentLink = new Link
                             {

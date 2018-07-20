@@ -195,6 +195,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Data = null
@@ -204,6 +205,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(default(Article))
@@ -220,6 +222,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Data = ApiSampleData.ArticleResource
@@ -229,6 +232,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -254,6 +258,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=")}
                                     },
                                 Data = new Resource
@@ -274,6 +279,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -299,6 +305,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Data = ApiSampleData.ArticleResourceWithResourceLinkage,
@@ -314,6 +321,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -359,6 +367,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=")}
                                     },
                                 Data = new Resource
@@ -423,6 +432,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -468,6 +478,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
                                 Data = ApiSampleData.ArticleResourceWithResourceLinkage,
@@ -484,6 +495,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -539,6 +551,7 @@ namespace JsonApiFramework.Server.Tests
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
+                                        {Keywords.Up, ApiSampleData.ArticleCollectionLink},
                                         {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=")}
                                     },
                                 Data = new Resource
@@ -623,6 +636,7 @@ namespace JsonApiFramework.Server.Tests
                                 .NewDocument(currentRequestUrl)
                                     .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                                     .Links()
+                                        .AddLink(Keywords.Up)
                                         .AddLink(Keywords.Self)
                                     .LinksEnd()
                                     .Resource(SampleArticles.Article)
@@ -667,354 +681,6 @@ namespace JsonApiFramework.Server.Tests
                                         .IncludeEnd()
                                     .IncludedEnd())
                     },
-
-            };
-
-        public static readonly IEnumerable<object[]> TestDocumentContextResourceDocumentBuildingTestData2 = new[]
-            {
-                //new object[]
-                //    {
-                //        "WithNullArticleResource",
-                //        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                //        ApiSampleData.ArticleHRef,
-                //        new ResourceDocument
-                //            {
-                //                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                //                Links = new Links
-                //                    {
-                //                        {Keywords.Self, ApiSampleData.ArticleLink}
-                //                    },
-                //                Data = null
-                //            },
-                //        new Func<DocumentContext, string, IDocumentWriter>(
-                //            (documentContext, currentRequestUrl) => documentContext
-                //                .NewDocument(currentRequestUrl)
-                //                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                //                    .Links()
-                //                        .AddLink(Keywords.Self)
-                //                    .LinksEnd()
-                //                    .Resource(default(Article))
-                //                    .ResourceEnd())
-                //    },
-
-                //new object[]
-                //    {
-                //        "WithArticleResource",
-                //        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                //        ApiSampleData.ArticleHRef,
-                //        new ResourceDocument
-                //            {
-                //                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                //                Links = new Links
-                //                    {
-                //                        {Keywords.Self, ApiSampleData.ArticleLink}
-                //                    },
-                //                Data = ApiSampleData.ArticleResource
-                //            },
-                //        new Func<DocumentContext, string, IDocumentWriter>(
-                //            (documentContext, currentRequestUrl) => documentContext
-                //                .NewDocument(currentRequestUrl)
-                //                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                //                    .Links()
-                //                        .AddLink(Keywords.Self)
-                //                    .LinksEnd()
-                //                    .Resource(SampleArticles.Article)
-                //                        .SetMeta(ApiSampleData.ResourceMeta)
-                //                        .Relationships()
-                //                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                        .RelationshipsEnd()
-                //                        .Links()
-                //                            .AddLink(Keywords.Self)
-                //                            .AddLink(Keywords.Canonical)
-                //                        .LinksEnd()
-                //                    .ResourceEnd())
-                //    },
-
-                //new object[]
-                //    {
-                //        "WithArticleResourceAndSparseFieldsets",
-                //        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                //        ApiSampleData.ArticleHRef + "?fields[articles]=",
-                //        new ResourceDocument
-                //            {
-                //                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                //                Links = new Links
-                //                    {
-                //                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=")}
-                //                    },
-                //                Data = new Resource
-                //                       {
-                //                           Type = ApiSampleData.ArticleType,
-                //                           Id   = ApiSampleData.ArticleId,
-                //                           Relationships = new Relationships(),
-                //                           Links = new Links
-                //                                   {
-                //                                       {Keywords.Self, ApiSampleData.ArticleLink},
-                //                                       {Keywords.Canonical, ApiSampleData.ArticleLink}
-                //                                   },
-                //                           Meta = ApiSampleData.ResourceMeta
-                //                       }
-                //            },
-                //        new Func<DocumentContext, string, IDocumentWriter>(
-                //            (documentContext, currentRequestUrl) => documentContext
-                //                .NewDocument(currentRequestUrl)
-                //                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                //                    .Links()
-                //                        .AddLink(Keywords.Self)
-                //                    .LinksEnd()
-                //                    .Resource(SampleArticles.Article)
-                //                        .SetMeta(ApiSampleData.ResourceMeta)
-                //                        .Relationships()
-                //                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                        .RelationshipsEnd()
-                //                        .Links()
-                //                            .AddLink(Keywords.Self)
-                //                            .AddLink(Keywords.Canonical)
-                //                        .LinksEnd()
-                //                    .ResourceEnd())
-                //    },
-
-                //new object[]
-                //    {
-                //        "WithArticleResourceAndIncludedResources",
-                //        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                //        ApiSampleData.ArticleHRef,
-                //        new ResourceDocument
-                //            {
-                //                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                //                Links = new Links
-                //                    {
-                //                        {Keywords.Self, ApiSampleData.ArticleLink}
-                //                    },
-                //                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
-                //                Included = new List<Resource>
-                //                    {
-                //                        ApiSampleData.PersonResource,
-                //                        ApiSampleData.CommentResource1,
-                //                        ApiSampleData.CommentResource2
-                //                    }
-                //            },
-                //        new Func<DocumentContext, string, IDocumentWriter>(
-                //            (documentContext, currentRequestUrl) => documentContext
-                //                .NewDocument(currentRequestUrl)
-                //                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                //                    .Links()
-                //                        .AddLink(Keywords.Self)
-                //                    .LinksEnd()
-                //                    .Resource(SampleArticles.Article)
-                //                        .SetMeta(ApiSampleData.ResourceMeta)
-                //                        .Relationships()
-                //                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                        .RelationshipsEnd()
-                //                        .Links()
-                //                            .AddLink(Keywords.Self)
-                //                            .AddLink(Keywords.Canonical)
-                //                        .LinksEnd()
-                //                    .ResourceEnd()
-                //                    .Included()
-                //                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
-                //                            .SetMeta(ApiSampleData.ResourceMeta)
-                //                            .Relationships()
-                //                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .RelationshipsEnd()
-                //                            .Links()
-                //                                .AddLink(Keywords.Self)
-                //                            .LinksEnd()
-                //                        .IncludeEnd()
-                //                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
-                //                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
-                //                            .Relationships()
-                //                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .RelationshipsEnd()
-                //                            .Links()
-                //                                .AddLink(Keywords.Self)
-                //                            .LinksEnd()
-                //                        .IncludeEnd()
-                //                    .IncludedEnd())
-                //    },
-
-                new object[]
-                    {
-                        "WithArticleResourceAndIncludedResourcesAndSparseFieldsets",
-                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                        ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=",
-                        new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=")}
-                                    },
-                                Data = new Resource
-                                       {
-                                           Type       = ApiSampleData.ArticleType,
-                                           Id         = ApiSampleData.ArticleId,
-                                           Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
-                                           Relationships = new Relationships
-                                                           {
-                                                               {ApiSampleData.ArticleToAuthorRel, new ToOneRelationship { Data = ApiSampleData.PersonResourceIdentifier }},
-                                                               {ApiSampleData.ArticleToCommentsRel, new ToManyRelationship { Data = ApiSampleData.CommentResourceIdentifiers }}
-                                                           },
-                                           Links = new Links
-                                                   {
-                                                       {Keywords.Self, ApiSampleData.ArticleLink},
-                                                       {Keywords.Canonical, ApiSampleData.ArticleLink}
-                                                   },
-                                           Meta = ApiSampleData.ResourceMeta
-                                       },
-                                Included = new List<Resource>
-                                    {
-                                        new Resource
-                                        {
-                                            Type = ApiSampleData.PersonType,
-                                            Id   = ApiSampleData.PersonId,
-                                            Attributes = new Attributes(
-                                                Attribute.Create("first-name", "John"),
-                                                Attribute.Create("last-name",  "Doe")),
-                                            Relationships = new Relationships(),
-                                            Links = new Links
-                                                    {
-                                                        {Keywords.Self, ApiSampleData.PersonLink}
-                                                    },
-                                            Meta = ApiSampleData.ResourceMeta
-                                        },
-                                        new Resource
-                                        {
-                                            Type       = ApiSampleData.CommentType,
-                                            Id         = ApiSampleData.CommentId1,
-                                            Relationships = new Relationships(),
-                                            Links = new Links
-                                                    {
-                                                        {Keywords.Self, ApiSampleData.CommentLink1}
-                                                    },
-                                            Meta = ApiSampleData.ResourceMeta1
-                                        },
-                                        new Resource
-                                        {
-                                            Type       = ApiSampleData.CommentType,
-                                            Id         = ApiSampleData.CommentId2,
-                                            Relationships = new Relationships(),
-                                            Links = new Links
-                                                    {
-                                                        {Keywords.Self, ApiSampleData.CommentLink2}
-                                                    },
-                                            Meta = ApiSampleData.ResourceMeta2
-                                        }
-                                    }
-                            },
-                        new Func<DocumentContext, string, IDocumentWriter>(
-                            (documentContext, currentRequestUrl) => documentContext
-                                .NewDocument(currentRequestUrl)
-                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                                    .Links()
-                                        .AddLink(Keywords.Self)
-                                    .LinksEnd()
-                                    .Resource(SampleArticles.Article)
-                                        .SetMeta(ApiSampleData.ResourceMeta)
-                                        .Relationships()
-                                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                                        .RelationshipsEnd()
-                                        .Links()
-                                            .AddLink(Keywords.Self)
-                                            .AddLink(Keywords.Canonical)
-                                        .LinksEnd()
-                                    .ResourceEnd()
-                                    .Included()
-                                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
-                                            .SetMeta(ApiSampleData.ResourceMeta)
-                                            .Relationships()
-                                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                                            .RelationshipsEnd()
-                                            .Links()
-                                                .AddLink(Keywords.Self)
-                                            .LinksEnd()
-                                        .IncludeEnd()
-                                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
-                                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
-                                            .Relationships()
-                                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                                            .RelationshipsEnd()
-                                            .Links()
-                                                .AddLink(Keywords.Self)
-                                            .LinksEnd()
-                                        .IncludeEnd()
-                                    .IncludedEnd())
-                    },
-
-                //new object[]
-                //    {
-                //        "WithArticleResourceAndIncludedResourcesIncludingMoreResources",
-                //        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                //        ApiSampleData.ArticleHRef,
-                //        new ResourceDocument
-                //            {
-                //                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                //                Links = new Links
-                //                    {
-                //                        {Keywords.Self, ApiSampleData.ArticleLink}
-                //                    },
-                //                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
-                //                Included = new List<Resource>
-                //                    {
-                //                        ApiSampleData.PersonResource1,
-                //                        ApiSampleData.PersonResource2,
-                //                        ApiSampleData.CommentResourceWithResourceLinkage1,
-                //                        ApiSampleData.CommentResourceWithResourceLinkage2,
-                //                    }
-                //            },
-                //        new Func<DocumentContext, string, IDocumentWriter>(
-                //            (documentContext, currentRequestUrl) => documentContext
-                //                .NewDocument(currentRequestUrl)
-                //                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                //                    .Links()
-                //                        .AddLink(Keywords.Self)
-                //                    .LinksEnd()
-                //                    .Resource(SampleArticles.Article)
-                //                        .SetMeta(ApiSampleData.ResourceMeta)
-                //                        .Relationships()
-                //                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                        .RelationshipsEnd()
-                //                        .Links()
-                //                            .AddLink(Keywords.Self)
-                //                            .AddLink(Keywords.Canonical)
-                //                        .LinksEnd()
-                //                    .ResourceEnd()
-                //                    .Included()
-                //                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
-                //                            .SetMeta(ApiSampleData.ResourceMeta)
-                //                            .Relationships()
-                //                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .RelationshipsEnd()
-                //                            .Links()
-                //                                .AddLink(Keywords.Self)
-                //                            .LinksEnd()
-                //                        .IncludeEnd()
-                //                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
-                //                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
-                //                            .Relationships()
-                //                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .RelationshipsEnd()
-                //                            .Links()
-                //                                .AddLink(Keywords.Self)
-                //                            .LinksEnd()
-                //                        .IncludeEnd()
-                //                        .Include(ToOneIncludedResource.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
-                //                                 ToOneIncludedResource.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2))
-                //                            .SetMeta(ApiSampleData.ResourceMeta)
-                //                            .Relationships()
-                //                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                //                            .RelationshipsEnd()
-                //                            .Links()
-                //                                .AddLink(Keywords.Self)
-                //                            .LinksEnd()
-                //                        .IncludeEnd()
-                //                    .IncludedEnd())
-                //    },
             };
         #endregion
 

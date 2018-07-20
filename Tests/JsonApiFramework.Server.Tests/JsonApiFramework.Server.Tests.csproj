@@ -66,7 +66,6 @@
     <Compile Include="Hypermedia\DocumentPathContextTests.cs" />
     <Compile Include="Hypermedia\HypermediaAssemblerRegistryTests.cs" />
     <Compile Include="Hypermedia\HypermediaAssemblerTests.cs" />
-    <Compile Include="Internal\QueryParametersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

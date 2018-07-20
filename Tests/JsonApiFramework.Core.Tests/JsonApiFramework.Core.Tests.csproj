@@ -73,6 +73,7 @@
     <Compile Include="JsonApi\JsonApiVersionTests.cs" />
     <Compile Include="JsonApi\LinksTests.cs" />
     <Compile Include="JsonApi\LinkTests.cs" />
+    <Compile Include="JsonApi\QueryParametersTests.cs" />
     <Compile Include="JsonApi\RelationshipsTests.cs" />
     <Compile Include="JsonApi\RelationshipTests.cs" />
     <Compile Include="JsonApi\ResourceIdentifierTests.cs" />

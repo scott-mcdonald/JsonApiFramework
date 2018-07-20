@@ -3,25 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JsonApiFramework.Http;
-using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
-using JsonApiFramework.Server.Hypermedia;
-using JsonApiFramework.Server.Internal;
-using JsonApiFramework.ServiceModel;
-using JsonApiFramework.TestAsserts.JsonApi;
-using JsonApiFramework.TestData.ApiResources;
-using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Server.Tests.Internal
+namespace JsonApiFramework.Tests.JsonApi
 {
     public class QueryParametersTests : XUnitTest
     {
@@ -59,14 +49,10 @@ namespace JsonApiFramework.Server.Tests.Internal
             this.WriteQueryParameters(actual);
 
             // Assert
-            Assert.Equal(expected.FilterString,                      actual.FilterString);
-            Assert.Equal(expected.SortString,                        actual.SortString);
-            Assert.Equal(expected.FieldStrings.AsEnumerable(),       actual.FieldStrings.AsEnumerable());
-            Assert.Equal(expected.FieldStringsParsed.AsEnumerable(), actual.FieldStringsParsed.AsEnumerable());
-            Assert.Equal(expected.PageStrings.AsEnumerable(),        actual.PageStrings.AsEnumerable());
-            Assert.Equal(expected.PageStringsParsed.AsEnumerable(),  actual.PageStringsParsed.AsEnumerable());
-            Assert.Equal(expected.IncludeString,                     actual.IncludeString);
-            Assert.Equal(expected.IncludeParsed.AsEnumerable(),      actual.IncludeParsed.AsEnumerable());
+            Assert.Equal(expected.Filter,                 actual.Filter);
+            Assert.Equal(expected.Fields.AsEnumerable(),  actual.Fields.AsEnumerable());
+            Assert.Equal(expected.Page.AsEnumerable(),    actual.Page.AsEnumerable());
+            Assert.Equal(expected.Include.AsEnumerable(), actual.Include.AsEnumerable());
         }
         #endregion
 
@@ -74,67 +60,69 @@ namespace JsonApiFramework.Server.Tests.Internal
         #region Methods
         private void WriteQueryParameters(QueryParameters queryParameters)
         {
-            this.Output.WriteLine($"FilterString  = {queryParameters.FilterString ?? "null"}");
+            this.Output.WriteLine($"Filter = {queryParameters.Filter ?? "null"}");
 
-            this.Output.WriteLine($"SortString    = {queryParameters.SortString ?? "null"}");
-            if (queryParameters.SortParsed.Any())
+            this.Output.WriteLine("Sort");
+            if (queryParameters.Sort.Any())
             {
-                this.Output.WriteLine("SortParsed");
-                foreach (var sortParsedItem in queryParameters.SortParsed)
+                foreach (var sortItem in queryParameters.Sort)
                 {
-                    this.Output.WriteLine($"  {sortParsedItem}");
+                    this.Output.WriteLine($"  {sortItem}");
                 }
             }
             else
             {
-                this.Output.WriteLine("SortParsed");
                 this.Output.WriteLine($"  <no items>");
             }
 
-            foreach (var fieldString in queryParameters.FieldStrings)
+            foreach (var field in queryParameters.Fields)
             {
-                var type  = fieldString.Key;
-                var value = fieldString.Value;
+                var apiFieldType = field.Key;
+                this.Output.WriteLine($"Field [type={apiFieldType}]");
 
-                this.Output.WriteLine($"FieldString [type={type} value={value}]");
-                this.Output.WriteLine($"FieldStringParsed [type={type}]");
-                if (!queryParameters.FieldStringsParsed.TryGetValue(type, out var fieldStringParsedItems))
-                    continue;
-
-                foreach (var fieldStringParsedItem in fieldStringParsedItems)
+                var apiFieldItems = field.Value;
+                if (apiFieldItems.Any())
                 {
-                    this.Output.WriteLine($"  {fieldStringParsedItem}");
+                    foreach (var apiFieldItem in apiFieldItems)
+                    {
+                        this.Output.WriteLine($"  {apiFieldItem}");
+                    }
+                }
+                else
+                {
+                    this.Output.WriteLine($"  <no items>");
                 }
             }
 
-            foreach (var pageString in queryParameters.PageStrings)
+            foreach (var page in queryParameters.Page)
             {
-                var type  = pageString.Key;
-                var value = pageString.Value;
+                var apiPageKey = page.Key;
+                this.Output.WriteLine($"Page [key={apiPageKey}]");
 
-                this.Output.WriteLine($"PageString [type={type} value={value}]");
-                this.Output.WriteLine($"PageStringParsed [type={type}]");
-                if (!queryParameters.PageStringsParsed.TryGetValue(type, out var pageStringParsedItems))
-                    continue;
-
-                foreach (var pageStringParsedItem in pageStringParsedItems)
+                var apiPageItems = page.Value;
+                if (apiPageItems.Any())
                 {
-                    this.Output.WriteLine($"  {pageStringParsedItem}");
+                    foreach (var apiPageItem in apiPageItems)
+                    {
+                        this.Output.WriteLine($"  {apiPageItem}");
+                    }
+                }
+                else
+                {
+                    this.Output.WriteLine($"  <no items>");
                 }
             }
 
-            this.Output.WriteLine($"IncludeString = {queryParameters.IncludeString ?? "null"}");
-            if (queryParameters.IncludeParsed.Any())
+            this.Output.WriteLine("Include");
+            if (queryParameters.Include.Any())
             {
-                this.Output.WriteLine("IncludeParsed");
-                foreach (var includeParsedItem in queryParameters.IncludeParsed)
+                foreach (var includeItem in queryParameters.Include)
                 {
-                    this.Output.WriteLine($"  {includeParsedItem}");
+                    this.Output.WriteLine($"  {includeItem}");
                 }
             }
             else
             {
-                this.Output.WriteLine("IncludeParsed");
                 this.Output.WriteLine($"  <no items>");
             }
         }

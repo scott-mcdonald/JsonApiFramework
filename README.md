@@ -755,7 +755,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.6.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.7.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -765,7 +765,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.6.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.7.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -777,7 +777,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.6.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.7.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -834,50 +834,54 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.7.0
+    * Sort any included resources by resource identifier ascending in a {json:api} document as a natural sort for easier consumption by developers
+    * #52 Support the "fields" query parameter by using the {json:api} QueryParameters and implementing sparse fieldsets per the {json:api} specification
+    * #51 Support the "include" query parameter by exposing new class that represents {json:api} QueryParameters being parsed from a Uri object
 * v1.6.0
-    * Fix #45 Add non-generic reading of resources to DocumentContext
-    * Fix #42 Fix exception being thrown if including empty/null resources in an empty/null document
+    * #45 Add non-generic reading of resources to DocumentContext
+    * #42 Fix exception being thrown if including empty/null resources in an empty/null document
 * v1.5.0
-    * Fix #41 Add support setting resource linkage without needing to include related resources
+    * #41 Add support setting resource linkage without needing to include related resources
     * Initial non-beta release.
         * Note this initial non-beta release contains some breaking changes to the previous beta releases. These changes were made to simplify and make explicit building of a json:api documents. Should be obvious how to port previous code to this initial release but if any questions/issues submit an issue as needed.  
     * Update README.md examples to reflect initial non-beta release of the framework.
 * v1.4.0-beta
-    * Fix #35 Add support for .NET Standard/Core
+    * #35 Add support for .NET Standard/Core
     * Update README.md to reflect the change to .NET Standard for portability reasons
     * Update README.md to reflect the change of the minimum version of Visual Studio to 2017
 * v1.3.0-beta
-    * Fix #38 Expose AddCamelCaseNamingConvention as an available naming convention
+    * #38 Expose AddCamelCaseNamingConvention as an available naming convention
 * v1.2.1-beta
-    * Fix #32 Handle nullable properties when reading resources
+    * #32 Handle nullable properties when reading resources
 * v1.2.0-beta
-    * Fix #26 Add camelCasing naming convention
+    * #26 Add camelCasing naming convention
 * v1.1.3-beta
-    * Fix #24 Enhance Meta.Create<T> Static Method to Accept and Use JsonSerializerSettings
-    * Fix #23 Included ToOne or ToMany Related Resource(s) Referenced Multiple Times Throwing Key Already Exists Exception
+    * #24 Enhance Meta.Create<T> Static Method to Accept and Use JsonSerializerSettings
+    * #23 Included ToOne or ToMany Related Resource(s) Referenced Multiple Times Throwing Key Already Exists Exception
 * v1.1.2-beta
     * Fix ResourceCollectionBuilder throwing NullReferenceException when document building
 * v1.1.1-beta
     * Fix ResourceTypeBuilder and ComplexTypeBuilder having no available constructors 
 * v1.1.0-beta
-    * Fix #18 Add feature to ignore CLR property as an attibute 
-    * Fix #1 Add complex types
-    * Fix #14 Generalize conventions framework for more general use
+    * #18 Add feature to ignore CLR property as an attibute 
+    * #1 Add complex types
+    * #14 Generalize conventions framework for more general use
 * v1.0.5-beta
-    * Fix #17 Refactor IDocumentReader method names for clarity purposes
-    * Fix #16 Update minimum version to Humanizer.Core to 2.1
-    * Fix #15 Update minimum version to Visual Studio to 2013
+    * #17 Refactor IDocumentReader method names for clarity purposes
+    * #16 Update minimum version to Humanizer.Core to 2.1
+    * #15 Update minimum version to Visual Studio to 2013
 * v1.0.4-beta
-    * Fix #13 Enhance TypeConverter to convert source object of type JToken
+    * #13 Enhance TypeConverter to convert source object of type JToken
 * v1.0.3-beta
-    * Fix #12 Add ApiObject feature to deprecate the use of JObject
-    * Fix #8 Add ApiObject feature to deprecate the use of JObject
+    * #12 Add ApiObject feature to deprecate the use of JObject
+    * #8 Add ApiObject feature to deprecate the use of JObject
 * v1.0.2-beta
-    * Fix #11 Change TypeConverter so null converts to default(T)
-    * Fix #10 Enhance SafeGetAssembler to handle no CLR resource types in the path
-    * Fix #7 Add DocumentContext configuration validation with clear error messages
+    * #11 Change TypeConverter so null converts to default(T)
+    * #10 Enhance SafeGetAssembler to handle no CLR resource types in the path
+    * #7 Add DocumentContext configuration validation with clear error messages
 * v1.0.1-beta
-    * Fix #9 Ensure DocumentContext implements IDisposable
+    * #9 Ensure DocumentContext implements IDisposable
 * v1.0.0-beta
     * Initial beta version.
 

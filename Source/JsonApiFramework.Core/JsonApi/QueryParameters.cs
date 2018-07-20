@@ -7,54 +7,52 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.JsonApi
 {
-    internal class QueryParameters
+    /// <summary>
+    /// Represents json:api query parameters.
+    /// </summary>
+    /// <see cref="http://jsonapi.org"/>
+    public class QueryParameters
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public QueryParameters(string                              filterString,
-                               string                              sortString,
-                               IReadOnlyDictionary<string, string> fieldStrings,
-                               IReadOnlyDictionary<string, string> pageStrings,
-                               string                              includeString)
+        public QueryParameters(string                              filter,
+                               string                              sort,
+                               IReadOnlyDictionary<string, string> fields,
+                               IReadOnlyDictionary<string, string> page,
+                               string                              include)
         {
-            this.FilterString = filterString;
+            this.Filter = filter;
 
-            this.SortString = sortString;
-            this.SortParsed = ParseCommaDelimitedString(sortString);
+            this.Sort = ParseCommaDelimitedString(sort);
 
-            this.FieldStrings       = fieldStrings ?? new Dictionary<string, string>();
-            this.FieldStringsParsed = ParseCommaDelimitedDictionary(fieldStrings);
-            this.FieldStringsSets   = this.FieldStringsParsed.ToDictionary(x => x.Key, x => (ISet<string>)new HashSet<string>(x.Value));
+            fields            = fields ?? new Dictionary<string, string>();
+            this.Fields       = ParseCommaDelimitedDictionary(fields);
+            this.FieldsLookup = this.Fields.ToDictionary(x => x.Key, x => (ISet<string>)new HashSet<string>(x.Value));
 
-            this.PageStrings       = pageStrings ?? new Dictionary<string, string>();
-            this.PageStringsParsed = ParseCommaDelimitedDictionary(pageStrings);
+            page      = page ?? new Dictionary<string, string>();
+            this.Page = ParseCommaDelimitedDictionary(page);
 
-            this.IncludeString = includeString;
-            this.IncludeParsed = ParseCommaDelimitedString(includeString);
+            this.Include = ParseCommaDelimitedString(include);
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        public string FilterString { get; }
-
-        public string                      SortString { get; }
-        public IReadOnlyCollection<string> SortParsed { get; }
-
-        public IReadOnlyDictionary<string, string>                      FieldStrings       { get; }
-        public IReadOnlyDictionary<string, IReadOnlyCollection<string>> FieldStringsParsed { get; }
-
-        public IReadOnlyDictionary<string, string>                      PageStrings       { get; }
-        public IReadOnlyDictionary<string, IReadOnlyCollection<string>> PageStringsParsed { get; }
-
-        public string                      IncludeString { get; }
-        public IReadOnlyCollection<string> IncludeParsed { get; }
+        public string                                                   Filter  { get; }
+        public IReadOnlyCollection<string>                              Sort    { get; }
+        public IReadOnlyDictionary<string, IReadOnlyCollection<string>> Fields  { get; }
+        public IReadOnlyDictionary<string, IReadOnlyCollection<string>> Page    { get; }
+        public IReadOnlyCollection<string>                              Include { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
+        /// <summary>
+        /// Create json:api query parameters from a .NET Uri object by parsing the query string as needed.
+        /// </summary>
+        /// <param name="uri">The Uri object that contains the query string to parse and represent with a query parameters object.</param>
         public static QueryParameters Create(Uri uri)
         {
             Contract.Requires(uri != null);
@@ -133,18 +131,13 @@ namespace JsonApiFramework.Server.Internal
         }
         #endregion
 
-        #region Query Methods
-        public bool AnyFields()
-        {
-            return this.FieldStringsSets.Any();
-        }
-
+        #region Fields Methods
         public bool ContainsField(string apiType)
         {
             if (string.IsNullOrWhiteSpace(apiType))
                 return false;
 
-            return this.FieldStringsSets.ContainsKey(apiType);
+            return this.FieldsLookup.ContainsKey(apiType);
         }
 
         public bool ContainsField(string apiType, string apiField)
@@ -152,7 +145,7 @@ namespace JsonApiFramework.Server.Internal
             if (string.IsNullOrWhiteSpace(apiType) || string.IsNullOrWhiteSpace(apiField))
                 return false;
 
-            return this.FieldStringsSets.TryGetValue(apiType, out var apiFieldSet) && apiFieldSet.Contains(apiField);
+            return this.FieldsLookup.TryGetValue(apiType, out var apiFieldSet) && apiFieldSet.Contains(apiField);
         }
         #endregion
 
@@ -163,7 +156,7 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        public IReadOnlyDictionary<string, ISet<string>> FieldStringsSets { get; }
+        public IReadOnlyDictionary<string, ISet<string>> FieldsLookup { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////

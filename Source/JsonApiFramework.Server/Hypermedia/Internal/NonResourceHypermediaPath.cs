@@ -49,6 +49,9 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                                            .FormatWith(hypermediaPathTypeName);
             throw new InternalErrorException(detail);
         }
+
+        public bool HasClrResourceType()
+        { return false; }
         #endregion
 
         #region Methods

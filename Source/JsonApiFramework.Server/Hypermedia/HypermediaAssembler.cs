@@ -8,6 +8,7 @@ using System.Linq;
 
 using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
+using JsonApiFramework.Server.Hypermedia.Internal;
 using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Hypermedia
@@ -110,7 +111,7 @@ namespace JsonApiFramework.Server.Hypermedia
 
             var apiRel = relationshipContext.Rel;
 
-            var serviceModel = hypermediaContext.ServiceModel;
+            var serviceModel = hypermediaContext.GetServiceModel();
             var resourceType = serviceModel.GetResourceType(clrResourceType);
             var relationship = resourceType.GetRelationshipInfo(apiRel);
 
@@ -136,16 +137,92 @@ namespace JsonApiFramework.Server.Hypermedia
             switch (apiRel)
             {
                 case Keywords.Up:
+                    {
+                        var apiDocumentSelfPath = documentPathContext.DocumentSelfPath
+                                                                     .SafeToList();
+                        var apiDocumentSelfPathCount = apiDocumentSelfPath.Count;
+
+                        var apiDocumentUpPath = new List<IHypermediaPath>(apiDocumentSelfPathCount);
+                        for (var i = 0; i < apiDocumentSelfPathCount; ++i)
+                        {
+                            var hypermediaPath = apiDocumentSelfPath[i];
+
+                            var lastHypermediaPath = i == apiDocumentSelfPathCount - 1;
+                            if (lastHypermediaPath)
+                            {
+                                var hypermediaPathType = hypermediaPath.HypermediaPathType;
+                                switch (hypermediaPathType)
+                                {
+                                    // Don't add the last hypermedia path.
+                                    case HypermediaPathType.ResourceCollectionPath:
+                                    case HypermediaPathType.ToOneResourcePath:
+                                    case HypermediaPathType.ToManyResourceCollectionPath:
+                                        continue;
+
+                                    case HypermediaPathType.ResourcePath:
+                                        {
+                                            // Turn last resource path into a resource collection path.
+                                            var resourceHypermediaPath = (ResourceHypermediaPath)hypermediaPath;
+                                            var clrResourceType = resourceHypermediaPath.ClrResourceType;
+                                            var apiCollectionPathSegment = resourceHypermediaPath.ApiCollectionPathSegment;
+                                            var resourceCollectionHypermediaPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
+
+                                            hypermediaPath = resourceCollectionHypermediaPath;
+                                        }
+                                        break;
+
+                                    case HypermediaPathType.ToManyResourcePath:
+                                        {
+                                            // Turn last resource path into a to-many resource collection path.
+                                            var toManyResourceHypermediaPath = (ToManyResourceHypermediaPath)hypermediaPath;
+                                            var clrResourceType = toManyResourceHypermediaPath.ClrResourceType;
+                                            var apiRelationshipPathSegment = toManyResourceHypermediaPath.ApiRelationshipPathSegment;
+                                            var toManyResourceCollectionHypermediaPath = new ToManyResourceCollectionHypermediaPath(clrResourceType, apiRelationshipPathSegment);
+
+                                            hypermediaPath = toManyResourceCollectionHypermediaPath;
+                                        }
+                                        break;
+
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
+                                }
+                            }
+
+                            apiDocumentUpPath.Add(hypermediaPath);
+                        }
+
+                        var apiDocumentUpPathContext = new DocumentPathContext(apiDocumentUpPath);
+
+                        var clrPrimaryResourceType = apiDocumentUpPathContext.ClrResourceTypes.Any()
+                            ? apiDocumentUpPathContext.GetPrimaryClrResourceType()
+                            : documentPathContext.GetPrimaryClrResourceType();
+
+                        var urlBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(clrPrimaryResourceType);
+
+                        var apiHRef = UrlBuilder.Create(urlBuilderConfiguration)
+                                                .Path(apiDocumentUpPath)
+                                                .Build();
+                        var apiDocumentLink = new Link
+                                              {
+                                                  HRef = apiHRef,
+                                                  Meta = apiLinkMeta
+                                              };
+                        return apiDocumentLink;
+                    }
+
                 case Keywords.Self:
                     {
-                        var urlBuilderConfiguration = hypermediaContext.UrlBuilderConfiguration;
-                        var apiDocumentSelfPath = documentPathContext.DocumentSelfPath;
+                        var apiDocumentSelfPath = documentPathContext.DocumentSelfPath
+                                                                     .SafeToList();
+
+                        var clrPrimaryResourceType  = documentPathContext.GetPrimaryClrResourceType();
+                        var urlBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(clrPrimaryResourceType);
+
                         var query = documentPathContext.DocumentSelfQuery;
 
                         var apiHRef = UrlBuilder.Create(urlBuilderConfiguration)
                                                 .Path(apiDocumentSelfPath)
-                                                .RemoveLastPathSegment(apiRel == Keywords.Up)
-                                                .Query(query, apiRel == Keywords.Self)
+                                                .Query(query)
                                                 .Build();
                         var apiDocumentLink = new Link
                             {
@@ -174,9 +251,9 @@ namespace JsonApiFramework.Server.Hypermedia
                 case Keywords.Canonical:
                 case Keywords.Self:
                     {
-                        var urlBuilderConfiguration = hypermediaContext.UrlBuilderConfiguration;
+                        var urlBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(clrResourceType);
 
-                        var serviceModel = hypermediaContext.ServiceModel;
+                        var serviceModel = hypermediaContext.GetServiceModel();
                         var resourceType = serviceModel.GetResourceType(clrResourceType);
 
                         var isSelfLink = String.Compare(Keywords.Self, apiRel, StringComparison.Ordinal) == 0;
@@ -208,7 +285,8 @@ namespace JsonApiFramework.Server.Hypermedia
             Contract.Requires(clrResource != null);
             Contract.Requires(relationship != null);
 
-            var urlBuilderConfiguration = hypermediaContext.UrlBuilderConfiguration;
+            var clrResourceType         = resourceType.ClrType;
+            var urlBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(clrResourceType);
 
             var apiId = resourceType.GetApiId(clrResource);
             var apiResourcePath = resourcePathContext.GetResourceSelfPath(apiId);

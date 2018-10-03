@@ -65,6 +65,7 @@
     <Compile Include="DeepCloneableTests.cs" />
     <Compile Include="Expressions\ExpressionBuilderTests.cs" />
     <Compile Include="Extensions\EnumerableTests.cs" />
+    <Compile Include="Extensions\UriTests.cs" />
     <Compile Include="Extensions\StringTests.cs" />
     <Compile Include="Http\UrlBuilderTests.cs" />
     <Compile Include="JsonApi\ApiObjectTests.cs" />

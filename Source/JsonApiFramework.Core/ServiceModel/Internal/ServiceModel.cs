@@ -18,16 +18,24 @@ namespace JsonApiFramework.ServiceModel.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ServiceModel(IEnumerable<IComplexType> complexTypes, IEnumerable<IResourceType> resourceTypes)
+        public ServiceModel(IEnumerable<IComplexType> complexTypes,
+                            IEnumerable<IResourceType> resourceTypes,
+                            IResourceType homeResourceType)
         {
             this.ComplexTypes = complexTypes.SafeToList();
             this.ResourceTypes = resourceTypes.SafeToList();
+            this.HomeResourceType = homeResourceType;
 
             this.Initialize();
         }
 
+        public ServiceModel(IEnumerable<IComplexType>  complexTypes,
+                            IEnumerable<IResourceType> resourceTypes)
+            : this(complexTypes, resourceTypes, null)
+        { }
+
         public ServiceModel(IEnumerable<IResourceType> resourceTypes)
-            : this(null, resourceTypes)
+            : this(null, resourceTypes, null)
         { }
         #endregion
 
@@ -35,6 +43,7 @@ namespace JsonApiFramework.ServiceModel.Internal
         #region IServiceModel Implementation
         [JsonProperty] public IEnumerable<IComplexType> ComplexTypes { get; private set; }
         [JsonProperty] public IEnumerable<IResourceType> ResourceTypes { get; private set; }
+        [JsonProperty] public IResourceType HomeResourceType { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -120,7 +129,7 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Fields
-        public static readonly ServiceModel Empty = new ServiceModel(null);
+        public static readonly ServiceModel Empty = new ServiceModel(null, null, null);
         #endregion
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////

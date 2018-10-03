@@ -14,6 +14,8 @@ namespace JsonApiFramework.ServiceModel
         #region Properties
         IEnumerable<IComplexType> ComplexTypes { get; }
         IEnumerable<IResourceType> ResourceTypes { get; }
+
+        IResourceType HomeResourceType { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

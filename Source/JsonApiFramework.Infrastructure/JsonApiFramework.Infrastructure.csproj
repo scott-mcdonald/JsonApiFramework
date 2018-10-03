@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Infrastructure]</Product>
     <PackageTags>.net portable jsonapi framework</PackageTags>
-    <FileVersion>1.7.0.17</FileVersion>
+    <FileVersion>1.7.1.18</FileVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>

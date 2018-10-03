@@ -17,6 +17,7 @@ namespace JsonApiFramework.Server.Hypermedia
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         Type GetClrResourceType();
+        bool HasClrResourceType();
         #endregion
     }
 }

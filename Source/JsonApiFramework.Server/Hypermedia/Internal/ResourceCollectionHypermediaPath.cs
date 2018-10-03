@@ -50,6 +50,9 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         #region IHypermediaPath Implementation
         public Type GetClrResourceType()
         { return this.ClrResourceType; }
+
+        public bool HasClrResourceType()
+        { return true; }
         #endregion
     }
 

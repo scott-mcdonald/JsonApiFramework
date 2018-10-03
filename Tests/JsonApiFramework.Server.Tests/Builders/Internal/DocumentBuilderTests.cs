@@ -269,7 +269,7 @@ namespace JsonApiFramework.Server.Tests.Internal
             public static DocumentBuilder Create(IServiceModel serviceModel, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry, IUrlBuilderConfiguration urlBuilderConfiguration, string currentRequestUrl)
             {
                 var documentWriter = new DocumentWriter(serviceModel);
-                var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration);
+                var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration, null);
                 var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl, QueryParameters.Empty, false);
                 var documentBuilder = new DocumentBuilder(documentWriter, hypermediaAssemblerRegistry, hypermediaContext, documentBuilderContext);
                 return documentBuilder;

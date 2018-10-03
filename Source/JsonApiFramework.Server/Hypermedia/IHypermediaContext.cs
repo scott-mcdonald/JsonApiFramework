@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
+
 using JsonApiFramework.Http;
 using JsonApiFramework.ServiceModel;
 
@@ -12,13 +14,16 @@ namespace JsonApiFramework.Server.Hypermedia
     /// </summary>
     public interface IHypermediaContext
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        /// <summary>Service model metadata of the resource ecosystem to build hypermedia for.</summary>
-        IServiceModel ServiceModel { get; }
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        /// <summary>Gets the service model metadata of the resource ecosystem to build hypermedia for.</summary>
+        IServiceModel GetServiceModel();
 
-        /// <summary>URL builder configuration when building URL strings.</summary>
-        IUrlBuilderConfiguration UrlBuilderConfiguration { get; }
+        /// <summary>
+        /// Gets the URL builder configuration for a given resource type when building URL strings for hypermedia purposes.
+        /// </summary>
+        /// <param name="resourceType">The resource type to get the URL builder configuration for.</param>
+        IUrlBuilderConfiguration GetUrlBuilderConfiguration(Type resourceType);
         #endregion
     }
 }

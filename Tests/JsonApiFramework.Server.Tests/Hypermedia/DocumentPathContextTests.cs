@@ -23,7 +23,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         #region Constructors
         public DocumentPathContextTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -49,161 +50,162 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Test Data
-        public static readonly UrlBuilderConfiguration UrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
-            {
-                Scheme = "http",
-                Host = "api.example.com",
-                RootPathSegments = new[]
-                    {
-                        "api",
-                        "v2"
-                    }
-            };
+        public static readonly IUrlBuilderConfiguration UrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
+                                                                                                      {
+                                                                                                          Scheme = "http",
+                                                                                                          Host   = "api.example.com",
+                                                                                                          RootPathSegments = new[]
+                                                                                                                             {
+                                                                                                                                 "api",
+                                                                                                                                 "v2"
+                                                                                                                             }
+                                                                                                      };
 
-        public static readonly UrlBuilderConfiguration UrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
-            {
-                Scheme = "http",
-                Host = "api.example.com"
-            };
+        public static readonly IUrlBuilderConfiguration UrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
+                                                                                                         {
+                                                                                                             Scheme = "http",
+                                                                                                             Host   = "api.example.com"
+                                                                                                         };
 
-        public static readonly IHypermediaContext HypermediaContextWithoutRootPathSegments = new HypermediaContext(ClrSampleData.ServiceModelWithOrderResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments);
-        public static readonly IHypermediaContext HypermediaContextWithRootPathSegments = new HypermediaContext(ClrSampleData.ServiceModelWithOrderResourceTypes, UrlBuilderConfigurationWithRootPathSegments);
+        public static readonly IHypermediaContext HypermediaContextWithoutRootPathSegments = new HypermediaContext(ClrSampleData.ServiceModelWithOrderResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments, null);
+
+        public static readonly IHypermediaContext HypermediaContextWithRootPathSegments = new HypermediaContext(ClrSampleData.ServiceModelWithOrderResourceTypes, UrlBuilderConfigurationWithRootPathSegments, null);
 
         public static readonly IEnumerable<object[]> CreateWithUrlAndHypermediaContextTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithUrlComposedOfResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/payments",
-                            new [] { typeof(Payment) }, new IHypermediaPath[]
-                                {
-                                    new ResourceCollectionHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment)
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfResourcePath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/payments/101",
-                            new [] { typeof(Payment) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment, "101")
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfResourcePathAndToOneResourcePathCanonical",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/payments/101/order",
-                            new [] { typeof(Payment), typeof(Order) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment, "101"),
-                                    new ToOneResourceHypermediaPath(typeof(Order), ClrSampleData.PaymentToOrderRelPathSegment), 
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfResourcePathAndToOneResourcePathHierarchical",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/stores/50/configuration",
-                            new [] { typeof(Store), typeof(StoreConfiguration) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Store), ClrSampleData.StoreCollectionPathSegment, "50"),
-                                    new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfResourcePathAndToOneResourcePathHierarchicalToOneResourcePathCanonical",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/stores/50/configuration/pos",
-                            new [] { typeof(Store), typeof(StoreConfiguration), typeof(PosSystem) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Store), ClrSampleData.StoreCollectionPathSegment, "50"),
-                                    new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
-                                    new ToOneResourceHypermediaPath(typeof(PosSystem), ClrSampleData.StoreToStoreConfigurationToPosSystemRelPathSegment),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfResourcePathAndToManyResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
-                            "http://api.example.com/orders/1/payments",
-                            new [] { typeof(Order), typeof(Payment) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                    new ToManyResourceCollectionHypermediaPath(typeof(Payment), ClrSampleData.OrderToPaymentsRelPathSegment), 
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/orders",
-                            new [] { typeof(Order) }, new IHypermediaPath[]
-                                {
-                                    new ResourceCollectionHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndResourcePath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/orders/1",
-                            new [] { typeof(Order) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/orders/1/line-items",
-                            new [] { typeof(Order), typeof(OrderItem) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourcePath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/orders/1/line-items/1001",
-                            new [] { typeof(Order), typeof(OrderItem) }, new IHypermediaPath[]
-                                {
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                    new ToManyResourceHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment, "1001"),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndToManyResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
-                            new [] { typeof(Order), typeof(OrderItem) }, new IHypermediaPath[]
-                                {
-                                    new NonResourceHypermediaPath(new[] { "nrp-1", "nrp-2" }),
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
-                                })
-                    },
-                new object[]
-                    {
-                        "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndNonResourcePathAndToManyResourceCollectionPath",
-                        new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                            "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
-                            new [] { typeof(Order), typeof(OrderItem) }, new IHypermediaPath[]
-                                {
-                                    new NonResourceHypermediaPath(new[] { "nrp-1", "nrp-2" }),
-                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
-                                    new NonResourceHypermediaPath(new[] { "nrp-3", "nrp-4" }),
-                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
-                                })
-                    }
-            };
+                                                                                                 {
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/payments",
+                                                                                                                                                                      new[] {typeof(Payment)}, new IHypermediaPath[]
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   new ResourceCollectionHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment)
+                                                                                                                                                                                               })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourcePath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/payments/101",
+                                                                                                                                                                      new[] {typeof(Payment)}, new IHypermediaPath[]
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   new ResourceHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment, "101")
+                                                                                                                                                                                               })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourcePathAndToOneResourcePathCanonical",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/payments/101/order",
+                                                                                                                                                                      new[] {typeof(Payment), typeof(Order)}, new IHypermediaPath[]
+                                                                                                                                                                                                              {
+                                                                                                                                                                                                                  new ResourceHypermediaPath(typeof(Payment), ClrSampleData.PaymentCollectionPathSegment, "101"),
+                                                                                                                                                                                                                  new ToOneResourceHypermediaPath(typeof(Order), ClrSampleData.PaymentToOrderRelPathSegment),
+                                                                                                                                                                                                              })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourcePathAndToOneResourcePathHierarchical",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/stores/50/configuration",
+                                                                                                                                                                      new[] {typeof(Store), typeof(StoreConfiguration)}, new IHypermediaPath[]
+                                                                                                                                                                                                                         {
+                                                                                                                                                                                                                             new ResourceHypermediaPath(typeof(Store), ClrSampleData.StoreCollectionPathSegment, "50"),
+                                                                                                                                                                                                                             new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
+                                                                                                                                                                                                                         })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourcePathAndToOneResourcePathHierarchicalToOneResourcePathCanonical",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/stores/50/configuration/pos",
+                                                                                                                                                                      new[] {typeof(Store), typeof(StoreConfiguration), typeof(PosSystem)}, new IHypermediaPath[]
+                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                                new ResourceHypermediaPath(typeof(Store), ClrSampleData.StoreCollectionPathSegment, "50"),
+                                                                                                                                                                                                                                                new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
+                                                                                                                                                                                                                                                new ToOneResourceHypermediaPath(typeof(PosSystem),          ClrSampleData.StoreToStoreConfigurationToPosSystemRelPathSegment),
+                                                                                                                                                                                                                                            })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfResourcePathAndToManyResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithoutRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/orders/1/payments",
+                                                                                                                                                                      new[] {typeof(Order), typeof(Payment)}, new IHypermediaPath[]
+                                                                                                                                                                                                              {
+                                                                                                                                                                                                                  new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                                                  new ToManyResourceCollectionHypermediaPath(typeof(Payment), ClrSampleData.OrderToPaymentsRelPathSegment),
+                                                                                                                                                                                                              })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/orders",
+                                                                                                                                                                      new[] {typeof(Order)}, new IHypermediaPath[]
+                                                                                                                                                                                             {
+                                                                                                                                                                                                 new ResourceCollectionHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment),
+                                                                                                                                                                                             })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndResourcePath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/orders/1",
+                                                                                                                                                                      new[] {typeof(Order)}, new IHypermediaPath[]
+                                                                                                                                                                                             {
+                                                                                                                                                                                                 new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                             })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/line-items",
+                                                                                                                                                                      new[] {typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
+                                                                                                                                                                                                                })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourcePath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/line-items/1001",
+                                                                                                                                                                      new[] {typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                                                    new ToManyResourceHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment, "1001"),
+                                                                                                                                                                                                                })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndToManyResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
+                                                                                                                                                                      new[] {typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    new NonResourceHypermediaPath(new[] {"nrp-1", "nrp-2"}),
+                                                                                                                                                                                                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
+                                                                                                                                                                                                                })
+                                                                                                     },
+                                                                                                     new object[]
+                                                                                                     {
+                                                                                                         "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndNonResourcePathAndToManyResourceCollectionPath",
+                                                                                                         new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
+                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
+                                                                                                                                                                      new[] {typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    new NonResourceHypermediaPath(new[] {"nrp-1", "nrp-2"}),
+                                                                                                                                                                                                                    new ResourceHypermediaPath(typeof(Order), ClrSampleData.OrderCollectionPathSegment, "1"),
+                                                                                                                                                                                                                    new NonResourceHypermediaPath(new[] {"nrp-3", "nrp-4"}),
+                                                                                                                                                                                                                    new ToManyResourceCollectionHypermediaPath(typeof(OrderItem), ClrSampleData.OrderToOrderItemsRelPathSegment),
+                                                                                                                                                                                                                })
+                                                                                                     }
+                                                                                                 };
         #endregion
 
         #region Test Types
@@ -220,8 +222,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             #region Constructors
             public DocumentPathContextCreateWithUrlAndHypermediaContextTest(IHypermediaContext hypermediaContext, string urlString, IEnumerable<Type> expectedClrResourceTypes, IEnumerable<IHypermediaPath> expectedDocumentSelfPath)
             {
-                this.HypermediaContext = hypermediaContext;
-                this.UrlString = urlString;
+                this.HypermediaContext        = hypermediaContext;
+                this.UrlString                = urlString;
                 this.ExpectedClrResourceTypes = expectedClrResourceTypes;
                 this.ExpectedDocumentSelfPath = expectedDocumentSelfPath;
             }
@@ -229,7 +231,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
 
             #region IHypermediaContextTest Implementation
             public void Arrange()
-            { }
+            {
+            }
 
             public void Act()
             {
@@ -285,7 +288,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
 
                 foreach (var hypermediaPath in hypermediaPathCollection)
                 {
-                    var hypermediaPathType = hypermediaPath.GetType();
+                    var hypermediaPathType     = hypermediaPath.GetType();
                     var hypermediaPathTypeName = hypermediaPathType.Name;
 
                     var clrResourceTypeName = hypermediaPath.HasClrResourceType() ? hypermediaPath.GetClrResourceType().Name : "null";
@@ -306,15 +309,15 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             #endregion
 
             #region User Supplied Properties
-            private IHypermediaContext HypermediaContext { get; set; }
-            private string UrlString { get; set; }
-            private IEnumerable<Type> ExpectedClrResourceTypes { get; set; }
+            private IHypermediaContext           HypermediaContext        { get; set; }
+            private string                       UrlString                { get; set; }
+            private IEnumerable<Type>            ExpectedClrResourceTypes { get; set; }
             private IEnumerable<IHypermediaPath> ExpectedDocumentSelfPath { get; set; }
             #endregion
 
             #region Calculated Properties
-            private IDocumentPathContext DocumentPathContext { get; set; }
-            private IEnumerable<Type> ActualClrResourceTypes { get; set; }
+            private IDocumentPathContext         DocumentPathContext    { get; set; }
+            private IEnumerable<Type>            ActualClrResourceTypes { get; set; }
             private IEnumerable<IHypermediaPath> ActualDocumentSelfPath { get; set; }
             #endregion
         }

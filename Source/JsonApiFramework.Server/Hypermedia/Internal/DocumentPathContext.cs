@@ -26,10 +26,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
             Contract.Requires(url != null);
             Contract.Requires(hypermediaContext != null);
 
-            var serviceModel = hypermediaContext.ServiceModel;
-            var urlBuilderConfiguration = hypermediaContext.UrlBuilderConfiguration;
-
-            var documentSelfPath = url.ParseDocumentSelfPath(serviceModel, urlBuilderConfiguration);
+            var documentSelfPath = url.ParseDocumentSelfPath(hypermediaContext);
             this.DocumentSelfPath = documentSelfPath;
 
             this.DocumentSelfQuery = url.Query;
@@ -54,6 +51,14 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IDocumentPathContext Implementation
+        public Type GetPrimaryClrResourceType()
+        {
+            var clrResourceType = this.ClrResourceTypes.Last();
+            return clrResourceType;
+        }
+        #endregion
+
         #region INodeAttributeValue Implementation
         public string ToNodeAttributeValueString()
         {

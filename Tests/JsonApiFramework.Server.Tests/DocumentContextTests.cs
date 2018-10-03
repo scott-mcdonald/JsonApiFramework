@@ -681,6 +681,241 @@ namespace JsonApiFramework.Server.Tests
                                         .IncludeEnd()
                                     .IncludedEnd())
                     },
+
+
+                new object[]
+                    {
+                        "WithArticleResourceAndUrlConfigurationPerResourceType",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, new List<KeyValuePair<Type, IUrlBuilderConfiguration>>
+                                                                                                      {
+                                                                                                          new KeyValuePair<Type, IUrlBuilderConfiguration>(typeof(Article), new UrlBuilderConfiguration { Scheme = "http", Host = "api.articles.com" })
+                                                                                                      }),
+                        "http://api.articles.com/articles/" + SampleArticles.Article.Id,
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Up, "http://api.articles.com/articles"},
+                                        {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId}
+                                    },
+                                Data = new Resource
+                                       {
+                                           Type       = ApiSampleData.ArticleType,
+                                           Id         = ApiSampleData.ArticleId,
+                                           Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+                                           Relationships = new Relationships
+                                                           {
+                                                               {ApiSampleData.ArticleToAuthorRel, new Relationship
+                                                                                                  {
+                                                                                                      Links = new Links
+                                                                                                              {
+                                                                                                                  {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/relationships/" + ApiSampleData.ArticleToAuthorRel},
+                                                                                                                  {Keywords.Related, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/" + ApiSampleData.ArticleToAuthorRel}
+                                                                                                              }
+                                                                                                  }},
+                                                               {ApiSampleData.ArticleToCommentsRel, new Relationship
+                                                                                                    {
+                                                                                                        Links = new Links
+                                                                                                                {
+                                                                                                                    {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/relationships/" + ApiSampleData.ArticleToCommentsRel},
+                                                                                                                    {Keywords.Related, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/" + ApiSampleData.ArticleToCommentsRel}
+                                                                                                                }
+                                                                                                    }}
+                                                           },
+                                           Links = new Links
+                                                   {
+                                                       {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId},
+                                                       {Keywords.Canonical, "http://api.articles.com/articles/" + ApiSampleData.ArticleId}
+                                                   },
+                                           Meta = ApiSampleData.ResourceMeta
+                                       }
+                            },
+                        new Func<DocumentContext, string, IDocumentWriter>(
+                            (documentContext, currentRequestUrl) => documentContext
+                                .NewDocument(currentRequestUrl)
+                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                                    .Links()
+                                        .AddLink(Keywords.Up)
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                    .Resource(SampleArticles.Article)
+                                        .SetMeta(ApiSampleData.ResourceMeta)
+                                        .Relationships()
+                                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
+                                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
+                                        .RelationshipsEnd()
+                                        .Links()
+                                            .AddLink(Keywords.Self)
+                                            .AddLink(Keywords.Canonical)
+                                        .LinksEnd()
+                                    .ResourceEnd())
+                    },
+
+                new object[]
+                    {
+                        "WithArticleResourceAndIncludedResourcesPerResourceType",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, new List<KeyValuePair<Type, IUrlBuilderConfiguration>>
+                                                                                                      {
+                                                                                                          new KeyValuePair<Type, IUrlBuilderConfiguration>(typeof(Article), new UrlBuilderConfiguration {Scheme = "http", Host = "api.articles.com"}),
+                                                                                                          new KeyValuePair<Type, IUrlBuilderConfiguration>(typeof(Person),  new UrlBuilderConfiguration {Scheme = "http", Host = "api.people.com"}),
+                                                                                                          new KeyValuePair<Type, IUrlBuilderConfiguration>(typeof(Comment), new UrlBuilderConfiguration {Scheme = "http", Host = "api.comments.com"})
+                                                                                                      }),
+                        "http://api.articles.com/articles/" + SampleArticles.Article.Id,
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Up, "http://api.articles.com/articles"},
+                                        {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId}
+                                    },
+                                Data = new Resource
+                                       {
+                                           Type       = ApiSampleData.ArticleType,
+                                           Id         = ApiSampleData.ArticleId,
+                                           Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+                                           Relationships = new Relationships
+                                                           {
+                                                               {ApiSampleData.ArticleToAuthorRel, new ToOneRelationship
+                                                                                                  {
+                                                                                                      Links = new Links
+                                                                                                              {
+                                                                                                                  {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/relationships/" + ApiSampleData.ArticleToAuthorRel},
+                                                                                                                  {Keywords.Related, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/" + ApiSampleData.ArticleToAuthorRel}
+                                                                                                              },
+                                                                                                      Data = ApiSampleData.PersonResourceIdentifier
+                                                                                                  }},
+                                                               {ApiSampleData.ArticleToCommentsRel, new ToManyRelationship
+                                                                                                    {
+                                                                                                        Links = new Links
+                                                                                                                {
+                                                                                                                    {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/relationships/" + ApiSampleData.ArticleToCommentsRel},
+                                                                                                                    {Keywords.Related, "http://api.articles.com/articles/" + ApiSampleData.ArticleId + "/" + ApiSampleData.ArticleToCommentsRel}
+                                                                                                                },
+                                                                                                        Data = ApiSampleData.CommentResourceIdentifiers
+                                                                                                    }}
+                                                           },
+                                           Links = new Links
+                                                   {
+                                                       {Keywords.Self, "http://api.articles.com/articles/" + ApiSampleData.ArticleId},
+                                                       {Keywords.Canonical, "http://api.articles.com/articles/" + ApiSampleData.ArticleId}
+                                                   },
+                                           Meta = ApiSampleData.ResourceMeta
+                                       },
+                                Included = new List<Resource>
+                                    {
+                                        new Resource
+                                        {
+                                            Type = ApiSampleData.PersonType,
+                                            Id   = ApiSampleData.PersonId,
+                                            Attributes = new Attributes(
+                                                Attribute.Create("first-name", "John"),
+                                                Attribute.Create("last-name",  "Doe"),
+                                                Attribute.Create("twitter",    "johndoe24")),
+                                            Relationships = new Relationships
+                                                            {
+                                                                {ApiSampleData.PersonToCommentsRel, new Relationship
+                                                                                                    {
+                                                                                                        Links = new Links
+                                                                                                                {
+                                                                                                                    {Keywords.Self, "http://api.people.com/people/" + ApiSampleData.PersonId + "/relationships/" + ApiSampleData.PersonToCommentsRel},
+                                                                                                                    {Keywords.Related, "http://api.people.com/people/" + ApiSampleData.PersonId + "/" + ApiSampleData.PersonToCommentsRel}
+                                                                                                                }
+                                                                                                    }}
+                                                            },
+                                            Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.people.com/people/" + ApiSampleData.PersonId},
+                                                    },
+                                            Meta = ApiSampleData.ResourceMeta
+                                        },
+                                        new Resource
+                                        {
+                                            Type       = ApiSampleData.CommentType,
+                                            Id         = ApiSampleData.CommentId1,
+                                            Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
+                                            Relationships = new Relationships
+                                                            {
+                                                                {ApiSampleData.CommentToAuthorRel, new Relationship
+                                                                                                   {
+                                                                                                       Links = new Links
+                                                                                                               {
+                                                                                                                   {Keywords.Self, "http://api.comments.com/comments/" + ApiSampleData.CommentId1 + "/relationships/" + ApiSampleData.CommentToAuthorRel},
+                                                                                                                   {Keywords.Related, "http://api.comments.com/comments/" + ApiSampleData.CommentId1 + "/" + ApiSampleData.CommentToAuthorRel}
+                                                                                                               }
+                                                                                                   }}
+                                                            },
+                                            Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.comments.com/comments/" + ApiSampleData.CommentId1},
+                                                    },
+                                            Meta = ApiSampleData.ResourceMeta1
+                                        },
+                                        new Resource
+                                        {
+                                            Type       = ApiSampleData.CommentType,
+                                            Id         = ApiSampleData.CommentId2,
+                                            Attributes = new Attributes(Attribute.Create("body", "I agree completely.")),
+                                            Relationships = new Relationships
+                                                            {
+                                                                {ApiSampleData.CommentToAuthorRel, new Relationship
+                                                                                                   {
+                                                                                                       Links = new Links
+                                                                                                               {
+                                                                                                                   {Keywords.Self, "http://api.comments.com/comments/" + ApiSampleData.CommentId2 + "/relationships/" + ApiSampleData.CommentToAuthorRel},
+                                                                                                                   {Keywords.Related, "http://api.comments.com/comments/" + ApiSampleData.CommentId2 + "/" + ApiSampleData.CommentToAuthorRel}
+                                                                                                               }
+                                                                                                   }}
+                                                            },
+                                            Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.comments.com/comments/" + ApiSampleData.CommentId2},
+                                                    },
+                                            Meta = ApiSampleData.ResourceMeta2
+                                        }
+                                    }
+                            },
+                        new Func<DocumentContext, string, IDocumentWriter>(
+                            (documentContext, currentRequestUrl) => documentContext
+                                .NewDocument(currentRequestUrl)
+                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                                    .Links()
+                                        .AddLink(Keywords.Up)
+                                        .AddLink(Keywords.Self)
+                                    .LinksEnd()
+                                    .Resource(SampleArticles.Article)
+                                        .SetMeta(ApiSampleData.ResourceMeta)
+                                        .Relationships()
+                                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
+                                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
+                                        .RelationshipsEnd()
+                                        .Links()
+                                            .AddLink(Keywords.Self)
+                                            .AddLink(Keywords.Canonical)
+                                        .LinksEnd()
+                                    .ResourceEnd()
+                                    .Included()
+                                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
+                                            .SetMeta(ApiSampleData.ResourceMeta)
+                                            .Relationships()
+                                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
+                                            .RelationshipsEnd()
+                                            .Links()
+                                                .AddLink(Keywords.Self)
+                                            .LinksEnd()
+                                        .IncludeEnd()
+                                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
+                                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
+                                            .Relationships()
+                                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
+                                            .RelationshipsEnd()
+                                            .Links()
+                                                .AddLink(Keywords.Self)
+                                            .LinksEnd()
+                                        .IncludeEnd()
+                                    .IncludedEnd())
+                    },
             };
         #endregion
 
@@ -1716,6 +1951,26 @@ namespace JsonApiFramework.Server.Tests
 
             optionsBuilder.UseServiceModel(serviceModel);
             optionsBuilder.UseUrlBuilderConfiguration(urlBuilderConfiguration);
+            optionsBuilder.UseHypermediaAssemblerRegistry(hypermediaAssemblerRegistry);
+
+            return options;
+        }
+
+        private static IDocumentContextOptions CreateDocumentContextOptions(IServiceModel serviceModel, IEnumerable<KeyValuePair<Type, IUrlBuilderConfiguration>> urlBuilderConfigurationPerResourceTypeCollection, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry = default(IHypermediaAssemblerRegistry))
+        {
+            Contract.Requires(serviceModel            != null);
+            Contract.Requires(urlBuilderConfigurationPerResourceTypeCollection != null);
+
+            var options        = new DocumentContextOptions<DocumentContext>();
+            var optionsBuilder = new DocumentContextOptionsBuilder(options);
+
+            optionsBuilder.UseServiceModel(serviceModel);
+            foreach (var urlBuilderConfigurationPerResourceTypePair in urlBuilderConfigurationPerResourceTypeCollection)
+            {
+                var resourceType = urlBuilderConfigurationPerResourceTypePair.Key;
+                var urlBuilderConfiguration = urlBuilderConfigurationPerResourceTypePair.Value;
+                optionsBuilder.UseUrlBuilderConfiguration(resourceType, urlBuilderConfiguration);
+            }
             optionsBuilder.UseHypermediaAssemblerRegistry(hypermediaAssemblerRegistry);
 
             return options;

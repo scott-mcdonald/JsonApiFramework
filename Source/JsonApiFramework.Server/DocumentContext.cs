@@ -84,10 +84,6 @@ namespace JsonApiFramework.Server
         }
         #endregion
 
-        // INTERNAL PROPERTIES //////////////////////////////////////////////
-        #region Properties
-        #endregion
-
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region DocumentContextBase Overrides
         internal override void OnPreConfiguration(IDocumentContextOptions options)
@@ -108,10 +104,11 @@ namespace JsonApiFramework.Server
             var coreExtension = options.GetExtension<CoreDocumentContextExtension>();
             var serviceModel = coreExtension.ServiceModel;
 
-            var serverExtension = options.GetExtension<ServerDocumentContextExtension>();
-            var urlBuilderConfiguration = serverExtension.UrlBuilderConfiguration;
+            var serverExtension                        = options.GetExtension<ServerDocumentContextExtension>();
+            var urlBuilderConfiguration                = serverExtension.UrlBuilderConfiguration;
+            var urlBuilderConfigurationPerResourceType = serverExtension.UrlBuilderConfigurationPerResourceType;
 
-            var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration);
+            var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration, urlBuilderConfigurationPerResourceType);
             serverExtension.HypermediaContext = hypermediaContext;
         }
         #endregion

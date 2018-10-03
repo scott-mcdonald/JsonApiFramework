@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>JsonApiFramework</RootNamespace>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Core]</Product>
@@ -18,7 +18,7 @@ Portable .NET foundation-level 'service model' classes that represent the domain
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageTags>.net portable jsonapi framework</PackageTags>
     <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <FileVersion>1.7.0.17</FileVersion>
+    <FileVersion>1.7.1.18</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+// ReSharper disable once CheckNamespace
 namespace JsonApiFramework
 {
     public static class UriExtensions
@@ -36,7 +37,8 @@ namespace JsonApiFramework
             }
 
             var pathSegments = originalString.Split('/', '\\')
-                                             .Where(x => !String.IsNullOrWhiteSpace(x));
+                                             .Where(x => !String.IsNullOrWhiteSpace(x))
+                                             .ToList();
             return pathSegments;
         }
 
@@ -51,7 +53,8 @@ namespace JsonApiFramework
             }
 
             var pathSegments = segments.Select(x => x.Trim('/', '\\'))
-                                       .Where(x => !String.IsNullOrWhiteSpace(x));
+                                       .Where(x => !String.IsNullOrWhiteSpace(x))
+                                       .ToList();
             return pathSegments;
         }
         #endregion

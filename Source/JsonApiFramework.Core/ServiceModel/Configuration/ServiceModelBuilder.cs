@@ -13,8 +13,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IServiceModelBuilder Implementation
-        public IConfigurationCollection Configurations
-        { get { return _configurations; } }
+        public IConfigurationCollection Configurations => _configurations;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -31,6 +30,13 @@ namespace JsonApiFramework.ServiceModel.Configuration
             var resourceTypeConfiguration = _configurations.GetOrAddResourceTypeBuilder<TResource>();
             return resourceTypeConfiguration;
         }
+
+        public void HomeResource<TResource>()
+            where TResource : class, IResource
+        {
+            var clrHomeResourceType = typeof(TResource);
+            _configurations.SetHomeResourceType(clrHomeResourceType);
+        }
         #endregion
 
         #region IServiceModelFactory Implementation
@@ -38,7 +44,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
         {
             var complexTypes = this.CreateComplexTypes(conventions);
             var resourceTypes = this.CreateResourceTypes(conventions);
-            var serviceModel = new ServiceModel.Internal.ServiceModel(complexTypes, resourceTypes);
+            var homeResourceType = this.GetHomeResourceType(resourceTypes);
+
+            var serviceModel = new ServiceModel.Internal.ServiceModel(complexTypes, resourceTypes, homeResourceType);
             return serviceModel;
         }
         #endregion
@@ -54,13 +62,24 @@ namespace JsonApiFramework.ServiceModel.Configuration
             return complexTypes;
         }
 
-        private IEnumerable<IResourceType> CreateResourceTypes(IConventions conventions)
+        private IReadOnlyCollection<IResourceType> CreateResourceTypes(IConventions conventions)
         {
             var resourceTypeFactoryCollection = _configurations.GetResourceTypeFactoryCollection();
             var resourceTypes = resourceTypeFactoryCollection
                 .Select(x => x.Create(conventions))
                 .ToList();
             return resourceTypes;
+        }
+
+        private IResourceType GetHomeResourceType(IEnumerable<IResourceType> resourceTypes)
+        {
+            var clrHomeResourceType = _configurations.GetHomeResourceType();
+            if (clrHomeResourceType == null)
+                return null;
+
+            var homeResourceType = resourceTypes.EmptyIfNull()
+                                                .FirstOrDefault(x => x.ClrType == clrHomeResourceType);
+            return homeResourceType;
         }
         #endregion
 

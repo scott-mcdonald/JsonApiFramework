@@ -15,6 +15,9 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         IResourceTypeBuilder<TResource> Resource<TResource>()
             where TResource : class, IResource;
+
+        void HomeResource<TResource>()
+            where TResource : class, IResource;
         #endregion
     }
 }

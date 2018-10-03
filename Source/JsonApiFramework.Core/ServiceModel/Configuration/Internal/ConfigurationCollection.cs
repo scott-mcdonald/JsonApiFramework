@@ -96,12 +96,17 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
                                                                                    .ToList();
             return resourceTypeFactoryCollection;
         }
+
+        internal Type GetHomeResourceType() { return this.ClrHomeResourceType; }
+
+        internal void SetHomeResourceType(Type clrHomeResourceType) { this.ClrHomeResourceType = clrHomeResourceType; }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private IDictionary<Type, object> ComplexTypeBuilderDictionary { get; set; }
         private IDictionary<Type, object> ResourceTypeBuilderDictionary { get; set; }
+        private Type ClrHomeResourceType { get; set; }
         #endregion
     }
 }

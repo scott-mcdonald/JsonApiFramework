@@ -60,7 +60,11 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(getResourceIdentity != null);
 
-            return getResourceIdentity.Type.GetHashCode() ^ getResourceIdentity.Id.GetHashCode();
+            var typeHashCode = getResourceIdentity.Type?.GetHashCode();
+            var idHashCode   = getResourceIdentity.Id?.GetHashCode();
+
+            var hashCode = typeHashCode.GetValueOrDefault() ^ idHashCode.GetValueOrDefault();
+            return hashCode;
         }
 
         public static bool IsDefined(this IGetResourceIdentity getResourceIdentity)
@@ -74,9 +78,9 @@ namespace JsonApiFramework.JsonApi
         {
             Contract.Requires(getResourceIdentity != null);
 
-            return getResourceIdentity == null ||
-                String.IsNullOrWhiteSpace(getResourceIdentity.Type) ||
-                String.IsNullOrWhiteSpace(getResourceIdentity.Id);
+            return getResourceIdentity == null                         ||
+                   String.IsNullOrWhiteSpace(getResourceIdentity.Type) ||
+                   String.IsNullOrWhiteSpace(getResourceIdentity.Id);
         }
         #endregion
     }

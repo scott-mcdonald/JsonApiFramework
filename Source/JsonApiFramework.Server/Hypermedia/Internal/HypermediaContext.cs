@@ -27,6 +27,13 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         }
         #endregion
 
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region IHypermediaContext Implementation
+        public IServiceModel ServiceModel { get; }
+
+        public IUrlBuilderConfiguration UrlBuilderConfiguration { get; }
+        #endregion
+
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         public IServiceModel GetServiceModel()
@@ -54,11 +61,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region IHypermediaContext Implementation
-        private IServiceModel ServiceModel { get; }
-
-        private IUrlBuilderConfiguration UrlBuilderConfiguration { get; }
-
+        #region Properties
         private IDictionary<Type, IUrlBuilderConfiguration> UrlBuilderConfigurationPerResourceType { get; }
         #endregion
 

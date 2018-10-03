@@ -15,20 +15,21 @@ using Xunit.Abstractions;
 namespace JsonApiFramework.Tests.JsonApi
 {
     // Disable: warning CS1718: Comparison made to same variable; did you mean to compare something else?
-    #pragma warning disable 1718
+#pragma warning disable 1718
     public class ResourceIdentifierTests : XUnitTest
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public ResourceIdentifierTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ResourceIdentifierTestData")]
+        [MemberData(nameof(ResourceIdentifierTestData))]
         public void TestResourceIdentifierToJson(string name, ResourceIdentifier expected)
         {
             // Arrange
@@ -42,7 +43,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceIdentifierTestData")]
+        [MemberData(nameof(ResourceIdentifierTestData))]
         public void TestResourceIdentifierParse(string name, ResourceIdentifier expected)
         {
             // Arrange
@@ -132,7 +133,7 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable EqualExpressionComparison
             // ReSharper disable HeuristicUnreachableCode
             Assert.False(resourceIdentifier1 == resourceIdentifier0);
-            Assert.True(resourceIdentifier1 == resourceIdentifier1);
+            Assert.True(resourceIdentifier1  == resourceIdentifier1);
             Assert.False(resourceIdentifier1 == resourceIdentifier2);
             Assert.False(resourceIdentifier1 == resourceIdentifier3);
             Assert.False(resourceIdentifier1 == resourceIdentifier4);
@@ -140,23 +141,23 @@ namespace JsonApiFramework.Tests.JsonApi
 
             Assert.False(resourceIdentifier2 == resourceIdentifier0);
             Assert.False(resourceIdentifier2 == resourceIdentifier1);
-            Assert.True(resourceIdentifier2 == resourceIdentifier2);
+            Assert.True(resourceIdentifier2  == resourceIdentifier2);
             Assert.False(resourceIdentifier2 == resourceIdentifier3);
-            Assert.True(resourceIdentifier2 == resourceIdentifier4);
+            Assert.True(resourceIdentifier2  == resourceIdentifier4);
             Assert.False(resourceIdentifier2 == resourceIdentifier5);
 
             Assert.False(resourceIdentifier3 == resourceIdentifier0);
             Assert.False(resourceIdentifier3 == resourceIdentifier1);
             Assert.False(resourceIdentifier3 == resourceIdentifier2);
-            Assert.True(resourceIdentifier3 == resourceIdentifier3);
+            Assert.True(resourceIdentifier3  == resourceIdentifier3);
             Assert.False(resourceIdentifier3 == resourceIdentifier4);
             Assert.False(resourceIdentifier3 == resourceIdentifier5);
 
             Assert.False(resourceIdentifier4 == resourceIdentifier0);
             Assert.False(resourceIdentifier4 == resourceIdentifier1);
-            Assert.True(resourceIdentifier4 == resourceIdentifier2);
+            Assert.True(resourceIdentifier4  == resourceIdentifier2);
             Assert.False(resourceIdentifier4 == resourceIdentifier3);
-            Assert.True(resourceIdentifier4 == resourceIdentifier4);
+            Assert.True(resourceIdentifier4  == resourceIdentifier4);
             Assert.False(resourceIdentifier4 == resourceIdentifier5);
 
             Assert.False(resourceIdentifier5 == resourceIdentifier0);
@@ -164,7 +165,7 @@ namespace JsonApiFramework.Tests.JsonApi
             Assert.False(resourceIdentifier5 == resourceIdentifier2);
             Assert.False(resourceIdentifier5 == resourceIdentifier3);
             Assert.False(resourceIdentifier5 == resourceIdentifier4);
-            Assert.True(resourceIdentifier5 == resourceIdentifier5);
+            Assert.True(resourceIdentifier5  == resourceIdentifier5);
             // ReSharper restore HeuristicUnreachableCode
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
@@ -188,39 +189,39 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             // ReSharper disable HeuristicUnreachableCode
-            Assert.True(resourceIdentifier1 != resourceIdentifier0);
+            Assert.True(resourceIdentifier1  != resourceIdentifier0);
             Assert.False(resourceIdentifier1 != resourceIdentifier1);
-            Assert.True(resourceIdentifier1 != resourceIdentifier2);
-            Assert.True(resourceIdentifier1 != resourceIdentifier3);
-            Assert.True(resourceIdentifier1 != resourceIdentifier4);
-            Assert.True(resourceIdentifier1 != resourceIdentifier5);
+            Assert.True(resourceIdentifier1  != resourceIdentifier2);
+            Assert.True(resourceIdentifier1  != resourceIdentifier3);
+            Assert.True(resourceIdentifier1  != resourceIdentifier4);
+            Assert.True(resourceIdentifier1  != resourceIdentifier5);
 
-            Assert.True(resourceIdentifier2 != resourceIdentifier0);
-            Assert.True(resourceIdentifier2 != resourceIdentifier1);
+            Assert.True(resourceIdentifier2  != resourceIdentifier0);
+            Assert.True(resourceIdentifier2  != resourceIdentifier1);
             Assert.False(resourceIdentifier2 != resourceIdentifier2);
-            Assert.True(resourceIdentifier2 != resourceIdentifier3);
+            Assert.True(resourceIdentifier2  != resourceIdentifier3);
             Assert.False(resourceIdentifier2 != resourceIdentifier4);
-            Assert.True(resourceIdentifier2 != resourceIdentifier5);
+            Assert.True(resourceIdentifier2  != resourceIdentifier5);
 
-            Assert.True(resourceIdentifier3 != resourceIdentifier0);
-            Assert.True(resourceIdentifier3 != resourceIdentifier1);
-            Assert.True(resourceIdentifier3 != resourceIdentifier2);
+            Assert.True(resourceIdentifier3  != resourceIdentifier0);
+            Assert.True(resourceIdentifier3  != resourceIdentifier1);
+            Assert.True(resourceIdentifier3  != resourceIdentifier2);
             Assert.False(resourceIdentifier3 != resourceIdentifier3);
-            Assert.True(resourceIdentifier3 != resourceIdentifier4);
-            Assert.True(resourceIdentifier3 != resourceIdentifier5);
+            Assert.True(resourceIdentifier3  != resourceIdentifier4);
+            Assert.True(resourceIdentifier3  != resourceIdentifier5);
 
-            Assert.True(resourceIdentifier4 != resourceIdentifier0);
-            Assert.True(resourceIdentifier4 != resourceIdentifier1);
+            Assert.True(resourceIdentifier4  != resourceIdentifier0);
+            Assert.True(resourceIdentifier4  != resourceIdentifier1);
             Assert.False(resourceIdentifier4 != resourceIdentifier2);
-            Assert.True(resourceIdentifier4 != resourceIdentifier3);
+            Assert.True(resourceIdentifier4  != resourceIdentifier3);
             Assert.False(resourceIdentifier4 != resourceIdentifier4);
-            Assert.True(resourceIdentifier4 != resourceIdentifier5);
+            Assert.True(resourceIdentifier4  != resourceIdentifier5);
 
-            Assert.True(resourceIdentifier5 != resourceIdentifier0);
-            Assert.True(resourceIdentifier5 != resourceIdentifier1);
-            Assert.True(resourceIdentifier5 != resourceIdentifier2);
-            Assert.True(resourceIdentifier5 != resourceIdentifier3);
-            Assert.True(resourceIdentifier5 != resourceIdentifier4);
+            Assert.True(resourceIdentifier5  != resourceIdentifier0);
+            Assert.True(resourceIdentifier5  != resourceIdentifier1);
+            Assert.True(resourceIdentifier5  != resourceIdentifier2);
+            Assert.True(resourceIdentifier5  != resourceIdentifier3);
+            Assert.True(resourceIdentifier5  != resourceIdentifier4);
             Assert.False(resourceIdentifier5 != resourceIdentifier5);
             // ReSharper restore HeuristicUnreachableCode
             // ReSharper restore EqualExpressionComparison
@@ -304,15 +305,15 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable HeuristicUnreachableCode
             Assert.False(resourceIdentifier1 < resourceIdentifier0);
             Assert.False(resourceIdentifier1 < resourceIdentifier1);
-            Assert.True(resourceIdentifier1 < resourceIdentifier2);
-            Assert.True(resourceIdentifier1 < resourceIdentifier3);
-            Assert.True(resourceIdentifier1 < resourceIdentifier4);
-            Assert.True(resourceIdentifier1 < resourceIdentifier5);
+            Assert.True(resourceIdentifier1  < resourceIdentifier2);
+            Assert.True(resourceIdentifier1  < resourceIdentifier3);
+            Assert.True(resourceIdentifier1  < resourceIdentifier4);
+            Assert.True(resourceIdentifier1  < resourceIdentifier5);
 
             Assert.False(resourceIdentifier2 < resourceIdentifier0);
             Assert.False(resourceIdentifier2 < resourceIdentifier1);
             Assert.False(resourceIdentifier2 < resourceIdentifier2);
-            Assert.True(resourceIdentifier2 < resourceIdentifier3);
+            Assert.True(resourceIdentifier2  < resourceIdentifier3);
             Assert.False(resourceIdentifier2 < resourceIdentifier4);
             Assert.False(resourceIdentifier2 < resourceIdentifier5);
 
@@ -326,15 +327,15 @@ namespace JsonApiFramework.Tests.JsonApi
             Assert.False(resourceIdentifier4 < resourceIdentifier0);
             Assert.False(resourceIdentifier4 < resourceIdentifier1);
             Assert.False(resourceIdentifier4 < resourceIdentifier2);
-            Assert.True(resourceIdentifier4 < resourceIdentifier3);
+            Assert.True(resourceIdentifier4  < resourceIdentifier3);
             Assert.False(resourceIdentifier4 < resourceIdentifier4);
             Assert.False(resourceIdentifier4 < resourceIdentifier5);
 
             Assert.False(resourceIdentifier5 < resourceIdentifier0);
             Assert.False(resourceIdentifier5 < resourceIdentifier1);
-            Assert.True(resourceIdentifier5 < resourceIdentifier2);
-            Assert.True(resourceIdentifier5 < resourceIdentifier3);
-            Assert.True(resourceIdentifier5 < resourceIdentifier4);
+            Assert.True(resourceIdentifier5  < resourceIdentifier2);
+            Assert.True(resourceIdentifier5  < resourceIdentifier3);
+            Assert.True(resourceIdentifier5  < resourceIdentifier4);
             Assert.False(resourceIdentifier5 < resourceIdentifier5);
             // ReSharper restore HeuristicUnreachableCode
             // ReSharper restore EqualExpressionComparison
@@ -360,39 +361,39 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable EqualExpressionComparison
             // ReSharper disable HeuristicUnreachableCode
             Assert.False(resourceIdentifier1 <= resourceIdentifier0);
-            Assert.True(resourceIdentifier1 <= resourceIdentifier1);
-            Assert.True(resourceIdentifier1 <= resourceIdentifier2);
-            Assert.True(resourceIdentifier1 <= resourceIdentifier3);
-            Assert.True(resourceIdentifier1 <= resourceIdentifier4);
-            Assert.True(resourceIdentifier1 <= resourceIdentifier5);
+            Assert.True(resourceIdentifier1  <= resourceIdentifier1);
+            Assert.True(resourceIdentifier1  <= resourceIdentifier2);
+            Assert.True(resourceIdentifier1  <= resourceIdentifier3);
+            Assert.True(resourceIdentifier1  <= resourceIdentifier4);
+            Assert.True(resourceIdentifier1  <= resourceIdentifier5);
 
             Assert.False(resourceIdentifier2 <= resourceIdentifier0);
             Assert.False(resourceIdentifier2 <= resourceIdentifier1);
-            Assert.True(resourceIdentifier2 <= resourceIdentifier2);
-            Assert.True(resourceIdentifier2 <= resourceIdentifier3);
-            Assert.True(resourceIdentifier2 <= resourceIdentifier4);
+            Assert.True(resourceIdentifier2  <= resourceIdentifier2);
+            Assert.True(resourceIdentifier2  <= resourceIdentifier3);
+            Assert.True(resourceIdentifier2  <= resourceIdentifier4);
             Assert.False(resourceIdentifier2 <= resourceIdentifier5);
 
             Assert.False(resourceIdentifier3 <= resourceIdentifier0);
             Assert.False(resourceIdentifier3 <= resourceIdentifier1);
             Assert.False(resourceIdentifier3 <= resourceIdentifier2);
-            Assert.True(resourceIdentifier3 <= resourceIdentifier3);
+            Assert.True(resourceIdentifier3  <= resourceIdentifier3);
             Assert.False(resourceIdentifier3 <= resourceIdentifier4);
             Assert.False(resourceIdentifier3 <= resourceIdentifier5);
 
             Assert.False(resourceIdentifier4 <= resourceIdentifier0);
             Assert.False(resourceIdentifier4 <= resourceIdentifier1);
-            Assert.True(resourceIdentifier4 <= resourceIdentifier2);
-            Assert.True(resourceIdentifier4 <= resourceIdentifier3);
-            Assert.True(resourceIdentifier4 <= resourceIdentifier4);
+            Assert.True(resourceIdentifier4  <= resourceIdentifier2);
+            Assert.True(resourceIdentifier4  <= resourceIdentifier3);
+            Assert.True(resourceIdentifier4  <= resourceIdentifier4);
             Assert.False(resourceIdentifier4 <= resourceIdentifier5);
 
             Assert.False(resourceIdentifier5 <= resourceIdentifier0);
             Assert.False(resourceIdentifier5 <= resourceIdentifier1);
-            Assert.True(resourceIdentifier5 <= resourceIdentifier2);
-            Assert.True(resourceIdentifier5 <= resourceIdentifier3);
-            Assert.True(resourceIdentifier5 <= resourceIdentifier4);
-            Assert.True(resourceIdentifier5 <= resourceIdentifier5);
+            Assert.True(resourceIdentifier5  <= resourceIdentifier2);
+            Assert.True(resourceIdentifier5  <= resourceIdentifier3);
+            Assert.True(resourceIdentifier5  <= resourceIdentifier4);
+            Assert.True(resourceIdentifier5  <= resourceIdentifier5);
             // ReSharper restore HeuristicUnreachableCode
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
@@ -416,36 +417,36 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             // ReSharper disable HeuristicUnreachableCode
-            Assert.True(resourceIdentifier1 > resourceIdentifier0);
+            Assert.True(resourceIdentifier1  > resourceIdentifier0);
             Assert.False(resourceIdentifier1 > resourceIdentifier1);
             Assert.False(resourceIdentifier1 > resourceIdentifier2);
             Assert.False(resourceIdentifier1 > resourceIdentifier3);
             Assert.False(resourceIdentifier1 > resourceIdentifier4);
             Assert.False(resourceIdentifier1 > resourceIdentifier5);
 
-            Assert.True(resourceIdentifier2 > resourceIdentifier0);
-            Assert.True(resourceIdentifier2 > resourceIdentifier1);
+            Assert.True(resourceIdentifier2  > resourceIdentifier0);
+            Assert.True(resourceIdentifier2  > resourceIdentifier1);
             Assert.False(resourceIdentifier2 > resourceIdentifier2);
             Assert.False(resourceIdentifier2 > resourceIdentifier3);
             Assert.False(resourceIdentifier2 > resourceIdentifier4);
-            Assert.True(resourceIdentifier2 > resourceIdentifier5);
+            Assert.True(resourceIdentifier2  > resourceIdentifier5);
 
-            Assert.True(resourceIdentifier3 > resourceIdentifier0);
-            Assert.True(resourceIdentifier3 > resourceIdentifier1);
-            Assert.True(resourceIdentifier3 > resourceIdentifier2);
+            Assert.True(resourceIdentifier3  > resourceIdentifier0);
+            Assert.True(resourceIdentifier3  > resourceIdentifier1);
+            Assert.True(resourceIdentifier3  > resourceIdentifier2);
             Assert.False(resourceIdentifier3 > resourceIdentifier3);
-            Assert.True(resourceIdentifier3 > resourceIdentifier4);
-            Assert.True(resourceIdentifier3 > resourceIdentifier5);
+            Assert.True(resourceIdentifier3  > resourceIdentifier4);
+            Assert.True(resourceIdentifier3  > resourceIdentifier5);
 
-            Assert.True(resourceIdentifier4 > resourceIdentifier0);
-            Assert.True(resourceIdentifier4 > resourceIdentifier1);
+            Assert.True(resourceIdentifier4  > resourceIdentifier0);
+            Assert.True(resourceIdentifier4  > resourceIdentifier1);
             Assert.False(resourceIdentifier4 > resourceIdentifier2);
             Assert.False(resourceIdentifier4 > resourceIdentifier3);
             Assert.False(resourceIdentifier4 > resourceIdentifier4);
-            Assert.True(resourceIdentifier4 > resourceIdentifier5);
+            Assert.True(resourceIdentifier4  > resourceIdentifier5);
 
-            Assert.True(resourceIdentifier5 > resourceIdentifier0);
-            Assert.True(resourceIdentifier5 > resourceIdentifier1);
+            Assert.True(resourceIdentifier5  > resourceIdentifier0);
+            Assert.True(resourceIdentifier5  > resourceIdentifier1);
             Assert.False(resourceIdentifier5 > resourceIdentifier2);
             Assert.False(resourceIdentifier5 > resourceIdentifier3);
             Assert.False(resourceIdentifier5 > resourceIdentifier4);
@@ -473,19 +474,19 @@ namespace JsonApiFramework.Tests.JsonApi
             // ReSharper disable ExpressionIsAlwaysNull
             // ReSharper disable EqualExpressionComparison
             // ReSharper disable HeuristicUnreachableCode
-            Assert.True(resourceIdentifier1 >= resourceIdentifier0);
-            Assert.True(resourceIdentifier1 >= resourceIdentifier1);
+            Assert.True(resourceIdentifier1  >= resourceIdentifier0);
+            Assert.True(resourceIdentifier1  >= resourceIdentifier1);
             Assert.False(resourceIdentifier1 >= resourceIdentifier2);
             Assert.False(resourceIdentifier1 >= resourceIdentifier3);
             Assert.False(resourceIdentifier1 >= resourceIdentifier4);
             Assert.False(resourceIdentifier1 >= resourceIdentifier5);
 
-            Assert.True(resourceIdentifier2 >= resourceIdentifier0);
-            Assert.True(resourceIdentifier2 >= resourceIdentifier1);
-            Assert.True(resourceIdentifier2 >= resourceIdentifier2);
+            Assert.True(resourceIdentifier2  >= resourceIdentifier0);
+            Assert.True(resourceIdentifier2  >= resourceIdentifier1);
+            Assert.True(resourceIdentifier2  >= resourceIdentifier2);
             Assert.False(resourceIdentifier2 >= resourceIdentifier3);
-            Assert.True(resourceIdentifier2 >= resourceIdentifier4);
-            Assert.True(resourceIdentifier2 >= resourceIdentifier5);
+            Assert.True(resourceIdentifier2  >= resourceIdentifier4);
+            Assert.True(resourceIdentifier2  >= resourceIdentifier5);
 
             Assert.True(resourceIdentifier3 >= resourceIdentifier0);
             Assert.True(resourceIdentifier3 >= resourceIdentifier1);
@@ -494,19 +495,76 @@ namespace JsonApiFramework.Tests.JsonApi
             Assert.True(resourceIdentifier3 >= resourceIdentifier4);
             Assert.True(resourceIdentifier3 >= resourceIdentifier5);
 
-            Assert.True(resourceIdentifier4 >= resourceIdentifier0);
-            Assert.True(resourceIdentifier4 >= resourceIdentifier1);
-            Assert.True(resourceIdentifier4 >= resourceIdentifier2);
+            Assert.True(resourceIdentifier4  >= resourceIdentifier0);
+            Assert.True(resourceIdentifier4  >= resourceIdentifier1);
+            Assert.True(resourceIdentifier4  >= resourceIdentifier2);
             Assert.False(resourceIdentifier4 >= resourceIdentifier3);
-            Assert.True(resourceIdentifier4 >= resourceIdentifier4);
-            Assert.True(resourceIdentifier4 >= resourceIdentifier5);
+            Assert.True(resourceIdentifier4  >= resourceIdentifier4);
+            Assert.True(resourceIdentifier4  >= resourceIdentifier5);
 
-            Assert.True(resourceIdentifier5 >= resourceIdentifier0);
-            Assert.True(resourceIdentifier5 >= resourceIdentifier1);
+            Assert.True(resourceIdentifier5  >= resourceIdentifier0);
+            Assert.True(resourceIdentifier5  >= resourceIdentifier1);
             Assert.False(resourceIdentifier5 >= resourceIdentifier2);
             Assert.False(resourceIdentifier5 >= resourceIdentifier3);
             Assert.False(resourceIdentifier5 >= resourceIdentifier4);
-            Assert.True(resourceIdentifier5 >= resourceIdentifier5);
+            Assert.True(resourceIdentifier5  >= resourceIdentifier5);
+            // ReSharper restore HeuristicUnreachableCode
+            // ReSharper restore EqualExpressionComparison
+            // ReSharper restore ExpressionIsAlwaysNull
+        }
+
+        [Fact]
+        public void TestResourceIdentifierGetHashCodeMethod()
+        {
+            // Arrange
+            var resourceIdentifier0 = new ResourceIdentifier();
+            var resourceIdentifier1 = new ResourceIdentifier(ApiSampleData.PersonType);
+            var resourceIdentifier2 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier3 = ApiSampleData.PersonResourceIdentifier2;
+            var resourceIdentifier4 = ApiSampleData.PersonResourceIdentifier1;
+            var resourceIdentifier5 = ApiSampleData.CommentResourceIdentifier1;
+
+            // Act
+
+            // Assert
+
+            // ReSharper disable ExpressionIsAlwaysNull
+            // ReSharper disable EqualExpressionComparison
+            // ReSharper disable HeuristicUnreachableCode
+            Assert.False(resourceIdentifier1.GetHashCode() == resourceIdentifier0.GetHashCode());
+            Assert.True(resourceIdentifier1.GetHashCode()  == resourceIdentifier1.GetHashCode());
+            Assert.False(resourceIdentifier1.GetHashCode() == resourceIdentifier2.GetHashCode());
+            Assert.False(resourceIdentifier1.GetHashCode() == resourceIdentifier3.GetHashCode());
+            Assert.False(resourceIdentifier1.GetHashCode() == resourceIdentifier4.GetHashCode());
+            Assert.False(resourceIdentifier1.GetHashCode() == resourceIdentifier5.GetHashCode());
+
+            Assert.False(resourceIdentifier2.GetHashCode() == resourceIdentifier0.GetHashCode());
+            Assert.False(resourceIdentifier2.GetHashCode() == resourceIdentifier1.GetHashCode());
+            Assert.True(resourceIdentifier2.GetHashCode()  == resourceIdentifier2.GetHashCode());
+            Assert.False(resourceIdentifier2.GetHashCode() == resourceIdentifier3.GetHashCode());
+            Assert.True(resourceIdentifier2.GetHashCode()  == resourceIdentifier4.GetHashCode());
+            Assert.False(resourceIdentifier2.GetHashCode() == resourceIdentifier5.GetHashCode());
+
+            Assert.False(resourceIdentifier3.GetHashCode() == resourceIdentifier0.GetHashCode());
+            Assert.False(resourceIdentifier3.GetHashCode() == resourceIdentifier1.GetHashCode());
+            Assert.False(resourceIdentifier3.GetHashCode() == resourceIdentifier2.GetHashCode());
+            Assert.True(resourceIdentifier3.GetHashCode()  == resourceIdentifier3.GetHashCode());
+            Assert.False(resourceIdentifier3.GetHashCode() == resourceIdentifier4.GetHashCode());
+            Assert.False(resourceIdentifier3.GetHashCode() == resourceIdentifier5.GetHashCode());
+
+            Assert.False(resourceIdentifier4.GetHashCode() == resourceIdentifier0.GetHashCode());
+            Assert.False(resourceIdentifier4.GetHashCode() == resourceIdentifier1.GetHashCode());
+            Assert.True(resourceIdentifier4.GetHashCode()  == resourceIdentifier2.GetHashCode());
+            Assert.False(resourceIdentifier4.GetHashCode() == resourceIdentifier3.GetHashCode());
+            Assert.True(resourceIdentifier4.GetHashCode()  == resourceIdentifier4.GetHashCode());
+            Assert.False(resourceIdentifier4.GetHashCode() == resourceIdentifier5.GetHashCode());
+
+            Assert.False(resourceIdentifier5.GetHashCode() == resourceIdentifier0.GetHashCode());
+            Assert.False(resourceIdentifier5.GetHashCode() == resourceIdentifier1.GetHashCode());
+            Assert.False(resourceIdentifier5.GetHashCode() == resourceIdentifier2.GetHashCode());
+            Assert.False(resourceIdentifier5.GetHashCode() == resourceIdentifier3.GetHashCode());
+            Assert.False(resourceIdentifier5.GetHashCode() == resourceIdentifier4.GetHashCode());
+            Assert.True(resourceIdentifier5.GetHashCode()  == resourceIdentifier5.GetHashCode());
             // ReSharper restore HeuristicUnreachableCode
             // ReSharper restore EqualExpressionComparison
             // ReSharper restore ExpressionIsAlwaysNull
@@ -517,12 +575,12 @@ namespace JsonApiFramework.Tests.JsonApi
         #region Test Data
         // ReSharper disable once UnusedMember.Global
         public static readonly IEnumerable<object[]> ResourceIdentifierTestData = new[]
-            {
-                new object[] {"WithEmptyObject", ResourceIdentifier.Empty},
-                new object[] {"WithNonEmptyObject", ApiSampleData.ArticleResourceIdentifier},
-                new object[] {"WithNonEmptyObjectAndMeta", ApiSampleData.ArticleResourceIdentifierWithMeta}
-            };
+                                                                                  {
+                                                                                      new object[] {"WithEmptyObject", ResourceIdentifier.Empty},
+                                                                                      new object[] {"WithNonEmptyObject", ApiSampleData.ArticleResourceIdentifier},
+                                                                                      new object[] {"WithNonEmptyObjectAndMeta", ApiSampleData.ArticleResourceIdentifierWithMeta}
+                                                                                  };
         #endregion
     }
-    #pragma warning restore 1718
+#pragma warning restore 1718
 }

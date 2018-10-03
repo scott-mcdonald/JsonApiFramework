@@ -14,6 +14,17 @@ namespace JsonApiFramework.Server.Hypermedia
     /// </summary>
     public interface IHypermediaContext
     {
+        // PUBLIC PROPERTIES ////////////////////////////////////////////////
+        #region Properties
+        /// <summary>Service model metadata of the resource ecosystem to build hypermedia for.</summary>
+        [Obsolete("SericeModel property will be deprecated in the future, please use GetServiceModel() method instead.")]
+        IServiceModel ServiceModel { get; }
+
+        /// <summary>URL builder configuration when building URL strings.</summary>
+        [Obsolete("UrlBuilderConfiguration property will be deprecated in the future, please use GetUrlBuilderConfiguration(resourceType) method instead.")]
+        IUrlBuilderConfiguration UrlBuilderConfiguration { get; }
+        #endregion
+
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         /// <summary>Gets the service model metadata of the resource ecosystem to build hypermedia for.</summary>

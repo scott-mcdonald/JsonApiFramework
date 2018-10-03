@@ -851,7 +851,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.7.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 1.8.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -861,7 +861,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.7.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 1.8.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -873,7 +873,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.7.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 1.8.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -930,6 +930,9 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v1.8.0
+    * #55 Fix bug in GetResourceIdentity.GetHashCode extension method when either Type or Id are null
+    * #54 Add new feature to configure hypermedia URL configuration per resource type if desired
 * v1.7.0
     * Sort any included resources by resource identifier ascending in a {json:api} document as a natural sort for easier consumption by developers
     * #52 Support the "fields" query parameter by using the {json:api} QueryParameters and implementing sparse fieldsets per the {json:api} specification

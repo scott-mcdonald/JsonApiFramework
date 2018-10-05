@@ -15,11 +15,19 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ResourceIdentityInfoBuilder(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+        public ResourceIdentityInfoBuilder(Type clrDeclaringType)
         {
             Contract.Requires(clrDeclaringType != null);
+
+            var resourceIdentityInfoFactory = CreateResourceIdentityInfoFactory(clrDeclaringType);
+            this.ResourceIdentityInfoFactory = resourceIdentityInfoFactory;
+        }
+
+        public ResourceIdentityInfoBuilder(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+        {
+            Contract.Requires(clrDeclaringType                           != null);
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
-            Contract.Requires(clrPropertyType != null);
+            Contract.Requires(clrPropertyType                            != null);
 
             var resourceIdentityInfoFactory = CreateResourceIdentityInfoFactory(clrDeclaringType, clrPropertyName, clrPropertyType);
             this.ResourceIdentityInfoFactory = resourceIdentityInfoFactory;
@@ -56,35 +64,59 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Func<IConventions, ResourceIdentityInfo> ResourceIdentityInfoFactory { get; set; }
-        private IList<Action<ResourceIdentityInfo>> ResourceIdentityInfoModifierCollection { get; set; }
+        private Func<IConventions, ResourceIdentityInfo> ResourceIdentityInfoFactory            { get; }
+        private IList<Action<ResourceIdentityInfo>>      ResourceIdentityInfoModifierCollection { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
-        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType)
         {
             Contract.Requires(clrDeclaringType != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
-            Contract.Requires(clrPropertyType != null);
 
-            Func<IConventions, ResourceIdentityInfo> resourceIdentityInfoFactory = (conventions) =>
+            ResourceIdentityInfo IdentityInfoFactory(IConventions conventions)
+            {
+                var apiType = clrDeclaringType.Name;
+                if (conventions?.ApiTypeNamingConventions != null)
                 {
-                    var apiType = clrDeclaringType.Name;
-                    if (conventions != null && conventions.ApiTypeNamingConventions != null)
-                    {
-                        apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
-                    }
+                    apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
+                }
 
-                    var resourceIdentityInfo = new ResourceIdentityInfo
-                        {
-                            // ResourceIdentityInfo Properties
-                            ApiType = apiType,
-                            Id = new PropertyInfo(clrDeclaringType, clrPropertyName, clrPropertyType)
-                        };
-                    return resourceIdentityInfo;
-                };
-            return resourceIdentityInfoFactory;
+                var resourceIdentityInfo = new ResourceIdentityInfo
+                                           {
+                                               // ResourceIdentityInfo Properties
+                                               ApiType = apiType
+                                           };
+                return resourceIdentityInfo;
+            }
+
+            return IdentityInfoFactory;
+        }
+
+        private static Func<IConventions, ResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
+        {
+            Contract.Requires(clrDeclaringType                           != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
+            Contract.Requires(clrPropertyType                            != null);
+
+            ResourceIdentityInfo IdentityInfoFactory(IConventions conventions)
+            {
+                var apiType = clrDeclaringType.Name;
+                if (conventions?.ApiTypeNamingConventions != null)
+                {
+                    apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
+                }
+
+                var resourceIdentityInfo = new ResourceIdentityInfo
+                                           {
+                                               // ResourceIdentityInfo Properties
+                                               ApiType = apiType,
+                                               Id      = new PropertyInfo(clrDeclaringType, clrPropertyName, clrPropertyType)
+                                           };
+                return resourceIdentityInfo;
+            }
+
+            return IdentityInfoFactory;
         }
         #endregion
     }

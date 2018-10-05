@@ -11,6 +11,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         #region Methods
         IHypermediaInfoBuilder Hypermedia();
 
+        IResourceIdentityInfoBuilder ResourceIdentity();
         IResourceIdentityInfoBuilder ResourceIdentity(string clrPropertyName, Type clrPropertyType);
 
         IRelationshipsInfoBuilder Relationships(string clrPropertyName);

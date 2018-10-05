@@ -9,6 +9,7 @@ namespace JsonApiFramework.Server.Hypermedia
         ToOneResourcePath,
         ToManyResourceCollectionPath,
         ToManyResourcePath,
-        NonResourcePath
+        NonResourcePath,
+        SingletonPath
     }
 }

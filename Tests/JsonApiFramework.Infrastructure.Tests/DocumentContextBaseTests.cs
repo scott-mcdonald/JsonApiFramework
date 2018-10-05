@@ -1004,7 +1004,9 @@ namespace JsonApiFramework.Tests
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.HomeConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
             }
             #endregion
         }
@@ -1044,7 +1046,9 @@ namespace JsonApiFramework.Tests
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.HomeConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
             }
             #endregion
         }
@@ -1091,11 +1095,13 @@ namespace JsonApiFramework.Tests
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithNullConventions());
 
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.HomeConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
             }
@@ -1140,11 +1146,13 @@ namespace JsonApiFramework.Tests
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithConventions());
 
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.HomeConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventions());
+                serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
                 serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
             }

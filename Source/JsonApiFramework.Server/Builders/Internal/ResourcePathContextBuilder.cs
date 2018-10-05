@@ -171,10 +171,20 @@ namespace JsonApiFramework.Server.Internal
             if (resourcePreviousRelationship == null)
             {
                 var apiCollectionPathSegment = resourceType.HypermediaInfo.ApiCollectionPathSegment;
-                var resourceHypermediaPath = new ResourceHypermediaPath(clrResourceType, apiCollectionPathSegment, apiId);
 
-                resourceBasePath.Add(resourceHypermediaPath);
-                resourcePathMode = ResourcePathMode.IncludeApiId;
+                var hypermediaPath = default(IHypermediaPath);
+                if (!resourceType.IsSingleton())
+                {
+                    hypermediaPath = new ResourceHypermediaPath(clrResourceType, apiCollectionPathSegment, apiId);
+                    resourcePathMode = ResourcePathMode.IncludeApiId;
+                }
+                else
+                {
+                    hypermediaPath = new SingletonHypermediaPath(clrResourceType, apiCollectionPathSegment);
+                    resourcePathMode = ResourcePathMode.IgnoreApiId;
+                }
+
+                resourceBasePath.Add(hypermediaPath);
                 resourcePreviousRelationship = nextRelationship;
                 return;
             }
@@ -223,9 +233,19 @@ namespace JsonApiFramework.Server.Internal
             {
                 var apiCollectionPathSegment = resourceType.HypermediaInfo.ApiCollectionPathSegment;
 
-                var resourceCollectionHypermediaPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
-                resourceBasePath.Add(resourceCollectionHypermediaPath);
-                resourcePathMode = ResourcePathMode.IncludeApiId;
+                var hypermediaPath = default(IHypermediaPath);
+                if (!resourceType.IsSingleton())
+                {
+                    hypermediaPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
+                    resourcePathMode = ResourcePathMode.IncludeApiId;
+                }
+                else
+                {
+                    hypermediaPath   = new SingletonHypermediaPath(clrResourceType, apiCollectionPathSegment);
+                    resourcePathMode = ResourcePathMode.IgnoreApiId;
+                }
+
+                resourceBasePath.Add(hypermediaPath);
             }
             else
             {

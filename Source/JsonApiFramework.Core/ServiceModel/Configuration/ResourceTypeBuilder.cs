@@ -26,6 +26,13 @@ namespace JsonApiFramework.ServiceModel.Configuration
             return this.HypermediaInfoBuilder;
         }
 
+        public IResourceIdentityInfoBuilder ResourceIdentity()
+        {
+            var clrResourceType = this.ClrType;
+            this.ResourceIdentityInfoBuilder = this.ResourceIdentityInfoBuilder ?? new ResourceIdentityInfoBuilder(clrResourceType);
+            return this.ResourceIdentityInfoBuilder;
+        }
+
         public IResourceIdentityInfoBuilder ResourceIdentity(string clrPropertyName, Type clrPropertyType)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);

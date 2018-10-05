@@ -35,6 +35,12 @@ namespace JsonApiFramework.Server.Hypermedia
         /// </summary>
         /// <param name="resourceType">The resource type to get the URL builder configuration for.</param>
         IUrlBuilderConfiguration GetUrlBuilderConfiguration(Type resourceType);
+
+        /// <summary>
+        /// Gets the URL builder configuration for a given URI when building URL strings for hypermedia purposes.
+        /// </summary>
+        /// <param name="uri">The URI object to get the URL builder configuration for.</param>
+        IUrlBuilderConfiguration GetUrlBuilderConfiguration(Uri uri);
         #endregion
     }
 }

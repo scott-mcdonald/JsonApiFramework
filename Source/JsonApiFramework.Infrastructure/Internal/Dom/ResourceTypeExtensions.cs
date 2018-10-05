@@ -27,6 +27,9 @@ namespace JsonApiFramework.Internal.Dom
             Contract.Requires(resourceType != null);
             Contract.Requires(domResource != null);
 
+            if (resourceType.IsSingleton())
+                return;
+
             if (clrResource == null)
                 return;
 

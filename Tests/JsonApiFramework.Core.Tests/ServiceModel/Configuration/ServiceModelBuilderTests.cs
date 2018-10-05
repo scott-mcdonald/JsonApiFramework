@@ -176,7 +176,33 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.ConfigureArticleResourceType();
                 this.ConfigureBlogResourceType();
                 this.ConfigureCommentResourceType();
+                this.ConfigureHomeResourceType();
                 this.ConfigurePersonResourceType();
+                this.ConfigureSearchResourceType();
+            }
+
+            private void ConfigureHomeResourceType()
+            {
+                // Hypermedia
+                this.Resource<Home>()
+                    .Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.HomeCollectionPathSegment);
+
+                // ResourceIdentity
+                this.Resource<Home>()
+                    .ResourceIdentity()
+                    .SetApiType(ClrSampleData.HomeType);
+
+                // Attributes
+                this.Resource<Home>()
+                    .Attribute(x => x.Message)
+                    .SetApiPropertyName("message");
+
+                // Links
+                this.Resource<Home>()
+                    .Links(x => x.Links);
+                this.Resource<Home>()
+                    .Link(Keywords.Self);
             }
 
             private void ConfigureArticleResourceType()
@@ -341,6 +367,30 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Resource<Person>()
                     .Meta(x => x.Meta);
             }
+
+            private void ConfigureSearchResourceType()
+            {
+                // Hypermedia
+                this.Resource<Search>()
+                    .Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.SearchCollectionPathSegment);
+
+                // ResourceIdentity
+                this.Resource<Search>()
+                    .ResourceIdentity()
+                    .SetApiType(ClrSampleData.SearchType);
+
+                // Attributes
+                this.Resource<Search>()
+                    .Attribute(x => x.Criteria)
+                    .SetApiPropertyName("criteria");
+
+                // Links
+                this.Resource<Search>()
+                    .Links(x => x.Links);
+                this.Resource<Search>()
+                    .Link(Keywords.Self);
+            }
         }
 
         private class WithDirectConfigurationOfServiceModelWithOnlyPersonResourceTypeIgnoreFirstAndLastNamesWithNullConventions : ServiceModelBuilder
@@ -449,7 +499,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.BlogConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.CommentConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.HomeConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.PersonConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
             }
         }
 
@@ -460,11 +512,13 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithNullConventions());
 
+                this.Configurations.Add(new TestConfigurations.HomeConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.OrderConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.ProductConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
             }
@@ -487,7 +541,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.ArticleConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.BlogConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.CommentConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.HomeConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.PersonConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
             }
         }
 
@@ -498,11 +554,13 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.MailingAddressConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.PhoneNumberConfigurationWithConventions());
 
+                this.Configurations.Add(new TestConfigurations.HomeConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.OrderConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.OrderItemConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.PaymentConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.PosSystemConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.ProductConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
             }

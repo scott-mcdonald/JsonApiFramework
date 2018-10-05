@@ -8,6 +8,7 @@ using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.TestAsserts.JsonApi;
 using JsonApiFramework.TestData.ApiResources;
+using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
 using Xunit;
@@ -15,6 +16,9 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Tests.JsonApi
 {
+    using Attribute = JsonApiFramework.JsonApi.ApiProperty;
+    using Attributes = JsonApiFramework.JsonApi.ApiObject;
+
     public class DocumentTests : XUnitTest
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -413,7 +417,25 @@ namespace JsonApiFramework.Tests.JsonApi
                                         ApiSampleData.CommentResource2
                                     }
                             }
-                    }
+                    },
+                new object[]
+                    {
+                        "WithSingletonObject", new ResourceDocument
+                                        {
+                                            JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                            Meta           = ApiSampleData.DocumentMeta,
+                                            Links = new Links
+                                                    {
+                                                        {Keywords.Self, new Link("http://api.example.com")}
+                                                    },
+                                            Data = new Resource
+                                                   {
+                                                       Type       = ClrSampleData.HomeType,
+                                                       Attributes = new Attributes(Attribute.Create("message", "This is the home document singleton!")),
+                                                       Links      = new Links {{Keywords.Self, new Link("http://api.example.com")}}
+                                                   }
+                                        }
+                    },
             };
 
         public static readonly IEnumerable<object[]> ResourceIdentifierDocumentTestData = new[]

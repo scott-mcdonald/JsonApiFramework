@@ -139,6 +139,50 @@ namespace JsonApiFramework.TestData.ClrResources
             }
         }
 
+        public class HomeConfigurationWithNullConventions : ResourceTypeBuilder<Home>
+        {
+            public HomeConfigurationWithNullConventions()
+            {
+                // Hypermedia
+                this.Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.HomeCollectionPathSegment);
+
+                // ResourceIdentity
+                this.ResourceIdentity()
+                    .SetApiType(ClrSampleData.HomeType);
+
+                // Attributes
+                this.Attribute(x => x.Message)
+                    .SetApiPropertyName("message");
+
+                // Links
+                this.Links(x => x.Links);
+                this.Link(Keywords.Self);
+            }
+        }
+
+        public class SearchConfigurationWithNullConventions : ResourceTypeBuilder<Search>
+        {
+            public SearchConfigurationWithNullConventions()
+            {
+                // Hypermedia
+                this.Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.SearchCollectionPathSegment);
+
+                // ResourceIdentity
+                this.ResourceIdentity()
+                    .SetApiType(ClrSampleData.SearchType);
+
+                // Attributes
+                this.Attribute(x => x.Criteria)
+                    .SetApiPropertyName("criteria");
+
+                // Links
+                this.Links(x => x.Links);
+                this.Link(Keywords.Self);
+            }
+        }
+
         public class MailingAddressConfigurationWithNullConventions : ComplexTypeBuilder<MailingAddress>
         {
             public MailingAddressConfigurationWithNullConventions()
@@ -539,6 +583,40 @@ namespace JsonApiFramework.TestData.ClrResources
             {
                 // Relationships
                 this.ToOneRelationship<Person>(ApiSampleData.CommentToAuthorRel);
+
+                // Links
+                this.Link(Keywords.Self);
+            }
+        }
+
+        public class HomeConfigurationWithConventions : ResourceTypeBuilder<Home>
+        {
+            public HomeConfigurationWithConventions()
+            {
+                // Hypermedia
+                this.Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.HomeCollectionPathSegment);
+
+                // ResourceIdentity
+                this.ResourceIdentity()
+                    .SetApiType(ClrSampleData.HomeType);
+
+                // Links
+                this.Link(Keywords.Self);
+            }
+        }
+
+        public class SearchConfigurationWithConventions : ResourceTypeBuilder<Search>
+        {
+            public SearchConfigurationWithConventions()
+            {
+                // Hypermedia
+                this.Hypermedia()
+                    .SetApiCollectionPathSegment(ClrSampleData.SearchCollectionPathSegment);
+
+                // ResourceIdentity
+                this.ResourceIdentity()
+                    .SetApiType(ClrSampleData.SearchType);
 
                 // Links
                 this.Link(Keywords.Self);

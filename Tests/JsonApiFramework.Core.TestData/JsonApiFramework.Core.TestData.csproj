@@ -40,6 +40,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClrResources\Search.cs" />
+    <Compile Include="ClrResources\Home.cs" />
     <Compile Include="ClrResources\Article.cs" />
     <Compile Include="ClrResources\Blog.cs" />
     <Compile Include="ClrResources\Comment.cs" />

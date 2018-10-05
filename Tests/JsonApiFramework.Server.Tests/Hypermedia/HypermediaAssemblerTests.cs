@@ -117,6 +117,12 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                              Host   = "api.example.com"
                                                                                                          };
 
+        public static readonly IUrlBuilderConfiguration HomeUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
+                                                                                                               {
+                                                                                                                   Scheme = "http",
+                                                                                                                   Host   = "api.home.com"
+                                                                                                               };
+
         public static readonly IUrlBuilderConfiguration OrdersUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
                                                                                                                {
                                                                                                                    Scheme = "http",
@@ -156,6 +162,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IDictionary<Type, IUrlBuilderConfiguration> UrlBuilderConfigurationsPerResourceTypeWithoutRootPathSegments
             = new Dictionary<Type, IUrlBuilderConfiguration>
               {
+                  {typeof(Home), HomeUrlBuilderConfigurationWithoutRootPathSegments},
                   {typeof(Order), OrdersUrlBuilderConfigurationWithoutRootPathSegments},
                   {typeof(OrderItem), OrderItemsUrlBuilderConfigurationWithoutRootPathSegments},
                   {typeof(Payment), PaymentsUrlBuilderConfigurationWithoutRootPathSegments},
@@ -163,6 +170,17 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                   {typeof(Store), StoresUrlBuilderConfigurationWithoutRootPathSegments},
                   {typeof(StoreConfiguration), StoreConfigurationsUrlBuilderConfigurationWithoutRootPathSegments},
               };
+
+        public static readonly IUrlBuilderConfiguration HomeUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
+                                                                                                            {
+                                                                                                                Scheme = "http",
+                                                                                                                Host   = "api.home.com",
+                                                                                                                RootPathSegments = new[]
+                                                                                                                                   {
+                                                                                                                                       "api",
+                                                                                                                                       "v2"
+                                                                                                                                   }
+                                                                                                            };
 
         public static readonly IUrlBuilderConfiguration OrdersUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
                                                                                                             {
@@ -233,6 +251,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IDictionary<Type, IUrlBuilderConfiguration> UrlBuilderConfigurationsPerResourceTypeWithRootPathSegments
             = new Dictionary<Type, IUrlBuilderConfiguration>
               {
+                  {typeof(Home), HomeUrlBuilderConfigurationWithRootPathSegments},
                   {typeof(Order), OrdersUrlBuilderConfigurationWithRootPathSegments},
                   {typeof(OrderItem), OrderItemsUrlBuilderConfigurationWithRootPathSegments},
                   {typeof(Payment), PaymentsUrlBuilderConfigurationWithRootPathSegments},
@@ -256,7 +275,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/payments"),
+                                                                                               "http://api.example.com/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -274,7 +293,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/payments"),
+                                                                                               "http://api.example.com/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -300,7 +319,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/payments/101"),
+                                                                                               "http://api.example.com/payments/101",
                                                                                                SamplePayments.Payment,
                                                                                                new[]
                                                                                                {
@@ -314,7 +333,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/payments/101"),
+                                                                                               "http://api.example.com/payments/101",
                                                                                                SamplePayments.Payment,
                                                                                                new[]
                                                                                                {
@@ -336,7 +355,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/payments/101/order"),
+                                                                                               "http://api.example.com/payments/101/order",
                                                                                                SampleOrders.Order,
                                                                                                new[]
                                                                                                {
@@ -350,7 +369,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<StoreConfiguration>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/stores/50/configuration"),
+                                                                                               "http://api.example.com/stores/50/configuration",
                                                                                                SampleStoreConfigurations.StoreConfiguration,
                                                                                                new[]
                                                                                                {
@@ -364,7 +383,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<PosSystem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/stores/50/configuration/pos"),
+                                                                                               "http://api.example.com/stores/50/configuration/pos",
                                                                                                SamplePosSystems.PosSystem,
                                                                                                new[]
                                                                                                {
@@ -378,7 +397,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/orders/1/payments"),
+                                                                                               "http://api.example.com/orders/1/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -396,7 +415,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/orders"),
+                                                                                               "http://api.example.com/api/v2/orders",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrders.Order1,
@@ -414,7 +433,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/orders/1"),
+                                                                                               "http://api.example.com/api/v2/orders/1",
                                                                                                SampleOrders.Order,
                                                                                                new[]
                                                                                                {
@@ -428,7 +447,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/orders/1/line-items"),
+                                                                                               "http://api.example.com/api/v2/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -446,7 +465,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/orders/1/line-items/1001"),
+                                                                                               "http://api.example.com/api/v2/orders/1/line-items/1001",
                                                                                                SampleOrderItems.OrderItem,
                                                                                                new[]
                                                                                                {
@@ -460,7 +479,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items"),
+                                                                                               "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -478,7 +497,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items"),
+                                                                                               "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -496,7 +515,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new TestHypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/orders/1/line-items"),
+                                                                                               "http://api.example.com/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -513,7 +532,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new TestHypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.example.com/en-us/order-items/1001"),
+                                                                                               "http://api.example.com/en-us/order-items/1001",
                                                                                                SampleOrderItems.OrderItem,
                                                                                                new[]
                                                                                                {
@@ -527,7 +546,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.payments.com/payments"),
+                                                                                               "http://api.payments.com/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -535,7 +554,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                },
                                                                                                new[]
                                                                                                {
-                                                                                                   new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.payments.com"),
+                                                                                                   new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com"),
                                                                                                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.payments.com/payments"),
                                                                                                })
                                                                                        },
@@ -545,7 +564,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.payments.com/payments"),
+                                                                                               "http://api.payments.com/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -555,7 +574,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                {
                                                                                                    new Tuple<ILinkContext, Link>(UpLinkContextWithMeta, new Link
                                                                                                                                                         {
-                                                                                                                                                            HRef = "http://api.payments.com",
+                                                                                                                                                            HRef = "http://api.home.com",
                                                                                                                                                             Meta = ApiSampleData.LinkMeta
                                                                                                                                                         }),
                                                                                                    new Tuple<ILinkContext, Link>(SelfLinkContextWithMeta, new Link
@@ -571,7 +590,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.payments.com/payments/101"),
+                                                                                               "http://api.payments.com/payments/101",
                                                                                                SamplePayments.Payment,
                                                                                                new[]
                                                                                                {
@@ -585,7 +604,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.payments.com/payments/101"),
+                                                                                               "http://api.payments.com/payments/101",
                                                                                                SamplePayments.Payment,
                                                                                                new[]
                                                                                                {
@@ -607,7 +626,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.orders.com/payments/101/order"),
+                                                                                               "http://api.orders.com/payments/101/order",
                                                                                                SampleOrders.Order,
                                                                                                new[]
                                                                                                {
@@ -622,7 +641,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<StoreConfiguration>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.store-configurations.com/stores/50/configuration"),
+                                                                                               "http://api.store-configurations.com/stores/50/configuration",
                                                                                                SampleStoreConfigurations.StoreConfiguration,
                                                                                                new[]
                                                                                                {
@@ -636,7 +655,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<PosSystem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.pos-systems.com/stores/50/configuration/pos"),
+                                                                                               "http://api.pos-systems.com/stores/50/configuration/pos",
                                                                                                SamplePosSystems.PosSystem,
                                                                                                new[]
                                                                                                {
@@ -650,7 +669,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Payment>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.payments.com/orders/1/payments"),
+                                                                                               "http://api.payments.com/orders/1/payments",
                                                                                                new[]
                                                                                                {
                                                                                                    SamplePayments.Payment101,
@@ -668,7 +687,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.orders.com/api/v2/orders"),
+                                                                                               "http://api.orders.com/api/v2/orders",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrders.Order1,
@@ -676,7 +695,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                },
                                                                                                new[]
                                                                                                {
-                                                                                                   new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2"),
+                                                                                                   new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2"),
                                                                                                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders"),
                                                                                                })
                                                                                        },
@@ -686,7 +705,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<Order>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.orders.com/api/v2/orders/1"),
+                                                                                               "http://api.orders.com/api/v2/orders/1",
                                                                                                SampleOrders.Order,
                                                                                                new[]
                                                                                                {
@@ -700,7 +719,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.order-items.com/api/v2/orders/1/line-items"),
+                                                                                               "http://api.order-items.com/api/v2/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -718,7 +737,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.order-items.com/api/v2/orders/1/line-items/1001"),
+                                                                                               "http://api.order-items.com/api/v2/orders/1/line-items/1001",
                                                                                                SampleOrderItems.OrderItem,
                                                                                                new[]
                                                                                                {
@@ -732,7 +751,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.order-items.com/api/v2/nrp-1/nrp-2/orders/1/line-items"),
+                                                                                               "http://api.order-items.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -750,7 +769,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new HypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithRootPathSegments, "http://api.order-items.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items"),
+                                                                                               "http://api.order-items.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -768,7 +787,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new TestHypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.order-items.com/orders/1/line-items"),
+                                                                                               "http://api.order-items.com/orders/1/line-items",
                                                                                                new[]
                                                                                                {
                                                                                                    SampleOrderItems.OrderItem1001,
@@ -785,7 +804,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                            new CreateDocumentLinksTest<OrderItem>(
                                                                                                new TestHypermediaAssembler(),
                                                                                                OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                                                                                               new DocumentPathContext(OrderBasedHypermediaContextWithoutRootPathSegments, "http://api.order-items.com/en-us/order-items/1001"),
+                                                                                               "http://api.order-items.com/en-us/order-items/1001",
                                                                                                SampleOrderItems.OrderItem,
                                                                                                new[]
                                                                                                {
@@ -989,6 +1008,82 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.pos-systems.com/pos-systems/RadiantWcf")
                                                                                                })
                                                                                        },
+
+                                                                                       new object[]
+                                                                                       {
+                                                                                           "WithoutRootPathSegmentsAndSingletonPath",
+                                                                                           new CreateResourceLinksTest<Search>(
+                                                                                               new HypermediaAssembler(),
+                                                                                               OrderBasedHypermediaContextWithoutRootPathSegments,
+                                                                                               new ResourcePathContext(
+                                                                                                   new IHypermediaPath[]
+                                                                                                   {
+                                                                                                       new SingletonHypermediaPath(typeof(Search), ClrSampleData.SearchCollectionPathSegment)
+                                                                                                   }, ResourcePathMode.IgnoreApiId),
+                                                                                               new Search(),
+                                                                                               new[]
+                                                                                                   {
+                                                                                                       new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/search")
+                                                                                                   })
+                                                                                       },
+
+                                                                                       new object[]
+                                                                                       {
+                                                                                           "WithoutRootPathSegmentsAndSingletonPathWithEmptyPathSegment",
+                                                                                           new CreateResourceLinksTest<Home>(
+                                                                                               new HypermediaAssembler(),
+                                                                                               OrderBasedHypermediaContextWithoutRootPathSegments,
+                                                                                               new ResourcePathContext(
+                                                                                                   new IHypermediaPath[]
+                                                                                                   {
+                                                                                                       new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment)
+                                                                                                   }, ResourcePathMode.IgnoreApiId),
+                                                                                               new Home(),
+                                                                                               new[]
+                                                                                                   {
+                                                                                                       new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com")
+                                                                                                   })
+                                                                                       },
+
+                                                                                       new object[]
+                                                                                       {
+                                                                                           "WithoutRootPathSegmentsAndSingletonPathAndToOneResourcePathHierarchical",
+                                                                                           new CreateResourceLinksTest<StoreConfiguration>(
+                                                                                               new HypermediaAssembler(),
+                                                                                               OrderBasedHypermediaContextWithoutRootPathSegments,
+                                                                                               new ResourcePathContext(
+                                                                                                   new IHypermediaPath[]
+                                                                                                   {
+                                                                                                       new SingletonHypermediaPath(typeof(Search), ClrSampleData.SearchCollectionPathSegment),
+                                                                                                       new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
+                                                                                                   }, ResourcePathMode.IgnoreApiId),
+                                                                                               SampleStoreConfigurations.StoreConfiguration,
+                                                                                               new[]
+                                                                                                   {
+                                                                                                       new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/search/configuration")
+                                                                                                   })
+                                                                                       },
+
+                                                                                       new object[]
+                                                                                       {
+                                                                                           "WithoutRootPathSegmentsAndSingletonPathWithEmptyPathSegmentAndToOneResourcePathHierarchical",
+                                                                                           new CreateResourceLinksTest<StoreConfiguration>(
+                                                                                               new HypermediaAssembler(),
+                                                                                               OrderBasedHypermediaContextWithoutRootPathSegments,
+                                                                                               new ResourcePathContext(
+                                                                                                   new IHypermediaPath[]
+                                                                                                   {
+                                                                                                       new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment),
+                                                                                                       new ToOneResourceHypermediaPath(typeof(StoreConfiguration), ClrSampleData.StoreToStoreConfigurationRelPathSegment),
+                                                                                                   }, ResourcePathMode.IgnoreApiId),
+                                                                                               SampleStoreConfigurations.StoreConfiguration,
+                                                                                               new[]
+                                                                                                   {
+                                                                                                       new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/configuration")
+                                                                                                   })
+                                                                                       },
+
+
                                                                                        new object[]
                                                                                        {
                                                                                            "WithRootPathSegmentsPerResourceTypeAndResourcePath",
@@ -2608,14 +2703,14 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             #region Constructors
             public CreateDocumentLinksTest(
                 IHypermediaAssembler                     hypermediaAssembler,
-                IHypermediaContext                       hypermediaContext,
-                IDocumentPathContext                     documentPathContext,
+                IHypermediaContext                       hypermediaContext, 
+                string                                   currentRequestUri,
                 TResource                                clrResource,
                 IReadOnlyList<Tuple<ILinkContext, Link>> expectedDocumentLinkContextAndLinkTuples)
             {
                 this.HypermediaAssembler                      = hypermediaAssembler;
                 this.HypermediaContext                        = hypermediaContext;
-                this.DocumentPathContext                      = documentPathContext;
+                this.CurrentRequestUri                        = currentRequestUri;
                 this.DocumentType                             = DocumentType.ResourceDocument;
                 this.ClrResource                              = clrResource;
                 this.ExpectedDocumentLinkContextAndLinkTuples = expectedDocumentLinkContextAndLinkTuples;
@@ -2624,13 +2719,13 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             public CreateDocumentLinksTest(
                 IHypermediaAssembler                     hypermediaAssembler,
                 IHypermediaContext                       hypermediaContext,
-                IDocumentPathContext                     documentPathContext,
+                string                                   currentRequestUri, 
                 IReadOnlyList<TResource>                 clrResourceCollection,
                 IReadOnlyList<Tuple<ILinkContext, Link>> expectedDocumentLinkContextAndLinkTuples)
             {
                 this.HypermediaAssembler                      = hypermediaAssembler;
                 this.HypermediaContext                        = hypermediaContext;
-                this.DocumentPathContext                      = documentPathContext;
+                this.CurrentRequestUri                        = currentRequestUri;
                 this.DocumentType                             = DocumentType.ResourceCollectionDocument;
                 this.ClrResourceCollection                    = clrResourceCollection;
                 this.ExpectedDocumentLinkContextAndLinkTuples = expectedDocumentLinkContextAndLinkTuples;
@@ -2641,6 +2736,9 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             public void Arrange()
             {
                 this.ClrResourceType = typeof(TResource);
+
+                var documentPathContext = new DocumentPathContext(this.HypermediaContext, this.CurrentRequestUri);
+                this.DocumentPathContext = documentPathContext;
             }
 
             public void Act()
@@ -2721,7 +2819,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
             #region User Supplied Properties
             private IHypermediaAssembler                     HypermediaAssembler                      { get; set; }
             private IHypermediaContext                       HypermediaContext                        { get; set; }
-            private IDocumentPathContext                     DocumentPathContext                      { get; set; }
+            private string                                   CurrentRequestUri                        { get; set; }
             private DocumentType                             DocumentType                             { get; set; }
             private TResource                                ClrResource                              { get; set; }
             private IReadOnlyList<TResource>                 ClrResourceCollection                    { get; set; }
@@ -2730,6 +2828,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
 
             #region Calculated Properties
             private Type                                     ClrResourceType                        { get; set; }
+            private IDocumentPathContext                     DocumentPathContext                    { get; set; }
             private IReadOnlyList<Tuple<ILinkContext, Link>> ActualDocumentLinkContextAndLinkTuples { get; set; }
             #endregion
 

@@ -18,6 +18,13 @@ namespace JsonApiFramework.ServiceModel.Internal
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
+        public ResourceIdentityInfo(string apiType)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(apiType) == false);
+
+            this.ApiType = apiType;
+        }
+
         public ResourceIdentityInfo(string apiType, IPropertyInfo id)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiType) == false);
@@ -40,7 +47,10 @@ namespace JsonApiFramework.ServiceModel.Internal
         #region IResourceIdentityInfo Implementation
         public string GetApiId(object clrResource)
         {
-            var clrId = this.GetClrId(clrResource);
+            if (this.IsSingleton())
+                return null;
+
+            var clrId = this.Id.GetClrProperty(clrResource);
             var apiId = this.IsClrIdNull(clrId) == false
                 ? TypeConverter.Convert<string>(clrId)
                 : null;
@@ -49,18 +59,18 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public object GetClrId(object clrResource)
         {
-            if (this.Id != null)
-            {
-                var clrId = this.Id.GetClrProperty(clrResource);
-                return clrId;
-            }
+            if (this.IsSingleton())
+                return null;
 
-            var idPropertyInfoMissingException = this.CreateIdPropertyInfoMissingException();
-            throw idPropertyInfoMissingException;
+            var clrId = this.Id.GetClrProperty(clrResource);
+            return clrId;
         }
 
         public bool IsClrIdNull(object clrId)
         {
+            if (this.IsSingleton())
+                return true;
+
             if (this.ClrIdDefaultValue == null)
             {
                 return clrId == null;
@@ -71,40 +81,33 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         public void SetClrId(object clrResource, object clrId)
         {
-            if (this.Id != null)
+            if (this.IsSingleton())
             {
-                this.Id.SetClrProperty(clrResource, clrId);
-                return;
+                var idPropertyInfoMissingException = this.CreateIdPropertyInfoMissingException();
+                throw idPropertyInfoMissingException;
             }
 
-            var idPropertyInfoMissingException = this.CreateIdPropertyInfoMissingException();
-            throw idPropertyInfoMissingException;
+            this.Id.SetClrProperty(clrResource, clrId);
         }
 
         public string ToApiId(object clrId)
         {
-            if (this.Id != null)
-            {
-                var convertedApiId = this.IsClrIdNull(clrId) == false
+            if (this.IsSingleton())
+                return null;
+
+            var convertedApiId = this.IsClrIdNull(clrId) == false
                 ? TypeConverter.Convert<string>(clrId)
                 : null;
-                return convertedApiId;
-            }
-
-            var idPropertyInfoMissingException = this.CreateIdPropertyInfoMissingException();
-            throw idPropertyInfoMissingException;
+            return convertedApiId;
         }
 
         public object ToClrId(object clrId)
         {
-            if (this.Id != null)
-            {
-                var convertedClrId = TypeConverter.Convert(clrId, this.Id.ClrPropertyType);
-                return convertedClrId;
-            }
+            if (this.IsSingleton())
+                return null;
 
-            var idPropertyInfoMissingException = this.CreateIdPropertyInfoMissingException();
-            throw idPropertyInfoMissingException;
+            var convertedClrId = TypeConverter.Convert(clrId, this.Id.ClrPropertyType);
+            return convertedClrId;
         }
         #endregion
 

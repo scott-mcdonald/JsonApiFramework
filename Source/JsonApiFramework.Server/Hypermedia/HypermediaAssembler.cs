@@ -157,6 +157,8 @@ namespace JsonApiFramework.Server.Hypermedia
                                     case HypermediaPathType.ResourceCollectionPath:
                                     case HypermediaPathType.ToOneResourcePath:
                                     case HypermediaPathType.ToManyResourceCollectionPath:
+                                    case HypermediaPathType.NonResourcePath:
+                                    case HypermediaPathType.SingletonPath:
                                         continue;
 
                                     case HypermediaPathType.ResourcePath:
@@ -190,6 +192,9 @@ namespace JsonApiFramework.Server.Hypermedia
 
                             apiDocumentUpPath.Add(hypermediaPath);
                         }
+
+                        if (apiDocumentUpPath.Any() == false)
+                            return null;
 
                         var apiDocumentUpPathContext = new DocumentPathContext(apiDocumentUpPath);
 

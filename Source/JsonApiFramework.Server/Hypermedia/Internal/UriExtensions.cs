@@ -20,6 +20,27 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
             Contract.Requires(hypermediaContext != null);
 
             // Create a URL path segment enumerator to enumerate over the URL path segments.
+            var urlPathSegmentsFromUri = new List<string>(GetUrlPathSegments(url));
+
+            // Remove any root path segments
+            var uriBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(url);
+            if (uriBuilderConfiguration.RootPathSegments != null)
+            {
+                var rootPathSegments      = uriBuilderConfiguration.RootPathSegments.SafeToReadOnlyList();
+                var rootPathSegmentsCount = rootPathSegments.Count;
+
+                urlPathSegmentsFromUri = urlPathSegmentsFromUri.SkipWhile((pathSegment, index) =>
+                                                                {
+                                                                    if (index >= rootPathSegmentsCount)
+                                                                        return false;
+
+                                                                    var rootPathSegment                   = rootPathSegments[index];
+                                                                    var rootPathSegmentEqualToPathSegment = String.CompareOrdinal(rootPathSegment, pathSegment) == 0;
+                                                                    return rootPathSegmentEqualToPathSegment;
+                                                                })
+                                                               .ToList();
+            }
+
             var urlPathSegments = new List<string>();
 
             var serviceModel       = hypermediaContext.GetServiceModel();
@@ -33,7 +54,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                 }
             }
 
-            urlPathSegments.AddRange(GetUrlPathSegments(url));
+            urlPathSegments.AddRange(urlPathSegmentsFromUri);
 
             var urlPathSegmentsEnumerator = (IEnumerator<string>)urlPathSegments.GetEnumerator();
 
@@ -57,51 +78,6 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                 continueIterating = NextIteration(serviceModel, urlPathSegmentsEnumerator, documentSelfPath);
             }
 
-            // Remove any URL configuration root path segments if needed.
-            return RemoveRootPathSegments(hypermediaContext, documentSelfPath);
-        }
-
-        private static List<IHypermediaPath> RemoveRootPathSegments(IHypermediaContext hypermediaContext, List<IHypermediaPath> documentSelfPath)
-        {
-            var initialHypermediaPath = documentSelfPath.FirstOrDefault(x => x.IsNonResourcePath());
-            if (initialHypermediaPath == null)
-                return documentSelfPath;
-
-            var clrPrimaryResourceType = documentSelfPath.Last(x => x.HasClrResourceType()).GetClrResourceType();
-            var urlConfiguration       = hypermediaContext.GetUrlBuilderConfiguration(clrPrimaryResourceType);
-            var rootPathSegments       = urlConfiguration.RootPathSegments.SafeToList();
-            if (!rootPathSegments.Any())
-                return documentSelfPath;
-
-            var rootPathSegmentsCount = rootPathSegments.Count;
-
-            var initialNonResourceHypermediaPath = (NonResourceHypermediaPath)initialHypermediaPath;
-            var initialNonResourceHypermediaPathSegments = initialNonResourceHypermediaPath.PathSegments
-                                                                                           .SafeToList();
-            var initialNonResourceHypermediaPathSegmentsCount = initialNonResourceHypermediaPathSegments.Count;
-
-            if (initialNonResourceHypermediaPathSegmentsCount < rootPathSegmentsCount)
-                return documentSelfPath;
-
-            var initialNonResourceHypermediaPathSegmentsMinusRootPathSegments = initialNonResourceHypermediaPathSegments.SkipWhile((pathSegment, index) =>
-                                                                                                                         {
-                                                                                                                             if (index >= rootPathSegmentsCount)
-                                                                                                                                 return false;
-
-                                                                                                                             var rootPathSegment                   = rootPathSegments[index];
-                                                                                                                             var rootPathSegmentEqualToPathSegment = String.CompareOrdinal(rootPathSegment, pathSegment) == 0;
-                                                                                                                             return rootPathSegmentEqualToPathSegment;
-                                                                                                                         })
-                                                                                                                        .ToList();
-
-            if (initialNonResourceHypermediaPathSegmentsMinusRootPathSegments.Count == 0)
-            {
-                documentSelfPath.RemoveAt(0);
-                return documentSelfPath;
-            }
-
-            var initialNonResourceHypermediaPathSegmentsMinusRootPathSegmentsHypermediaPath = new NonResourceHypermediaPath(initialNonResourceHypermediaPathSegmentsMinusRootPathSegments);
-            documentSelfPath[0] = initialNonResourceHypermediaPathSegmentsMinusRootPathSegmentsHypermediaPath;
             return documentSelfPath;
         }
         #endregion
@@ -122,24 +98,26 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         {
             // Parse for the initial CLR resource type represented as either
             // a resource or resource collection in the raw URL path.
-            var clrResourceType             = default(Type);
-            var nonResourcePathSegments     = default(List<string>);
-            var pathSegmentToTypeDictionary = default(IDictionary<string, Type>);
+            var resourceType                        = default(IResourceType);
+            var clrResourceType                     = default(Type);
+            var nonResourcePathSegments             = default(List<string>);
+            var pathSegmentToResourceTypeDictionary = default(IDictionary<string, IResourceType>);
 
             // Parse for initial resource or resource collection path objects.
             while (urlPathSegmentsEnumerator.MoveNext())
             {
                 var currentUrlPathSegment = urlPathSegmentsEnumerator.Current;
 
-                pathSegmentToTypeDictionary = pathSegmentToTypeDictionary ?? serviceModel
-                                                                            .ResourceTypes
-                                                                            .ToDictionary(x => x.HypermediaInfo.ApiCollectionPathSegment, x => x.ClrType, StringComparer.OrdinalIgnoreCase);
+                pathSegmentToResourceTypeDictionary = pathSegmentToResourceTypeDictionary ?? serviceModel
+                                                                                            .ResourceTypes
+                                                                                            .ToDictionary(x => x.HypermediaInfo.ApiCollectionPathSegment, StringComparer.OrdinalIgnoreCase);
 
                 // Iterate over URL path segments until the current URL path segment
                 // represents a CLR resource collection path segment.
-                if (pathSegmentToTypeDictionary.TryGetValue(currentUrlPathSegment, out clrResourceType))
+                if (pathSegmentToResourceTypeDictionary.TryGetValue(currentUrlPathSegment, out resourceType))
                 {
                     // Done iterating.
+                    clrResourceType = resourceType.ClrType;
                     break;
                 }
 
@@ -156,14 +134,23 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
                 documentSelfPath.Add(nonResourceTypePath);
             }
 
-            // If no resource or resource collection path segments found, then done.
-            var noResourceOrResourceCollectionPathSegments = clrResourceType == null;
-            if (noResourceOrResourceCollectionPathSegments)
+            // If no CLR related resource path segments found, then done.
+            var noClrResourcePathSegments = clrResourceType == null;
+            if (noClrResourcePathSegments)
                 return false;
+
+            // Take into account singleton resources.
+            if (resourceType.IsSingleton())
+            {
+                var apiSingletonPathSegment = urlPathSegmentsEnumerator.Current;
+                var apiSingletonPath        = new SingletonHypermediaPath(clrResourceType, apiSingletonPathSegment);
+                documentSelfPath.Add(apiSingletonPath);
+                return true;
+            }
 
             // Iterate one more URL path segment for a possible resource identifier.
             var apiCollectionPathSegment = urlPathSegmentsEnumerator.Current;
-            var moreUrlPathSegments      = urlPathSegmentsEnumerator.MoveNext();
+            var moreUrlPathSegments = urlPathSegmentsEnumerator.MoveNext();
             if (!moreUrlPathSegments)
             {
                 var resourceCollectionPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);

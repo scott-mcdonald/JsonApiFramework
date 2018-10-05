@@ -15,6 +15,13 @@ namespace JsonApiFramework.ServiceModel
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extensions Methods
+        public static bool IsSingleton(this IResourceType resourceType)
+        {
+            Contract.Requires(resourceType != null);
+
+            return resourceType.ResourceIdentityInfo.IsSingleton();
+        }
+
         public static void MapApiMetaToClrResource(this IResourceType resourceType, object clrResource, IGetMeta apiGetMeta)
         {
             Contract.Requires(resourceType != null);

@@ -1464,6 +1464,36 @@ namespace JsonApiFramework.Server.Tests.Internal
                             .ResourceEnd()
                     },
 
+                new object[]
+                {
+                    "WithSingletonObjectAndFrameworkBuiltHypermedia",
+                    new ResourceDocument
+                    {
+                        JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                        Meta           = ApiSampleData.DocumentMeta,
+                        Links = new Links
+                                {
+                                    {Keywords.Self, new Link("http://api.example.com")}
+                                },
+                        Data = new Resource
+                               {
+                                   Type       = ClrSampleData.HomeType,
+                                   Attributes = new Attributes(Attribute.Create("message", "This is the home document singleton!")),
+                                   Links      = new Links {{Keywords.Self, new Link("http://api.example.com")}}
+                               }
+                    },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
+                        .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                        .SetMeta(ApiSampleData.DocumentMeta)
+                        .Links()
+                            .AddLink(Keywords.Self)
+                        .LinksEnd()
+                        .Resource(new Home { Message = "This is the home document singleton!", })
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                        .ResourceEnd()
+                },
             };
         #endregion
 

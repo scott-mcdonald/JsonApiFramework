@@ -78,6 +78,9 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         // ReSharper disable UnusedMember.Global
         public static readonly IEnumerable<object[]> CreateResourceTypeTestData = new[]
             {
+                new object[] {"WithHomeResourceTypeWithNullConventions", new TestConfigurations.HomeConfigurationWithNullConventions(), null, ClrSampleData.HomeResourceType, null},
+                new object[] {"WithHomeResourceTypeWithConventions", new TestConfigurations.HomeConfigurationWithConventions(), TestConfigurations.CreateConventions(), ClrSampleData.HomeResourceType, null},
+
                 new object[] {"WithArticleResourceTypeWithNullConventions", new TestConfigurations.ArticleConfigurationWithNullConventions(), null, ClrSampleData.ArticleResourceType, null},
                 new object[] {"WithBlogResourceTypeWithNullConventions", new TestConfigurations.BlogConfigurationWithNullConventions(), null, ClrSampleData.BlogResourceType, null},
                 new object[] {"WithCommentResourceTypeWithNullConventions", new TestConfigurations.CommentConfigurationWithNullConventions(), null, ClrSampleData.CommentResourceType, null},

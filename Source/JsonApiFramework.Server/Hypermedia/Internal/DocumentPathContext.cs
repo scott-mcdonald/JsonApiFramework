@@ -54,7 +54,11 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
         #region IDocumentPathContext Implementation
         public Type GetPrimaryClrResourceType()
         {
-            var clrResourceType = this.ClrResourceTypes.Last();
+            var clrResourceType = typeof(Type);
+            if (ClrResourceTypes.Any())
+            {
+                clrResourceType = this.ClrResourceTypes.Last();
+            }
             return clrResourceType;
         }
         #endregion

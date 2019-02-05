@@ -24,15 +24,15 @@ namespace JsonApiFramework.ServiceModel.Configuration
     }
 
     public interface IResourceTypeBuilder<TResource> : IResourceTypeBuilder, IClrTypeBuilder<TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         IRelationshipInfoBuilder<TResource> ToOneRelationship<TToResource>(string rel)
-            where TToResource : class, IResource;
+            where TToResource : class;
 
         IRelationshipInfoBuilder<TResource> ToManyRelationship<TToResource>(string rel)
-            where TToResource : class, IResource;
+            where TToResource : class;
         #endregion
     }
 }

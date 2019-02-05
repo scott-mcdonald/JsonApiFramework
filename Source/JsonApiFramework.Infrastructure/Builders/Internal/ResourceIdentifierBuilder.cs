@@ -13,7 +13,7 @@ namespace JsonApiFramework.Internal
 {
     internal abstract class ResourceIdentifierBuilder<TBuilder, TResource> : IResourceIdentifierBuilder<TBuilder, TResource>
         where TBuilder : class, IResourceIdentifierBuilder<TBuilder, TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceIdentifierBuilder<TBuilder> Implementation

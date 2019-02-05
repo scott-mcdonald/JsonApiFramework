@@ -15,12 +15,12 @@ namespace JsonApiFramework.Server.Internal
 {
     internal class ResourcePathContextBuilder<TParentBuilder, TResource> : IResourcePathContextBuilder<TParentBuilder>
         where TParentBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourcePathContextBuilder<TParentBuilder> Implementation
         public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath>(TPath clrResource, string rel, bool includePath = true)
-            where TPath : class, IResource
+            where TPath : class
         {
             Contract.Requires(clrResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -37,7 +37,7 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath = true)
-            where TPath : class, IResource
+            where TPath : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 

@@ -15,51 +15,51 @@ namespace JsonApiFramework.Client
 
         // Resource /////////////////////////////////////////////////////////
         IPrimaryResourceBuilder<TResource> Resource<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceBuilder<TResource> Resource<TResource>(IResourceSource<TResource> resourceSource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         // ResourceIdentifier ///////////////////////////////////////////////
         IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifier<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         // ResourceIdentifierCollection /////////////////////////////////////
         IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifierCollection<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class, IResource;
+            where TResource : class;
 
         IDocumentWriter SetResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class, IResource;
+            where TResource : class;
         #endregion
     }
 }

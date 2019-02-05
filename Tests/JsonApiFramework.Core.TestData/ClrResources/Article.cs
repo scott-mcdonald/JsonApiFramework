@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Article : JsonObject, IResource
+    public class Article : JsonObject
         , IGetLinks
         , IGetMeta
         , IGetRelationships

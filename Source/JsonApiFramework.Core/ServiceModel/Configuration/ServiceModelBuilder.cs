@@ -25,14 +25,14 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
 
         public IResourceTypeBuilder<TResource> Resource<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var resourceTypeConfiguration = _configurations.GetOrAddResourceTypeBuilder<TResource>();
             return resourceTypeConfiguration;
         }
 
         public void HomeResource<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var clrHomeResourceType = typeof(TResource);
             _configurations.SetHomeResourceType(clrHomeResourceType);

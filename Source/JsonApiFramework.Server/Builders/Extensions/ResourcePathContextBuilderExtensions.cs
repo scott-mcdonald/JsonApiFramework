@@ -11,8 +11,8 @@ namespace JsonApiFramework.Server
         #region Extension Methods
         public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TParentBuilder : class
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(resourcePathContextBuilder != null);
             Contract.Requires(toOneIncludedResource != null);
@@ -24,8 +24,8 @@ namespace JsonApiFramework.Server
 
         public static IResourcePathContextBuilder<TParentBuilder> AddPath<TParentBuilder, TFromResource, TToResource>(this IResourcePathContextBuilder<TParentBuilder> resourcePathContextBuilder, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TParentBuilder : class
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(resourcePathContextBuilder != null);
             Contract.Requires(toManyIncludedResources != null);

@@ -7,8 +7,8 @@ using System.Diagnostics.Contracts;
 namespace JsonApiFramework.Server.Internal
 {
     internal class ToOneIncludedResource<TFromResource, TToResource> : IToOneIncludedResource<TFromResource, TToResource>
-        where TFromResource : class, IResource
-        where TToResource : class, IResource
+        where TFromResource : class
+        where TToResource : class
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IToOneIncludedResource<TFromResource, TToResource> Implementation

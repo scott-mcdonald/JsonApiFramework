@@ -14,7 +14,7 @@ namespace JsonApiFramework.Server
         #region Extension Methods
         public static IRelationshipBuilder<TParentBuilder, TResource> SetMeta<TParentBuilder, TResource>(this IRelationshipBuilder<TParentBuilder, TResource> relationshipBuilder, params Meta[] metaCollection)
             where TParentBuilder : class
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(relationshipBuilder != null);
 

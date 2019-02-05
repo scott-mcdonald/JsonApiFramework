@@ -15,7 +15,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static IResourceIdentityInfoBuilder ResourceIdentity<TResource, TProperty>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, TProperty>> clrPropertySelector)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceTypeBuilder != null);
             Contract.Requires(clrPropertySelector != null);
@@ -26,7 +26,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
 
         public static IRelationshipsInfoBuilder Relationships<TResource>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, Relationships>> clrPropertySelector)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceTypeBuilder != null);
 
@@ -35,7 +35,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
 
         public static ILinksInfoBuilder Links<TResource>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, Links>> clrPropertySelector)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceTypeBuilder != null);
 
@@ -44,7 +44,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
 
         public static IMetaInfoBuilder Meta<TResource>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, Meta>> clrPropertySelector)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceTypeBuilder != null);
 

@@ -12,7 +12,7 @@ namespace JsonApiFramework.Client.Internal
 {
     internal class RelationshipsBuilder<TParentBuilder, TResource> : IRelationshipsBuilder<TParentBuilder, TResource>
         where TParentBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation

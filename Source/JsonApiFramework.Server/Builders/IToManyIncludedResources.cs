@@ -6,8 +6,8 @@ using System.Collections.Generic;
 namespace JsonApiFramework.Server
 {
     public interface IToManyIncludedResources<out TFromResource, out TToResource>
-        where TFromResource : class, IResource
-        where TToResource : class, IResource
+        where TFromResource : class
+        where TToResource : class
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

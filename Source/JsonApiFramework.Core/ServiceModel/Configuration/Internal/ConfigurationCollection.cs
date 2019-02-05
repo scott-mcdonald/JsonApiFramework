@@ -23,7 +23,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
         }
 
         public void Add<TResource>(ResourceTypeBuilder<TResource> resourceTypeBuilder)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceTypeBuilder != null);
 
@@ -54,7 +54,7 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
         }
 
         internal IResourceTypeBuilder<TResource> GetOrAddResourceTypeBuilder<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             this.ResourceTypeBuilderDictionary = this.ResourceTypeBuilderDictionary ?? new Dictionary<Type, object>();
 

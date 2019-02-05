@@ -76,7 +76,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-many" relationship instead of a "to-one" relationship.</exception>
         public static TResource GetRelatedResource<TResource>(this IDocumentReader documentReader, Relationship relationship)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
             Contract.Requires(relationship != null);
@@ -97,7 +97,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-one" relationship instead of a "to-many" relationship.</exception>
         public static IEnumerable<TResource> GetRelatedResourceCollection<TResource>(this IDocumentReader documentReader, Relationship relationship)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
             Contract.Requires(relationship != null);
@@ -117,7 +117,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
         public static TResource GetResource<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -136,7 +136,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
         public static TResource GetResource<TResource, TResourceId>(this IDocumentReader documentReader, TResourceId clrResourceId)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -152,7 +152,7 @@ namespace JsonApiFramework
         /// <returns>Returns the LINQ-to-objects collection of CLR resources if they exist,
         /// empty collection otherwise.</returns>
         public static IEnumerable<TResource> GetResourceCollection<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -174,7 +174,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resource identifiers for the given CLR resource type.</exception>
         public static TResourceId GetResourceId<TResource, TResourceId>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -195,7 +195,7 @@ namespace JsonApiFramework
         /// <returns>Returns the LINQ-to-objects collection of CLR resource identifiers if they exist,
         /// empty collection otherwise.</returns>
         public static IEnumerable<TResourceId> GetResourceIdCollection<TResource, TResourceId>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -212,7 +212,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers for the given CLR resource type.</exception>
         public static Meta GetResourceMeta<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -231,7 +231,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers with the same resource identifier for the given CLR resource type.</exception>
         public static Meta GetResourceMeta<TResource, TResourceId>(this IDocumentReader documentReader, TResourceId clrResourceId)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -246,7 +246,7 @@ namespace JsonApiFramework
         /// <typeparam name="TResource">Type of CLR resource or resource identifier to get meta collection for.</typeparam>
         /// <returns>Collection of <c>Meta</c> objects in document order.</returns>
         public static IEnumerable<Meta> GetResourceMetaCollection<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -263,7 +263,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
         public static Links GetResourceLinks<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -282,7 +282,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
         public static Links GetResourceLinks<TResource, TResourceId>(this IDocumentReader documentReader, TResourceId clrResourceId)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -297,7 +297,7 @@ namespace JsonApiFramework
         /// <typeparam name="TResource">Type of CLR resource or resource identifier to get links collection for.</typeparam>
         /// <returns>Collection of <c>Links</c> objects in document order.</returns>
         public static IEnumerable<Links> GetResourceLinksCollection<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -314,7 +314,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
         public static Relationships GetResourceRelationships<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -333,7 +333,7 @@ namespace JsonApiFramework
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
         public static Relationships GetResourceRelationships<TResource, TResourceId>(this IDocumentReader documentReader, TResourceId clrResourceId)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 
@@ -348,7 +348,7 @@ namespace JsonApiFramework
         /// <typeparam name="TResource">Type of CLR resource or resource identifier to get relationships collection for.</typeparam>
         /// <returns>Collection of <c>Relationships</c> objects in document order.</returns>
         public static IEnumerable<Relationships> GetResourceRelationshipsCollection<TResource>(this IDocumentReader documentReader)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentReader != null);
 

@@ -598,7 +598,7 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceDocumentTest<TResource> : DocumentContextBaseWithExistingDocumentTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource)
@@ -638,8 +638,8 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceDocumentWithIncludesTest<TResource, TRelatedResource> : DocumentContextBaseWithExistingResourceDocumentTest<TResource>
-            where TResource : class, IResource
-            where TRelatedResource : class, IResource
+            where TResource : class
+            where TRelatedResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, TResource expectedResource, string expectedRelatedRel, TRelatedResource expectedRelatedResource)
@@ -710,7 +710,7 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceIdentifierDocumentTest<TResource, TResourceId> : DocumentContextBaseWithExistingDocumentTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceIdentifierDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, TResourceId expectedResourceId)
@@ -750,7 +750,7 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceCollectionDocumentTest<TResource> : DocumentContextBaseWithExistingDocumentTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceCollectionDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection)
@@ -790,8 +790,8 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest<TResource, TRelatedResource> : DocumentContextBaseWithExistingResourceCollectionDocumentTest<TResource>
-            where TResource : class, IResource
-            where TRelatedResource : class, IResource
+            where TResource : class
+            where TRelatedResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceCollectionDocumentWithIncludesTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResource> expectedResourceCollection, string expectedRelatedRel, IEnumerable<TRelatedResource> expectedRelatedResourceCollection)
@@ -906,7 +906,7 @@ namespace JsonApiFramework.Tests
         }
 
         public class DocumentContextBaseWithExistingResourceIdentifierCollectionDocumentTest<TResource, TResourceId> : DocumentContextBaseWithExistingDocumentTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public DocumentContextBaseWithExistingResourceIdentifierCollectionDocumentTest(IServiceModel serviceModel, Document expectedApiDocument, IEnumerable<TResourceId> expectedResourceIdCollection)

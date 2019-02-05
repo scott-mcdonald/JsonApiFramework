@@ -15,7 +15,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
     public class ResourceTypeBuilder<TResource> : ClrTypeBuilder<TResource>
         , IResourceTypeBuilder<TResource>
         , IResourceTypeFactory
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceTypeBuilder Implementation
@@ -77,7 +77,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         #region IResourceTypeBuilder<TResource> Implementation
         public IRelationshipInfoBuilder<TResource> ToOneRelationship<TToResource>(string rel)
-            where TToResource : class, IResource
+            where TToResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
@@ -87,7 +87,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         }
 
         public IRelationshipInfoBuilder<TResource> ToManyRelationship<TToResource>(string rel)
-            where TToResource : class, IResource
+            where TToResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 

@@ -7,7 +7,7 @@ namespace JsonApiFramework.Client
 {
     public interface IResourceBuilder<out TBuilder, out TResource>
         where TBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

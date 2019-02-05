@@ -76,7 +76,7 @@ namespace JsonApiFramework.Server.Internal
         // PROTECTED METHODS ////////////////////////////////////////////////
         #region Methods
         protected TBuilder AddLink<TResource>(string rel, IEnumerable<Link> linkCollection, IReadOnlyList<TResource> clrResourceCollection, Func<TResource, bool> predicate)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(linkCollection != null);
@@ -111,7 +111,7 @@ namespace JsonApiFramework.Server.Internal
         }
 
         protected TBuilder AddLink<TResource>(string rel, IReadOnlyList<TResource> clrResourceCollection, Func<TResource, bool> predicate)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
@@ -133,7 +133,7 @@ namespace JsonApiFramework.Server.Internal
         }
 
         protected TBuilder AddLink<TResource>(string rel, Meta meta, IReadOnlyList<TResource> clrResourceCollection, Func<TResource, bool> predicate)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(meta != null);
@@ -156,7 +156,7 @@ namespace JsonApiFramework.Server.Internal
         }
 
         protected TBuilder AddLink<TResource>(string rel, IEnumerable<Meta> metaCollection, IReadOnlyList<TResource> clrResourceCollection, Func<TResource, bool> predicate)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(metaCollection != null);
@@ -199,7 +199,7 @@ namespace JsonApiFramework.Server.Internal
         // PRIVATE TYPES ////////////////////////////////////////////////////
         #region Types
         // ReSharper disable once ClassNeverInstantiated.Local
-        private class NullResource : IResource
+        private class NullResource
         { }
         #endregion
     }

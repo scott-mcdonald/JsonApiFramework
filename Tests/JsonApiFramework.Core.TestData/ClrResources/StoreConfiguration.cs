@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class StoreConfiguration : JsonObject, IResource
+    public class StoreConfiguration : JsonObject
     {
         [JsonProperty] public string StoreConfigurationId { get; set; }
         [JsonProperty] public bool IsLive { get; set; }

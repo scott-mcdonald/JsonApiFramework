@@ -3,7 +3,7 @@
 namespace JsonApiFramework.ServiceModel.Configuration
 {
     public interface IRelationshipInfoBuilder<TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

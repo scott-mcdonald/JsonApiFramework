@@ -8,7 +8,7 @@ using JsonApiFramework.TestData.ClrResources.ComplexTypes;
 
 namespace JsonApiFramework.TestData.ClrResources
 {
-    public class Drawing : JsonObject, IResource
+    public class Drawing : JsonObject
     {
         public long Id { get; set; }
         public string Name { get; set; }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace JsonApiFramework.Server
 {
     public interface IToOneIncludedResourceCollectionSource<TFromResource, TToResource>
-        where TFromResource : class, IResource
-        where TToResource : class, IResource
+        where TFromResource : class
+        where TToResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Properties

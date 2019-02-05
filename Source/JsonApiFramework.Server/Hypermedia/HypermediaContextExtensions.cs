@@ -23,7 +23,7 @@ namespace JsonApiFramework.Server.Hypermedia
         }
 
         public static UrlBuilder CreateUrlBuilder<TResource>(this IHypermediaContext hypermediaContext)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(hypermediaContext != null);
 

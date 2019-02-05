@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class PosSystem : JsonObject, IResource
+    public class PosSystem : JsonObject
     {
         [JsonProperty] public string PosSystemId { get; set; }
         [JsonProperty] public string PosSystemName { get; set; }

@@ -15,8 +15,8 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
         public static IToManyIncludedResources<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, IEnumerable<TToResource> toResourceCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));

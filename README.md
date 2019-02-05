@@ -4,6 +4,9 @@
 
 ![](LogoBanner.png)
 
+**Note Version 2.0 Breaking Change**
+> Version 2.0 is a breaking change from version 1.X by deprecating the use of `IResource`. To fix remove all usages of the `IResource` interface when defining your service model.
+
 ## Overview
 
 [JSON API](http://jsonapi.org) is an excellent specification for building hypermedia ([Level 3 REST API](http://martinfowler.com/articles/richardsonMaturityModel.html)) APIs in [JSON](http://www.json.org). Using this standard solves the problem of how to **format** your hypermedia API responses (server) as well as requests for creating, updating, and deleting resources (client) with JSON. Adopting this standard promotes standardized communication protocols between client applications and hypermedia API servers making development and consumption of the hypermedia API effortless.
@@ -11,7 +14,6 @@
 **JsonApiFramework** implements the [JSON API](http://jsonapi.org) 1.0 version of the specification that enables .NET developers to work with JSON API documents at a high level using .NET objects. Therefore **JsonApiFramework** helps .NET developers focus on core application functionality rather than on protocol implementation.
 
 **JsonApiFramework** is a framework where developers define a **service model** that represents the domain model of the resources produced and consumed by a hypermedia API server or client application either through *explicit configuration* and/or *implicit conventions*. With a **service model** developers can use a **document context** that represents a session with a JSON API **document** for reading and/or writing of various JSON API concepts such as resources, relationships, links, meta information, error objects, and JSON API version information encapsulated as high level CLR objects.
-
 
 ### Benefits and Features
 
@@ -57,14 +59,6 @@ Assume the following for the usage examples:
 // --------------------------
 // Document                    Represents a JSON API document.
 // DocumentContext             Represents a session with a JSON API document.
-// IResource                   Abstracts the concept of a CLR resource. This is a marker interface
-//                             and has no methods.
-// 
-//                             Rationale for requiring this interface is to "mark" resource classes
-//                             for compile-time generic constraint purposes.
-// 
-//                             This aids in compile-time checks and generic inferences in the
-//                             progressive fluent style builder interfaces/classes of the framework.
 // 
 // Blogging CLR Types
 // ------------------
@@ -83,26 +77,26 @@ Assume the following for the usage examples:
 // 
 // Comment has "to-one" relationship to Person named "author"
 
-public class Blog : IResource
+public class Blog
 {
     public long BlogId { get; set; }
     public string Name { get; set; }
 }
 
-public class Article : IResource
+public class Article
 {
     public long ArticleId { get; set; }
     public string Title { get; set; }
     public string Text { get; set; }
 }
 
-public class Comment : IResource
+public class Comment
 {
     public long CommentId { get; set; }
     public string Body { get; set; }
 }
 
-public class Person : IResource
+public class Person
 {
     public long PersonId { get; set; }
     public string FirstName { get; set; }
@@ -851,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 1.9.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.0.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -861,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 1.9.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.0.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -873,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 1.9.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.0.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -897,7 +891,7 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 ## Development setup
 
-JsonApiFramework is a **C#/.NET framework** developed and built with **Visual Studio** 2017.
+JsonApiFramework is a **C#/.NET core framework** developed and built with **Visual Studio** 2017.
 
 ### Prerequisites
 
@@ -908,7 +902,7 @@ The only thing needed is **Visual Studio** 2017 or higher installed on your deve
 
 ### Running the tests
 
-JsonApiFramework has over **1,900+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
+JsonApiFramework has over **2,000+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
 
 JsonApiFramework unit tests were developed with the excellent [xUnit](http://xunit.github.io) 2.0 unit testing framework. In order to run the unit tests, you will need a xUnit test runner so please see the [xUnit Documentation](http://xunit.github.io/#documentation) page to setup an appropriate test runner for your development machine.
 
@@ -930,6 +924,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.0.0
+    * #59 Deprecate the IResource interface. Is a breaking change from v1.X.
 * v1.9.0
     * #56 Add new feature to support singleton resources. Useful for home documents where identity is not important.
 * v1.8.0

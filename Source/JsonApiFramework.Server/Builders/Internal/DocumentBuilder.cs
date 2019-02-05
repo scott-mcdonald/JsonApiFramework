@@ -126,14 +126,14 @@ namespace JsonApiFramework.Server.Internal
 
         // Resource /////////////////////////////////////////////////////////
         public IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResource);
             return primaryResourceBuilder;
         }
 
         public IPrimaryResourceBuilder<TResource> Resource<TResource>(IResourceSource<TResource> resourceSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceSource != null);
 
@@ -144,14 +144,14 @@ namespace JsonApiFramework.Server.Internal
 
         // ResourceCollection ///////////////////////////////////////////////
         public IPrimaryResourceCollectionBuilder<TResource> ResourceCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceCollectionBuilder = new PrimaryResourceCollectionBuilder<TResource>(this, this.DomDocument, clrResourceCollection);
             return primaryResourceCollectionBuilder;
         }
 
         public IPrimaryResourceCollectionBuilder<TResource> ResourceCollection<TResource>(IResourceCollectionSource<TResource> resourceCollectionSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceCollectionSource != null);
 
@@ -162,21 +162,21 @@ namespace JsonApiFramework.Server.Internal
 
         // ResourceIdentifier ///////////////////////////////////////////////
         public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             return primaryResourceIdentifierBuilder;
         }
 
         public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResource);
             return primaryResourceIdentifierBuilder;
         }
 
         public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceIdentifierSource != null);
 
@@ -187,21 +187,21 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IDocumentWriter SetResourceIdentifier<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = this.ResourceIdentifier<TResource>();
             return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
 
         public IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResource);
             return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
 
         public IDocumentWriter SetResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceIdentifierSource != null);
 
@@ -211,21 +211,21 @@ namespace JsonApiFramework.Server.Internal
 
         // ResourceIdentifierCollection /////////////////////////////////////
         public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
             return primaryResourceIdentifierCollectionBuilder;
         }
 
         public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResourceCollection);
             return primaryResourceIdentifierCollectionBuilder;
         }
 
         public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceIdentifierCollectionSource != null);
 
@@ -237,21 +237,21 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IDocumentWriter SetResourceIdentifierCollection<TResource>()
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource>();
             return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
         }
 
         public IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceCollection);
             return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
         }
 
         public IDocumentWriter SetResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class, IResource
+            where TResource : class
         {
             var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource, TResourceId>(resourceIdentifierCollectionSource);
             return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
@@ -276,8 +276,8 @@ namespace JsonApiFramework.Server.Internal
 
         // ToOneIncludedResource /////////////////////////////////////////////
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResource != null);
 
@@ -286,8 +286,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceCollection != null);
 
@@ -296,8 +296,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceSource != null);
 
@@ -307,8 +307,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceCollectionSource != null);
 
@@ -318,8 +318,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResource != null);
 
@@ -329,8 +329,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceCollection != null);
 
@@ -340,8 +340,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceSource != null);
 
@@ -351,8 +351,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toOneIncludedResourceCollectionSource != null);
 
@@ -363,8 +363,8 @@ namespace JsonApiFramework.Server.Internal
 
         // ToManyIncludedResources ////////////////////////////////////////////
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResources != null);
 
@@ -373,8 +373,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesCollection != null);
 
@@ -383,8 +383,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesSource != null);
 
@@ -394,8 +394,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesCollectionSource != null);
 
@@ -405,8 +405,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResources != null);
 
@@ -416,8 +416,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesCollection != null);
 
@@ -427,8 +427,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesSource != null);
 
@@ -438,8 +438,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(toManyIncludedResourcesCollectionSource != null);
 

@@ -54,7 +54,7 @@ namespace JsonApiFramework.Server
         }
 
         public static IDocumentContextOptionsBuilder UseUrlBuilderConfiguration<TResource>(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IUrlBuilderConfiguration urlBuilderConfiguration)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(documentContextOptionsBuilder != null);
             Contract.Requires(urlBuilderConfiguration       != null);

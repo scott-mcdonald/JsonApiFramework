@@ -13,8 +13,8 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Factory Methods
         public static IToOneIncludedResource<TFromResource, TToResource> Create<TFromResource, TToResource>(TFromResource fromResource, string fromRel, TToResource toResource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(fromResource != null);
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel));

@@ -6,7 +6,7 @@ using JsonApiFramework.Internal.Dom;
 namespace JsonApiFramework.Server.Internal
 {
     internal class PrimaryResourceBuilder<TResource> : ResourceBuilder<IPrimaryResourceBuilder<TResource>, TResource>, IPrimaryResourceBuilder<TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IPrimaryResourceBuilder<TResource> Implementation

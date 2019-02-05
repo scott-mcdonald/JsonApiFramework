@@ -11,11 +11,11 @@ namespace JsonApiFramework.Server.Internal
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourcePathContextBuilder<TParentBuilder> Implementation
         public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath>(TPath clrResource, string rel, bool includePath = true)
-            where TPath : class, IResource
+            where TPath : class
         { return this; }
 
         public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath = true)
-            where TPath : class, IResource
+            where TPath : class
         { return this; }
 
         public IResourcePathContextBuilder<TParentBuilder> AddPath(string pathSegment, bool includePath = true)

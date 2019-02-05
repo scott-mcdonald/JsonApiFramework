@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Payment : JsonObject, IResource
+    public class Payment : JsonObject
     {
         [JsonProperty] public long PaymentId { get; set; }
         [JsonProperty] public decimal Amount { get; set; }

@@ -16,7 +16,7 @@ namespace JsonApiFramework
     /// <typeparam name="TResource">Type of CLR "resource" object</typeparam>
     public interface IResourceIdentifierBuilder<out TBuilder, out TResource>
         where TBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

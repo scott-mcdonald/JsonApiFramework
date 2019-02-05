@@ -14,10 +14,10 @@ namespace JsonApiFramework.ServiceModel.Configuration
         IComplexTypeBuilder Complex<TComplex>();
 
         IResourceTypeBuilder<TResource> Resource<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
 
         void HomeResource<TResource>()
-            where TResource : class, IResource;
+            where TResource : class;
         #endregion
     }
 }

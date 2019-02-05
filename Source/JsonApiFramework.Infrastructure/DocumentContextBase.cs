@@ -44,19 +44,19 @@ namespace JsonApiFramework
         public Links GetDocumentLinks()
         { return this.Implementation.GetDocumentReader().GetDocumentLinks(); }
 
-        public IResource GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
+        public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
         { return this.Implementation.GetDocumentReader().GetRelatedResource(clrRelatedResourceType, relationship); }
 
-        public IEnumerable<IResource> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
+        public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
         { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection(clrRelatedResourceType, relationship); }
 
-        public IResource GetResource(Type clrResourceType)
+        public object GetResource(Type clrResourceType)
         { return this.Implementation.GetDocumentReader().GetResource(clrResourceType); }
 
-        public IResource GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
         { return this.Implementation.GetDocumentReader().GetResource<TResourceId>(clrResourceType, clrResourceId); }
 
-        public IEnumerable<IResource> GetResourceCollection(Type clrResourceType)
+        public IEnumerable<object> GetResourceCollection(Type clrResourceType)
         { return this.Implementation.GetDocumentReader().GetResourceCollection(clrResourceType); }
 
         public TResourceId GetResourceId<TResourceId>(Type clrResourceType)
@@ -68,7 +68,7 @@ namespace JsonApiFramework
         public Meta GetResourceMeta(Type clrResourceType)
         { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType); }
 
-        public Meta GetResourceMeta(IResource clrResource)
+        public Meta GetResourceMeta(object clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResource); }
 
         public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
@@ -80,7 +80,7 @@ namespace JsonApiFramework
         public Links GetResourceLinks(Type clrResourceType)
         { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType); }
 
-        public Links GetResourceLinks(IResource clrResource)
+        public Links GetResourceLinks(object clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResource); }
 
         public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
@@ -92,7 +92,7 @@ namespace JsonApiFramework
         public Relationships GetResourceRelationships(Type clrResourceType)
         { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType); }
 
-        public Relationships GetResourceRelationships(IResource clrResource)
+        public Relationships GetResourceRelationships(object clrResource)
         { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResource); }
 
         public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId)

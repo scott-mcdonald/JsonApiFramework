@@ -8,8 +8,8 @@ using System.Diagnostics.Contracts;
 namespace JsonApiFramework.Server.Internal
 {
     internal class ToManyIncludedResources<TFromResource, TToResource> : IToManyIncludedResources<TFromResource, TToResource>
-        where TFromResource : class, IResource
-        where TToResource : class, IResource
+        where TFromResource : class
+        where TToResource : class
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IToManyIncludedResources<TFromResource, TToResource> Implementation

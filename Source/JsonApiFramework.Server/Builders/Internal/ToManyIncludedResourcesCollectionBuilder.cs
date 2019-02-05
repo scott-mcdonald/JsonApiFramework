@@ -10,8 +10,8 @@ using JsonApiFramework.Internal.Dom;
 namespace JsonApiFramework.Server.Internal
 {
     internal class ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder<TToResource>, TToResource>, IToManyIncludedResourcesBuilder<TToResource>
-        where TFromResource : class, IResource
-        where TToResource : class, IResource
+        where TFromResource : class
+        where TToResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IToManyIncludedResourcesBuilder<TResource> Implementation

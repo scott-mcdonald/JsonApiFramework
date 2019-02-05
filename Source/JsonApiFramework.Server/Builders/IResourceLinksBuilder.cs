@@ -10,7 +10,7 @@ namespace JsonApiFramework.Server
 {
     public interface IResourceLinksBuilder<out TParentBuilder, out TResource> : ILinksBuilder<IResourceLinksBuilder<TParentBuilder, TResource>, TParentBuilder>
         where TParentBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

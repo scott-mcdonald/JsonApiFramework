@@ -57,8 +57,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(serviceModel          != null);
             Contract.Requires(toOneIncludedResource != null);
@@ -93,8 +93,8 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(serviceModel            != null);
             Contract.Requires(toManyIncludedResources != null);

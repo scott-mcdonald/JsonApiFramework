@@ -14,7 +14,7 @@ namespace JsonApiFramework.Client.Internal
 {
     internal class AttributesBuilder<TParentBuilder, TResource> : IAttributesBuilder<TParentBuilder, TResource>
         where TParentBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IAttributesBuilder<TParentBuilder, TResource> Implementation

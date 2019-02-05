@@ -3728,8 +3728,8 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetRelatedResourceCollectionTest<TResource, TRelatedResource> : IDocumentReaderTest
-            where TResource : JsonObject, IGetRelationships, IResource
-            where TRelatedResource : JsonObject, IResource
+            where TResource : JsonObject, IGetRelationships
+            where TRelatedResource : JsonObject
         {
             #region Constructors
             public GetRelatedResourceCollectionTest(IServiceModel serviceModel, Document document, string relationshipRel, IEnumerable<Tuple<TResource, IEnumerable<TRelatedResource>>> expected)
@@ -3849,8 +3849,8 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetRelatedResourceTest<TResource, TRelatedResource> : IDocumentReaderTest
-            where TResource : JsonObject, IGetRelationships, IResource
-            where TRelatedResource : JsonObject, IResource
+            where TResource : JsonObject, IGetRelationships
+            where TRelatedResource : JsonObject
         {
             #region Constructors
             public GetRelatedResourceTest(IServiceModel serviceModel, Document document, string relationshipRel, IEnumerable<Tuple<TResource, TRelatedResource>> expected)
@@ -3962,7 +3962,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceTest<TResource> : IDocumentReaderTest
-            where TResource : JsonObject, IResource
+            where TResource : JsonObject
         {
             #region Constructors
             public GetResourceTest(IServiceModel serviceModel, Document document, TResource expectedResource)
@@ -4044,7 +4044,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceByResourceIdTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : JsonObject, IResource
+            where TResource : JsonObject
         {
             #region Constructors
             public GetResourceByResourceIdTest(IServiceModel serviceModel, Document document, TResourceId resourceId, TResource expectedResource)
@@ -4129,7 +4129,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceCollectionTest<TResource> : IDocumentReaderTest
-            where TResource : JsonObject, IResource
+            where TResource : JsonObject
         {
             #region Constructors
             public GetResourceCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<TResource> expectedResourceCollection)
@@ -4208,7 +4208,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceIdTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceIdTest(IServiceModel serviceModel, Document document, TResourceId expectedResourceId)
@@ -4281,7 +4281,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceIdCollectionTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceIdCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<TResourceId> expectedResourceIds)
@@ -4354,7 +4354,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceMetaTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceMetaTest(IServiceModel serviceModel, Document document, Meta expectedResourceMeta)
@@ -4421,7 +4421,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceMetaByResourceTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource, IJsonObject 
+            where TResource : class, IJsonObject 
         {
             #region Constructors
             public GetResourceMetaByResourceTest(IServiceModel serviceModel, Document document, TResource clrResourceToLookup, Meta expectedResourceMeta)
@@ -4495,7 +4495,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceMetaByResourceIdTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceMetaByResourceIdTest(IServiceModel serviceModel, Document document, TResourceId clrResourceIdToLookup, Meta expectedResourceMeta)
@@ -4569,7 +4569,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceMetaCollectionTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceMetaCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<Meta> expectedResourceMetaCollection)
@@ -4642,7 +4642,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceLinksTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceLinksTest(IServiceModel serviceModel, Document document, Links expectedResourceLinks)
@@ -4709,7 +4709,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceLinksByResourceTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource, IJsonObject
+            where TResource : class, IJsonObject
         {
             #region Constructors
             public GetResourceLinksByResourceTest(IServiceModel serviceModel, Document document, TResource clrResourceToLookup, Links expectedResourceLinks)
@@ -4783,7 +4783,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceLinksByResourceIdTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceLinksByResourceIdTest(IServiceModel serviceModel, Document document, TResourceId clrResourceIdToLookup, Links expectedResourceLinks)
@@ -4857,7 +4857,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceLinksCollectionTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceLinksCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<Links> expectedResourceLinksCollection)
@@ -4930,7 +4930,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceRelationshipsTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceRelationshipsTest(IServiceModel serviceModel, Document document, Relationships expectedResourceRelationships)
@@ -4997,7 +4997,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceRelationshipsByResourceTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource, IJsonObject
+            where TResource : class, IJsonObject
         {
             #region Constructors
             public GetResourceRelationshipsByResourceTest(IServiceModel serviceModel, Document document, TResource clrResourceToLookup, Relationships expectedResourceRelationships)
@@ -5071,7 +5071,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceRelationshipsByResourceIdTest<TResource, TResourceId> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceRelationshipsByResourceIdTest(IServiceModel serviceModel, Document document, TResourceId clrResourceIdToLookup, Relationships expectedResourceRelationships)
@@ -5145,7 +5145,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         public class GetResourceRelationshipsCollectionTest<TResource> : IDocumentReaderTest
-            where TResource : class, IResource
+            where TResource : class
         {
             #region Constructors
             public GetResourceRelationshipsCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<Relationships> expectedResourceRelationshipsCollection)

@@ -8,7 +8,7 @@ namespace JsonApiFramework.Server
     /// through a progressive fluent interface style.
     /// </summary>
     public interface IPrimaryResourceCollectionBuilder<out TResource> : IResourceBuilder<IPrimaryResourceCollectionBuilder<TResource>, TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

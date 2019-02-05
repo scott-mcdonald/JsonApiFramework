@@ -9,7 +9,7 @@ using JsonApiFramework.ServiceModel;
 namespace JsonApiFramework.Internal
 {
     internal class PrimaryResourceIdentifierBuilder<TResource> : ResourceIdentifierBuilder<IPrimaryResourceIdentifierBuilder<TResource>, TResource>, IPrimaryResourceIdentifierBuilder<TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IPrimaryResourceIdentifierBuilder Implementation

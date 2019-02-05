@@ -53,7 +53,7 @@ namespace JsonApiFramework
         /// relationship if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-many" relationship instead of a "to-one" relationship.</exception>
-        IResource GetRelatedResource(Type clrRelatedResourceType, Relationship relationship);
+        object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship);
 
         /// <summary>
         /// Gets the multiple related CLR resources referenced by the "to-many" relationship.
@@ -65,7 +65,7 @@ namespace JsonApiFramework
         /// referenced by the "to-many" relationship if they exist, empty collection otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if the relationship object
         /// passed is a "to-one" relationship instead of a "to-many" relationship.</exception>
-        IEnumerable<IResource> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship);
+        IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship);
 
         /// <summary>
         /// Gets the single CLR resource for the given CLR resource type.
@@ -74,7 +74,7 @@ namespace JsonApiFramework
         /// <returns>Returns the single CLR resource if it exists, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources for the given CLR resource type.</exception>
-        IResource GetResource(Type clrResourceType);
+        object GetResource(Type clrResourceType);
 
         /// <summary>
         /// Gets the single CLR resource by resource identifier lookup.
@@ -85,7 +85,7 @@ namespace JsonApiFramework
         /// <returns>Returns the single CLR resource if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        IResource GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
+        object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId);
 
         /// <summary>
         /// Gets the multiple CLR resources for the given CLR resource type.
@@ -93,7 +93,7 @@ namespace JsonApiFramework
         /// <param name="clrResourceType">Type of CLR resource to get.</param>
         /// <returns>Returns the LINQ-to-objects collection of CLR resources if they exist,
         /// empty collection otherwise.</returns>
-        IEnumerable<IResource> GetResourceCollection(Type clrResourceType);
+        IEnumerable<object> GetResourceCollection(Type clrResourceType);
 
         /// <summary>
         /// Gets the single CLR resource identifier for the given CLR resource type.
@@ -138,7 +138,7 @@ namespace JsonApiFramework
         /// <returns>Returns the single json:api meta object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources or resource identifiers with the same resource identifier for the given CLR resource type.</exception>
-        Meta GetResourceMeta(IResource clrResource);
+        Meta GetResourceMeta(object clrResource);
 
         /// <summary>
         /// Gets the single resource or resource identifier json:api meta object by resource identifier lookup.
@@ -174,7 +174,7 @@ namespace JsonApiFramework
         /// <returns>Returns the single json:api links object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Links GetResourceLinks(IResource clrResource);
+        Links GetResourceLinks(object clrResource);
 
         /// <summary>
         /// Gets the single resource json:api links object by resource identifier lookup.
@@ -210,7 +210,7 @@ namespace JsonApiFramework
         /// <returns>Returns the single json:api relationships object if found, null otherwise.</returns>
         /// <exception cref="DocumentReadException">Is thrown if there are
         /// multiple CLR resources with the same resource identifier for the given CLR resource type.</exception>
-        Relationships GetResourceRelationships(IResource clrResource);
+        Relationships GetResourceRelationships(object clrResource);
 
         /// <summary>
         /// Gets the single resource json:api relationships object by resource identifier lookup.

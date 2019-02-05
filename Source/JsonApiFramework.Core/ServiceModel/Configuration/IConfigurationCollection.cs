@@ -9,7 +9,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
         void Add<TComplex>(ComplexTypeBuilder<TComplex> resourceTypeBuilder);
 
         void Add<TResource>(ResourceTypeBuilder<TResource> resourceTypeBuilder)
-            where TResource : class, IResource;
+            where TResource : class;
         #endregion
     }
 }

@@ -92,7 +92,7 @@ namespace JsonApiFramework.Internal
             return clrDocumentLinks;
         }
 
-        public IResource GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
+        public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
         {
             Contract.Requires(clrRelatedResourceType != null);
             Contract.Requires(relationship != null);
@@ -105,22 +105,21 @@ namespace JsonApiFramework.Internal
             }
 
             if (relationship.IsResourceLinkageNullOrEmpty())
-                return default(IResource);
+                return null;
 
             var apiRelatedResourceIdentifier = relationship.GetToOneResourceLinkage();
             if (apiRelatedResourceIdentifier == null)
-                return default(IResource);
+                return null;
 
             var clrRelatedResource = this.DomDocument
                 .DomResources()
                 .Where(x => apiRelatedResourceIdentifier == (ResourceIdentifier)x.ApiResource)
                 .Select(x => x.ClrResource)
-                .Cast<IResource>()
                 .SingleOrDefault();
             return clrRelatedResource;
         }
 
-        public IEnumerable<IResource> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
+        public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
         {
             Contract.Requires(clrRelatedResourceType != null);
             Contract.Requires(relationship != null);
@@ -133,22 +132,21 @@ namespace JsonApiFramework.Internal
             }
 
             if (relationship.IsResourceLinkageNullOrEmpty())
-                return Enumerable.Empty<IResource>();
+                return Enumerable.Empty<object>();
 
             var apiRelatedResourceIdentifierCollection = relationship.GetToManyResourceLinkage()
                 .SafeToList();
             if (apiRelatedResourceIdentifierCollection == null || !apiRelatedResourceIdentifierCollection.Any())
-                return Enumerable.Empty<IResource>();
+                return Enumerable.Empty<object>();
 
             var clrRelatedResourceCollection = this.DomDocument
                 .DomResources()
                 .Where(x => apiRelatedResourceIdentifierCollection.Contains((ResourceIdentifier)x.ApiResource))
-                .Select(x => x.ClrResource)
-                .Cast<IResource>();
+                .Select(x => x.ClrResource);
             return clrRelatedResourceCollection;
         }
 
-        public IResource GetResource(Type clrResourceType)
+        public object GetResource(Type clrResourceType)
         {
             Contract.Requires(clrResourceType != null);
 
@@ -166,7 +164,7 @@ namespace JsonApiFramework.Internal
             return clrResource;
         }
 
-        public IResource GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+        public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
         {
             Contract.Requires(clrResourceType != null);
 
@@ -174,7 +172,7 @@ namespace JsonApiFramework.Internal
                 .ServiceModel
                 .GetResourceType(clrResourceType);
 
-            List<IResource> clrResourceCollection;
+            List<object> clrResourceCollection;
 
             var clrResourceIdEquatable = clrResourceId as IEquatable<TResourceId>;
             if (clrResourceIdEquatable != null)
@@ -201,15 +199,14 @@ namespace JsonApiFramework.Internal
             return clrResource;
         }
 
-        public IEnumerable<IResource> GetResourceCollection(Type clrResourceType)
+        public IEnumerable<object> GetResourceCollection(Type clrResourceType)
         {
             Contract.Requires(clrResourceType != null);
 
             var clrResourceCollection = this.DomDocument
                 .DomResources()
                 .Where(x => x.ClrResourceType == clrResourceType)
-                .Select(x => x.ClrResource)
-                .Cast<IResource>();
+                .Select(x => x.ClrResource);
             return clrResourceCollection;
         }
 
@@ -260,7 +257,7 @@ namespace JsonApiFramework.Internal
             return apiResourceMeta;
         }
 
-        public Meta GetResourceMeta(IResource clrResource)
+        public Meta GetResourceMeta(object clrResource)
         {
             Contract.Requires(clrResource != null);
 
@@ -313,7 +310,7 @@ namespace JsonApiFramework.Internal
             return apiResourceLinks;
         }
 
-        public Links GetResourceLinks(IResource clrResource)
+        public Links GetResourceLinks(object clrResource)
         {
             var domResource = this.GetDomResource(clrResource);
             if (domResource == null)
@@ -364,7 +361,7 @@ namespace JsonApiFramework.Internal
             return apiResourceRelationships;
         }
 
-        public Relationships GetResourceRelationships(IResource clrResource)
+        public Relationships GetResourceRelationships(object clrResource)
         {
             var domResource = this.GetDomResource(clrResource);
             if (domResource == null)
@@ -423,7 +420,7 @@ namespace JsonApiFramework.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Helper Methods
-        private IDomResource GetDomResource(IResource clrResource)
+        private IDomResource GetDomResource(object clrResource)
         {
             if (clrResource == null)
                 return null;
@@ -455,7 +452,7 @@ namespace JsonApiFramework.Internal
             return domResource;
         }
 
-        private IDomResourceIdentity GetDomResourceIdentity(IResource clrResource)
+        private IDomResourceIdentity GetDomResourceIdentity(object clrResource)
         {
             if (clrResource == null)
                 return null;

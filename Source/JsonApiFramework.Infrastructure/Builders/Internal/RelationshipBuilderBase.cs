@@ -13,7 +13,7 @@ using JsonApiFramework.ServiceModel;
 namespace JsonApiFramework.Internal
 {
     internal class RelationshipBuilderBase<TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors

@@ -18,13 +18,13 @@ namespace JsonApiFramework.Server
         #region Methods
         /// <summary>Adds a path based on a resource and the relationships to the next resource in the path.</summary>
         IResourcePathContextBuilder<TParentBuilder> AddPath<TPath>(TPath clrResource, string rel, bool includePath = true)
-            where TPath : class, IResource;
+            where TPath : class;
 
         /// <summary>
         /// Adds a path based on a resource identifier and the relationship to the next resource in the path.
         /// </summary>
         IResourcePathContextBuilder<TParentBuilder> AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath = true)
-            where TPath : class, IResource;
+            where TPath : class;
 
         /// <summary>Adds a non-resource based path segment.</summary>
         IResourcePathContextBuilder<TParentBuilder> AddPath(string pathSegment, bool includePath = true);

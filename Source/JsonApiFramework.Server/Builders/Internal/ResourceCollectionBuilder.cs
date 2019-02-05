@@ -16,7 +16,7 @@ namespace JsonApiFramework.Server.Internal
 {
     internal abstract class ResourceCollectionBuilder<TBuilder, TResource> : IResourceBuilder<TBuilder, TResource>
         where TBuilder : class, IResourceBuilder<TBuilder, TResource>
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceBuilder<TBuilder, TResource> Implementation

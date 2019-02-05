@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class OrderItem : JsonObject, IResource
+    public class OrderItem : JsonObject
     {
         [JsonProperty] public long OrderItemId { get; set; }
         [JsonProperty] public string ProductName { get; set; }

@@ -10,8 +10,8 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneIncludedResource<TFromResource, TToResource>[] toOneIncludedResourceCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(includedResourcesBuilder != null);
 
@@ -19,8 +19,8 @@ namespace JsonApiFramework.Server
         }
 
         public static IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyIncludedResources<TFromResource, TToResource>[] toManyIncludedResourcesCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(includedResourcesBuilder != null);
 
@@ -28,8 +28,8 @@ namespace JsonApiFramework.Server
         }
 
         public static IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToOneIncludedResource<TFromResource, TToResource>[] toOneIncludedResourceCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(includedResourcesBuilder != null);
 
@@ -37,8 +37,8 @@ namespace JsonApiFramework.Server
         }
 
         public static IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(this IIncludedResourcesBuilder includedResourcesBuilder, params IToManyIncludedResources<TFromResource, TToResource>[] toManyIncludedResourcesCollection)
-            where TFromResource : class, IResource
-            where TToResource : class, IResource
+            where TFromResource : class
+            where TToResource : class
         {
             Contract.Requires(includedResourcesBuilder != null);
 

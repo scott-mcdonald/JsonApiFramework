@@ -10,7 +10,7 @@ namespace JsonApiFramework.Server.Internal
 {
     internal class NullResourceLinksBuilder<TParentBuilder, TResource> : NullLinksBuilder<IResourceLinksBuilder<TParentBuilder, TResource>, TParentBuilder>, IResourceLinksBuilder<TParentBuilder, TResource>
         where TParentBuilder : class
-        where TResource : class, IResource
+        where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceLinksBuilder<TParentBuilder, TResource>

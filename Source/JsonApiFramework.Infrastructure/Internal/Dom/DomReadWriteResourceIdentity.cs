@@ -58,7 +58,7 @@ namespace JsonApiFramework.Internal.Dom
         }
 
         internal DomId SetDomIdFromClrResource<TResource>(IResourceType resourceType, TResource clrResource)
-            where TResource : class, IResource
+            where TResource : class
         {
             Contract.Requires(resourceType != null);
 

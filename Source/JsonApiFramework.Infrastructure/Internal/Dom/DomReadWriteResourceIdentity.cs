@@ -57,8 +57,7 @@ namespace JsonApiFramework.Internal.Dom
             return domReadOnlyMeta;
         }
 
-        internal DomId SetDomIdFromClrResource<TResource>(IResourceType resourceType, TResource clrResource)
-            where TResource : class
+        internal DomId SetDomIdFromClrResource(IResourceType resourceType, object clrResource)
         {
             Contract.Requires(resourceType != null);
 

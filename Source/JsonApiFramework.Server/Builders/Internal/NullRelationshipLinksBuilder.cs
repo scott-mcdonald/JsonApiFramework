@@ -3,7 +3,6 @@
 namespace JsonApiFramework.Server.Internal
 {
     internal class NullRelationshipLinksBuilder<TParentBuilder> : NullLinksBuilder<IRelationshipLinksBuilder<TParentBuilder>, TParentBuilder>, IRelationshipLinksBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors

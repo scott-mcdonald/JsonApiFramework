@@ -12,13 +12,12 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal class RelationshipLinksBuilder<TParentBuilder> : LinksBuilder<IRelationshipLinksBuilder<TParentBuilder>, TParentBuilder>, IRelationshipLinksBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region LinksBuilder<TBuilder, TParentBuilder> Overrides
         public override IRelationshipLinksBuilder<TParentBuilder> AddLink(string rel, IEnumerable<Link> linkCollection)
         {
-            var linkRel = rel;
+            var linkRel         = rel;
             var relationshipRel = this.Rel;
             var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, linkRel);
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildRelationshipWithCollectionOfObjects
@@ -35,13 +34,13 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
             this.Builder = this;
-            this.Rel = rel;
+            this.Rel     = rel;
         }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private string Rel { get; set; }
+        private string Rel { get; }
         #endregion
     }
 }

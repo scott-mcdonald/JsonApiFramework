@@ -9,6 +9,37 @@ using JsonApiFramework.Internal.Dom;
 
 namespace JsonApiFramework.Server.Internal
 {
+    internal class ToOneIncludedResourceCollectionBuilder : ResourceCollectionBuilder<IToOneIncludedResourceBuilder>, IToOneIncludedResourceBuilder
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IToOneIncludedResourceBuilder Implementation
+        public IIncludedResourcesBuilder IncludeEnd()
+        {
+            // Notify base class building is done.
+            this.OnBuildEnd();
+
+            // Return the parent builder.
+            return this.ParentBuilder;
+        }
+        #endregion
+
+        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+        #region Constructors
+        internal ToOneIncludedResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToOneIncludedResource> toOneIncludedResourceCollection)
+            : base(parentBuilder, domDocument.GetOrAddIncluded(), toOneIncludedResourceCollection?.FirstOrDefault()?.ToResourceType, toOneIncludedResourceCollection.EmptyIfNull().Select(x => x.ToResource))
+        {
+            Contract.Requires(toOneIncludedResourceCollection != null);
+
+            this.Builder = this;
+
+            foreach (var toOneIncludedResource in toOneIncludedResourceCollection.EmptyIfNull())
+            {
+                this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toOneIncludedResource);
+            }
+        }
+        #endregion
+    }
+
     internal class ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToOneIncludedResourceBuilder<TToResource>, TToResource>, IToOneIncludedResourceBuilder<TToResource>
         where TFromResource : class
         where TToResource : class
@@ -21,34 +52,23 @@ namespace JsonApiFramework.Server.Internal
             this.OnBuildEnd();
 
             // Return the parent builder.
-            var parentBuilder = this.ParentBuilder;
-            return parentBuilder;
+            return this.ParentBuilder;
         }
         #endregion
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
         internal ToOneIncludedResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
-            : base(parentBuilder, domDocument.GetOrAddIncluded(), toOneIncludedResourceCollection.Select(x => x.ToResource))
+            : base(parentBuilder, domDocument.GetOrAddIncluded(), toOneIncludedResourceCollection?.FirstOrDefault()?.ToResourceType, toOneIncludedResourceCollection.EmptyIfNull().Select(x => x.ToResource))
         {
             Contract.Requires(toOneIncludedResourceCollection != null);
 
             this.Builder = this;
 
-            foreach (var toOneIncludedResource in toOneIncludedResourceCollection)
+            foreach (var toOneIncludedResource in toOneIncludedResourceCollection.EmptyIfNull())
             {
-                this.AddResourceLinkage(toOneIncludedResource);
+                this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toOneIncludedResource);
             }
-        }
-        #endregion
-
-        // PRIVATE METHODS //////////////////////////////////////////////////
-        #region Methods
-        private void AddResourceLinkage(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
-        {
-            Contract.Requires(toOneIncludedResource != null);
-
-            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toOneIncludedResource);
         }
         #endregion
     }

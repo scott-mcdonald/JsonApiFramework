@@ -8,34 +8,32 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class NullRelationshipBuilder<TParentBuilder, TResource> : IRelationshipBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
-        where TResource : class
+    internal class NullRelationshipBuilder<TParentBuilder> : IRelationshipBuilder<TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
-        public IRelationshipBuilder<TParentBuilder, TResource> SetMeta(Meta meta)
+        public IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta)
         { return this; }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetMeta(IEnumerable<Meta> metaCollection)
+        public IRelationshipBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection)
         { return this; }
 
-        public IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>> Links()
+        public IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>> Links()
         {
-            var linksBuilder = new NullRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>>(this);
+            var linksBuilder = new NullRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>>(this);
             return linksBuilder;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToOneResourceLinkage toOneResourceLinkage)
+        public IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage)
         { return this; }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
+        public IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         { return this; }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToManyResourceLinkage toManyResourceLinkage)
+        public IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage)
         { return this; }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+        public IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
         { return this; }
 
         public TParentBuilder RelationshipEnd()

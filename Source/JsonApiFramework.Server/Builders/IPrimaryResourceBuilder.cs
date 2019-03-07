@@ -3,10 +3,14 @@
 
 namespace JsonApiFramework.Server
 {
-    /// <summary>
-    /// Abstracts the building of a json:api primary "resource" object
-    /// through a progressive fluent interface style.
-    /// </summary>
+    public interface IPrimaryResourceBuilder : IResourceBuilder<IPrimaryResourceBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        IIncludedBuilder ResourceEnd();
+        #endregion
+    }
+
     public interface IPrimaryResourceBuilder<out TResource> : IResourceBuilder<IPrimaryResourceBuilder<TResource>, TResource>
         where TResource : class
     {

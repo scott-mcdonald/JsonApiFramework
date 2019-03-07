@@ -13,13 +13,42 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class ResourcePathContextBuilder<TParentBuilder, TResource> : IResourcePathContextBuilder<TParentBuilder>
-        where TParentBuilder : class
-        where TResource : class
+    internal class ResourcePathContextBuilder<TParentBuilder> : IResourcePathContextBuilder<TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IPathContextBuilder Implementation
+        IPathContextBuilder IPathContextBuilder.AddPath(Action<IPathContextBuilder, object> action)
+        {
+            return this.AddPath(action);
+        }
+
+        IPathContextBuilder IPathContextBuilder.AddPath<TPath>(TPath clrResource, string rel, bool includePath)
+        {
+            return this.AddPath(clrResource, rel, includePath);
+        }
+
+        IPathContextBuilder IPathContextBuilder.AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath)
+        {
+            return this.AddPath<TPath, TResourceId>(clrResourceId, rel, includePath);
+        }
+
+        IPathContextBuilder IPathContextBuilder.AddPath(string pathSegment, bool includePath)
+        {
+            return this.AddPath(pathSegment, includePath);
+        }
+        #endregion
+
         #region IResourcePathContextBuilder<TParentBuilder> Implementation
-        public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath>(TPath clrResource, string rel, bool includePath = true)
+        public IResourcePathContextBuilder<TParentBuilder> AddPath(Action<IPathContextBuilder, object> action)
+        {
+            Contract.Requires(action != null);
+
+            _addPathActions = _addPathActions ?? new List<Action<IPathContextBuilder, object>>();
+            _addPathActions.Add(action);
+            return this;
+        }
+
+        public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath>(TPath clrResource, string rel, bool includePath)
             where TPath : class
         {
             Contract.Requires(clrResource != null);
@@ -28,15 +57,15 @@ namespace JsonApiFramework.Server.Internal
             if (includePath == false)
                 return this;
 
-            var serviceModel = this.ServiceModel;
+            var serviceModel    = this.ServiceModel;
             var clrResourceType = typeof(TPath);
-            var resourceType = serviceModel.GetResourceType(clrResourceType);
-            var apiResourceId = resourceType.GetApiId(clrResource);
+            var resourceType    = serviceModel.GetResourceType(clrResourceType);
+            var apiResourceId   = resourceType.GetApiId(clrResource);
 
             return this.AddPath(resourceType, clrResourceType, apiResourceId, rel);
         }
 
-        public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath = true)
+        public IResourcePathContextBuilder<TParentBuilder> AddPath<TPath, TResourceId>(TResourceId clrResourceId, string rel, bool includePath)
             where TPath : class
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -45,13 +74,13 @@ namespace JsonApiFramework.Server.Internal
                 return this;
 
             var clrResourceType = typeof(TPath);
-            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-            var apiResourceId = TypeConverter.Convert<string>(clrResourceId);
+            var resourceType    = this.ServiceModel.GetResourceType(clrResourceType);
+            var apiResourceId   = TypeConverter.Convert<string>(clrResourceId);
 
             return this.AddPath(resourceType, clrResourceType, apiResourceId, rel);
         }
 
-        public IResourcePathContextBuilder<TParentBuilder> AddPath(string pathSegment, bool includePath = true)
+        public IResourcePathContextBuilder<TParentBuilder> AddPath(string pathSegment, bool includePath)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(pathSegment) == false);
 
@@ -60,44 +89,59 @@ namespace JsonApiFramework.Server.Internal
 
             this.EnsureBasePathsExist();
 
-            AddNonHypermediaPath(this._resourceCanonicalBasePath, pathSegment);
-            AddNonHypermediaPath(this._resourceSelfBasePath, pathSegment);
+            AddNonHypermediaPath(_resourceCanonicalBasePath, pathSegment);
+            AddNonHypermediaPath(_resourceSelfBasePath,      pathSegment);
 
             return this;
         }
 
         public TParentBuilder PathsEnd()
-        { return this.ParentBuilder; }
+        {
+            return this.ParentBuilder;
+        }
         #endregion
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal ResourcePathContextBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel)
+        internal ResourcePathContextBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, Type clrResourceType)
         {
             Contract.Requires(parentBuilder != null);
             Contract.Requires(serviceModel != null);
+            Contract.Requires(clrResourceType != null);
 
-            this.ParentBuilder = parentBuilder;
-            this.ServiceModel = serviceModel;
+            this.ParentBuilder   = parentBuilder;
+            this.ServiceModel    = serviceModel;
+            this.ClrResourceType = clrResourceType;
         }
         #endregion
 
         // INTERNAL METHODS /////////////////////////////////////////////////
         #region Methods
-        internal IResourcePathContext CreateResourcePathContext()
+        internal IResourcePathContext CreateResourcePathContext(object clrResource)
         {
+            if (clrResource == null)
+                throw new ArgumentNullException(nameof(clrResource), $"CLR resource object can not be null.");
+
+            if (_addPathActions != null)
+            {
+                foreach (var addPathAction in _addPathActions)
+                {
+                    addPathAction(this, clrResource);
+                }
+            }
+
             this.EnsureBasePathsExist();
 
-            var clrResourceType = typeof(TResource);
-            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
+            var clrResourceType = this.ClrResourceType;
+            var resourceType    = this.ServiceModel.GetResourceType(clrResourceType);
 
-            var resourceSelfPathParts = CreateResourcePathParts(clrResourceType, resourceType, this._resourceSelfBasePath, this._resourceSelfPreviousRelationship);
-            var resourceSelfBasePath = resourceSelfPathParts.Item1;
-            var resourceSelfPathMode = resourceSelfPathParts.Item2;
+            var resourceSelfPathParts = CreateResourcePathParts(clrResourceType, resourceType, _resourceSelfBasePath, _resourceSelfPreviousRelationship);
+            var resourceSelfBasePath  = resourceSelfPathParts.Item1;
+            var resourceSelfPathMode  = resourceSelfPathParts.Item2;
 
-            var resourceCanonicalPathParts = CreateResourcePathParts(clrResourceType, resourceType, this._resourceCanonicalBasePath, this._resourceCanonicalPreviousRelationship);
-            var resourceCanonicalBasePath = resourceCanonicalPathParts.Item1;
-            var resourceCanonicalPathMode = resourceCanonicalPathParts.Item2;
+            var resourceCanonicalPathParts = CreateResourcePathParts(clrResourceType, resourceType, _resourceCanonicalBasePath, _resourceCanonicalPreviousRelationship);
+            var resourceCanonicalBasePath  = resourceCanonicalPathParts.Item1;
+            var resourceCanonicalPathMode  = resourceCanonicalPathParts.Item2;
 
             var resourcePathContext = new ResourcePathContext(resourceSelfBasePath, resourceSelfPathMode, resourceCanonicalBasePath, resourceCanonicalPathMode);
             return resourcePathContext;
@@ -106,8 +150,9 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private IServiceModel ServiceModel { get; set; }
+        private TParentBuilder ParentBuilder   { get; }
+        private IServiceModel  ServiceModel    { get; }
+        private Type           ClrResourceType { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -146,21 +191,27 @@ namespace JsonApiFramework.Server.Internal
             var nextRelationshipCanonicalRelPathMode = nextRelationship.ToCanonicalRelPathMode;
             if (nextRelationshipCanonicalRelPathMode == RelationshipCanonicalRelPathMode.DropPreviousPathSegments)
             {
-                this._resourceCanonicalBasePath.Clear();
-                this._resourceCanonicalPathMode = default(ResourcePathMode);
-                this._resourceCanonicalPreviousRelationship = null;
+                _resourceCanonicalBasePath.Clear();
+                _resourceCanonicalPathMode             = default(ResourcePathMode);
+                _resourceCanonicalPreviousRelationship = null;
             }
             else
             {
-                AddPath(resourceType, clrResourceType, apiId, nextRelationship, ref this._resourceCanonicalBasePath, ref this._resourceCanonicalPathMode, ref this._resourceCanonicalPreviousRelationship);
+                AddPath(resourceType, clrResourceType, apiId, nextRelationship, ref _resourceCanonicalBasePath, ref _resourceCanonicalPathMode, ref _resourceCanonicalPreviousRelationship);
             }
 
-            AddPath(resourceType, clrResourceType, apiId, nextRelationship, ref this._resourceSelfBasePath, ref this._resourceSelfPathMode, ref this._resourceSelfPreviousRelationship);
+            AddPath(resourceType, clrResourceType, apiId, nextRelationship, ref _resourceSelfBasePath, ref _resourceSelfPathMode, ref _resourceSelfPreviousRelationship);
 
             return this;
         }
 
-        private static void AddPath(IResourceType resourceType, Type clrResourceType, string apiId, IRelationshipInfo nextRelationship, ref List<IHypermediaPath> resourceBasePath, ref ResourcePathMode resourcePathMode, ref IRelationshipInfo resourcePreviousRelationship)
+        private static void AddPath(IResourceType             resourceType,
+                                    Type                      clrResourceType,
+                                    string                    apiId,
+                                    IRelationshipInfo         nextRelationship,
+                                    ref List<IHypermediaPath> resourceBasePath,
+                                    ref ResourcePathMode      resourcePathMode,
+                                    ref IRelationshipInfo     resourcePreviousRelationship)
         {
             Contract.Requires(resourceType != null);
             Contract.Requires(clrResourceType != null);
@@ -175,12 +226,12 @@ namespace JsonApiFramework.Server.Internal
                 var hypermediaPath = default(IHypermediaPath);
                 if (!resourceType.IsSingleton())
                 {
-                    hypermediaPath = new ResourceHypermediaPath(clrResourceType, apiCollectionPathSegment, apiId);
+                    hypermediaPath   = new ResourceHypermediaPath(clrResourceType, apiCollectionPathSegment, apiId);
                     resourcePathMode = ResourcePathMode.IncludeApiId;
                 }
                 else
                 {
-                    hypermediaPath = new SingletonHypermediaPath(clrResourceType, apiCollectionPathSegment);
+                    hypermediaPath   = new SingletonHypermediaPath(clrResourceType, apiCollectionPathSegment);
                     resourcePathMode = ResourcePathMode.IgnoreApiId;
                 }
 
@@ -190,33 +241,33 @@ namespace JsonApiFramework.Server.Internal
             }
 
             var previousRelationshipCardinality = resourcePreviousRelationship.ToCardinality;
-            var apiRelationshipRelPathSegment = resourcePreviousRelationship.ApiRelPathSegment;
+            var apiRelationshipRelPathSegment   = resourcePreviousRelationship.ApiRelPathSegment;
             switch (previousRelationshipCardinality)
             {
                 case RelationshipCardinality.ToOne:
-                    {
-                        var toOneResourceHypermediaPath = new ToOneResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
+                {
+                    var toOneResourceHypermediaPath = new ToOneResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
 
-                        resourceBasePath.Add(toOneResourceHypermediaPath);
-                        resourcePathMode = ResourcePathMode.IgnoreApiId;
-                    }
+                    resourceBasePath.Add(toOneResourceHypermediaPath);
+                    resourcePathMode = ResourcePathMode.IgnoreApiId;
+                }
                     break;
 
                 case RelationshipCardinality.ToMany:
-                    {
-                        var toManyResourceHypermediaPath = new ToManyResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment, apiId);
+                {
+                    var toManyResourceHypermediaPath = new ToManyResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment, apiId);
 
-                        resourceBasePath.Add(toManyResourceHypermediaPath);
-                        resourcePathMode = ResourcePathMode.IncludeApiId;
-                    }
-                break;
+                    resourceBasePath.Add(toManyResourceHypermediaPath);
+                    resourcePathMode = ResourcePathMode.IncludeApiId;
+                }
+                    break;
 
                 default:
-                    {
-                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                               .FormatWith(typeof(RelationshipCardinality).Name, previousRelationshipCardinality);
-                        throw new InternalErrorException(detail);
-                    }
+                {
+                    var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                           .FormatWith(typeof(RelationshipCardinality).Name, previousRelationshipCardinality);
+                    throw new InternalErrorException(detail);
+                }
             }
 
             resourcePreviousRelationship = nextRelationship;
@@ -236,7 +287,7 @@ namespace JsonApiFramework.Server.Internal
                 var hypermediaPath = default(IHypermediaPath);
                 if (!resourceType.IsSingleton())
                 {
-                    hypermediaPath = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
+                    hypermediaPath   = new ResourceCollectionHypermediaPath(clrResourceType, apiCollectionPathSegment);
                     resourcePathMode = ResourcePathMode.IncludeApiId;
                 }
                 else
@@ -250,31 +301,31 @@ namespace JsonApiFramework.Server.Internal
             else
             {
                 var previousRelationshipCardinality = resourcePreviousRelationship.ToCardinality;
-                var apiRelationshipRelPathSegment = resourcePreviousRelationship.ApiRelPathSegment;
+                var apiRelationshipRelPathSegment   = resourcePreviousRelationship.ApiRelPathSegment;
                 switch (previousRelationshipCardinality)
                 {
                     case RelationshipCardinality.ToOne:
-                        {
-                            var toOneResourceHypermediaPath = new ToOneResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
-                            resourceBasePath.Add(toOneResourceHypermediaPath);
-                            resourcePathMode = ResourcePathMode.IgnoreApiId;
-                        }
+                    {
+                        var toOneResourceHypermediaPath = new ToOneResourceHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
+                        resourceBasePath.Add(toOneResourceHypermediaPath);
+                        resourcePathMode = ResourcePathMode.IgnoreApiId;
+                    }
                         break;
 
                     case RelationshipCardinality.ToMany:
-                        {
-                            var toManyResourceHypermediaPath = new ToManyResourceCollectionHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
-                            resourceBasePath.Add(toManyResourceHypermediaPath);
-                            resourcePathMode = ResourcePathMode.IncludeApiId;
-                        }
+                    {
+                        var toManyResourceHypermediaPath = new ToManyResourceCollectionHypermediaPath(clrResourceType, apiRelationshipRelPathSegment);
+                        resourceBasePath.Add(toManyResourceHypermediaPath);
+                        resourcePathMode = ResourcePathMode.IncludeApiId;
+                    }
                         break;
 
                     default:
-                        {
-                            var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
-                                                                   .FormatWith(typeof(RelationshipCardinality).Name, previousRelationshipCardinality);
-                            throw new InternalErrorException(detail);
-                        }
+                    {
+                        var detail = InfrastructureErrorStrings.InternalErrorExceptionDetailUnknownEnumerationValue
+                                                               .FormatWith(typeof(RelationshipCardinality).Name, previousRelationshipCardinality);
+                        throw new InternalErrorException(detail);
+                    }
                 }
             }
 
@@ -284,20 +335,22 @@ namespace JsonApiFramework.Server.Internal
 
         private void EnsureBasePathsExist()
         {
-            this._resourceCanonicalBasePath = this._resourceCanonicalBasePath ?? new List<IHypermediaPath>();
-            this._resourceSelfBasePath = this._resourceSelfBasePath ?? new List<IHypermediaPath>();
+            _resourceCanonicalBasePath = _resourceCanonicalBasePath ?? new List<IHypermediaPath>();
+            _resourceSelfBasePath      = _resourceSelfBasePath ?? new List<IHypermediaPath>();
         }
         #endregion
 
         // PRIVATE FIELDS ///////////////////////////////////////////////////
         #region Fields
+        private List<Action<IPathContextBuilder, object>> _addPathActions;
+
         private List<IHypermediaPath> _resourceCanonicalBasePath;
-        private ResourcePathMode _resourceCanonicalPathMode;
-        private IRelationshipInfo _resourceCanonicalPreviousRelationship;
+        private ResourcePathMode      _resourceCanonicalPathMode;
+        private IRelationshipInfo     _resourceCanonicalPreviousRelationship;
 
         private List<IHypermediaPath> _resourceSelfBasePath;
-        private ResourcePathMode _resourceSelfPathMode;
-        private IRelationshipInfo _resourceSelfPreviousRelationship;
+        private ResourcePathMode      _resourceSelfPathMode;
+        private IRelationshipInfo     _resourceSelfPreviousRelationship;
         #endregion
     }
 }

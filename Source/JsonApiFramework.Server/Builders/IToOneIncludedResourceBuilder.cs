@@ -3,6 +3,14 @@
 
 namespace JsonApiFramework.Server
 {
+    public interface IToOneIncludedResourceBuilder : IResourceBuilder<IToOneIncludedResourceBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        IIncludedResourcesBuilder IncludeEnd();
+        #endregion
+    }
+
     public interface IToOneIncludedResourceBuilder<out TResource> : IResourceBuilder<IToOneIncludedResourceBuilder<TResource>, TResource>
         where TResource : class
     {

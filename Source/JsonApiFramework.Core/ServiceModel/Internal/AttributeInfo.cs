@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Extension;
 using JsonApiFramework.Reflection;
 
 using Newtonsoft.Json;
@@ -12,8 +13,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class AttributeInfo : PropertyInfo
-        , IAttributeInfo
+    internal class AttributeInfo : PropertyInfo, IAttributeInfo
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -21,6 +21,8 @@ namespace JsonApiFramework.ServiceModel.Internal
             : base(clrDeclaringType, clrPropertyName, clrPropertyType)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiPropertyName) == false);
+
+            this.ExtensionDictionary = new ExtensionDictionary<IAttributeInfo>(this);
 
             this.ApiPropertyName = apiPropertyName;
             this.IsComplexType = isComplexType;
@@ -37,6 +39,10 @@ namespace JsonApiFramework.ServiceModel.Internal
         [JsonProperty] public bool IsComplexType { get; private set; }
 
         [JsonProperty] public Type ClrCollectionItemType { get; private set; }
+        #endregion
+
+        #region IExtensibleObject<T> Implementation
+        public IEnumerable<IExtension<IAttributeInfo>> Extensions => this.ExtensionDictionary.Extensions;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -66,10 +72,35 @@ namespace JsonApiFramework.ServiceModel.Internal
         }
         #endregion
 
+        #region IExtensibleObject<T> Implementation
+        public void AddExtension(IExtension<IAttributeInfo> extension)
+        {
+            Contract.Requires(extension != null);
+
+            this.ExtensionDictionary.AddExtension(extension);
+        }
+
+        public void RemoveExtension(Type extensionType)
+        {
+            Contract.Requires(extensionType != null);
+
+            this.ExtensionDictionary.RemoveExtension(extensionType);
+        }
+
+        public bool TryGetExtension(Type extensionType, out IExtension<IAttributeInfo> extension)
+        {
+            Contract.Requires(extensionType != null);
+
+            return this.ExtensionDictionary.TryGetExtension(extensionType, out extension);
+        }
+        #endregion
+
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
         internal AttributeInfo()
-        { }
+        {
+            this.ExtensionDictionary = new ExtensionDictionary<IAttributeInfo>(this);
+        }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -86,6 +117,11 @@ namespace JsonApiFramework.ServiceModel.Internal
             this.IsCollection = true;
             this.ClrCollectionItemType = clrCollectionItemType;
         }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private ExtensionDictionary<IAttributeInfo> ExtensionDictionary { get; }
         #endregion
     }
 }

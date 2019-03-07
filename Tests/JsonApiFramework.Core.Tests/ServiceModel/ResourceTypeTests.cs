@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using JsonApiFramework.Extension;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel;
+using JsonApiFramework.ServiceModel.Internal;
 using JsonApiFramework.TestAsserts.ClrResources;
 using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
@@ -222,6 +224,34 @@ namespace JsonApiFramework.Tests.ServiceModel
             // Assert
             ClrResourceAssert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void TestResourceTypeAsExtensibleObject()
+        {
+            this.Output.WriteLine("Test Name: {0}", nameof(this.TestResourceTypeAsExtensibleObject));
+            this.Output.WriteLine(String.Empty);
+
+            // Arrange
+            var articleResourceType = new ResourceType(ClrSampleData.ArticleClrType,
+                                                       ClrSampleData.ArticleHypermediaInfo,
+                                                       ClrSampleData.ArticleResourceIdentityInfo,
+                                                       ClrSampleData.ArticleAttributesInfo,
+                                                       ClrSampleData.ArticleRelationshipsInfo,
+                                                       ClrSampleData.ArticleLinksInfo,
+                                                       ClrSampleData.ArticleMetaInfo);
+
+            // Act
+            articleResourceType.ModifyExtension<IResourceType, ResourceTypeExtension>(x => { x.ExtendedApiName = nameof(x.ExtendedApiName); });
+            var articleResourceTypeExtensions = articleResourceType.Extensions.Cast<ResourceTypeExtension>().ToList();
+            var actualExtensionCount = articleResourceTypeExtensions.Count;
+
+            var actualExtension = articleResourceTypeExtensions.Single();
+            var actualExtendedApiName = actualExtension.ExtendedApiName;
+
+            // Assert
+            Assert.Equal(1, actualExtensionCount);
+            Assert.Equal(nameof(ResourceTypeExtension.ExtendedApiName), actualExtendedApiName);
+        }
         #endregion
 
         // PUBLIC FIELDS ////////////////////////////////////////////////////
@@ -303,6 +333,14 @@ namespace JsonApiFramework.Tests.ServiceModel
             };
 
         // ReSharper restore UnusedMember.Global
+        #endregion
+
+        // PRIVATE TYPES ////////////////////////////////////////////////////
+        #region Test Types
+        private class ResourceTypeExtension : Extension<IResourceType>
+        {
+            public string ExtendedApiName { get; set; }
+        }
         #endregion
     }
 }

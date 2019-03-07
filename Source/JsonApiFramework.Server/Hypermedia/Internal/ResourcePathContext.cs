@@ -38,22 +38,21 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IPathContext Implementation
-        public IEnumerable<Type> ClrResourceTypes
-        { get { return this.ResourceSelfBasePath.GetClrResourceTypes(); } }
+        public IEnumerable<Type> ClrResourceTypes => this.ResourceSelfBasePath.GetClrResourceTypes();
         #endregion
 
         #region IResourcePathContext Implementation
         public IEnumerable<IHypermediaPath> ResourceCanonicalBasePath
-        { get; private set; }
+        { get; }
 
         public ResourcePathMode ResourceCanonicalPathMode
-        { get; private set; }
+        { get; }
 
         public IEnumerable<IHypermediaPath> ResourceSelfBasePath
-        { get; private set; }
+        { get; }
 
         public ResourcePathMode ResourceSelfPathMode
-        { get; private set; }
+        { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////

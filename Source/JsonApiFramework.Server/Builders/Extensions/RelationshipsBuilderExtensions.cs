@@ -14,7 +14,6 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, Relationship relationship)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -23,7 +22,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<Relationship> relationshipCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -32,7 +30,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -41,7 +38,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -50,7 +46,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -59,7 +54,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -68,7 +62,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);
@@ -76,8 +69,7 @@ namespace JsonApiFramework.Server
             return relationshipsBuilder.AddRelationship(rel, default(Func<TResource, bool>), linkRelCollection, toManyResourceLinkageCollection);
         }
 
-        public static IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel)
-            where TParentBuilder : class
+        public static IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder>> Relationship<TParentBuilder, TResource>(this IRelationshipsBuilder<TParentBuilder, TResource> relationshipsBuilder, string rel)
             where TResource : class
         {
             Contract.Requires(relationshipsBuilder != null);

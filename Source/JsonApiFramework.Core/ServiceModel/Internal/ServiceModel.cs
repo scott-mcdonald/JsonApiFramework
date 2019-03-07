@@ -3,9 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 
+using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
@@ -13,8 +15,7 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class ServiceModel : JsonObject
-        , IServiceModel
+    internal class ServiceModel : JsonObject, IServiceModel
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
@@ -22,6 +23,8 @@ namespace JsonApiFramework.ServiceModel.Internal
                             IEnumerable<IResourceType> resourceTypes,
                             IResourceType homeResourceType)
         {
+            this.ExtensionDictionary = new ExtensionDictionary<IServiceModel>(this);
+
             this.ComplexTypes = complexTypes.SafeToList();
             this.ResourceTypes = resourceTypes.SafeToList();
             this.HomeResourceType = homeResourceType;
@@ -44,6 +47,10 @@ namespace JsonApiFramework.ServiceModel.Internal
         [JsonProperty] public IEnumerable<IComplexType> ComplexTypes { get; private set; }
         [JsonProperty] public IEnumerable<IResourceType> ResourceTypes { get; private set; }
         [JsonProperty] public IResourceType HomeResourceType { get; }
+        #endregion
+
+        #region IExtensibleObject<T> Implementation
+        public IEnumerable<IExtension<IServiceModel>> Extensions => this.ExtensionDictionary.Extensions;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -127,6 +134,29 @@ namespace JsonApiFramework.ServiceModel.Internal
         }
         #endregion
 
+        #region IExtensibleObject<T> Implementation
+        public void AddExtension(IExtension<IServiceModel> extension)
+        {
+            Contract.Requires(extension != null);
+
+            this.ExtensionDictionary.AddExtension(extension);
+        }
+
+        public void RemoveExtension(Type extensionType)
+        {
+            Contract.Requires(extensionType != null);
+
+            this.ExtensionDictionary.RemoveExtension(extensionType);
+        }
+
+        public bool TryGetExtension(Type extensionType, out IExtension<IServiceModel> extension)
+        {
+            Contract.Requires(extensionType != null);
+
+            return this.ExtensionDictionary.TryGetExtension(extensionType, out extension);
+        }
+        #endregion
+
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Fields
         public static readonly ServiceModel Empty = new ServiceModel(null, null, null);
@@ -135,7 +165,9 @@ namespace JsonApiFramework.ServiceModel.Internal
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
         internal ServiceModel()
-        { }
+        {
+            this.ExtensionDictionary = new ExtensionDictionary<IServiceModel>(this);
+        }
         #endregion
 
         // INTERNAL METHODS /////////////////////////////////////////////////
@@ -156,6 +188,8 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         private IReadOnlyDictionary<string, IResourceType> ApiTypeToResourceTypeDictionary { get; set; }
         private IReadOnlyDictionary<Type, IResourceType> ClrTypeToResourceTypeDictionary { get; set; }
+
+        private ExtensionDictionary<IServiceModel> ExtensionDictionary { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////

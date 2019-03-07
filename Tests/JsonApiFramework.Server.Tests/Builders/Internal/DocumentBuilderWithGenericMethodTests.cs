@@ -23,122 +23,16 @@ using JsonApiFramework.XUnit;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace MyNamespace
-{
-    using JsonApiFramework;
-    using JsonApiFramework.JsonApi;
-    using JsonApiFramework.Server;
-    using JsonApiFramework.TestData.ApiResources;
-    using JsonApiFramework.TestData.ClrResources;
-
-    public static class MyClass
-    {
-        public static void MyMethod()
-        {
-            var resourceDocument = new DocumentContext(default(IDocumentContextOptions))
-                .NewDocument(String.Empty)
-                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                    .SetMeta(ApiSampleData.DocumentMeta)
-                    .Links()
-                        .AddUpLink()
-                        .AddSelfLink()
-                    .LinksEnd()
-                    .Resource(SampleArticles.Article)
-                        .SetMeta(ApiSampleData.ResourceMeta)
-                        .Relationships()
-                            .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                            .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                            .Relationship(ApiSampleData.ArticleToAuthorRel)
-                                .Links()
-                                    .AddSelfLink()
-                                    .AddRelatedLink()
-                                .LinksEnd()
-                                .SetData(ToOneResourceLinkage.Create(1234))
-                            .RelationshipEnd()
-                            .Relationship(ApiSampleData.ArticleToCommentsRel)
-                                .Links()
-                                    .AddSelfLink()
-                                    .AddRelatedLink()
-                                .LinksEnd()
-                                .SetData(ToManyResourceLinkage.Create(new[] { 1234, 5678, 4321, 8765 }))
-                            .RelationshipEnd()
-                        .RelationshipsEnd()
-                        .Links()
-                            .AddSelfLink()
-                            .AddCanonicalLink()
-                            .AddSelfLink(x => x.Title.Any())
-                            .AddCanonicalLink(x => x.Title.Any())
-                        .LinksEnd()
-                    .ResourceEnd()
-                    .Included()
-                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
-                            .SetMeta(ApiSampleData.ResourceMeta)
-                            .Relationships()
-                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                        .IncludeEnd()
-
-                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new[] { SampleComments.Comment1, SampleComments.Comment2 }))
-                            .SetMeta(ApiSampleData.ResourceMeta)
-                            .Relationships()
-                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                        .IncludeEnd()
-
-                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
-                            .SetMeta(ApiSampleData.ResourceMeta)
-                            .Relationships()
-                                .AddRelationship(ApiSampleData.PersonToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                        .IncludeEnd()
-
-                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new[] { SampleComments.Comment1, SampleComments.Comment2 }))
-                            .SetMeta(ApiSampleData.ResourceMeta)
-                            .Relationships()
-                                .AddRelationship(ApiSampleData.CommentToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                        .IncludeEnd()
-                    .IncludedEnd()
-                .WriteDocument();
-
-            var errorsDocument = new DocumentContext(default(IDocumentContextOptions))
-                .NewDocument(String.Empty)
-                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                    .SetMeta(ApiSampleData.DocumentMeta)
-                    .Links()
-                        .AddLink(Keywords.Self)
-                    .LinksEnd()
-                    .Errors()
-                        .AddError(ApiSampleData.Error1)
-                        .AddError(ApiSampleData.Error2)
-                    .ErrorsEnd()
-                .WriteDocument();
-        }
-    }
-}
-
 namespace JsonApiFramework.Server.Tests.Internal
 {
-    using Attribute = JsonApiFramework.JsonApi.ApiProperty;
-    using Attributes = JsonApiFramework.JsonApi.ApiObject;
+    using Attribute  = ApiProperty;
+    using Attributes = ApiObject;
 
-    public class DocumentBuilderTests : XUnitTest
+    public class DocumentBuilderWithGenericMethodTests : XUnitTest
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DocumentBuilderTests(ITestOutputHelper output)
+        public DocumentBuilderWithGenericMethodTests(ITestOutputHelper output)
             : base(output)
         { }
         #endregion
@@ -146,53 +40,43 @@ namespace JsonApiFramework.Server.Tests.Internal
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentBuilderWriteDocumentTestData")]
-        public void TestDocumentBuilderWriteDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
-        { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
-
-        [Theory]
-        [MemberData("DocumentBuilderWriteEmptyDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteEmptyDocumentTestData))]
         public void TestDocumentBuilderWriteEmptyDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteNullDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteNullDocumentTestData))]
         public void TestDocumentBuilderWriteNullDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceCollectionDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteResourceCollectionDocumentTestData))]
         public void TestDocumentBuilderWriteResourceCollectionDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteResourceDocumentTestData))]
         public void TestDocumentBuilderWriteResourceDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceIdentifierCollectionDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteResourceIdentifierCollectionDocumentTestData))]
         public void TestDocumentBuilderWriteResourceIdentifierCollectionDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceIdentifierDocumentTestData")]
+        [MemberData(nameof(DocumentBuilderWriteResourceIdentifierDocumentTestData))]
         public void TestDocumentBuilderWriteResourceIdentifierDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteWithFrameworkHypermediaTestData")]
+        [MemberData(nameof(DocumentBuilderWriteWithFrameworkHypermediaTestData))]
         public void TestDocumentBuilderWriteWithFrameworkHypermedia(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteWithPredicateBasedFrameworkHypermediaTestData")]
+        [MemberData(nameof(DocumentBuilderWriteWithPredicateBasedFrameworkHypermediaTestData))]
         public void TestDocumentBuilderWriteWithPredicateBasedFrameworkHypermedia(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
-        { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
-
-        [Theory]
-        [MemberData("DocumentBuilderWriteErrorsDocumentTestData")]
-        public void TestDocumentBuilderWriteErrorsDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
         #endregion
 
@@ -266,81 +150,22 @@ namespace JsonApiFramework.Server.Tests.Internal
 
         private static class DocumentBuilderFactory
         {
-            public static DocumentBuilder Create(IServiceModel serviceModel, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry, IUrlBuilderConfiguration urlBuilderConfiguration, string currentRequestUrl)
+            public static IDocumentBuilder Create(IServiceModel serviceModel, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry, IUrlBuilderConfiguration urlBuilderConfiguration, string currentRequestUrl)
             {
-                var documentWriter = new DocumentWriter(serviceModel);
-                var hypermediaContext = new HypermediaContext(serviceModel, urlBuilderConfiguration, null);
+                var documentWriter         = new DocumentWriter(serviceModel);
+                var hypermediaContext      = new HypermediaContext(serviceModel, urlBuilderConfiguration, null);
                 var documentBuilderContext = new DocumentBuilderContext(currentRequestUrl, QueryParameters.Empty, false);
-                var documentBuilder = new DocumentBuilder(documentWriter, hypermediaAssemblerRegistry, hypermediaContext, documentBuilderContext);
+                var documentBuilder        = new DocumentBuilder(documentWriter, hypermediaAssemblerRegistry, hypermediaContext, documentBuilderContext);
                 return documentBuilder;
             }
         }
-
-        #region DocumentBuilderWriteDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteDocumentTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithNothing",
-                        Document.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
-                    },
-                new object[]
-                    {
-                        "WithMeta",
-                        new Document
-                            {
-                                Meta = ApiSampleData.DocumentMeta
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                    },
-                new object[]
-                    {
-                        "WithMetaAndLinks",
-                        new Document
-                            {
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddSelfLink(ApiSampleData.ArticleLink)
-                            .LinksEnd()
-                    },
-                new object[]
-                    {
-                        "WithJsonApiAndMetaAndLinks",
-                        new Document
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddSelfLink(ApiSampleData.ArticleLink)
-                            .LinksEnd()
-                    },
-            };
-        #endregion
-
 
         #region DocumentBuilderWriteEmptyDocumentTestData
         public static readonly IEnumerable<object[]> DocumentBuilderWriteEmptyDocumentTestData = new[]
             {
                 new object[]
                     {
-                        "WithNothing",
+                        "WithEmptyResources",
                         EmptyDocument.Empty,
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com/articles")
                             .ResourceCollection(Enumerable.Empty<Article>())
@@ -348,7 +173,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                     },
                 new object[]
                     {
-                        "WithJsonApiAndMetaAndLinks",
+                        "WithEmptyResourcesAndJsonApiAndMetaAndLinks",
                         new EmptyDocument
                             {
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
@@ -367,6 +192,68 @@ namespace JsonApiFramework.Server.Tests.Internal
                             .ResourceCollection(Enumerable.Empty<Article>())
                             .ResourceCollectionEnd()
                     },
+                new object[]
+                    {
+                        "WithEmptyResourcesAndUserBuiltHypermedia",
+                        new ResourceCollectionDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>()
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                            .SetMeta(ApiSampleData.DocumentMeta)
+                            .Links()
+                                .AddLink(Keywords.Self, ApiSampleData.ArticleCollectionLink)
+                            .LinksEnd()
+                            .ResourceCollection(Enumerable.Empty<Article>())
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { ApiSampleData.ArticleToAuthorRelationship1, ApiSampleData.ArticleToAuthorRelationship2 })
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { ApiSampleData.ArticleToCommentsRelationship1, ApiSampleData.ArticleToCommentsRelationship2 })
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self, ApiSampleData.ArticleLink1, ApiSampleData.ArticleLink2)
+                                    .AddLink(Keywords.Canonical, ApiSampleData.ArticleLink1, ApiSampleData.ArticleLink2)
+                                .LinksEnd()
+                            .ResourceCollectionEnd()
+                    },
+                new object[]
+                    {
+                        "WithEmptyResourcesAndFrameworkBuiltHypermedia",
+                        new ResourceCollectionDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>()
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                            .SetMeta(ApiSampleData.DocumentMeta)
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                            .ResourceCollection(Enumerable.Empty<Article>())
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                    .AddLink(Keywords.Canonical)
+                                .LinksEnd()
+                            .ResourceCollectionEnd()
+                    },
             };
         #endregion
 
@@ -375,7 +262,7 @@ namespace JsonApiFramework.Server.Tests.Internal
             {
                 new object[]
                     {
-                        "WithNothing",
+                        "WithNullResource",
                         NullDocument.Empty,
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, "http://api.example.com")
                             .Resource(default(Article))
@@ -383,7 +270,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                     },
                 new object[]
                     {
-                        "WithJsonApiAndMetaAndLinks",
+                        "WithNullResourceAndJsonApiAndMetaAndLinks",
                         new NullDocument
                             {
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
@@ -402,44 +289,74 @@ namespace JsonApiFramework.Server.Tests.Internal
                             .Resource(default(Article))
                             .ResourceEnd()
                     },
-            };
-        #endregion
-
-
-        #region DocumentBuilderWriteResourceCollectionDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceCollectionDocumentTestData = new[]
-            {
                 new object[]
                     {
-                        "WithEmptyResources",
-                        ResourceCollectionDocument.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .ResourceCollection(Enumerable.Empty<Article>())
-                            .ResourceCollectionEnd()
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourcesAndJsonApiAndMetaAndLinks",
-                        new ResourceCollectionDocument
+                        "WithNullResourceAndUserBuiltHypermedia",
+                        new ResourceDocument
                             {
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Meta = ApiSampleData.DocumentMeta,
                                 Links = new Links
                                     {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
                                     },
-                                Data = Enumerable.Empty<Resource>()
-                                                 .ToList()
+                                Data = null
                             },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
                             .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
                             .SetMeta(ApiSampleData.DocumentMeta)
                             .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleCollectionLink)
+                                .AddLink(Keywords.Self, ApiSampleData.ArticleLink)
                             .LinksEnd()
-                            .ResourceCollection(Enumerable.Empty<Article>())
-                            .ResourceCollectionEnd()
+                            .Resource(default(Article))
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship)
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship)
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self, ApiSampleData.ArticleLink)
+                                    .AddLink(Keywords.Canonical, ApiSampleData.ArticleLink)
+                                .LinksEnd()
+                            .ResourceEnd()
                     },
+                new object[]
+                    {
+                        "WithNullResourceAndFrameworkBuiltHypermedia",
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Meta = ApiSampleData.DocumentMeta,
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    },
+                                Data = null
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
+                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                            .SetMeta(ApiSampleData.DocumentMeta)
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                            .Resource(default(Article))
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                                .Relationships()
+                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
+                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                    .AddLink(Keywords.Canonical)
+                                .LinksEnd()
+                            .ResourceEnd()
+                    },
+            };
+        #endregion
+
+        #region DocumentBuilderWriteResourceCollectionDocumentTestData
+        public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceCollectionDocumentTestData = new[]
+            {
                 new object[]
                     {
                         "WithResourcesAndUserBuiltHypermedia",
@@ -729,68 +646,6 @@ namespace JsonApiFramework.Server.Tests.Internal
 
                 new object[]
                     {
-                        "WithEmptyResourcesAndUserBuiltHypermedia",
-                        new ResourceCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Data = new List<Resource>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleCollectionLink)
-                            .LinksEnd()
-                            .ResourceCollection(Enumerable.Empty<Article>())
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { ApiSampleData.ArticleToAuthorRelationship1, ApiSampleData.ArticleToAuthorRelationship2 })
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { ApiSampleData.ArticleToCommentsRelationship1, ApiSampleData.ArticleToCommentsRelationship2 })
-                                .RelationshipsEnd()
-                                .Links()
-                                    .AddLink(Keywords.Self, ApiSampleData.ArticleLink1, ApiSampleData.ArticleLink2)
-                                    .AddLink(Keywords.Canonical, ApiSampleData.ArticleLink1, ApiSampleData.ArticleLink2)
-                                .LinksEnd()
-                            .ResourceCollectionEnd()
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourcesAndFrameworkBuiltHypermedia",
-                        new ResourceCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Data = new List<Resource>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .ResourceCollection(Enumerable.Empty<Article>())
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
-                                .RelationshipsEnd()
-                                .Links()
-                                    .AddLink(Keywords.Self)
-                                    .AddLink(Keywords.Canonical)
-                                .LinksEnd()
-                            .ResourceCollectionEnd()
-                    },
-                new object[]
-                    {
                         "WithResourcesAndIncludedDuplicateResourcesAndFrameworkBuiltHypermedia",
                         new ResourceCollectionDocument
                             {
@@ -902,36 +757,6 @@ namespace JsonApiFramework.Server.Tests.Internal
         #region DocumentBuilderWriteResourceDocumentTestData
         public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceDocumentTestData = new[]
             {
-                new object[]
-                    {
-                        "WithNullResource",
-                        ResourceDocument.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
-                            .Resource(default(Article))
-                            .ResourceEnd()
-                    },
-                new object[]
-                    {
-                        "WithNullResourceAndJsonApiAndMetaAndLinks",
-                        new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleLink)
-                            .LinksEnd()
-                            .Resource(default(Article))
-                            .ResourceEnd()
-                    },
                 new object[]
                     {
                         "WithResourceAndUserBuiltHypermedia",
@@ -1175,68 +1000,6 @@ namespace JsonApiFramework.Server.Tests.Internal
                                         .LinksEnd()
                                         .SetData(ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipEnd()
-                                .RelationshipsEnd()
-                                .Links()
-                                    .AddLink(Keywords.Self)
-                                    .AddLink(Keywords.Canonical)
-                                .LinksEnd()
-                            .ResourceEnd()
-                    },
-                new object[]
-                    {
-                        "WithNullResourceAndUserBuiltHypermedia",
-                        new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleLink)
-                            .LinksEnd()
-                            .Resource(default(Article))
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship)
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship)
-                                .RelationshipsEnd()
-                                .Links()
-                                    .AddLink(Keywords.Self, ApiSampleData.ArticleLink)
-                                    .AddLink(Keywords.Canonical, ApiSampleData.ArticleLink)
-                                .LinksEnd()
-                            .ResourceEnd()
-                    },
-                new object[]
-                    {
-                        "WithNullResourceAndFrameworkBuiltHypermedia",
-                        new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .Resource(default(Article))
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .Relationships()
-                                    .AddRelationship(ApiSampleData.ArticleToAuthorRel, new [] { Keywords.Self, Keywords.Related })
-                                    .AddRelationship(ApiSampleData.ArticleToCommentsRel, new [] { Keywords.Self, Keywords.Related })
                                 .RelationshipsEnd()
                                 .Links()
                                     .AddLink(Keywords.Self)
@@ -1502,106 +1265,25 @@ namespace JsonApiFramework.Server.Tests.Internal
             {
                 new object[]
                     {
-                        "WithEmptyObject",
+                        "WithNullResourceIdentifiers",
                         ResourceIdentifierCollectionDocument.Empty,
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
                             .SetResourceIdentifierCollection<Article>()
                     },
                 new object[]
                     {
-                        "WithNullResourceIdentifiersAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection<Article>()
+                        "WithNullResourceIdentifiersAndMeta",
+                        ResourceIdentifierCollectionDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .ResourceIdentifierCollection<Article>()
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
                     {
-                        "WithNullResourceIdentifiersAndFrameworkBuiltHypermedia",
+                        "WithResourceIdentifiers",
                         new ResourceIdentifierCollectionDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection<Article>()
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourceIdentifiersAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(Enumerable.Empty<Comment>())
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourceIdentifiersAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(Enumerable.Empty<Comment>())
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifiersAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
                                 Data = new List<ResourceIdentifier>
                                     {
                                         ApiSampleData.CommentResourceIdentifier1,
@@ -1609,53 +1291,15 @@ namespace JsonApiFramework.Server.Tests.Internal
                                     }
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
                             .ResourceIdentifierCollection<Comment>()
                                 .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
                             .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
                     {
-                        "WithResourceIdentifiersAndFrameworkBuiltHypermedia",
+                        "WithResourceIdentifiersAndMeta",
                         new ResourceIdentifierCollectionDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .ResourceIdentifierCollection<Comment>()
-                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
-                            .ResourceIdentifierCollectionEnd()
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifiersAndMetaAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
                                 Data = new List<ResourceIdentifier>
                                     {
                                         ApiSampleData.CommentResourceIdentifierWithMeta1,
@@ -1663,11 +1307,6 @@ namespace JsonApiFramework.Server.Tests.Internal
                                     }
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
                             .ResourceIdentifierCollection<Comment>()
                                 .SetMeta(ApiSampleData.ResourceMeta)
                                 .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
@@ -1675,165 +1314,65 @@ namespace JsonApiFramework.Server.Tests.Internal
                     },
                 new object[]
                     {
-                        "WithResourceIdentifiersAndMetaAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifierWithMeta1,
-                                        ApiSampleData.CommentResourceIdentifierWithMeta2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .ResourceIdentifierCollection<Comment>()
-                                .SetMeta(new []{ ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta })
-                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
+                        "WithNullResources",
+                        ResourceIdentifierCollectionDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .SetResourceIdentifierCollection(default(IEnumerable<Article>))
+                    },
+                new object[]
+                    {
+                        "WithNullResourcesAndMeta",
+                        ResourceIdentifierCollectionDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .ResourceIdentifierCollection(default(IEnumerable<Article>))
+                                .SetMeta(ApiSampleData.ResourceMeta)
                             .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
                     {
-                        "WithNullResourcesAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(new []{ default(Comment), default(Comment) })
+                        "WithEmptyResources",
+                        ResourceIdentifierCollectionDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .SetResourceIdentifierCollection(Enumerable.Empty<Article>())
                     },
                 new object[]
                     {
-                        "WithNullResourcesAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(new []{ default(Comment), default(Comment) })
+                        "WithEmptyResourcesAndMeta",
+                        ResourceIdentifierCollectionDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .ResourceIdentifierCollection(Enumerable.Empty<Article>())
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierCollectionEnd()
                     },
                 new object[]
                     {
-                        "WithEmptyResourcesAndUserBuiltHypermedia",
+                        "WithResources",
                         new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(new []{ new Comment(), new Comment() })
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourcesAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(new []{ new Comment(), new Comment() })
-                    },
-                new object[]
-                    {
-                        "WithResourcesAndUserBuiltHypermedia",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink)
-                            .LinksEnd()
+                                ApiSampleData.CommentResourceIdentifier1,
+                                ApiSampleData.CommentResourceIdentifier2
+                            }
+                        },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
                             .SetResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
                     },
                 new object[]
                     {
-                        "WithResourcesAndFrameworkBuiltHypermedia",
+                        "WithResourcesAndMeta",
                         new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToCommentsHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
+                                ApiSampleData.CommentResourceIdentifierWithMeta1,
+                                ApiSampleData.CommentResourceIdentifierWithMeta2
+                            }
+                        },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
+                            .ResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierCollectionEnd()
                     },
             };
         #endregion
@@ -1843,118 +1382,40 @@ namespace JsonApiFramework.Server.Tests.Internal
             {
                 new object[]
                     {
-                        "WithEmptyObject",
+                        "WithNullResourceIdentifier",
                         ResourceIdentifierDocument.Empty,
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
                             .SetResourceIdentifier<Article>()
                     },
                 new object[]
                     {
-                        "WithNullResourceIdentifierAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
-                            .SetResourceIdentifier<Person>()
+                        "WithNullResourceIdentifierAndMeta",
+                        ResourceIdentifierDocument.Empty,
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleHRef)
+                            .ResourceIdentifier<Article>()
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierEnd()
                     },
                 new object[]
                     {
-                        "WithNullResourceIdentifierAndFrameworkBuiltHypermedia",
+                        "WithResourceIdentifier",
                         new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifier<Person>()
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifierAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
                                 Data = ApiSampleData.PersonResourceIdentifier
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
                             .ResourceIdentifier<Person>()
                                 .SetId(Id.Create(ApiSampleData.PersonId))
                             .ResourceIdentifierEnd()
                     },
                 new object[]
                     {
-                        "WithResourceIdentifierAndFrameworkBuiltHypermedia",
+                        "WithResourceIdentifierAndMeta",
                         new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifier
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .ResourceIdentifier<Person>()
-                                .SetId(Id.Create(ApiSampleData.PersonId))
-                            .ResourceIdentifierEnd()
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifierAndMetaAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
                                 Data = ApiSampleData.PersonResourceIdentifierWithMeta
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
                             .ResourceIdentifier<Person>()
                                 .SetMeta(ApiSampleData.ResourceMeta)
                                 .SetId(Id.Create(ApiSampleData.PersonId))
@@ -1962,203 +1423,72 @@ namespace JsonApiFramework.Server.Tests.Internal
                     },
                 new object[]
                     {
-                        "WithResourceIdentifierAndMetaAndFrameworkBuiltHypermedia",
+                        "WithNullResource",
                         new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifierWithMeta
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .ResourceIdentifier<Person>()
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .SetId(Id.Create(ApiSampleData.PersonId))
-                            .ResourceIdentifierEnd()
-                    },
-                new object[]
-                    {
-                        "WithNullResourceAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
                                 Data = null
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
                             .SetResourceIdentifier(default(Person))
                     },
                 new object[]
                     {
-                        "WithNullResourceAndFrameworkBuiltHypermedia",
+                        "WithNullResourceAndMeta",
                         new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            },
+                        {
+                            Data = null
+                        },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifier(default(Person))
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourceAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
-                            .SetResourceIdentifier(new Person())
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourceAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifier(new Person())
-                    },
-                new object[]
-                    {
-                        "WithResourceAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifier
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
-                            .SetResourceIdentifier(SamplePersons.Person)
-                    },
-                new object[]
-                    {
-                        "WithResourceAndFrameworkBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifier
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .SetResourceIdentifier(SamplePersons.Person)
-                    },
-                new object[]
-                    {
-                        "WithResourceAndMetaAndUserBuiltHypermedia",
-                        new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifierWithMeta
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink)
-                            .LinksEnd()
-                            .ResourceIdentifier(SamplePersons.Person)
+                            .ResourceIdentifier(default(Person))
                                 .SetMeta(ApiSampleData.ResourceMeta)
                             .ResourceIdentifierEnd()
                     },
                 new object[]
                     {
-                        "WithResourceAndMetaAndFrameworkBuiltHypermedia",
+                        "WithEmptyResource",
+                        new ResourceIdentifierDocument
+                        {
+                            Data = null
+                        },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
+                            .SetResourceIdentifier(new Person())
+                    },
+                new object[]
+                    {
+                        "WithEmptyResourceAndMeta",
                         new ResourceIdentifierDocument
                             {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
+                                Data = null
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
+                            .ResourceIdentifier(new Person())
+                                .SetMeta(ApiSampleData.ResourceMeta)
+                            .ResourceIdentifierEnd()
+                    },
+                new object[]
+                    {
+                        "WithResource",
+                        new ResourceIdentifierDocument
+                            {
+                                Data = ApiSampleData.PersonResourceIdentifier
+                            },
+                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
+                            .SetResourceIdentifier(SamplePersons.Person)
+                    },
+                new object[]
+                    {
+                        "WithResourceAndMeta",
+                        new ResourceIdentifierDocument
+                            {
                                 Data = ApiSampleData.PersonResourceIdentifierWithMeta
                             },
                         DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleToRelationshipsToAuthorHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
                             .ResourceIdentifier(SamplePersons.Person)
                                 .SetMeta(ApiSampleData.ResourceMeta)
                             .ResourceIdentifierEnd()
                     },
             };
         #endregion
-
 
         #region DocumentBuilderWriteWithFrameworkHypermediaTestData
         public static readonly IEnumerable<object[]> DocumentBuilderWriteWithFrameworkHypermediaTestData = new[]
@@ -2184,7 +1514,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -2207,7 +1537,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -2254,7 +1584,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -2300,7 +1630,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToOrderItemsRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/orders/1/relationships/line-items"},
                                                                     {Keywords.Related, "http://api.example.com/orders/1/line-items"}
@@ -2310,7 +1640,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToPaymentsRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/orders/1/relationships/payments"},
                                                                     {Keywords.Related, "http://api.example.com/orders/1/payments"}
@@ -2320,7 +1650,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToStoreRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/orders/1/relationships/store"},
                                                                     {Keywords.Related, "http://api.example.com/orders/1/store"}
@@ -2383,7 +1713,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.StoreToStoreConfigurationToPosSystemRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/stores/50/configuration/relationships/pos"},
                                                                     {Keywords.Related, "http://api.example.com/stores/50/configuration/pos"}
@@ -2434,7 +1764,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PosSystemToStoreConfigurationsRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf/relationships/store-configurations"},
                                                                     {Keywords.Related, "http://api.example.com/pos-systems/RadiantWcf/store-configurations"}
@@ -2482,7 +1812,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -2505,7 +1835,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -2554,7 +1884,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/orders/1/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/orders/1/payments/101/order"}
@@ -2578,7 +1908,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/orders/1/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/orders/1/payments/102/order"}
@@ -2600,7 +1930,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                             .LinksEnd()
                             .ResourceCollection(new []{ SamplePayments.Payment101, SamplePayments.Payment102 })
                                 .Paths()
-                                    .AddPath(SampleOrders.Order, ClrSampleData.OrderToPaymentsRel)
+                                    .AddPath((x, y) => { x.AddPath(SampleOrders.Order, ClrSampleData.OrderToPaymentsRel); })
                                 .PathsEnd()
                                 .Relationships()
                                     .AddRelationship(ClrSampleData.PaymentToOrderRel, new [] { Keywords.Self, Keywords.Related })
@@ -2632,7 +1962,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToOrderItemsRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/line-items"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items"}
@@ -2642,7 +1972,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToPaymentsRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/payments"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/payments"}
@@ -2652,7 +1982,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToStoreRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/store"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/store"}
@@ -2675,7 +2005,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToOrderItemsRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/2/relationships/line-items"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/2/line-items"}
@@ -2685,7 +2015,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToPaymentsRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/2/relationships/payments"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/2/payments"}
@@ -2695,7 +2025,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderToStoreRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/2/relationships/store"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/2/store"}
@@ -2744,7 +2074,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToOrderItemsRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/line-items"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items"}
@@ -2754,7 +2084,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToPaymentsRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/payments"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/orders/1/payments"}
@@ -2764,7 +2094,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToStoreRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/orders/1/relationships/store"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/orders/1/store"}
@@ -2817,7 +2147,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1001/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1001/order"}
@@ -2827,7 +2157,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToProductRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1001/relationships/product"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1001/product"}
@@ -2853,7 +2183,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1002/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1002/order"}
@@ -2863,7 +2193,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToProductRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1002/relationships/product"},
                                                                             {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1002/product"}
@@ -2917,7 +2247,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1001/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1001/order"}
@@ -2927,7 +2257,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToProductRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/orders/1/line-items/1001/relationships/product"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/orders/1/line-items/1001/product"}
@@ -2980,7 +2310,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items/1001/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items/1001/order"}
@@ -2990,7 +2320,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToProductRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items/1001/relationships/product"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items/1001/product"}
@@ -3045,7 +2375,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items/1001/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items/1001/order"}
@@ -3055,7 +2385,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderItemToProductRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items/1001/relationships/product"},
                                                                     {Keywords.Related, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items/1001/product"}
@@ -3109,7 +2439,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToOrderItemsRel, new ToManyRelationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/en-us/orders/1/relationships/line-items"},
                                                                     {Keywords.Related, "http://api.example.com/en-us/orders/1/line-items"}
@@ -3124,7 +2454,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToPaymentsRel, new ToManyRelationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/en-us/orders/1/relationships/payments"},
                                                                     {Keywords.Related, "http://api.example.com/en-us/orders/1/payments"}
@@ -3139,7 +2469,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToStoreRel, new ToOneRelationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/en-us/orders/1/relationships/store"},
                                                                     {Keywords.Related, "http://api.example.com/en-us/orders/1/store"}
@@ -3168,7 +2498,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToOrderRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/orders/1/line-items/1001/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/orders/1/line-items/1001/order"}
@@ -3179,7 +2509,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToProductRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/orders/1/line-items/1001/relationships/product"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/orders/1/line-items/1001/product"}
@@ -3206,7 +2536,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToOrderRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/orders/1/line-items/1002/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/orders/1/line-items/1002/order"}
@@ -3217,7 +2547,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.OrderItemToProductRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/orders/1/line-items/1002/relationships/product"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/orders/1/line-items/1002/product"}
@@ -3241,7 +2571,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/payments/101/order"}
@@ -3265,7 +2595,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/payments/102/order"}
@@ -3294,7 +2624,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.StoreToStoreConfigurationRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/stores/50/relationships/configuration"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/stores/50/configuration"}
@@ -3357,7 +2687,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.StoreToStoreConfigurationToPosSystemRel, new ToOneRelationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/stores/50/configuration/relationships/pos"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/stores/50/configuration/pos"}
@@ -3383,7 +2713,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PosSystemToStoreConfigurationsRelPathSegment, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/en-us/pos-systems/RadiantWcf/relationships/store-configurations"},
                                                                             {Keywords.Related, "http://api.example.com/en-us/pos-systems/RadiantWcf/store-configurations"}
@@ -3521,7 +2851,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToPaymentsRel, new ToManyRelationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/orders/1/relationships/payments"},
                                                                     {Keywords.Related, "http://api.example.com/orders/1/payments"}
@@ -3579,7 +2909,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.OrderToStoreRel, new ToOneRelationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/orders/1/relationships/store"},
                                                                     {Keywords.Related, "http://api.example.com/orders/1/store"}
@@ -3645,7 +2975,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -3668,7 +2998,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -3718,7 +3048,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -3826,7 +3156,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -3910,7 +3240,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -3933,7 +3263,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -3988,7 +3318,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4106,7 +3436,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4200,7 +3530,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4223,7 +3553,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4273,7 +3603,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4296,7 +3626,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4343,7 +3673,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4363,7 +3693,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4408,7 +3738,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4455,7 +3785,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4501,7 +3831,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4524,7 +3854,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4575,7 +3905,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4598,7 +3928,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4646,7 +3976,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4666,7 +3996,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                         {
                                                             ClrSampleData.PaymentToOrderRel, new Relationship
                                                                 {
-                                                                    Links = new Links 
+                                                                    Links = new Links
                                                                         {
                                                                             {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
                                                                             {Keywords.Related, "http://api.example.com/payments/102/order"}
@@ -4712,7 +4042,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4760,7 +4090,7 @@ namespace JsonApiFramework.Server.Tests.Internal
                                                 {
                                                     ClrSampleData.PaymentToOrderRel, new Relationship
                                                         {
-                                                            Links = new Links 
+                                                            Links = new Links
                                                                 {
                                                                     {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
                                                                     {Keywords.Related, "http://api.example.com/payments/101/order"}
@@ -4997,138 +4327,6 @@ namespace JsonApiFramework.Server.Tests.Internal
                                     .LinkEnd()
                                 .LinksEnd()
                             .ResourceEnd()
-                    },
-            };
-        #endregion
-
-
-        #region DocumentBuilderWriteErrorsDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteErrorsDocumentTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithEmptyErrors",
-                        ErrorsDocument.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .Errors()
-                            .ErrorsEnd()
-                    },
-                new object[]
-                    {
-                        "WithEmptyErrorsAndJsonApiAndMetaAndLinksAndUserBuiltHypermedia",
-                        new ErrorsDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Errors = Enumerable.Empty<Error>()
-                                                   .ToList()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleCollectionLink)
-                            .LinksEnd()
-                            .Errors()
-                            .ErrorsEnd()
-                    },
-                new object[]
-                    {
-                        "WithEmptyErrorsAndJsonApiAndMetaAndLinksAndFrameworkBuiltHypermedia",
-                        new ErrorsDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Errors = Enumerable.Empty<Error>()
-                                                   .ToList()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .Errors()
-                            .ErrorsEnd()
-                    },
-                new object[]
-                    {
-                        "WithReadOnlyErrors",
-                        new ErrorsDocument
-                            {
-                                Errors = new List<Error>
-                                    {
-                                        ApiSampleData.Error1,
-                                        ApiSampleData.Error2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .Errors()
-                                .AddError(ApiSampleData.Error1)
-                                .AddError(ApiSampleData.Error2)
-                            .ErrorsEnd()
-                    },
-                new object[]
-                    {
-                        "WithReadOnlyErrorsAndJsonApiAndMetaAndLinksAndUserBuiltHypermedia",
-                        new ErrorsDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Errors = new List<Error>
-                                    {
-                                        ApiSampleData.Error1,
-                                        ApiSampleData.Error2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self, ApiSampleData.ArticleCollectionLink)
-                            .LinksEnd()
-                            .Errors()
-                                .AddError(ApiSampleData.Error1, ApiSampleData.Error2)
-                            .ErrorsEnd()
-                    },
-                new object[]
-                    {
-                        "WithReadOnlyErrorsAndJsonApiAndMetaAndLinksAndFrameworkBuiltHypermedia",
-                        new ErrorsDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Errors = new List<Error>
-                                    {
-                                        ApiSampleData.Error1,
-                                        ApiSampleData.Error2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes, HypermediaAssemblerRegistry, UrlBuilderConfigurationWithoutRootPathSegments, ApiSampleData.ArticleCollectionHRef)
-                            .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .Links()
-                                .AddLink(Keywords.Self)
-                            .LinksEnd()
-                            .Errors()
-                                .AddError(ApiSampleData.Error1, ApiSampleData.Error2)
-                            .ErrorsEnd()
                     },
             };
         #endregion

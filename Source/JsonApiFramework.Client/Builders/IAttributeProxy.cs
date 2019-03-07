@@ -9,8 +9,8 @@ namespace JsonApiFramework.Client
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        Type ClrPropertyType { get; }
-        string ClrPropertyName { get; }
+        Type      ClrPropertyType  { get; }
+        string    ClrPropertyName  { get; }
         TProperty ClrPropertyValue { get; }
         #endregion
     }

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
+using JsonApiFramework.ServiceModel.Internal;
 
 namespace JsonApiFramework.ServiceModel.Configuration
 {
@@ -50,6 +51,20 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
             var clrPropertyName = StaticReflection.GetMemberName(clrPropertySelector);
             return resourceTypeBuilder.Meta(clrPropertyName);
+        }
+
+        public static IPropertyInfo CreatePropertyInfo<TResource, TProperty>(this IResourceTypeBuilder<TResource> resourceTypeBuilder, Expression<Func<TResource, TProperty>> clrPropertySelector)
+            where TResource : class
+        {
+            Contract.Requires(resourceTypeBuilder != null);
+            Contract.Requires(clrPropertySelector != null);
+
+            var clrDeclaringType = typeof(TResource);
+            var clrPropertyType  = typeof(TProperty);
+            var clrPropertyName  = StaticReflection.GetMemberName(clrPropertySelector);
+
+            var propertyInfo = new PropertyInfo(clrDeclaringType, clrPropertyName, clrPropertyType);
+            return propertyInfo;
         }
         #endregion
     }

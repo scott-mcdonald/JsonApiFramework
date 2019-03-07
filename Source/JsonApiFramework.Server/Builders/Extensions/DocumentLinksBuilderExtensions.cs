@@ -13,7 +13,6 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, Link link)
-            where TParentBuilder : class
         {
             Contract.Requires(documentLinksBuilder != null);
             Contract.Requires(link != null);
@@ -22,7 +21,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, IEnumerable<Link> linkCollection)
-            where TParentBuilder : class
         {
             Contract.Requires(documentLinksBuilder != null);
             Contract.Requires(linkCollection != null);
@@ -31,7 +29,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder)
-            where TParentBuilder : class
         {
             Contract.Requires(documentLinksBuilder != null);
 

@@ -6,19 +6,18 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JsonApiFramework.Client.Properties;
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Client.Internal
 {
-    internal class AttributesBuilder<TParentBuilder, TResource> : IAttributesBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
-        where TResource : class
+    internal class AttributesBuilder<TParentBuilder> : IAttributesBuilder<TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IAttributesBuilder<TParentBuilder, TResource> Implementation
-        public IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TProperty>(IAttributeProxy<TProperty> attributeProxy)
+        #region IAttributesBuilder<TParentBuilder> Implementation
+        public IAttributesBuilder<TParentBuilder> AddAttribute<TProperty>(IAttributeProxy<TProperty> attributeProxy)
         {
             Contract.Requires(attributeProxy != null);
 
@@ -60,10 +59,14 @@ namespace JsonApiFramework.Client.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private IResourceType ResourceType { get; set; }
-        private DomAttributes DomAttributes { get; set; }
+        private TParentBuilder ParentBuilder { get; }
+        private IResourceType ResourceType { get; }
+        private DomAttributes DomAttributes { get; }
         private HashSet<string> ClrPropertyNames { get; set; }
+        #endregion
+
+        #region Calculated Properties
+        private Type ClrResourceType => this.ResourceType.ClrType;
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -88,10 +91,33 @@ namespace JsonApiFramework.Client.Internal
 
             // The DOM attribute with the given name has already been added
             // to the DOM attributes node.
-            var clrResourceType = typeof(TResource).Name;
+            var clrResourceType = this.ClrResourceType.Name;
             var detail = ClientErrorStrings.DocumentBuildExceptionDetailBuildAttributeAlreadyExists
                                            .FormatWith(clrPropertyName, clrResourceType);
             throw new DocumentBuildException(detail);
+        }
+        #endregion
+    }
+
+    internal class AttributesBuilder<TParentBuilder, TResource> : AttributesBuilder<TParentBuilder>, IAttributesBuilder<TParentBuilder, TResource>
+        where TResource : class
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IAttributesBuilder<TParentBuilder, TResource> Implementation
+        public new IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TProperty>(IAttributeProxy<TProperty> attributeProxy)
+        {
+            Contract.Requires(attributeProxy != null);
+
+            base.AddAttribute(attributeProxy);
+            return this;
+        }
+        #endregion
+
+        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+        #region Constructors
+        internal AttributesBuilder(TParentBuilder parentBuilder, IResourceType resourceType, IContainerNode<DomNodeType> domContainerNode)
+            : base(parentBuilder, resourceType, domContainerNode)
+        {
         }
         #endregion
     }

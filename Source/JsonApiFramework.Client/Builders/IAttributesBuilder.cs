@@ -3,8 +3,17 @@
 
 namespace JsonApiFramework.Client
 {
+    public interface IAttributesBuilder<out TParentBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        IAttributesBuilder<TParentBuilder> AddAttribute<TProperty>(IAttributeProxy<TProperty> attributeProxy);
+
+        TParentBuilder AttributesEnd();
+        #endregion
+    }
+
     public interface IAttributesBuilder<out TParentBuilder, out TResource>
-        where TParentBuilder : class
         where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

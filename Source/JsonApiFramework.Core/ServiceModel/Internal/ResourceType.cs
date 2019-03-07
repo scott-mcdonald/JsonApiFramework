@@ -2,8 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
+using JsonApiFramework.Extension;
 using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
@@ -11,22 +13,20 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     /// <summary>
-    /// Represents type information of an individual resource in a service
-    /// model.
+    /// Represents type information of an individual resource in a service model.
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class ResourceType : ClrTypeInfo
-        , IResourceType
+    internal class ResourceType : ClrTypeInfo, IResourceType
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public ResourceType(Type clrResourceType,
-                            IHypermediaInfo hypermediaInfo,
+        public ResourceType(Type                  clrResourceType,
+                            IHypermediaInfo       hypermediaInfo,
                             IResourceIdentityInfo resourceIdentityInfo,
-                            IAttributesInfo attributesInfo,
-                            IRelationshipsInfo relationshipsInfo,
-                            ILinksInfo linksInfo,
-                            IMetaInfo metaInfo)
+                            IAttributesInfo       attributesInfo,
+                            IRelationshipsInfo    relationshipsInfo,
+                            ILinksInfo            linksInfo,
+                            IMetaInfo             metaInfo)
             : base(clrResourceType, attributesInfo)
         {
             Contract.Requires(hypermediaInfo != null);
@@ -34,22 +34,28 @@ namespace JsonApiFramework.ServiceModel.Internal
             Contract.Requires(relationshipsInfo != null);
             Contract.Requires(linksInfo != null);
 
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceType>(this);
+
             // JSON Properties
-            this.HypermediaInfo = hypermediaInfo;
+            this.HypermediaInfo       = hypermediaInfo;
             this.ResourceIdentityInfo = resourceIdentityInfo;
-            this.RelationshipsInfo = relationshipsInfo;
-            this.LinksInfo = linksInfo;
-            this.MetaInfo = metaInfo;
+            this.RelationshipsInfo    = relationshipsInfo;
+            this.LinksInfo            = linksInfo;
+            this.MetaInfo             = metaInfo;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IResourceType Implementation
-        [JsonProperty] public IHypermediaInfo HypermediaInfo { get; private set; }
+        [JsonProperty] public IHypermediaInfo       HypermediaInfo       { get; private set; }
         [JsonProperty] public IResourceIdentityInfo ResourceIdentityInfo { get; private set; }
-        [JsonProperty] public IRelationshipsInfo RelationshipsInfo { get; private set; }
-        [JsonProperty] public ILinksInfo LinksInfo { get; private set; }
-        [JsonProperty] public IMetaInfo MetaInfo { get; private set; }
+        [JsonProperty] public IRelationshipsInfo    RelationshipsInfo    { get; private set; }
+        [JsonProperty] public ILinksInfo            LinksInfo            { get; private set; }
+        [JsonProperty] public IMetaInfo             MetaInfo             { get; private set; }
+        #endregion
+
+        #region IExtensibleObject<T> Implementation
+        public IEnumerable<IExtension<IResourceType>> Extensions => this.ExtensionDictionary.Extensions;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -59,7 +65,7 @@ namespace JsonApiFramework.ServiceModel.Internal
             if (this.ResourceIdentityInfo != null)
             {
                 var apiType = this.ResourceIdentityInfo.ApiType;
-                var apiId = this.ResourceIdentityInfo.ToApiId(clrResourceId);
+                var apiId   = this.ResourceIdentityInfo.ToApiId(clrResourceId);
                 var apiResourceIdentifier = String.IsNullOrWhiteSpace(apiId) == false
                     ? new ResourceIdentifier(apiType, apiId)
                     : null;
@@ -86,7 +92,7 @@ namespace JsonApiFramework.ServiceModel.Internal
             if (this.ResourceIdentityInfo != null)
             {
                 var apiType = this.ResourceIdentityInfo.ApiType;
-                var apiId = this.ResourceIdentityInfo.GetApiId(clrResource);
+                var apiId   = this.ResourceIdentityInfo.GetApiId(clrResource);
                 var apiResourceIdentifier = String.IsNullOrWhiteSpace(apiId) == false
                     ? new ResourceIdentifier(apiType, apiId)
                     : null;
@@ -248,10 +254,40 @@ namespace JsonApiFramework.ServiceModel.Internal
         }
         #endregion
 
+        #region IExtensibleObject<T> Implementation
+        public void AddExtension(IExtension<IResourceType> extension)
+        {
+            Contract.Requires(extension != null);
+
+            this.ExtensionDictionary.AddExtension(extension);
+        }
+
+        public void RemoveExtension(Type extensionType)
+        {
+            Contract.Requires(extensionType != null);
+
+            this.ExtensionDictionary.RemoveExtension(extensionType);
+        }
+
+        public bool TryGetExtension(Type extensionType, out IExtension<IResourceType> extension)
+        {
+            Contract.Requires(extensionType != null);
+
+            return this.ExtensionDictionary.TryGetExtension(extensionType, out extension);
+        }
+        #endregion
+
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
         internal ResourceType()
-        { }
+        {
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceType>(this);
+        }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private ExtensionDictionary<IResourceType> ExtensionDictionary { get; }
         #endregion
     }
 }

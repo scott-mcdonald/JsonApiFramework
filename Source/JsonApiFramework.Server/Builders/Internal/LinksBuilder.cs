@@ -12,8 +12,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal abstract class LinksBuilder<TBuilder, TParentBuilder> : ILinksBuilder<TBuilder, TParentBuilder>
-        where TBuilder : class
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region ILinksBuilder<TBuilder, TParentBuilder> Implementation
@@ -76,8 +74,8 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private DomReadWriteLinks DomReadWriteLinks { get; set; }
+        private TParentBuilder    ParentBuilder     { get; }
+        private DomReadWriteLinks DomReadWriteLinks { get; }
         #endregion
     }
 }

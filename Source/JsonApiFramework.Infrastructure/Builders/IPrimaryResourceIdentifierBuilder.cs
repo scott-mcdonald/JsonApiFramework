@@ -3,8 +3,7 @@
 
 namespace JsonApiFramework
 {
-    public interface IPrimaryResourceIdentifierBuilder<out TResource> : IResourceIdentifierBuilder<IPrimaryResourceIdentifierBuilder<TResource>, TResource>
-        where TResource : class
+    public interface IPrimaryResourceIdentifierBuilder : IResourceIdentifierBuilder<IPrimaryResourceIdentifierBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

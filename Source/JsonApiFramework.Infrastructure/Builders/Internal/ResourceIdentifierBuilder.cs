@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -11,15 +12,16 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Internal
 {
-    internal abstract class ResourceIdentifierBuilder<TBuilder, TResource> : IResourceIdentifierBuilder<TBuilder, TResource>
-        where TBuilder : class, IResourceIdentifierBuilder<TBuilder, TResource>
-        where TResource : class
+    internal abstract class ResourceIdentifierBuilder<TBuilder> : IResourceIdentifierBuilder<TBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceIdentifierBuilder<TBuilder> Implementation
         public TBuilder SetMeta(Meta meta)
         {
             Contract.Requires(meta != null);
+
+            if (this.NotBuildingResourceIdentifier)
+                return this.Builder;
 
             this.CreateAndAddDomReadWriteResourceIdentifierIfNeeded();
 
@@ -31,14 +33,20 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(metaCollection != null);
 
+            if (this.NotBuildingResourceIdentifier)
+                return this.Builder;
+
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
-                                                   .FormatWith(DomNodeType.Meta, typeof(TResource).Name);
+                                                   .FormatWith(DomNodeType.Meta, this.ClrResourceType.Name);
             throw new DocumentBuildException(detail);
         }
 
         public TBuilder SetId<T>(IId<T> id)
         {
             Contract.Requires(id != null);
+
+            if (this.NotBuildingResourceIdentifier)
+                return this.Builder;
 
             this.CreateAndAddDomReadWriteResourceIdentifierIfNeeded();
 
@@ -51,31 +59,36 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(idCollection != null);
 
+            if (this.NotBuildingResourceIdentifier)
+                return this.Builder;
+
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
-                                                   .FormatWith(DomNodeType.Id, typeof(TResource).Name);
+                                                   .FormatWith(DomNodeType.Id, this.ClrResourceType.Name);
             throw new DocumentBuildException(detail);
         }
         #endregion
 
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
-        protected ResourceIdentifierBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode)
+        protected ResourceIdentifierBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType, object clrResource)
         {
             Contract.Requires(serviceModel != null);
             Contract.Requires(domContainerNode != null);
 
-            this.ServiceModel = serviceModel;
             this.DomContainerNode = domContainerNode;
-        }
 
-        protected ResourceIdentifierBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, TResource clrResource)
-            : this(serviceModel, domContainerNode)
-        {
+            if (clrResourceType == null)
+                return;
+
+            this.BuildingResourceIdentifier = true;
+
+            var resourceType = serviceModel.GetResourceType(clrResourceType);
+            this.ResourceType = resourceType;
+
             if (clrResource == null)
                 return;
 
             this.CreateAndAddDomReadWriteResourceIdentifierIfNeeded();
-
             this.DomReadWriteResourceIdentifier.SetDomIdFromClrResource(this.ResourceType, clrResource);
         }
         #endregion
@@ -87,10 +100,16 @@ namespace JsonApiFramework.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private IServiceModel ServiceModel { get; set; }
-        private IResourceType ResourceType { get; set; }
-        private IContainerNode<DomNodeType> DomContainerNode { get; set; }
+        private bool                           BuildingResourceIdentifier     { get; }
+        private IContainerNode<DomNodeType>    DomContainerNode               { get; }
         private DomReadWriteResourceIdentifier DomReadWriteResourceIdentifier { get; set; }
+        private IResourceType ResourceType { get; }
+        #endregion
+
+        #region Calculated Properties
+        private Type ClrResourceType => this.ResourceType?.ClrType;
+
+        private bool NotBuildingResourceIdentifier => !this.BuildingResourceIdentifier;
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -100,11 +119,7 @@ namespace JsonApiFramework.Internal
             if (this.DomReadWriteResourceIdentifier != null)
                 return;
 
-            var clrResourceType = typeof(TResource);
-            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-            this.ResourceType = resourceType;
-
-            var domResourceType = DomType.CreateFromResourceType(resourceType);
+            var domResourceType                = DomType.CreateFromResourceType(this.ResourceType);
             var domReadWriteResourceIdentifier = DomReadWriteResourceIdentifier.Create(domResourceType);
 
             var domContainerNode = this.DomContainerNode;

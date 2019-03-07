@@ -11,8 +11,41 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server.Internal
 {
+    internal class ResourceLinksBuilder<TParentBuilder> : LinksBuilder<IResourceLinksBuilder<TParentBuilder>, TParentBuilder>, IResourceLinksBuilder<TParentBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region LinksBuilder<TBuilder, TParentBuilder> Overrides
+        public override IResourceLinksBuilder<TParentBuilder> AddLink(string rel, IEnumerable<Link> linkCollection)
+        {
+            var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, rel);
+            var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
+                                                   .FormatWith(linkDescription, this.ClrResourceType.Name);
+            throw new DocumentBuildException(detail);
+        }
+        #endregion
+
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        #region Constructors
+        internal ResourceLinksBuilder(TParentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType, object clrResource)
+            : base(parentBuilder, domContainerNode)
+        {
+            Contract.Requires(clrResourceType != null);
+            Contract.Requires(clrResource != null);
+
+            this.Builder = this;
+            this.ClrResourceType = clrResourceType;
+            this.ClrResource = clrResource;
+        }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private Type ClrResourceType { get; }
+        private object ClrResource { get; }
+        #endregion
+    }
+
     internal class ResourceLinksBuilder<TParentBuilder, TResource> : LinksBuilder<IResourceLinksBuilder<TParentBuilder, TResource>, TParentBuilder>, IResourceLinksBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
         where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -26,7 +59,7 @@ namespace JsonApiFramework.Server.Internal
         }
         #endregion
 
-        #region IResourceLinksBuilder<TParentBuilder, TResource>
+        #region IResourceLinksBuilder<TParentBuilder, TResource> Implementation
         public IResourceLinksBuilder<TParentBuilder, TResource> AddLink(string rel, Func<TResource, bool> predicate, Link link)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -81,7 +114,7 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TResource ClrResource { get; set; }
+        private TResource ClrResource { get; }
         #endregion
     }
 }

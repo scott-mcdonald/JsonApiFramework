@@ -3,16 +3,14 @@
 
 namespace JsonApiFramework.Client
 {
-    public interface IRelationshipsBuilder<out TParentBuilder, out TResource>
-        where TParentBuilder : class
-        where TResource : class
+    public interface IRelationshipsBuilder<out TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToOneResourceLinkage toOneResourceLinkage);
-        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToManyResourceLinkage toManyResourceLinkage);
+        IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IToOneResourceLinkage toOneResourceLinkage);
+        IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IToManyResourceLinkage toManyResourceLinkage);
 
-        IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel);
+        IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder>> Relationship(string rel);
 
         TParentBuilder RelationshipsEnd();
         #endregion

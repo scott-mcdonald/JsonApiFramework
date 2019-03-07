@@ -13,7 +13,6 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static ILinkBuilder<TParentBuilder> SetMeta<TParentBuilder>(this ILinkBuilder<TParentBuilder> linkBuilder, params Meta[] metaCollection)
-            where TParentBuilder : class
         {
             Contract.Requires(linkBuilder != null);
 

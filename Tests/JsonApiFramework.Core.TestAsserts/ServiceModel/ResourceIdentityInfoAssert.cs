@@ -21,7 +21,7 @@ namespace JsonApiFramework.TestAsserts.ServiceModel
             Assert.NotNull(actual);
 
             Assert.Equal(expected.ApiType, actual.ApiType);
-            PropertyInfoAssert.Equal(expected.Id, actual.Id);
+            //PropertyInfoAssert.Equal(expected.Id, actual.Id);
         }
         #endregion
     }

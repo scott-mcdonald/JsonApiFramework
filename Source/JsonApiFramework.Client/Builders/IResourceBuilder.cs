@@ -5,18 +5,30 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Client
 {
-    public interface IResourceBuilder<out TBuilder, out TResource>
-        where TBuilder : class
-        where TResource : class
+    public interface IResourceBuilder<out TBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         TBuilder SetMeta(Meta meta);
         TBuilder SetId<T>(IId<T> id);
 
+        IAttributesBuilder<TBuilder> Attributes();
+
+        IRelationshipsBuilder<TBuilder> Relationships();
+        #endregion
+    }
+
+    public interface IResourceBuilder<out TBuilder, out TResource>
+        where TResource : class
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        TBuilder SetMeta(Meta    meta);
+        TBuilder SetId<T>(IId<T> id);
+
         IAttributesBuilder<TBuilder, TResource> Attributes();
 
-        IRelationshipsBuilder<TBuilder, TResource> Relationships();
+        IRelationshipsBuilder<TBuilder> Relationships();
         #endregion
     }
 }

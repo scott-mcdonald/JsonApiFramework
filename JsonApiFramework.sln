@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonApiFramework.Client", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonApiFramework.Server", "Source\JsonApiFramework.Server\JsonApiFramework.Server.csproj", "{566ED623-28BF-4005-BFCC-BAB4574C5488}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.XUnit", "Tests\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj", "{F2AE2B04-02E6-45DA-9B49-EBABD1B46A71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonApiFramework.XUnit", "Tests\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj", "{F2AE2B04-02E6-45DA-9B49-EBABD1B46A71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

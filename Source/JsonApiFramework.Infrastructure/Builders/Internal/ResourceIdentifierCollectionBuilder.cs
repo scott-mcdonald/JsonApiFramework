@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -11,15 +12,16 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Internal
 {
-    internal abstract class ResourceIdentifierCollectionBuilder<TBuilder, TResource> : IResourceIdentifierBuilder<TBuilder, TResource>
-        where TBuilder : class, IResourceIdentifierBuilder<TBuilder, TResource>
-        where TResource : class
+    internal abstract class ResourceIdentifierCollectionBuilder<TBuilder> : IResourceIdentifierBuilder<TBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceIdentifierBuilder<TBuilder> Implementation
         public TBuilder SetMeta(Meta meta)
         {
             Contract.Requires(meta != null);
+
+            if (this.NotBuildingResourceIdentifierCollection)
+                return this.Builder;
 
             if (this.DomReadWriteResourceIdentifierCollection == null)
             {
@@ -40,7 +42,10 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(metaCollection != null);
 
-            var metaReadOnlyList = metaCollection.SafeToReadOnlyList();
+            if (this.NotBuildingResourceIdentifierCollection)
+                return this.Builder;
+
+            var metaReadOnlyList      = metaCollection.SafeToReadOnlyList();
             var metaReadOnlyListCount = metaReadOnlyList.Count;
 
             this.CreateAndAddDomReadWriteResourceIdentifierCollectionIfNeeded(metaReadOnlyListCount);
@@ -49,7 +54,7 @@ namespace JsonApiFramework.Internal
             if (metaReadOnlyListCount != domReadWriteResourceIdentifierCollectionCount)
             {
                 var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceCollectionCountMismatch
-                                                       .FormatWith(DomNodeType.Meta, domReadWriteResourceIdentifierCollectionCount, typeof(TResource).Name, metaReadOnlyListCount);
+                                                       .FormatWith(DomNodeType.Meta, domReadWriteResourceIdentifierCollectionCount, this.ClrResourceType.Name, metaReadOnlyListCount);
                 throw new DocumentBuildException(detail);
             }
 
@@ -57,7 +62,7 @@ namespace JsonApiFramework.Internal
             for (var i = 0; i < count; ++i)
             {
                 var domReadWriteResourceIdentifier = this.DomReadWriteResourceIdentifierCollection[i];
-                var meta = metaReadOnlyList[i];
+                var meta                           = metaReadOnlyList[i];
 
                 domReadWriteResourceIdentifier.SetDomReadOnlyMeta(meta);
             }
@@ -69,8 +74,11 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(id != null);
 
+            if (this.NotBuildingResourceIdentifierCollection)
+                return this.Builder;
+
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceCollectionWithSingleObject
-                                                   .FormatWith(DomNodeType.Id, typeof(TResource).Name);
+                                                   .FormatWith(DomNodeType.Id, this.ClrResourceType.Name);
             throw new DocumentBuildException(detail);
         }
 
@@ -78,8 +86,11 @@ namespace JsonApiFramework.Internal
         {
             Contract.Requires(idCollection != null);
 
-            var clrIdCollection = idCollection.ClrIdCollection;
-            var clrResourceIdReadOnlyList = clrIdCollection.SafeToReadOnlyList();
+            if (this.NotBuildingResourceIdentifierCollection)
+                return this.Builder;
+
+            var clrIdCollection                = idCollection.ClrIdCollection;
+            var clrResourceIdReadOnlyList      = clrIdCollection.SafeToReadOnlyList();
             var clrResourceIdReadOnlyListCount = clrResourceIdReadOnlyList.Count;
 
             this.CreateAndAddDomReadWriteResourceIdentifierCollectionIfNeeded(clrResourceIdReadOnlyListCount);
@@ -88,7 +99,7 @@ namespace JsonApiFramework.Internal
             if (clrResourceIdReadOnlyListCount != domReadWriteResourceIdentifierCollectionCount)
             {
                 var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceCollectionCountMismatch
-                                                       .FormatWith(DomNodeType.Id, domReadWriteResourceIdentifierCollectionCount, typeof(TResource).Name, clrResourceIdReadOnlyListCount);
+                                                       .FormatWith(DomNodeType.Id, domReadWriteResourceIdentifierCollectionCount, this.ClrResourceType.Name, clrResourceIdReadOnlyListCount);
                 throw new DocumentBuildException(detail);
             }
 
@@ -113,22 +124,25 @@ namespace JsonApiFramework.Internal
 
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
-        protected ResourceIdentifierCollectionBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode)
+        protected ResourceIdentifierCollectionBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType, IEnumerable<object> clrResourceCollection)
         {
             Contract.Requires(serviceModel != null);
             Contract.Requires(domContainerNode != null);
 
-            this.ServiceModel = serviceModel;
             this.DomContainerNode = domContainerNode;
-        }
 
-        protected ResourceIdentifierCollectionBuilder(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, IEnumerable<TResource> clrResourceCollection)
-            : this(serviceModel, domContainerNode)
-        {
+            if (clrResourceType == null)
+                return;
+
+            this.BuildingResourceIdentifierCollection = true;
+
+            var resourceType = serviceModel.GetResourceType(clrResourceType);
+            this.ResourceType = resourceType;
+
             if (clrResourceCollection == null)
                 return;
 
-            var clrResourceReadOnlyList = clrResourceCollection.SafeToReadOnlyList();
+            var clrResourceReadOnlyList      = clrResourceCollection.SafeToReadOnlyList();
             var clrResourceReadOnlyListCount = clrResourceReadOnlyList.Count;
 
             this.CreateAndAddDomReadWriteResourceIdentifierCollectionIfNeeded(clrResourceReadOnlyListCount);
@@ -150,12 +164,17 @@ namespace JsonApiFramework.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Meta ResourceIdentifierMeta { get; set; }
-
-        private IServiceModel ServiceModel { get; set; }
-        private IResourceType ResourceType { get; set; }
-        private IContainerNode<DomNodeType> DomContainerNode { get; set; }
+        private bool                                          BuildingResourceIdentifierCollection     { get; }
+        private IContainerNode<DomNodeType>                   DomContainerNode                         { get; }
         private IReadOnlyList<DomReadWriteResourceIdentifier> DomReadWriteResourceIdentifierCollection { get; set; }
+        private Meta                                          ResourceIdentifierMeta                   { get; set; }
+        private IResourceType                                 ResourceType                             { get; }
+        #endregion
+
+        #region Calculated Properties
+        private Type ClrResourceType => this.ResourceType.ClrType;
+
+        private bool NotBuildingResourceIdentifierCollection => !this.BuildingResourceIdentifierCollection;
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -167,15 +186,11 @@ namespace JsonApiFramework.Internal
             if (this.DomReadWriteResourceIdentifierCollection != null)
                 return;
 
-            var clrResourceType = typeof(TResource);
-            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
-            this.ResourceType = resourceType;
-
-            var domContainerNode = this.DomContainerNode;
+            var domContainerNode                         = this.DomContainerNode;
             var domReadWriteResourceIdentifierCollection = new List<DomReadWriteResourceIdentifier>(count);
             for (var i = 0; i < count; ++i)
             {
-                var domResourceType = DomType.CreateFromResourceType(resourceType);
+                var domResourceType                = DomType.CreateFromResourceType(this.ResourceType);
                 var domReadWriteResourceIdentifier = DomReadWriteResourceIdentifier.Create(domResourceType);
 
                 domContainerNode.Add(domReadWriteResourceIdentifier);

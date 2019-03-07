@@ -12,8 +12,14 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
+        public static TBuilder SetMeta<TBuilder>(this IResourceBuilder<TBuilder> resourceBuilder, params Meta[] metaCollection)
+        {
+            Contract.Requires(resourceBuilder != null);
+
+            return resourceBuilder.SetMeta(metaCollection.AsEnumerable());
+        }
+
         public static TBuilder SetMeta<TBuilder, TResource>(this IResourceBuilder<TBuilder, TResource> resourceBuilder, params Meta[] metaCollection)
-            where TBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceBuilder != null);

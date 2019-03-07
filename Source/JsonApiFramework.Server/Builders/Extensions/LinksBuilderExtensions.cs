@@ -14,8 +14,6 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static TBuilder AddLink<TBuilder, TParentBuilder>(this ILinksBuilder<TBuilder, TParentBuilder> linksBuilder, string rel, params Link[] linkCollection)
-            where TBuilder : class
-            where TParentBuilder : class
         {
             Contract.Requires(linksBuilder != null);
             Contract.Requires(linkCollection != null);
@@ -24,8 +22,6 @@ namespace JsonApiFramework.Server
         }
 
         public static TBuilder AddSelfLink<TBuilder, TParentBuilder>(this ILinksBuilder<TBuilder, TParentBuilder> linksBuilder, Link link)
-            where TBuilder : class
-            where TParentBuilder : class
         {
             Contract.Requires(linksBuilder != null);
             Contract.Requires(link != null);
@@ -34,8 +30,6 @@ namespace JsonApiFramework.Server
         }
 
         public static TBuilder AddSelfLink<TBuilder, TParentBuilder>(this ILinksBuilder<TBuilder, TParentBuilder> linksBuilder, IEnumerable<Link> linkCollection)
-            where TBuilder : class
-            where TParentBuilder : class
         {
             Contract.Requires(linksBuilder != null);
             Contract.Requires(linkCollection != null);
@@ -44,8 +38,6 @@ namespace JsonApiFramework.Server
         }
 
         public static TBuilder AddSelfLink<TBuilder, TParentBuilder>(this ILinksBuilder<TBuilder, TParentBuilder> linksBuilder)
-            where TBuilder : class
-            where TParentBuilder : class
         {
             Contract.Requires(linksBuilder != null);
 

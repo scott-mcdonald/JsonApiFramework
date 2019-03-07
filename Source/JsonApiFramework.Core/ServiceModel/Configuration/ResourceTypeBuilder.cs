@@ -43,6 +43,15 @@ namespace JsonApiFramework.ServiceModel.Configuration
             return this.ResourceIdentityInfoBuilder;
         }
 
+        public IResourceIdentityInfoBuilder ResourceIdentity(Func<IResourceIdentityInfo> resourceIdentityInfoFactory)
+        {
+            Contract.Requires(resourceIdentityInfoFactory != null);
+
+            var clrResourceType = this.ClrType;
+            this.ResourceIdentityInfoBuilder = this.ResourceIdentityInfoBuilder ?? new ResourceIdentityInfoBuilder(clrResourceType, resourceIdentityInfoFactory);
+            return this.ResourceIdentityInfoBuilder;
+        }
+
         public IRelationshipsInfoBuilder Relationships(string clrPropertyName)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);

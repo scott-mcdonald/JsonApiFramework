@@ -14,9 +14,7 @@ namespace JsonApiFramework.Client
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
-        public static IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TParentBuilder, TResource, TProperty>(this IAttributesBuilder<TParentBuilder, TResource> attributesBuilder, string propertyName, TProperty propertyValue)
-            where TParentBuilder : class
-            where TResource : class
+        public static IAttributesBuilder<TParentBuilder> AddAttribute<TParentBuilder, TProperty>(this IAttributesBuilder<TParentBuilder> attributesBuilder, string propertyName, TProperty propertyValue)
         {
             Contract.Requires(attributesBuilder != null);
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
@@ -26,7 +24,6 @@ namespace JsonApiFramework.Client
         }
 
         public static IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TParentBuilder, TResource, TProperty>(this IAttributesBuilder<TParentBuilder, TResource> attributesBuilder, Expression<Func<TResource, object>> propertySelector, TProperty propertyValue)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(attributesBuilder != null);

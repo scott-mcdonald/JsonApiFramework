@@ -3,6 +3,14 @@
 
 namespace JsonApiFramework.Client
 {
+    public interface IPrimaryResourceBuilder : IResourceBuilder<IPrimaryResourceBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region Methods
+        IDocumentWriter ResourceEnd();
+        #endregion
+    }
+
     public interface IPrimaryResourceBuilder<out TResource> : IResourceBuilder<IPrimaryResourceBuilder<TResource>, TResource>
         where TResource : class
     {

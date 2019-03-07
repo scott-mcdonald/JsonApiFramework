@@ -12,26 +12,26 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Internal
 {
-    internal class RelationshipBuilderBase<TResource>
-        where TResource : class
+    internal class RelationshipBuilderBase
     {
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal RelationshipBuilderBase(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, string rel)
+        internal RelationshipBuilderBase(IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, string rel, Type clrResourceType)
         {
             Contract.Requires(serviceModel != null);
             Contract.Requires(domContainerNode != null);
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+            Contract.Requires(clrResourceType != null);
 
             this.ServiceModel = serviceModel;
 
-            var resourceType = serviceModel.GetResourceType<TResource>();
+            var resourceType = serviceModel.GetResourceType(clrResourceType);
             this.ResourceType = resourceType;
 
             this.Rel = rel;
 
             var domReadWriteRelationships = (DomReadWriteRelationships)domContainerNode;
-            var domReadWriteRelationship = domReadWriteRelationships.AddDomReadWriteRelationship(rel);
+            var domReadWriteRelationship  = domReadWriteRelationships.AddDomReadWriteRelationship(rel);
             this.DomReadWriteRelationship = domReadWriteRelationship;
         }
         #endregion
@@ -61,12 +61,12 @@ namespace JsonApiFramework.Internal
                 return;
             }
 
-            var rel = this.Rel;
+            var rel          = this.Rel;
             var resourceType = this.ResourceType;
             var relationship = resourceType.GetRelationshipInfo(rel);
 
-            var toCardinality = relationship.ToCardinality;
-            var toClrType = relationship.ToClrType;
+            var toCardinality  = relationship.ToCardinality;
+            var toClrType      = relationship.ToClrType;
             var toResourceType = this.ServiceModel.GetResourceType(toClrType);
 
             switch (toCardinality)
@@ -77,7 +77,7 @@ namespace JsonApiFramework.Internal
                     var toApiResourceIdentifier = toOneResourceLinkage.CreateApiResourceIdentifier(toResourceType);
                     this.DomReadWriteRelationship.SetDomData(toApiResourceIdentifier, toClrType);
                 }
-                break;
+                    break;
 
                 case RelationshipCardinality.ToMany:
                 {
@@ -98,10 +98,10 @@ namespace JsonApiFramework.Internal
 
         internal void SetDataInternal(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         {
-            var rel = this.Rel;
+            var rel                             = this.Rel;
             var toOneResourceLinkageDescription = "{0} [rel={1}]".FormatWith("ToOneResourceLinkage", rel);
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
-                                                   .FormatWith(toOneResourceLinkageDescription, typeof(TResource).Name);
+                                                   .FormatWith(toOneResourceLinkageDescription, this.ResourceType.ClrTypeName);
             throw new DocumentBuildException(detail);
         }
 
@@ -113,12 +113,12 @@ namespace JsonApiFramework.Internal
                 return;
             }
 
-            var rel = this.Rel;
+            var rel          = this.Rel;
             var resourceType = this.ResourceType;
             var relationship = resourceType.GetRelationshipInfo(rel);
 
-            var toCardinality = relationship.ToCardinality;
-            var toClrType = relationship.ToClrType;
+            var toCardinality  = relationship.ToCardinality;
+            var toClrType      = relationship.ToClrType;
             var toResourceType = this.ServiceModel.GetResourceType(toClrType);
 
             switch (toCardinality)
@@ -137,7 +137,7 @@ namespace JsonApiFramework.Internal
                     var toApiResourceIdentifierCollection = toManyResourceLinkage.CreateApiResourceIdentifierCollection(toResourceType);
                     this.DomReadWriteRelationship.SetDomDataCollection(toApiResourceIdentifierCollection, toClrType);
                 }
-                break;
+                    break;
 
                 default:
                 {
@@ -150,27 +150,31 @@ namespace JsonApiFramework.Internal
 
         internal void SetDataInternal(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
         {
-            var rel = this.Rel;
+            var rel                              = this.Rel;
             var toManyResourceLinkageDescription = "{0} [rel={1}]".FormatWith("ToManyResourceLinkage", rel);
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
-                                                   .FormatWith(toManyResourceLinkageDescription, typeof(TResource).Name);
+                                                   .FormatWith(toManyResourceLinkageDescription, this.ResourceType.ClrTypeName);
             throw new DocumentBuildException(detail);
         }
         #endregion
 
         // INTERNAL PROPERTIES //////////////////////////////////////////////
         #region Properties
-        internal IServiceModel ServiceModel { get; }
-        internal IResourceType ResourceType { get; }
-        internal string Rel { get; }
+        internal string                   Rel                      { get; }
         internal DomReadWriteRelationship DomReadWriteRelationship { get; }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private IServiceModel ServiceModel { get; }
+        private IResourceType ResourceType { get; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
         private void SetDataNullOrEmpty()
         {
-            var rel = this.Rel;
+            var rel          = this.Rel;
             var resourceType = this.ResourceType;
             var relationship = resourceType.GetRelationshipInfo(rel);
 
@@ -181,13 +185,13 @@ namespace JsonApiFramework.Internal
                 {
                     this.DomReadWriteRelationship.SetDomDataNull();
                 }
-                break;
+                    break;
 
                 case RelationshipCardinality.ToMany:
                 {
                     this.DomReadWriteRelationship.SetDomDataCollectionEmpty();
                 }
-                break;
+                    break;
 
                 default:
                 {

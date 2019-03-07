@@ -13,8 +13,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal abstract class LinksCollectionBuilder<TBuilder, TParentBuilder> : ILinksBuilder<TBuilder, TParentBuilder>
-        where TBuilder : class
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region ILinksBuilder<TBuilder, TParentBuilder> Implementation
@@ -60,8 +58,8 @@ namespace JsonApiFramework.Server.Internal
             this.ParentBuilder = parentBuilder;
 
             var domReadWriteLinksCollection = domContainerNodeCollection
-                .Select(x => x.GetOrAddNode(DomNodeType.Links, () => DomReadWriteLinks.Create()))
-                .ToList();
+                                              .Select(x => x.GetOrAddNode(DomNodeType.Links, () => DomReadWriteLinks.Create()))
+                                              .ToList();
 
             this.DomReadWriteLinksCollection = domReadWriteLinksCollection;
         }
@@ -69,7 +67,7 @@ namespace JsonApiFramework.Server.Internal
 
         // PROTECTED PROPERTIES /////////////////////////////////////////////
         #region Properties
-        protected TBuilder Builder { get; set; }
+        protected TBuilder                         Builder                     { get; set; }
         protected IReadOnlyList<DomReadWriteLinks> DomReadWriteLinksCollection { get; private set; }
         #endregion
 
@@ -81,14 +79,14 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(linkCollection != null);
 
-            var linkReadOnlyList = linkCollection.SafeToReadOnlyList();
-            var linkReadOnlyListCount = linkReadOnlyList.Count;
+            var linkReadOnlyList                 = linkCollection.SafeToReadOnlyList();
+            var linkReadOnlyListCount            = linkReadOnlyList.Count;
             var domReadWriteLinksCollectionCount = this.DomReadWriteLinksCollection.Count;
             if (linkReadOnlyListCount != domReadWriteLinksCollectionCount)
             {
                 var detail = ServerErrorStrings
-                    .InternalErrorExceptionDetailCollectionCountMismatch
-                    .FormatWith("DOM read-write links collection", domReadWriteLinksCollectionCount, "CLR links collection", linkReadOnlyListCount);
+                             .InternalErrorExceptionDetailCollectionCountMismatch
+                             .FormatWith("DOM read-write links collection", domReadWriteLinksCollectionCount, "CLR links collection", linkReadOnlyListCount);
                 throw new InternalErrorException(detail);
             }
 
@@ -96,12 +94,12 @@ namespace JsonApiFramework.Server.Internal
             for (var i = 0; i < count; ++i)
             {
                 var clrResource = clrResourceCollection != null ? clrResourceCollection[i] : default(TResource);
-                var canAddLink = clrResource == null || predicate == null || predicate(clrResource);
+                var canAddLink  = clrResource == null || predicate == null || predicate(clrResource);
                 if (canAddLink == false)
                     continue;
 
                 var domReadWriteLinks = this.DomReadWriteLinksCollection[i];
-                var link = linkReadOnlyList[i];
+                var link              = linkReadOnlyList[i];
 
                 domReadWriteLinks.AddDomReadOnlyLink(rel, link);
             }
@@ -119,7 +117,7 @@ namespace JsonApiFramework.Server.Internal
             for (var i = 0; i < count; ++i)
             {
                 var clrResource = clrResourceCollection != null ? clrResourceCollection[i] : default(TResource);
-                var canAddLink = clrResource == null || predicate == null || predicate(clrResource);
+                var canAddLink  = clrResource == null || predicate == null || predicate(clrResource);
                 if (canAddLink == false)
                     continue;
 
@@ -142,7 +140,7 @@ namespace JsonApiFramework.Server.Internal
             for (var i = 0; i < count; ++i)
             {
                 var clrResource = clrResourceCollection != null ? clrResourceCollection[i] : default(TResource);
-                var canAddLink = clrResource == null || predicate == null || predicate(clrResource);
+                var canAddLink  = clrResource == null || predicate == null || predicate(clrResource);
                 if (canAddLink == false)
                     continue;
 
@@ -161,14 +159,14 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
             Contract.Requires(metaCollection != null);
 
-            var metaReadOnlyList = metaCollection.SafeToReadOnlyList();
-            var metaReadOnlyListCount = metaReadOnlyList.Count;
+            var metaReadOnlyList                 = metaCollection.SafeToReadOnlyList();
+            var metaReadOnlyListCount            = metaReadOnlyList.Count;
             var domReadWriteLinksCollectionCount = this.DomReadWriteLinksCollection.Count;
             if (metaReadOnlyListCount != domReadWriteLinksCollectionCount)
             {
                 var detail = ServerErrorStrings
-                    .InternalErrorExceptionDetailCollectionCountMismatch
-                    .FormatWith("DOM read-write links collection", domReadWriteLinksCollectionCount, "CLR meta collection", metaReadOnlyListCount);
+                             .InternalErrorExceptionDetailCollectionCountMismatch
+                             .FormatWith("DOM read-write links collection", domReadWriteLinksCollectionCount, "CLR meta collection", metaReadOnlyListCount);
                 throw new InternalErrorException(detail);
             }
 
@@ -176,12 +174,12 @@ namespace JsonApiFramework.Server.Internal
             for (var i = 0; i < count; ++i)
             {
                 var clrResource = clrResourceCollection != null ? clrResourceCollection[i] : default(TResource);
-                var canAddLink = clrResource == null || predicate == null || predicate(clrResource);
+                var canAddLink  = clrResource == null || predicate == null || predicate(clrResource);
                 if (canAddLink == false)
                     continue;
 
                 var domReadWriteLinks = this.DomReadWriteLinksCollection[i];
-                var meta = metaReadOnlyList[i];
+                var meta              = metaReadOnlyList[i];
 
                 domReadWriteLinks.AddDomReadWriteLink(rel, meta);
             }
@@ -193,14 +191,15 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
+        private TParentBuilder ParentBuilder { get; }
         #endregion
 
         // PRIVATE TYPES ////////////////////////////////////////////////////
         #region Types
         // ReSharper disable once ClassNeverInstantiated.Local
         private class NullResource
-        { }
+        {
+        }
         #endregion
     }
 }

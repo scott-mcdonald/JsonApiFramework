@@ -10,13 +10,13 @@ namespace JsonApiFramework.Server.Internal
 {
     internal class ApiResourceLinkageKey
         : IEquatable<ApiResourceLinkageKey>
-        , IComparable<ApiResourceLinkageKey>
-        , IComparable
+          , IComparable<ApiResourceLinkageKey>
+          , IComparable
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
         public ResourceIdentifier FromResourceIdentifier { get; private set; }
-        public string FromRel { get; private set; }
+        public string             FromRel                { get; private set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -45,8 +45,8 @@ namespace JsonApiFramework.Server.Internal
         public override string ToString()
         {
             var fromResourceIdentifierAsString = this.FromResourceIdentifier.SafeToString();
-            var fromRelAsString = this.FromRel.SafeToString();
-            return String.Format("{0} [id={1} rel={2}]", TypeName, fromResourceIdentifierAsString, fromRelAsString);
+            var fromRelAsString                = this.FromRel.SafeToString();
+            return $"{TypeName} [id={fromResourceIdentifierAsString} rel={fromRelAsString}]";
         }
         #endregion
 
@@ -100,7 +100,9 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public static bool operator !=(ApiResourceLinkageKey left, ApiResourceLinkageKey right)
-        { return !(left == right); }
+        {
+            return !(left == right);
+        }
         #endregion
 
         #region Comparison Operators
@@ -151,7 +153,7 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(fromRel) == false);
 
             this.FromResourceIdentifier = fromResourceIdentifier;
-            this.FromRel = fromRel;
+            this.FromRel                = fromRel;
         }
         #endregion
 

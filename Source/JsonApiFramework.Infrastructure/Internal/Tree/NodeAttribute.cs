@@ -26,10 +26,10 @@ namespace JsonApiFramework.Internal.Tree
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Node Overrides
         /// <summary>Gets the name of this attribute.</summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>Gets or sets the value of this attribute.</summary>
-        public object Value { get; set; }
+        public object Value { get; }
         #endregion
 
         #region Properties

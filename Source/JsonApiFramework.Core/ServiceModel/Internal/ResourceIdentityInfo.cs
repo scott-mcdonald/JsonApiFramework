@@ -2,9 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Expressions;
+using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 using JsonApiFramework.Reflection;
 
@@ -13,14 +15,34 @@ using Newtonsoft.Json;
 namespace JsonApiFramework.ServiceModel.Internal
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class ResourceIdentityInfo : JsonObject
-        , IResourceIdentityInfo
+    internal class ResourceIdentityInfo : JsonObject, IResourceIdentityInfo
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
+        public ResourceIdentityInfo()
+        {
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceIdentityInfo>(this);
+        }
+
+        public ResourceIdentityInfo(Type clrDeclaringType, string clrIdPropertyName, Type clrIdPropertyType)
+        {
+            Contract.Requires(clrDeclaringType != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(clrIdPropertyName) == false);
+            Contract.Requires(clrIdPropertyType != null);
+
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceIdentityInfo>(this);
+
+            var id = new PropertyInfo(clrDeclaringType, clrIdPropertyName, clrIdPropertyType);
+            this.Id = id;
+
+            this.InitializeDefaultClrId();
+        }
+
         public ResourceIdentityInfo(string apiType)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(apiType) == false);
+
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceIdentityInfo>(this);
 
             this.ApiType = apiType;
         }
@@ -30,8 +52,10 @@ namespace JsonApiFramework.ServiceModel.Internal
             Contract.Requires(String.IsNullOrWhiteSpace(apiType) == false);
             Contract.Requires(id != null);
 
+            this.ExtensionDictionary = new ExtensionDictionary<IResourceIdentityInfo>(this);
+
             this.ApiType = apiType;
-            this.Id = id;
+            this.Id      = id;
 
             this.InitializeDefaultClrId();
         }
@@ -39,8 +63,12 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IResourceIdentityInfo Implementation
-        [JsonProperty] public string ApiType { get; internal set; }
-        [JsonProperty] public IPropertyInfo Id { get; internal set; }
+        [JsonProperty] public string        ApiType { get; internal set; }
+        [JsonProperty] public IPropertyInfo Id      { get; internal set; }
+        #endregion
+
+        #region IExtensibleObject<T> Implementation
+        public IEnumerable<IExtension<IResourceIdentityInfo>> Extensions => this.ExtensionDictionary.Extensions;
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -66,6 +94,22 @@ namespace JsonApiFramework.ServiceModel.Internal
             return clrId;
         }
 
+        public string GetClrIdPropertyName()
+        {
+            if (this.IsSingleton())
+                return null;
+
+            return this.Id.ClrPropertyName;
+        }
+
+        public Type GetClrIdPropertyType()
+        {
+            if (this.IsSingleton())
+                return null;
+
+            return this.Id.ClrPropertyType;
+        }
+
         public bool IsClrIdNull(object clrId)
         {
             if (this.IsSingleton())
@@ -77,6 +121,18 @@ namespace JsonApiFramework.ServiceModel.Internal
             }
 
             return Object.Equals(this.ClrIdDefaultValue, clrId);
+        }
+
+        public bool IsSingleton()
+        {
+            return this.Id == null;
+        }
+
+        public void SetApiType(string apiType)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(apiType) == false);
+
+            this.ApiType = apiType;
         }
 
         public void SetClrId(object clrResource, object clrId)
@@ -111,10 +167,27 @@ namespace JsonApiFramework.ServiceModel.Internal
         }
         #endregion
 
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal ResourceIdentityInfo()
-        { }
+        #region IExtensibleObject<T> Implementation
+        public void AddExtension(IExtension<IResourceIdentityInfo> extension)
+        {
+            Contract.Requires(extension != null);
+
+            this.ExtensionDictionary.AddExtension(extension);
+        }
+
+        public void RemoveExtension(Type extensionType)
+        {
+            Contract.Requires(extensionType != null);
+
+            this.ExtensionDictionary.RemoveExtension(extensionType);
+        }
+
+        public bool TryGetExtension(Type extensionType, out IExtension<IResourceIdentityInfo> extension)
+        {
+            Contract.Requires(extensionType != null);
+
+            return this.ExtensionDictionary.TryGetExtension(extensionType, out extension);
+        }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
@@ -128,9 +201,9 @@ namespace JsonApiFramework.ServiceModel.Internal
         {
             Contract.Requires(clrIdPropertyInfo != null);
 
-            var clrIdType = clrIdPropertyInfo.ClrPropertyType;
+            var clrIdType              = clrIdPropertyInfo.ClrPropertyType;
             var clrIdDefaultExpression = ExpressionBuilder.Default(clrIdType);
-            var clrIdDefaultMethod = clrIdDefaultExpression.Compile();
+            var clrIdDefaultMethod     = clrIdDefaultExpression.Compile();
             return clrIdDefaultMethod;
         }
 
@@ -148,12 +221,18 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         private void InitializeDefaultClrId()
         {
-            var clrIdPropertyInfo = this.Id;
+            var clrIdPropertyInfo  = this.Id;
             var clrIdDefaultMethod = CreateClrIdDefaultMethod(clrIdPropertyInfo);
 
             var clrIdDefaultValue = clrIdDefaultMethod.DynamicInvoke();
             this.ClrIdDefaultValue = clrIdDefaultValue;
         }
+        #endregion
+
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private ExtensionDictionary<IResourceIdentityInfo> ExtensionDictionary { get; }
         #endregion
     }
 }

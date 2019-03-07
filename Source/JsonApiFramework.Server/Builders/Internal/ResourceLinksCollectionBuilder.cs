@@ -11,8 +11,41 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server.Internal
 {
+    internal class ResourceLinksCollectionBuilder<TParentBuilder> : LinksCollectionBuilder<IResourceLinksBuilder<TParentBuilder>, TParentBuilder>, IResourceLinksBuilder<TParentBuilder>
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region LinksCollectionBuilder<TBuilder, TParentBuilder> Overrides
+        public override IResourceLinksBuilder<TParentBuilder> AddLink(string rel, Link link)
+        {
+            var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, rel);
+            var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceCollectionWithSingleObject
+                                                   .FormatWith(linkDescription, this.ClrResourceType.Name);
+            throw new DocumentBuildException(detail);
+        }
+        #endregion
+
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        #region Constructors
+        internal ResourceLinksCollectionBuilder(TParentBuilder parentBuilder, IEnumerable<IContainerNode<DomNodeType>> domContainerNode, Type clrResourceType, IReadOnlyList<object> clrResourceCollection)
+            : base(parentBuilder, domContainerNode)
+        {
+            Contract.Requires(clrResourceType != null);
+            Contract.Requires(clrResourceCollection != null);
+
+            this.Builder = this;
+            this.ClrResourceType = clrResourceType;
+            this.ClrResourceCollection = clrResourceCollection;
+        }
+        #endregion
+
+        // PRIVATE PROPERTIES ///////////////////////////////////////////////
+        #region Properties
+        private Type ClrResourceType { get; }
+        private IReadOnlyList<object> ClrResourceCollection { get; set; }
+        #endregion
+    }
+
     internal class ResourceLinksCollectionBuilder<TParentBuilder, TResource> : LinksCollectionBuilder<IResourceLinksBuilder<TParentBuilder, TResource>, TParentBuilder>, IResourceLinksBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
         where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

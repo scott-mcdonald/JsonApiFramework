@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 // Allow client/server frameworks to be a friend assembly
 [assembly: InternalsVisibleTo("JsonApiFramework.Client")]
+[assembly: InternalsVisibleTo("JsonApiFramework.Client2")]
 [assembly: InternalsVisibleTo("JsonApiFramework.Infrastructure")]
 [assembly: InternalsVisibleTo("JsonApiFramework.Server")]
 

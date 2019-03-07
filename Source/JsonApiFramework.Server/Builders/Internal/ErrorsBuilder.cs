@@ -30,7 +30,9 @@ namespace JsonApiFramework.Server.Internal
         }
 
         public IDocumentWriter ErrorsEnd()
-        { return this.ParentBuilder; }
+        {
+            return this.ParentBuilder;
+        }
         #endregion
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
@@ -49,7 +51,7 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private DocumentBuilder ParentBuilder { get; set; }
+        private DocumentBuilder    ParentBuilder      { get; set; }
         private DomReadWriteErrors DomReadWriteErrors { get; set; }
         #endregion
     }

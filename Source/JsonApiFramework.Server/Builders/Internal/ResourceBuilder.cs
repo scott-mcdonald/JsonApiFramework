@@ -13,12 +13,10 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal abstract class ResourceBuilder<TBuilder, TResource> : IResourceBuilder<TBuilder, TResource>
-        where TBuilder : class, IResourceBuilder<TBuilder, TResource>
-        where TResource : class
+    internal abstract class ResourceBuilder<TBuilder> : IResourceBuilder<TBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IResourceBuilder<TBuilder, TResource> Implementation
+        #region IResourceBuilder<TBuilder> Implementation
         public TBuilder SetMeta(Meta meta)
         {
             Contract.Requires(meta != null);
@@ -34,8 +32,11 @@ namespace JsonApiFramework.Server.Internal
         {
             Contract.Requires(metaCollection != null);
 
+            if (this.NotBuildingResource)
+                return this.Builder;
+
             var detail = InfrastructureErrorStrings.DocumentBuildExceptionDetailBuildResourceWithCollectionOfObjects
-                                                   .FormatWith(DomNodeType.Meta, typeof(TResource).Name);
+                                                   .FormatWith(DomNodeType.Meta, this.ClrResourceType.Name);
             throw new DocumentBuildException(detail);
         }
 
@@ -47,46 +48,62 @@ namespace JsonApiFramework.Server.Internal
             return resourcePathContextBuilder;
         }
 
-        public IRelationshipsBuilder<TBuilder, TResource> Relationships()
+        public IRelationshipsBuilder<TBuilder> Relationships()
         {
             var relationshipsBuilder = this.NotBuildingResource
-                ? (IRelationshipsBuilder<TBuilder, TResource>)(new NullRelationshipsBuilder<TBuilder, TResource>(this.Builder))
-                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsBuilder<TBuilder, TResource>(this.Builder, this.ServiceModel, this.DomReadWriteResource, this.ClrResource));
+                ? (IRelationshipsBuilder<TBuilder>)(new NullRelationshipsBuilder<TBuilder>(this.Builder))
+                : (IRelationshipsBuilder<TBuilder>)(new RelationshipsBuilder<TBuilder>(this.Builder, this.ServiceModel, this.DomReadWriteResource, this.ClrResourceType, this.ClrResource));
             return relationshipsBuilder;
         }
 
-        public IResourceLinksBuilder<TBuilder, TResource> Links()
+        public IResourceLinksBuilder<TBuilder> Links()
         {
             var linksBuilder = this.NotBuildingResource
-                ? (IResourceLinksBuilder<TBuilder, TResource>)(new NullResourceLinksBuilder<TBuilder, TResource>(this.Builder))
-                : (IResourceLinksBuilder<TBuilder, TResource>)(new ResourceLinksBuilder<TBuilder, TResource>(this.Builder, this.DomReadWriteResource, this.ClrResource));
+                ? (IResourceLinksBuilder<TBuilder>)(new NullResourceLinksBuilder<TBuilder>(this.Builder))
+                : (IResourceLinksBuilder<TBuilder>)(new ResourceLinksBuilder<TBuilder>(this.Builder, this.DomReadWriteResource, this.ClrResourceType, this.ClrResource));
             return linksBuilder;
         }
         #endregion
 
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors
-        protected ResourceBuilder(DocumentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode, TResource clrResource)
+        protected ResourceBuilder(DocumentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType, object clrResource)
         {
             Contract.Requires(parentBuilder != null);
             Contract.Requires(domContainerNode != null);
+            Contract.Requires(clrResourceType != null);
 
             this.ParentBuilder = parentBuilder;
 
-            this.InitializeResourcePathContextBuilder();
+            if (clrResourceType == null)
+                return;
+
+            var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
+            this.ResourceType = resourceType;
+
             this.InitializeResource(domContainerNode, clrResource);
+
+            this.InitializeResourcePathContextBuilder();
         }
         #endregion
 
         // PROTECTED PROPERTIES /////////////////////////////////////////////
         #region Properties
-        protected DocumentBuilder ParentBuilder { get; private set; }
-        protected TBuilder Builder { private get; set; }
+        protected DocumentBuilder ParentBuilder { get; }
+
+        protected TBuilder Builder { get; set; }
+
+        protected DomReadWriteResource DomReadWriteResource { get; private set; }
+
+        protected object ClrResource { get; private set; }
         #endregion
 
-        #region Inherited Properties
-        protected IServiceModel ServiceModel => this.ParentBuilder.ServiceModel;
+        #region Calculated Properties
         protected DocumentBuilderContext DocumentBuilderContext => this.ParentBuilder.DocumentBuilderContext;
+
+        protected bool NotBuildingResource => !this.BuildingResource;
+
+        protected IServiceModel ServiceModel => this.ParentBuilder.ServiceModel;
         #endregion
 
         // PROTECTED METHODS ////////////////////////////////////////////////
@@ -102,40 +119,43 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private Lazy<ResourcePathContextBuilder<TBuilder, TResource>> LazyResourcePathContextBuilder { get; set; }
-        private ResourcePathContextBuilder<TBuilder, TResource> ResourcePathContextBuilder => this.LazyResourcePathContextBuilder.Value;
+        private IResourceType ResourceType { get; }
 
         private bool BuildingResource { get; set; }
-        private bool NotBuildingResource => !this.BuildingResource;
 
-        private DomReadWriteResource DomReadWriteResource { get; set; }
-        private TResource ClrResource { get; set; }
+        private Lazy<ResourcePathContextBuilder<TBuilder>> LazyResourcePathContextBuilder { get; set; }
+
+        private ResourcePathContextBuilder<TBuilder> ResourcePathContextBuilder => this.LazyResourcePathContextBuilder.Value;
+        #endregion
+
+        #region Inherited Properties
+        private Type ClrResourceType => this.ResourceType.ClrType;
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
         private void AddResourcePathContext()
         {
-            var resourcePathContext = this.ResourcePathContextBuilder.CreateResourcePathContext();
+            var clrResource         = this.ClrResource;
+            var resourcePathContext = this.ResourcePathContextBuilder.CreateResourcePathContext(clrResource);
             this.DomReadWriteResource.SetResourcePathContext(resourcePathContext);
         }
 
-        private void InitializeResource(IContainerNode<DomNodeType> domContainerNode, TResource clrResource)
+        private void InitializeResource(IContainerNode<DomNodeType> domContainerNode, object clrResource)
         {
-            this.BuildingResource = false;
+            Contract.Requires(clrResource != null);
+
             if (clrResource == null)
                 return;
 
             // Map the incoming CLR resource to the DOM resource node.
-            var serviceModel = this.ServiceModel;
-            var clrResourceType = typeof(TResource);
-            var resourceType = serviceModel.GetResourceType(clrResourceType);
+            var resourceType = this.ResourceType;
 
             var domReadWriteResource = DomReadWriteResource.Create();
             resourceType.MapClrTypeToDomResource(domReadWriteResource);
             resourceType.MapClrIdToDomResource(domReadWriteResource, clrResource);
 
-            var domResource = (IDomResource)domReadWriteResource;
+            var domResource    = (IDomResource)domReadWriteResource;
             var domResourceKey = domResource.CreateDomResourceKey();
 
             // Do not add the DOM read-write resource node if it already has been added to the DOM document.
@@ -160,16 +180,45 @@ namespace JsonApiFramework.Server.Internal
                 resourceType.MapClrAttributesToDomResource(domReadWriteResource, clrResource, (x, y) => queryParameters.ContainsField(x, y));
             }
 
-            this.BuildingResource = true;
+            this.BuildingResource     = true;
             this.DomReadWriteResource = domReadWriteResource;
-            this.ClrResource = clrResource;
+            this.ClrResource          = clrResource;
         }
 
         private void InitializeResourcePathContextBuilder()
         {
-            this.LazyResourcePathContextBuilder =
-                new Lazy<ResourcePathContextBuilder<TBuilder, TResource>>(
-                    () => new ResourcePathContextBuilder<TBuilder, TResource>(this.Builder, this.ServiceModel));
+            this.LazyResourcePathContextBuilder = new Lazy<ResourcePathContextBuilder<TBuilder>>(() => new ResourcePathContextBuilder<TBuilder>(this.Builder, this.ServiceModel, this.ClrResourceType));
+        }
+        #endregion
+    }
+
+    internal abstract class ResourceBuilder<TBuilder, TResource> : ResourceBuilder<TBuilder>, IResourceBuilder<TBuilder, TResource>
+        where TResource : class
+    {
+        // PUBLIC METHODS ///////////////////////////////////////////////////
+        #region IResourceBuilder<TBuilder, TResource> Implementation
+        public new IRelationshipsBuilder<TBuilder, TResource> Relationships()
+        {
+            var relationshipsBuilder = this.NotBuildingResource
+                ? (IRelationshipsBuilder<TBuilder, TResource>)(new NullRelationshipsBuilder<TBuilder, TResource>(this.Builder))
+                : (IRelationshipsBuilder<TBuilder, TResource>)(new RelationshipsBuilder<TBuilder, TResource>(this.Builder, this.ServiceModel, this.DomReadWriteResource, (TResource)this.ClrResource));
+            return relationshipsBuilder;
+        }
+
+        public new IResourceLinksBuilder<TBuilder, TResource> Links()
+        {
+            var linksBuilder = this.NotBuildingResource
+                ? (IResourceLinksBuilder<TBuilder, TResource>)(new NullResourceLinksBuilder<TBuilder, TResource>(this.Builder))
+                : (IResourceLinksBuilder<TBuilder, TResource>)(new ResourceLinksBuilder<TBuilder, TResource>(this.Builder, this.DomReadWriteResource, (TResource)this.ClrResource));
+            return linksBuilder;
+        }
+        #endregion
+
+        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+        #region Constructors
+        protected ResourceBuilder(DocumentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType, TResource clrResource)
+            : base(parentBuilder, domContainerNode, clrResourceType, clrResource)
+        {
         }
         #endregion
     }

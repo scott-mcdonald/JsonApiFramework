@@ -10,13 +10,11 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Client.Internal
 {
-    internal class RelationshipsBuilder<TParentBuilder, TResource> : IRelationshipsBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
-        where TResource : class
+    internal class RelationshipsBuilder<TParentBuilder> : IRelationshipsBuilder<TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToOneResourceLinkage toOneResourceLinkage)
+        #region IRelationshipsBuilder<TParentBuilder> Implementation
+        public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IToOneResourceLinkage toOneResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
@@ -28,7 +26,7 @@ namespace JsonApiFramework.Client.Internal
             return this;
         }
 
-        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, IToManyResourceLinkage toManyResourceLinkage)
+        public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IToManyResourceLinkage toManyResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
@@ -40,11 +38,11 @@ namespace JsonApiFramework.Client.Internal
             return this;
         }
 
-        public IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource> Relationship(string rel)
+        public IRelationshipBuilder<IRelationshipsBuilder<TParentBuilder>> Relationship(string rel)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
 
-            var relationshipBuilder = new RelationshipBuilder<IRelationshipsBuilder<TParentBuilder, TResource>, TResource>(this, this.ServiceModel, this.DomReadWriteRelationships, rel);
+            var relationshipBuilder = new RelationshipBuilder<IRelationshipsBuilder<TParentBuilder>>(this, this.ServiceModel, this.DomReadWriteRelationships, rel, this.ClrResourceType);
             return relationshipBuilder;
         }
 
@@ -57,17 +55,18 @@ namespace JsonApiFramework.Client.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal RelationshipsBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode)
+        internal RelationshipsBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, Type clrResourceType)
         {
             Contract.Requires(parentBuilder != null);
             Contract.Requires(serviceModel != null);
             Contract.Requires(domContainerNode != null);
+            Contract.Requires(clrResourceType != null);
 
             this.ParentBuilder = parentBuilder;
 
             this.ServiceModel = serviceModel;
 
-            var resourceType = serviceModel.GetResourceType<TResource>();
+            var resourceType = serviceModel.GetResourceType(clrResourceType);
             this.ResourceType = resourceType;
 
             var domReadWriteRelationships = domContainerNode.GetOrAddNode(DomNodeType.Relationships, () => DomReadWriteRelationships.Create());
@@ -77,10 +76,14 @@ namespace JsonApiFramework.Client.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private IServiceModel ServiceModel { get; set; }
-        private IResourceType ResourceType { get; set; }
-        private DomReadWriteRelationships DomReadWriteRelationships { get; set; }
+        private TParentBuilder            ParentBuilder             { get; }
+        private IServiceModel             ServiceModel              { get; }
+        private IResourceType             ResourceType              { get; }
+        private DomReadWriteRelationships DomReadWriteRelationships { get; }
+        #endregion
+
+        #region Calculated Properties
+        private Type ClrResourceType => this.ResourceType.ClrType;
         #endregion
     }
 }

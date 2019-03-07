@@ -8,8 +8,11 @@ using JsonApiFramework.JsonApi;
 
 namespace JsonApiFramework.Server
 {
+    public interface IResourceLinksBuilder<out TParentBuilder> : ILinksBuilder<IResourceLinksBuilder<TParentBuilder>, TParentBuilder>
+    {
+    }
+
     public interface IResourceLinksBuilder<out TParentBuilder, out TResource> : ILinksBuilder<IResourceLinksBuilder<TParentBuilder, TResource>, TParentBuilder>
-        where TParentBuilder : class
         where TResource : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

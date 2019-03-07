@@ -11,6 +11,7 @@ namespace JsonApiFramework.Server
         #region Methods
         IDocumentWriter IncludedEnd();
 
+        #region Generic Versions
         // ToOne ////////////////////////////////////////////////////////////
         IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class
@@ -20,27 +21,11 @@ namespace JsonApiFramework.Server
             where TFromResource : class
             where TToResource : class;
 
-        IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class
-            where TToResource : class;
-
-        IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
-            where TFromResource : class
-            where TToResource : class;
-
         IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class
             where TToResource : class;
 
         IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
-            where TFromResource : class
-            where TToResource : class;
-
-        IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class
-            where TToResource : class;
-
-        IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
             where TFromResource : class
             where TToResource : class;
 
@@ -53,14 +38,6 @@ namespace JsonApiFramework.Server
             where TFromResource : class
             where TToResource : class;
 
-        IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
-            where TFromResource : class
-            where TToResource : class;
-
-        IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toOneIncludedResourcesCollectionSource)
-            where TFromResource : class
-            where TToResource : class;
-
         IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class
             where TToResource : class;
@@ -68,14 +45,27 @@ namespace JsonApiFramework.Server
         IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class
             where TToResource : class;
+        #endregion
+        #endregion
 
-        IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toOneIncludedResourcesSource)
-            where TFromResource : class
-            where TToResource : class;
+        #region Non-Generic Versions
+        // ToOne ////////////////////////////////////////////////////////////
+        IToOneIncludedResourceBuilder Include(IToOneIncludedResource toOneIncludedResource);
 
-        IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toOneIncludedResourcesCollectionSource)
-            where TFromResource : class
-            where TToResource : class;
+        IToOneIncludedResourceBuilder Include(IEnumerable<IToOneIncludedResource> toOneIncludedResourceCollection);
+
+        IIncludedResourcesBuilder AddInclude(IToOneIncludedResource toOneIncludedResource);
+
+        IIncludedResourcesBuilder AddInclude(IEnumerable<IToOneIncludedResource> toOneIncludedResourceCollection);
+
+        // ToMany ///////////////////////////////////////////////////////////
+        IToManyIncludedResourcesBuilder Include(IToManyIncludedResources toManyIncludedResources);
+
+        IToManyIncludedResourcesBuilder Include(IEnumerable<IToManyIncludedResources> toManyIncludedResourcesCollection);
+
+        IIncludedResourcesBuilder AddInclude(IToManyIncludedResources toManyIncludedResources);
+
+        IIncludedResourcesBuilder AddInclude(IEnumerable<IToManyIncludedResources> toManyIncludedResourcesCollection);
         #endregion
     }
 }

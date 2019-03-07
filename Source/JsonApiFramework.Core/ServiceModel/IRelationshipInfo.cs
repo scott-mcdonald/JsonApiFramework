@@ -3,16 +3,18 @@
 
 using System;
 
+using JsonApiFramework.Extension;
+
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IRelationshipInfo
+    public interface IRelationshipInfo : IExtensibleObject<IRelationshipInfo>
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        string Rel { get; }
-        string ApiRelPathSegment { get; }
-        Type ToClrType { get; }
-        RelationshipCardinality ToCardinality { get; }
+        string                           Rel                    { get; }
+        string                           ApiRelPathSegment      { get; }
+        Type                             ToClrType              { get; }
+        RelationshipCardinality          ToCardinality          { get; }
         RelationshipCanonicalRelPathMode ToCanonicalRelPathMode { get; }
         #endregion
     }

@@ -42,14 +42,13 @@ namespace JsonApiFramework.Server.Internal
     /// 6 Compact read-write resources to read-only resources.
     /// </remarks>
     internal class DocumentBuilder : IDocumentBuilder
-        , IGetDomDocument
-        , IIncludedBuilder
-        , IIncludedResourcesBuilder
+                                     , IGetDomDocument
+                                     , IIncludedBuilder
+                                     , IIncludedResourcesBuilder
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IGetDomDocument Implementation
-        public DomDocument DomDocument
-        { get; private set; }
+        public DomDocument DomDocument { get; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -74,16 +73,18 @@ namespace JsonApiFramework.Server.Internal
 
                     // Sort included resource nodes
                     this.SortIncludedResourceNodes();
+
+                    break;
                 }
-                break;
 
                 case DocumentType.ResourceIdentifierCollectionDocument:
                 case DocumentType.ResourceIdentifierDocument:
                 {
                     // Compact all read-write resource identifier nodes to read-only resource identifier nodes.
                     this.CompactResourceIdentifierNodes();
+
+                    break;
                 }
-                break;
             }
 
             // Resolve all document nodes if needed.
@@ -124,207 +125,264 @@ namespace JsonApiFramework.Server.Internal
             return documentLinksBuilder;
         }
 
-        // Resource /////////////////////////////////////////////////////////
-        public IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
-            where TResource : class
-        {
-            var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResource);
-            return primaryResourceBuilder;
-        }
-
-        public IPrimaryResourceBuilder<TResource> Resource<TResource>(IResourceSource<TResource> resourceSource)
-            where TResource : class
-        {
-            Contract.Requires(resourceSource != null);
-
-            var clrResource = resourceSource.GetResource();
-            var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResource);
-            return primaryResourceBuilder;
-        }
-
         // ResourceCollection ///////////////////////////////////////////////
+        #region Generic Versions
+        public IPrimaryResourceCollectionBuilder<TResource> ResourceCollection<TResource>(Type clrResourceType, IEnumerable<TResource> clrResourceCollection)
+            where TResource : class
+        {
+            return new PrimaryResourceCollectionBuilder<TResource>(this, this.DomDocument, clrResourceType, clrResourceCollection);
+        }
+
         public IPrimaryResourceCollectionBuilder<TResource> ResourceCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
             where TResource : class
         {
-            var primaryResourceCollectionBuilder = new PrimaryResourceCollectionBuilder<TResource>(this, this.DomDocument, clrResourceCollection);
-            return primaryResourceCollectionBuilder;
+            return new PrimaryResourceCollectionBuilder<TResource>(this, this.DomDocument, typeof(TResource), clrResourceCollection);
+        }
+        #endregion
+
+        #region Non-Generic Versions
+        public IPrimaryResourceCollectionBuilder ResourceCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        {
+            return new PrimaryResourceCollectionBuilder(this, this.DomDocument, clrResourceType, clrResourceCollection);
         }
 
-        public IPrimaryResourceCollectionBuilder<TResource> ResourceCollection<TResource>(IResourceCollectionSource<TResource> resourceCollectionSource)
+        public IPrimaryResourceCollectionBuilder ResourceCollection(IEnumerable<object> clrResourceCollection)
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            var clrResourceType = clrResourceCollection?.FirstOrDefault()?.GetType();
+            return new PrimaryResourceCollectionBuilder(this, this.DomDocument, clrResourceType, clrResourceCollection);
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+        #endregion
+
+        // Resource /////////////////////////////////////////////////////////
+        #region Generic Versions
+        public IPrimaryResourceBuilder<TResource> Resource<TResource>(Type clrResourceType, TResource clrResource)
             where TResource : class
         {
-            Contract.Requires(resourceCollectionSource != null);
-
-            var clrResourceCollection = resourceCollectionSource.GetResourceCollection();
-            var primaryResourceCollectionBuilder = new PrimaryResourceCollectionBuilder<TResource>(this, this.DomDocument, clrResourceCollection);
-            return primaryResourceCollectionBuilder;
+            return new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResourceType, clrResource);
         }
 
-        // ResourceIdentifier ///////////////////////////////////////////////
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>()
+        public IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            return primaryResourceIdentifierBuilder;
+            return new PrimaryResourceBuilder<TResource>(this, this.DomDocument, typeof(TResource), clrResource);
         }
+        #endregion
 
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class
+        #region Non-Generic Versions
+        public IPrimaryResourceBuilder Resource(Type clrResourceType, object clrResource)
         {
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResource);
-            return primaryResourceIdentifierBuilder;
+            return new PrimaryResourceBuilder(this, this.DomDocument, clrResourceType, clrResource);
         }
 
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class
+        public IPrimaryResourceBuilder Resource(object clrResource)
         {
-            Contract.Requires(resourceIdentifierSource != null);
-
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            var resourceId = resourceIdentifierSource.GetResourceId();
-            primaryResourceIdentifierBuilder.SetId(Id.Create(resourceId));
-            return primaryResourceIdentifierBuilder;
+            var clrResourceType = clrResource?.GetType();
+            return new PrimaryResourceBuilder(this, this.DomDocument, clrResourceType, clrResource);
         }
-
-        public IDocumentWriter SetResourceIdentifier<TResource>()
-            where TResource : class
-        {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifier<TResource>();
-            return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
-        }
-
-        public IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class
-        {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResource);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
-        }
-
-        public IDocumentWriter SetResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class
-        {
-            Contract.Requires(resourceIdentifierSource != null);
-
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifier<TResource, TResourceId>(resourceIdentifierSource);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
-        }
+        #endregion
 
         // ResourceIdentifierCollection /////////////////////////////////////
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>()
+        #region Generic Versions
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>()
             where TResource : class
         {
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            return primaryResourceIdentifierCollectionBuilder;
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource));
         }
 
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>(Type clrResourceType, IEnumerable<TResource> clrResourceCollection)
             where TResource : class
         {
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResourceCollection);
-            return primaryResourceIdentifierCollectionBuilder;
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResourceCollection);
         }
 
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
             where TResource : class
         {
-            Contract.Requires(resourceIdentifierCollectionSource != null);
-
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            var resourceIdCollection = resourceIdentifierCollectionSource.GetResourceIdCollection();
-            primaryResourceIdentifierCollectionBuilder.SetId(IdCollection.Create(resourceIdCollection));
-            return primaryResourceIdentifierCollectionBuilder;
-
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource), clrResourceCollection);
         }
 
         public IDocumentWriter SetResourceIdentifierCollection<TResource>()
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource>();
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+            return this.ResourceIdentifierCollection<TResource>().ResourceIdentifierCollectionEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection<TResource>(Type clrResourceType, IEnumerable<TResource> clrResourceCollection)
+            where TResource : class
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return this.ResourceIdentifierCollection(clrResourceType, clrResourceCollection).ResourceIdentifierCollectionEnd();
         }
 
         public IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceCollection);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+            return this.ResourceIdentifierCollection(clrResourceCollection).ResourceIdentifierCollectionEnd();
+        }
+        #endregion
+
+        #region Non-Generic Versions
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType);
         }
 
-        public IDocumentWriter SetResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResourceCollection);
+        }
+
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(IEnumerable<object> clrResourceCollection)
+        {
+            // ReSharper disable PossibleMultipleEnumeration
+            var clrResourceType = clrResourceCollection?.FirstOrDefault()?.GetType();
+            return new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResourceCollection);
+            // ReSharper restore PossibleMultipleEnumeration
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return this.ResourceIdentifierCollection(clrResourceType).ResourceIdentifierCollectionEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return this.ResourceIdentifierCollection(clrResourceType, clrResourceCollection).ResourceIdentifierCollectionEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection(IEnumerable<object> clrResourceCollection)
+        {
+            return this.ResourceIdentifierCollection(clrResourceCollection).ResourceIdentifierCollectionEnd();
+        }
+        #endregion
+
+        // ResourceIdentifier ///////////////////////////////////////////////
+        #region Generic Versions
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>()
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource, TResourceId>(resourceIdentifierCollectionSource);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource));
         }
 
-        // Errors ///////////////////////////////////////////////////////////
-        public IErrorsBuilder Errors()
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>(Type clrResourceType, TResource clrResource)
+            where TResource : class
         {
-            var errorsBuilder = new ErrorsBuilder(this, this.DomDocument);
-            return errorsBuilder;
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResource);
+        }
+
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>(TResource clrResource)
+            where TResource : class
+        {
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource), clrResource);
+        }
+
+        public IDocumentWriter SetResourceIdentifier<TResource>()
+            where TResource : class
+        {
+            return this.ResourceIdentifier<TResource>().ResourceIdentifierEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifier<TResource>(Type clrResourceType, TResource clrResource)
+            where TResource : class
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return this.ResourceIdentifier(clrResourceType, clrResource).ResourceIdentifierEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
+            where TResource : class
+        {
+            return this.ResourceIdentifier(clrResource).ResourceIdentifierEnd();
+        }
+        #endregion
+
+        #region Non-Generic Versions
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType);
+        }
+
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType, object clrResource)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResource);
+        }
+
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(object clrResource)
+        {
+            var clrResourceType = clrResource?.GetType();
+            return new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResource);
+        }
+
+        public IDocumentWriter SetResourceIdentifier(Type clrResourceType)
+        {
+            return this.ResourceIdentifier(clrResourceType).ResourceIdentifierEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifier(Type clrResourceType, object clrResource)
+        {
+            return this.ResourceIdentifier(clrResourceType, clrResource).ResourceIdentifierEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifier(object clrResource)
+        {
+            return this.ResourceIdentifier(clrResource).ResourceIdentifierEnd();
         }
         #endregion
 
         #region IIncludedBuilder Implementation
         public IIncludedResourcesBuilder Included()
-        { return this; }
+        {
+            return this;
+        }
         #endregion
 
         #region IIncludedResourcesBuilder Implementation
         public IDocumentWriter IncludedEnd()
-        { return this; }
+        {
+            return this;
+        }
 
-        // ToOneIncludedResource /////////////////////////////////////////////
+        #region Generic Versions
+        // ToOne ////////////////////////////////////////////////////////////
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toOneIncludedResource != null);
-
-            var toOneIncludedResourceBuilder = new ToOneIncludedResourceBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResource);
-            return toOneIncludedResourceBuilder;
+            return new ToOneIncludedResourceBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResource);
         }
 
         public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToOneIncludedResource<TFromResource, TToResource>> toOneIncludedResourceCollection)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toOneIncludedResourceCollection != null);
-
-            var toOneIncludedResourceBuilder = new ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
-            return toOneIncludedResourceBuilder;
-        }
-
-        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toOneIncludedResourceSource != null);
-
-            var toOneIncludedResource = toOneIncludedResourceSource.GetToOneIncludedResource();
-            var toOneIncludedResourceBuilder = new ToOneIncludedResourceBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResource);
-            return toOneIncludedResourceBuilder;
-        }
-
-        public IToOneIncludedResourceBuilder<TToResource> Include<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toOneIncludedResourceCollectionSource != null);
-
-            var toOneIncludedResourceCollection = toOneIncludedResourceCollectionSource.GetToOneIncludedResourceCollection();
-            var toOneIncludedResourceBuilder = new ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
-            return toOneIncludedResourceBuilder;
+            return new ToOneIncludedResourceCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toOneIncludedResource != null);
-
-            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResource);
-            toOneIncludedResourceBuilder.IncludeEnd();
+            this.Include(toOneIncludedResource).IncludeEnd();
             return this;
         }
 
@@ -332,86 +390,30 @@ namespace JsonApiFramework.Server.Internal
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toOneIncludedResourceCollection != null);
-
-            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceCollection);
-            toOneIncludedResourceBuilder.IncludeEnd();
+            this.Include(toOneIncludedResourceCollection).IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceSource<TFromResource, TToResource> toOneIncludedResourceSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toOneIncludedResourceSource != null);
-
-            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceSource);
-            toOneIncludedResourceBuilder.IncludeEnd();
-            return this;
-        }
-
-        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToOneIncludedResourceCollectionSource<TFromResource, TToResource> toOneIncludedResourceCollectionSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toOneIncludedResourceCollectionSource != null);
-
-            var toOneIncludedResourceBuilder = this.Include(toOneIncludedResourceCollectionSource);
-            toOneIncludedResourceBuilder.IncludeEnd();
-            return this;
-        }
-
-        // ToManyIncludedResources ////////////////////////////////////////////
+        // ToMany ///////////////////////////////////////////////////////////
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toManyIncludedResources != null);
-
-            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResources);
-            return toManyIncludedResourcesBuilder;
+            return new ToManyIncludedResourcesBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResources);
         }
 
         public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IEnumerable<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toManyIncludedResourcesCollection != null);
-
-            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
-            return toManyIncludedResourcesBuilder;
-        }
-
-        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toManyIncludedResourcesSource != null);
-
-            var toManyIncludedResources = toManyIncludedResourcesSource.GetToManyIncludedResources();
-            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResources);
-            return toManyIncludedResourcesBuilder;
-        }
-
-        public IToManyIncludedResourcesBuilder<TToResource> Include<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
-            where TFromResource : class
-            where TToResource : class
-        {
-            Contract.Requires(toManyIncludedResourcesCollectionSource != null);
-
-            var toManyIncludedResourcesCollection = toManyIncludedResourcesCollectionSource.GetToManyIncludedResourcesCollection();
-            var toManyIncludedResourcesBuilder = new ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
-            return toManyIncludedResourcesBuilder;
+            return new ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource>(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
         }
 
         public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toManyIncludedResources != null);
-
-            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResources);
-            toManyIncludedResourcesBuilder.IncludeEnd();
+            this.Include(toManyIncludedResources).IncludeEnd();
             return this;
         }
 
@@ -419,65 +421,96 @@ namespace JsonApiFramework.Server.Internal
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(toManyIncludedResourcesCollection != null);
+            this.Include(toManyIncludedResourcesCollection).IncludeEnd();
+            return this;
+        }
+        #endregion
 
-            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesCollection);
-            toManyIncludedResourcesBuilder.IncludeEnd();
+        #region Non-Generic Versions
+        // ToOne ////////////////////////////////////////////////////////////
+        public IToOneIncludedResourceBuilder Include(IToOneIncludedResource toOneIncludedResource)
+        {
+            return new ToOneIncludedResourceBuilder(this, this.DomDocument, toOneIncludedResource);
+        }
+
+        public IToOneIncludedResourceBuilder Include(IEnumerable<IToOneIncludedResource> toOneIncludedResourceCollection)
+        {
+            return new ToOneIncludedResourceCollectionBuilder(this, this.DomDocument, toOneIncludedResourceCollection.SafeToReadOnlyCollection());
+        }
+
+        public IIncludedResourcesBuilder AddInclude(IToOneIncludedResource toOneIncludedResource)
+        {
+            this.Include(toOneIncludedResource).IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesSource<TFromResource, TToResource> toManyIncludedResourcesSource)
-            where TFromResource : class
-            where TToResource : class
+        public IIncludedResourcesBuilder AddInclude(IEnumerable<IToOneIncludedResource> toOneIncludedResourceCollection)
         {
-            Contract.Requires(toManyIncludedResourcesSource != null);
-
-            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesSource);
-            toManyIncludedResourcesBuilder.IncludeEnd();
+            this.Include(toOneIncludedResourceCollection).IncludeEnd();
             return this;
         }
 
-        public IIncludedResourcesBuilder AddInclude<TFromResource, TToResource>(IToManyIncludedResourcesCollectionSource<TFromResource, TToResource> toManyIncludedResourcesCollectionSource)
-            where TFromResource : class
-            where TToResource : class
+        // ToMany ///////////////////////////////////////////////////////////
+        public IToManyIncludedResourcesBuilder Include(IToManyIncludedResources toManyIncludedResources)
         {
-            Contract.Requires(toManyIncludedResourcesCollectionSource != null);
+            return new ToManyIncludedResourcesBuilder(this, this.DomDocument, toManyIncludedResources);
+        }
 
-            var toManyIncludedResourcesBuilder = this.Include(toManyIncludedResourcesCollectionSource);
-            toManyIncludedResourcesBuilder.IncludeEnd();
+        public IToManyIncludedResourcesBuilder Include(IEnumerable<IToManyIncludedResources> toManyIncludedResourcesCollection)
+        {
+            return new ToManyIncludedResourcesCollectionBuilder(this, this.DomDocument, toManyIncludedResourcesCollection.SafeToReadOnlyCollection());
+        }
+
+        public IIncludedResourcesBuilder AddInclude(IToManyIncludedResources toManyIncludedResources)
+        {
+            this.Include(toManyIncludedResources).IncludeEnd();
             return this;
+        }
+
+        public IIncludedResourcesBuilder AddInclude(IEnumerable<IToManyIncludedResources> toManyIncludedResourcesCollection)
+        {
+            this.Include(toManyIncludedResourcesCollection).IncludeEnd();
+            return this;
+        }
+        #endregion
+        #endregion
+
+        // Errors ///////////////////////////////////////////////////////////
+        public IErrorsBuilder Errors()
+        {
+            return new ErrorsBuilder(this, this.DomDocument);
         }
         #endregion
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal DocumentBuilder(DocumentWriter documentWriter,
+        internal DocumentBuilder(DocumentWriter               documentWriter,
                                  IHypermediaAssemblerRegistry hypermediaAssemblerRegistry,
-                                 IHypermediaContext hypermediaContext,
-                                 DocumentBuilderContext documentBuilderContext)
+                                 IHypermediaContext           hypermediaContext,
+                                 DocumentBuilderContext       documentBuilderContext)
         {
             Contract.Requires(documentWriter != null);
             Contract.Requires(documentBuilderContext != null);
 
             var serviceModel = documentWriter.ServiceModel;
-            var domDocument = documentWriter.DomDocument;
+            var domDocument  = documentWriter.DomDocument;
 
-            this.DomDocument = domDocument;
-            this.ServiceModel = serviceModel;
-            this.DocumentWriter = documentWriter;
+            this.DomDocument                 = domDocument;
+            this.ServiceModel                = serviceModel;
+            this.DocumentWriter              = documentWriter;
             this.HypermediaAssemblerRegistry = hypermediaAssemblerRegistry;
-            this.HypermediaContext = hypermediaContext;
-            this.DocumentBuilderContext = documentBuilderContext;
+            this.HypermediaContext           = hypermediaContext;
+            this.DocumentBuilderContext      = documentBuilderContext;
 
             this.SetDocumentPathContextNodeAttribute();
         }
 
-        internal DocumentBuilder(DomDocument domDocument,
-                                 IServiceModel serviceModel,
-                                 IDocumentWriter documentWriter,
+        internal DocumentBuilder(DomDocument                  domDocument,
+                                 IServiceModel                serviceModel,
+                                 IDocumentWriter              documentWriter,
                                  IHypermediaAssemblerRegistry hypermediaAssemblerRegistry,
-                                 IHypermediaContext hypermediaContext,
-                                 DocumentBuilderContext documentBuilderContext)
+                                 IHypermediaContext           hypermediaContext,
+                                 DocumentBuilderContext       documentBuilderContext)
         {
             Contract.Requires(domDocument != null);
             Contract.Requires(serviceModel != null);
@@ -486,12 +519,12 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(hypermediaContext != null);
             Contract.Requires(documentBuilderContext != null);
 
-            this.DomDocument = domDocument;
-            this.ServiceModel = serviceModel;
-            this.DocumentWriter = documentWriter;
+            this.DomDocument                 = domDocument;
+            this.ServiceModel                = serviceModel;
+            this.DocumentWriter              = documentWriter;
             this.HypermediaAssemblerRegistry = hypermediaAssemblerRegistry;
-            this.HypermediaContext = hypermediaContext;
-            this.DocumentBuilderContext = documentBuilderContext;
+            this.HypermediaContext           = hypermediaContext;
+            this.DocumentBuilderContext      = documentBuilderContext;
 
             this.SetDocumentPathContextNodeAttribute();
         }
@@ -500,14 +533,14 @@ namespace JsonApiFramework.Server.Internal
         // INTERNAL PROPERTIES //////////////////////////////////////////////
         #region Properties
         internal DocumentBuilderContext DocumentBuilderContext { get; private set; }
-        internal IServiceModel ServiceModel { get; private set; }
+        internal IServiceModel          ServiceModel           { get; private set; }
         #endregion
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private IDocumentWriter DocumentWriter { get; set; }
+        private IDocumentWriter              DocumentWriter              { get; set; }
         private IHypermediaAssemblerRegistry HypermediaAssemblerRegistry { get; set; }
-        private IHypermediaContext HypermediaContext { get; set; }
+        private IHypermediaContext           HypermediaContext           { get; set; }
         #endregion
 
         // PRIVATE METHODS //////////////////////////////////////////////////
@@ -526,9 +559,9 @@ namespace JsonApiFramework.Server.Internal
                 return;
 
             var domReadWriteLinks = (DomReadWriteLinks)domLinks;
-            var domParentNode = (IContainerNode<DomNodeType>)domReadWriteLinks.ParentNode;
+            var domParentNode     = (IContainerNode<DomNodeType>)domReadWriteLinks.ParentNode;
 
-            var apiLinks = domLinks.Links;
+            var apiLinks         = domLinks.Links;
             var domReadOnlyLinks = DomReadOnlyLinks.Create(apiLinks);
 
             domParentNode.ReplaceNode(domReadWriteLinks, domReadOnlyLinks);
@@ -541,9 +574,9 @@ namespace JsonApiFramework.Server.Internal
                 return;
 
             var domReadWriteErrors = (DomReadWriteErrors)domErrors;
-            var domParentNode = (IContainerNode<DomNodeType>)domReadWriteErrors.ParentNode;
+            var domParentNode      = (IContainerNode<DomNodeType>)domReadWriteErrors.ParentNode;
 
-            var apiErrors = domErrors.Errors;
+            var apiErrors         = domErrors.Errors;
             var domReadOnlyErrors = DomReadOnlyErrors.Create(apiErrors);
 
             domParentNode.ReplaceNode(domReadWriteErrors, domReadOnlyErrors);
@@ -559,10 +592,10 @@ namespace JsonApiFramework.Server.Internal
                     continue;
 
                 var domReadWriteResource = (DomReadWriteResource)domResource;
-                var domParentNode = (IContainerNode<DomNodeType>)domReadWriteResource.ParentNode;
+                var domParentNode        = (IContainerNode<DomNodeType>)domReadWriteResource.ParentNode;
 
-                var apiResource = domResource.ApiResource;
-                var clrResource = domResource.ClrResource;
+                var apiResource         = domResource.ApiResource;
+                var clrResource         = domResource.ClrResource;
                 var domReadOnlyResource = DomReadOnlyResource.Create(apiResource, clrResource);
 
                 domParentNode.ReplaceNode(domReadWriteResource, domReadOnlyResource);
@@ -579,7 +612,7 @@ namespace JsonApiFramework.Server.Internal
                     continue;
 
                 var domReadWriteResourceIdentifier = (DomReadWriteResourceIdentifier)domResourceIdentifier;
-                var domParentNode = (IContainerNode<DomNodeType>)domReadWriteResourceIdentifier.ParentNode;
+                var domParentNode                  = (IContainerNode<DomNodeType>)domReadWriteResourceIdentifier.ParentNode;
 
                 var apiResourceIdentifier = domResourceIdentifier.ApiResourceIdentifier;
                 if (apiResourceIdentifier.IsUndefined())
@@ -588,7 +621,7 @@ namespace JsonApiFramework.Server.Internal
                     continue;
                 }
 
-                var clrResourceType = domResourceIdentifier.ClrResourceType;
+                var clrResourceType               = domResourceIdentifier.ClrResourceType;
                 var domReadOnlyResourceIdentifier = DomReadOnlyResourceIdentifier.Create(apiResourceIdentifier, clrResourceType);
 
                 domParentNode.ReplaceNode(domReadWriteResourceIdentifier, domReadOnlyResourceIdentifier);
@@ -671,38 +704,38 @@ namespace JsonApiFramework.Server.Internal
                 // Prune this relationship.
                 // 1. If this doesn't have resource linkage, just remove relationship node.
                 // 2. If this does have resource linkage, remove the links and meta but keep the resource linkage.
-                var apiRelationship = domRelationship.Relationship;
+                var apiRelationship     = domRelationship.Relationship;
                 var apiRelationshipType = apiRelationship.GetRelationshipType();
                 switch (apiRelationshipType)
                 {
                     case RelationshipType.Relationship:
-                        {
-                            domReadWriteRelationships.RemoveNode((DomNode)domRelationship);
-                        }
+                    {
+                        domReadWriteRelationships.RemoveNode((DomNode)domRelationship);
+                    }
                         break;
 
                     case RelationshipType.ToOneRelationship:
+                    {
+                        var apiRelationshipDataOnly = new ToOneRelationship
                         {
-                            var apiRelationshipDataOnly = new ToOneRelationship
-                                                          {
-                                                              Data = apiRelationship.GetToOneResourceLinkage()
-                                                          };
-                            var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
+                            Data = apiRelationship.GetToOneResourceLinkage()
+                        };
+                        var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
 
-                            domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
-                        }
+                        domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
+                    }
                         break;
 
                     case RelationshipType.ToManyRelationship:
+                    {
+                        var apiRelationshipDataOnly = new ToManyRelationship
                         {
-                            var apiRelationshipDataOnly = new ToManyRelationship
-                                                          {
-                                                              Data = apiRelationship.GetToManyResourceLinkage().SafeToList()
-                                                          };
-                            var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
+                            Data = apiRelationship.GetToManyResourceLinkage().SafeToList()
+                        };
+                        var domReadOnlyRelationship = DomReadOnlyRelationship.Create(apiField, apiRelationshipDataOnly);
 
-                            domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
-                        }
+                        domReadWriteRelationships.ReplaceNode((DomNode)domRelationship, domReadOnlyRelationship);
+                    }
                         break;
 
                     default:
@@ -736,10 +769,10 @@ namespace JsonApiFramework.Server.Internal
 
                 // Resolve read-write link
                 var domReadWriteLink = (DomReadWriteLink)domLink;
-                var apiLinkRel = domReadWriteLink.Rel;
+                var apiLinkRel       = domReadWriteLink.Rel;
 
                 var apiLinkMeta = default(Meta);
-                var domMeta = (IDomMeta)domReadWriteLink.GetNode(DomNodeType.Meta);
+                var domMeta     = (IDomMeta)domReadWriteLink.GetNode(DomNodeType.Meta);
                 if (domMeta != null)
                 {
                     apiLinkMeta = domMeta.Meta;
@@ -757,7 +790,7 @@ namespace JsonApiFramework.Server.Internal
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.EmptyDocument:
                     {
@@ -765,7 +798,7 @@ namespace JsonApiFramework.Server.Internal
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.NullDocument:
                     {
@@ -773,7 +806,7 @@ namespace JsonApiFramework.Server.Internal
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.ResourceCollectionDocument:
                     {
@@ -790,7 +823,7 @@ namespace JsonApiFramework.Server.Internal
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.ResourceDocument:
                     {
@@ -798,12 +831,12 @@ namespace JsonApiFramework.Server.Internal
                                               .DomResources(false)
                                               .SingleOrDefault();
                         var clrResourceType = domResource != null ? domResource.ClrResourceType : default(Type);
-                        var clrResource = domResource != null ? domResource.ClrResource : default(object);
+                        var clrResource     = domResource != null ? domResource.ClrResource : default(object);
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.ResourceIdentifierCollectionDocument:
                     {
@@ -818,22 +851,22 @@ namespace JsonApiFramework.Server.Internal
                         {
                             var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
                             clrResourceCollection = domResourceIdentifierCollection
-                                .Select(domResourceIdentifier =>
-                                {
-                                    var clrResource = resourceType.CreateClrObject();
+                                                    .Select(domResourceIdentifier =>
+                                                    {
+                                                        var clrResource = resourceType.CreateClrObject();
 
-                                    var apiResourceId = domResourceIdentifier.ApiResourceId;
-                                    resourceType.SetClrId(clrResource, apiResourceId);
-                                    return clrResource;
-                                })
-                                .ToList();
+                                                        var apiResourceId = domResourceIdentifier.ApiResourceId;
+                                                        resourceType.SetClrId(clrResource, apiResourceId);
+                                                        return clrResource;
+                                                    })
+                                                    .ToList();
                         }
 
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     case DocumentType.ResourceIdentifierDocument:
                     {
@@ -841,7 +874,7 @@ namespace JsonApiFramework.Server.Internal
                                                         .DomResourceIdentitifiers()
                                                         .SingleOrDefault();
                         var clrResourceType = domResourceIdentifier != null ? domResourceIdentifier.ClrResourceType : default(Type);
-                        var clrResource = default(object);
+                        var clrResource     = default(object);
                         if (clrResourceType != null)
                         {
                             var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
@@ -855,7 +888,7 @@ namespace JsonApiFramework.Server.Internal
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
-                    break;
+                        break;
 
                     default:
                     {
@@ -890,18 +923,18 @@ namespace JsonApiFramework.Server.Internal
             var hypermediaAssembler = this.HypermediaAssemblerRegistry.SafeGetAssembler(resourcePathContext.ResourceSelfBasePath);
 
             var clrResourceType = domResource.ClrResourceType;
-            var clrResource = domResource.ClrResource;
+            var clrResource     = domResource.ClrResource;
 
             this.ResolveResourceRelationships(domReadWriteResource, hypermediaContext, hypermediaAssembler, resourcePathContext, clrResourceType, clrResource);
             ResolveResourceLinks(domReadWriteResource, hypermediaContext, hypermediaAssembler, resourcePathContext, clrResourceType, clrResource);
         }
 
         private static void ResolveResourceLinks(DomReadWriteResource domReadWriteResource,
-                                                 IHypermediaContext hypermediaContext,
+                                                 IHypermediaContext   hypermediaContext,
                                                  IHypermediaAssembler hypermediaAssembler,
                                                  IResourcePathContext resourcePathContext,
-                                                 Type clrResourceType,
-                                                 object clrResource)
+                                                 Type                 clrResourceType,
+                                                 object               clrResource)
         {
             var domLinks = (IDomLinks)domReadWriteResource.GetNode(DomNodeType.Links);
             if (domLinks == null || domLinks.IsReadOnly)
@@ -914,20 +947,20 @@ namespace JsonApiFramework.Server.Internal
             }
         }
 
-        private static void ResolveResourceLink(IDomLink domLink,
-                                                IHypermediaContext hypermediaContext,
+        private static void ResolveResourceLink(IDomLink             domLink,
+                                                IHypermediaContext   hypermediaContext,
                                                 IHypermediaAssembler hypermediaAssembler,
                                                 IResourcePathContext resourcePathContext,
-                                                Type clrResourceType,
-                                                object clrResource,
-                                                DomReadWriteLinks domReadWriteLinks)
+                                                Type                 clrResourceType,
+                                                object               clrResource,
+                                                DomReadWriteLinks    domReadWriteLinks)
         {
             if (domLink.IsReadOnly)
                 return;
 
             // Resolve read-write resource link
             var domReadWriteLink = (DomReadWriteLink)domLink;
-            var apiLinkRel = domReadWriteLink.Rel;
+            var apiLinkRel       = domReadWriteLink.Rel;
 
             var apiLinkMeta = default(Meta);
             var domLinkMeta = (IDomMeta)domReadWriteLink.GetNode(DomNodeType.Meta);
@@ -937,7 +970,7 @@ namespace JsonApiFramework.Server.Internal
             }
 
             // Create link.
-            var linkContext = new LinkContext(apiLinkRel, apiLinkMeta);
+            var linkContext     = new LinkContext(apiLinkRel, apiLinkMeta);
             var apiResourceLink = hypermediaAssembler.CreateResourceLink(hypermediaContext, resourcePathContext, clrResourceType, clrResource, linkContext);
 
             // Replace the old DOM read-write link node with a new DOM read-only link created by the framework.
@@ -946,11 +979,11 @@ namespace JsonApiFramework.Server.Internal
         }
 
         private void ResolveResourceRelationships(DomReadWriteResource domReadWriteResource,
-                                                  IHypermediaContext hypermediaContext,
+                                                  IHypermediaContext   hypermediaContext,
                                                   IHypermediaAssembler hypermediaAssembler,
                                                   IResourcePathContext resourcePathContext,
-                                                  Type clrResourceType,
-                                                  object clrResource)
+                                                  Type                 clrResourceType,
+                                                  object               clrResource)
         {
             var domRelationships = (IDomRelationships)domReadWriteResource.GetNode(DomNodeType.Relationships);
             if (domRelationships == null || domRelationships.IsReadOnly)
@@ -963,12 +996,12 @@ namespace JsonApiFramework.Server.Internal
             }
         }
 
-        private void ResolveResourceRelationship(IDomRelationship domRelationship,
-                                                 IHypermediaContext hypermediaContext,
-                                                 IHypermediaAssembler hypermediaAssembler,
-                                                 IResourcePathContext resourcePathContext,
-                                                 Type clrResourceType,
-                                                 object clrResource,
+        private void ResolveResourceRelationship(IDomRelationship          domRelationship,
+                                                 IHypermediaContext        hypermediaContext,
+                                                 IHypermediaAssembler      hypermediaAssembler,
+                                                 IResourcePathContext      resourcePathContext,
+                                                 Type                      clrResourceType,
+                                                 object                    clrResource,
                                                  DomReadWriteRelationships domReadWriteRelationships)
         {
             if (domRelationship.IsReadOnly)
@@ -981,7 +1014,7 @@ namespace JsonApiFramework.Server.Internal
             var apiRelationshipRel = domReadWriteRelationship.Rel;
 
             // .. Links
-            var linkContexts = new List<ILinkContext>();
+            var linkContexts         = new List<ILinkContext>();
             var domRelationshipLinks = (IDomLinks)domReadWriteRelationship.GetNode(DomNodeType.Links);
             if (domRelationshipLinks != null)
             {
@@ -1006,10 +1039,10 @@ namespace JsonApiFramework.Server.Internal
 
                     // Resolve read-write relationship link
                     var domReadWriteLink = (DomReadWriteLink)domLink;
-                    var apiLinkRel = domReadWriteLink.Rel;
+                    var apiLinkRel       = domReadWriteLink.Rel;
 
                     var apiLinkMeta = default(Meta);
-                    var domMeta = (IDomMeta)domReadWriteLink.GetNode(DomNodeType.Meta);
+                    var domMeta     = (IDomMeta)domReadWriteLink.GetNode(DomNodeType.Meta);
                     if (domMeta != null)
                     {
                         apiLinkMeta = domMeta.Meta;
@@ -1022,14 +1055,14 @@ namespace JsonApiFramework.Server.Internal
 
             // .. Data
             var relationshipTypeToCreate = RelationshipType.Relationship;
-            var toOneResourceLinkage = default(ResourceIdentifier);
-            var toManyResourceLinkage = default(IEnumerable<ResourceIdentifier>);
+            var toOneResourceLinkage     = default(ResourceIdentifier);
+            var toManyResourceLinkage    = default(IEnumerable<ResourceIdentifier>);
 
             var resourceType = this.ServiceModel.GetResourceType(clrResourceType);
             var relationship = resourceType.GetRelationshipInfo(apiRelationshipRel);
 
             var fromApiResourceIdentifier = resourceType.GetApiResourceIdentifier(clrResource);
-            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, apiRelationshipRel);
+            var apiResourceLinkageKey     = new ApiResourceLinkageKey(fromApiResourceIdentifier, apiRelationshipRel);
 
             var apiRelationship = domReadWriteRelationship.Relationship;
 
@@ -1039,10 +1072,10 @@ namespace JsonApiFramework.Server.Internal
                 case RelationshipCardinality.ToOne:
                 {
                     var hasToOneResourceLinkageFromDom = apiRelationship.IsToOneRelationship();
-                    var toOneResourceLinkageFromDom = hasToOneResourceLinkageFromDom ? apiRelationship.GetToOneResourceLinkage() : default(ResourceIdentifier);
+                    var toOneResourceLinkageFromDom    = hasToOneResourceLinkageFromDom ? apiRelationship.GetToOneResourceLinkage() : default(ResourceIdentifier);
 
                     var hasToOneResourceLinkageFromInclude = this.DocumentBuilderContext.TryGetResourceLinkage(apiResourceLinkageKey, out var apiResourceLinkage);
-                    var toOneResourceLinkageFromInclude = hasToOneResourceLinkageFromInclude ? apiResourceLinkage.ToOneResourceLinkage : default(ResourceIdentifier);
+                    var toOneResourceLinkageFromInclude    = hasToOneResourceLinkageFromInclude ? apiResourceLinkage.ToOneResourceLinkage : default(ResourceIdentifier);
 
                     if (hasToOneResourceLinkageFromDom && hasToOneResourceLinkageFromInclude)
                     {
@@ -1054,46 +1087,46 @@ namespace JsonApiFramework.Server.Internal
                         }
 
                         relationshipTypeToCreate = RelationshipType.ToOneRelationship;
-                        toOneResourceLinkage = toOneResourceLinkageFromInclude;
+                        toOneResourceLinkage     = toOneResourceLinkageFromInclude;
                     }
                     else if (hasToOneResourceLinkageFromDom)
                     {
                         relationshipTypeToCreate = RelationshipType.ToOneRelationship;
-                        toOneResourceLinkage = toOneResourceLinkageFromDom;
+                        toOneResourceLinkage     = toOneResourceLinkageFromDom;
                     }
                     else if (hasToOneResourceLinkageFromInclude)
                     {
                         relationshipTypeToCreate = RelationshipType.ToOneRelationship;
-                        toOneResourceLinkage = toOneResourceLinkageFromInclude;
+                        toOneResourceLinkage     = toOneResourceLinkageFromInclude;
                     }
                 }
-                break;
+                    break;
 
                 case RelationshipCardinality.ToMany:
                 {
                     var hasToManyResourceLinkageFromDom = apiRelationship.IsToManyRelationship();
-                    var toManyResourceLinkageFromDom = hasToManyResourceLinkageFromDom ? apiRelationship.GetToManyResourceLinkage() : Enumerable.Empty<ResourceIdentifier>();
+                    var toManyResourceLinkageFromDom    = hasToManyResourceLinkageFromDom ? apiRelationship.GetToManyResourceLinkage() : Enumerable.Empty<ResourceIdentifier>();
 
                     var hasToManyResourceLinkageFromInclude = this.DocumentBuilderContext.TryGetResourceLinkage(apiResourceLinkageKey, out var apiResourceLinkage);
-                    var toManyResourceLinkageFromInclude = hasToManyResourceLinkageFromInclude ? apiResourceLinkage.ToManyResourceLinkage : Enumerable.Empty<ResourceIdentifier>();
+                    var toManyResourceLinkageFromInclude    = hasToManyResourceLinkageFromInclude ? apiResourceLinkage.ToManyResourceLinkage : Enumerable.Empty<ResourceIdentifier>();
 
                     if (hasToManyResourceLinkageFromDom && hasToManyResourceLinkageFromInclude)
                     {
                         relationshipTypeToCreate = RelationshipType.ToManyRelationship;
-                        toManyResourceLinkage = toManyResourceLinkageFromDom.Union(toManyResourceLinkageFromInclude);
+                        toManyResourceLinkage    = toManyResourceLinkageFromDom.Union(toManyResourceLinkageFromInclude);
                     }
                     else if (hasToManyResourceLinkageFromDom)
                     {
                         relationshipTypeToCreate = RelationshipType.ToManyRelationship;
-                        toManyResourceLinkage = toManyResourceLinkageFromDom;
+                        toManyResourceLinkage    = toManyResourceLinkageFromDom;
                     }
                     else if (hasToManyResourceLinkageFromInclude)
                     {
                         relationshipTypeToCreate = RelationshipType.ToManyRelationship;
-                        toManyResourceLinkage = toManyResourceLinkageFromInclude;
+                        toManyResourceLinkage    = toManyResourceLinkageFromInclude;
                     }
                 }
-                break;
+                    break;
 
                 default:
                 {
@@ -1118,20 +1151,20 @@ namespace JsonApiFramework.Server.Internal
                 case RelationshipType.Relationship:
                 {
                     relationshipContext = new RelationshipContext(apiRelationshipRel, linkContexts, apiRelationshipMeta);
+                    break;
                 }
-                break;
 
                 case RelationshipType.ToOneRelationship:
                 {
                     relationshipContext = new ToOneRelationshipContext(apiRelationshipRel, linkContexts, toOneResourceLinkage, apiRelationshipMeta);
+                    break;
                 }
-                break;
 
                 case RelationshipType.ToManyRelationship:
                 {
                     relationshipContext = new ToManyRelationshipContext(apiRelationshipRel, linkContexts, toManyResourceLinkage, apiRelationshipMeta);
+                    break;
                 }
-                break;
 
                 default:
                 {

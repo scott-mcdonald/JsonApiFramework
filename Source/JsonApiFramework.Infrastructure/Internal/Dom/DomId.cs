@@ -40,8 +40,8 @@ namespace JsonApiFramework.Internal.Dom
 
             var resourceIdentity = resourceType.ResourceIdentityInfo;
             var clrId = resourceIdentity.ToClrId(apiId);
-            var clrPropertyName = resourceIdentity.Id.ClrPropertyName;
-            var clrPropertyType = resourceIdentity.Id.ClrPropertyType;
+            var clrPropertyName = resourceIdentity.GetClrIdPropertyName();
+            var clrPropertyType = resourceIdentity.GetClrIdPropertyType();
 
             var domId = new DomId(apiId, clrId, clrPropertyName, clrPropertyType);
             return domId;
@@ -57,8 +57,8 @@ namespace JsonApiFramework.Internal.Dom
             var apiId = resourceIdentity.GetApiId(clrResource);
 
             var clrId = resourceIdentity.GetClrId(clrResource);
-            var clrPropertyName = resourceIdentity.Id.ClrPropertyName;
-            var clrPropertyType = resourceIdentity.Id.ClrPropertyType;
+            var clrPropertyName = resourceIdentity.GetClrIdPropertyName();
+            var clrPropertyType = resourceIdentity.GetClrIdPropertyType();
 
             var domId = new DomId(apiId, clrId, clrPropertyName, clrPropertyType);
             return domId;
@@ -73,8 +73,8 @@ namespace JsonApiFramework.Internal.Dom
             var apiId = resourceIdentity.ToApiId(clrResourceId);
 
             var clrId = resourceIdentity.ToClrId(clrResourceId);
-            var clrPropertyName = resourceIdentity.Id.ClrPropertyName;
-            var clrPropertyType = resourceIdentity.Id.ClrPropertyType;
+            var clrPropertyName = resourceIdentity.GetClrIdPropertyName();
+            var clrPropertyType = resourceIdentity.GetClrIdPropertyType();
 
             var domId = new DomId(apiId, clrId, clrPropertyName, clrPropertyType);
             return domId;

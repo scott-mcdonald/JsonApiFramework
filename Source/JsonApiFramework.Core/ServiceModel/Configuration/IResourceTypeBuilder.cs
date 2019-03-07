@@ -13,6 +13,7 @@ namespace JsonApiFramework.ServiceModel.Configuration
 
         IResourceIdentityInfoBuilder ResourceIdentity();
         IResourceIdentityInfoBuilder ResourceIdentity(string clrPropertyName, Type clrPropertyType);
+        IResourceIdentityInfoBuilder ResourceIdentity(Func<IResourceIdentityInfo> resourceIdentityInfoFactory);
 
         IRelationshipsInfoBuilder Relationships(string clrPropertyName);
 

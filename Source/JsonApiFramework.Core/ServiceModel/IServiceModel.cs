@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 
+using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IServiceModel : IJsonObject
+    public interface IServiceModel : IJsonObject, IExtensibleObject<IServiceModel>
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

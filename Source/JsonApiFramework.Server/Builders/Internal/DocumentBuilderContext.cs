@@ -43,7 +43,7 @@ namespace JsonApiFramework.Server.Internal
         #region Methods
         public void AddDomReadWriteResource(ResourceIdentifier domResourceKey, DomReadWriteResource domReadWriteResource)
         {
-            Contract.Requires(domResourceKey       != null);
+            Contract.Requires(domResourceKey != null);
             Contract.Requires(domReadWriteResource != null);
 
             this.DomReadWriteResourceDictionary.Add(domResourceKey, domReadWriteResource);
@@ -56,78 +56,64 @@ namespace JsonApiFramework.Server.Internal
             return this.DomReadWriteResourceDictionary.ContainsKey(domResourceKey);
         }
 
+        public void AddResourceLinkage(IServiceModel serviceModel, IToOneIncludedResource toOneIncludedResource)
+        {
+            Contract.Requires(serviceModel != null);
+
+            if (toOneIncludedResource == null)
+                return;
+
+            this.AddResourceLinkage(serviceModel,
+                                    toOneIncludedResource.FromResourceType,
+                                    toOneIncludedResource.FromResource,
+                                    toOneIncludedResource.FromRel,
+                                    toOneIncludedResource.ToResourceType,
+                                    toOneIncludedResource.ToResource);
+        }
+
+        public void AddResourceLinkage(IServiceModel serviceModel, IToManyIncludedResources toManyIncludedResources)
+        {
+            Contract.Requires(serviceModel != null);
+
+            if (toManyIncludedResources == null)
+                return;
+
+            this.AddResourceLinkage(serviceModel,
+                                    toManyIncludedResources.FromResourceType,
+                                    toManyIncludedResources.FromResource,
+                                    toManyIncludedResources.FromRel,
+                                    toManyIncludedResources.ToResourceType,
+                                    toManyIncludedResources.ToResourceCollection);
+        }
+
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToOneIncludedResource<TFromResource, TToResource> toOneIncludedResource)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(serviceModel          != null);
+            Contract.Requires(serviceModel != null);
             Contract.Requires(toOneIncludedResource != null);
 
-            // Create ResourceLinkageKey from ToOneIncludedResource.
-            var fromClrResourceType = typeof(TFromResource);
-            var fromResourceType    = serviceModel.GetResourceType(fromClrResourceType);
-
-            var fromClrResource           = toOneIncludedResource.FromResource;
-            var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
-
-            var fromApiRel = toOneIncludedResource.FromRel;
-
-            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
-
-            // Create ResourceLinkage from ToOneIncludedResource
-            var toApiResourceIdentifier = default(ResourceIdentifier);
-
-            var toClrResource = toOneIncludedResource.ToResource;
-            if (toClrResource != null)
-            {
-                var toClrResourceType = typeof(TToResource);
-                var toResourceType    = serviceModel.GetResourceType(toClrResourceType);
-
-                toApiResourceIdentifier = toResourceType.GetApiResourceIdentifier(toClrResource);
-            }
-
-            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifier);
-
-            // Add ResourceLinkage to this DocumentBuilderContext
-            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
+            this.AddResourceLinkage(serviceModel,
+                                    typeof(TFromResource),
+                                    toOneIncludedResource.FromResource,
+                                    toOneIncludedResource.FromRel,
+                                    typeof(TToResource),
+                                    toOneIncludedResource.ToResource);
         }
 
         public void AddResourceLinkage<TFromResource, TToResource>(IServiceModel serviceModel, IToManyIncludedResources<TFromResource, TToResource> toManyIncludedResources)
             where TFromResource : class
             where TToResource : class
         {
-            Contract.Requires(serviceModel            != null);
+            Contract.Requires(serviceModel != null);
             Contract.Requires(toManyIncludedResources != null);
 
-            // Create ResourceLinkageKey from ToManyIncludedResources.
-            var fromClrResourceType = typeof(TFromResource);
-            var fromResourceType    = serviceModel.GetResourceType(fromClrResourceType);
-
-            var fromClrResource           = toManyIncludedResources.FromResource;
-            var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
-
-            var fromApiRel = toManyIncludedResources.FromRel;
-
-            var apiResourceLinkageKey = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
-
-            // Create ResourceLinkage from ToManyIncludedResources.
-            var toApiResourceIdentifierCollection = Enumerable.Empty<ResourceIdentifier>()
-                                                              .ToList();
-
-            var toClrResourceCollection = toManyIncludedResources.ToResourceCollection;
-            if (toClrResourceCollection != null)
-            {
-                var toClrResourceType = typeof(TToResource);
-                var toResourceType    = serviceModel.GetResourceType(toClrResourceType);
-
-                toApiResourceIdentifierCollection = toClrResourceCollection.Select(toResourceType.GetApiResourceIdentifier)
-                                                                           .ToList();
-            }
-
-            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifierCollection);
-
-            // Add ResourceLinkage to this DocumentBuilderContext
-            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
+            this.AddResourceLinkage(serviceModel,
+                                    typeof(TFromResource),
+                                    toManyIncludedResources.FromResource,
+                                    toManyIncludedResources.FromRel,
+                                    typeof(TToResource),
+                                    toManyIncludedResources.ToResourceCollection);
         }
 
         public bool TryGetResourceLinkage(ApiResourceLinkageKey apiResourceLinkageKey, out ApiResourceLinkage apiResourceLinkage)
@@ -144,6 +130,62 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private void AddResourceLinkage(IServiceModel serviceModel, Type fromClrResourceType, object fromClrResource, string fromApiRel, Type toClrResourceType, object toClrResource)
+        {
+            Contract.Requires(serviceModel != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(fromApiRel));
+
+            if (fromClrResourceType == null || fromClrResource == null)
+                return;
+
+            // Create ResourceLinkageKey from ToOneIncludedResource.
+            var fromResourceType          = serviceModel.GetResourceType(fromClrResourceType);
+            var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
+            var apiResourceLinkageKey     = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
+
+            // Create ResourceLinkage from ToOneIncludedResource
+            var toApiResourceIdentifier = default(ResourceIdentifier);
+            if (toClrResourceType != null && toClrResource != null)
+            {
+                var toResourceType = serviceModel.GetResourceType(toClrResourceType);
+                toApiResourceIdentifier = toResourceType.GetApiResourceIdentifier(toClrResource);
+            }
+
+            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifier);
+
+            // Add ResourceLinkage to this DocumentBuilderContext
+            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
+        }
+
+        private void AddResourceLinkage(IServiceModel serviceModel, Type fromClrResourceType, object fromClrResource, string fromApiRel, Type toClrResourceType, IEnumerable<object> toClrResourceCollection)
+        {
+            Contract.Requires(serviceModel != null);
+            Contract.Requires(String.IsNullOrWhiteSpace(fromApiRel));
+
+            if (fromClrResourceType == null || fromClrResource == null)
+                return;
+
+            // Create ResourceLinkageKey from ToManyIncludedResources.
+            var fromResourceType          = serviceModel.GetResourceType(fromClrResourceType);
+            var fromApiResourceIdentifier = fromResourceType.GetApiResourceIdentifier(fromClrResource);
+            var apiResourceLinkageKey     = new ApiResourceLinkageKey(fromApiResourceIdentifier, fromApiRel);
+
+            // Create ResourceLinkage from ToManyIncludedResources.
+            var toApiResourceIdentifierCollection = Enumerable.Empty<ResourceIdentifier>()
+                                                              .ToList();
+            if (toClrResourceType != null && toClrResourceCollection != null)
+            {
+                var toResourceType = serviceModel.GetResourceType(toClrResourceType);
+                toApiResourceIdentifierCollection = toClrResourceCollection.Select(toResourceType.GetApiResourceIdentifier)
+                                                                           .ToList();
+            }
+
+            var apiResourceLinkage = new ApiResourceLinkage(toApiResourceIdentifierCollection);
+
+            // Add ResourceLinkage to this DocumentBuilderContext
+            this.AddResourceLinkage(apiResourceLinkageKey, apiResourceLinkage);
+        }
+
         private void AddResourceLinkage(ApiResourceLinkageKey apiResourceLinkageKey, ApiResourceLinkage apiResourceLinkageNew)
         {
             Contract.Requires(apiResourceLinkageKey != null);
@@ -164,8 +206,9 @@ namespace JsonApiFramework.Server.Internal
                 {
                     this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
                     this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageNew);
-                }
+
                     break;
+                }
 
                 case ApiResourceLinkageType.ToManyResourceLinkage:
                 {
@@ -180,8 +223,9 @@ namespace JsonApiFramework.Server.Internal
 
                     this.ApiResourceLinkageDictionary.Remove(apiResourceLinkageKey);
                     this.ApiResourceLinkageDictionary.Add(apiResourceLinkageKey, apiResourceLinkageMerged);
-                }
+
                     break;
+                }
 
                 default:
                     throw new ArgumentOutOfRangeException();

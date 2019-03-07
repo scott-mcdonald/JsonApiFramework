@@ -10,7 +10,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal class DocumentLinksBuilder<TParentBuilder> : LinksBuilder<IDocumentLinksBuilder<TParentBuilder>, TParentBuilder>, IDocumentLinksBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
         #region Constructors

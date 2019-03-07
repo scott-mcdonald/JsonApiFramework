@@ -14,7 +14,6 @@ namespace JsonApiFramework.Server
     /// <typeparam name="TParentBuilder">Type of parent builder interface to
     /// return when done building the json:api "link" object.</typeparam>
     public interface ILinkBuilder<out TParentBuilder>
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods

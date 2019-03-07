@@ -3,6 +3,5 @@
 namespace JsonApiFramework.Server
 {
     public interface IRelationshipLinksBuilder<out TParentBuilder> : ILinksBuilder<IRelationshipLinksBuilder<TParentBuilder>, TParentBuilder>
-        where TParentBuilder : class
     { }
 }

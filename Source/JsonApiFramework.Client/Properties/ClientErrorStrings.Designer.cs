@@ -8,11 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JsonApiFramework.Client {
-    using System;
-    using System.Reflection;
-    
-    
+using System.Reflection;
+
+namespace JsonApiFramework.Client.Properties {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

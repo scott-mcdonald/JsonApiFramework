@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -12,49 +13,47 @@ using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Internal
 {
-    internal class RelationshipBuilder<TParentBuilder, TResource> : RelationshipBuilderBase<TResource>, IRelationshipBuilder<TParentBuilder, TResource>
-        where TParentBuilder : class
-        where TResource : class
+    internal class RelationshipBuilder<TParentBuilder> : RelationshipBuilderBase, IRelationshipBuilder<TParentBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
-        public IRelationshipBuilder<TParentBuilder, TResource> SetMeta(Meta meta)
+        #region IRelationshipsBuilder<TParentBuilder> Implementation
+        public IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta)
         {
             base.SetMetaInternal(meta);
             return this;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetMeta(IEnumerable<Meta> metaCollection)
+        public IRelationshipBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection)
         {
             base.SetMetaInternal(metaCollection);
             return this;
         }
 
-        public IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>> Links()
+        public IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>> Links()
         {
-            var linksBuilder = new RelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder, TResource>>(this, this.DomReadWriteRelationship, this.Rel);
+            var linksBuilder = new RelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>>(this, this.DomReadWriteRelationship, this.Rel);
             return linksBuilder;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToOneResourceLinkage toOneResourceLinkage)
+        public IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage)
         {
             base.SetDataInternal(toOneResourceLinkage);
             return this;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
+        public IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         {
             base.SetDataInternal(toOneResourceLinkageCollection);
             return this;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IToManyResourceLinkage toManyResourceLinkage)
+        public IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage)
         {
             base.SetDataInternal(toManyResourceLinkage);
             return this;
         }
 
-        public IRelationshipBuilder<TParentBuilder, TResource> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
+        public IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
         {
             base.SetDataInternal(toManyResourceLinkageCollection);
             return this;
@@ -69,8 +68,8 @@ namespace JsonApiFramework.Server.Internal
 
         // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
         #region Constructors
-        internal RelationshipBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, string rel)
-            : base(serviceModel, domContainerNode, rel)
+        internal RelationshipBuilder(TParentBuilder parentBuilder, IServiceModel serviceModel, IContainerNode<DomNodeType> domContainerNode, string rel, Type clrResourceType)
+            : base(serviceModel, domContainerNode, rel, clrResourceType)
         {
             Contract.Requires(parentBuilder != null);
 

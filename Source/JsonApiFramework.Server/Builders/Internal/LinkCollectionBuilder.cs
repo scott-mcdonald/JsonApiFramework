@@ -12,7 +12,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal class LinkCollectionBuilder<TParentBuilder> : ILinkBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region ILinksBuilder<TParentBuilder> Implementation
@@ -35,15 +34,15 @@ namespace JsonApiFramework.Server.Internal
         {
             Contract.Requires(metaCollection != null);
 
-            var metaReadOnlyList = metaCollection.SafeToReadOnlyList();
-            var metaReadOnlyListCount = metaReadOnlyList.Count;
+            var metaReadOnlyList                = metaCollection.SafeToReadOnlyList();
+            var metaReadOnlyListCount           = metaReadOnlyList.Count;
             var domReadWriteLinkCollectionCount = this.DomReadWriteLinkCollection.Count;
             if (metaReadOnlyListCount != domReadWriteLinkCollectionCount)
             {
                 var rel = this.Rel;
                 var detail = ServerErrorStrings
-                    .DocumentBuildExceptionDetailBuildLinkCollectionCountMismatch
-                    .FormatWith(DomNodeType.Meta, domReadWriteLinkCollectionCount, rel, metaReadOnlyListCount);
+                             .DocumentBuildExceptionDetailBuildLinkCollectionCountMismatch
+                             .FormatWith(DomNodeType.Meta, domReadWriteLinkCollectionCount, rel, metaReadOnlyListCount);
                 throw new DocumentBuildException(detail);
             }
 
@@ -51,7 +50,7 @@ namespace JsonApiFramework.Server.Internal
             for (var i = 0; i < count; ++i)
             {
                 var domReadWriteLink = this.DomReadWriteLinkCollection[i];
-                var meta = metaReadOnlyList[i];
+                var meta             = metaReadOnlyList[i];
 
                 domReadWriteLink.SetDomReadOnlyMeta(meta);
             }
@@ -77,8 +76,8 @@ namespace JsonApiFramework.Server.Internal
             this.ParentBuilder = parentBuilder;
 
             var domReadWriteLinkCollection = domReadWriteLinksCollection
-                .Select(x => x.AddDomReadWriteLink(rel))
-                .ToList();
+                                             .Select(x => x.AddDomReadWriteLink(rel))
+                                             .ToList();
             this.DomReadWriteLinkCollection = domReadWriteLinkCollection;
 
             this.Rel = rel;
@@ -87,9 +86,9 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private IReadOnlyList<DomReadWriteLink> DomReadWriteLinkCollection { get; set; }
-        private string Rel { get; set; }
+        private TParentBuilder                  ParentBuilder              { get; }
+        private IReadOnlyList<DomReadWriteLink> DomReadWriteLinkCollection { get; }
+        private string                          Rel                        { get; }
         #endregion
     }
 }

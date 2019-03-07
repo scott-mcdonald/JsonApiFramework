@@ -13,17 +13,14 @@ namespace JsonApiFramework
     /// </summary>
     /// <typeparam name="TBuilder">Type of builder interface to
     /// return while building the json:api "resource identifier" object.</typeparam>
-    /// <typeparam name="TResource">Type of CLR "resource" object</typeparam>
-    public interface IResourceIdentifierBuilder<out TBuilder, out TResource>
-        where TBuilder : class
-        where TResource : class
+    public interface IResourceIdentifierBuilder<out TBuilder>
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
-        TBuilder SetMeta(Meta meta);
+        TBuilder SetMeta(Meta              meta);
         TBuilder SetMeta(IEnumerable<Meta> metaCollection);
 
-        TBuilder SetId<T>(IId<T> id);
+        TBuilder SetId<T>(IId<T>           id);
         TBuilder SetId<T>(IIdCollection<T> idCollection);
         #endregion
     }

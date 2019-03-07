@@ -9,7 +9,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal class NullLinkBuilder<TParentBuilder> : ILinkBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region ILinksBuilder<TParentBuilder> Implementation

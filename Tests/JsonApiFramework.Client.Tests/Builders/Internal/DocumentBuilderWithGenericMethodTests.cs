@@ -22,11 +22,11 @@ using Xunit.Abstractions;
 
 namespace JsonApiFramework.Client.Tests.Internal
 {
-    public class DocumentBuilderTests : XUnitTest
+    public class DocumentBuilderWithGenericMethodTests : XUnitTest
     {
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
-        public DocumentBuilderTests(ITestOutputHelper output)
+        public DocumentBuilderWithGenericMethodTests(ITestOutputHelper output)
             : base(output)
         { }
         #endregion
@@ -34,23 +34,18 @@ namespace JsonApiFramework.Client.Tests.Internal
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentBuilderWriteDocumentTestData")]
-        public void TestDocumentBuilderWriteDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
+        [MemberData(nameof(CreateResourceDocumentTestData))]
+        public void TestCreateResourceDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceDocumentTestData")]
-        public void TestDocumentBuilderWriteResourceDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
+        [MemberData(nameof(CreateResourceIdentifierDocumentTestData))]
+        public void TestCreateResourceIdentifierDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
 
         [Theory]
-        [MemberData("DocumentBuilderWriteResourceIdentifierCollectionDocumentTestData")]
-        public void TestDocumentBuilderWriteResourceIdentifierCollectionDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
-        { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
-
-        [Theory]
-        [MemberData("DocumentBuilderWriteResourceIdentifierDocumentTestData")]
-        public void TestDocumentBuilderWriteResourceIdentifierDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
+        [MemberData(nameof(CreateResourceIdentifierCollectionDocumentTestData))]
+        public void TestCreateResourceIdentifierCollectionDocument(string name, Document expectedDocument, IDocumentWriter actualDocumentWriter)
         { this.TestDocumentBuilderWrite(name, expectedDocument, actualDocumentWriter); }
         #endregion
 
@@ -105,7 +100,7 @@ namespace JsonApiFramework.Client.Tests.Internal
         #region Test Data
         private static class DocumentBuilderFactory
         {
-            public static DocumentBuilder Create(IServiceModel serviceModel)
+            public static IDocumentBuilder Create(IServiceModel serviceModel)
             {
                 var documentWriter = new DocumentWriter(serviceModel);
                 var documentBuilder = new DocumentBuilder(documentWriter);
@@ -113,30 +108,8 @@ namespace JsonApiFramework.Client.Tests.Internal
             }
         }
 
-        #region DocumentBuilderWriteDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteDocumentTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithNothing",
-                        Document.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                    },
-                new object[]
-                    {
-                        "WithMeta",
-                        new Document
-                            {
-                                Meta = ApiSampleData.DocumentMeta
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                    },
-            };
-        #endregion
-
-        #region DocumentBuilderWriteResourceDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceDocumentTestData = new[]
+        #region CreateResourceDocumentTestData
+        public static readonly IEnumerable<object[]> CreateResourceDocumentTestData = new[]
             {
                 // Resources Created for POST
                 #region Resources Created for POST
@@ -2030,136 +2003,9 @@ namespace JsonApiFramework.Client.Tests.Internal
             };
         #endregion
 
-        #region DocumentBuilderWriteResourceIdentifierCollectionDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceIdentifierCollectionDocumentTestData = new[]
+        #region CreateResourceIdentifierDocumentTestData
+        public static readonly IEnumerable<object[]> CreateResourceIdentifierDocumentTestData = new[]
             {
-                new object[]
-                    {
-                        "WithEmptyObject",
-                        ResourceIdentifierCollectionDocument.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection<Article>()
-                    },
-                new object[]
-                    {
-                        "WithNullResourceIdentifiers",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection<Article>()
-                    },
-                new object[]
-                    {
-                        "WithEmptyResourceIdentifiers",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(Enumerable.Empty<Comment>())
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifiers",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .ResourceIdentifierCollection<Comment>()
-                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
-                            .ResourceIdentifierCollectionEnd()
-                    },
-                new object[]
-                    {
-                        "WithResourceIdentifiersAndMeta",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Meta = ApiSampleData.DocumentMeta,
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifierWithMeta1,
-                                        ApiSampleData.CommentResourceIdentifierWithMeta2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .ResourceIdentifierCollection<Comment>()
-                                .SetMeta(ApiSampleData.ResourceMeta)
-                                .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
-                            .ResourceIdentifierCollectionEnd()
-                    },
-                new object[]
-                    {
-                        "WithNullResources",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(new []{ default(Comment), default(Comment) })
-                    },
-                new object[]
-                    {
-                        "WithEmptyResources",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>()
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(new []{ new Comment(), new Comment() })
-                    },
-                new object[]
-                    {
-                        "WithResources",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
-                    },
-                new object[]
-                    {
-                        "WithResourcesAndMeta",
-                        new ResourceIdentifierCollectionDocument
-                            {
-                                Meta = ApiSampleData.DocumentMeta,
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifierWithMeta1,
-                                        ApiSampleData.CommentResourceIdentifierWithMeta2
-                                    }
-                            },
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetMeta(ApiSampleData.DocumentMeta)
-                            .ResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
-                                .SetMeta(new []{ ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta })
-                            .ResourceIdentifierCollectionEnd()
-                    },
-            };
-        #endregion
-
-        #region DocumentBuilderWriteResourceIdentifierDocumentTestData
-        public static readonly IEnumerable<object[]> DocumentBuilderWriteResourceIdentifierDocumentTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithEmptyObject",
-                        ResourceIdentifierDocument.Empty,
-                        DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
-                            .SetResourceIdentifier<Article>()
-                    },
                 new object[]
                     {
                         "WithNullResourceIdentifier",
@@ -2242,6 +2088,120 @@ namespace JsonApiFramework.Client.Tests.Internal
                             .ResourceIdentifierEnd()
                     },
             };
+        #endregion
+
+        #region CreateResourceIdentifierCollectionDocumentTestData
+        public static readonly IEnumerable<object[]> CreateResourceIdentifierCollectionDocumentTestData = new[]
+        {
+            new object[]
+            {
+                "WithNullResourceIdentifiers",
+                new ResourceIdentifierCollectionDocument
+                {
+                    Data = new List<ResourceIdentifier>()
+                },
+                DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                                      .SetResourceIdentifierCollection<Article>()
+            },
+            new object[]
+            {
+                "WithEmptyResourceIdentifiers",
+                new ResourceIdentifierCollectionDocument
+                {
+                    Data = new List<ResourceIdentifier>()
+                },
+                DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                                      .SetResourceIdentifierCollection(Enumerable.Empty<Comment>())
+            },
+            new object[]
+                {
+                    "WithResourceIdentifiers",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>
+                                {
+                                    ApiSampleData.CommentResourceIdentifier1,
+                                    ApiSampleData.CommentResourceIdentifier2
+                                }
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .ResourceIdentifierCollection<Comment>()
+                            .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
+                        .ResourceIdentifierCollectionEnd()
+                },
+            new object[]
+                {
+                    "WithResourceIdentifiersAndMeta",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Meta = ApiSampleData.DocumentMeta,
+                            Data = new List<ResourceIdentifier>
+                                {
+                                    ApiSampleData.CommentResourceIdentifierWithMeta1,
+                                    ApiSampleData.CommentResourceIdentifierWithMeta2
+                                }
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .SetMeta(ApiSampleData.DocumentMeta)
+                        .ResourceIdentifierCollection<Comment>()
+                            .SetMeta(ApiSampleData.ResourceMeta)
+                            .SetId(IdCollection.Create(new []{ ApiSampleData.CommentId1, ApiSampleData.CommentId2 }))
+                        .ResourceIdentifierCollectionEnd()
+                },
+            new object[]
+                {
+                    "WithNullResources",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>()
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .SetResourceIdentifierCollection(new []{ default(Comment), default(Comment) })
+                },
+            new object[]
+                {
+                    "WithEmptyResources",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>()
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .SetResourceIdentifierCollection(new []{ new Comment(), new Comment() })
+                },
+            new object[]
+                {
+                    "WithResources",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Data = new List<ResourceIdentifier>
+                                {
+                                    ApiSampleData.CommentResourceIdentifier1,
+                                    ApiSampleData.CommentResourceIdentifier2
+                                }
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .SetResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
+                },
+            new object[]
+                {
+                    "WithResourcesAndMeta",
+                    new ResourceIdentifierCollectionDocument
+                        {
+                            Meta = ApiSampleData.DocumentMeta,
+                            Data = new List<ResourceIdentifier>
+                                {
+                                    ApiSampleData.CommentResourceIdentifierWithMeta1,
+                                    ApiSampleData.CommentResourceIdentifierWithMeta2
+                                }
+                        },
+                    DocumentBuilderFactory.Create(ClrSampleData.ServiceModelWithBlogResourceTypes)
+                        .SetMeta(ApiSampleData.DocumentMeta)
+                        .ResourceIdentifierCollection(new []{ SampleComments.Comment1, SampleComments.Comment2 })
+                            .SetMeta(new []{ ApiSampleData.ResourceMeta, ApiSampleData.ResourceMeta })
+                        .ResourceIdentifierCollectionEnd()
+                },
+
+        };
         #endregion
 
         #endregion

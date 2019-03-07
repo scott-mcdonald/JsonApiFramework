@@ -61,7 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\Internal\DocumentBuilderTests.cs" />
+    <Compile Include="Builders\Internal\DocumentBuilderWithGenericMethodTests.cs" />
+    <Compile Include="Builders\Internal\DocumentBuilderWithNonGenericMethodTests.cs" />
     <Compile Include="DocumentContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

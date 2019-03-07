@@ -4,9 +4,11 @@
 using System;
 using System.Collections.Generic;
 
+using JsonApiFramework.Extension;
+
 namespace JsonApiFramework.ServiceModel
 {
-    public interface IAttributeInfo : IPropertyInfo
+    public interface IAttributeInfo : IPropertyInfo, IExtensibleObject<IAttributeInfo>
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties

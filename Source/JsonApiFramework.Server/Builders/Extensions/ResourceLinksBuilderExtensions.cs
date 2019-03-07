@@ -15,7 +15,6 @@ namespace JsonApiFramework.Server
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Extension Methods
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, string rel, Func<TResource, bool> predicate, params Link[] linkCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -25,7 +24,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Link link)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -35,7 +33,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, IEnumerable<Link> linkCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -45,7 +42,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -54,7 +50,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate, Link link)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -64,7 +59,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate, IEnumerable<Link> linkCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -74,7 +68,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddCanonicalLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -83,7 +76,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddSelfLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate, Link link)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -93,7 +85,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddSelfLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate, IEnumerable<Link> linkCollection)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);
@@ -103,7 +94,6 @@ namespace JsonApiFramework.Server
         }
 
         public static IResourceLinksBuilder<TParentBuilder, TResource> AddSelfLink<TParentBuilder, TResource>(this IResourceLinksBuilder<TParentBuilder, TResource> resourceLinksBuilder, Func<TResource, bool> predicate)
-            where TParentBuilder : class
             where TResource : class
         {
             Contract.Requires(resourceLinksBuilder != null);

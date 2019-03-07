@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -14,12 +15,11 @@ using JsonApiFramework.ServiceModel;
 namespace JsonApiFramework.Client.Internal
 {
     internal class DocumentBuilder : IDocumentBuilder
-        , IGetDomDocument
+                                   , IGetDomDocument
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IGetDomDocument Implementation
-        public DomDocument DomDocument
-        { get; private set; }
+        public DomDocument DomDocument { get; private set; }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -32,19 +32,19 @@ namespace JsonApiFramework.Client.Internal
             {
                 case DocumentType.ResourceCollectionDocument:
                 case DocumentType.ResourceDocument:
-                    {
-                        // Compact all read-write resource nodes to read-only resource nodes.
-                        this.CompactResourceNodes();
-                    }
+                {
+                    // Compact all read-write resource nodes to read-only resource nodes.
+                    this.CompactResourceNodes();
                     break;
+                }
 
                 case DocumentType.ResourceIdentifierCollectionDocument:
                 case DocumentType.ResourceIdentifierDocument:
-                    {
-                        // Compact all read-write resource identifier nodes to read-only resource identifier nodes.
-                        this.CompactResourceIdentifierNodes();
-                    }
+                {
+                    // Compact all read-write resource identifier nodes to read-only resource identifier nodes.
+                    this.CompactResourceIdentifierNodes();
                     break;
+                }
             }
 
             // Compact all read-write document nodes to read-only document nodes.
@@ -66,12 +66,14 @@ namespace JsonApiFramework.Client.Internal
             this.DomDocument.SetDomReadOnlyMeta(meta);
             return this;
         }
+        #endregion
 
         // Resource /////////////////////////////////////////////////////////
+        #region Generic Versions
         public IPrimaryResourceBuilder<TResource> Resource<TResource>()
             where TResource : class
         {
-            var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, default(TResource));
+            var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, null);
             return primaryResourceBuilder;
         }
 
@@ -81,41 +83,117 @@ namespace JsonApiFramework.Client.Internal
             var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResource);
             return primaryResourceBuilder;
         }
+        #endregion
 
-        public IPrimaryResourceBuilder<TResource> Resource<TResource>(IResourceSource<TResource> resourceSource)
-            where TResource : class
+        #region Non-Generic Versions
+        public IPrimaryResourceBuilder Resource(Type clrResourceType)
         {
-            Contract.Requires(resourceSource != null);
+            Contract.Requires(clrResourceType != null);
 
-            var clrResource = resourceSource.GetResource();
-
-            var primaryResourceBuilder = new PrimaryResourceBuilder<TResource>(this, this.DomDocument, clrResource);
+            var primaryResourceBuilder = new PrimaryResourceBuilder(this, this.DomDocument, clrResourceType, null);
             return primaryResourceBuilder;
         }
 
+        public IPrimaryResourceBuilder Resource(Type clrResourceType, object clrResource)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceBuilder = new PrimaryResourceBuilder(this, this.DomDocument, clrResourceType, clrResource);
+            return primaryResourceBuilder;
+        }
+
+        public IPrimaryResourceBuilder Resource(object clrResource)
+        {
+            if (clrResource == null)
+            {
+                const string message = "CLR resource can not be null, use the other Resource method that takes the CLR resource type as a single parameter instead.";
+                throw new ArgumentNullException(nameof(clrResource), message);
+            }
+
+            var clrResourceType        = clrResource.GetType();
+            var primaryResourceBuilder = new PrimaryResourceBuilder(this, this.DomDocument, clrResourceType, clrResource);
+            return primaryResourceBuilder;
+        }
+        #endregion
+
+        // ResourceIdentifierCollection /////////////////////////////////////
+        #region Generic Versions
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>()
+            where TResource : class
+        {
+            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource));
+            return primaryResourceIdentifierCollectionBuilder;
+        }
+
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
+            where TResource : class
+        {
+            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource), clrResourceCollection);
+            return primaryResourceIdentifierCollectionBuilder;
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection<TResource>()
+            where TResource : class
+        {
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource>();
+            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
+            where TResource : class
+        {
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceCollection);
+            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+        }
+        #endregion
+
+        #region Non-Generic Versions
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType);
+            return primaryResourceIdentifierCollectionBuilder;
+        }
+
+        public IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResourceCollection);
+            return primaryResourceIdentifierCollectionBuilder;
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceType);
+            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+        }
+
+        public IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceType, clrResourceCollection);
+            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+        }
+        #endregion
+
         // ResourceIdentifier ///////////////////////////////////////////////
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>()
+        #region Generic Versions
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>()
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
+            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource));
             return primaryResourceIdentifierBuilder;
         }
 
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource>(TResource clrResource)
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>(TResource clrResource)
             where TResource : class
         {
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResource);
-            return primaryResourceIdentifierBuilder;
-        }
-
-        public IPrimaryResourceIdentifierBuilder<TResource> ResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class
-        {
-            Contract.Requires(resourceIdentifierSource != null);
-
-            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            var resourceId = resourceIdentifierSource.GetResourceId();
-            primaryResourceIdentifierBuilder.SetId(Id.Create(resourceId));
+            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, typeof(TResource), clrResource);
             return primaryResourceIdentifierBuilder;
         }
 
@@ -132,62 +210,56 @@ namespace JsonApiFramework.Client.Internal
             var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResource);
             return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
+        #endregion
 
-        public IDocumentWriter SetResourceIdentifier<TResource, TResourceId>(IResourceIdentifierSource<TResourceId> resourceIdentifierSource)
-            where TResource : class
+        #region Non-Generic Versions
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType)
         {
-            Contract.Requires(resourceIdentifierSource != null);
+            Contract.Requires(clrResourceType != null);
 
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifier<TResource, TResourceId>(resourceIdentifierSource);
+            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType);
+            return primaryResourceIdentifierBuilder;
+        }
+
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType, object clrResource)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResource);
+            return primaryResourceIdentifierBuilder;
+        }
+
+        public IPrimaryResourceIdentifierBuilder ResourceIdentifier(object clrResource)
+        {
+            Contract.Requires(clrResource != null);
+
+            var clrResourceType                  = clrResource.GetType();
+            var primaryResourceIdentifierBuilder = new PrimaryResourceIdentifierBuilder(this, this.ServiceModel, this.DomDocument, clrResourceType, clrResource);
+            return primaryResourceIdentifierBuilder;
+        }
+
+        public IDocumentWriter SetResourceIdentifier(Type clrResourceType)
+        {
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResourceType);
             return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
 
-        // ResourceIdentifierCollection /////////////////////////////////////
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>()
-            where TResource : class
+        public IDocumentWriter SetResourceIdentifier(Type clrResourceType, object clrResource)
         {
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            return primaryResourceIdentifierCollectionBuilder;
+            Contract.Requires(clrResourceType != null);
+
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResourceType, clrResource);
+            return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
 
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class
+        public IDocumentWriter SetResourceIdentifier(object clrResource)
         {
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument, clrResourceCollection);
-            return primaryResourceIdentifierCollectionBuilder;
-        }
+            Contract.Requires(clrResource != null);
 
-        public IPrimaryResourceIdentifierCollectionBuilder<TResource> ResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class
-        {
-            Contract.Requires(resourceIdentifierCollectionSource != null);
-
-            var primaryResourceIdentifierCollectionBuilder = new PrimaryResourceIdentifierCollectionBuilder<TResource>(this, this.ServiceModel, this.DomDocument);
-            var resourceIdCollection = resourceIdentifierCollectionSource.GetResourceIdCollection();
-            primaryResourceIdentifierCollectionBuilder.SetId(IdCollection.Create(resourceIdCollection));
-            return primaryResourceIdentifierCollectionBuilder;
-
-        }
-
-        public IDocumentWriter SetResourceIdentifierCollection<TResource>()
-            where TResource : class
-        {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource>();
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
-        }
-
-        public IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class
-        {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection(clrResourceCollection);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
-        }
-
-        public IDocumentWriter SetResourceIdentifierCollection<TResource, TResourceId>(IResourceIdentifierCollectionSource<TResourceId> resourceIdentifierCollectionSource)
-            where TResource : class
-        {
-            var primaryResourceIdentifierBuilder = this.ResourceIdentifierCollection<TResource, TResourceId>(resourceIdentifierCollectionSource);
-            return primaryResourceIdentifierBuilder.ResourceIdentifierCollectionEnd();
+            var primaryResourceIdentifierBuilder = this.ResourceIdentifier(clrResource);
+            return primaryResourceIdentifierBuilder.ResourceIdentifierEnd();
         }
         #endregion
 
@@ -200,8 +272,8 @@ namespace JsonApiFramework.Client.Internal
             Contract.Requires(domDocument != null);
 
             this.DocumentWriter = documentWriter;
-            this.ServiceModel = serviceModel;
-            this.DomDocument = domDocument;
+            this.ServiceModel   = serviceModel;
+            this.DomDocument    = domDocument;
         }
 
         internal DocumentBuilder(DocumentWriter documentWriter)
@@ -211,10 +283,10 @@ namespace JsonApiFramework.Client.Internal
             this.DocumentWriter = documentWriter;
 
             var serviceModel = documentWriter.ServiceModel;
-            var domDocument = documentWriter.DomDocument;
+            var domDocument  = documentWriter.DomDocument;
 
             this.ServiceModel = serviceModel;
-            this.DomDocument = domDocument;
+            this.DomDocument  = domDocument;
         }
         #endregion
 
@@ -238,9 +310,9 @@ namespace JsonApiFramework.Client.Internal
                 return;
 
             var domReadWriteLinks = (DomReadWriteLinks)domLinks;
-            var domParentNode = (IContainerNode<DomNodeType>)domReadWriteLinks.ParentNode;
+            var domParentNode     = (IContainerNode<DomNodeType>)domReadWriteLinks.ParentNode;
 
-            var apiLinks = domLinks.Links;
+            var apiLinks         = domLinks.Links;
             var domReadOnlyLinks = DomReadOnlyLinks.Create(apiLinks);
 
             domParentNode.ReplaceNode(domReadWriteLinks, domReadOnlyLinks);
@@ -256,10 +328,10 @@ namespace JsonApiFramework.Client.Internal
                     continue;
 
                 var domReadWriteResource = (DomReadWriteResource)domResource;
-                var domParentNode = (IContainerNode<DomNodeType>)domReadWriteResource.ParentNode;
+                var domParentNode        = (IContainerNode<DomNodeType>)domReadWriteResource.ParentNode;
 
-                var apiResource = domResource.ApiResource;
-                var clrResource = domResource.ClrResource;
+                var apiResource         = domResource.ApiResource;
+                var clrResource         = domResource.ClrResource;
                 var domReadOnlyResource = DomReadOnlyResource.Create(apiResource, clrResource);
 
                 domParentNode.ReplaceNode(domReadWriteResource, domReadOnlyResource);
@@ -276,7 +348,7 @@ namespace JsonApiFramework.Client.Internal
                     continue;
 
                 var domReadWriteResourceIdentifier = (DomReadWriteResourceIdentifier)domResourceIdentifier;
-                var domParentNode = (IContainerNode<DomNodeType>)domReadWriteResourceIdentifier.ParentNode;
+                var domParentNode                  = (IContainerNode<DomNodeType>)domReadWriteResourceIdentifier.ParentNode;
 
                 var apiResourceIdentifier = domResourceIdentifier.ApiResourceIdentifier;
                 if (apiResourceIdentifier.IsUndefined())
@@ -285,7 +357,7 @@ namespace JsonApiFramework.Client.Internal
                     continue;
                 }
 
-                var clrResourceType = domResourceIdentifier.ClrResourceType;
+                var clrResourceType               = domResourceIdentifier.ClrResourceType;
                 var domReadOnlyResourceIdentifier = DomReadOnlyResourceIdentifier.Create(apiResourceIdentifier, clrResourceType);
 
                 domParentNode.ReplaceNode(domReadWriteResourceIdentifier, domReadOnlyResourceIdentifier);

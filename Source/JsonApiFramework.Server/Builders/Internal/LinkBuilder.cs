@@ -12,7 +12,6 @@ using JsonApiFramework.JsonApi;
 namespace JsonApiFramework.Server.Internal
 {
     internal class LinkBuilder<TParentBuilder> : ILinkBuilder<TParentBuilder>
-        where TParentBuilder : class
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region ILinksBuilder<TParentBuilder> Implementation
@@ -50,7 +49,7 @@ namespace JsonApiFramework.Server.Internal
             this.ParentBuilder = parentBuilder;
 
             var domReadWriteLinks = (DomReadWriteLinks)domContainerNode;
-            var domReadWriteLink = domReadWriteLinks.AddDomReadWriteLink(rel);
+            var domReadWriteLink  = domReadWriteLinks.AddDomReadWriteLink(rel);
             this.DomReadWriteLink = domReadWriteLink;
 
             this.Rel = rel;
@@ -59,9 +58,9 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        private DomReadWriteLink DomReadWriteLink { get; set; }
-        private string Rel { get; set; }
+        private TParentBuilder   ParentBuilder    { get; }
+        private DomReadWriteLink DomReadWriteLink { get; }
+        private string           Rel              { get; }
         #endregion
     }
 }

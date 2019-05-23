@@ -845,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 2.0.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.1.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -855,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 2.0.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.1.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -867,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 2.0.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.1.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -924,6 +924,13 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.1.0
+    * #65 Support lambda's in the IResourcePathContextBuilder abstraction when building hypermedia for extension purposes.
+    * #64 Add extension support to the core service model classes.
+    * #63 Add service model support for custom implementations of IResourceIdentityInfo.
+    * #62 Bug fix for incorrect document self hypermedia build with multiple URL configurations and getting related resources.
+    * #61 Deprecate the IXXXSource family of interfaces with respective consuming methods.
+    * #60 Support non-generic versions of document building.
 * v2.0.0
     * #59 Deprecate the IResource interface. Is a breaking change from v1.X.
 * v1.9.0

@@ -3,18 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>JsonApiFramework.Client</PackageId>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Client]</Product>
     <Description>Portable .NET framework-level classes that are specific for client-side JSON API document building creating an internal DOM tree representation in a progressive builder fluent style.</Description>
-    <Copyright>Copyright © 2015–2018 Scott McDonald</Copyright>
+    <Copyright>Copyright © 2015–2019 Scott McDonald</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
     <PackageTags>.net portable jsonapi framework client</PackageTags>
-    <FileVersion>2.0.0.20</FileVersion>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.21</FileVersion>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

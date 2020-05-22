@@ -32,7 +32,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("AttributeTestData")]
+        [MemberData(nameof(AttributeTestData))]
         public void TestResourceTypeGetAttributeInfo(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -57,7 +57,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("RelationshipTestData")]
+        [MemberData(nameof(RelationshipTestData))]
         public void TestResourceTypeGetRelationshipInfo(string name, bool relationshipExists, IResourceType resourceType, string rel, IRelationshipInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -78,7 +78,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("LinkTestData")]
+        [MemberData(nameof(LinkTestData))]
         public void TestResourceTypeGetLinkInfo(string name, bool linkExists, IResourceType resourceType, string rel, ILinkInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -99,7 +99,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("AttributeTestData")]
+        [MemberData(nameof(AttributeTestData))]
         public void TestResourceTypeTryGetAttributeInfo(string name, bool attributeExists, IResourceType resourceType, string apiPropertyName, string clrPropertyName, JsonApiFramework.ServiceModel.IAttributeInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -138,7 +138,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("RelationshipTestData")]
+        [MemberData(nameof(RelationshipTestData))]
         public void TestResourceTypeTryGetRelationshipInfo(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, IRelationshipInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -164,7 +164,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("LinkTestData")]
+        [MemberData(nameof(LinkTestData))]
         public void TestResourceTypeTryGetLinkInfo(string name, bool attributeExists, IResourceType resourceType, string clrPropertyName, ILinkInfo expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -190,7 +190,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("FactoryTestData")]
+        [MemberData(nameof(FactoryTestData))]
         public void TestResourceTypeCreateClrResourceObject(string name, IResourceType resourceType)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -209,7 +209,7 @@ namespace JsonApiFramework.Tests.ServiceModel
 
         /// <summary>Unit test that reproduces the GitHub issue #13.</summary>
         [Theory]
-        [MemberData("MapApiAttributesToClrResourceTestData")]
+        [MemberData(nameof(MapApiAttributesToClrResourceTestData))]
         public void TestResourceTypeMapApiAttributesToClrResource(string name, object expected, object actual, Type clrResourceType, Resource apiResource)
         {
             this.Output.WriteLine("Test Name: {0}", name);

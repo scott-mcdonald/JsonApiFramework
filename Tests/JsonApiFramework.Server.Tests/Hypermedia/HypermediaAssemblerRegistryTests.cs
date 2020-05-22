@@ -25,7 +25,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("GetAssemblerTestData")]
+        [MemberData(nameof(GetAssemblerTestData))]
         public void TestHypermediaAssemblerRegistryGetAssembler(string name, IEnumerable<IHypermediaAssembler> hypermediaAssemblers, Func<IHypermediaAssemblerRegistry, IHypermediaAssembler> getAssemblerFunc, IHypermediaAssembler expectedHypermediaAssembler)
         {
             this.Output.WriteLine("Test Name: {0}", name);

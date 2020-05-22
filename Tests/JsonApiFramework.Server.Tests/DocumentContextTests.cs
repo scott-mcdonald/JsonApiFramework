@@ -51,6 +51,11 @@ namespace JsonApiFramework.Server.Tests
         { this.TestDocumentContextBuilding(name, documentContextOptions, currentUrlRequest, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
 
         [Theory]
+        [MemberData(nameof(TestDocumentContextResourceDocumentBuildingNoHypermediaTestData))]
+        public void TestDocumentContextResourceDocumentBuildingNoHypermedia(string name, IDocumentContextOptions documentContextOptions, string currentUrlRequest, Document expectedApiDocument, Func<DocumentContext, string, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
+        { this.TestDocumentContextBuilding(name, documentContextOptions, currentUrlRequest, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
+
+        [Theory]
         [MemberData(nameof(TestDocumentContextResourceIdentifierDocumentBuildingTestData))]
         public void TestDocumentContextResourceIdentifierDocumentBuilding(string name, IDocumentContextOptions documentContextOptions, string currentUrlRequest, Document expectedApiDocument, Func<DocumentContext, string, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, currentUrlRequest, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
@@ -682,7 +687,6 @@ namespace JsonApiFramework.Server.Tests
                                     .IncludedEnd())
                     },
 
-
                 new object[]
                     {
                         "WithArticleResourceAndUrlConfigurationPerResourceType",
@@ -1134,6 +1138,101 @@ namespace JsonApiFramework.Server.Tests
                                             .Links()
                                                 .AddLink(Keywords.Self)
                                             .LinksEnd()
+                                        .IncludeEnd()
+                                    .IncludedEnd())
+                    },
+            };
+        #endregion
+
+        #region TestDocumentContextResourceDocumentBuildingNoHypermediaTestData
+        public static readonly IEnumerable<object[]> TestDocumentContextResourceDocumentBuildingNoHypermediaTestData = new[]
+            {
+                new object[]
+                    {
+                        "WithArticleResourceAndNoHypermedia",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes),
+                        null,
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Data = ApiSampleData.ArticleResourceNoHypermedia
+                            },
+                        new Func<DocumentContext, string, IDocumentWriter>(
+                            (documentContext, currentRequestUrl) => documentContext
+                                .NewDocument(currentRequestUrl)
+                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                                    .Resource(SampleArticles.Article)
+                                        .SetMeta(ApiSampleData.ResourceMeta)
+                                    .ResourceEnd())
+                    },
+
+                new object[]
+                    {
+                        "WithArticleResourceAndIncludedResourcesNoHypermedia",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes),
+                        null,
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Data = ApiSampleData.ArticleResourceWithResourceLinkageNoHypermedia,
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResourceNoHypermedia,
+                                        ApiSampleData.CommentResource1NoHypermedia,
+                                        ApiSampleData.CommentResource2NoHypermedia
+                                    }
+                            },
+                        new Func<DocumentContext, string, IDocumentWriter>(
+                            (documentContext, currentRequestUrl) => documentContext
+                                .NewDocument(currentRequestUrl)
+                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                                    .Resource(SampleArticles.Article)
+                                        .SetMeta(ApiSampleData.ResourceMeta)
+                                    .ResourceEnd()
+                                    .Included()
+                                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
+                                            .SetMeta(ApiSampleData.ResourceMeta)
+                                        .IncludeEnd()
+                                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
+                                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
+                                        .IncludeEnd()
+                                    .IncludedEnd())
+                    },
+
+                new object[]
+                    {
+                        "WithArticleResourceAndIncludedResourcesIncludingMoreResourcesNoHypermedia",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
+                        ApiSampleData.ArticleHRef,
+                        new ResourceDocument
+                            {
+                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                                Data = ApiSampleData.ArticleResourceWithResourceLinkageNoHypermedia,
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1NoHypermedia,
+                                        ApiSampleData.PersonResource2NoHypermedia,
+                                        ApiSampleData.CommentResourceWithResourceLinkage1NoHypermedia,
+                                        ApiSampleData.CommentResourceWithResourceLinkage2NoHypermedia,
+                                    }
+                            },
+                        new Func<DocumentContext, string, IDocumentWriter>(
+                            (documentContext, currentRequestUrl) => documentContext
+                                .NewDocument(currentRequestUrl)
+                                    .SetJsonApiVersion(ApiSampleData.JsonApiVersionAndMeta)
+                                    .Resource(SampleArticles.Article)
+                                        .SetMeta(ApiSampleData.ResourceMeta)
+                                    .ResourceEnd()
+                                    .Included()
+                                        .Include(ToOneIncludedResource.Create(SampleArticles.Article, ApiSampleData.ArticleToAuthorRel, SamplePersons.Person))
+                                            .SetMeta(ApiSampleData.ResourceMeta)
+                                        .IncludeEnd()
+                                        .Include(ToManyIncludedResources.Create(SampleArticles.Article, ApiSampleData.ArticleToCommentsRel, new []{ SampleComments.Comment1, SampleComments.Comment2 }))
+                                            .SetMeta(ApiSampleData.ResourceMeta1, ApiSampleData.ResourceMeta2)
+                                        .IncludeEnd()
+                                        .Include(ToOneIncludedResource.Create(SampleComments.Comment1, ApiSampleData.CommentToAuthorRel, SamplePersons.Person1),
+                                                 ToOneIncludedResource.Create(SampleComments.Comment2, ApiSampleData.CommentToAuthorRel, SamplePersons.Person2))
+                                            .SetMeta(ApiSampleData.ResourceMeta)
                                         .IncludeEnd()
                                     .IncludedEnd())
                     },
@@ -1941,6 +2040,18 @@ namespace JsonApiFramework.Server.Tests
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private static IDocumentContextOptions CreateDocumentContextOptions(IServiceModel serviceModel)
+        {
+            Contract.Requires(serviceModel != null);
+
+            var options        = new DocumentContextOptions<DocumentContext>();
+            var optionsBuilder = new DocumentContextOptionsBuilder(options);
+
+            optionsBuilder.UseServiceModel(serviceModel);
+
+            return options;
+        }
+
         private static IDocumentContextOptions CreateDocumentContextOptions(IServiceModel serviceModel, IUrlBuilderConfiguration urlBuilderConfiguration, IHypermediaAssemblerRegistry hypermediaAssemblerRegistry = default(IHypermediaAssemblerRegistry))
         {
             Contract.Requires(serviceModel != null);

@@ -27,7 +27,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomReadWriteResourceIdentifierTestData")]
+        [MemberData(nameof(DomReadWriteResourceIdentifierTestData))]
         internal void TestDomReadWriteResourceIdentifierCreate(string name, ResourceIdentifier expected, DomReadWriteResourceIdentifier actual)
         {
 

@@ -33,7 +33,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("CreateComplexTypeTestData")]
+        [MemberData(nameof(CreateComplexTypeTestData))]
         public void TestComplexTypeBuilderCreateComplexType(string name, IComplexTypeFactory complexTypeFactory, IConventions conventions, IComplexType expectedComplexType)
         {
             this.Output.WriteLine("Test Name: {0}", name);

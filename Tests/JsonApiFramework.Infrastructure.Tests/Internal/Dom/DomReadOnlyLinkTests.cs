@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomReadOnlyLinkTestData")]
+        [MemberData(nameof(DomReadOnlyLinkTestData))]
         public void TestDomReadOnlyLinkCreate(string name, string expectedRel, Link expectedLink)
         {
             // Arrange

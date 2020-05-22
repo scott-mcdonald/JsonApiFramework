@@ -36,7 +36,7 @@ namespace JsonApiFramework.Tests
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentContextBaseServiceModelConstructionTestData")]
+        [MemberData(nameof(DocumentContextBaseServiceModelConstructionTestData))]
         public void TestDocumentContextBaseServiceModelConstruction(string name, Func<DocumentContextBase> documentContextBaseFactory, IServiceModel expectedServiceModel, bool expectedServiceModelReferenceEquals)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -74,7 +74,7 @@ namespace JsonApiFramework.Tests
         }
 
         [Theory]
-        [MemberData("DocumentContextBaseReadingAndWritingTestData")]
+        [MemberData(nameof(DocumentContextBaseReadingAndWritingTestData))]
         public void TestDocumentContextBaseReadingAndWriting(string name, IDocumentContextBaseTest test)
         {
             this.OutputTestName(name);

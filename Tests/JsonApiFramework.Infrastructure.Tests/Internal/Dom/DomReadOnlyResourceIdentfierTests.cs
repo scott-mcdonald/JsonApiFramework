@@ -27,7 +27,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomReadOnlyResourceIdentifierTestData")]
+        [MemberData(nameof(DomReadOnlyResourceIdentifierTestData))]
         public void TestDomReadOnlyResourceIdentifierCreate(string name, ResourceIdentifier apiResourceIdentifier, Type clrResourceType)
         {
             // Arrange

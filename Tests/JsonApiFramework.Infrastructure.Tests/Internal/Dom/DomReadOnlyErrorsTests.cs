@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomReadOnlyErrorsTestData")]
+        [MemberData(nameof(DomReadOnlyErrorsTestData))]
         public void TestDomReadOnlyErrorCreate(string name, Error[] expectedErrors)
         {
             // Arrange

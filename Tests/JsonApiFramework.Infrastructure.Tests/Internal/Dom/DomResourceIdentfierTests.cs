@@ -27,7 +27,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomResourceIdentifierTestData")]
+        [MemberData(nameof(DomResourceIdentifierTestData))]
         internal void TestIDomResourceIdentifierAbstraction(string name, ResourceIdentifier expectedApiResourceIdentifier, Type expectedClrResourceType, IDomResourceIdentifier actual)
         {
             // Arrange

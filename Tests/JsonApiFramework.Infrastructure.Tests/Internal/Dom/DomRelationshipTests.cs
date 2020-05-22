@@ -29,7 +29,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomRelationshipTestData")]
+        [MemberData(nameof(DomRelationshipTestData))]
         internal void TestIDomRelationshipAbstraction(string name, string expectedRel, Relationship expectedRelationship, IDomRelationship domRelationship)
         {
             // Arrange

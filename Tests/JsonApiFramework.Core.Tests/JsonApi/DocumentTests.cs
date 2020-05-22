@@ -31,7 +31,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentTestData")]
+        [MemberData(nameof(DocumentTestData))]
         public void TestDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("DocumentTestData")]
+        [MemberData(nameof(DocumentTestData))]
         public void TestDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -60,7 +60,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("EmptyDocumentTestData")]
+        [MemberData(nameof(EmptyDocumentTestData))]
         public void TestEmptyDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -74,7 +74,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("EmptyDocumentTestData")]
+        [MemberData(nameof(EmptyDocumentTestData))]
         public void TestEmptyDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -89,7 +89,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ErrorsDocumentTestData")]
+        [MemberData(nameof(ErrorsDocumentTestData))]
         public void TestErrorsDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -103,7 +103,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ErrorsDocumentTestData")]
+        [MemberData(nameof(ErrorsDocumentTestData))]
         public void TestErrorsDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -118,7 +118,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("NullDocumentTestData")]
+        [MemberData(nameof(NullDocumentTestData))]
         public void TestNullDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -132,7 +132,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("NullDocumentTestData")]
+        [MemberData(nameof(NullDocumentTestData))]
         public void TestNullDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -147,7 +147,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceDocumentTestData")]
+        [MemberData(nameof(ResourceDocumentTestData))]
         public void TestResourceDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -161,7 +161,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceDocumentTestData")]
+        [MemberData(nameof(ResourceDocumentTestData))]
         public void TestResourceDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -176,7 +176,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceIdentifierDocumentTestData")]
+        [MemberData(nameof(ResourceIdentifierDocumentTestData))]
         public void TestResourceIdentifierDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -190,7 +190,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceIdentifierDocumentTestData")]
+        [MemberData(nameof(ResourceIdentifierDocumentTestData))]
         public void TestResourceIdentifierDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -205,7 +205,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceCollectionDocumentTestData")]
+        [MemberData(nameof(ResourceCollectionDocumentTestData))]
         public void TestResourceCollectionDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -219,7 +219,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceCollectionDocumentTestData")]
+        [MemberData(nameof(ResourceCollectionDocumentTestData))]
         public void TestResourceCollectionDocumentParse(string name, Document expected)
         {
             // Arrange
@@ -234,7 +234,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceIdentifierCollectionDocumentTestData")]
+        [MemberData(nameof(ResourceIdentifierCollectionDocumentTestData))]
         public void TestResourceIdentifierCollectionDocumentToJson(string name, Document expected)
         {
             // Arrange
@@ -248,7 +248,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceIdentifierCollectionDocumentTestData")]
+        [MemberData(nameof(ResourceIdentifierCollectionDocumentTestData))]
         public void TestResourceIdentifierCollectionDocumentParse(string name, Document expected)
         {
             // Arrange

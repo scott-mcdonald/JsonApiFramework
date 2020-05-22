@@ -16,8 +16,8 @@ namespace JsonApiFramework.Server.Internal.Dom
         {
             Contract.Requires(domDocument != null);
 
-            var documentPathContext = domDocument.GetSingleAttribute<IDocumentPathContext>(DocumentPathContextNodeAttributeName);
-            return documentPathContext;
+            var success = domDocument.TryAndGetSingleAttribute<IDocumentPathContext>(DocumentPathContextNodeAttributeName, out var documentPathContext);
+            return success ? documentPathContext : default(IDocumentPathContext);
         }
 
         public static void SetDocumentPathContext(this DomDocument domDocument, IDocumentPathContext documentPathContext)

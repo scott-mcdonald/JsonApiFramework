@@ -31,22 +31,22 @@ namespace JsonApiFramework.Client.Tests
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentContextResourceDocumentBuildingForCreatingResourcesTestData")]
+        [MemberData(nameof(DocumentContextResourceDocumentBuildingForCreatingResourcesTestData))]
         public void TestDocumentContextResourceDocumentBuildingForCreatingResources(string name, IDocumentContextOptions documentContextOptions, Document expectedApiDocument, Func<DocumentContext, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
 
         [Theory]
-        [MemberData("DocumentContextResourceDocumentBuildingForUpdatingResourcesTestData")]
+        [MemberData(nameof(DocumentContextResourceDocumentBuildingForUpdatingResourcesTestData))]
         public void TestDocumentContextResourceDocumentBuildingForUpdatingResources(string name, IDocumentContextOptions documentContextOptions, Document expectedApiDocument, Func<DocumentContext, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
 
         [Theory]
-        [MemberData("DocumentContextResourceIdentifierDocumentBuildingForUpdatingRelationshipsTestData")]
+        [MemberData(nameof(DocumentContextResourceIdentifierDocumentBuildingForUpdatingRelationshipsTestData))]
         public void TestDocumentContextResourceIdentifierDocumentBuildingForUpdatingRelationships(string name, IDocumentContextOptions documentContextOptions, Document expectedApiDocument, Func<DocumentContext, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
 
         [Theory]
-        [MemberData("DocumentContextResourceIdentifierCollectionDocumentBuildingForUpdatingRelationshipsTestData")]
+        [MemberData(nameof(DocumentContextResourceIdentifierCollectionDocumentBuildingForUpdatingRelationshipsTestData))]
         public void TestDocumentContextResourceIdentifierCollectionDocumentBuildingForUpdatingRelationships(string name, IDocumentContextOptions documentContextOptions, Document expectedApiDocument, Func<DocumentContext, IDocumentWriter> actualApiDocumentNewDocumentFunctor)
         { this.TestDocumentContextBuilding(name, documentContextOptions, expectedApiDocument, actualApiDocumentNewDocumentFunctor); }
 

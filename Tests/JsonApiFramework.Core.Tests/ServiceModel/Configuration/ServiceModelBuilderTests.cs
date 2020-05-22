@@ -34,7 +34,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("CreateServiceModelTestData")]
+        [MemberData(nameof(CreateServiceModelTestData))]
         public void TestServiceModelBuilderCreateServiceModel(string name, IServiceModelFactory serviceModelFactory, IConventions conventions, IServiceModel expectedServiceModel)
         {
             this.Output.WriteLine("Test Name: {0}", name);

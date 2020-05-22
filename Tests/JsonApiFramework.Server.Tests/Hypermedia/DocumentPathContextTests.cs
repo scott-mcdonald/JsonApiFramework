@@ -30,7 +30,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("CreateWithUrlAndHypermediaContextTestData")]
+        [MemberData(nameof(CreateWithUrlAndHypermediaContextTestData))]
         public void TestDocumentPathContextCreateWithUrlAndHypermediaContext(string name, IDocumentPathContextTest test)
         {
             this.Output.WriteLine("Test Name: {0}", name);

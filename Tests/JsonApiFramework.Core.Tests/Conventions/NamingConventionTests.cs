@@ -25,7 +25,7 @@ namespace JsonApiFramework.Tests.Conventions
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ApplyTestData")]
+        [MemberData(nameof(ApplyTestData))]
         public void TestNamingConventionApply(string testName, INamingConvention namingConvention, string originalOldName, string expectedNewName)
         {
             this.Output.WriteLine("Test Name: {0}", testName);

@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("JsonApiVersionTestData")]
+        [MemberData(nameof(JsonApiVersionTestData))]
         public void TestJsonApiVersionToJson(string name, JsonApiVersion expected)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("JsonApiVersionTestData")]
+        [MemberData(nameof(JsonApiVersionTestData))]
         public void TestJsonApiVersionParse(string name, JsonApiVersion expected)
         {
             // Arrange

@@ -31,7 +31,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ServiceModelTestData")]
+        [MemberData(nameof(ServiceModelTestData))]
         public void TestServiceModelToJson(string name, IServiceModel expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -57,7 +57,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("ServiceModelTestData")]
+        [MemberData(nameof(ServiceModelTestData))]
         public void TestServiceModelParse(string name, IServiceModel expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -99,7 +99,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("ClrTypeTestData")]
+        [MemberData(nameof(ClrTypeTestData))]
         public void TestServiceModelNonGenericGetResourceTypeByClrType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -120,7 +120,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("ClrTypeTestData")]
+        [MemberData(nameof(ClrTypeTestData))]
         public void TestServiceModelNonGenericTryGetResourceTypeByClrType(string name, bool resourceTypeExists, IServiceModel serviceModel, Type clrResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -146,7 +146,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("ApiTypeTestData")]
+        [MemberData(nameof(ApiTypeTestData))]
         public void TestServiceModelNonGenericGetResourceTypeByApiType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);
@@ -167,7 +167,7 @@ namespace JsonApiFramework.Tests.ServiceModel
         }
 
         [Theory]
-        [MemberData("ApiTypeTestData")]
+        [MemberData(nameof(ApiTypeTestData))]
         public void TestServiceModelNonGenericTryGetResourceTypeByApiType(string name, bool resourceTypeExists, IServiceModel serviceModel, string apiResourceType, IResourceType expected)
         {
             this.Output.WriteLine("Test Name: {0}", name);

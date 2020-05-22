@@ -25,7 +25,7 @@ namespace JsonApiFramework.Tests.Reflection
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("GetConstructorData")]
+        [MemberData(nameof(GetConstructorData))]
         public void TestTypeExtensionsGetConstructor(string name, Type type, BindingFlags bindingFlags, IEnumerable<Type> parameterTypes, string expectedConstructorName)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("GetConstructorsData")]
+        [MemberData(nameof(GetConstructorsData))]
         public void TestTypeExtensionsGetConstructors(string name, Type type, BindingFlags bindingFlags, IEnumerable<string> expectedConstructorNames)
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("GetMethodData")]
+        [MemberData(nameof(GetMethodData))]
         public void TestTypeExtensionsGetMethod(string name, Type type, string methodName, BindingFlags bindingFlags, IEnumerable<Type> parameterTypes, string expectedMethodName)
         {
             // Arrange
@@ -73,7 +73,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("GetMethodsData")]
+        [MemberData(nameof(GetMethodsData))]
         public void TestTypeExtensionsGetMethods(string name, Type type, BindingFlags bindingFlags, IEnumerable<string> expectedMethodNames)
         {
             // Arrange
@@ -97,7 +97,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("GetPropertyData")]
+        [MemberData(nameof(GetPropertyData))]
         public void TestTypeExtensionsGetProperty(string name, Type type, string propertyName, BindingFlags bindingFlags, string expectedPropertyName)
         {
             // Arrange
@@ -112,7 +112,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("GetPropertiesData")]
+        [MemberData(nameof(GetPropertiesData))]
         public void TestTypeExtensionsGetProperties(string name, Type type, BindingFlags bindingFlags, IEnumerable<string> expectedPropertyNames)
         {
             // Arrange
@@ -131,7 +131,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("IsImplementationOfData")]
+        [MemberData(nameof(IsImplementationOfData))]
         public void TestTypeExtensionsIsImplementationOf(string name, Type derivedType, Type baseType, bool expected)
         {
             // Arrange
@@ -145,7 +145,7 @@ namespace JsonApiFramework.Tests.Reflection
 
 
         [Theory]
-        [MemberData("IsSubclassOrImplementationOfData")]
+        [MemberData(nameof(IsSubclassOrImplementationOfData))]
         public void TestTypeExtensionsIsSubclassOrImplementationOf(string name, Type derivedType, Type baseOrInterfaceType, bool expected)
         {
             // Arrange

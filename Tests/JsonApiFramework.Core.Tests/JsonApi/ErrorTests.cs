@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ErrorTestData")]
+        [MemberData(nameof(ErrorTestData))]
         public void TestErrorToJson(string name, Error expected)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ErrorTestData")]
+        [MemberData(nameof(ErrorTestData))]
         public void TestErrorParse(string name, Error expected)
         {
             // Arrange

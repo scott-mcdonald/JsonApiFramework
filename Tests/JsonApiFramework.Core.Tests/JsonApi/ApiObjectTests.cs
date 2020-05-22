@@ -28,7 +28,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ApiObjectTestData")]
+        [MemberData(nameof(ApiObjectTestData))]
         public void TestObjectToJson(string name, ApiObject expected)
         {
             // Arrange
@@ -42,7 +42,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ApiObjectTestData")]
+        [MemberData(nameof(ApiObjectTestData))]
         public void TestObjectParse(string name, ApiObject expected)
         {
             // Arrange

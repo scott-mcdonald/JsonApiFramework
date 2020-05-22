@@ -16,6 +16,14 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
+        public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+
+            this.CreateRelationshipBuilder(rel);
+            return this;
+        }
+
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, Relationship relationship)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -39,13 +47,17 @@ namespace JsonApiFramework.Server.Internal
             Contract.Requires(linkRelCollection != null);
 
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
-            var linksBuilder        = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
-            {
-                linksBuilder.AddLink(linkRel);
-            }
 
-            linksBuilder.LinksEnd();
+            if (linkRelCollection != null)
+            {
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+
+                linksBuilder.LinksEnd();
+            }
 
             return this;
         }
@@ -55,13 +67,16 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipBuilder.SetData(toOneResourceLinkage);
@@ -74,13 +89,16 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipBuilder.SetData(toOneResourceLinkageCollection);
@@ -93,13 +111,16 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipBuilder.SetData(toManyResourceLinkage);
@@ -112,13 +133,16 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipBuilder.SetData(toManyResourceLinkageCollection);
@@ -197,6 +221,17 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+
+            if (!CanAddRelationship(predicate, this.ClrResourceStronglyTyped))
+                return this;
+
+            this.CreateRelationshipBuilder(rel);
+            return this;
+        }
+
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Relationship relationship)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
@@ -220,18 +255,21 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             if (!CanAddRelationship(predicate, this.ClrResourceStronglyTyped))
                 return this;
 
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
-            var linksBuilder        = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+                linksBuilder.LinksEnd();
             }
-            linksBuilder.LinksEnd();
 
             return this;
         }
@@ -244,12 +282,15 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+                linksBuilder.LinksEnd();
             }
-            linksBuilder.LinksEnd();
 
             // Data
             relationshipBuilder.SetData(toOneResourceLinkage);
@@ -265,12 +306,15 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+                linksBuilder.LinksEnd();
             }
-            linksBuilder.LinksEnd();
 
             // Data
             relationshipBuilder.SetData(toOneResourceLinkageCollection);
@@ -286,12 +330,15 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+                linksBuilder.LinksEnd();
             }
-            linksBuilder.LinksEnd();
 
             // Data
             relationshipBuilder.SetData(toManyResourceLinkage);
@@ -307,12 +354,15 @@ namespace JsonApiFramework.Server.Internal
             var relationshipBuilder = this.CreateRelationshipBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
+                var linksBuilder = relationshipBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
+                linksBuilder.LinksEnd();
             }
-            linksBuilder.LinksEnd();
 
             // Data
             relationshipBuilder.SetData(toManyResourceLinkageCollection);

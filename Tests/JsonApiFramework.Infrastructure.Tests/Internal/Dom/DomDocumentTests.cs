@@ -31,7 +31,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomDocumentTestData")]
+        [MemberData(nameof(DomDocumentTestData))]
         public void TestDomDocumentParse(string name, IServiceModel serviceModel, Document apiDocument)
         {
             // Arrange
@@ -50,7 +50,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         }
 
         [Theory]
-        [MemberData("DomDocumentTestData")]
+        [MemberData(nameof(DomDocumentTestData))]
         public void TestDomDocumentDomResources(string name, IServiceModel serviceModel, Document apiDocument)
         {
             // Arrange
@@ -104,7 +104,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         }
 
         [Theory]
-        [MemberData("DomDocumentTestData")]
+        [MemberData(nameof(DomDocumentTestData))]
         public void TestDomDocumentDomResourceIdentifiers(string name, IServiceModel serviceModel, Document apiDocument)
         {
             // Arrange
@@ -153,7 +153,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         }
 
         [Theory]
-        [MemberData("DomDocumentTestData")]
+        [MemberData(nameof(DomDocumentTestData))]
         public void TestDomDocumentDomResourceIdentities(string name, IServiceModel serviceModel, Document apiDocument)
         {
             // Arrange

@@ -32,7 +32,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ResourceTestData")]
+        [MemberData(nameof(ResourceTestData))]
         public void TestResourceToJson(string name, Resource expected)
         {
             // Arrange
@@ -46,7 +46,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ResourceTestData")]
+        [MemberData(nameof(ResourceTestData))]
         public void TestResourceParse(string name, Resource expected)
         {
             // Arrange

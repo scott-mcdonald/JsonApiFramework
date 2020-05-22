@@ -220,7 +220,7 @@ namespace JsonApiFramework.TestAsserts.JsonApi
             {
                 // Use FluentAssertions to compare for attribute equality
                 // instead of reference equality in Assert.Equal(expectetd, actual)
-                actual.ShouldBeEquivalentTo(expected);
+                actual.Should().BeEquivalentTo(expected);
             }
         }
 

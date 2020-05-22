@@ -17,6 +17,14 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
+        public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+
+            this.CreateRelationshipCollectionBuilder(rel);
+            return this;
+        }
+
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, Relationship relationship)
         {
             var relationshipDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Relationship, rel);
@@ -56,18 +64,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<string> linkRelCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             return this;
         }
@@ -75,18 +85,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toOneResourceLinkage);
@@ -97,18 +109,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toOneResourceLinkageCollection);
@@ -119,18 +133,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toManyResourceLinkage);
@@ -141,18 +157,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toManyResourceLinkageCollection);
@@ -238,6 +256,14 @@ namespace JsonApiFramework.Server.Internal
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IRelationshipsBuilder<TParentBuilder, TResource> Implementation
+        public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate)
+        {
+            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+
+            this.CreateRelationshipCollectionBuilder(rel, predicate);
+            return this;
+        }
+
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Relationship relationship)
         {
             var relationshipDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Relationship, rel);
@@ -282,18 +308,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel, predicate);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             return this;
         }
@@ -301,18 +329,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToOneResourceLinkage toOneResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel, predicate);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toOneResourceLinkage);
@@ -323,18 +353,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel, predicate);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toOneResourceLinkageCollection);
@@ -345,18 +377,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IToManyResourceLinkage toManyResourceLinkage)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel, predicate);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toManyResourceLinkage);
@@ -367,18 +401,20 @@ namespace JsonApiFramework.Server.Internal
         public IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<string> linkRelCollection, IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
-            Contract.Requires(linkRelCollection != null);
 
             var relationshipCollectionBuilder = this.CreateRelationshipCollectionBuilder(rel, predicate);
 
             // Links
-            var linksBuilder = relationshipCollectionBuilder.Links();
-            foreach (var linkRel in linkRelCollection)
+            if (linkRelCollection != null)
             {
-                linksBuilder.AddLink(linkRel);
-            }
+                var linksBuilder = relationshipCollectionBuilder.Links();
+                foreach (var linkRel in linkRelCollection)
+                {
+                    linksBuilder.AddLink(linkRel);
+                }
 
-            linksBuilder.LinksEnd();
+                linksBuilder.LinksEnd();
+            }
 
             // Data
             relationshipCollectionBuilder.SetData(toManyResourceLinkageCollection);

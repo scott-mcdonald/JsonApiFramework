@@ -28,15 +28,11 @@ namespace JsonApiFramework.Server
         #region IDocumentFactory Implementation
         public IDocumentBuilder NewDocument(string currentRequestUrl)
         {
-            Contract.Requires(String.IsNullOrWhiteSpace(currentRequestUrl) == false);
-
-            return this.NewDocument(new Uri(currentRequestUrl));
+            return this.NewDocument(String.IsNullOrWhiteSpace(currentRequestUrl) == false ? new Uri(currentRequestUrl) : null);
         }
 
         public IDocumentBuilder NewDocument(Uri currentRequestUrl)
         {
-            Contract.Requires(currentRequestUrl != null);
-
             var documentBuilder = this.CreateDocumentBuilder(currentRequestUrl);
             return documentBuilder;
         }

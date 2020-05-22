@@ -305,7 +305,7 @@ namespace JsonApiFramework.Tests.Http
         }
 
         [Theory]
-        [MemberData("ObjectPathData")]
+        [MemberData(nameof(ObjectPathData))]
         public void TestUrlBuilderWithObjectPath(string name, IUrlBuilderConfiguration configuration, object path, bool includePath, string expectedUrl)
         {
             // Arrange
@@ -326,7 +326,7 @@ namespace JsonApiFramework.Tests.Http
         }
 
         [Theory]
-        [MemberData("PathObjectData")]
+        [MemberData(nameof(PathObjectData))]
         public void TestUrlBuilderWithPathObject(string name, IUrlBuilderConfiguration configuration, IPath path, bool includePath, string expectedUrl)
         {
             // Arrange
@@ -347,7 +347,7 @@ namespace JsonApiFramework.Tests.Http
         }
 
         [Theory]
-        [MemberData("PathObjectCollectionData")]
+        [MemberData(nameof(PathObjectCollectionData))]
         public void TestUrlBuilderWithPathObjectCollection(string name, IUrlBuilderConfiguration configuration, IEnumerable<IPath> pathCollection, bool includePathCollection, string expectedUrl)
         {
             // Arrange

@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("RelationshipsTestData")]
+        [MemberData(nameof(RelationshipsTestData))]
         public void TestRelationshipsToJson(string name, Relationships expected)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("RelationshipsTestData")]
+        [MemberData(nameof(RelationshipsTestData))]
         public void TestRelationshipsParse(string name, Relationships expected)
         {
             // Arrange

@@ -25,7 +25,7 @@ namespace JsonApiFramework.Tests.Reflection
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ConvertTestData")]
+        [MemberData(nameof(ConvertTestData))]
         public void TestTypeConveterConvertNonGeneric(string name, IConvertTest[] genericConvertTestCollection)
         {
             foreach (var genericConvertTest in genericConvertTestCollection)
@@ -42,7 +42,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("ConvertTestData")]
+        [MemberData(nameof(ConvertTestData))]
         public void TestTypeConveterTryConvertNonGeneric(string name, IConvertTest[] genericConvertTestCollection)
         {
             foreach (var genericConvertTest in genericConvertTestCollection)
@@ -59,7 +59,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("ConvertTestData")]
+        [MemberData(nameof(ConvertTestData))]
         public void TestTypeConveterConvertGeneric(string name, IConvertTest[] genericConvertTestCollection)
         {
             foreach (var genericConvertTest in genericConvertTestCollection)
@@ -76,7 +76,7 @@ namespace JsonApiFramework.Tests.Reflection
         }
 
         [Theory]
-        [MemberData("ConvertTestData")]
+        [MemberData(nameof(ConvertTestData))]
         public void TestTypeConveterTryConvertGeneric(string name, IConvertTest[] genericConvertTestCollection)
         {
             foreach (var genericConvertTest in genericConvertTestCollection)

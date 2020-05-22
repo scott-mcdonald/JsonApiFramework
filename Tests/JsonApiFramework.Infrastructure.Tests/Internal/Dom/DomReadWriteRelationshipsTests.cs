@@ -27,7 +27,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomReadWriteRelationshipsTestData")]
+        [MemberData(nameof(DomReadWriteRelationshipsTestData))]
         internal void TestDomReadWriteRelationshipsCreate(string name, Relationships expected, DomReadWriteRelationships actual)
         {
             // Arrange

@@ -33,7 +33,7 @@ namespace JsonApiFramework.Tests.Internal
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderGetDocumentType(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -59,7 +59,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderIsDataDocument(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -88,7 +88,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderIsErrorsDocument(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -118,7 +118,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderIsMetaOnlyDocument(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -148,7 +148,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderIsValidDocument(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -178,7 +178,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderGetDocumentJsonApi(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -201,7 +201,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderGetDocumentMeta(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -224,7 +224,7 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("DocumentReaderTestData")]
+        [MemberData(nameof(DocumentReaderTestData))]
         public void TestDocumentReaderGetDocumentLinks(string name, IServiceModel serviceModel, Document apiDocument)
         {
             this.OutputTestName(name);
@@ -247,107 +247,107 @@ namespace JsonApiFramework.Tests.Internal
         }
 
         [Theory]
-        [MemberData("GetRelatedResourceTestData")]
+        [MemberData(nameof(GetRelatedResourceTestData))]
         public void TestDocumentReaderGetRelatedToOneResource(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetRelatedResourceCollectionTestData")]
+        [MemberData(nameof(GetRelatedResourceCollectionTestData))]
         public void TestDocumentReaderGetRelatedToManyResourceCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceTestData")]
+        [MemberData(nameof(GetResourceTestData))]
         public void TestDocumentReaderGetResource(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceByResourceIdTestData")]
+        [MemberData(nameof(GetResourceByResourceIdTestData))]
         public void TestDocumentReaderGetResourceByResourceId(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceCollectionTestData")]
+        [MemberData(nameof(GetResourceCollectionTestData))]
         public void TestDocumentReaderGetResourceCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceIdTestData")]
+        [MemberData(nameof(GetResourceIdTestData))]
         public void TestDocumentReaderGetResourceId(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceIdCollectionTestData")]
+        [MemberData(nameof(GetResourceIdCollectionTestData))]
         public void TestDocumentReaderGetResourceIdCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceMetaTestData")]
+        [MemberData(nameof(GetResourceMetaTestData))]
         public void TestDocumentReaderGetResourceMeta(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceMetaByResourceTestData")]
+        [MemberData(nameof(GetResourceMetaByResourceTestData))]
         public void TestDocumentReaderGetResourceMetaByResource(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceMetaByResourceIdTestData")]
+        [MemberData(nameof(GetResourceMetaByResourceIdTestData))]
         public void TestDocumentReaderGetResourceMetaByResourceId(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceMetaCollectionTestData")]
+        [MemberData(nameof(GetResourceMetaCollectionTestData))]
         public void TestDocumentReaderGetResourceMetaCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceLinksTestData")]
+        [MemberData(nameof(GetResourceLinksTestData))]
         public void TestDocumentReaderGetResourceLinks(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceLinksByResourceTestData")]
+        [MemberData(nameof(GetResourceLinksByResourceTestData))]
         public void TestDocumentReaderGetResourceLinksByResource(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceLinksByResourceIdTestData")]
+        [MemberData(nameof(GetResourceLinksByResourceIdTestData))]
         public void TestDocumentReaderGetResourceLinksByResourceId(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceLinksCollectionTestData")]
+        [MemberData(nameof(GetResourceLinksCollectionTestData))]
         public void TestDocumentReaderGetResourceLinksCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceRelationshipsTestData")]
+        [MemberData(nameof(GetResourceRelationshipsTestData))]
         public void TestDocumentReaderGetResourceRelationships(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceRelationshipsByResourceTestData")]
+        [MemberData(nameof(GetResourceRelationshipsByResourceTestData))]
         public void TestDocumentReaderGetResourceRelationshipsByResource(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceRelationshipsByResourceIdTestData")]
+        [MemberData(nameof(GetResourceRelationshipsByResourceIdTestData))]
         public void TestDocumentReaderGetResourceRelationshipsByResourceId(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceRelationshipsCollectionTestData")]
+        [MemberData(nameof(GetResourceRelationshipsCollectionTestData))]
         public void TestDocumentReaderGetResourceRelationshipsCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetResourceTypeCollectionTestData")]
+        [MemberData(nameof(GetResourceTypeCollectionTestData))]
         public void TestDocumentReaderGetResourceTypeCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 
         [Theory]
-        [MemberData("GetErrorCollectionTestData")]
+        [MemberData(nameof(GetErrorCollectionTestData))]
         public void TestDocumentReaderGetErrorCollection(string name, IDocumentReaderTest test)
         { this.TestDocumentReaderTest(name, test); }
 

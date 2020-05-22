@@ -12,6 +12,8 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
+        IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel);
+
         IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, Relationship              relationship);
         IRelationshipsBuilder<TParentBuilder> AddRelationship(string rel, IEnumerable<Relationship> relationshipCollection);
 
@@ -34,6 +36,8 @@ namespace JsonApiFramework.Server
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
+        IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate);
+
         IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, Relationship relationship);
         IRelationshipsBuilder<TParentBuilder, TResource> AddRelationship(string rel, Func<TResource, bool> predicate, IEnumerable<Relationship> relationshipCollection);
 

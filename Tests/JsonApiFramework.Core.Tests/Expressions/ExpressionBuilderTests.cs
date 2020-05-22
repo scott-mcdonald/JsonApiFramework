@@ -80,7 +80,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderMethodCallGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -94,7 +94,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderMethodCallNonGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -108,7 +108,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderVoidMethodCallGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -122,7 +122,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderVoidMethodCallNonGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -136,7 +136,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderStaticMethodCallGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -150,7 +150,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderStaticMethodCallNonGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -164,7 +164,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderStaticVoidMethodCallGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -178,7 +178,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CallTestData")]
+        [MemberData(nameof(CallTestData))]
         public void TestExpressionBuilderStaticVoidMethodCallNonGeneric(string name, ICallTest callTest)
         {
             // Arrange
@@ -193,7 +193,7 @@ namespace JsonApiFramework.Tests.Expressions
 
 
         [Theory]
-        [MemberData("CastTestData")]
+        [MemberData(nameof(CastTestData))]
         public void TestExpressionBuilderCastGeneric(string name, ICastTest castTest)
         {
             // Arrange
@@ -207,7 +207,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CastTestData")]
+        [MemberData(nameof(CastTestData))]
         public void TestExpressionBuilderCastNonGeneric(string name, ICastTest castTest)
         {
             // Arrange
@@ -221,7 +221,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CastAsTestData")]
+        [MemberData(nameof(CastAsTestData))]
         public void TestExpressionBuilderCastAsGeneric(string name, ICastTest castTest)
         {
             // Arrange
@@ -235,7 +235,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("CastAsTestData")]
+        [MemberData(nameof(CastAsTestData))]
         public void TestExpressionBuilderCastAsNonGeneric(string name, ICastTest castTest)
         {
             // Arrange
@@ -250,7 +250,7 @@ namespace JsonApiFramework.Tests.Expressions
 
 
         [Theory]
-        [MemberData("DefaultTestData")]
+        [MemberData(nameof(DefaultTestData))]
         public void TestExpressionBuilderDefaultGeneric(string name, IDefaultTest defaultTest)
         {
             // Arrange
@@ -264,7 +264,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("DefaultTestData")]
+        [MemberData(nameof(DefaultTestData))]
         public void TestExpressionBuilderDefaultNonGeneric(string name, IDefaultTest defaultTest)
         {
             // Arrange
@@ -279,7 +279,7 @@ namespace JsonApiFramework.Tests.Expressions
 
 
         [Theory]
-        [MemberData("NewTestData")]
+        [MemberData(nameof(NewTestData))]
         public void TestExpressionBuilderNewGeneric(string name, INewTest newTest)
         {
             // Arrange
@@ -293,7 +293,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("NewTestData")]
+        [MemberData(nameof(NewTestData))]
         public void TestExpressionBuilderNewNonGeneric(string name, INewTest newTest)
         {
             // Arrange
@@ -308,7 +308,7 @@ namespace JsonApiFramework.Tests.Expressions
 
 
         [Theory]
-        [MemberData("PropertyGetterTestData")]
+        [MemberData(nameof(PropertyGetterTestData))]
         public void TestExpressionBuilderPropertyGetterGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -322,7 +322,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertyGetterTestData")]
+        [MemberData(nameof(PropertyGetterTestData))]
         public void TestExpressionBuilderPropertyGetterNonGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -336,7 +336,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertySetterTestData")]
+        [MemberData(nameof(PropertySetterTestData))]
         public void TestExpressionBuilderPropertySetterGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -350,7 +350,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertySetterTestData")]
+        [MemberData(nameof(PropertySetterTestData))]
         public void TestExpressionBuilderPropertySetterNonGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -364,7 +364,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertyGetterTestData")]
+        [MemberData(nameof(PropertyGetterTestData))]
         public void TestExpressionBuilderStaticPropertyGetterGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -378,7 +378,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertyGetterTestData")]
+        [MemberData(nameof(PropertyGetterTestData))]
         public void TestExpressionBuilderStaticPropertyGetterNonGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -392,7 +392,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertySetterTestData")]
+        [MemberData(nameof(PropertySetterTestData))]
         public void TestExpressionBuilderStaticPropertySetterGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange
@@ -406,7 +406,7 @@ namespace JsonApiFramework.Tests.Expressions
         }
 
         [Theory]
-        [MemberData("PropertySetterTestData")]
+        [MemberData(nameof(PropertySetterTestData))]
         public void TestExpressionBuilderStaticPropertySetterNonGeneric(string name, IPropertyTest propertyTest)
         {
             // Arrange

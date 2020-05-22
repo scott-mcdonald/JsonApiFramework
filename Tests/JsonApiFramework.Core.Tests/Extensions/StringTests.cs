@@ -24,7 +24,7 @@ namespace JsonApiFramework.Tests.Extensions
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("ContainsTestData")]
+        [MemberData(nameof(ContainsTestData))]
         public void TestStringContains(string name, string str, string value, StringComparison stringComparison, bool expected)
         {
             // Arrange
@@ -37,7 +37,7 @@ namespace JsonApiFramework.Tests.Extensions
         }
 
         [Theory]
-        [MemberData("FormatWithTestData")]
+        [MemberData(nameof(FormatWithTestData))]
         public void TestStringFormatWith(string name, string str, object[] args, string expected)
         {
             // Arrange
@@ -55,7 +55,7 @@ namespace JsonApiFramework.Tests.Extensions
         }
 
         [Theory]
-        [MemberData("FormatWithTestData")]
+        [MemberData(nameof(FormatWithTestData))]
         public void TestStringFormatWithWithProvider(string name, string str, object[] args, string expected)
         {
             // Arrange
@@ -73,7 +73,7 @@ namespace JsonApiFramework.Tests.Extensions
         }
 
         [Theory]
-        [MemberData("ParseEnumTestData")]
+        [MemberData(nameof(ParseEnumTestData))]
         public void TestStringParseEnum(string name, string str, bool throwsArgumentException, bool ignoreCase, StopLightColors expected)
         {
             // Arrange
@@ -91,7 +91,7 @@ namespace JsonApiFramework.Tests.Extensions
         }
 
         [Theory]
-        [MemberData("TryParseEnumTestData")]
+        [MemberData(nameof(TryParseEnumTestData))]
         public void TestStringTryParseEnum(string name, string str, bool ignoreCase, bool expectedResult, StopLightColors expectedEnum)
         {
             // Arrange

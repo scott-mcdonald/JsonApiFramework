@@ -72,7 +72,7 @@ namespace JsonApiFramework.Server.Hypermedia.Internal
             if (IsUriMatchForUrlBuilderConfiguration(this.UrlBuilderConfiguration, uri))
                 return this.UrlBuilderConfiguration;
 
-            var detail = $"Unable to get a URL builer configuration based on the following URI: {uri}";
+            var detail = $"Unable to get a URL builder configuration based on the following URI: {uri}";
             throw new DocumentBuildException(detail);
         }
         #endregion

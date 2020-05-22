@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
+using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
 
@@ -130,6 +131,36 @@ namespace JsonApiFramework.Server.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Methods
+        private void AddDomReadWriteRelationshipIfNeeded(ApiResourceLinkageKey apiResourceLinkageKey)
+        {
+            // Add DOM read/write relationship node if not already added.
+            var fromApiResourceIdentifier = apiResourceLinkageKey.FromResourceIdentifier;
+            var fromApiRel                = apiResourceLinkageKey.FromRel;
+            if (!this.DomReadWriteResourceDictionary.TryGetValue(fromApiResourceIdentifier, out var domResource))
+            {
+                return;
+            }
+
+            var domReadWriteRelationships = (DomReadWriteRelationships)domResource.GetNode(DomNodeType.Relationships);
+            // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
+            if (domReadWriteRelationships == null)
+            {
+                // Add DOM read/write relationships node
+                domReadWriteRelationships = domResource.GetOrAddNode(DomNodeType.Relationships, () => DomReadWriteRelationships.Create());
+            }
+
+            var domReadWriteRelationshipExists = domReadWriteRelationships.Nodes()
+                                                                          .Cast<IDomRelationship>()
+                                                                          .Any(x => x.Rel == fromApiRel);
+            if (domReadWriteRelationshipExists)
+            {
+                return;
+            }
+
+            // Add DOM read/write relationship node.
+            domReadWriteRelationships.AddDomReadWriteRelationship(fromApiRel);
+        }
+
         private void AddResourceLinkage(IServiceModel serviceModel, Type fromClrResourceType, object fromClrResource, string fromApiRel, Type toClrResourceType, object toClrResource)
         {
             Contract.Requires(serviceModel != null);
@@ -190,6 +221,8 @@ namespace JsonApiFramework.Server.Internal
         {
             Contract.Requires(apiResourceLinkageKey != null);
             Contract.Requires(apiResourceLinkageNew != null);
+
+            this.AddDomReadWriteRelationshipIfNeeded(apiResourceLinkageKey);
 
             if (this.ApiResourceLinkageDictionary.TryGetValue(apiResourceLinkageKey, out var apiResourceLinkageExisting) == false)
             {

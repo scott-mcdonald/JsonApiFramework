@@ -438,6 +438,11 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = PersonResourceIdentifier
         };
 
+        public static readonly Relationship ArticleToAuthorToOneRelationshipNoHypermedia = new ToOneRelationship
+        {
+            Data = PersonResourceIdentifier
+        };
+
         public static readonly Relationship ArticleToAuthorToOneRelationshipNull = new ToOneRelationship
         {
             Links = new Links
@@ -505,6 +510,11 @@ namespace JsonApiFramework.TestData.ApiResources
                         {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink},
                         {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                     },
+            Data = CommentResourceIdentifiers
+        };
+
+        public static readonly Relationship ArticleToCommentsToManyRelationshipNoHypermedia = new ToManyRelationship
+        {
             Data = CommentResourceIdentifiers
         };
 
@@ -680,6 +690,11 @@ namespace JsonApiFramework.TestData.ApiResources
             Data = PersonResourceIdentifier1
         };
 
+        public static readonly Relationship CommentToAuthorToOneRelationship1NoHypermedia = new ToOneRelationship
+        {
+            Data = PersonResourceIdentifier1
+        };
+
         public static readonly Relationship CommentToAuthorToOneRelationship2 = new ToOneRelationship
         {
             Links = new Links
@@ -687,6 +702,11 @@ namespace JsonApiFramework.TestData.ApiResources
                         {Keywords.Self, ApiSampleData.CommentToRelationshipsToAuthorLink2},
                         {Keywords.Related, ApiSampleData.CommentToAuthorLink2}
                     },
+            Data = PersonResourceIdentifier2
+        };
+
+        public static readonly Relationship CommentToAuthorToOneRelationship2NoHypermedia = new ToOneRelationship
+        {
             Data = PersonResourceIdentifier2
         };
 
@@ -775,6 +795,14 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource ArticleResourceNoHypermedia = new Resource
+        {
+            Type       = ArticleType,
+            Id         = ArticleId,
+            Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+            Meta       = ResourceMeta
+        };
+
         public static readonly Resource ArticleResourceWithNoAttributes = new Resource
             {
                 Type       = ArticleType,
@@ -845,6 +873,19 @@ namespace JsonApiFramework.TestData.ApiResources
                     },
                 Meta = ResourceMeta
             };
+
+        public static readonly Resource ArticleResourceWithResourceLinkageNoHypermedia = new Resource
+        {
+            Type       = ArticleType,
+            Id         = ArticleId,
+            Attributes = new Attributes(Attribute.Create("title", "JSON API paints my bikeshed!")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationshipNoHypermedia},
+                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationshipNoHypermedia}
+            },
+            Meta = ResourceMeta
+        };
 
         public static readonly Resource ArticleResourceWithNullAndEmptyResourceLinkage = new Resource
         {
@@ -1098,6 +1139,14 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta1
             };
 
+        public static readonly Resource CommentResource1NoHypermedia = new Resource
+        {
+            Type       = CommentType,
+            Id         = CommentId1,
+            Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
+            Meta       = ResourceMeta1
+        };
+
         public static readonly Resource CommentResource2 = new Resource
             {
                 Type = CommentType,
@@ -1113,6 +1162,14 @@ namespace JsonApiFramework.TestData.ApiResources
                     },
                 Meta = ResourceMeta2
             };
+
+        public static readonly Resource CommentResource2NoHypermedia = new Resource
+        {
+            Type       = CommentType,
+            Id         = CommentId2,
+            Attributes = new Attributes(Attribute.Create("body", "I agree completely.")),
+            Meta       = ResourceMeta2
+        };
 
         public static readonly Resource CommentResource3 = new Resource
             {
@@ -1178,6 +1235,18 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta1
             };
 
+        public static readonly Resource CommentResourceWithResourceLinkage1NoHypermedia = new Resource
+        {
+            Type       = CommentType,
+            Id         = CommentId1,
+            Attributes = new Attributes(Attribute.Create("body", "I disagree completely.")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship1NoHypermedia}
+            },
+            Meta = ResourceMeta1
+        };
+
         public static readonly Resource CommentResourceWithResourceLinkage2 = new Resource
             {
                 Type = CommentType,
@@ -1193,6 +1262,18 @@ namespace JsonApiFramework.TestData.ApiResources
                         },
                 Meta = ResourceMeta2
             };
+
+        public static readonly Resource CommentResourceWithResourceLinkage2NoHypermedia = new Resource
+        {
+            Type       = CommentType,
+            Id         = CommentId2,
+            Attributes = new Attributes(Attribute.Create("body", "I agree completely.")),
+            Relationships = new Relationships
+            {
+                {ApiSampleData.CommentToAuthorRel, ApiSampleData.CommentToAuthorToOneRelationship2NoHypermedia}
+            },
+            Meta = ResourceMeta2
+        };
 
         public static readonly Resource CommentResourceWithResourceLinkage3 = new Resource
             {
@@ -1245,6 +1326,17 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource PersonResourceNoHypermedia = new Resource
+        {
+            Type = PersonType,
+            Id   = PersonId,
+            Attributes = new Attributes(
+                Attribute.Create("first-name", "John"),
+                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("twitter",    "johndoe24")),
+            Meta = ResourceMeta
+        };
+
         public static readonly Resource PersonResource1 = new Resource
             {
                 Type = PersonType,
@@ -1264,6 +1356,17 @@ namespace JsonApiFramework.TestData.ApiResources
                 Meta = ResourceMeta
             };
 
+        public static readonly Resource PersonResource1NoHypermedia = new Resource
+        {
+            Type = PersonType,
+            Id   = PersonId1,
+            Attributes = new Attributes(
+                Attribute.Create("first-name", "John"),
+                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("twitter",    "johndoe24")),
+            Meta = ResourceMeta
+        };
+
         public static readonly Resource PersonResource2 = new Resource
             {
                 Type = PersonType,
@@ -1282,6 +1385,17 @@ namespace JsonApiFramework.TestData.ApiResources
                     },
                 Meta = ResourceMeta
             };
+
+        public static readonly Resource PersonResource2NoHypermedia = new Resource
+        {
+            Type = PersonType,
+            Id   = PersonId2,
+            Attributes = new Attributes(
+                Attribute.Create("first-name", "Jane"),
+                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("twitter",    "janedoe42")),
+            Meta = ResourceMeta
+        };
 
         public static readonly Resource PersonResource3 = new Resource
             {

@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.JsonApi
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("RelationshipTestData")]
+        [MemberData(nameof(RelationshipTestData))]
         public void TestRelationshipToJson(string name, Relationship expected)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("RelationshipTestData")]
+        [MemberData(nameof(RelationshipTestData))]
         public void TestRelationshipParse(string name, Relationship expected)
         {
             // Arrange
@@ -55,7 +55,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ToOneRelationshipTestData")]
+        [MemberData(nameof(ToOneRelationshipTestData))]
         public void TestToOneRelationshipToJson(string name, Relationship expected)
         {
             // Arrange
@@ -69,7 +69,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ToOneRelationshipTestData")]
+        [MemberData(nameof(ToOneRelationshipTestData))]
         public void TestToOneRelationshipParse(string name, Relationship expected)
         {
             // Arrange
@@ -84,7 +84,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ToManyRelationshipTestData")]
+        [MemberData(nameof(ToManyRelationshipTestData))]
         public void TestToManyRelationshipToJson(string name, Relationship expected)
         {
             // Arrange
@@ -98,7 +98,7 @@ namespace JsonApiFramework.Tests.JsonApi
         }
 
         [Theory]
-        [MemberData("ToManyRelationshipTestData")]
+        [MemberData(nameof(ToManyRelationshipTestData))]
         public void TestToManyRelationshipParse(string name, Relationship expected)
         {
             // Arrange

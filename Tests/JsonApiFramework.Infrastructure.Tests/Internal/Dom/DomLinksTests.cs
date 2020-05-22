@@ -26,7 +26,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Test Methods
         [Theory]
-        [MemberData("DomLinksTestData")]
+        [MemberData(nameof(DomLinksTestData))]
         internal void TestIDomLinksAbstraction(string name, Links expectedLinks, IDomLinks domLinks)
         {
             // Arrange

@@ -358,6 +358,9 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(objectType != null);
             Contract.Requires(propertyInfo != null);
 
+            if (propertyInfo.CanRead == false)
+                return null;
+
             var instanceExpression = Expression.Parameter(objectType, "i");
             var propertyExpression = Expression.Property(instanceExpression, propertyInfo);
             var lambdaExpression = Expression.Lambda(propertyExpression, instanceExpression);
@@ -398,6 +401,9 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(objectType != null);
             Contract.Requires(propertyInfo != null);
+
+            if (propertyInfo.CanWrite == false)
+                return null;
 
             var propertyType = propertyInfo.PropertyType;
             var instanceExpression = Expression.Parameter(objectType, "i");
@@ -443,6 +449,9 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(propertyInfo != null);
 
+            if (propertyInfo.CanRead == false)
+                return null;
+
             var propertyExpression = Expression.Property(null, propertyInfo);
             var lambdaExpression = Expression.Lambda(propertyExpression);
             return lambdaExpression;
@@ -472,6 +481,9 @@ namespace JsonApiFramework.Expressions
         public static LambdaExpression StaticPropertySetter(PropertyInfo propertyInfo)
         {
             Contract.Requires(propertyInfo != null);
+
+            if (propertyInfo.CanWrite == false)
+                return null;
 
             var propertyType = propertyInfo.PropertyType;
             var valueExpression = Expression.Parameter(propertyType, "x");

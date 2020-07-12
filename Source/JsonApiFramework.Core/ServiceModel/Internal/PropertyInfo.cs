@@ -43,6 +43,10 @@ namespace JsonApiFramework.ServiceModel.Internal
             if (this.CanGetOrSetClrProperty() == false)
                 return null;
 
+            // ReSharper disable once UseNullPropagation
+            if (this.ClrPropertyGetterMethod == null)
+                return null;
+
             var clrPropertyValue = this.ClrPropertyGetterMethod.DynamicInvoke(clrObject);
             return clrPropertyValue;
         }
@@ -53,6 +57,9 @@ namespace JsonApiFramework.ServiceModel.Internal
                 return;
 
             if (this.CanGetOrSetClrProperty() == false)
+                return;
+
+            if (this.ClrPropertySetterMethod == null)
                 return;
 
             // Coerce incoming CLR value into a value based on the actual
@@ -78,26 +85,23 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PRIVATE METHODS //////////////////////////////////////////////////
         #region Helper Methods
-        private Delegate CreateClrPropertyGetterMethod(Type clrResourceType, Type clrPropertyType)
+        private static Delegate CreateClrPropertyGetterMethod(Type clrResourceType, string clrPropertyName)
         {
             Contract.Requires(clrResourceType != null);
-            Contract.Requires(clrPropertyType != null);
-
-            var clrPropertyName = this.ClrPropertyName;
+            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
             var clrGetterExpression = ExpressionBuilder.PropertyGetter(clrResourceType, clrPropertyName);
-            var clrGetterMethod = clrGetterExpression.Compile();
+            var clrGetterMethod = clrGetterExpression?.Compile();
             return clrGetterMethod;
         }
 
-        private Delegate CreateClrPropertySetterMethod(Type clrResourceType, Type clrPropertyType)
+        private static Delegate CreateClrPropertySetterMethod(Type clrResourceType, string clrPropertyName)
         {
             Contract.Requires(clrResourceType != null);
-
-            var clrPropertyName = this.ClrPropertyName;
+            Contract.Requires(String.IsNullOrWhiteSpace(clrPropertyName) == false);
 
             var clrSetterExpression = ExpressionBuilder.PropertySetter(clrResourceType, clrPropertyName);
-            var clrSetterMethod = clrSetterExpression.Compile();
+            var clrSetterMethod = clrSetterExpression?.Compile();
             return clrSetterMethod;
         }
 
@@ -107,10 +111,10 @@ namespace JsonApiFramework.ServiceModel.Internal
                 return;
 
             var clrDeclaringType = this.ClrDeclaringType;
-            var clrPropertyType = this.ClrPropertyType;
+            var clrPropertyName = this.ClrPropertyName;
 
-            this.ClrPropertyGetterMethod = this.CreateClrPropertyGetterMethod(clrDeclaringType, clrPropertyType);
-            this.ClrPropertySetterMethod = this.CreateClrPropertySetterMethod(clrDeclaringType, clrPropertyType);
+            this.ClrPropertyGetterMethod = CreateClrPropertyGetterMethod(clrDeclaringType, clrPropertyName);
+            this.ClrPropertySetterMethod = CreateClrPropertySetterMethod(clrDeclaringType, clrPropertyName);
         }
         #endregion
     }

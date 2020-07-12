@@ -30,7 +30,7 @@ namespace JsonApiFramework.Conventions.Internal
         {
             Contract.Requires(resourceTypeConfiguration != null);
 
-            // Use reflection, get all the directly declard, public, and instance-based type of properties for the given resource type.
+            // Use reflection, get all the directly declared, public, and instance-based type of properties for the given resource type.
             var clrResourceType = resourceTypeConfiguration.ClrType;
             var clrProperties = clrResourceType
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)

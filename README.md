@@ -924,6 +924,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.3.0
+    * #70 Add support for resource read-only properties.
 * v2.2.0
     * #69 Create missing relationship DOM nodes when adding included resources.
     * #68 Add support for no hypermedia documents.

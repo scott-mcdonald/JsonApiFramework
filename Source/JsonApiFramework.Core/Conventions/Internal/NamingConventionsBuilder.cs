@@ -1,4 +1,4 @@
-// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015â€“Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Collections.Generic;
@@ -18,6 +18,12 @@ namespace JsonApiFramework.Conventions.Internal
         public INamingConventionsBuilder AddCamelCaseNamingConvention()
         {
             this.NamingConventions.Add(new CamelCaseNamingConvention());
+            return this;
+        }
+
+        public INamingConventionsBuilder AddPascalCaseNamingConvention()
+        {
+            this.NamingConventions.Add(new PascalCaseNamingConvention());
             return this;
         }
 
@@ -50,6 +56,13 @@ namespace JsonApiFramework.Conventions.Internal
             this.NamingConventions.Add(new UpperCaseNamingConvention());
             return this;
         }
+
+        public INamingConventionsBuilder AddCustomNamingConvention(INamingConvention convention)
+        {
+            this.NamingConventions.Add(convention);
+            return this;
+        }
+
         #endregion
 
         #region Factory Methods

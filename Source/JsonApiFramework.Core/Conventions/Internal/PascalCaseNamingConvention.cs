@@ -5,7 +5,7 @@ using Humanizer;
 
 namespace JsonApiFramework.Conventions.Internal
 {
-    /// <summary>Naming convention that applies camelCasing to members.</summary>
+    /// <summary>Naming convention that applies PascalCasing to members.</summary>
     internal class PascalCaseNamingConvention : INamingConvention
     {
         // PUBLIC METHODS ///////////////////////////////////////////////////

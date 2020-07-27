@@ -132,7 +132,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration OrderItemsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.order-items.com"
+            Host   = "api.orderItems.com"
         };
 
         public static readonly IUrlBuilderConfiguration PaymentsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
@@ -144,7 +144,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration PosSystemsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.pos-systems.com"
+            Host   = "api.posSystems.com"
         };
 
         public static readonly IUrlBuilderConfiguration StoresUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
@@ -156,7 +156,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration StoreConfigurationsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.store-configurations.com"
+            Host   = "api.storeConfigurations.com"
         };
 
         public static readonly IDictionary<Type, IUrlBuilderConfiguration> UrlBuilderConfigurationsPerResourceTypeWithoutRootPathSegments
@@ -196,7 +196,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration OrderItemsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.order-items.com",
+            Host   = "api.orderItems.com",
             RootPathSegments = new[]
             {
                 "api",
@@ -218,7 +218,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration PosSystemsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.pos-systems.com",
+            Host   = "api.posSystems.com",
             RootPathSegments = new[]
             {
                 "api",
@@ -240,7 +240,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
         public static readonly IUrlBuilderConfiguration StoreConfigurationsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
         {
             Scheme = "http",
-            Host   = "api.store-configurations.com",
+            Host   = "api.storeConfigurations.com",
             RootPathSegments = new[]
             {
                 "api",
@@ -450,7 +450,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextWithRootPathSegments,
-                    "http://api.example.com/api/v2/orders/1/line-items",
+                    "http://api.example.com/api/v2/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -459,7 +459,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.example.com/api/v2/orders/1"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/lineItems"),
                     })
             },
             new object[]
@@ -468,12 +468,12 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextWithRootPathSegments,
-                    "http://api.example.com/api/v2/orders/1/line-items/1001",
+                    "http://api.example.com/api/v2/orders/1/lineItems/1001",
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.example.com/api/v2/orders/1/line-items"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/line-items/1001"),
+                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.example.com/api/v2/orders/1/lineItems"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/lineItems/1001"),
                     })
             },
             new object[]
@@ -482,7 +482,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextWithRootPathSegments,
-                    "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
+                    "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -491,7 +491,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/lineItems"),
                     })
             },
             new object[]
@@ -500,7 +500,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextWithRootPathSegments,
-                    "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
+                    "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -509,7 +509,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems"),
                     })
             },
             new object[]
@@ -518,7 +518,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new TestHypermediaAssembler(),
                     OrderBasedHypermediaContextWithoutRootPathSegments,
-                    "http://api.example.com/orders/1/line-items",
+                    "http://api.example.com/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -526,7 +526,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     },
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/order-items"),
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/orderItems"),
                     })
             },
             new object[]
@@ -535,11 +535,11 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new TestHypermediaAssembler(),
                     OrderBasedHypermediaContextWithoutRootPathSegments,
-                    "http://api.example.com/en-us/order-items/1001",
+                    "http://api.example.com/en-us/orderItems/1001",
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/order-items/1001"),
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/orderItems/1001"),
                     })
             },
 
@@ -658,12 +658,12 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<PosSystem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                    "http://api.store-configurations.com/stores/50/configuration/pos",
+                    "http://api.storeConfigurations.com/stores/50/configuration/pos",
                     SamplePosSystems.PosSystem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.store-configurations.com/stores/50/configuration"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.store-configurations.com/stores/50/configuration/pos"),
+                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.storeConfigurations.com/stores/50/configuration"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.storeConfigurations.com/stores/50/configuration/pos"),
                     })
             },
             new object[]
@@ -722,7 +722,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                    "http://api.orders.com/api/v2/orders/1/line-items",
+                    "http://api.orders.com/api/v2/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -731,7 +731,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/orders/1"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders/1/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders/1/lineItems"),
                     })
             },
             new object[]
@@ -740,12 +740,12 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                    "http://api.order-items.com/api/v2/orders/1/line-items/1001",
+                    "http://api.orderItems.com/api/v2/orders/1/lineItems/1001",
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.order-items.com/api/v2/orders/1/line-items"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.order-items.com/api/v2/orders/1/line-items/1001"),
+                        new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orderItems.com/api/v2/orders/1/lineItems"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orderItems.com/api/v2/orders/1/lineItems/1001"),
                     })
             },
             new object[]
@@ -754,7 +754,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                    "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
+                    "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -763,7 +763,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/lineItems"),
                     })
             },
             new object[]
@@ -772,7 +772,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new HypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                    "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
+                    "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -781,7 +781,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     new[]
                     {
                         new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4"),
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items"),
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems"),
                     })
             },
             new object[]
@@ -790,7 +790,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new TestHypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                    "http://api.order-items.com/orders/1/line-items",
+                    "http://api.orderItems.com/orders/1/lineItems",
                     new[]
                     {
                         SampleOrderItems.OrderItem1001,
@@ -798,7 +798,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     },
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.order-items.com/en-us/order-items"),
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems"),
                     })
             },
             new object[]
@@ -807,11 +807,11 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                 new CreateDocumentLinksTest<OrderItem>(
                     new TestHypermediaAssembler(),
                     OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                    "http://api.order-items.com/en-us/order-items/1001",
+                    "http://api.orderItems.com/en-us/orderItems/1001",
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.order-items.com/en-us/order-items/1001"),
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems/1001"),
                     })
             },
         };
@@ -890,7 +890,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SamplePosSystems.PosSystem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/pos-systems/RadiantWcf")
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/posSystems/RadiantWcf")
                     })
             },
             new object[]
@@ -920,7 +920,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/line-items/1001")
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.example.com/api/v2/orders/1/lineItems/1001")
                     })
             },
             new object[]
@@ -933,7 +933,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/order-items/1001")
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.example.com/en-us/orderItems/1001")
                     })
             },
 
@@ -995,7 +995,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SampleStoreConfigurations.StoreConfiguration,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.store-configurations.com/stores/50/configuration")
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.storeConfigurations.com/stores/50/configuration")
                     })
             },
             new object[]
@@ -1008,7 +1008,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SamplePosSystems.PosSystem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.pos-systems.com/pos-systems/RadiantWcf")
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.posSystems.com/posSystems/RadiantWcf")
                     })
             },
 
@@ -1114,7 +1114,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.order-items.com/api/v2/orders/1/line-items/1001")
+                        new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orderItems.com/api/v2/orders/1/lineItems/1001")
                     })
             },
             new object[]
@@ -1127,7 +1127,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                     SampleOrderItems.OrderItem,
                     new[]
                     {
-                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.order-items.com/en-us/order-items/1001")
+                        new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems/1001")
                     })
             },
         };
@@ -1152,8 +1152,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.example.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.example.com/orders/1/lineItems")}
                                 }
                             }),
                         new Tuple<IRelationshipContext, Relationship>(
@@ -1266,8 +1266,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.example.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.example.com/orders/1/lineItems")}
                                 },
                                 Data = new List<ResourceIdentifier>
                                 {
@@ -1321,8 +1321,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.example.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.example.com/orders/1/lineItems")}
                                 },
                                 Meta = ApiSampleData.RelationshipMeta,
                             }),
@@ -1368,8 +1368,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.example.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.example.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.example.com/orders/1/lineItems")}
                                 },
                                 Data = new List<ResourceIdentifier>
                                 {
@@ -1432,8 +1432,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/order")}
                                 }
                             }),
                         new Tuple<IRelationshipContext, Relationship>(
@@ -1442,8 +1442,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/product")}
                                 }
                             }),
                     }
@@ -1527,8 +1527,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/order")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.OrderType, "1")
                             }),
@@ -1538,8 +1538,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1")
                             }),
@@ -1566,8 +1566,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/order")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.OrderType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -1579,8 +1579,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.example.com/api/v2/orders/1/lineItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -1742,8 +1742,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/en-us/order-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.example.com/en-us/order-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.example.com/en-us/orderItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.example.com/en-us/orderItems/1001/product")}
                                 }
                             })
                     }
@@ -1812,8 +1812,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.example.com/en-us/order-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.example.com/en-us/order-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.example.com/en-us/orderItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.example.com/en-us/orderItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -1839,8 +1839,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
                                 }
                             }),
                         new Tuple<IRelationshipContext, Relationship>(
@@ -1953,8 +1953,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
                                 },
                                 Data = new List<ResourceIdentifier>
                                 {
@@ -2008,8 +2008,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
                                 },
                                 Meta = ApiSampleData.RelationshipMeta,
                             }),
@@ -2055,8 +2055,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/line-items")},
-                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/line-items")}
+                                    {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
+                                    {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
                                 },
                                 Data = new List<ResourceIdentifier>
                                 {
@@ -2119,8 +2119,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
                                 }
                             }),
                         new Tuple<IRelationshipContext, Relationship>(
@@ -2129,8 +2129,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
                                 }
                             }),
                     }
@@ -2214,8 +2214,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.OrderType, "1")
                             }),
@@ -2225,8 +2225,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1")
                             }),
@@ -2253,8 +2253,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/order")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/order")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.OrderType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -2266,8 +2266,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/api/v2/orders/1/line-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -2297,8 +2297,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.store-configurations.com/stores/50/configuration/relationships/pos")},
-                                    {Keywords.Related, new Link("http://api.store-configurations.com/stores/50/configuration/pos")}
+                                    {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
+                                    {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
                                 }
                             })
                     }
@@ -2370,8 +2370,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.store-configurations.com/stores/50/configuration/relationships/pos")},
-                                    {Keywords.Related, new Link("http://api.store-configurations.com/stores/50/configuration/pos")}
+                                    {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
+                                    {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest")
                             })
@@ -2399,8 +2399,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.store-configurations.com/stores/50/configuration/relationships/pos")},
-                                    {Keywords.Related, new Link("http://api.store-configurations.com/stores/50/configuration/pos")}
+                                    {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
+                                    {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest"),
                                 Meta = ApiSampleData.RelationshipMeta
@@ -2429,8 +2429,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/en-us/order-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/en-us/order-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/en-us/orderItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/en-us/orderItems/1001/product")}
                                 }
                             })
                     }
@@ -2499,8 +2499,8 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                             {
                                 Links = new Links
                                 {
-                                    {Keywords.Self, new Link("http://api.order-items.com/en-us/order-items/1001/relationships/product")},
-                                    {Keywords.Related, new Link("http://api.order-items.com/en-us/order-items/1001/product")}
+                                    {Keywords.Self, new Link("http://api.orderItems.com/en-us/orderItems/1001/relationships/product")},
+                                    {Keywords.Related, new Link("http://api.orderItems.com/en-us/orderItems/1001/product")}
                                 },
                                 Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                                 Meta = ApiSampleData.RelationshipMeta

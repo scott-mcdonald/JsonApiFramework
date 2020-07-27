@@ -7,12 +7,6 @@ namespace JsonApiFramework.Conventions.Internal
 {
     internal class NamingConventionsBuilder : INamingConventionsBuilder
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public NamingConventionsBuilder()
-        { this.NamingConventions = new List<INamingConvention>(); }
-        #endregion
-
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region INamingConventionsBuilder Implementation
         public INamingConventionsBuilder AddCamelCaseNamingConvention()
@@ -21,15 +15,15 @@ namespace JsonApiFramework.Conventions.Internal
             return this;
         }
 
-        public INamingConventionsBuilder AddPascalCaseNamingConvention()
-        {
-            this.NamingConventions.Add(new PascalCaseNamingConvention());
-            return this;
-        }
-
         public INamingConventionsBuilder AddLowerCaseNamingConvention()
         {
             this.NamingConventions.Add(new LowerCaseNamingConvention());
+            return this;
+        }
+
+        public INamingConventionsBuilder AddPascalCaseNamingConvention()
+        {
+            this.NamingConventions.Add(new PascalCaseNamingConvention());
             return this;
         }
 
@@ -62,7 +56,6 @@ namespace JsonApiFramework.Conventions.Internal
             this.NamingConventions.Add(convention);
             return this;
         }
-
         #endregion
 
         #region Factory Methods
@@ -72,7 +65,7 @@ namespace JsonApiFramework.Conventions.Internal
 
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
-        private IList<INamingConvention> NamingConventions { get; set; }
+        private IList<INamingConvention> NamingConventions { get; } = new List<INamingConvention>();
         #endregion
     }
 }

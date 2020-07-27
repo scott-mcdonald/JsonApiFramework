@@ -182,7 +182,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                      {
                                                                                                          "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourceCollectionPath",
                                                                                                          new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/line-items",
+                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/lineItems",
                                                                                                                                                                       new[] {typeof(Home), typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
                                                                                                                                                                                                                 {
                                                                                                                                                                                                                     new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment), 
@@ -194,7 +194,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                      {
                                                                                                          "WithUrlComposedOfRootPathSegmentsAndResourcePathAndToManyResourcePath",
                                                                                                          new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/line-items/1001",
+                                                                                                                                                                      "http://api.example.com/api/v2/orders/1/lineItems/1001",
                                                                                                                                                                       new[] {typeof(Home), typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
                                                                                                                                                                                                                 {
                                                                                                                                                                                                                     new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment), 
@@ -206,7 +206,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                      {
                                                                                                          "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndToManyResourceCollectionPath",
                                                                                                          new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/line-items",
+                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/lineItems",
                                                                                                                                                                       new[] {typeof(Home), typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
                                                                                                                                                                                                                 {
                                                                                                                                                                                                                     new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment), 
@@ -219,7 +219,7 @@ namespace JsonApiFramework.Server.Tests.Hypermedia
                                                                                                      {
                                                                                                          "WithUrlComposedOfRootPathSegmentsAndNonResourcePathAndResourcePathAndNonResourcePathAndToManyResourceCollectionPath",
                                                                                                          new DocumentPathContextCreateWithUrlAndHypermediaContextTest(HypermediaContextWithRootPathSegments,
-                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/line-items",
+                                                                                                                                                                      "http://api.example.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems",
                                                                                                                                                                       new[] {typeof(Home), typeof(Order), typeof(OrderItem)}, new IHypermediaPath[]
                                                                                                                                                                                                                 {
                                                                                                                                                                                                                     new SingletonHypermediaPath(typeof(Home), ClrSampleData.HomeCollectionPathSegment), 

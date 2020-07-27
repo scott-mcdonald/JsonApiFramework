@@ -1155,17 +1155,17 @@ namespace JsonApiFramework.Tests.Internal
                                             Type = ClrSampleData.StoreConfigurationType,
                                             Id = "50-Configuration",
                                             Attributes = new ApiObject(
-                                                    ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                                    ApiProperty.Create("mailing-address", new ApiObject(
+                                                    ApiProperty.Create("isLive", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                                    ApiProperty.Create("mailingAddress", new ApiObject(
                                                         ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
                                                         ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
                                                         ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
-                                                        ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
-                                                    ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                        ApiProperty.Create("zipCode", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                                    ApiProperty.Create("phoneNumbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
                                                         .Select(x =>
                                                             {
                                                                 var apiObject = new ApiObject(
-                                                                    ApiProperty.Create("area-code", x.AreaCode),
+                                                                    ApiProperty.Create("areaCode", x.AreaCode),
                                                                     ApiProperty.Create("number", x.Number));
                                                                 return apiObject;
                                                             })
@@ -1219,7 +1219,7 @@ namespace JsonApiFramework.Tests.Internal
                                             ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
                                                 .Select(x =>
                                                     {
-                                                        var point1CustomData = ApiProperty.Create("custom-data",
+                                                        var point1CustomData = ApiProperty.Create("customData",
                                                             x.Point1.CustomData != null
                                                                 ? new ApiObject(ApiProperty.Create("collection",
                                                                     x.Point1.CustomData.Collection.EmptyIfNull()
@@ -1232,7 +1232,7 @@ namespace JsonApiFramework.Tests.Internal
                                                                 : null);
                                                         var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
 
-                                                        var point2CustomData = ApiProperty.Create("custom-data",
+                                                        var point2CustomData = ApiProperty.Create("customData",
                                                             x.Point2.CustomData != null
                                                                 ? new ApiObject(ApiProperty.Create("collection",
                                                                     x.Point2.CustomData.Collection.EmptyIfNull()
@@ -1245,7 +1245,7 @@ namespace JsonApiFramework.Tests.Internal
                                                                 : null);
                                                         var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
 
-                                                        var customData = ApiProperty.Create("custom-data",
+                                                        var customData = ApiProperty.Create("customData",
                                                             x.CustomData != null
                                                                 ? new ApiObject(ApiProperty.Create("collection",
                                                                     x.CustomData.Collection.EmptyIfNull()
@@ -1265,7 +1265,7 @@ namespace JsonApiFramework.Tests.Internal
                                                         var points = ApiProperty.Create("points",
                                                             x.Points.Select(y =>
                                                                 {
-                                                                    var pointCustomData = ApiProperty.Create("custom-data",
+                                                                    var pointCustomData = ApiProperty.Create("customData",
                                                                         y.CustomData != null
                                                                             ? new ApiObject(ApiProperty.Create("collection",
                                                                                 y.CustomData.Collection.EmptyIfNull()
@@ -1280,7 +1280,7 @@ namespace JsonApiFramework.Tests.Internal
                                                                     return apiObject2;
                                                                 })
                                                              .ToArray());
-                                                        var customData = ApiProperty.Create("custom-data",
+                                                        var customData = ApiProperty.Create("customData",
                                                             x.CustomData != null
                                                                 ? new ApiObject(ApiProperty.Create("collection",
                                                                     x.CustomData.Collection.EmptyIfNull()
@@ -1294,7 +1294,7 @@ namespace JsonApiFramework.Tests.Internal
                                                         return new ApiObject(points, customData);
                                                     })
                                                 .ToArray()),
-                                            ApiProperty.Create("custom-data", SampleDrawings.Drawing.CustomData != null
+                                            ApiProperty.Create("customData", SampleDrawings.Drawing.CustomData != null
                                                 ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
                                                             {
                                                                 var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
@@ -1321,18 +1321,18 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"}
+                                            {Keywords.Self, "http://api.example.com/posSystems/RadiantWcf"}
                                         },
                                     Data = new Resource
                                         {
                                             Type = ClrSampleData.PosSystemType,
                                             Id = "RadiantWcf",
                                             Attributes = new ApiObject(
-                                                ApiProperty.Create("pos-system-name", "Radiant WCF-Based Api"),
-                                                ApiProperty.Create("end-of-life-date", new DateTime(1999, 12, 31))),
+                                                ApiProperty.Create("posSystemName", "Radiant WCF-Based Api"),
+                                                ApiProperty.Create("endOfLifeDate", new DateTime(1999, 12, 31))),
                                             Links = new Links
                                                 {
-                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"},
+                                                    {Keywords.Self, "http://api.example.com/posSystems/RadiantWcf"},
                                                 },
                                         }
                                 },
@@ -1348,18 +1348,18 @@ namespace JsonApiFramework.Tests.Internal
                                 {
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"}
+                                            {Keywords.Self, "http://api.example.com/posSystems/RadiantRest"}
                                         },
                                     Data = new Resource
                                         {
                                             Type = ClrSampleData.PosSystemType,
                                             Id = "RadiantRest",
                                             Attributes = new ApiObject(
-                                                ApiProperty.Create("pos-system-name", "Radiant REST-Based Api"),
-                                                ApiProperty.Create("end-of-life-date", new DateTime?())),
+                                                ApiProperty.Create("posSystemName", "Radiant REST-Based Api"),
+                                                ApiProperty.Create("endOfLifeDate", new DateTime?())),
                                             Links = new Links
                                                 {
-                                                    {Keywords.Self, "http://api.example.com/pos-systems/RadiantRest"},
+                                                    {Keywords.Self, "http://api.example.com/posSystems/RadiantRest"},
                                                 },
                                         }
                                 },

@@ -23,13 +23,13 @@ namespace JsonApiFramework.TestData.ClrResources
         public const string DrawingCollectionPathSegment            = "drawings";
         public const string HomeCollectionPathSegment               = "";
         public const string OrderCollectionPathSegment              = "orders";
-        public const string OrderItemCollectionPathSegment          = "order-items";
+        public const string OrderItemCollectionPathSegment          = "orderItems";
         public const string PaymentCollectionPathSegment            = "payments";
-        public const string PosSystemCollectionPathSegment          = "pos-systems";
+        public const string PosSystemCollectionPathSegment          = "posSystems";
         public const string ProductCollectionPathSegment            = "products";
         public const string SearchCollectionPathSegment             = "search";
         public const string StoreCollectionPathSegment              = "stores";
-        public const string StoreConfigurationCollectionPathSegment = "store-configurations";
+        public const string StoreConfigurationCollectionPathSegment = "storeConfigurations";
         #endregion
 
         #region Api Types
@@ -163,10 +163,10 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo CommentAttributesInfo = new AttributesInfo(typeof(Comment), CommentAttributesInfoCollection);
 
         // Drawing Attributes
-        public static readonly IAttributeInfo DrawingNameAttributeInfo       = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Name),       typeof(string),        StaticReflection.GetMemberName<Drawing>(x => x.Name).Underscore().Dasherize(),       false);
-        public static readonly IAttributeInfo DrawingLinesAttributeInfo      = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Lines),      typeof(List<Line>),    StaticReflection.GetMemberName<Drawing>(x => x.Lines).Underscore().Dasherize(),      true);
-        public static readonly IAttributeInfo DrawingPolygonsAttributeInfo   = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Polygons),   typeof(List<Polygon>), StaticReflection.GetMemberName<Drawing>(x => x.Polygons).Underscore().Dasherize(),   true);
-        public static readonly IAttributeInfo DrawingCustomDataAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.CustomData), typeof(CustomData),    StaticReflection.GetMemberName<Drawing>(x => x.CustomData).Underscore().Dasherize(), true);
+        public static readonly IAttributeInfo DrawingNameAttributeInfo       = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Name),       typeof(string),        StaticReflection.GetMemberName<Drawing>(x => x.Name).Camelize(),       false);
+        public static readonly IAttributeInfo DrawingLinesAttributeInfo      = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Lines),      typeof(List<Line>),    StaticReflection.GetMemberName<Drawing>(x => x.Lines).Camelize(),      true);
+        public static readonly IAttributeInfo DrawingPolygonsAttributeInfo   = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Polygons),   typeof(List<Polygon>), StaticReflection.GetMemberName<Drawing>(x => x.Polygons).Camelize(),   true);
+        public static readonly IAttributeInfo DrawingCustomDataAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.CustomData), typeof(CustomData),    StaticReflection.GetMemberName<Drawing>(x => x.CustomData).Camelize(), true);
 
         public static readonly IAttributeInfo[] DrawingAttributesInfoCollection =
         {
@@ -179,7 +179,7 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo DrawingAttributesInfo = new AttributesInfo(typeof(Drawing), DrawingAttributesInfoCollection);
 
         // Home Attributes
-        public static readonly IAttributeInfo HomeMessageAttributeInfo = new AttributeInfo(typeof(Home), StaticReflection.GetMemberName<Home>(x => x.Message), typeof(string), StaticReflection.GetMemberName<Home>(x => x.Message).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo HomeMessageAttributeInfo = new AttributeInfo(typeof(Home), StaticReflection.GetMemberName<Home>(x => x.Message), typeof(string), StaticReflection.GetMemberName<Home>(x => x.Message).Camelize(), false);
 
         public static readonly IAttributeInfo[] HomeAttributesInfoCollection =
         {
@@ -189,7 +189,7 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo HomeAttributesInfo = new AttributesInfo(typeof(Home), HomeAttributesInfoCollection);
 
         // Order Attributes
-        public static readonly IAttributeInfo OrderTotalPriceAttributeInfo = new AttributeInfo(typeof(Order), StaticReflection.GetMemberName<Order>(x => x.TotalPrice), typeof(decimal), StaticReflection.GetMemberName<Order>(x => x.TotalPrice).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo OrderTotalPriceAttributeInfo = new AttributeInfo(typeof(Order), StaticReflection.GetMemberName<Order>(x => x.TotalPrice), typeof(decimal), StaticReflection.GetMemberName<Order>(x => x.TotalPrice).Camelize(), false);
 
         public static readonly IAttributeInfo[] OrderAttributesInfoCollection =
         {
@@ -199,9 +199,9 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo OrderAttributesInfo = new AttributesInfo(typeof(Order), OrderAttributesInfoCollection);
 
         // OrderItem Attributes
-        public static readonly IAttributeInfo OrderItemProductNameAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.ProductName), typeof(string),  StaticReflection.GetMemberName<OrderItem>(x => x.ProductName).Underscore().Dasherize(), false);
-        public static readonly IAttributeInfo OrderItemQuantityAttributeInfo    = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity),    typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity).Underscore().Dasherize(),    false);
-        public static readonly IAttributeInfo OrderItemUnitPriceAttributeInfo   = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice),   typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice).Underscore().Dasherize(),   false);
+        public static readonly IAttributeInfo OrderItemProductNameAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.ProductName), typeof(string),  StaticReflection.GetMemberName<OrderItem>(x => x.ProductName).Camelize(), false);
+        public static readonly IAttributeInfo OrderItemQuantityAttributeInfo    = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity),    typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity).Camelize(),    false);
+        public static readonly IAttributeInfo OrderItemUnitPriceAttributeInfo   = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice),   typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice).Camelize(),   false);
 
         public static readonly IAttributeInfo[] OrderItemAttributesInfoCollection =
         {
@@ -213,7 +213,7 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo OrderItemAttributesInfo = new AttributesInfo(typeof(OrderItem), OrderItemAttributesInfoCollection);
 
         // Payment Attributes
-        public static readonly IAttributeInfo PaymentAmountAttributeInfo = new AttributeInfo(typeof(Payment), StaticReflection.GetMemberName<Payment>(x => x.Amount), typeof(decimal), StaticReflection.GetMemberName<Payment>(x => x.Amount).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo PaymentAmountAttributeInfo = new AttributeInfo(typeof(Payment), StaticReflection.GetMemberName<Payment>(x => x.Amount), typeof(decimal), StaticReflection.GetMemberName<Payment>(x => x.Amount).Camelize(), false);
 
         public static readonly IAttributeInfo[] PaymentAttributesInfoCollection =
         {
@@ -237,8 +237,8 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo PersonAttributesInfo = new AttributesInfo(typeof(Person), PersonAttributesInfoCollection);
 
         // PosSystem Attributes
-        public static readonly IAttributeInfo PosSystemNameAttributeInfo          = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName), typeof(string),    StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName).Underscore().Dasherize(), false);
-        public static readonly IAttributeInfo PosSystemEndOfLifeDateAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate), typeof(DateTime?), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo PosSystemNameAttributeInfo          = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName), typeof(string),    StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName).Camelize(), false);
+        public static readonly IAttributeInfo PosSystemEndOfLifeDateAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate), typeof(DateTime?), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate).Camelize(), false);
 
         public static readonly IAttributeInfo[] PosSystemAttributesInfoCollection =
         {
@@ -249,8 +249,8 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo PosSystemAttributesInfo = new AttributesInfo(typeof(PosSystem), PosSystemAttributesInfoCollection);
 
         // Product Attributes
-        public static readonly IAttributeInfo ProductNameAttributeInfo      = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.Name),      typeof(string),  StaticReflection.GetMemberName<Product>(x => x.Name).Underscore().Dasherize(),      false);
-        public static readonly IAttributeInfo ProductUnitPriceAttributeInfo = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.UnitPrice), typeof(decimal), StaticReflection.GetMemberName<Product>(x => x.UnitPrice).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo ProductNameAttributeInfo      = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.Name),      typeof(string),  StaticReflection.GetMemberName<Product>(x => x.Name).Camelize(),      false);
+        public static readonly IAttributeInfo ProductUnitPriceAttributeInfo = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.UnitPrice), typeof(decimal), StaticReflection.GetMemberName<Product>(x => x.UnitPrice).Camelize(), false);
 
         public static readonly IAttributeInfo[] ProductAttributesInfoCollection =
         {
@@ -261,7 +261,7 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo ProductAttributesInfo = new AttributesInfo(typeof(Product), ProductAttributesInfoCollection);
 
         // Search Attributes
-        public static readonly IAttributeInfo SearchMessageAttributeInfo = new AttributeInfo(typeof(Search), StaticReflection.GetMemberName<Search>(x => x.Criteria), typeof(string), StaticReflection.GetMemberName<Search>(x => x.Criteria).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo SearchMessageAttributeInfo = new AttributeInfo(typeof(Search), StaticReflection.GetMemberName<Search>(x => x.Criteria), typeof(string), StaticReflection.GetMemberName<Search>(x => x.Criteria).Camelize(), false);
 
         public static readonly IAttributeInfo[] SearchAttributesInfoCollection =
         {
@@ -271,11 +271,11 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo SearchAttributesInfo = new AttributesInfo(typeof(Search), SearchAttributesInfoCollection);
 
         // Store Attributes
-        public static readonly IAttributeInfo StoreNameAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreName), typeof(string), StaticReflection.GetMemberName<Store>(x => x.StoreName).Underscore().Dasherize(), false);
-        public static readonly IAttributeInfo StoreAddressAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.Address),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.Address).Underscore().Dasherize(),   false);
-        public static readonly IAttributeInfo StoreCityAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.City),      typeof(string), StaticReflection.GetMemberName<Store>(x => x.City).Underscore().Dasherize(),      false);
-        public static readonly IAttributeInfo StoreStateAttributeInfo   = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.State),     typeof(string), StaticReflection.GetMemberName<Store>(x => x.State).Underscore().Dasherize(),     false);
-        public static readonly IAttributeInfo StoreZipCodeAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.ZipCode),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.ZipCode).Underscore().Dasherize(),   false);
+        public static readonly IAttributeInfo StoreNameAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreName), typeof(string), StaticReflection.GetMemberName<Store>(x => x.StoreName).Camelize(), false);
+        public static readonly IAttributeInfo StoreAddressAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.Address),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.Address).Camelize(),   false);
+        public static readonly IAttributeInfo StoreCityAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.City),      typeof(string), StaticReflection.GetMemberName<Store>(x => x.City).Camelize(),      false);
+        public static readonly IAttributeInfo StoreStateAttributeInfo   = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.State),     typeof(string), StaticReflection.GetMemberName<Store>(x => x.State).Camelize(),     false);
+        public static readonly IAttributeInfo StoreZipCodeAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.ZipCode),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.ZipCode).Camelize(),   false);
 
         public static readonly IAttributeInfo[] StoreAttributesInfoCollection =
         {
@@ -289,9 +289,9 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo StoreAttributesInfo = new AttributesInfo(typeof(Store), StoreAttributesInfoCollection);
 
         // StoreConfiguration Attributes
-        public static readonly IAttributeInfo StoreConfigurationIsLiveAttributeInfo         = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive),         typeof(bool),              StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive).Underscore().Dasherize(),         false);
-        public static readonly IAttributeInfo StoreConfigurationMailingAddressAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress), typeof(MailingAddress),    StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress).Underscore().Dasherize(), true);
-        public static readonly IAttributeInfo StoreConfigurationPhoneNumbersAttributeInfo   = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers),   typeof(List<PhoneNumber>), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers).Underscore().Dasherize(),   true);
+        public static readonly IAttributeInfo StoreConfigurationIsLiveAttributeInfo         = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive),         typeof(bool),              StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive).Camelize(),         false);
+        public static readonly IAttributeInfo StoreConfigurationMailingAddressAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress), typeof(MailingAddress),    StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress).Camelize(), true);
+        public static readonly IAttributeInfo StoreConfigurationPhoneNumbersAttributeInfo   = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers),   typeof(List<PhoneNumber>), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers).Camelize(),   true);
 
         public static readonly IAttributeInfo[] StoreConfigurationAttributesInfoCollection =
         {
@@ -305,7 +305,7 @@ namespace JsonApiFramework.TestData.ClrResources
 
         #region Complex Type Attributes
         // CustomData Attributes
-        public static readonly IAttributeInfo CustomDataCollectionAttributeInfo = new AttributeInfo(typeof(CustomData), StaticReflection.GetMemberName<CustomData>(x => x.Collection), typeof(List<CustomProperty>), StaticReflection.GetMemberName<CustomData>(x => x.Collection).Underscore().Dasherize(), true);
+        public static readonly IAttributeInfo CustomDataCollectionAttributeInfo = new AttributeInfo(typeof(CustomData), StaticReflection.GetMemberName<CustomData>(x => x.Collection), typeof(List<CustomProperty>), StaticReflection.GetMemberName<CustomData>(x => x.Collection).Camelize(), true);
 
         public static readonly IAttributeInfo[] CustomDataAttributesInfoCollection =
         {
@@ -315,8 +315,8 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo CustomDataAttributesInfo = new AttributesInfo(typeof(CustomData), CustomDataAttributesInfoCollection);
 
         // CustomProperty Attributes
-        public static readonly IAttributeInfo CustomPropertyNameAttributeInfo  = new AttributeInfo(typeof(CustomProperty), StaticReflection.GetMemberName<CustomProperty>(x => x.Name),  typeof(string), StaticReflection.GetMemberName<CustomProperty>(x => x.Name).Underscore().Dasherize(),  false);
-        public static readonly IAttributeInfo CustomPropertyValueAttributeInfo = new AttributeInfo(typeof(CustomProperty), StaticReflection.GetMemberName<CustomProperty>(x => x.Value), typeof(string), StaticReflection.GetMemberName<CustomProperty>(x => x.Value).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo CustomPropertyNameAttributeInfo  = new AttributeInfo(typeof(CustomProperty), StaticReflection.GetMemberName<CustomProperty>(x => x.Name),  typeof(string), StaticReflection.GetMemberName<CustomProperty>(x => x.Name).Camelize(),  false);
+        public static readonly IAttributeInfo CustomPropertyValueAttributeInfo = new AttributeInfo(typeof(CustomProperty), StaticReflection.GetMemberName<CustomProperty>(x => x.Value), typeof(string), StaticReflection.GetMemberName<CustomProperty>(x => x.Value).Camelize(), false);
 
         public static readonly IAttributeInfo[] CustomPropertyAttributesInfoCollection =
         {
@@ -327,9 +327,9 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo CustomPropertyAttributesInfo = new AttributesInfo(typeof(CustomProperty), CustomPropertyAttributesInfoCollection);
 
         // Line Attributes
-        public static readonly IAttributeInfo LinePoint1AttributeInfo     = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.Point1),     typeof(Point),      StaticReflection.GetMemberName<Line>(x => x.Point1).Underscore().Dasherize(),     true);
-        public static readonly IAttributeInfo LinePoint2AttributeInfo     = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.Point2),     typeof(Point),      StaticReflection.GetMemberName<Line>(x => x.Point2).Underscore().Dasherize(),     true);
-        public static readonly IAttributeInfo LineCustomDataAttributeInfo = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.CustomData), typeof(CustomData), StaticReflection.GetMemberName<Line>(x => x.CustomData).Underscore().Dasherize(), true);
+        public static readonly IAttributeInfo LinePoint1AttributeInfo     = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.Point1),     typeof(Point),      StaticReflection.GetMemberName<Line>(x => x.Point1).Camelize(),     true);
+        public static readonly IAttributeInfo LinePoint2AttributeInfo     = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.Point2),     typeof(Point),      StaticReflection.GetMemberName<Line>(x => x.Point2).Camelize(),     true);
+        public static readonly IAttributeInfo LineCustomDataAttributeInfo = new AttributeInfo(typeof(Line), StaticReflection.GetMemberName<Line>(x => x.CustomData), typeof(CustomData), StaticReflection.GetMemberName<Line>(x => x.CustomData).Camelize(), true);
 
         public static readonly IAttributeInfo[] LineAttributesInfoCollection =
         {
@@ -341,10 +341,10 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo LineAttributesInfo = new AttributesInfo(typeof(Line), LineAttributesInfoCollection);
 
         // MailingAddress Attributes
-        public static readonly IAttributeInfo MailingAddressAddressAttributeInfo = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.Address), typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.Address).Underscore().Dasherize(), false);
-        public static readonly IAttributeInfo MailingAddressCityAttributeInfo    = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.City),    typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.City).Underscore().Dasherize(),    false);
-        public static readonly IAttributeInfo MailingAddressStateAttributeInfo   = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.State),   typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.State).Underscore().Dasherize(),   false);
-        public static readonly IAttributeInfo MailingAddressZipCodeAttributeInfo = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.ZipCode), typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.ZipCode).Underscore().Dasherize(), false);
+        public static readonly IAttributeInfo MailingAddressAddressAttributeInfo = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.Address), typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.Address).Camelize(), false);
+        public static readonly IAttributeInfo MailingAddressCityAttributeInfo    = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.City),    typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.City).Camelize(),    false);
+        public static readonly IAttributeInfo MailingAddressStateAttributeInfo   = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.State),   typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.State).Camelize(),   false);
+        public static readonly IAttributeInfo MailingAddressZipCodeAttributeInfo = new AttributeInfo(typeof(MailingAddress), StaticReflection.GetMemberName<MailingAddress>(x => x.ZipCode), typeof(string), StaticReflection.GetMemberName<MailingAddress>(x => x.ZipCode).Camelize(), false);
 
         public static readonly IAttributeInfo[] MailingAddressAttributesInfoCollection =
         {
@@ -357,8 +357,8 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo MailingAddressAttributesInfo = new AttributesInfo(typeof(MailingAddress), MailingAddressAttributesInfoCollection);
 
         // PhoneNumber Attributes
-        public static readonly IAttributeInfo PhoneNumberAreaCodeAttributeInfo = new AttributeInfo(typeof(PhoneNumber), StaticReflection.GetMemberName<PhoneNumber>(x => x.AreaCode), typeof(string), StaticReflection.GetMemberName<PhoneNumber>(x => x.AreaCode).Underscore().Dasherize(), false);
-        public static readonly IAttributeInfo PhoneNumberNumberAttributeInfo   = new AttributeInfo(typeof(PhoneNumber), StaticReflection.GetMemberName<PhoneNumber>(x => x.Number),   typeof(string), StaticReflection.GetMemberName<PhoneNumber>(x => x.Number).Underscore().Dasherize(),   false);
+        public static readonly IAttributeInfo PhoneNumberAreaCodeAttributeInfo = new AttributeInfo(typeof(PhoneNumber), StaticReflection.GetMemberName<PhoneNumber>(x => x.AreaCode), typeof(string), StaticReflection.GetMemberName<PhoneNumber>(x => x.AreaCode).Camelize(), false);
+        public static readonly IAttributeInfo PhoneNumberNumberAttributeInfo   = new AttributeInfo(typeof(PhoneNumber), StaticReflection.GetMemberName<PhoneNumber>(x => x.Number),   typeof(string), StaticReflection.GetMemberName<PhoneNumber>(x => x.Number).Camelize(),   false);
 
         public static readonly IAttributeInfo[] PhoneNumberAttributesInfoCollection =
         {
@@ -369,9 +369,9 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo PhoneNumberAttributesInfo = new AttributesInfo(typeof(PhoneNumber), PhoneNumberAttributesInfoCollection);
 
         // Point Attributes
-        public static readonly IAttributeInfo PointXAttributeInfo          = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.X),          typeof(int),        StaticReflection.GetMemberName<Point>(x => x.X).Underscore().Dasherize(),          false);
-        public static readonly IAttributeInfo PointYAttributeInfo          = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.Y),          typeof(int),        StaticReflection.GetMemberName<Point>(x => x.Y).Underscore().Dasherize(),          false);
-        public static readonly IAttributeInfo PointCustomDataAttributeInfo = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.CustomData), typeof(CustomData), StaticReflection.GetMemberName<Point>(x => x.CustomData).Underscore().Dasherize(), true);
+        public static readonly IAttributeInfo PointXAttributeInfo          = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.X),          typeof(int),        StaticReflection.GetMemberName<Point>(x => x.X).Camelize(),          false);
+        public static readonly IAttributeInfo PointYAttributeInfo          = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.Y),          typeof(int),        StaticReflection.GetMemberName<Point>(x => x.Y).Camelize(),          false);
+        public static readonly IAttributeInfo PointCustomDataAttributeInfo = new AttributeInfo(typeof(Point), StaticReflection.GetMemberName<Point>(x => x.CustomData), typeof(CustomData), StaticReflection.GetMemberName<Point>(x => x.CustomData).Camelize(), true);
 
         public static readonly IAttributeInfo[] PointAttributesInfoCollection =
         {
@@ -383,8 +383,8 @@ namespace JsonApiFramework.TestData.ClrResources
         public static readonly IAttributesInfo PointAttributesInfo = new AttributesInfo(typeof(Point), PointAttributesInfoCollection);
 
         // Polygon Attributes
-        public static readonly IAttributeInfo PolygonPointsAttributeInfo     = new AttributeInfo(typeof(Polygon), StaticReflection.GetMemberName<Polygon>(x => x.Points),     typeof(List<Point>), StaticReflection.GetMemberName<Polygon>(x => x.Points).Underscore().Dasherize(),     true);
-        public static readonly IAttributeInfo PolygonCustomDataAttributeInfo = new AttributeInfo(typeof(Polygon), StaticReflection.GetMemberName<Polygon>(x => x.CustomData), typeof(CustomData),  StaticReflection.GetMemberName<Polygon>(x => x.CustomData).Underscore().Dasherize(), true);
+        public static readonly IAttributeInfo PolygonPointsAttributeInfo     = new AttributeInfo(typeof(Polygon), StaticReflection.GetMemberName<Polygon>(x => x.Points),     typeof(List<Point>), StaticReflection.GetMemberName<Polygon>(x => x.Points).Camelize(),     true);
+        public static readonly IAttributeInfo PolygonCustomDataAttributeInfo = new AttributeInfo(typeof(Polygon), StaticReflection.GetMemberName<Polygon>(x => x.CustomData), typeof(CustomData),  StaticReflection.GetMemberName<Polygon>(x => x.CustomData).Camelize(), true);
 
         public static readonly IAttributeInfo[] PolygonAttributesInfoCollection =
         {
@@ -396,7 +396,7 @@ namespace JsonApiFramework.TestData.ClrResources
         #endregion
 
         #region Relationship Names
-        public const string OrderToOrderItemsRel = "line-items";
+        public const string OrderToOrderItemsRel = "lineItems";
         public const string OrderToPaymentsRel   = "payments";
         public const string OrderToStoreRel      = "store";
 
@@ -405,10 +405,10 @@ namespace JsonApiFramework.TestData.ClrResources
 
         public const string PaymentToOrderRel = "order";
 
-        public const string PosSystemToStoreConfigurationsRel = "store-configurations";
+        public const string PosSystemToStoreConfigurationsRel = "storeConfigurations";
 
-        public const string StoreToStoreConfigurationRel            = "store-configuration";
-        public const string StoreToStoreConfigurationToPosSystemRel = "pos-system";
+        public const string StoreToStoreConfigurationRel            = "storeConfiguration";
+        public const string StoreToStoreConfigurationToPosSystemRel = "posSystem";
         #endregion
 
         #region Relationship Path Segments

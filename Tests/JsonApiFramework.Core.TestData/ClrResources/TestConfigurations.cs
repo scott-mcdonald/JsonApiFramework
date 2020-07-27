@@ -198,7 +198,7 @@ namespace JsonApiFramework.TestData.ClrResources
                     .SetApiPropertyName("state");
 
                 this.Attribute(x => x.ZipCode)
-                    .SetApiPropertyName("zip-code");
+                    .SetApiPropertyName("zipCode");
             }
         }
 
@@ -217,7 +217,7 @@ namespace JsonApiFramework.TestData.ClrResources
                     .SetApiPropertyName("state");
 
                 this.Attribute(x => x.ZipCode)
-                    .SetApiPropertyName("zip-code");
+                    .SetApiPropertyName("zipCode");
 
                 // Ignores
                 this.Attribute(x => x.City)
@@ -245,7 +245,7 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Attributes
                 this.Attribute(x => x.TotalPrice)
-                    .SetApiPropertyName("total-price");
+                    .SetApiPropertyName("totalPrice");
 
                 // Relationships
                 this.ToManyRelationship<OrderItem>(ClrSampleData.OrderToOrderItemsRel)
@@ -279,13 +279,13 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Attributes
                 this.Attribute(x => x.ProductName)
-                    .SetApiPropertyName("product-name");
+                    .SetApiPropertyName("productName");
 
                 this.Attribute(x => x.Quantity)
                     .SetApiPropertyName("quantity");
 
                 this.Attribute(x => x.UnitPrice)
-                    .SetApiPropertyName("unit-price");
+                    .SetApiPropertyName("unitPrice");
 
                 // Relationships
                 this.ToOneRelationship<Order>(ClrSampleData.OrderItemToOrderRel)
@@ -416,7 +416,7 @@ namespace JsonApiFramework.TestData.ClrResources
             {
                 // Attributes
                 this.Attribute(x => x.AreaCode)
-                    .SetApiPropertyName("area-code");
+                    .SetApiPropertyName("areaCode");
 
                 this.Attribute(x => x.Number)
                     .SetApiPropertyName("number");
@@ -437,10 +437,10 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Attributes
                 this.Attribute(x => x.PosSystemName)
-                    .SetApiPropertyName("pos-system-name");
+                    .SetApiPropertyName("posSystemName");
 
                 this.Attribute(x => x.EndOfLifeDate)
-                    .SetApiPropertyName("end-of-life-date");
+                    .SetApiPropertyName("endOfLifeDate");
 
                 // Relationships
                 this.ToManyRelationship<StoreConfiguration>(ClrSampleData.PosSystemToStoreConfigurationsRel)
@@ -469,7 +469,7 @@ namespace JsonApiFramework.TestData.ClrResources
                     .SetApiPropertyName("name");
 
                 this.Attribute(x => x.UnitPrice)
-                    .SetApiPropertyName("unit-price");
+                    .SetApiPropertyName("unitPrice");
 
                 // Relationships
 
@@ -492,13 +492,13 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Attributes
                 this.Attribute(x => x.IsLive)
-                    .SetApiPropertyName("is-live");
+                    .SetApiPropertyName("isLive");
 
                 this.Attribute(x => x.MailingAddress)
-                    .SetApiPropertyName("mailing-address");
+                    .SetApiPropertyName("mailingAddress");
 
                 this.Attribute(x => x.PhoneNumbers)
-                    .SetApiPropertyName("phone-numbers");
+                    .SetApiPropertyName("phoneNumbers");
 
                 // Relationships
                 this.ToOneRelationship<PosSystem>(ClrSampleData.StoreToStoreConfigurationToPosSystemRel)
@@ -524,7 +524,7 @@ namespace JsonApiFramework.TestData.ClrResources
 
                 // Attributes
                 this.Attribute(x => x.StoreName)
-                    .SetApiPropertyName("store-name");
+                    .SetApiPropertyName("storeName");
 
                 this.Attribute(x => x.Address)
                     .SetApiPropertyName("address");
@@ -536,7 +536,7 @@ namespace JsonApiFramework.TestData.ClrResources
                     .SetApiPropertyName("state");
 
                 this.Attribute(x => x.ZipCode)
-                    .SetApiPropertyName("zip-code");
+                    .SetApiPropertyName("zipCode");
 
                 // Relationships
                 this.ToOneRelationship<StoreConfiguration>(ClrSampleData.StoreToStoreConfigurationRel)

@@ -18,10 +18,8 @@ namespace JsonApiFramework.Conventions.Internal
                 return oldName;
 
             // Apply the JsonApi standard naming convention of member names:
-            // 1. Names are lower case.
-            // 2. Names use the hyphen minus '-' as word separators.
-            var newName = oldName.Underscore()
-                                 .Hyphenate();
+            // 1. Names are camel case.
+            var newName = oldName.Camelize();
             return newName;
         }
         #endregion

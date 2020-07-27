@@ -366,14 +366,14 @@ namespace JsonApiFramework.Server.Tests
                     {
                         "WithArticleResourceAndIncludedResourcesAndSparseFieldsets",
                         CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                        ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=",
+                        ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=firstName,lastName&fields[comments]=",
                         new ResourceDocument
                             {
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
                                         {Keywords.Up, ApiSampleData.ArticleCollectionLink},
-                                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=")}
+                                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=firstName,lastName&fields[comments]=")}
                                     },
                                 Data = new Resource
                                        {
@@ -399,8 +399,8 @@ namespace JsonApiFramework.Server.Tests
                                             Type = ApiSampleData.PersonType,
                                             Id   = ApiSampleData.PersonId,
                                             Attributes = new Attributes(
-                                                Attribute.Create("first-name", "John"),
-                                                Attribute.Create("last-name",  "Doe")),
+                                                Attribute.Create("firstName", "John"),
+                                                Attribute.Create("lastName",  "Doe")),
                                             Relationships = new Relationships(),
                                             Links = new Links
                                                     {
@@ -550,14 +550,14 @@ namespace JsonApiFramework.Server.Tests
                     {
                         "WithArticleResourceAndIncludedResourcesIncludingMoreResourcesAndSparseFieldsets",
                         CreateDocumentContextOptions(ClrSampleData.ServiceModelWithBlogResourceTypes, UrlBuilderConfigurationWithoutRootPathSegments),
-                        ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=",
+                        ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=firstName,lastName&fields[comments]=",
                         new ResourceDocument
                             {
                                 JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
                                 Links = new Links
                                     {
                                         {Keywords.Up, ApiSampleData.ArticleCollectionLink},
-                                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=first-name,last-name&fields[comments]=")}
+                                        {Keywords.Self, new Link(ApiSampleData.ArticleHRef + "?fields[articles]=title&fields[people]=firstName,lastName&fields[comments]=")}
                                     },
                                 Data = new Resource
                                        {
@@ -583,8 +583,8 @@ namespace JsonApiFramework.Server.Tests
                                             Type = ApiSampleData.PersonType,
                                             Id   = ApiSampleData.PersonId,
                                             Attributes = new Attributes(
-                                                Attribute.Create("first-name", "John"),
-                                                Attribute.Create("last-name",  "Doe")),
+                                                Attribute.Create("firstName", "John"),
+                                                Attribute.Create("lastName",  "Doe")),
                                             Relationships = new Relationships(),
                                             Links = new Links
                                                     {
@@ -625,8 +625,8 @@ namespace JsonApiFramework.Server.Tests
                                             Type = ApiSampleData.PersonType,
                                             Id   = ApiSampleData.PersonId2,
                                             Attributes = new Attributes(
-                                                Attribute.Create("first-name", "Jane"),
-                                                Attribute.Create("last-name",  "Doe")),
+                                                Attribute.Create("firstName", "Jane"),
+                                                Attribute.Create("lastName",  "Doe")),
                                             Relationships = new Relationships(),
                                             Links = new Links
                                                     {
@@ -814,8 +814,8 @@ namespace JsonApiFramework.Server.Tests
                                             Type = ApiSampleData.PersonType,
                                             Id   = ApiSampleData.PersonId,
                                             Attributes = new Attributes(
-                                                Attribute.Create("first-name", "John"),
-                                                Attribute.Create("last-name",  "Doe"),
+                                                Attribute.Create("firstName", "John"),
+                                                Attribute.Create("lastName",  "Doe"),
                                                 Attribute.Create("twitter",    "johndoe24")),
                                             Relationships = new Relationships
                                                             {

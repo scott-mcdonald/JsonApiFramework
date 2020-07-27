@@ -7,12 +7,13 @@ namespace JsonApiFramework.Conventions
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region Methods
         INamingConventionsBuilder AddCamelCaseNamingConvention();
-        INamingConventionsBuilder AddPascalCaseNamingConvention();
         INamingConventionsBuilder AddLowerCaseNamingConvention();
+        INamingConventionsBuilder AddPascalCaseNamingConvention();
         INamingConventionsBuilder AddPluralNamingConvention();
         INamingConventionsBuilder AddSingularNamingConvention();
         INamingConventionsBuilder AddStandardMemberNamingConvention();
         INamingConventionsBuilder AddUpperCaseNamingConvention();
+
         INamingConventionsBuilder AddCustomNamingConvention(INamingConvention convention);
         #endregion
     }

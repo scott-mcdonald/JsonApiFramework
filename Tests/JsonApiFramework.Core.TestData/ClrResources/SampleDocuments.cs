@@ -24,7 +24,7 @@ namespace JsonApiFramework.TestData.ClrResources
                         {
                             Type = ClrSampleData.OrderType,
                             Id = "1",
-                            Attributes = new ApiObject(ApiProperty.Create("total-price", 100.0m)),
+                            Attributes = new ApiObject(ApiProperty.Create("totalPrice", 100.0m)),
                             Relationships = new Relationships
                                 {
                                     {
@@ -34,11 +34,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                     {
                                                         {
                                                             Keywords.Self,
-                                                            "http://api.example.com/orders/1/relationships/line-items"
+                                                            "http://api.example.com/orders/1/relationships/lineItems"
                                                         },
                                                         {
                                                             Keywords.Related,
-                                                            "http://api.example.com/orders/1/line-items"
+                                                            "http://api.example.com/orders/1/lineItems"
                                                         }
                                                     },
                                                 Data = new List<ResourceIdentifier>
@@ -98,9 +98,9 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.OrderItemType,
                                     Id = "1001",
                                     Attributes = new ApiObject(
-                                        ApiProperty.Create("product-name", "Widget A"),
+                                        ApiProperty.Create("productName", "Widget A"),
                                         ApiProperty.Create("quantity", 2),
-                                        ApiProperty.Create("unit-price", 25.0m)),
+                                        ApiProperty.Create("unitPrice", 25.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -110,11 +110,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/orders/1/line-items/1001/relationships/order"
+                                                                    "http://api.example.com/orders/1/lineItems/1001/relationships/order"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/orders/1/line-items/1001/order"
+                                                                    "http://api.example.com/orders/1/lineItems/1001/order"
                                                                 }
                                                             },
                                                         Data = new ResourceIdentifier(ClrSampleData.OrderType, "1")
@@ -127,11 +127,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/orders/1/line-items/1001/relationships/product"
+                                                                    "http://api.example.com/orders/1/lineItems/1001/relationships/product"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/orders/1/line-items/1001/product"
+                                                                    "http://api.example.com/orders/1/lineItems/1001/product"
                                                                 }
                                                             },
                                                         Data = new ResourceIdentifier(ClrSampleData.ProductType, "501")
@@ -140,7 +140,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                         },
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/orders/1/line-items/1001"},
+                                            {Keywords.Self, "http://api.example.com/orders/1/lineItems/1001"},
                                         },
                                 },
                             new Resource
@@ -148,9 +148,9 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.OrderItemType,
                                     Id = "1002",
                                     Attributes = new ApiObject(
-                                        ApiProperty.Create("product-name", "Widget B"),
+                                        ApiProperty.Create("productName", "Widget B"),
                                         ApiProperty.Create("quantity", 1),
-                                        ApiProperty.Create("unit-price", 50.0m)),
+                                        ApiProperty.Create("unitPrice", 50.0m)),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -160,11 +160,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/orders/1/line-items/1002/relationships/order"
+                                                                    "http://api.example.com/orders/1/lineItems/1002/relationships/order"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/orders/1/line-items/1002/order"
+                                                                    "http://api.example.com/orders/1/lineItems/1002/order"
                                                                 }
                                                             },
                                                         Data = new ResourceIdentifier(ClrSampleData.OrderType, "1")
@@ -177,11 +177,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/orders/1/line-items/1002/relationships/product"
+                                                                    "http://api.example.com/orders/1/lineItems/1002/relationships/product"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/orders/1/line-items/1002/product"
+                                                                    "http://api.example.com/orders/1/lineItems/1002/product"
                                                                 }
                                                             },
                                                         Data = new ResourceIdentifier(ClrSampleData.ProductType, "502")
@@ -190,7 +190,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                         },
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/orders/1/line-items/1002"},
+                                            {Keywords.Self, "http://api.example.com/orders/1/lineItems/1002"},
                                         },
                                 },
                             new Resource
@@ -258,11 +258,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.StoreType,
                                     Id = "50",
                                     Attributes = new ApiObject(
-                                        ApiProperty.Create("store-name", "Store 50"),
+                                        ApiProperty.Create("storeName", "Store 50"),
                                         ApiProperty.Create("address", "1234 Main Street"),
                                         ApiProperty.Create("city", "Boynton Beach"),
                                         ApiProperty.Create("state", "FL"),
-                                        ApiProperty.Create("zip-code", "33472")),
+                                        ApiProperty.Create("zipCode", "33472")),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -297,7 +297,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Id = "501",
                                     Attributes = new ApiObject(
                                         ApiProperty.Create("name", "Widget A"),
-                                        ApiProperty.Create("unit-price", 25.0m)),
+                                        ApiProperty.Create("unitPrice", 25.0m)),
                                     Links = new Links
                                         {
                                             {Keywords.Self, "http://api.example.com/products/501"},
@@ -309,7 +309,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Id = "502",
                                     Attributes = new ApiObject(
                                         ApiProperty.Create("name", "Widget B"),
-                                        ApiProperty.Create("unit-price", 50.0m)),
+                                        ApiProperty.Create("unitPrice", 50.0m)),
                                     Links = new Links
                                         {
                                             {Keywords.Self, "http://api.example.com/products/502"},
@@ -320,17 +320,17 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.StoreConfigurationType,
                                     Id = "50-Configuration",
                                     Attributes = new ApiObject(
-                                            ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                            ApiProperty.Create("mailing-address", new ApiObject(
+                                            ApiProperty.Create("isLive", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                            ApiProperty.Create("mailingAddress", new ApiObject(
                                                 ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
                                                 ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
                                                 ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
-                                                ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
-                                            ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                ApiProperty.Create("zipCode", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                            ApiProperty.Create("phoneNumbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
                                                 .Select(x =>
                                                     {
                                                         var apiObject = new ApiObject(
-                                                            ApiProperty.Create("area-code", x.AreaCode),
+                                                            ApiProperty.Create("areaCode", x.AreaCode),
                                                             ApiProperty.Create("number", x.Number));
                                                         return apiObject;
                                                     })
@@ -367,8 +367,8 @@ namespace JsonApiFramework.TestData.ClrResources
                                     Type = ClrSampleData.PosSystemType,
                                     Id = "RadiantWcf",
                                     Attributes = new ApiObject(
-                                        ApiProperty.Create("pos-system-name", "Radiant WCF-Based Api"),
-                                        ApiProperty.Create("end-of-life-date", new DateTime(1999, 12, 31))),
+                                        ApiProperty.Create("posSystemName", "Radiant WCF-Based Api"),
+                                        ApiProperty.Create("endOfLifeDate", new DateTime(1999, 12, 31))),
                                     Relationships = new Relationships
                                         {
                                             {
@@ -379,11 +379,11 @@ namespace JsonApiFramework.TestData.ClrResources
                                                             {
                                                                 {
                                                                     Keywords.Self,
-                                                                    "http://api.example.com/pos-systems/RadiantWcf/relationships/store-configurations"
+                                                                    "http://api.example.com/posSystems/RadiantWcf/relationships/storeConfigurations"
                                                                 },
                                                                 {
                                                                     Keywords.Related,
-                                                                    "http://api.example.com/pos-systems/RadiantWcf/store-configurations"
+                                                                    "http://api.example.com/posSystems/RadiantWcf/storeConfigurations"
                                                                 }
                                                             }
                                                     }
@@ -391,7 +391,7 @@ namespace JsonApiFramework.TestData.ClrResources
                                         },
                                     Links = new Links
                                         {
-                                            {Keywords.Self, "http://api.example.com/pos-systems/RadiantWcf"},
+                                            {Keywords.Self, "http://api.example.com/posSystems/RadiantWcf"},
                                         },
                                 },
                         }

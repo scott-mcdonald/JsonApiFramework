@@ -164,8 +164,8 @@ namespace JsonApiFramework.TestData.ApiResources
         public const string CommentBodyPropertyName = "body";
 
         // Person
-        public const string PersonFirstNamePropertyName = "first-name";
-        public const string PersonLastNamePropertyName = "last-name";
+        public const string PersonFirstNamePropertyName = "firstName";
+        public const string PersonLastNamePropertyName = "lastName";
         public const string PersonTwitterPropertyName = "twitter";
         #endregion
 
@@ -989,9 +989,9 @@ namespace JsonApiFramework.TestData.ApiResources
                 Id = ArticleId,
                 Attributes = new Attributes(
                     Attribute.Create("title", "JSON API paints my house!"),
-                    Attribute.Create("is-online", true),
+                    Attribute.Create("isOnline", true),
                     Attribute.Create("version", (decimal)1.42),
-                    Attribute.Create("line-count", 1024),
+                    Attribute.Create("lineCount", 1024),
                     Attribute.Create("tags", new[] { "json", "json:api", "bikeshed", "REST" }),
                     Attribute.Create("audit", new AuditAttributes
                             {
@@ -1312,8 +1312,8 @@ namespace JsonApiFramework.TestData.ApiResources
                 Type = PersonType,
                 Id = PersonId,
                 Attributes = new Attributes(
-                    Attribute.Create("first-name", "John"),
-                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("firstName", "John"),
+                    Attribute.Create("lastName", "Doe"),
                     Attribute.Create("twitter", "johndoe24")),
                 Relationships = new Relationships
                     {
@@ -1331,8 +1331,8 @@ namespace JsonApiFramework.TestData.ApiResources
             Type = PersonType,
             Id   = PersonId,
             Attributes = new Attributes(
-                Attribute.Create("first-name", "John"),
-                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("firstName", "John"),
+                Attribute.Create("lastName",  "Doe"),
                 Attribute.Create("twitter",    "johndoe24")),
             Meta = ResourceMeta
         };
@@ -1342,8 +1342,8 @@ namespace JsonApiFramework.TestData.ApiResources
                 Type = PersonType,
                 Id = PersonId1,
                 Attributes = new Attributes(
-                    Attribute.Create("first-name", "John"),
-                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("firstName", "John"),
+                    Attribute.Create("lastName", "Doe"),
                     Attribute.Create("twitter", "johndoe24")),
                 Relationships = new Relationships
                     {
@@ -1361,8 +1361,8 @@ namespace JsonApiFramework.TestData.ApiResources
             Type = PersonType,
             Id   = PersonId1,
             Attributes = new Attributes(
-                Attribute.Create("first-name", "John"),
-                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("firstName", "John"),
+                Attribute.Create("lastName",  "Doe"),
                 Attribute.Create("twitter",    "johndoe24")),
             Meta = ResourceMeta
         };
@@ -1372,8 +1372,8 @@ namespace JsonApiFramework.TestData.ApiResources
                 Type = PersonType,
                 Id = PersonId2,
                 Attributes = new Attributes(
-                    Attribute.Create("first-name", "Jane"),
-                    Attribute.Create("last-name", "Doe"),
+                    Attribute.Create("firstName", "Jane"),
+                    Attribute.Create("lastName", "Doe"),
                     Attribute.Create("twitter", "janedoe42")),
                 Relationships = new Relationships
                     {
@@ -1391,8 +1391,8 @@ namespace JsonApiFramework.TestData.ApiResources
             Type = PersonType,
             Id   = PersonId2,
             Attributes = new Attributes(
-                Attribute.Create("first-name", "Jane"),
-                Attribute.Create("last-name",  "Doe"),
+                Attribute.Create("firstName", "Jane"),
+                Attribute.Create("lastName",  "Doe"),
                 Attribute.Create("twitter",    "janedoe42")),
             Meta = ResourceMeta
         };
@@ -1402,8 +1402,8 @@ namespace JsonApiFramework.TestData.ApiResources
                 Type = PersonType,
                 Id = PersonId3,
                 Attributes = new Attributes(
-                    Attribute.Create("first-name", "George"),
-                    Attribute.Create("last-name", "Washington"),
+                    Attribute.Create("firstName", "George"),
+                    Attribute.Create("lastName", "Washington"),
                     Attribute.Create("twitter", "georgewashington1")),
                 Relationships = new Relationships
                     {
@@ -1421,8 +1421,8 @@ namespace JsonApiFramework.TestData.ApiResources
                 Type = PersonType,
                 Id = PersonId4,
                 Attributes = new Attributes(
-                    Attribute.Create("first-name", "Thomas"),
-                    Attribute.Create("last-name", "Jefferson"),
+                    Attribute.Create("firstName", "Thomas"),
+                    Attribute.Create("lastName", "Jefferson"),
                     Attribute.Create("twitter", "thomasjefferson2")),
                 Relationships = new Relationships
                     {

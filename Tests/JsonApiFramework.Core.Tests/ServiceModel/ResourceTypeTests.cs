@@ -302,7 +302,7 @@ namespace JsonApiFramework.Tests.ServiceModel
                             Id = Convert.ToString(SampleProducts.Product.ProductId),
                             Attributes = new ApiObject(
                                 new ApiReadProperty("name", "Widget A"),
-                                new ApiReadProperty("unit-price", 25.0m))
+                                new ApiReadProperty("unitPrice", 25.0m))
                         }},
                 new object[] {
                     "WithStoreConfiguration",
@@ -314,17 +314,17 @@ namespace JsonApiFramework.Tests.ServiceModel
                             Type = ClrSampleData.StoreConfigurationType,
                             Id = SampleStoreConfigurations.StoreConfiguration.StoreConfigurationId,
                             Attributes = new ApiObject(
-                                ApiProperty.Create("is-live", SampleStoreConfigurations.StoreConfiguration.IsLive),
-                                ApiProperty.Create("mailing-address", new ApiObject(
+                                ApiProperty.Create("isLive", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                ApiProperty.Create("mailingAddress", new ApiObject(
                                     ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
                                     ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
                                     ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
-                                    ApiProperty.Create("zip-code", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
-                                ApiProperty.Create("phone-numbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                    ApiProperty.Create("zipCode", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                ApiProperty.Create("phoneNumbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
                                     .Select(x =>
                                         {
                                             var apiObject = new ApiObject(
-                                                ApiProperty.Create("area-code", x.AreaCode),
+                                                ApiProperty.Create("areaCode", x.AreaCode),
                                                 ApiProperty.Create("number", x.Number));
                                             return apiObject;
                                         })

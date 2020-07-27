@@ -105,9 +105,9 @@ namespace JsonApiFramework.Tests.Conventions
                 new object[] {"WithStandardMemberNamingConventionAndNameParameterAsNullString", new StandardMemberNamingConvention(), null, null},
                 new object[] {"WithStandardMemberNamingConventionAndNameParameterAsEmptyString", new StandardMemberNamingConvention(), String.Empty, String.Empty},
                 new object[] {"WithStandardMemberNamingConventionAndNameParameterAsName", new StandardMemberNamingConvention(), "Name", "name"},
-                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsUserName", new StandardMemberNamingConvention(), "UserName", "user-name"},
-                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsPreviousUserName", new StandardMemberNamingConvention(), "PreviousUserName", "previous-user-name"},
-                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsPreviousDeprecatedUserName", new StandardMemberNamingConvention(), "PreviousDeprecatedUserName", "previous-deprecated-user-name"},
+                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsUserName", new StandardMemberNamingConvention(), "UserName", "userName"},
+                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsPreviousUserName", new StandardMemberNamingConvention(), "PreviousUserName", "previousUserName"},
+                new object[] {"WithStandardMemberNamingConventionAndNameParameterAsPreviousDeprecatedUserName", new StandardMemberNamingConvention(), "PreviousDeprecatedUserName", "previousDeprecatedUserName"},
 
                 new object[] {"WithUpperCaseNamingConventionAndNameParameterAsNullString", new UpperCaseNamingConvention(), null, null},
                 new object[] {"WithUpperCaseNamingConventionAndNameParameterAsEmptyString", new UpperCaseNamingConvention(), String.Empty, String.Empty},
@@ -122,6 +122,14 @@ namespace JsonApiFramework.Tests.Conventions
                 new object[] {"WithCamelCaseNamingConventionAndNameParameterAsPreviousUserName", new CamelCaseNamingConvention(), "PreviousUserName", "previousUserName"},
                 new object[] {"WithCamelCaseNamingConventionAndNameParameterAsUserNameWithUnderscore", new CamelCaseNamingConvention(), "User_Name", "userName"},
                 new object[] {"WithCamelCaseNamingConventionAndNameParameterAsPreviousUserNameWithUnderscores", new CamelCaseNamingConvention(), "Previous_User_Name", "previousUserName"},
+
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsNullString", new PascalCaseNamingConvention(), null, null},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsEmptyString", new PascalCaseNamingConvention(), String.Empty, String.Empty},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsName", new PascalCaseNamingConvention(), "Name", "Name"},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsUserName", new PascalCaseNamingConvention(), "UserName", "UserName"},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsPreviousUserName", new PascalCaseNamingConvention(), "PreviousUserName", "PreviousUserName"},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsUserNameWithUnderscore", new PascalCaseNamingConvention(), "User_Name", "UserName"},
+                new object[] {"WithPascalCaseNamingConventionAndNameParameterAsPreviousUserNameWithUnderscores", new PascalCaseNamingConvention(), "Previous_User_Name", "PreviousUserName"},
             };
         // ReSharper restore UnusedMember.Global
         #endregion

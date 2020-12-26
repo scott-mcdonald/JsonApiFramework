@@ -34,6 +34,11 @@ namespace JsonApiFramework.Server.Hypermedia
                 return apiDocumentLink;
             }
 
+            var urlBuilderConfiguration        = hypermediaContext.GetUrlBuilderConfiguration(default(Type));
+            var throwExceptionOnLinkBuildError = urlBuilderConfiguration.ThrowExceptionOnLinkBuildError;
+            if (throwExceptionOnLinkBuildError == false)
+                return null;
+
             var apiRel = linkContext.Rel;
             var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildNonStandardDocumentLink
                                            .FormatWith(apiRel);
@@ -53,6 +58,11 @@ namespace JsonApiFramework.Server.Hypermedia
             {
                 return apiDocumentLink;
             }
+
+            var urlBuilderConfiguration        = hypermediaContext.GetUrlBuilderConfiguration(clrResourceType);
+            var throwExceptionOnLinkBuildError = urlBuilderConfiguration.ThrowExceptionOnLinkBuildError;
+            if (throwExceptionOnLinkBuildError == false)
+                return null;
 
             var apiRel = linkContext.Rel;
             var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildNonStandardDocumentLink
@@ -74,6 +84,11 @@ namespace JsonApiFramework.Server.Hypermedia
                 return apiDocumentLink;
             }
 
+            var urlBuilderConfiguration        = hypermediaContext.GetUrlBuilderConfiguration(clrResourceType);
+            var throwExceptionOnLinkBuildError = urlBuilderConfiguration.ThrowExceptionOnLinkBuildError;
+            if (throwExceptionOnLinkBuildError == false)
+                return null;
+
             var apiRel = linkContext.Rel;
             var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildNonStandardDocumentLink
                                            .FormatWith(apiRel);
@@ -93,6 +108,11 @@ namespace JsonApiFramework.Server.Hypermedia
             {
                 return apiResourceLink;
             }
+
+            var urlBuilderConfiguration        = hypermediaContext.GetUrlBuilderConfiguration(clrResourceType);
+            var throwExceptionOnLinkBuildError = urlBuilderConfiguration.ThrowExceptionOnLinkBuildError;
+            if (throwExceptionOnLinkBuildError == false)
+                return null;
 
             var apiRel              = linkContext.Rel;
             var clrResourceTypeName = clrResourceType.Name;

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard1.0</TargetFramework>
-        <Version>2.4.0</Version>
+        <Version>2.5.0</Version>
         <Authors>Scott McDonald</Authors>
         <Company>Scott McDonald</Company>
         <Product>JsonApiFramework [Server]</Product>
@@ -12,8 +12,8 @@
         <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
         <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
         <PackageTags>.net portable jsonapi framework server</PackageTags>
-        <FileVersion>2.2.0.22</FileVersion>
-        <AssemblyVersion>2.2.0.0</AssemblyVersion>
+        <AssemblyVersion>2.5.0.0</AssemblyVersion>
+        <FileVersion>2.5.0.25</FileVersion>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
@@ -24,8 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
-        <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
+      <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

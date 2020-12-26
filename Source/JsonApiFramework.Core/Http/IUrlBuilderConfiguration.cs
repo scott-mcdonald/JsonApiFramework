@@ -13,10 +13,11 @@ namespace JsonApiFramework.Http
     {
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region Properties
-        string Scheme { get; }
-        string Host { get; }
-        int? Port { get; }
-        IEnumerable<string> RootPathSegments { get; }
+        string              Scheme                         { get; }
+        string              Host                           { get; }
+        int?                Port                           { get; }
+        IEnumerable<string> RootPathSegments               { get; }
+        bool                ThrowExceptionOnLinkBuildError { get; }
         #endregion
     }
 }

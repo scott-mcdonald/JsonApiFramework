@@ -845,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 2.4.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.5.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -855,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 2.4.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.5.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -867,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 2.4.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.5.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -924,6 +924,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.5.0
+    * #79 Support data driven approach on how to handle custom built null document or resource links for HATEOAS purposes.
 * v2.4.0
     * #72 Add the standard naming convention to the json:api standard for member names.
     * #71 Add support for pascal case and custom naming conventions.

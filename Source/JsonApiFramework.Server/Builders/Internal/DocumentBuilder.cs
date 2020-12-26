@@ -787,6 +787,13 @@ namespace JsonApiFramework.Server.Internal
                     case DocumentType.ErrorsDocument:
                     {
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -795,6 +802,13 @@ namespace JsonApiFramework.Server.Internal
                     case DocumentType.EmptyDocument:
                     {
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, Enumerable.Empty<object>(), linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -803,6 +817,13 @@ namespace JsonApiFramework.Server.Internal
                     case DocumentType.NullDocument:
                     {
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, null, null, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -820,6 +841,13 @@ namespace JsonApiFramework.Server.Internal
                                                                          .ToList();
 
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -833,6 +861,13 @@ namespace JsonApiFramework.Server.Internal
                         var clrResourceType = domResource != null ? domResource.ClrResourceType : default(Type);
                         var clrResource     = domResource != null ? domResource.ClrResource : default(object);
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -863,6 +898,13 @@ namespace JsonApiFramework.Server.Internal
                         }
 
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResourceCollection, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -885,6 +927,13 @@ namespace JsonApiFramework.Server.Internal
                         }
 
                         var apiDocumentLink = hypermediaAssembler.CreateDocumentLink(this.HypermediaContext, documentPathContext, apiDocumentType, clrResourceType, clrResource, linkContext);
+                        if (apiDocumentLink == null)
+                        {
+                            // Unable to create document link, remove link node in DOM tree.
+                            domReadWriteLinks.RemoveNode(domReadWriteLink);
+                            return;
+                        }
+
                         var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiDocumentLink);
                         domReadWriteLinks.ReplaceNode(domReadWriteLink, domReadOnlyLink);
                     }
@@ -972,6 +1021,12 @@ namespace JsonApiFramework.Server.Internal
             // Create link.
             var linkContext     = new LinkContext(apiLinkRel, apiLinkMeta);
             var apiResourceLink = hypermediaAssembler.CreateResourceLink(hypermediaContext, resourcePathContext, clrResourceType, clrResource, linkContext);
+            if (apiResourceLink == null)
+            {
+                // Unable to create resource link, remove link node in DOM tree.
+                domReadWriteLinks.RemoveNode(domReadWriteLink);
+                return;
+            }
 
             // Replace the old DOM read-write link node with a new DOM read-only link created by the framework.
             var domReadOnlyLink = DomReadOnlyLink.Create(apiLinkRel, apiResourceLink);

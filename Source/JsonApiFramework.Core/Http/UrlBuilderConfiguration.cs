@@ -17,27 +17,30 @@ namespace JsonApiFramework.Http
         // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public UrlBuilderConfiguration()
-        { }
+        {
+        }
 
-        public UrlBuilderConfiguration(string scheme, string host, int? port = null, IEnumerable<string> rootPathSegments = null)
+        public UrlBuilderConfiguration(string scheme, string host, int? port = null, IEnumerable<string> rootPathSegments = null, bool throwExceptionOnLinkBuildError = false)
         {
             Contract.Requires(String.IsNullOrWhiteSpace(scheme) == false);
             Contract.Requires(String.IsNullOrWhiteSpace(host) == false);
 
             this.Scheme = scheme;
-            this.Host = host;
-            this.Port = port;
+            this.Host   = host;
+            this.Port   = port;
             this.RootPathSegments = rootPathSegments.EmptyIfNull()
                                                     .ToList();
+            this.ThrowExceptionOnLinkBuildError = throwExceptionOnLinkBuildError;
         }
         #endregion
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IUrlBuilderConfiguration Implementation
-        public string Scheme { get; set; }
-        public string Host { get; set; }
-        public int? Port { get; set; }
-        public IEnumerable<string> RootPathSegments { get; set; }
+        public string              Scheme                         { get; set; }
+        public string              Host                           { get; set; }
+        public int?                Port                           { get; set; }
+        public IEnumerable<string> RootPathSegments               { get; set; }
+        public bool                ThrowExceptionOnLinkBuildError { get; set; }
         #endregion
     }
 }

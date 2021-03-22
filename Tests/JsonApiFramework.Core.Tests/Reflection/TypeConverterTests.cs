@@ -254,8 +254,12 @@ namespace JsonApiFramework.Tests.Reflection
         public static readonly Guid TestGuid = new Guid(TestGuidString);
         public static readonly byte[] TestGuidByteArray = TestGuid.ToByteArray();
 
-        public const string TestUriString = "https://api.example.com:8002/api/en-us/articles/42";
-        public static readonly Uri TestUri = new Uri(TestUriString);
+        public const string TestUlidString = "01BX5ZZKBKACTAV9WEVGEMMVRE";
+        public static readonly Ulid   TestUlid = Ulid.Parse(TestUlidString);
+        public static readonly byte[] TestUlidByteArray = TestUlid.ToByteArray();
+
+        public const           string TestUriString     = "https://api.example.com:8002/api/en-us/articles/42";
+        public static readonly Uri    TestUri           = new Uri(TestUriString);
 
         public static readonly byte[] TestByteArray = { 42, 24, 48, 84, 12, 21, 68, 86 };
         public const string TestByteArrayString = "KhgwVAwVRFY=";
@@ -322,6 +326,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(true, true, (ushort)1),
                                 new ConvertTest<PrimaryColor>(true, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(true, false, default(Guid)),
+                                new ConvertTest<Ulid>(true, false, default(Ulid)),
                                 new ConvertTest<Uri>(true, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(true, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(true, false, default(TimeSpan)),
@@ -348,6 +353,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(true, true, new ushort?((ushort)1)),
                                 new ConvertTest<PrimaryColor?>(true, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(true, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(true, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(true, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(true, false, default(TimeSpan?))
                             }
@@ -373,6 +379,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((byte)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((byte)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((byte)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((byte)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((byte)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((byte)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((byte)42, false, default(TimeSpan)),
@@ -397,6 +404,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((byte)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((byte)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((byte)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((byte)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((byte)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((byte)42, false, default(TimeSpan?))
                             }
@@ -422,6 +430,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>('*', true, (ushort)42),
                                 new ConvertTest<PrimaryColor>('*', true, (PrimaryColor)42),
                                 new ConvertTest<Guid>('*', false, default(Guid)),
+                                new ConvertTest<Ulid>('*', false, default(Ulid)),
                                 new ConvertTest<Uri>('*', false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>('*', false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>('*', false, default(TimeSpan)),
@@ -446,6 +455,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>('*', true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>('*', true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>('*', false, default(Guid?)),
+                                new ConvertTest<Ulid?>('*', false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>('*', false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>('*', false, default(TimeSpan?))
                             }
@@ -471,6 +481,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestDateTime, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestDateTime, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestDateTime, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestDateTime, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestDateTime, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestDateTime, true, TestDateTimeOffset),
                                 new ConvertTest<TimeSpan>(TestDateTime, false, default(TimeSpan)),
@@ -496,6 +507,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestDateTime, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestDateTime, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestDateTime, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestDateTime, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestDateTime, true, new DateTimeOffset?(TestDateTimeOffset)),
                                 new ConvertTest<TimeSpan?>(TestDateTime, false, default(TimeSpan?))
                             }
@@ -521,6 +533,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((decimal)42.0, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((decimal)42.0, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>((decimal)42.0, false, default(Guid)),
+                                new ConvertTest<Ulid>((decimal)42.0, false, default(Ulid)),
                                 new ConvertTest<Uri>((decimal)42.0, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((decimal)42.0, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((decimal)42.0, false, default(TimeSpan)),
@@ -545,6 +558,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((decimal)42.0, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((decimal)42.0, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>((decimal)42.0, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((decimal)42.0, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((decimal)42.0, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((decimal)42.0, false, default(TimeSpan?))
                             }
@@ -570,6 +584,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((double)42.0, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((double)42.0, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>((double)42.0, false, default(Guid)),
+                                new ConvertTest<Ulid>((double)42.0, false, default(Ulid)),
                                 new ConvertTest<Uri>((double)42.0, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((double)42.0, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((double)42.0, false, default(TimeSpan)),
@@ -594,6 +609,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((double)42.0, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((double)42.0, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>((double)42.0, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((double)42.0, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((double)42.0, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((double)42.0, false, default(TimeSpan?))
                             }
@@ -619,6 +635,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((float)42.0, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((float)42.0, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>((float)42.0, false, default(Guid)),
+                                new ConvertTest<Ulid>((float)42.0, false, default(Ulid)),
                                 new ConvertTest<Uri>((float)42.0, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((float)42.0, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((float)42.0, false, default(TimeSpan)),
@@ -643,6 +660,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((float)42.0, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((float)42.0, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>((float)42.0, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((float)42.0, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((float)42.0, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((float)42.0, false, default(TimeSpan?))
                             }
@@ -668,6 +686,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((int)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((int)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((int)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((int)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((int)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((int)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((int)42, false, default(TimeSpan)),
@@ -692,6 +711,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((int)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((int)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((int)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((int)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((int)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((int)42, false, default(TimeSpan?))
                             }
@@ -717,6 +737,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((long)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((long)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((long)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((long)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((long)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((long)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((long)42, false, default(TimeSpan)),
@@ -741,6 +762,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((long)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((long)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((long)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((long)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((long)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((long)42, false, default(TimeSpan?))
                             }
@@ -766,6 +788,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((sbyte)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((sbyte)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((sbyte)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((sbyte)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((sbyte)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((sbyte)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((sbyte)42, false, default(TimeSpan)),
@@ -790,6 +813,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((sbyte)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((sbyte)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((sbyte)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((sbyte)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((sbyte)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((sbyte)42, false, default(TimeSpan?))
                             }
@@ -815,6 +839,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((short)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((short)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((short)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((short)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((short)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((short)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((short)42, false, default(TimeSpan)),
@@ -839,6 +864,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((short)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((short)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((short)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((short)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((short)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((short)42, false, default(TimeSpan?))
                             }
@@ -866,6 +892,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<PrimaryColor>(TestBlueOrdinalValue42.ToString(CultureInfo.InvariantCulture), true, (PrimaryColor)TestBlueOrdinalValue42),
                                 new ConvertTest<PrimaryColor>(TestBlueString, true, (PrimaryColor)PrimaryColor.Blue),
                                 new ConvertTest<Guid>(TestGuidString, true, TestGuid),
+                                new ConvertTest<Ulid>(TestUlidString, true, TestUlid),
                                 new ConvertTest<Uri>(TestUriString, true, TestUri),
                                 new ConvertTest<DateTimeOffset>(TestDateTimeOffsetString, true, TestDateTimeOffset),
                                 new ConvertTest<TimeSpan>(TestTimeSpanString, true, TestTimeSpan),
@@ -893,6 +920,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<PrimaryColor?>(TestBlueOrdinalValue42.ToString(CultureInfo.InvariantCulture), true, new PrimaryColor?((PrimaryColor)TestBlueOrdinalValue42)),
                                 new ConvertTest<PrimaryColor?>(TestBlueString, true, new PrimaryColor?(PrimaryColor.Blue)),
                                 new ConvertTest<Guid?>(TestGuidString, true, new Guid?(TestGuid)),
+                                new ConvertTest<Ulid?>(TestUlidString, true, new Ulid?(TestUlid)),
                                 new ConvertTest<DateTimeOffset?>(TestDateTimeOffsetString, true, new DateTimeOffset?(TestDateTimeOffset)),
                                 new ConvertTest<TimeSpan?>(TestTimeSpanString, true, new TimeSpan?(TestTimeSpan))
                             }
@@ -918,6 +946,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((uint)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((uint)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((uint)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((uint)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((uint)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((uint)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((uint)42, false, default(TimeSpan)),
@@ -942,6 +971,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((uint)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((uint)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((uint)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((uint)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((uint)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((uint)42, false, default(TimeSpan?))
                             }
@@ -967,6 +997,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((ulong)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((ulong)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((ulong)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((ulong)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((ulong)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((ulong)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((ulong)42, false, default(TimeSpan)),
@@ -991,6 +1022,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((ulong)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((ulong)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((ulong)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((ulong)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((ulong)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((ulong)42, false, default(TimeSpan?))
                             }
@@ -1016,6 +1048,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>((ushort)42, true, (ushort)42),
                                 new ConvertTest<PrimaryColor>((ushort)42, true, (PrimaryColor)42),
                                 new ConvertTest<Guid>((ushort)42, false, default(Guid)),
+                                new ConvertTest<Ulid>((ushort)42, false, default(Ulid)),
                                 new ConvertTest<Uri>((ushort)42, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>((ushort)42, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>((ushort)42, false, default(TimeSpan)),
@@ -1040,6 +1073,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>((ushort)42, true, new ulong?((ulong)42)),
                                 new ConvertTest<PrimaryColor?>((ushort)42, true, new PrimaryColor?((PrimaryColor)42)),
                                 new ConvertTest<Guid?>((ushort)42, false, default(Guid?)),
+                                new ConvertTest<Ulid?>((ushort)42, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>((ushort)42, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>((ushort)42, false, default(TimeSpan?))
                             }
@@ -1065,6 +1099,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestEnum, true, (ushort)TestEnumOrdinal),
                                 new ConvertTest<PrimaryColor>(TestEnum, true, TestEnum),
                                 new ConvertTest<Guid>(TestEnum, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestEnum, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestEnum, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestEnum, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestEnum, false, default(TimeSpan)),
@@ -1089,6 +1124,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ulong?>(TestEnum, true, new ulong?((ulong)TestEnumOrdinal)),
                                 new ConvertTest<PrimaryColor?>(TestEnum, true, new PrimaryColor?(TestEnum)),
                                 new ConvertTest<Guid?>(TestEnum, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestEnum, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestEnum, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestEnum, false, default(TimeSpan?))
                             }
@@ -1143,6 +1179,56 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<TimeSpan?>(TestGuid, false, default(TimeSpan?))
                             }
                     },
+                  new object[]
+                    {
+                        "WithUlid", new IConvertTest[]
+                            {
+                                new ConvertTest<bool>(TestUlid, false, default(bool)),
+                                new ConvertTest<byte>(TestUlid, false, default(byte)),
+                                new ConvertTest<char>(TestUlid, false, default(char)),
+                                new ConvertTest<DateTime>(TestUlid, false, default(DateTime)),
+                                new ConvertTest<decimal>(TestUlid, false, default(decimal)),
+                                new ConvertTest<double>(TestUlid, false, default(double)),
+                                new ConvertTest<float>(TestUlid, false, default(float)),
+                                new ConvertTest<int>(TestUlid, false, default(int)),
+                                new ConvertTest<long>(TestUlid, false, default(long)),
+                                new ConvertTest<sbyte>(TestUlid, false, default(sbyte)),
+                                new ConvertTest<short>(TestUlid, false, default(short)),
+                                new ConvertTest<string>(TestUlid, true, TestUlidString),
+                                new ConvertTest<uint>(TestUlid, false, default(uint)),
+                                new ConvertTest<ulong>(TestUlid, false, default(ulong)),
+                                new ConvertTest<ushort>(TestUlid, false, default(ushort)),
+                                new ConvertTest<PrimaryColor>(TestUlid, false, default(PrimaryColor)),
+                                new ConvertTest<Ulid>(TestUlid, true, TestUlid),
+                                new ConvertTest<Uri>(TestUlid, false, default(Uri)),
+                                new ConvertTest<DateTimeOffset>(TestUlid, false, default(DateTimeOffset)),
+                                new ConvertTest<TimeSpan>(TestUlid, false, default(TimeSpan)),
+                                new ConvertTest<byte[]>(TestUlid, true, TestUlidByteArray),
+                                new ConvertTest<Type>(TestUlid, false, default(Type)),
+                                new ConvertTest<IInterface>(TestUlid, false, default(IInterface)),
+                                new ConvertTest<BaseClass>(TestUlid, false, default(BaseClass)),
+                                new ConvertTest<DerivedClass>(TestUlid, false, default(DerivedClass)),
+
+                                new ConvertTest<bool?>(TestUlid, false, default(bool?)),
+                                new ConvertTest<byte?>(TestUlid, false, default(byte?)),
+                                new ConvertTest<char?>(TestUlid, false, default(char?)),
+                                new ConvertTest<DateTime?>(TestUlid, false, default(DateTime?)),
+                                new ConvertTest<decimal?>(TestUlid, false, default(decimal?)),
+                                new ConvertTest<double?>(TestUlid, false, default(double?)),
+                                new ConvertTest<float?>(TestUlid, false, default(float?)),
+                                new ConvertTest<int?>(TestUlid, false, default(int?)),
+                                new ConvertTest<long?>(TestUlid, false, default(long?)),
+                                new ConvertTest<sbyte?>(TestUlid, false, default(sbyte?)),
+                                new ConvertTest<short?>(TestUlid, false, default(short?)),
+                                new ConvertTest<uint?>(TestUlid, false, default(uint?)),
+                                new ConvertTest<ulong?>(TestUlid, false, default(ulong?)),
+                                new ConvertTest<ushort?>(TestUlid, false, default(ushort?)),
+                                new ConvertTest<PrimaryColor?>(TestUlid, false, default(PrimaryColor?)),
+                                new ConvertTest<Ulid?>(TestUlid, true, new Ulid?(TestUlid)),
+                                new ConvertTest<DateTimeOffset?>(TestUlid, false, default(DateTimeOffset?)),
+                                new ConvertTest<TimeSpan?>(TestUlid, false, default(TimeSpan?))
+                            }
+                    },
                 new object[]
                     {
                         "WithUri", new IConvertTest[]
@@ -1164,6 +1250,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestUri, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestUri, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestUri, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestUri, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestUri, true, TestUri),
                                 new ConvertTest<DateTimeOffset>(TestUri, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestUri, false, default(TimeSpan)),
@@ -1189,6 +1276,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestUri, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestUri, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestUri, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestUri, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestUri, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestUri, false, default(TimeSpan?))
                             }
@@ -1214,6 +1302,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestDateTimeOffset, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestDateTimeOffset, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestDateTimeOffset, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestDateTimeOffset, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestDateTimeOffset, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestDateTimeOffset, true, TestDateTimeOffset),
                                 new ConvertTest<TimeSpan>(TestDateTimeOffset, false, default(TimeSpan)),
@@ -1239,6 +1328,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestDateTimeOffset, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestDateTimeOffset, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestDateTimeOffset, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestDateTimeOffset, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestDateTimeOffset, true, new DateTimeOffset?(TestDateTimeOffset)),
                                 new ConvertTest<TimeSpan?>(TestDateTimeOffset, false, default(TimeSpan?))
                             }
@@ -1264,6 +1354,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestTimeSpan, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestTimeSpan, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestTimeSpan, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestTimeSpan, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestTimeSpan, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestTimeSpan, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestTimeSpan, true, TestTimeSpan),
@@ -1289,6 +1380,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestTimeSpan, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestTimeSpan, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestTimeSpan, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestTimeSpan, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestTimeSpan, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestTimeSpan, true, new TimeSpan?(TestTimeSpan))
                             }
@@ -1314,6 +1406,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestByteArray, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestByteArray, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestByteArray, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestByteArray, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestByteArray, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestByteArray, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestByteArray, false, default(TimeSpan)),
@@ -1339,6 +1432,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestByteArray, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestByteArray, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestByteArray, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestByteArray, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestByteArray, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestByteArray, false, default(TimeSpan?))
                             }
@@ -1364,6 +1458,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestType, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestType, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestType, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestType, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestType, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestType, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestType, false, default(TimeSpan)),
@@ -1389,6 +1484,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestType, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestType, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestType, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestType, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestType, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestType, false, default(TimeSpan?))
                             }
@@ -1414,6 +1510,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(null, true, default(ushort)),
                                 new ConvertTest<PrimaryColor>(null, true, default(PrimaryColor)),
                                 new ConvertTest<Guid>(null, true, default(Guid)),
+                                new ConvertTest<Ulid>(null, true, default(Ulid)),
                                 new ConvertTest<Uri>(null, true, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(null, true, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(null, true, default(TimeSpan)),
@@ -1439,6 +1536,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(null, true, new ushort?()),
                                 new ConvertTest<PrimaryColor?>(null, true, new PrimaryColor?()),
                                 new ConvertTest<Guid?>(null, true, new Guid?()),
+                                new ConvertTest<Ulid?>(null, true, new Ulid?()),
                                 new ConvertTest<DateTimeOffset?>(null, true, new DateTimeOffset?()),
                                 new ConvertTest<TimeSpan?>(null, true, new TimeSpan?())
                             }
@@ -1464,6 +1562,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestBaseClass, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestBaseClass, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestBaseClass, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestBaseClass, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestBaseClass, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestBaseClass, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestBaseClass, false, default(TimeSpan)),
@@ -1489,6 +1588,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestBaseClass, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestBaseClass, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestBaseClass, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestBaseClass, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestBaseClass, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestBaseClass, false, default(TimeSpan?))
                             }
@@ -1514,6 +1614,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort>(TestDerivedClass, false, default(ushort)),
                                 new ConvertTest<PrimaryColor>(TestDerivedClass, false, default(PrimaryColor)),
                                 new ConvertTest<Guid>(TestDerivedClass, false, default(Guid)),
+                                new ConvertTest<Ulid>(TestDerivedClass, false, default(Ulid)),
                                 new ConvertTest<Uri>(TestDerivedClass, false, default(Uri)),
                                 new ConvertTest<DateTimeOffset>(TestDerivedClass, false, default(DateTimeOffset)),
                                 new ConvertTest<TimeSpan>(TestDerivedClass, false, default(TimeSpan)),
@@ -1539,6 +1640,7 @@ namespace JsonApiFramework.Tests.Reflection
                                 new ConvertTest<ushort?>(TestDerivedClass, false, default(ushort?)),
                                 new ConvertTest<PrimaryColor?>(TestDerivedClass, false, default(PrimaryColor?)),
                                 new ConvertTest<Guid?>(TestDerivedClass, false, default(Guid?)),
+                                new ConvertTest<Ulid?>(TestDerivedClass, false, default(Ulid?)),
                                 new ConvertTest<DateTimeOffset?>(TestDerivedClass, false, default(DateTimeOffset?)),
                                 new ConvertTest<TimeSpan?>(TestDerivedClass, false, default(TimeSpan?))
                             }

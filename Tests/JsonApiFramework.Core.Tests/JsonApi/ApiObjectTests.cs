@@ -66,8 +66,11 @@ namespace JsonApiFramework.Tests.JsonApi
         public const string TestGuidString = "5167e9e1-a15f-41e1-af46-442ffcd37f1b";
         public static readonly Guid TestGuid = new Guid(TestGuidString);
 
-        public const string TestUriString = "https://api.example.com:8002/api/en-us/articles/42";
-        public static readonly Uri TestUri = new Uri(TestUriString);
+        public const string TestUlidString = "01BX5ZZKBKACTAV9WEVGEMMVRE";
+        public static readonly Ulid TestUlid = Ulid.Parse(TestUlidString);
+
+        public const           string TestUriString  = "https://api.example.com:8002/api/en-us/articles/42";
+        public static readonly Uri    TestUri        = new Uri(TestUriString);
 
         public static readonly byte[] TestByteArray = { 42, 24, 48, 84, 12, 21, 68, 86 };
 
@@ -198,6 +201,7 @@ namespace JsonApiFramework.Tests.JsonApi
                 new object[] {"WithEnum", new ApiObject(ApiProperty.Create("Enum", TestEnum))},
                 new object[] {"WithFloat", new ApiObject(ApiProperty.Create("Float", (float)42.3))},
                 new object[] {"WithGuid", new ApiObject(ApiProperty.Create("Guid", TestGuid))},
+                new object[] {"WithUlid", new ApiObject(ApiProperty.Create("Ulid", TestUlid))},
                 new object[] {"WithInt", new ApiObject(ApiProperty.Create("Int", (int)42))},
                 new object[] {"WithLong", new ApiObject(ApiProperty.Create("Long", (long)42))},
                 new object[] {"WithNull", new ApiObject(ApiProperty.Create("Null", default(object)))},
@@ -212,6 +216,7 @@ namespace JsonApiFramework.Tests.JsonApi
                 new object[] {"WithNullableEnum", new ApiObject(ApiProperty.Create("NullableEnum", new Nullable<byte>()))},
                 new object[] {"WithNullableFloat", new ApiObject(ApiProperty.Create("NullableFloat", new Nullable<byte>()))},
                 new object[] {"WithNullableGuid", new ApiObject(ApiProperty.Create("NullableGuid", new Nullable<byte>()))},
+                new object[] {"WithNullableUlid", new ApiObject(ApiProperty.Create("NullableUlid", new Nullable<byte>()))},
                 new object[] {"WithNullableInt", new ApiObject(ApiProperty.Create("NullableInt", new Nullable<byte>()))},
                 new object[] {"WithNullableLong", new ApiObject(ApiProperty.Create("NullableLong", new Nullable<byte>()))},
                 new object[] {"WithNullableSByte", new ApiObject(ApiProperty.Create("NullableSByte", new Nullable<byte>()))},
@@ -297,6 +302,7 @@ namespace JsonApiFramework.Tests.JsonApi
                     ApiProperty.Create("Enum", TestEnum),
                     ApiProperty.Create("Float", (float)42.3),
                     ApiProperty.Create("Guid", TestGuid),
+                    ApiProperty.Create("Ulid", TestUlid),
                     ApiProperty.Create("Int", (int)42),
                     ApiProperty.Create("Long", (long)42),
                     ApiProperty.Create("Null", default(object)),
@@ -311,6 +317,7 @@ namespace JsonApiFramework.Tests.JsonApi
                     ApiProperty.Create("NullableEnum", new Nullable<byte>()),
                     ApiProperty.Create("NullableFloat", new Nullable<byte>()),
                     ApiProperty.Create("NullableGuid", new Nullable<byte>()),
+                    ApiProperty.Create("NullableUlid", new Nullable<byte>()),
                     ApiProperty.Create("NullableInt", new Nullable<byte>()),
                     ApiProperty.Create("NullableLong", new Nullable<byte>()),
                     ApiProperty.Create("NullableSByte", new Nullable<byte>()),

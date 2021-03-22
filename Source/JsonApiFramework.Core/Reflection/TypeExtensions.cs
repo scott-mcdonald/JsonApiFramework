@@ -665,7 +665,8 @@ namespace JsonApiFramework.Reflection
                 typeof(DateTime),
                 typeof(DateTimeOffset),
                 typeof(TimeSpan),
-                typeof(Guid)
+                typeof(Guid),
+                typeof(Ulid)
             };
         #endregion
     }

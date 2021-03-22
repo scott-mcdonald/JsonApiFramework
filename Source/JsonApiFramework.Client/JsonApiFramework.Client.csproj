@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard1.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>JsonApiFramework.Client</PackageId>
         <Version>2.5.0</Version>
         <Authors>Scott McDonald</Authors>

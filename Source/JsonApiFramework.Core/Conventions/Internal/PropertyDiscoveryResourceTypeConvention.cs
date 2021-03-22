@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 
 using JsonApiFramework.JsonApi;
-using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel.Configuration;
 
 namespace JsonApiFramework.Conventions.Internal

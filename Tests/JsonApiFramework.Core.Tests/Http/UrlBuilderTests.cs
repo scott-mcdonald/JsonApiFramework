@@ -389,8 +389,12 @@ namespace JsonApiFramework.Tests.Http
         public static readonly Guid TestGuid = new Guid(TestGuidString);
         public static readonly byte[] TestGuidByteArray = TestGuid.ToByteArray();
 
-        public static readonly byte[] TestByteArray = { 42, 24, 48, 84, 12, 21, 68, 86 };
-        public const string TestByteArrayString = "KhgwVAwVRFY=";
+        public const           string TestUlidString      = "01BX5ZZKBKACTAV9WEVGEMMVRE";
+        public static readonly Ulid   TestUlid            = Ulid.Parse(TestUlidString);
+        public static readonly byte[] TestUlidByteArray   = TestUlid.ToByteArray();
+
+        public static readonly byte[] TestByteArray       = { 42, 24, 48, 84, 12, 21, 68, 86 };
+        public const           string TestByteArrayString = "KhgwVAwVRFY=";
 
         public const int TestRedOrdinalValue0 = 0;
         public const int TestGreenOrdinalValue24 = 24;
@@ -428,6 +432,7 @@ namespace JsonApiFramework.Tests.Http
                 new object[] {"WithEnumObjectPath", TestConfiguration, TestEnum, true, "https://api.example.com" + "/" + TestEnumString},
                 new object[] {"WithFloatObjectPath", TestConfiguration, (float)42.1, true, "https://api.example.com/42.1"},
                 new object[] {"WithGuidObjectPath", TestConfiguration, TestGuid, true, "https://api.example.com" + "/" + TestGuidString},
+                new object[] {"WithUlidObjectPath", TestConfiguration, TestUlid, true, "https://api.example.com" + "/" + TestUlidString},
                 new object[] {"WithIntObjectPath", TestConfiguration, (int)42, true, "https://api.example.com/42"},
                 new object[] {"WithLongObjectPath", TestConfiguration, (long)42, true, "https://api.example.com/42"},
                 new object[] {"WithSByteObjectPath", TestConfiguration, (sbyte)42, true, "https://api.example.com/42"},

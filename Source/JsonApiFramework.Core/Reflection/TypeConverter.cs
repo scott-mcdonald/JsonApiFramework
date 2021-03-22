@@ -188,6 +188,12 @@ namespace JsonApiFramework.Reflection
                 return true;
             }
 
+            if (targetType == typeof(Ulid))
+            {
+                targetValue = Ulid.Parse(sourceValueAsString);
+                return true;
+            }
+
             if (targetType == typeof(Uri))
             {
                 targetValue = new Uri(sourceValueAsString, UriKind.RelativeOrAbsolute);
@@ -235,6 +241,12 @@ namespace JsonApiFramework.Reflection
                 return true;
             }
 
+            if (sourceValue is Ulid && targetType == typeof(string))
+            {
+                targetValue = ((Ulid)sourceValue).ToString();
+                return true;
+            }
+            
             if (sourceValue is Uri && targetType == typeof(string))
             {
                 targetValue = (sourceValue).ToString();
@@ -287,6 +299,25 @@ namespace JsonApiFramework.Reflection
             if (sourceValue is Guid && targetType == typeof(byte[]))
             {
                 targetValue = ((Guid)sourceValue).ToByteArray();
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool HandleSpecialCaseTypesOfByteArrayAndUlid(object sourceValue, Type targetType, ref object targetValue)
+        {
+            // Handle special case byte[] => Ulid
+            if (sourceValue is byte[] && targetType == typeof(Ulid))
+            {
+                targetValue = new Ulid((byte[])sourceValue);
+                return true;
+            }
+
+            // Handle special case Ulid => byte []
+            if (sourceValue is Ulid && targetType == typeof(byte[]))
+            {
+                targetValue = ((Ulid)sourceValue).ToByteArray();
                 return true;
             }
 
@@ -446,11 +477,11 @@ namespace JsonApiFramework.Reflection
                 return ConvertResult.Success;
             }
 
-            // Handle special case string => Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type
+            // Handle special case string => Guid, Ulid, Uri, DateTimeOffset, TimeSpan, byte[], Type
             if (HandleStringToSpecialCaseTypes(sourceValue, targetType, targetFormatProvider, ref targetValue))
                 return ConvertResult.Success;
 
-            // Handle special case Guid, Uri, DateTimeOffset, TimeSpan, byte[], Type => string
+            // Handle special case Guid, Ulid, Uri, DateTimeOffset, TimeSpan, byte[], Type => string
             if (HandleSpecialCaseTypesToString(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
@@ -460,6 +491,10 @@ namespace JsonApiFramework.Reflection
 
             // Handle special case byte[] => Guid or Guid => byte[]
             if (HandleSpecialCaseTypesOfByteArrayAndGuid(sourceValue, targetType, ref targetValue))
+                return ConvertResult.Success;
+
+            // Handle special case byte[] => Ulid or Ulid => byte[]
+            if (HandleSpecialCaseTypesOfByteArrayAndUlid(sourceValue, targetType, ref targetValue))
                 return ConvertResult.Success;
 
             // Handle special case some derived Type => Type

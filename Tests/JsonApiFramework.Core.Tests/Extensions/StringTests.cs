@@ -30,7 +30,7 @@ namespace JsonApiFramework.Tests.Extensions
             // Arrange
 
             // Act
-            var actual = str.Contains(value, stringComparison);
+            var actual = StringExtensions.Contains(str, value, stringComparison);
 
             // Assert
             Assert.Equal(expected, actual);

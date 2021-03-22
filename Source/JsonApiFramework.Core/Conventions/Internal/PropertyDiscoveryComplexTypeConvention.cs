@@ -6,7 +6,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
-using JsonApiFramework.Reflection;
 using JsonApiFramework.ServiceModel.Configuration;
 
 namespace JsonApiFramework.Conventions.Internal

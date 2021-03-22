@@ -10,6 +10,8 @@ using System.Reflection;
 
 using JsonApiFramework.Reflection;
 
+using BindingFlags = JsonApiFramework.Reflection.BindingFlags;
+
 namespace JsonApiFramework.Expressions
 {
     /// <summary>
@@ -66,8 +68,8 @@ namespace JsonApiFramework.Expressions
         {
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
-            var objectType = typeof(TObject);
-            var methodInfo = objectType.GetMethod(methodName);
+            var objectType       = typeof(TObject);
+            var methodInfo       = TypeExtensions.GetMethod(objectType, methodName);
             var lambdaExpression = (Expression<Func<TObject, TResult>>)Call(objectType, methodInfo);
             return lambdaExpression;
         }
@@ -100,7 +102,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
             var objectType = typeof(TObject);
-            var methodInfo = objectType.GetMethod(methodName);
+            var methodInfo = TypeExtensions.GetMethod(objectType, methodName);
             var lambdaExpression = (Expression<Action<TObject>>)Call(objectType, methodInfo);
             return lambdaExpression;
         }
@@ -133,7 +135,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
             var classType = typeof(TClass);
-            var methodInfo = classType.GetMethod(methodName);
+            var methodInfo = TypeExtensions.GetMethod(classType, methodName);
             var lambdaExpression = (Expression<Func<TResult>>)Call(classType, methodInfo);
             return lambdaExpression;
         }
@@ -166,7 +168,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(String.IsNullOrWhiteSpace(methodName) == false);
 
             var classType = typeof(TClass);
-            var methodInfo = classType.GetMethod(methodName);
+            var methodInfo = TypeExtensions.GetMethod(classType, methodName);
             var lambdaExpression = (Expression<Action>)Call(classType, methodInfo);
             return lambdaExpression;
         }
@@ -462,7 +464,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(classType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
-            var propertyInfo = classType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+            var propertyInfo = TypeExtensions.GetProperty(classType, propertyName, BindingFlags.Public | BindingFlags.Static);
             var lambdaExpression = ExpressionBuilder.StaticPropertyGetter(propertyInfo);
             return lambdaExpression;
         }
@@ -472,7 +474,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
             var classType = typeof(TClass);
-            var propertyInfo = classType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+            var propertyInfo = TypeExtensions.GetProperty(classType, propertyName, BindingFlags.Public | BindingFlags.Static);
             var lambdaExpression = (Expression<Func<TProperty>>)ExpressionBuilder.StaticPropertyGetter(propertyInfo);
             return lambdaExpression;
         }
@@ -499,7 +501,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(classType != null);
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
-            var propertyInfo = classType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+            var propertyInfo = TypeExtensions.GetProperty(classType, propertyName, BindingFlags.Public | BindingFlags.Static);
             var lambdaExpression = ExpressionBuilder.StaticPropertySetter(propertyInfo);
             return lambdaExpression;
         }
@@ -509,7 +511,7 @@ namespace JsonApiFramework.Expressions
             Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
             var classType = typeof(TClass);
-            var propertyInfo = classType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+            var propertyInfo = TypeExtensions.GetProperty(classType, propertyName, BindingFlags.Public | BindingFlags.Static);
             var lambdaExpression = (Expression<Action<TProperty>>)StaticPropertySetter(propertyInfo);
             return lambdaExpression;
         }

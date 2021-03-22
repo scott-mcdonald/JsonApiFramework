@@ -67,20 +67,23 @@ namespace JsonApiFramework.ServiceModel
                 }
 
                 // Handle attribute complex type with JSON.NET and IContractResolver.
-                JToken clrAttributeAsJToken;
-                if (!TypeConverter.TryConvert(clrAttribute, out clrAttributeAsJToken))
+                if (clrAttribute != null)
                 {
-                    clrAttributeAsJToken = JToken.FromObject(clrAttribute);
-                }
+                    if (!TypeConverter.TryConvert(clrAttribute, out JToken clrAttributeAsJToken))
+                    {
+                        clrAttributeAsJToken = JToken.FromObject(clrAttribute);
+                    }
 
-                var clrAttributeClrType = attributeInfo.ClrPropertyType;
-                var complexTypesContractResolver = serviceModel.CreateComplexTypesContractResolver();
-                var jsonSerializerSettings = new JsonSerializerSettings
+                    var clrAttributeClrType          = attributeInfo.ClrPropertyType;
+                    var complexTypesContractResolver = serviceModel.CreateComplexTypesContractResolver();
+                    var jsonSerializerSettings = new JsonSerializerSettings
                     {
                         ContractResolver = complexTypesContractResolver
                     };
-                var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
-                clrAttribute = clrAttributeAsJToken.ToObject(clrAttributeClrType, jsonSerializer);
+                    var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
+                    clrAttribute = clrAttributeAsJToken.ToObject(clrAttributeClrType, jsonSerializer);
+                }
+
                 attributeInfo.SetClrProperty(clrResource, clrAttribute);
             }
         }

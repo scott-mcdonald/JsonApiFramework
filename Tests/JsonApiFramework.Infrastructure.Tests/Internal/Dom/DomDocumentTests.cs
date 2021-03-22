@@ -13,6 +13,7 @@ using JsonApiFramework.TestAsserts.Internal.Dom;
 using JsonApiFramework.TestAsserts.JsonApi;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
+using JsonApiFramework.TestData.ClrResources.ComplexTypes;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -25,7 +26,8 @@ namespace JsonApiFramework.Tests.Internal.Dom
         #region Constructors
         public DomDocumentTests(ITestOutputHelper output)
             : base(output)
-        { }
+        {
+        }
         #endregion
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
@@ -70,6 +72,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
                     expectedApiResources.AddRange(apiResourceCollection);
                 }
             }
+
             if (!apiDocument.IsIncludedNullOrEmpty())
             {
                 var apiIncludedResources = apiDocument.GetIncludedResources();
@@ -92,6 +95,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
             {
                 this.Output.WriteLine(expectedApiResource.ToString());
             }
+
             this.OutputEmptyLine();
             this.Output.WriteLine("Actual Resources");
             foreach (var actualApiResource in actualApiResources)
@@ -141,6 +145,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
             {
                 this.Output.WriteLine(expectedApiResourceIdentifier.ToString());
             }
+
             this.OutputEmptyLine();
             this.Output.WriteLine("Actual Resource Identifiers");
             foreach (var actualApiResourceIdentifier in actualApiResourceIdentifiers)
@@ -206,6 +211,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
             {
                 this.Output.WriteLine(expectedResourceIdentity.ToString());
             }
+
             this.OutputEmptyLine();
             this.Output.WriteLine("Actual Resource Identities");
             foreach (var actualResourceIdentity in actualResourceIdentities)
@@ -215,17 +221,17 @@ namespace JsonApiFramework.Tests.Internal.Dom
 
             // Assert
             var expectedCount = expectedResourceIdentities.Count;
-            var actualCount = actualResourceIdentities.Count;
+            var actualCount   = actualResourceIdentities.Count;
             Assert.Equal(expectedCount, actualCount);
 
             var count = expectedCount;
             for (var i = 0; i < count; ++i)
             {
                 var expectedResourceIdentity = expectedResourceIdentities[i];
-                var actualResourceIdentity = actualResourceIdentities[i];
+                var actualResourceIdentity   = actualResourceIdentities[i];
 
                 Assert.Equal(expectedResourceIdentity.ApiResourceType, actualResourceIdentity.ApiResourceType);
-                Assert.Equal(expectedResourceIdentity.ApiResourceId, actualResourceIdentity.ApiResourceId);
+                Assert.Equal(expectedResourceIdentity.ApiResourceId,   actualResourceIdentity.ApiResourceId);
             }
         }
         #endregion
@@ -233,253 +239,323 @@ namespace JsonApiFramework.Tests.Internal.Dom
         // PUBLIC FIELDS ////////////////////////////////////////////////////
         #region Test Data
         public static readonly IEnumerable<object[]> DomDocumentTestData = new[]
+        {
+            new object[] {"DocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, Document.Empty},
+            new object[]
             {
-                new object[] {"DocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, Document.Empty},
-                new object[]
+                "DocumentWithMeta", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
+                {
+                    Meta = ApiSampleData.DocumentMeta
+                }
+            },
+            new object[]
+            {
+                "DocumentWithMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
+                {
+                    Meta = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "DocumentWithMeta", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
-                            {
-                                Meta = ApiSampleData.DocumentMeta
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleLink}
                     },
-                new object[]
+                }
+            },
+            new object[]
+            {
+                "DocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "DocumentWithMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
-                            {
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleLink}
                     },
-                new object[]
-                    {
-                        "DocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new Document
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                            }
-                    },
+                }
+            },
 
-                new object[] {"EmptyDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, EmptyDocument.Empty},
-                new object[]
+            new object[] {"EmptyDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, EmptyDocument.Empty},
+            new object[]
+            {
+                "EmptyDocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new EmptyDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "EmptyDocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new EmptyDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                     },
+                }
+            },
 
-                new object[] {"ErrorsDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ErrorsDocument.Empty},
-                new object[]
+            new object[] {"ErrorsDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ErrorsDocument.Empty},
+            new object[]
+            {
+                "ErrorsDocumentWithErrors", ClrSampleData.ServiceModelWithBlogResourceTypes, new ErrorsDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ErrorsDocumentWithErrors", ClrSampleData.ServiceModelWithBlogResourceTypes, new ErrorsDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Errors = new List<Error>
-                                    {
-                                        ApiSampleData.Error1,
-                                        ApiSampleData.Error2
-                                    }
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleLink}
                     },
+                    Errors = new List<Error>
+                    {
+                        ApiSampleData.Error1,
+                        ApiSampleData.Error2
+                    }
+                }
+            },
 
-                new object[] {"NullDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, NullDocument.Empty},
-                new object[]
+            new object[] {"NullDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, NullDocument.Empty},
+            new object[]
+            {
+                "NullDocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new NullDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "NullDocumentWithJsonApiAndMetaAndLinks", ClrSampleData.ServiceModelWithBlogResourceTypes, new NullDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
-                                    }
-                            }
-                    },
+                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
+                    }
+                }
+            },
 
-                new object[] {"ResourceDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceDocument.Empty},
-                new object[]
+            new object[] {"ResourceDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceDocument.Empty},
+            new object[]
+            {
+                "ResourceDocumentWithNullResource", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceDocumentWithNullResource", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
-                                    },
-                                Data = null
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleToAuthorLink}
                     },
-                new object[]
+                    Data = null
+                }
+            },
+            new object[]
+            {
+                "ResourceDocumentWithResource", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceDocumentWithResource", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Data = ApiSampleData.ArticleResource
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleLink}
                     },
-                new object[]
+                    Data = ApiSampleData.ArticleResource
+                }
+            },
+            new object[]
+            {
+                "ResourceDocumentWithComplexResource", ClrSampleData.ServiceModelWithDrawingResourceTypes,
+                new ResourceDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersion,
+                    Links = new Links
                     {
-                        "ResourceDocumentWithResourceAndIncludedResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleLink}
-                                    },
-                                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
-                                Included = new List<Resource>
-                                    {
-                                        ApiSampleData.PersonResource,
-                                        ApiSampleData.CommentResource1,
-                                        ApiSampleData.CommentResource2
-                                    }
-                            }
+                        {Keywords.Self, "http://api.example.com/drawings/1"}
                     },
+                    Data = new Resource
+                    {
+                        Type = ClrSampleData.DrawingType,
+                        Id   = "1",
+                        Attributes = new ApiObject(
+                            ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                            ApiProperty.Create("lines", typeof(List<Line>), null),
+                            ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                                                         .Select(x =>
+                                                                         {
+                                                                             var points = ApiProperty.Create("points",
+                                                                                                             x.Points.Select(y =>
+                                                                                                              {
+                                                                                                                  var pointCustomData = ApiProperty.Create("customData",
+                                                                                                                                                           y.CustomData != null
+                                                                                                                                                               ? new ApiObject(ApiProperty.Create("collection",
+                                                                                                                                                                   y.CustomData.Collection.EmptyIfNull()
+                                                                                                                                                                    .Select(z =>
+                                                                                                                                                                    {
+                                                                                                                                                                        var apiObject3 = new ApiObject(
+                                                                                                                                                                            ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                                                                                                        return apiObject3;
+                                                                                                                                                                    })
+                                                                                                                                                                    .ToArray()))
+                                                                                                                                                               : null);
+                                                                                                                  var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                                                                  return apiObject2;
+                                                                                                              })
+                                                                                                              .ToArray());
+                                                                             var customData = ApiProperty.Create("customData",
+                                                                                                                 x.CustomData != null
+                                                                                                                     ? new ApiObject(ApiProperty.Create("collection",
+                                                                                                                                                        x.CustomData.Collection.EmptyIfNull()
+                                                                                                                                                         .Select(y =>
+                                                                                                                                                         {
+                                                                                                                                                             var apiObject2 = new ApiObject(
+                                                                                                                                                                 ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                                                                                                             return apiObject2;
+                                                                                                                                                         })
+                                                                                                                                                         .ToArray()))
+                                                                                                                     : null);
+                                                                             return new ApiObject(points, customData);
+                                                                         })
+                                                                         .ToArray()),
+                            ApiProperty.Create("customData", SampleDrawings.Drawing.CustomData != null
+                                                   ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                                                                                  {
+                                                                                                                      var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                                                                                      return apiObject;
+                                                                                                                  })
+                                                                                                                  .ToArray()))
+                                                   : null)
+                        ),
+                        Links = new Links
+                        {
+                            {Keywords.Self, "http://api.example.com/drawings/1"},
+                        },
+                    }
+                }
+            },
+            new object[]
+            {
+                "ResourceDocumentWithResourceAndIncludedResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
+                    {
+                        {Keywords.Self, ApiSampleData.ArticleLink}
+                    },
+                    Data = ApiSampleData.ArticleResourceWithResourceLinkage,
+                    Included = new List<Resource>
+                    {
+                        ApiSampleData.PersonResource,
+                        ApiSampleData.CommentResource1,
+                        ApiSampleData.CommentResource2
+                    }
+                }
+            },
 
-                new object[] {"ResourceIdentifierDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceIdentifierDocument.Empty},
-                new object[]
+            new object[] {"ResourceIdentifierDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceIdentifierDocument.Empty},
+            new object[]
+            {
+                "ResourceIdentifierDocumentWithNullResourceIdentifier", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceIdentifierDocumentWithNullResourceIdentifier", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = null
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
                     },
-                new object[]
+                    Data = null
+                }
+            },
+            new object[]
+            {
+                "ResourceIdentifierDocumentWithResourceIdentifier", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceIdentifierDocumentWithResourceIdentifier", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
-                                    },
-                                Data = ApiSampleData.PersonResourceIdentifier
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToAuthorLink}
                     },
+                    Data = ApiSampleData.PersonResourceIdentifier
+                }
+            },
 
-                new object[] {"ResourceCollectionDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceCollectionDocument.Empty},
-                new object[]
+            new object[] {"ResourceCollectionDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceCollectionDocument.Empty},
+            new object[]
+            {
+                "ResourceCollectionDocumentWithEmptyResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceCollectionDocumentWithEmptyResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Data = Enumerable.Empty<Resource>()
-                                                 .ToList()
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                     },
-                new object[]
+                    Data = Enumerable.Empty<Resource>()
+                                     .ToList()
+                }
+            },
+            new object[]
+            {
+                "ResourceCollectionDocumentWithResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceCollectionDocumentWithResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Data = new List<Resource>
-                                    {
-                                        ApiSampleData.ArticleResource1,
-                                        ApiSampleData.ArticleResource2
-                                    }
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                     },
-                new object[]
+                    Data = new List<Resource>
                     {
-                        "ResourceCollectionDocumentWithResourcesAndIncludedResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
-                                    },
-                                Data = new List<Resource>
-                                    {
-                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
-                                        ApiSampleData.ArticleResourceWithResourceLinkage2
-                                    },
-                                Included = new List<Resource>
-                                    {
-                                        ApiSampleData.PersonResource1,
-                                        ApiSampleData.PersonResource2,
-                                        ApiSampleData.CommentResource1,
-                                        ApiSampleData.CommentResource2,
-                                        ApiSampleData.CommentResource3,
-                                        ApiSampleData.CommentResource4
-                                    }
-                            }
+                        ApiSampleData.ArticleResource1,
+                        ApiSampleData.ArticleResource2
+                    }
+                }
+            },
+            new object[]
+            {
+                "ResourceCollectionDocumentWithResourcesAndIncludedResources", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceCollectionDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
+                    {
+                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                     },
+                    Data = new List<Resource>
+                    {
+                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                        ApiSampleData.ArticleResourceWithResourceLinkage2
+                    },
+                    Included = new List<Resource>
+                    {
+                        ApiSampleData.PersonResource1,
+                        ApiSampleData.PersonResource2,
+                        ApiSampleData.CommentResource1,
+                        ApiSampleData.CommentResource2,
+                        ApiSampleData.CommentResource3,
+                        ApiSampleData.CommentResource4
+                    }
+                }
+            },
 
-                new object[] {"ResourceIdentifierCollectionDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceIdentifierCollectionDocument.Empty},
-                new object[]
+            new object[] {"ResourceIdentifierCollectionDocumentWithEmptyObject", ClrSampleData.ServiceModelWithBlogResourceTypes, ResourceIdentifierCollectionDocument.Empty},
+            new object[]
+            {
+                "ResourceIdentifierCollectionDocumentWithEmptyResourceIdentifiers", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierCollectionDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceIdentifierCollectionDocumentWithEmptyResourceIdentifiers", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = Enumerable.Empty<ResourceIdentifier>()
-                                                 .ToList()
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
                     },
-                new object[]
+                    Data = Enumerable.Empty<ResourceIdentifier>()
+                                     .ToList()
+                }
+            },
+            new object[]
+            {
+                "ResourceIdentifierCollectionDocumentWithResourceIdentifiers", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierCollectionDocument
+                {
+                    JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
+                    Meta           = ApiSampleData.DocumentMeta,
+                    Links = new Links
                     {
-                        "ResourceIdentifierCollectionDocumentWithResourceIdentifiers", ClrSampleData.ServiceModelWithBlogResourceTypes, new ResourceIdentifierCollectionDocument
-                            {
-                                JsonApiVersion = ApiSampleData.JsonApiVersionAndMeta,
-                                Meta = ApiSampleData.DocumentMeta,
-                                Links = new Links
-                                    {
-                                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
-                                    },
-                                Data = new List<ResourceIdentifier>
-                                    {
-                                        ApiSampleData.CommentResourceIdentifier1,
-                                        ApiSampleData.CommentResourceIdentifier2
-                                    }
-                            }
+                        {Keywords.Self, ApiSampleData.ArticleToRelationshipsToCommentsLink}
                     },
-            };
+                    Data = new List<ResourceIdentifier>
+                    {
+                        ApiSampleData.CommentResourceIdentifier1,
+                        ApiSampleData.CommentResourceIdentifier2
+                    }
+                }
+            },
+        };
         #endregion
 
         #region Test Types
@@ -490,7 +566,7 @@ namespace JsonApiFramework.Tests.Internal.Dom
                 Contract.Requires(domResourceIdentity != null);
 
                 this.ApiResourceType = domResourceIdentity.ApiResourceType;
-                this.ApiResourceId = domResourceIdentity.ApiResourceId;
+                this.ApiResourceId   = domResourceIdentity.ApiResourceId;
             }
 
             public ResourceIdentity(IGetResourceIdentity getResourceIdentity)
@@ -498,16 +574,16 @@ namespace JsonApiFramework.Tests.Internal.Dom
                 Contract.Requires(getResourceIdentity != null);
 
                 this.ApiResourceType = getResourceIdentity.Type;
-                this.ApiResourceId = getResourceIdentity.Id;
+                this.ApiResourceId   = getResourceIdentity.Id;
             }
 
             public string ApiResourceType { get; private set; }
-            public string ApiResourceId { get; private set; }
+            public string ApiResourceId   { get; private set; }
 
             public override string ToString()
             {
                 var type = this.ApiResourceType ?? CoreStrings.NullText;
-                var id = this.ApiResourceId ?? CoreStrings.NullText;
+                var id   = this.ApiResourceId ?? CoreStrings.NullText;
                 return String.Format("{0} [type={1} id={2}]", typeof(ResourceIdentity).Name, type, id);
             }
         }

@@ -44,7 +44,7 @@
     - Internally uses a specialized DOM (**D**ocument **O**bject **M**odel) tree representing the JSON API document in memory
     - Internally uses *compiled* .NET expressions for **fast conversion** between JSON API and .NET CLR resources
 
-Extreme high code quality with **2,800+ unit tests**. Production ready.
+Extreme high code quality with **2,200+ unit tests**. Production ready.
 
 **For further details, please check out the [Wiki](https://github.com/scott-mcdonald/JsonApiFramework/wiki) and [.NET Core Samples](https://github.com/scott-mcdonald/JsonApiFramework.Samples)**
 
@@ -845,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 2.5.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.6.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -855,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 2.5.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.6.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -867,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 2.5.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.6.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -891,18 +891,18 @@ To install the JsonApiFramework [Core] NuGet package, run the following command 
 
 ## Development setup
 
-JsonApiFramework is a **C#/.NET core framework** developed and built with **Visual Studio** 2017.
+JsonApiFramework is a **C#/.NET standard library** developed and built with **Visual Studio** 2019.
 
 ### Prerequisites
 
-The only thing needed is **Visual Studio** 2017 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
+The only thing needed is **Visual Studio** 2019 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
 - [JSON.NET](http://www.newtonsoft.com/json) 10.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
 - [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.2 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
 
 ### Running the tests
 
-JsonApiFramework has over **2,800+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
+JsonApiFramework has over **2,200+ unit tests** and growing. This ensures extreme high code quality and allows for new development with a safety net that any new development has not broken any of the existing code base.
 
 JsonApiFramework unit tests were developed with the excellent [xUnit](http://xunit.github.io) 2.0 unit testing framework. In order to run the unit tests, you will need a xUnit test runner so please see the [xUnit Documentation](http://xunit.github.io/#documentation) page to setup an appropriate test runner for your development machine.
 
@@ -924,6 +924,9 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.6.0
+    * #81 Fixed null reference exception when parsing a document with a null complex type attribute.
+    * #80 Add ULID support as a primitive type.
 * v2.5.0
     * #79 Support data driven approach on how to handle custom built null document or resource links for HATEOAS purposes.
 * v2.4.0

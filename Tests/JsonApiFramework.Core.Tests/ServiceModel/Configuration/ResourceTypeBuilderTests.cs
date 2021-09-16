@@ -220,6 +220,8 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
 
             public bool IsSingleton() { return false; }
 
+            public void SetApiIdConverter(Func<object, string> apiIdConverter) { }
+
             public void SetApiType(string apiType) { this.ApiType = apiType; }
 
             public void SetClrId(object clrResource, object clrId) { }

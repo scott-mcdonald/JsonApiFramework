@@ -63,8 +63,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
         // PUBLIC PROPERTIES ////////////////////////////////////////////////
         #region IResourceIdentityInfo Implementation
-        [JsonProperty] public string        ApiType { get; internal set; }
-        [JsonProperty] public IPropertyInfo Id      { get; internal set; }
+        [JsonProperty] public string ApiType { get; internal set; }
+
+        [JsonProperty] public IPropertyInfo Id { get; internal set; }
         #endregion
 
         #region IExtensibleObject<T> Implementation
@@ -80,8 +81,9 @@ namespace JsonApiFramework.ServiceModel.Internal
 
             var clrId = this.Id.GetClrProperty(clrResource);
             var apiId = this.IsClrIdNull(clrId) == false
-                ? TypeConverter.Convert<string>(clrId)
+                ? this.ApiIdConverterImpl(clrId)
                 : null;
+
             return apiId;
         }
 
@@ -120,12 +122,19 @@ namespace JsonApiFramework.ServiceModel.Internal
                 return clrId == null;
             }
 
-            return Object.Equals(this.ClrIdDefaultValue, clrId);
+            return Equals(this.ClrIdDefaultValue, clrId);
         }
 
         public bool IsSingleton()
         {
             return this.Id == null;
+        }
+
+        public void SetApiIdConverter(Func<object, string> apiIdConverter)
+        {
+            Contract.Requires(apiIdConverter != null);
+
+            this.ApiIdConverter = apiIdConverter;
         }
 
         public void SetApiType(string apiType)
@@ -152,7 +161,7 @@ namespace JsonApiFramework.ServiceModel.Internal
                 return null;
 
             var convertedApiId = this.IsClrIdNull(clrId) == false
-                ? TypeConverter.Convert<string>(clrId)
+                ? this.ApiIdConverterImpl(clrId)
                 : null;
             return convertedApiId;
         }
@@ -211,7 +220,7 @@ namespace JsonApiFramework.ServiceModel.Internal
         {
             var resourceTypeDescription = "{0} [clrType={1}]".FormatWith(typeof(ResourceType), this.Id.ClrDeclaringType.Name);
 
-            var idPropertyInfoDescription = "Id{0}".FormatWith(typeof(PropertyInfo).Name);
+            var idPropertyInfoDescription = "Id{0}".FormatWith(nameof(PropertyInfo));
 
             var detail = CoreErrorStrings.ServiceModelExceptionDetailMissingMetadata
                                          .FormatWith(resourceTypeDescription, idPropertyInfoDescription);
@@ -233,6 +242,12 @@ namespace JsonApiFramework.ServiceModel.Internal
         // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private ExtensionDictionary<IResourceIdentityInfo> ExtensionDictionary { get; }
+
+        private Func<object, string> ApiIdConverter { get; set; }
+        #endregion
+
+        #region Computed Properties
+        private Func<object, string> ApiIdConverterImpl => this.ApiIdConverter ?? (x => TypeConverter.Convert<string>(x));
         #endregion
     }
 }

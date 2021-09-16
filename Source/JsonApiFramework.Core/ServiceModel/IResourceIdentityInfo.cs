@@ -20,11 +20,13 @@ namespace JsonApiFramework.ServiceModel
 
         object GetClrId(object clrResource);
         string GetClrIdPropertyName();
-        Type GetClrIdPropertyType();
+        Type   GetClrIdPropertyType();
 
         bool IsClrIdNull(object clrId);
 
         bool IsSingleton();
+
+        void SetApiIdConverter(Func<object, string> apiIdConverter);
 
         void SetApiType(string apiType);
 

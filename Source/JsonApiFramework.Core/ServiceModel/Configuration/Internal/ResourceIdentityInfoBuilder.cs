@@ -45,6 +45,13 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
 
         // PUBLIC METHODS ///////////////////////////////////////////////////
         #region IResourceIdentityInfoBuilder Implementation
+        public IResourceIdentityInfoBuilder SetApiIdConverter(Func<object, string> apiIdConverter)
+        {
+            this.ResourceIdentityInfoModifierCollection = this.ResourceIdentityInfoModifierCollection ?? new List<Action<IResourceIdentityInfo>>();
+            this.ResourceIdentityInfoModifierCollection.Add(x => { x.SetApiIdConverter(apiIdConverter); });
+            return this;
+        }
+
         public IResourceIdentityInfoBuilder SetApiType(string apiType)
         {
             this.ResourceIdentityInfoModifierCollection = this.ResourceIdentityInfoModifierCollection ?? new List<Action<IResourceIdentityInfo>>();
@@ -84,24 +91,6 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             Contract.Requires(clrDeclaringType != null);
 
             return CreateResourceIdentityInfoFactory(clrDeclaringType, () => new ResourceIdentityInfo());
-
-            //IResourceIdentityInfo IdentityInfoFactory(IConventions conventions)
-            //{
-            //    var apiType = clrDeclaringType.Name;
-            //    if (conventions?.ApiTypeNamingConventions != null)
-            //    {
-            //        apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
-            //    }
-
-            //    var resourceIdentityInfo = new ResourceIdentityInfo
-            //    {
-            //        // ResourceIdentityInfo Properties
-            //        ApiType = apiType
-            //    };
-            //    return resourceIdentityInfo;
-            //}
-
-            //return IdentityInfoFactory;
         }
 
         private static Func<IConventions, IResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType, string clrPropertyName, Type clrPropertyType)
@@ -111,25 +100,6 @@ namespace JsonApiFramework.ServiceModel.Configuration.Internal
             Contract.Requires(clrPropertyType != null);
 
             return CreateResourceIdentityInfoFactory(clrDeclaringType, clrPropertyName, clrPropertyType, (x, y) => new ResourceIdentityInfo(clrDeclaringType, x, y));
-
-            //IResourceIdentityInfo IdentityInfoFactory(IConventions conventions)
-            //{
-            //    var apiType = clrDeclaringType.Name;
-            //    if (conventions?.ApiTypeNamingConventions != null)
-            //    {
-            //        apiType = conventions.ApiTypeNamingConventions.Aggregate(apiType, (current, namingConvention) => namingConvention.Apply(current));
-            //    }
-
-            //    var resourceIdentityInfo = new ResourceIdentityInfo
-            //    {
-            //        // ResourceIdentityInfo Properties
-            //        ApiType = apiType,
-            //        Id      = new PropertyInfo(clrDeclaringType, clrPropertyName, clrPropertyType)
-            //    };
-            //    return resourceIdentityInfo;
-            //}
-
-            //return IdentityInfoFactory;
         }
 
         private static Func<IConventions, IResourceIdentityInfo> CreateResourceIdentityInfoFactory(Type clrDeclaringType, Func<IResourceIdentityInfo> resourceIdentityInfoFactory)

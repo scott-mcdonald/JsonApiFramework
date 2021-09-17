@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Version>2.7.0</Version>
+        <Version>2.8.0</Version>
         <Authors>Scott McDonald</Authors>
         <Company>Scott McDonald</Company>
         <Product>JsonApiFramework [Server]</Product>
@@ -12,8 +12,8 @@
         <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
         <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
         <PackageTags>.net portable jsonapi framework server</PackageTags>
-        <AssemblyVersion>2.7.0.0</AssemblyVersion>
-        <FileVersion>2.7.0.27</FileVersion>
+        <AssemblyVersion>2.8.0.0</AssemblyVersion>
+        <FileVersion>2.8.0.28</FileVersion>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 

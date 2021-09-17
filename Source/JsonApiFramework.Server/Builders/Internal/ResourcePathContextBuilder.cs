@@ -73,9 +73,10 @@ namespace JsonApiFramework.Server.Internal
             if (includePath == false)
                 return this;
 
-            var clrResourceType = typeof(TPath);
-            var resourceType    = this.ServiceModel.GetResourceType(clrResourceType);
-            var apiResourceId   = TypeConverter.Convert<string>(clrResourceId);
+            var clrResourceType      = typeof(TPath);
+            var resourceType         = this.ServiceModel.GetResourceType(clrResourceType);
+            var resourceIdentityInfo = resourceType.ResourceIdentityInfo;
+            var apiResourceId        = resourceIdentityInfo.ToApiId(clrResourceId);
 
             return this.AddPath(resourceType, clrResourceType, apiResourceId, rel);
         }

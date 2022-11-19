@@ -7,41 +7,40 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyResourceAssert
 {
-    internal static class DomReadOnlyResourceAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(Resource expected, DomReadOnlyResource actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(Resource expected, DomReadOnlyResource actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.Resource, actual.NodeType);
-
-            var actualResource = actual.ApiResource;
-            ResourceAssert.Equal(expected, actualResource);
+            Assert.Null(actual);
+            return;
         }
+        Assert.NotNull(actual);
 
-        public static void Equal(object expected, DomReadOnlyResource actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
+        Assert.Equal(DomNodeType.Resource, actual.NodeType);
 
-            Assert.NotNull(actual);
-            Assert.Equal(DomNodeType.Resource, actual.NodeType);
-
-            var actualResource = actual.ClrResource;
-            ClrObjectAssert.Equal(expected, actualResource);
-        }
-        #endregion
+        var actualResource = actual.ApiResource;
+        ResourceAssert.Equal(expected, actualResource);
     }
+
+    public static void Equal(object expected, DomReadOnlyResource actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
+        }
+
+        Assert.NotNull(actual);
+        Assert.Equal(DomNodeType.Resource, actual.NodeType);
+
+        var actualResource = actual.ClrResource;
+        ClrObjectAssert.Equal(expected, actualResource);
+    }
+    #endregion
 }

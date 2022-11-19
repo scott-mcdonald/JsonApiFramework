@@ -7,29 +7,28 @@ using JsonApiFramework.Internal.Tree;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomHRefAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomHRefAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expected, DomNode actual)
+        if (string.IsNullOrWhiteSpace(expected))
         {
-            if (String.IsNullOrWhiteSpace(expected))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.HRef, actual.NodeType);
-
-            var actualDomHRef = (DomHRef)actual;
-            var actualHRef = actualDomHRef.HRef;
-            Assert.Equal(expected, actualHRef);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.HRef, actual.NodeType);
+
+        var actualDomHRef = (DomHRef)actual;
+        var actualHRef = actualDomHRef.HRef;
+        Assert.Equal(expected, actualHRef);
     }
+    #endregion
 }

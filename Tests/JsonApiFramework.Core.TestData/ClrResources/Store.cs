@@ -5,16 +5,15 @@ using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ClrResources
+namespace JsonApiFramework.TestData.ClrResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class Store : JsonObject
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class Store : JsonObject
-    {
-        [JsonProperty] public long StoreId { get; set; }
-        [JsonProperty] public string StoreName { get; set; }
-        [JsonProperty] public string Address { get; set; }
-        [JsonProperty] public string City { get; set; }
-        [JsonProperty] public string State { get; set; }
-        [JsonProperty] public string ZipCode { get; set; }
-    }
+    [JsonProperty] public long StoreId { get; set; }
+    [JsonProperty] public string StoreName { get; set; }
+    [JsonProperty] public string Address { get; set; }
+    [JsonProperty] public string City { get; set; }
+    [JsonProperty] public string State { get; set; }
+    [JsonProperty] public string ZipCode { get; set; }
 }

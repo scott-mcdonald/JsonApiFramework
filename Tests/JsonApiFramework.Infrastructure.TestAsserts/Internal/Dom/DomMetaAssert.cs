@@ -7,35 +7,34 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomMetaAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomMetaAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(Meta expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(Meta expected, DomNode actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            var actualType = actual.GetType();
-
-            if (actualType == typeof(DomReadOnlyMeta))
-            {
-                var actualDomReadOnlyMeta = (DomReadOnlyMeta)actual;
-                DomReadOnlyMetaAssert.Equal(expected, actualDomReadOnlyMeta);
-            }
-            else
-            {
-                Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualType = actual.GetType();
+
+        if (actualType == typeof(DomReadOnlyMeta))
+        {
+            var actualDomReadOnlyMeta = (DomReadOnlyMeta)actual;
+            DomReadOnlyMetaAssert.Equal(expected, actualDomReadOnlyMeta);
+        }
+        else
+        {
+            Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
+        }
     }
+    #endregion
 }

@@ -3,17 +3,16 @@
 
 using Humanizer;
 
-namespace JsonApiFramework.Conventions.Internal
+namespace JsonApiFramework.Conventions.Internal;
+
+/// <summary>Naming convention that applies PascalCasing to members.</summary>
+internal class PascalCaseNamingConvention : INamingConvention
 {
-    /// <summary>Naming convention that applies PascalCasing to members.</summary>
-    internal class PascalCaseNamingConvention : INamingConvention
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region INamingConvention Implementation
+    public string Apply(string oldName)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region INamingConvention Implementation
-        public string Apply(string oldName)
-        {
-            return string.IsNullOrWhiteSpace(oldName) ? oldName : oldName.Pascalize();
-        }
-        #endregion
+        return string.IsNullOrWhiteSpace(oldName) ? oldName : oldName.Pascalize();
     }
+    #endregion
 }

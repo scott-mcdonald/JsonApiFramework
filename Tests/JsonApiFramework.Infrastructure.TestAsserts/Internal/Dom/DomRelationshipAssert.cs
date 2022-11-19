@@ -9,42 +9,41 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomRelationshipAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomRelationshipAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expectedRel, Relationship expectedRelationship, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expectedRel, Relationship expectedRelationship, DomNode actual)
+        Assert.False(string.IsNullOrWhiteSpace(expectedRel));
+
+        if (expectedRelationship == null)
         {
-            Assert.False(String.IsNullOrWhiteSpace(expectedRel));
-
-            if (expectedRelationship == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            var actualType = actual.GetType();
-
-            if (actualType == typeof(DomReadOnlyRelationship))
-            {
-                var actualDomReadOnlyRelationship = (DomReadOnlyRelationship)actual;
-                DomReadOnlyRelationshipAssert.Equal(expectedRel, expectedRelationship, actualDomReadOnlyRelationship);
-            }
-            else if (actualType == typeof(DomReadWriteRelationship))
-            {
-                var actualDomReadWriteRelationship = (DomReadWriteRelationship)actual;
-                DomReadWriteRelationshipAssert.Equal(expectedRel, expectedRelationship, actualDomReadWriteRelationship);
-            }
-            else
-            {
-                Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualType = actual.GetType();
+
+        if (actualType == typeof(DomReadOnlyRelationship))
+        {
+            var actualDomReadOnlyRelationship = (DomReadOnlyRelationship)actual;
+            DomReadOnlyRelationshipAssert.Equal(expectedRel, expectedRelationship, actualDomReadOnlyRelationship);
+        }
+        else if (actualType == typeof(DomReadWriteRelationship))
+        {
+            var actualDomReadWriteRelationship = (DomReadWriteRelationship)actual;
+            DomReadWriteRelationshipAssert.Equal(expectedRel, expectedRelationship, actualDomReadWriteRelationship);
+        }
+        else
+        {
+            Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
+        }
     }
+    #endregion
 }

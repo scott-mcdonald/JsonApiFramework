@@ -37,7 +37,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         public void TestComplexTypeBuilderCreateComplexType(string name, IComplexTypeFactory complexTypeFactory, IConventions conventions, IComplexType expectedComplexType)
         {
             this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             // Arrange
             var serializerSettings = new JsonSerializerSettings
@@ -57,7 +57,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             // Act
             var actualComplexType = complexTypeFactory.Create(conventions);
 
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             var actualJson = actualComplexType.ToJson(serializerSettings);
             this.Output.WriteLine("Actual ComplexType");

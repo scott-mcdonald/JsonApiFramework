@@ -3,20 +3,19 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server.Hypermedia
-{
-    /// <summary>
-    /// Abstracts runtime context for creating an individual link object.
-    /// </summary>
-    public interface ILinkContext
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        /// <summary>Relation name of the link.</summary>
-        string Rel { get; }
+namespace JsonApiFramework.Server.Hypermedia;
 
-        /// <summary>Meta object to associate with the link.</summary>
-        Meta Meta { get; }
-        #endregion
-    }
+/// <summary>
+/// Abstracts runtime context for creating an individual link object.
+/// </summary>
+public interface ILinkContext
+{
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    /// <summary>Relation name of the link.</summary>
+    string Rel { get; }
+
+    /// <summary>Meta object to associate with the link.</summary>
+    Meta Meta { get; }
+    #endregion
 }

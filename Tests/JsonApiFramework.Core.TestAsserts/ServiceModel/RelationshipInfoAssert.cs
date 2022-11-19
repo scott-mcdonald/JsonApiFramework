@@ -5,27 +5,26 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class RelationshipInfoAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IRelationshipInfo expected, IRelationshipInfo actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            Assert.Equal(expected.Rel, actual.Rel);
-            Assert.Equal(expected.ApiRelPathSegment, actual.ApiRelPathSegment);
-            Assert.Equal(expected.ToCardinality, actual.ToCardinality);
-            Assert.Equal(expected.ToClrType, actual.ToClrType);
-            Assert.Equal(expected.ToCanonicalRelPathMode, actual.ToCanonicalRelPathMode);
+public static class RelationshipInfoAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IRelationshipInfo expected, IRelationshipInfo actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(expected.Rel, actual.Rel);
+        Assert.Equal(expected.ApiRelPathSegment, actual.ApiRelPathSegment);
+        Assert.Equal(expected.ToCardinality, actual.ToCardinality);
+        Assert.Equal(expected.ToClrType, actual.ToClrType);
+        Assert.Equal(expected.ToCanonicalRelPathMode, actual.ToCanonicalRelPathMode);
     }
+    #endregion
 }

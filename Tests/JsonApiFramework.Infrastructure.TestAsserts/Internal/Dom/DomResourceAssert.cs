@@ -6,40 +6,39 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomResourceAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomResourceAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(Resource expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(Resource expected, DomNode actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            var actualType = actual.GetType();
-
-            if (actualType == typeof(DomReadOnlyResource))
-            {
-                var actualDomReadOnlyResource = (DomReadOnlyResource)actual;
-                DomReadOnlyResourceAssert.Equal(expected, actualDomReadOnlyResource);
-            }
-            else if (actualType == typeof(DomReadWriteResource))
-            {
-                var actualDomReadWriteResource = (DomReadWriteResource)actual;
-                DomReadWriteResourceAssert.Equal(expected, actualDomReadWriteResource);
-            }
-            else
-            {
-                Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualType = actual.GetType();
+
+        if (actualType == typeof(DomReadOnlyResource))
+        {
+            var actualDomReadOnlyResource = (DomReadOnlyResource)actual;
+            DomReadOnlyResourceAssert.Equal(expected, actualDomReadOnlyResource);
+        }
+        else if (actualType == typeof(DomReadWriteResource))
+        {
+            var actualDomReadWriteResource = (DomReadWriteResource)actual;
+            DomReadWriteResourceAssert.Equal(expected, actualDomReadWriteResource);
+        }
+        else
+        {
+            Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
+        }
     }
+    #endregion
 }

@@ -7,26 +7,25 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyJsonApiVersionAssert
 {
-    internal static class DomReadOnlyJsonApiVersionAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(JsonApiVersion expected, DomReadOnlyJsonApiVersion actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(JsonApiVersion expected, DomReadOnlyJsonApiVersion actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.JsonApiVersion, actual.NodeType);
-
-            var actualJsonApiVersion = actual.JsonApiVersion;
-            JsonApiVersionAssert.Equal(expected, actualJsonApiVersion);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.JsonApiVersion, actual.NodeType);
+
+        var actualJsonApiVersion = actual.JsonApiVersion;
+        JsonApiVersionAssert.Equal(expected, actualJsonApiVersion);
     }
+    #endregion
 }

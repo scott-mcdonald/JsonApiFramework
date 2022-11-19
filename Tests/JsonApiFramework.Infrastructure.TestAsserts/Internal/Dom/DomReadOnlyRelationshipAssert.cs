@@ -8,32 +8,31 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyRelationshipAssert
 {
-    internal static class DomReadOnlyRelationshipAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expectedRel, Relationship expectedRelationship, DomReadOnlyRelationship actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expectedRel, Relationship expectedRelationship, DomReadOnlyRelationship actual)
+        if (string.IsNullOrWhiteSpace(expectedRel))
         {
-            if (String.IsNullOrWhiteSpace(expectedRel))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-            Assert.NotNull(expectedRelationship);
-
-            Assert.Equal(DomNodeType.Relationship, actual.NodeType);
-
-            // Rel
-            var actualRel = actual.Rel;
-            Assert.Equal(expectedRel, actualRel);
-
-            // Relationship
-            var actualRelationship = actual.Relationship;
-            RelationshipAssert.Equal(expectedRelationship, actualRelationship);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+        Assert.NotNull(expectedRelationship);
+
+        Assert.Equal(DomNodeType.Relationship, actual.NodeType);
+
+        // Rel
+        var actualRel = actual.Rel;
+        Assert.Equal(expectedRel, actualRel);
+
+        // Relationship
+        var actualRelationship = actual.Relationship;
+        RelationshipAssert.Equal(expectedRelationship, actualRelationship);
     }
+    #endregion
 }

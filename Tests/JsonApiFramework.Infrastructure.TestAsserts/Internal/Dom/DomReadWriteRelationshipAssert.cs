@@ -9,63 +9,62 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadWriteRelationshipAssert
 {
-    internal static class DomReadWriteRelationshipAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expectedRel, Relationship expectedRelationship, DomReadWriteRelationship actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expectedRel, Relationship expectedRelationship, DomReadWriteRelationship actual)
+        if (string.IsNullOrWhiteSpace(expectedRel))
         {
-            if (String.IsNullOrWhiteSpace(expectedRel))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-            Assert.NotNull(expectedRelationship);
-
-            Assert.Equal(DomNodeType.Relationship, actual.NodeType);
-
-            // Rel
-            var actualRel = actual.Rel;
-            Assert.Equal(expectedRel, actualRel);
-
-            // Links
-            var domLinks = actual.GetNode(DomNodeType.Links);
-            DomLinksAssert.Equal(expectedRelationship.Links, domLinks);
-
-            // Data
-            var expectedRelationshipType = expectedRelationship.GetRelationshipType();
-            switch (expectedRelationshipType)
-            {
-                case RelationshipType.Relationship:
-                    break;
-
-                case RelationshipType.ToOneRelationship:
-                    {
-                        var expectedToOneResourceLinkage = expectedRelationship.GetToOneResourceLinkage();
-                        var domData = actual.GetNode(DomNodeType.Data);
-                        DomDataAssert.Equal(expectedToOneResourceLinkage, domData);
-                    }
-                    break;
-
-                case RelationshipType.ToManyRelationship:
-                    {
-                        var expectedToManyResourceLinkage = expectedRelationship.GetToManyResourceLinkage();
-                        var domDataCollection = actual.GetNode(DomNodeType.DataCollection);
-                        DomDataCollectionAssert.Equal(expectedToManyResourceLinkage, domDataCollection);
-                    }
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            // Meta
-            var domMeta = actual.GetNode(DomNodeType.Meta);
-            DomMetaAssert.Equal(expectedRelationship.Meta, domMeta);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+        Assert.NotNull(expectedRelationship);
+
+        Assert.Equal(DomNodeType.Relationship, actual.NodeType);
+
+        // Rel
+        var actualRel = actual.Rel;
+        Assert.Equal(expectedRel, actualRel);
+
+        // Links
+        var domLinks = actual.GetNode(DomNodeType.Links);
+        DomLinksAssert.Equal(expectedRelationship.Links, domLinks);
+
+        // Data
+        var expectedRelationshipType = expectedRelationship.GetRelationshipType();
+        switch (expectedRelationshipType)
+        {
+            case RelationshipType.Relationship:
+                break;
+
+            case RelationshipType.ToOneRelationship:
+                {
+                    var expectedToOneResourceLinkage = expectedRelationship.GetToOneResourceLinkage();
+                    var domData = actual.GetNode(DomNodeType.Data);
+                    DomDataAssert.Equal(expectedToOneResourceLinkage, domData);
+                }
+                break;
+
+            case RelationshipType.ToManyRelationship:
+                {
+                    var expectedToManyResourceLinkage = expectedRelationship.GetToManyResourceLinkage();
+                    var domDataCollection = actual.GetNode(DomNodeType.DataCollection);
+                    DomDataCollectionAssert.Equal(expectedToManyResourceLinkage, domDataCollection);
+                }
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        // Meta
+        var domMeta = actual.GetNode(DomNodeType.Meta);
+        DomMetaAssert.Equal(expectedRelationship.Meta, domMeta);
     }
+    #endregion
 }

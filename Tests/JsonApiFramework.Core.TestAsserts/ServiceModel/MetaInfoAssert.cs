@@ -5,23 +5,22 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class MetaInfoAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IMetaInfo expected, IMetaInfo actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            PropertyInfoAssert.Equal(expected, actual);
+public static class MetaInfoAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IMetaInfo expected, IMetaInfo actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        PropertyInfoAssert.Equal(expected, actual);
     }
+    #endregion
 }

@@ -4,13 +4,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace JsonApiFramework.Server.Hypermedia
+namespace JsonApiFramework.Server.Hypermedia;
+
+public interface IPathContext
 {
-    public interface IPathContext
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        IEnumerable<Type> ClrResourceTypes { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    IEnumerable<Type> ClrResourceTypes { get; }
+    #endregion
 }

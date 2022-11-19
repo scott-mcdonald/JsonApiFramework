@@ -7,40 +7,39 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomLinksAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomLinksAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(Links expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(Links expected, DomNode actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            var actualType = actual.GetType();
-
-            if (actualType == typeof(DomReadOnlyLinks))
-            {
-                var actualDomReadOnlyLinks = (DomReadOnlyLinks)actual;
-                DomReadOnlyLinksAssert.Equal(expected, actualDomReadOnlyLinks);
-            }
-            else if (actualType == typeof(DomReadWriteLinks))
-            {
-                var actualDomReadWriteLinks = (DomReadWriteLinks)actual;
-                DomReadWriteLinksAssert.Equal(expected, actualDomReadWriteLinks);
-            }
-            else
-            {
-                Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualType = actual.GetType();
+
+        if (actualType == typeof(DomReadOnlyLinks))
+        {
+            var actualDomReadOnlyLinks = (DomReadOnlyLinks)actual;
+            DomReadOnlyLinksAssert.Equal(expected, actualDomReadOnlyLinks);
+        }
+        else if (actualType == typeof(DomReadWriteLinks))
+        {
+            var actualDomReadWriteLinks = (DomReadWriteLinks)actual;
+            DomReadWriteLinksAssert.Equal(expected, actualDomReadWriteLinks);
+        }
+        else
+        {
+            Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
+        }
     }
+    #endregion
 }

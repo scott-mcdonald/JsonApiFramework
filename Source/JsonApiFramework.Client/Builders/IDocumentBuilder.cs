@@ -6,84 +6,83 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Client
+namespace JsonApiFramework.Client;
+
+public interface IDocumentBuilder : IDocumentWriter
 {
-    public interface IDocumentBuilder : IDocumentWriter
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IDocumentBuilder SetMeta(Meta meta);
-        #endregion
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IDocumentBuilder SetMeta(Meta meta);
+    #endregion
 
-        // Resource /////////////////////////////////////////////////////////
-        #region Generic Versions
-        IPrimaryResourceBuilder<TResource> Resource<TResource>()
-            where TResource : class;
+    // Resource /////////////////////////////////////////////////////////
+    #region Generic Versions
+    IPrimaryResourceBuilder<TResource> Resource<TResource>()
+        where TResource : class;
 
-        IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
-            where TResource : class;
-        #endregion
+    IPrimaryResourceBuilder<TResource> Resource<TResource>(TResource clrResource)
+        where TResource : class;
+    #endregion
 
-        #region Non-Generic Versions
-        IPrimaryResourceBuilder Resource(Type clrResourceType);
+    #region Non-Generic Versions
+    IPrimaryResourceBuilder Resource(Type clrResourceType);
 
-        IPrimaryResourceBuilder Resource(Type clrResourceType, object clrResource);
+    IPrimaryResourceBuilder Resource(Type clrResourceType, object clrResource);
 
-        IPrimaryResourceBuilder Resource(object clrResource);
-        #endregion
+    IPrimaryResourceBuilder Resource(object clrResource);
+    #endregion
 
-        // ResourceIdentifierCollection /////////////////////////////////////
-        #region Generic Versions
-        IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>()
-            where TResource : class;
+    // ResourceIdentifierCollection /////////////////////////////////////
+    #region Generic Versions
+    IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>()
+        where TResource : class;
 
-        IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class;
+    IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
+        where TResource : class;
 
-        IDocumentWriter SetResourceIdentifierCollection<TResource>()
-            where TResource : class;
+    IDocumentWriter SetResourceIdentifierCollection<TResource>()
+        where TResource : class;
 
-        IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
-            where TResource : class;
-        #endregion
+    IDocumentWriter SetResourceIdentifierCollection<TResource>(IEnumerable<TResource> clrResourceCollection)
+        where TResource : class;
+    #endregion
 
-        #region Non-Generic Versions
-        IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType);
+    #region Non-Generic Versions
+    IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType);
 
-        IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection);
+    IPrimaryResourceIdentifierCollectionBuilder ResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection);
 
-        IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType);
+    IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType);
 
-        IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection);
-        #endregion
+    IDocumentWriter SetResourceIdentifierCollection(Type clrResourceType, IEnumerable<object> clrResourceCollection);
+    #endregion
 
-        // ResourceIdentifier ///////////////////////////////////////////////
-        #region Generic Versions
-        IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>()
-            where TResource : class;
+    // ResourceIdentifier ///////////////////////////////////////////////
+    #region Generic Versions
+    IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>()
+        where TResource : class;
 
-        IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class;
+    IPrimaryResourceIdentifierBuilder ResourceIdentifier<TResource>(TResource clrResource)
+        where TResource : class;
 
-        IDocumentWriter SetResourceIdentifier<TResource>()
-            where TResource : class;
+    IDocumentWriter SetResourceIdentifier<TResource>()
+        where TResource : class;
 
-        IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
-            where TResource : class;
-        #endregion
+    IDocumentWriter SetResourceIdentifier<TResource>(TResource clrResource)
+        where TResource : class;
+    #endregion
 
-        #region Non-Generic Versions
-        IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType);
+    #region Non-Generic Versions
+    IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType);
 
-        IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType, object clrResource);
+    IPrimaryResourceIdentifierBuilder ResourceIdentifier(Type clrResourceType, object clrResource);
 
-        IPrimaryResourceIdentifierBuilder ResourceIdentifier(object clrResource);
+    IPrimaryResourceIdentifierBuilder ResourceIdentifier(object clrResource);
 
-        IDocumentWriter SetResourceIdentifier(Type clrResourceType);
+    IDocumentWriter SetResourceIdentifier(Type clrResourceType);
 
-        IDocumentWriter SetResourceIdentifier(Type clrResourceType, object clrResource);
+    IDocumentWriter SetResourceIdentifier(Type clrResourceType, object clrResource);
 
-        IDocumentWriter SetResourceIdentifier(object clrResource);
-        #endregion
-    }
+    IDocumentWriter SetResourceIdentifier(object clrResource);
+    #endregion
 }

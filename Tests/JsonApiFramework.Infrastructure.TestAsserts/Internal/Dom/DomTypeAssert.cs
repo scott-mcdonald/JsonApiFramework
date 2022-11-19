@@ -7,24 +7,23 @@ using JsonApiFramework.Internal.Dom;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
-{
-    internal static class DomTypeAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expected, DomType actual)
-        {
-            if (String.IsNullOrWhiteSpace(expected))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
 
-            var actualApiType = actual.ApiType;
-            Assert.Equal(expected, actualApiType);
+internal static class DomTypeAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expected, DomType actual)
+    {
+        if (string.IsNullOrWhiteSpace(expected))
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualApiType = actual.ApiType;
+        Assert.Equal(expected, actualApiType);
     }
+    #endregion
 }

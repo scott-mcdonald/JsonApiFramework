@@ -3,31 +3,30 @@
 
 using System.Diagnostics.Contracts;
 
-namespace JsonApiFramework.JsonApi
+namespace JsonApiFramework.JsonApi;
+
+/// <summary>Extension methods for any object that implements the <c>IGetMeta</c> interface.</summary>
+public static class GetMetaExtensions
 {
-    /// <summary>Extension methods for any object that implements the <c>IGetMeta</c> interface.</summary>
-    public static class GetMetaExtensions
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IGetMeta Extension Methods
+    public static bool HasMeta(this IGetMeta getMeta)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IGetMeta Extension Methods
-        public static bool HasMeta(this IGetMeta getMeta)
-        {
-            Contract.Requires(getMeta != null);
+        Contract.Requires(getMeta != null);
 
-            return getMeta.Meta != null;
-        }
-
-        public static TMetadata GetMetadata<TMetadata>(this IGetMeta getMeta)
-        {
-            Contract.Requires(getMeta != null);
-
-            var meta = getMeta.Meta;
-            if (meta == null)
-                return default(TMetadata);
-
-            var metadata = meta.GetData<TMetadata>();
-            return metadata;
-        }
-        #endregion
+        return getMeta.Meta != null;
     }
+
+    public static TMetadata GetMetadata<TMetadata>(this IGetMeta getMeta)
+    {
+        Contract.Requires(getMeta != null);
+
+        var meta = getMeta.Meta;
+        if (meta == null)
+            return default(TMetadata);
+
+        var metadata = meta.GetData<TMetadata>();
+        return metadata;
+    }
+    #endregion
 }

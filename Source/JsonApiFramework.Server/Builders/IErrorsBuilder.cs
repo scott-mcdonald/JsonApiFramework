@@ -5,17 +5,16 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework.Server;
+
+public interface IErrorsBuilder
 {
-    public interface IErrorsBuilder
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IErrorsBuilder AddError(Error error);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IErrorsBuilder AddError(Error error);
 
-        IErrorsBuilder AddError(IEnumerable<Error> errorCollection);
+    IErrorsBuilder AddError(IEnumerable<Error> errorCollection);
 
-        IDocumentWriter ErrorsEnd();
-        #endregion
-    }
+    IDocumentWriter ErrorsEnd();
+    #endregion
 }

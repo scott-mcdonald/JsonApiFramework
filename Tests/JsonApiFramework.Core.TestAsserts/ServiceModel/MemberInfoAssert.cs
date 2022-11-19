@@ -5,23 +5,22 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class MemberInfoAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IMemberInfo expected, IMemberInfo actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            Assert.Equal(expected.ClrDeclaringType, actual.ClrDeclaringType);
+public static class MemberInfoAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IMemberInfo expected, IMemberInfo actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(expected.ClrDeclaringType, actual.ClrDeclaringType);
     }
+    #endregion
 }

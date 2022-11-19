@@ -4,21 +4,20 @@
 using System;
 using System.Collections.Generic;
 
-namespace JsonApiFramework.Server.Hypermedia
-{
-    public interface IDocumentPathContext : IPathContext
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        IEnumerable<IHypermediaPath> DocumentSelfPath { get; }
-        string DocumentSelfQuery { get; }
-        #endregion
+namespace JsonApiFramework.Server.Hypermedia;
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        /// <summary>Get the document primary data CLR resource type.</summary>
-        /// <returns>CLR resource type that the primary data is composed of.</returns>
-        Type GetPrimaryClrResourceType();
-        #endregion
-    }
+public interface IDocumentPathContext : IPathContext
+{
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    IEnumerable<IHypermediaPath> DocumentSelfPath { get; }
+    string DocumentSelfQuery { get; }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    /// <summary>Get the document primary data CLR resource type.</summary>
+    /// <returns>CLR resource type that the primary data is composed of.</returns>
+    Type GetPrimaryClrResourceType();
+    #endregion
 }

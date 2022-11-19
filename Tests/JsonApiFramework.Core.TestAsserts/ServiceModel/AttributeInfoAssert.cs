@@ -5,25 +5,24 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class AttributeInfoAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IAttributeInfo expected, IAttributeInfo actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            PropertyInfoAssert.Equal(expected, actual);
-            Assert.Equal(expected.ApiPropertyName, actual.ApiPropertyName);
-            Assert.Equal(expected.IsComplexType, actual.IsComplexType);
+public static class AttributeInfoAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IAttributeInfo expected, IAttributeInfo actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        PropertyInfoAssert.Equal(expected, actual);
+        Assert.Equal(expected.ApiPropertyName, actual.ApiPropertyName);
+        Assert.Equal(expected.IsComplexType, actual.IsComplexType);
     }
+    #endregion
 }

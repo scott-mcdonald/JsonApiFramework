@@ -7,26 +7,25 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyResourceIdentifierAssert
 {
-    internal static class DomReadOnlyResourceIdentifierAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(ResourceIdentifier expectedApiResourceIdentifier, DomReadOnlyResourceIdentifier actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(ResourceIdentifier expectedApiResourceIdentifier, DomReadOnlyResourceIdentifier actual)
+        if (expectedApiResourceIdentifier == null)
         {
-            if (expectedApiResourceIdentifier == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.ResourceIdentifier, actual.NodeType);
-
-            var actualResourceIdentifier = actual.ApiResourceIdentifier;
-            ResourceIdentifierAssert.Equal(expectedApiResourceIdentifier, actualResourceIdentifier);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.ResourceIdentifier, actual.NodeType);
+
+        var actualResourceIdentifier = actual.ApiResourceIdentifier;
+        ResourceIdentifierAssert.Equal(expectedApiResourceIdentifier, actualResourceIdentifier);
     }
+    #endregion
 }

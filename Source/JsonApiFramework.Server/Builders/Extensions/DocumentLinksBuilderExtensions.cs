@@ -6,34 +6,33 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework.Server;
+
+public static class DocumentLinksBuilderExtensions
 {
-    public static class DocumentLinksBuilderExtensions
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, Link link)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, Link link)
-        {
-            Contract.Requires(documentLinksBuilder != null);
-            Contract.Requires(link != null);
+        Contract.Requires(documentLinksBuilder != null);
+        Contract.Requires(link != null);
 
-            return documentLinksBuilder.AddLink(Keywords.Up, link);
-        }
-
-        public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, IEnumerable<Link> linkCollection)
-        {
-            Contract.Requires(documentLinksBuilder != null);
-            Contract.Requires(linkCollection != null);
-
-            return documentLinksBuilder.AddLink(Keywords.Up, linkCollection);
-        }
-
-        public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder)
-        {
-            Contract.Requires(documentLinksBuilder != null);
-
-            return documentLinksBuilder.AddLink(Keywords.Up);
-        }
-        #endregion
+        return documentLinksBuilder.AddLink(Keywords.Up, link);
     }
+
+    public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder, IEnumerable<Link> linkCollection)
+    {
+        Contract.Requires(documentLinksBuilder != null);
+        Contract.Requires(linkCollection != null);
+
+        return documentLinksBuilder.AddLink(Keywords.Up, linkCollection);
+    }
+
+    public static IDocumentLinksBuilder<TParentBuilder> AddUpLink<TParentBuilder>(this IDocumentLinksBuilder<TParentBuilder> documentLinksBuilder)
+    {
+        Contract.Requires(documentLinksBuilder != null);
+
+        return documentLinksBuilder.AddLink(Keywords.Up);
+    }
+    #endregion
 }

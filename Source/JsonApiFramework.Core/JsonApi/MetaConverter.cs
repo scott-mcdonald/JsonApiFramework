@@ -6,33 +6,32 @@ using System.Diagnostics.Contracts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace JsonApiFramework.JsonApi
+namespace JsonApiFramework.JsonApi;
+
+/// <summary>
+/// JSON.Net converter for <c>Meta</c> objects.
+/// </summary>
+public class MetaConverter : Converter<Meta>
 {
-    /// <summary>
-    /// JSON.Net converter for <c>Meta</c> objects.
-    /// </summary>
-    public class MetaConverter : Converter<Meta>
+    // PROTECTED METHODS ////////////////////////////////////////////////
+    #region Converter Overrides
+    protected override Meta ReadTypedObject(JObject metaJObject, JsonSerializer serializer)
     {
-        // PROTECTED METHODS ////////////////////////////////////////////////
-        #region Converter Overrides
-        protected override Meta ReadTypedObject(JObject metaJObject, JsonSerializer serializer)
-        {
-            Contract.Requires(metaJObject != null);
-            Contract.Requires(serializer != null);
+        Contract.Requires(metaJObject != null);
+        Contract.Requires(serializer != null);
 
-            var meta = (Meta)metaJObject;
-            return meta;
-        }
-
-        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Meta meta)
-        {
-            Contract.Requires(writer != null);
-            Contract.Requires(serializer != null);
-            Contract.Requires(meta != null);
-
-            var metaJObject = (JObject)meta;
-            metaJObject.WriteTo(writer);
-        }
-        #endregion
+        var meta = (Meta)metaJObject;
+        return meta;
     }
+
+    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Meta meta)
+    {
+        Contract.Requires(writer != null);
+        Contract.Requires(serializer != null);
+        Contract.Requires(meta != null);
+
+        var metaJObject = (JObject)meta;
+        metaJObject.WriteTo(writer);
+    }
+    #endregion
 }

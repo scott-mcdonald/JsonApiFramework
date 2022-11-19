@@ -7,27 +7,26 @@ using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server.Internal
-{
-    internal class DocumentLinksBuilder<TParentBuilder> : LinksBuilder<IDocumentLinksBuilder<TParentBuilder>, TParentBuilder>, IDocumentLinksBuilder<TParentBuilder>
-    {
-        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
-        #region Constructors
-        internal DocumentLinksBuilder(TParentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode)
-            : base(parentBuilder, domContainerNode)
-        {
-            this.Builder = this;
-        }
-        #endregion
+namespace JsonApiFramework.Server.Internal;
 
-        #region LinksBuilder<TBuilder, TParentBuilder> Overrides
-        public override IDocumentLinksBuilder<TParentBuilder> AddLink(string rel, IEnumerable<Link> linkCollection)
-        {
-            var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, rel);
-            var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildDocumentWithCollectionOfObjects
-                                           .FormatWith(linkDescription);
-            throw new DocumentBuildException(detail);
-        }
-        #endregion
+internal class DocumentLinksBuilder<TParentBuilder> : LinksBuilder<IDocumentLinksBuilder<TParentBuilder>, TParentBuilder>, IDocumentLinksBuilder<TParentBuilder>
+{
+    // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+    #region Constructors
+    internal DocumentLinksBuilder(TParentBuilder parentBuilder, IContainerNode<DomNodeType> domContainerNode)
+        : base(parentBuilder, domContainerNode)
+    {
+        this.Builder = this;
     }
+    #endregion
+
+    #region LinksBuilder<TBuilder, TParentBuilder> Overrides
+    public override IDocumentLinksBuilder<TParentBuilder> AddLink(string rel, IEnumerable<Link> linkCollection)
+    {
+        var linkDescription = "{0} [rel={1}]".FormatWith(DomNodeType.Link, rel);
+        var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildDocumentWithCollectionOfObjects
+                                       .FormatWith(linkDescription);
+        throw new DocumentBuildException(detail);
+    }
+    #endregion
 }

@@ -5,14 +5,13 @@ using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ClrResources
+namespace JsonApiFramework.TestData.ClrResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class OrderItem : JsonObject
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class OrderItem : JsonObject
-    {
-        [JsonProperty] public long OrderItemId { get; set; }
-        [JsonProperty] public string ProductName { get; set; }
-        [JsonProperty] public decimal Quantity { get; set; }
-        [JsonProperty] public decimal UnitPrice { get; set; }
-    }
+    [JsonProperty] public long OrderItemId { get; set; }
+    [JsonProperty] public string ProductName { get; set; }
+    [JsonProperty] public decimal Quantity { get; set; }
+    [JsonProperty] public decimal UnitPrice { get; set; }
 }

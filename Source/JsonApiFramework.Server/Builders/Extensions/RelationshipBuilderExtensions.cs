@@ -6,19 +6,18 @@ using System.Linq;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
-{
-    public static class RelationshipBuilderExtensions
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IRelationshipBuilder<TParentBuilder> SetMeta<TParentBuilder, TResource>(this IRelationshipBuilder<TParentBuilder> relationshipBuilder, params Meta[] metaCollection)
-            where TResource : class
-        {
-            Contract.Requires(relationshipBuilder != null);
+namespace JsonApiFramework.Server;
 
-            return relationshipBuilder.SetMeta(metaCollection.AsEnumerable());
-        }
-        #endregion
+public static class RelationshipBuilderExtensions
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IRelationshipBuilder<TParentBuilder> SetMeta<TParentBuilder, TResource>(this IRelationshipBuilder<TParentBuilder> relationshipBuilder, params Meta[] metaCollection)
+        where TResource : class
+    {
+        Contract.Requires(relationshipBuilder != null);
+
+        return relationshipBuilder.SetMeta(metaCollection.AsEnumerable());
     }
+    #endregion
 }

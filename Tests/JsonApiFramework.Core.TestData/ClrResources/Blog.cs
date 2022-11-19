@@ -6,21 +6,20 @@ using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ClrResources
+namespace JsonApiFramework.TestData.ClrResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class Blog : JsonObject
+    , IGetLinks
+    , IGetMeta
+    , IGetRelationships
+    , ISetLinks
+    , ISetMeta
+    , ISetRelationships
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class Blog : JsonObject
-        , IGetLinks
-        , IGetMeta
-        , IGetRelationships
-        , ISetLinks
-        , ISetMeta
-        , ISetRelationships
-    {
-        [JsonProperty] public string Id { get; set; }
-        [JsonProperty] public string Name { get; set; }
-        [JsonProperty] public Relationships Relationships { get; set; }
-        [JsonProperty] public Links Links { get; set; }
-        [JsonProperty] public Meta Meta { get; set; }
-    }
+    [JsonProperty] public string Id { get; set; }
+    [JsonProperty] public string Name { get; set; }
+    [JsonProperty] public Relationships Relationships { get; set; }
+    [JsonProperty] public Links Links { get; set; }
+    [JsonProperty] public Meta Meta { get; set; }
 }

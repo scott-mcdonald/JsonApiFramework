@@ -3,15 +3,14 @@
 
 using System;
 
-namespace JsonApiFramework.Server
-{
-    public interface IDocumentFactory
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IDocumentBuilder NewDocument(string currentRequestUrl);
+namespace JsonApiFramework.Server;
 
-        IDocumentBuilder NewDocument(Uri currentRequestUrl);
-        #endregion
-    }
+public interface IDocumentFactory
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IDocumentBuilder NewDocument(string currentRequestUrl);
+
+    IDocumentBuilder NewDocument(Uri currentRequestUrl);
+    #endregion
 }

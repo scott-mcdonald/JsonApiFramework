@@ -1,38 +1,36 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System;
 using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.ServiceModel.Internal
+namespace JsonApiFramework.ServiceModel.Internal;
+
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+internal class LinkInfo : JsonObject
+    , ILinkInfo
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    internal class LinkInfo : JsonObject
-        , ILinkInfo
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public LinkInfo(string rel)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public LinkInfo(string rel)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+        Contract.Requires(string.IsNullOrWhiteSpace(rel) == false);
 
-            this.Rel = rel;
-        }
-        #endregion
-
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region ILinkInfo Implementation
-        [JsonProperty] public string Rel { get; internal set; }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal LinkInfo()
-        { }
-        #endregion
+        this.Rel = rel;
     }
+    #endregion
+
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region ILinkInfo Implementation
+    [JsonProperty] public string Rel { get; internal set; }
+    #endregion
+
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal LinkInfo()
+    { }
+    #endregion
 }

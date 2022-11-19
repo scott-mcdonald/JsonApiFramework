@@ -5,12 +5,11 @@ using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ClrResources
+namespace JsonApiFramework.TestData.ClrResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class Payment : JsonObject
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class Payment : JsonObject
-    {
-        [JsonProperty] public long PaymentId { get; set; }
-        [JsonProperty] public decimal Amount { get; set; }
-    }
+    [JsonProperty] public long PaymentId { get; set; }
+    [JsonProperty] public decimal Amount { get; set; }
 }

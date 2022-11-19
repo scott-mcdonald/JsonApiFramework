@@ -5,13 +5,12 @@ using JsonApiFramework.Json;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ApiResources
+namespace JsonApiFramework.TestData.ApiResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class ErrorMeta : JsonObject
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class ErrorMeta : JsonObject
-    {
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
-        [JsonProperty("stack-trace")] public string StackTrace { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
-    }
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
+    [JsonProperty("stack-trace")] public string StackTrace { get; set; }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

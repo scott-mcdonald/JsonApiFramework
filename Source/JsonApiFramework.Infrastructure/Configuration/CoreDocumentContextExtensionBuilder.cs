@@ -7,32 +7,31 @@ using JsonApiFramework.Conventions;
 using JsonApiFramework.Internal;
 using JsonApiFramework.ServiceModel;
 
-namespace JsonApiFramework
+namespace JsonApiFramework;
+
+/// <summary>
+/// Extension methods to build a "core" document context extension object.
+/// </summary>
+public static class CoreDocumentContextExtensionBuilder
 {
-    /// <summary>
-    /// Extension methods to build a "core" document context extension object.
-    /// </summary>
-    public static class CoreDocumentContextExtensionBuilder
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IDocumentContextOptionsBuilder UseConventions(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IConventions conventions)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IDocumentContextOptionsBuilder UseConventions(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IConventions conventions)
-        {
-            Contract.Requires(documentContextOptionsBuilder != null);
-            Contract.Requires(conventions != null);
+        Contract.Requires(documentContextOptionsBuilder != null);
+        Contract.Requires(conventions != null);
 
-            documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
-            return documentContextOptionsBuilder;
-        }
-
-        public static IDocumentContextOptionsBuilder UseServiceModel(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IServiceModel serviceModel)
-        {
-            Contract.Requires(documentContextOptionsBuilder != null);
-            Contract.Requires(serviceModel != null);
-
-            documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.ServiceModel = serviceModel);
-            return documentContextOptionsBuilder;
-        }
-        #endregion
+        documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
+        return documentContextOptionsBuilder;
     }
+
+    public static IDocumentContextOptionsBuilder UseServiceModel(this IDocumentContextOptionsBuilder documentContextOptionsBuilder, IServiceModel serviceModel)
+    {
+        Contract.Requires(documentContextOptionsBuilder != null);
+        Contract.Requires(serviceModel != null);
+
+        documentContextOptionsBuilder.ModifyExtension<CoreDocumentContextExtension>(x => x.ServiceModel = serviceModel);
+        return documentContextOptionsBuilder;
+    }
+    #endregion
 }

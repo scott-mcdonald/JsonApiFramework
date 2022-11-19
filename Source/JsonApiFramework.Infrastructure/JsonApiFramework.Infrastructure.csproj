@@ -1,47 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <RootNamespace>JsonApiFramework</RootNamespace>
-        <Version>2.8.0</Version>
-        <Authors>Scott McDonald</Authors>
-        <Company>Scott McDonald</Company>
-        <Product>JsonApiFramework [Infrastructure]</Product>
-        <PackageTags>.net portable jsonapi framework</PackageTags>
-        <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
-        <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
-        <Copyright>Copyright © 2015–2020 Scott McDonald</Copyright>
-        <Description>Portable .NET framework-level classes that include common client-side and server-side JSON API document reading and writing from an internal DOM tree representation of the JSON API document.</Description>
-        <AssemblyVersion>2.8.0.0</AssemblyVersion>
-        <FileVersion>2.8.0.28</FileVersion>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>JsonApiFramework</RootNamespace>
+    <PackageId>JsonApiFramework.Infrastructure</PackageId>
+    <Version>2.9.0</Version>
+    <Authors>Scott McDonald</Authors>
+    <Company>Scott McDonald</Company>
+    <Product>JsonApiFramework [Infrastructure]</Product>
+    <Description>Portable .NET framework-level classes that include common client-side and server-side JSON API document reading and writing from an internal DOM tree representation of the JSON API document.</Description>
+    <PackageTags>.net portable jsonapi framework</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+    <Copyright>Copyright © 2015–2020 Scott McDonald</Copyright>
+    <AssemblyVersion>2.9.0.0</AssemblyVersion>
+    <FileVersion>2.9.0.29</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0">
-            <PrivateAssets>All</PrivateAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Properties\InfrastructureErrorStrings.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>InfrastructureErrorStrings.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Update="Properties\InfrastructureErrorStrings.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>InfrastructureErrorStrings.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>JsonApiFramework</CustomToolNamespace>
-        </EmbeddedResource>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
+  </ItemGroup>
 
 </Project>

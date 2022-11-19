@@ -13,7 +13,6 @@ using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
 
-
 using Xunit;
 using Xunit.Abstractions;
 

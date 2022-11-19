@@ -7,26 +7,25 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyRelationshipsAssert
 {
-    internal static class DomReadOnlyRelationshipsAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(Relationships expected, DomReadOnlyRelationships actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(Relationships expected, DomReadOnlyRelationships actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.Relationships, actual.NodeType);
-
-            var actualRelationships = actual.Relationships;
-            RelationshipsAssert.Equal(expected, actualRelationships);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.Relationships, actual.NodeType);
+
+        var actualRelationships = actual.Relationships;
+        RelationshipsAssert.Equal(expected, actualRelationships);
     }
+    #endregion
 }

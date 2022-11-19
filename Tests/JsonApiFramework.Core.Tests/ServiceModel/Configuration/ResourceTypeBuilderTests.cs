@@ -39,7 +39,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         public void TestResourceTypeBuilderCreateResourceType(string name, IResourceTypeFactory resourceTypeFactory, IConventions conventions, IResourceType expectedResourceType, IEnumerable<IComplexType> complexTypes)
         {
             this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             // Arrange
             var serializerSettings = new JsonSerializerSettings
@@ -64,7 +64,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 actualResourceType.Initialize(clrTypeToComplexTypeDictionary);
             }
 
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             var actualJson = actualResourceType.ToJson(serializerSettings);
             this.Output.WriteLine("Actual ResourceType");
@@ -79,13 +79,13 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
         public void TestResourceTypeBuilderCreateCustomResourceIdentity(string name, Func<IResourceTypeFactory> resourceTypeFactoryFunc, Func<IConventions> conventionsFunc, Func<Type> expectedResourceIdentityInfoTypeFunc)
         {
             this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             // Arrange
             var expectedResourceIdentityInfoType     = expectedResourceIdentityInfoTypeFunc();
             var expectedResourceIdentityInfoTypeName = expectedResourceIdentityInfoType.Name;
             this.Output.WriteLine("Expected ResourceIdentityType: {0}", expectedResourceIdentityInfoTypeName);
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             var resourceTypeFactory = resourceTypeFactoryFunc();
             var conventions         = conventionsFunc();
@@ -97,7 +97,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             var actualResourceIdentityTypeName = actualResourceIdentityType.Name;
 
             this.Output.WriteLine("Actual   ResourceIdentityType: {0}", actualResourceIdentityTypeName);
-            this.Output.WriteLine(String.Empty);
+            this.Output.WriteLine(string.Empty);
 
             // Assert
             Assert.Equal(expectedResourceIdentityInfoType, actualResourceIdentityType);

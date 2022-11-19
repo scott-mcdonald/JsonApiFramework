@@ -9,36 +9,35 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadWriteLinkAssert
 {
-    internal static class DomReadWriteLinkAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expectedRel, Link expectedLink, DomReadWriteLink actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expectedRel, Link expectedLink, DomReadWriteLink actual)
+        if (string.IsNullOrWhiteSpace(expectedRel))
         {
-            if (String.IsNullOrWhiteSpace(expectedRel))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-            Assert.NotNull(expectedLink);
-
-            Assert.Equal(DomNodeType.Link, actual.NodeType);
-
-            // Rel
-            var actualRel = actual.Rel;
-            Assert.Equal(expectedRel, actualRel);
-
-            // HRef
-            var domHRef = actual.GetNode<DomNodeType, DomHRef>(DomNodeType.HRef);
-            DomHRefAssert.Equal(expectedLink.HRef, domHRef);
-
-            // Meta
-            var domMeta = actual.GetNode(DomNodeType.Meta);
-            DomMetaAssert.Equal(expectedLink.Meta, domMeta);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+        Assert.NotNull(expectedLink);
+
+        Assert.Equal(DomNodeType.Link, actual.NodeType);
+
+        // Rel
+        var actualRel = actual.Rel;
+        Assert.Equal(expectedRel, actualRel);
+
+        // HRef
+        var domHRef = actual.GetNode<DomNodeType, DomHRef>(DomNodeType.HRef);
+        DomHRefAssert.Equal(expectedLink.HRef, domHRef);
+
+        // Meta
+        var domMeta = actual.GetNode(DomNodeType.Meta);
+        DomMetaAssert.Equal(expectedLink.Meta, domMeta);
     }
+    #endregion
 }

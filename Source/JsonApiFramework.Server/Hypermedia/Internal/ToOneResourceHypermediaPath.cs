@@ -5,65 +5,64 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-namespace JsonApiFramework.Server.Hypermedia.Internal
+namespace JsonApiFramework.Server.Hypermedia.Internal;
+
+/// <summary>
+/// Implementation of <c>IHypermediaPath</c> that represents path segments
+/// of an individual to-one relationship resource.
+/// </summary>
+internal class ToOneResourceHypermediaPath : IHypermediaPath
 {
-    /// <summary>
-    /// Implementation of <c>IHypermediaPath</c> that represents path segments
-    /// of an individual to-one relationship resource.
-    /// </summary>
-    internal class ToOneResourceHypermediaPath : IHypermediaPath
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public ToOneResourceHypermediaPath(Type clrResourceType, string apiRelationshipPathSegment)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public ToOneResourceHypermediaPath(Type clrResourceType, string apiRelationshipPathSegment)
-        {
-            Contract.Requires(clrResourceType != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(apiRelationshipPathSegment) == false);
+        Contract.Requires(clrResourceType != null);
+        Contract.Requires(string.IsNullOrWhiteSpace(apiRelationshipPathSegment) == false);
 
-            this.ClrResourceType = clrResourceType;
-            this.ApiRelationshipPathSegment = apiRelationshipPathSegment;
+        this.ClrResourceType = clrResourceType;
+        this.ApiRelationshipPathSegment = apiRelationshipPathSegment;
 
-            this.PathSegments = new[] { apiRelationshipPathSegment };
-        }
-        #endregion
-
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IPath Implementation
-        public IEnumerable<string> PathSegments
-        { get; private set; }
-        #endregion
-
-        #region IHypermediaPath Implementation
-        public HypermediaPathType HypermediaPathType
-        { get { return HypermediaPathType.ToOneResourcePath; } }
-        #endregion
-
-        #region Properties
-        public Type ClrResourceType
-        { get; private set; }
-
-        public string ApiRelationshipPathSegment
-        { get; private set; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IHypermediaPath Implementation
-        public Type GetClrResourceType()
-        { return this.ClrResourceType; }
-
-        public bool HasClrResourceType()
-        { return true; }
-        #endregion
+        this.PathSegments = new[] { apiRelationshipPathSegment };
     }
+    #endregion
 
-    /// <summary>Generic implementation of <c>ToOneResourceHypermediaPath</c>.</summary>
-    internal class ToOneResourceHypermediaPath<TResource> : ToOneResourceHypermediaPath
-    {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public ToOneResourceHypermediaPath(string apiRelationshipPathSegment)
-            : base(typeof(TResource), apiRelationshipPathSegment)
-        { }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region IPath Implementation
+    public IEnumerable<string> PathSegments
+    { get; private set; }
+    #endregion
+
+    #region IHypermediaPath Implementation
+    public HypermediaPathType HypermediaPathType
+    { get { return HypermediaPathType.ToOneResourcePath; } }
+    #endregion
+
+    #region Properties
+    public Type ClrResourceType
+    { get; private set; }
+
+    public string ApiRelationshipPathSegment
+    { get; private set; }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IHypermediaPath Implementation
+    public Type GetClrResourceType()
+    { return this.ClrResourceType; }
+
+    public bool HasClrResourceType()
+    { return true; }
+    #endregion
+}
+
+/// <summary>Generic implementation of <c>ToOneResourceHypermediaPath</c>.</summary>
+internal class ToOneResourceHypermediaPath<TResource> : ToOneResourceHypermediaPath
+{
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public ToOneResourceHypermediaPath(string apiRelationshipPathSegment)
+        : base(typeof(TResource), apiRelationshipPathSegment)
+    { }
+    #endregion
 }

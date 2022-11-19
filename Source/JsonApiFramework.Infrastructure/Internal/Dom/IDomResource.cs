@@ -3,19 +3,18 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Internal.Dom
-{
-    internal interface IDomResource : IDomResourceIdentity
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Resource ApiResource { get; }
-        // ReSharper disable ReturnTypeCanBeEnumerable.Global
-        Links ApiResourceLinks { get; }
-        Relationships ApiResourceRelationships { get; }
-        // ReSharper restore ReturnTypeCanBeEnumerable.Global
+namespace JsonApiFramework.Internal.Dom;
 
-        object ClrResource { get; }
-        #endregion
-    }
+internal interface IDomResource : IDomResourceIdentity
+{
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    Resource ApiResource { get; }
+    // ReSharper disable ReturnTypeCanBeEnumerable.Global
+    Links ApiResourceLinks { get; }
+    Relationships ApiResourceRelationships { get; }
+    // ReSharper restore ReturnTypeCanBeEnumerable.Global
+
+    object ClrResource { get; }
+    #endregion
 }

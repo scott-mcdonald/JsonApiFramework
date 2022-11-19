@@ -3,14 +3,13 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Internal.Dom
+namespace JsonApiFramework.Internal.Dom;
+
+internal interface IDomLink : IGetIsReadOnly
 {
-    internal interface IDomLink : IGetIsReadOnly
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        string Rel { get; }
-        Link Link { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    string Rel { get; }
+    Link Link { get; }
+    #endregion
 }

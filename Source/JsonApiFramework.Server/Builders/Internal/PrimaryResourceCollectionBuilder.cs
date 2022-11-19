@@ -6,56 +6,55 @@ using System.Collections.Generic;
 
 using JsonApiFramework.Internal.Dom;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.Server.Internal;
+
+internal class PrimaryResourceCollectionBuilder : ResourceCollectionBuilder<IPrimaryResourceCollectionBuilder>, IPrimaryResourceCollectionBuilder
 {
-    internal class PrimaryResourceCollectionBuilder : ResourceCollectionBuilder<IPrimaryResourceCollectionBuilder>, IPrimaryResourceCollectionBuilder
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IPrimaryResourceBuilder Implementation
+    public IIncludedBuilder ResourceCollectionEnd()
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IPrimaryResourceBuilder Implementation
-        public IIncludedBuilder ResourceCollectionEnd()
-        {
-            // Notify base class building is done.
-            this.OnBuildEnd();
+        // Notify base class building is done.
+        this.OnBuildEnd();
 
-            // Return the parent builder.
-            var parentBuilder = this.ParentBuilder;
-            return parentBuilder;
-        }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal PrimaryResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, Type clrResourceType, IEnumerable<object> clrResourceCollection)
-            : base(parentBuilder, domDocument.AddDataCollection(), clrResourceType, clrResourceCollection)
-        {
-            this.Builder = this;
-        }
-        #endregion
+        // Return the parent builder.
+        var parentBuilder = this.ParentBuilder;
+        return parentBuilder;
     }
+    #endregion
 
-    internal class PrimaryResourceCollectionBuilder<TResource> : ResourceCollectionBuilder<IPrimaryResourceCollectionBuilder<TResource>, TResource>, IPrimaryResourceCollectionBuilder<TResource>
-        where TResource : class
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal PrimaryResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, Type clrResourceType, IEnumerable<object> clrResourceCollection)
+        : base(parentBuilder, domDocument.AddDataCollection(), clrResourceType, clrResourceCollection)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IPrimaryResourceBuilder<TResource> Implementation
-        public IIncludedBuilder ResourceCollectionEnd()
-        {
-            // Notify base class building is done.
-            this.OnBuildEnd();
-
-            // Return the parent builder.
-            var parentBuilder = this.ParentBuilder;
-            return parentBuilder;
-        }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal PrimaryResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, Type clrResourceType, IEnumerable<TResource> clrResourceCollection)
-            : base(parentBuilder, domDocument.AddDataCollection(), clrResourceType, clrResourceCollection)
-        {
-            this.Builder = this;
-        }
-        #endregion
+        this.Builder = this;
     }
+    #endregion
+}
+
+internal class PrimaryResourceCollectionBuilder<TResource> : ResourceCollectionBuilder<IPrimaryResourceCollectionBuilder<TResource>, TResource>, IPrimaryResourceCollectionBuilder<TResource>
+    where TResource : class
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IPrimaryResourceBuilder<TResource> Implementation
+    public IIncludedBuilder ResourceCollectionEnd()
+    {
+        // Notify base class building is done.
+        this.OnBuildEnd();
+
+        // Return the parent builder.
+        var parentBuilder = this.ParentBuilder;
+        return parentBuilder;
+    }
+    #endregion
+
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal PrimaryResourceCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, Type clrResourceType, IEnumerable<TResource> clrResourceCollection)
+        : base(parentBuilder, domDocument.AddDataCollection(), clrResourceType, clrResourceCollection)
+    {
+        this.Builder = this;
+    }
+    #endregion
 }

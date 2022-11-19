@@ -5,25 +5,24 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class PropertyInfoAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IPropertyInfo expected, IPropertyInfo actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            MemberInfoAssert.Equal(expected, actual);
-            Assert.Equal(expected.ClrPropertyName, actual.ClrPropertyName);
-            Assert.Equal(expected.ClrPropertyType, actual.ClrPropertyType);
+public static class PropertyInfoAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IPropertyInfo expected, IPropertyInfo actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        MemberInfoAssert.Equal(expected, actual);
+        Assert.Equal(expected.ClrPropertyName, actual.ClrPropertyName);
+        Assert.Equal(expected.ClrPropertyType, actual.ClrPropertyType);
     }
+    #endregion
 }

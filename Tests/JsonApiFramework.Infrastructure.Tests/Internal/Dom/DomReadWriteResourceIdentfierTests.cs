@@ -13,65 +13,64 @@ using JsonApiFramework.TestData.ClrResources;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.Internal.Dom
+namespace JsonApiFramework.Tests.Internal.Dom;
+
+public class DomReadWriteResourceIdentifierTests : DomXUnitTest
 {
-    public class DomReadWriteResourceIdentifierTests : DomXUnitTest
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public DomReadWriteResourceIdentifierTests(ITestOutputHelper output)
+        : base(output)
+    { }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Test Methods
+    [Theory]
+    [MemberData(nameof(DomReadWriteResourceIdentifierTestData))]
+    internal void TestDomReadWriteResourceIdentifierCreate(string name, ResourceIdentifier expected, DomReadWriteResourceIdentifier actual)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public DomReadWriteResourceIdentifierTests(ITestOutputHelper output)
-            : base(output)
-        { }
-        #endregion
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Test Methods
-        [Theory]
-        [MemberData(nameof(DomReadWriteResourceIdentifierTestData))]
-        internal void TestDomReadWriteResourceIdentifierCreate(string name, ResourceIdentifier expected, DomReadWriteResourceIdentifier actual)
-        {
+        // Arrange
 
-            // Arrange
+        // Act
+        this.Output.WriteLine("Test Name: {0}", name);
+        this.Output.WriteLine(string.Empty);
+        this.OutputDomTree(actual);
 
-            // Act
-            this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
-            this.OutputDomTree(actual);
-
-            // Assert
-            DomReadWriteResourceIdentifierAssert.Equal(expected, actual);
-        }
-        #endregion
-
-        // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Test Data
-        // ReSharper disable once UnusedMember.Global
-        public static readonly IEnumerable<object[]> DomReadWriteResourceIdentifierTestData = new[]
-            {
-                new object[]
-                    {
-                        "WithEmptyObject",
-                        ResourceIdentifier.Empty,
-                        DomReadWriteResourceIdentifier.Create()
-                    },
-                new object[]
-                    {
-                        "WithNonEmptyObject",
-                        ApiSampleData.ArticleResourceIdentifier,
-                        DomReadWriteResourceIdentifier.Create(
-                            DomType.CreateFromResourceType(ClrSampleData.ArticleResourceType),
-                            DomId.CreateFromApiResourceIdentity(ClrSampleData.ArticleResourceType, ApiSampleData.ArticleResourceIdentifier))
-                    },
-                new object[]
-                    {
-                        "WithNonEmptyObjectAndMeta",
-                        ApiSampleData.ArticleResourceIdentifierWithMeta,
-                        DomReadWriteResourceIdentifier.Create(
-                            DomType.CreateFromResourceType(ClrSampleData.ArticleResourceType),
-                            DomId.CreateFromApiResourceIdentity(ClrSampleData.ArticleResourceType, ApiSampleData.ArticleResourceIdentifier),
-                            DomReadOnlyMeta.Create(ApiSampleData.ResourceMeta))
-                    }
-            };
-        #endregion
+        // Assert
+        DomReadWriteResourceIdentifierAssert.Equal(expected, actual);
     }
+    #endregion
+
+    // PUBLIC FIELDS ////////////////////////////////////////////////////
+    #region Test Data
+    // ReSharper disable once UnusedMember.Global
+    public static readonly IEnumerable<object[]> DomReadWriteResourceIdentifierTestData = new[]
+        {
+            new object[]
+                {
+                    "WithEmptyObject",
+                    ResourceIdentifier.Empty,
+                    DomReadWriteResourceIdentifier.Create()
+                },
+            new object[]
+                {
+                    "WithNonEmptyObject",
+                    ApiSampleData.ArticleResourceIdentifier,
+                    DomReadWriteResourceIdentifier.Create(
+                        DomType.CreateFromResourceType(ClrSampleData.ArticleResourceType),
+                        DomId.CreateFromApiResourceIdentity(ClrSampleData.ArticleResourceType, ApiSampleData.ArticleResourceIdentifier))
+                },
+            new object[]
+                {
+                    "WithNonEmptyObjectAndMeta",
+                    ApiSampleData.ArticleResourceIdentifierWithMeta,
+                    DomReadWriteResourceIdentifier.Create(
+                        DomType.CreateFromResourceType(ClrSampleData.ArticleResourceType),
+                        DomId.CreateFromApiResourceIdentity(ClrSampleData.ArticleResourceType, ApiSampleData.ArticleResourceIdentifier),
+                        DomReadOnlyMeta.Create(ApiSampleData.ResourceMeta))
+                }
+        };
+    #endregion
 }

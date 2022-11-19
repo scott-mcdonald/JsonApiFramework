@@ -6,38 +6,37 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.Server.Internal;
+
+internal class NullLinkBuilder<TParentBuilder> : ILinkBuilder<TParentBuilder>
 {
-    internal class NullLinkBuilder<TParentBuilder> : ILinkBuilder<TParentBuilder>
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region ILinksBuilder<TParentBuilder> Implementation
+    public ILinkBuilder<TParentBuilder> SetMeta(Meta meta)
+    { return this; }
+
+    public ILinkBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection)
+    { return this; }
+
+    public TParentBuilder LinkEnd()
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region ILinksBuilder<TParentBuilder> Implementation
-        public ILinkBuilder<TParentBuilder> SetMeta(Meta meta)
-        { return this; }
-
-        public ILinkBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection)
-        { return this; }
-
-        public TParentBuilder LinkEnd()
-        {
-            var parentBuilder = this.ParentBuilder;
-            return parentBuilder;
-        }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal NullLinkBuilder(TParentBuilder parentBuilder)
-        {
-            Contract.Requires(parentBuilder != null);
-
-            this.ParentBuilder = parentBuilder;
-        }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
-        private TParentBuilder ParentBuilder { get; set; }
-        #endregion
+        var parentBuilder = this.ParentBuilder;
+        return parentBuilder;
     }
+    #endregion
+
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal NullLinkBuilder(TParentBuilder parentBuilder)
+    {
+        Contract.Requires(parentBuilder != null);
+
+        this.ParentBuilder = parentBuilder;
+    }
+    #endregion
+
+    // PRIVATE PROPERTIES ///////////////////////////////////////////////
+    #region Properties
+    private TParentBuilder ParentBuilder { get; set; }
+    #endregion
 }

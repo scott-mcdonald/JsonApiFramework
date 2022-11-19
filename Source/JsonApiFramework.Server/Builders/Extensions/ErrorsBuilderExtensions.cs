@@ -6,19 +6,18 @@ using System.Linq;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
-{
-    public static class ErrorsBuilderExtensions
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IErrorsBuilder AddError(this IErrorsBuilder errorsBuilder, params Error[] errorCollection)
-        {
-            Contract.Requires(errorsBuilder != null);
-            Contract.Requires(errorCollection != null);
+namespace JsonApiFramework.Server;
 
-            return errorsBuilder.AddError(errorCollection.AsEnumerable());
-        }
-        #endregion
+public static class ErrorsBuilderExtensions
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IErrorsBuilder AddError(this IErrorsBuilder errorsBuilder, params Error[] errorCollection)
+    {
+        Contract.Requires(errorsBuilder != null);
+        Contract.Requires(errorCollection != null);
+
+        return errorsBuilder.AddError(errorCollection.AsEnumerable());
     }
+    #endregion
 }

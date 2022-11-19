@@ -3,13 +3,12 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework
+namespace JsonApiFramework;
+
+public interface IDocumentWriter
 {
-    public interface IDocumentWriter
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        Document WriteDocument();
-        #endregion
-    }
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    Document WriteDocument();
+    #endregion
 }

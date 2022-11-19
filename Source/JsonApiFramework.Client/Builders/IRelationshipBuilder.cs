@@ -3,18 +3,17 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Client
+namespace JsonApiFramework.Client;
+
+public interface IRelationshipBuilder<out TParentBuilder>
 {
-    public interface IRelationshipBuilder<out TParentBuilder>
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta);
 
-        IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage);
-        IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage);
+    IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage);
+    IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage);
 
-        TParentBuilder RelationshipEnd();
-        #endregion
-    }
+    TParentBuilder RelationshipEnd();
+    #endregion
 }

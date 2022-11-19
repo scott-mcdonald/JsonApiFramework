@@ -8,32 +8,31 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyLinkAssert
 {
-    internal static class DomReadOnlyLinkAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(string expectedRel, Link expectedLink, DomReadOnlyLink actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(string expectedRel, Link expectedLink, DomReadOnlyLink actual)
+        if (string.IsNullOrWhiteSpace(expectedRel))
         {
-            if (String.IsNullOrWhiteSpace(expectedRel))
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-            Assert.NotNull(expectedLink);
-
-            Assert.Equal(DomNodeType.Link, actual.NodeType);
-
-            // Rel
-            var actualRel = actual.Rel;
-            Assert.Equal(expectedRel, actualRel);
-
-            // Link
-            var actualLink = actual.Link;
-            LinkAssert.Equal(expectedLink, actualLink);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+        Assert.NotNull(expectedLink);
+
+        Assert.Equal(DomNodeType.Link, actual.NodeType);
+
+        // Rel
+        var actualRel = actual.Rel;
+        Assert.Equal(expectedRel, actualRel);
+
+        // Link
+        var actualLink = actual.Link;
+        LinkAssert.Equal(expectedLink, actualLink);
     }
+    #endregion
 }

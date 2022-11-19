@@ -12,59 +12,58 @@ using JsonApiFramework.TestData.ApiResources;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.Internal.Dom
+namespace JsonApiFramework.Tests.Internal.Dom;
+
+public class DomReadOnlyErrorsTests : DomXUnitTest
 {
-    public class DomReadOnlyErrorsTests : DomXUnitTest
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public DomReadOnlyErrorsTests(ITestOutputHelper output)
+        : base(output)
+    { }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Test Methods
+    [Theory]
+    [MemberData(nameof(DomReadOnlyErrorsTestData))]
+    public void TestDomReadOnlyErrorCreate(string name, Error[] expectedErrors)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public DomReadOnlyErrorsTests(ITestOutputHelper output)
-            : base(output)
-        { }
-        #endregion
+        // Arrange
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Test Methods
-        [Theory]
-        [MemberData(nameof(DomReadOnlyErrorsTestData))]
-        public void TestDomReadOnlyErrorCreate(string name, Error[] expectedErrors)
-        {
-            // Arrange
+        // Act
+        var actual = DomReadOnlyErrors.Create(expectedErrors);
 
-            // Act
-            var actual = DomReadOnlyErrors.Create(expectedErrors);
+        this.Output.WriteLine("Test Name: {0}", name);
+        this.Output.WriteLine(string.Empty);
+        this.OutputDomTree(actual);
 
-            this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
-            this.OutputDomTree(actual);
-
-            // Assert
-            DomReadOnlyErrorsAssert.Equal(expectedErrors, actual);
-        }
-        #endregion
-
-        // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Test Data
-        // ReSharper disable once UnusedMember.Global
-        public static readonly IEnumerable<object[]> DomReadOnlyErrorsTestData = new[]
-            {
-                new object[] {"WithEmptyObject", new Error[]
-                    {
-                        
-                    }
-                },
-                new object[] {"WithOneErrorObject", new []
-                    {
-                        ApiSampleData.Error
-                    }
-                },
-                new object[] {"WithManyErrorObjects", new []
-                    {
-                        ApiSampleData.Error1,
-                        ApiSampleData.Error2
-                    }
-                }
-            };
-        #endregion
+        // Assert
+        DomReadOnlyErrorsAssert.Equal(expectedErrors, actual);
     }
+    #endregion
+
+    // PUBLIC FIELDS ////////////////////////////////////////////////////
+    #region Test Data
+    // ReSharper disable once UnusedMember.Global
+    public static readonly IEnumerable<object[]> DomReadOnlyErrorsTestData = new[]
+        {
+            new object[] {"WithEmptyObject", new Error[]
+                {
+                    
+                }
+            },
+            new object[] {"WithOneErrorObject", new []
+                {
+                    ApiSampleData.Error
+                }
+            },
+            new object[] {"WithManyErrorObjects", new []
+                {
+                    ApiSampleData.Error1,
+                    ApiSampleData.Error2
+                }
+            }
+        };
+    #endregion
 }

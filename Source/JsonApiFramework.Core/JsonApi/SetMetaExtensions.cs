@@ -3,20 +3,19 @@
 
 using System.Diagnostics.Contracts;
 
-namespace JsonApiFramework.JsonApi
-{
-    /// <summary>Extension methods for any object that implements the <c>ISetMeta</c> interface.</summary>
-    public static class SetMetaExtensions
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region ISetMeta Extension Methods
-        public static void SetMetadata<TMetadata>(this ISetMeta setMeta, TMetadata metadata)
-        {
-            Contract.Requires(setMeta != null);
+namespace JsonApiFramework.JsonApi;
 
-            var meta = Meta.Create(metadata);
-            setMeta.Meta = meta;
-        }
-        #endregion
+/// <summary>Extension methods for any object that implements the <c>ISetMeta</c> interface.</summary>
+public static class SetMetaExtensions
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region ISetMeta Extension Methods
+    public static void SetMetadata<TMetadata>(this ISetMeta setMeta, TMetadata metadata)
+    {
+        Contract.Requires(setMeta != null);
+
+        var meta = Meta.Create(metadata);
+        setMeta.Meta = meta;
     }
+    #endregion
 }

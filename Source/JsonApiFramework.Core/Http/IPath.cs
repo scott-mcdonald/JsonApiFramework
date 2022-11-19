@@ -1,18 +1,15 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System.Collections.Generic;
+namespace JsonApiFramework.Http;
 
-namespace JsonApiFramework.Http
+/// <summary>
+/// Abstracts the whole or part of the path in a URL.
+/// </summary>
+public interface IPath
 {
-    /// <summary>
-    /// Abstracts the whole or part of the path in a URL.
-    /// </summary>
-    public interface IPath
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        IEnumerable<string> PathSegments { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    IEnumerable<string> PathSegments { get; }
+    #endregion
 }

@@ -5,36 +5,35 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework.Server;
+
+public interface IResourceBuilder<out TBuilder>
 {
-    public interface IResourceBuilder<out TBuilder>
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        TBuilder SetMeta(Meta              meta);
-        TBuilder SetMeta(IEnumerable<Meta> metaCollection);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    TBuilder SetMeta(Meta              meta);
+    TBuilder SetMeta(IEnumerable<Meta> metaCollection);
 
-        IResourcePathContextBuilder<TBuilder> Paths();
+    IResourcePathContextBuilder<TBuilder> Paths();
 
-        IRelationshipsBuilder<TBuilder> Relationships();
+    IRelationshipsBuilder<TBuilder> Relationships();
 
-        IResourceLinksBuilder<TBuilder> Links();
-        #endregion
-    }
+    IResourceLinksBuilder<TBuilder> Links();
+    #endregion
+}
 
-    public interface IResourceBuilder<out TBuilder, out TResource>
-        where TResource : class
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        TBuilder SetMeta(Meta meta);
-        TBuilder SetMeta(IEnumerable<Meta> metaCollection);
+public interface IResourceBuilder<out TBuilder, out TResource>
+    where TResource : class
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    TBuilder SetMeta(Meta meta);
+    TBuilder SetMeta(IEnumerable<Meta> metaCollection);
 
-        IResourcePathContextBuilder<TBuilder> Paths();
+    IResourcePathContextBuilder<TBuilder> Paths();
 
-        IRelationshipsBuilder<TBuilder, TResource> Relationships();
+    IRelationshipsBuilder<TBuilder, TResource> Relationships();
 
-        IResourceLinksBuilder<TBuilder, TResource> Links();
-        #endregion
-    }
+    IResourceLinksBuilder<TBuilder, TResource> Links();
+    #endregion
 }

@@ -8,31 +8,30 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomAttributeAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomAttributeAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(ApiProperty expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(ApiProperty expected, DomNode actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.Attribute, actual.NodeType);
-
-            var actualDomAttribute = (DomAttribute)actual;
-            var actualApiAttribute = actualDomAttribute.ApiAttribute;
-
-            ClrObjectAssert.Equal(expected, actualApiAttribute);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.Attribute, actual.NodeType);
+
+        var actualDomAttribute = (DomAttribute)actual;
+        var actualApiAttribute = actualDomAttribute.ApiAttribute;
+
+        ClrObjectAssert.Equal(expected, actualApiAttribute);
     }
+    #endregion
 }

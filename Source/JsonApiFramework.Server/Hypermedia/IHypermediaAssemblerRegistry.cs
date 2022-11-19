@@ -3,19 +3,18 @@
 
 using System;
 
-namespace JsonApiFramework.Server.Hypermedia
+namespace JsonApiFramework.Server.Hypermedia;
+
+public interface IHypermediaAssemblerRegistry
 {
-    public interface IHypermediaAssemblerRegistry
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IHypermediaAssembler GetAssembler(Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrPath5Type, Type clrResourceType);
-        IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrPath5Type, Type clrPath6Type, Type clrResourceType);
-        #endregion
-    }
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IHypermediaAssembler GetAssembler(Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrPath5Type, Type clrResourceType);
+    IHypermediaAssembler GetAssembler(Type clrPath1Type, Type clrPath2Type, Type clrPath3Type, Type clrPath4Type, Type clrPath5Type, Type clrPath6Type, Type clrResourceType);
+    #endregion
 }

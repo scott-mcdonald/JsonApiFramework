@@ -3,33 +3,32 @@
 
 using System;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework.Server;
+
+public interface IToOneIncludedResource
 {
-    public interface IToOneIncludedResource
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Type   FromResourceType { get; }
-        object FromResource     { get; }
-        string FromRel          { get; }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    Type   FromResourceType { get; }
+    object FromResource     { get; }
+    string FromRel          { get; }
 
-        Type   ToResourceType { get; }
-        object ToResource     { get; }
-        #endregion
-    }
+    Type   ToResourceType { get; }
+    object ToResource     { get; }
+    #endregion
+}
 
-    public interface IToOneIncludedResource<out TFromResource, out TToResource>
-        where TFromResource : class
-        where TToResource : class
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Type          FromResourceType { get; }
-        TFromResource FromResource     { get; }
-        string        FromRel          { get; }
+public interface IToOneIncludedResource<out TFromResource, out TToResource>
+    where TFromResource : class
+    where TToResource : class
+{
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    Type          FromResourceType { get; }
+    TFromResource FromResource     { get; }
+    string        FromRel          { get; }
 
-        Type        ToResourceType { get; }
-        TToResource ToResource     { get; }
-        #endregion
-    }
+    Type        ToResourceType { get; }
+    TToResource ToResource     { get; }
+    #endregion
 }

@@ -3,13 +3,12 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Internal.Dom
+namespace JsonApiFramework.Internal.Dom;
+
+internal interface IDomMeta : IGetIsReadOnly
 {
-    internal interface IDomMeta : IGetIsReadOnly
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Meta Meta { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    Meta Meta { get; }
+    #endregion
 }

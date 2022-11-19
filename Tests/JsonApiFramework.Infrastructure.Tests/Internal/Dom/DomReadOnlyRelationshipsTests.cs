@@ -12,95 +12,94 @@ using JsonApiFramework.TestData.ApiResources;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.Internal.Dom
+namespace JsonApiFramework.Tests.Internal.Dom;
+
+public class DomReadOnlyRelationshipsTests : DomXUnitTest
 {
-    public class DomReadOnlyRelationshipsTests : DomXUnitTest
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public DomReadOnlyRelationshipsTests(ITestOutputHelper output)
+        : base(output)
+    { }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Test Methods
+    [Theory]
+    [MemberData(nameof(DomReadOnlyRelationshipsTestData))]
+    public void TestDomReadOnlyRelationshipsCreate(string name, Relationships expected)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public DomReadOnlyRelationshipsTests(ITestOutputHelper output)
-            : base(output)
-        { }
-        #endregion
+        // Arrange
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Test Methods
-        [Theory]
-        [MemberData(nameof(DomReadOnlyRelationshipsTestData))]
-        public void TestDomReadOnlyRelationshipsCreate(string name, Relationships expected)
-        {
-            // Arrange
+        // Act
+        var actual = DomReadOnlyRelationships.Create(expected);
 
-            // Act
-            var actual = DomReadOnlyRelationships.Create(expected);
+        this.Output.WriteLine("Test Name: {0}", name);
+        this.Output.WriteLine(string.Empty);
+        this.OutputDomTree(actual);
 
-            this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
-            this.OutputDomTree(actual);
-
-            // Assert
-            DomReadOnlyRelationshipsAssert.Equal(expected, actual);
-        }
-        #endregion
-
-        // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Test Data
-        // ReSharper disable once UnusedMember.Global
-        public static readonly IEnumerable<object[]> DomReadOnlyRelationshipsTestData = new[]
-            {
-                new object[] {"WithEmptyObject", new Relationships()},
-                new object[]
-                    {
-                        "WithOneRelationship",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship}
-                            }
-                    },
-                new object[]
-                    {
-                        "WithManyRelationships",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship},
-                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship}
-                            }
-                    },
-                new object[]
-                    {
-                        "WithOneToOneRelationship",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship}
-                            }
-                    },
-                new object[]
-                    {
-                        "WithManyToOneRelationships",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
-                                {ApiSampleData.ArticleToBlogRel, ApiSampleData.ArticleToBlogToOneRelationship}
-                            }
-                    },
-                new object[]
-                    {
-                        "WithOneToManyRelationship",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship}
-                            }
-                    },
-                new object[]
-                    {
-                        "WithManyToManyRelationships",
-                        new Relationships
-                            {
-                                {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship},
-                                {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesToManyRelationship}
-                            }
-                    }
-            };
-        #endregion
+        // Assert
+        DomReadOnlyRelationshipsAssert.Equal(expected, actual);
     }
+    #endregion
+
+    // PUBLIC FIELDS ////////////////////////////////////////////////////
+    #region Test Data
+    // ReSharper disable once UnusedMember.Global
+    public static readonly IEnumerable<object[]> DomReadOnlyRelationshipsTestData = new[]
+        {
+            new object[] {"WithEmptyObject", new Relationships()},
+            new object[]
+                {
+                    "WithOneRelationship",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship}
+                        }
+                },
+            new object[]
+                {
+                    "WithManyRelationships",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorRelationship},
+                            {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsRelationship}
+                        }
+                },
+            new object[]
+                {
+                    "WithOneToOneRelationship",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship}
+                        }
+                },
+            new object[]
+                {
+                    "WithManyToOneRelationships",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToAuthorRel, ApiSampleData.ArticleToAuthorToOneRelationship},
+                            {ApiSampleData.ArticleToBlogRel, ApiSampleData.ArticleToBlogToOneRelationship}
+                        }
+                },
+            new object[]
+                {
+                    "WithOneToManyRelationship",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship}
+                        }
+                },
+            new object[]
+                {
+                    "WithManyToManyRelationships",
+                    new Relationships
+                        {
+                            {ApiSampleData.ArticleToCommentsRel, ApiSampleData.ArticleToCommentsToManyRelationship},
+                            {ApiSampleData.BlogToArticlesRel, ApiSampleData.BlogToArticlesToManyRelationship}
+                        }
+                }
+        };
+    #endregion
 }

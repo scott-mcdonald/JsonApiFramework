@@ -3,15 +3,14 @@
 
 using System;
 
-namespace JsonApiFramework.Client
+namespace JsonApiFramework.Client;
+
+public interface IAttributeProxy<out TProperty>
 {
-    public interface IAttributeProxy<out TProperty>
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        Type      ClrPropertyType  { get; }
-        string    ClrPropertyName  { get; }
-        TProperty ClrPropertyValue { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    Type      ClrPropertyType  { get; }
+    string    ClrPropertyName  { get; }
+    TProperty ClrPropertyValue { get; }
+    #endregion
 }

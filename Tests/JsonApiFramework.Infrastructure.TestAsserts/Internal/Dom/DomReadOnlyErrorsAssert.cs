@@ -9,27 +9,26 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadOnlyErrorsAssert
 {
-    internal static class DomReadOnlyErrorsAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IEnumerable<Error> expected, DomReadOnlyErrors actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IEnumerable<Error> expected, DomReadOnlyErrors actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.Errors, actual.NodeType);
-
-            var actualErrors = actual.Errors
-                                     .ToList();
-            ErrorAssert.Equal(expected, actualErrors);
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.Errors, actual.NodeType);
+
+        var actualErrors = actual.Errors
+                                 .ToList();
+        ErrorAssert.Equal(expected, actualErrors);
     }
+    #endregion
 }

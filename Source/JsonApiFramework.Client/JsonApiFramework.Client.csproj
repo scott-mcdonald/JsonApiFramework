@@ -1,48 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <PackageId>JsonApiFramework.Client</PackageId>
-        <Version>2.8.0</Version>
-        <Authors>Scott McDonald</Authors>
-        <Company>Scott McDonald</Company>
-        <Product>JsonApiFramework [Client]</Product>
-        <Description>Portable .NET framework-level classes that are specific for client-side JSON API document building creating an internal DOM tree representation in a progressive builder fluent style.</Description>
-        <Copyright>Copyright © 2015–2020 Scott McDonald</Copyright>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
-        <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
-        <PackageTags>.net portable jsonapi framework client</PackageTags>
-        <AssemblyVersion>2.8.0.0</AssemblyVersion>
-        <FileVersion>2.8.0.28</FileVersion>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>JsonApiFramework.Client</PackageId>
+    <Version>2.9.0</Version>
+    <Authors>Scott McDonald</Authors>
+    <Company>Scott McDonald</Company>
+    <Product>JsonApiFramework [Client]</Product>
+    <Description>Portable .NET framework-level classes that are specific for client-side JSON API document building creating an internal DOM tree representation in a progressive builder fluent style.</Description>
+    <Copyright>Copyright © 2015–2020 Scott McDonald</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+    <PackageTags>.net portable jsonapi framework client</PackageTags>
+    <AssemblyVersion>2.9.0.0</AssemblyVersion>
+    <FileVersion>2.9.0.29</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0">
-            <PrivateAssets>All</PrivateAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
-        <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Properties\ClientErrorStrings.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>ClientErrorStrings.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Update="Properties\ClientErrorStrings.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>ClientErrorStrings.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>JsonApiFramework.Client</CustomToolNamespace>
-        </EmbeddedResource>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>

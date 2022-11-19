@@ -7,69 +7,68 @@ using System.Linq;
 
 using JsonApiFramework.Internal.Dom;
 
-namespace JsonApiFramework.Server.Internal
+namespace JsonApiFramework.Server.Internal;
+
+internal class ToManyIncludedResourcesCollectionBuilder : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder>, IToManyIncludedResourcesBuilder
 {
-    internal class ToManyIncludedResourcesCollectionBuilder : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder>, IToManyIncludedResourcesBuilder
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IToManyIncludedResourcesBuilder Implementation
+    public IIncludedResourcesBuilder IncludeEnd()
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IToManyIncludedResourcesBuilder Implementation
-        public IIncludedResourcesBuilder IncludeEnd()
-        {
-            // Notify base class building is done.
-            this.OnBuildEnd();
+        // Notify base class building is done.
+        this.OnBuildEnd();
 
-            // Return the parent builder.
-            return this.ParentBuilder;
-        }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal ToManyIncludedResourcesCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyIncludedResources> toManyIncludedResourcesCollection)
-            : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyIncludedResourcesCollection?.FirstOrDefault()?.ToResourceType, toManyIncludedResourcesCollection.EmptyIfNull().SelectMany(x => x.ToResourceCollection))
-        {
-            Contract.Requires(toManyIncludedResourcesCollection != null);
-
-            this.Builder = this;
-
-            foreach (var toManyIncludedResources in toManyIncludedResourcesCollection.EmptyIfNull())
-            {
-                this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyIncludedResources);
-            }
-        }
-        #endregion
+        // Return the parent builder.
+        return this.ParentBuilder;
     }
+    #endregion
 
-    internal class ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder<TToResource>, TToResource>, IToManyIncludedResourcesBuilder<TToResource>
-        where TFromResource : class
-        where TToResource : class
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal ToManyIncludedResourcesCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyIncludedResources> toManyIncludedResourcesCollection)
+        : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyIncludedResourcesCollection?.FirstOrDefault()?.ToResourceType, toManyIncludedResourcesCollection.EmptyIfNull().SelectMany(x => x.ToResourceCollection))
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IToManyIncludedResourcesBuilder<TResource> Implementation
-        public IIncludedResourcesBuilder IncludeEnd()
+        Contract.Requires(toManyIncludedResourcesCollection != null);
+
+        this.Builder = this;
+
+        foreach (var toManyIncludedResources in toManyIncludedResourcesCollection.EmptyIfNull())
         {
-            // Notify base class building is done.
-            this.OnBuildEnd();
-
-            // Return the parent builder.
-            return this.ParentBuilder;
+            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyIncludedResources);
         }
-        #endregion
-
-        // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
-        #region Constructors
-        internal ToManyIncludedResourcesCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
-            : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyIncludedResourcesCollection?.FirstOrDefault()?.ToResourceType, toManyIncludedResourcesCollection.EmptyIfNull().SelectMany(x => x.ToResourceCollection))
-        {
-            Contract.Requires(toManyIncludedResourcesCollection != null);
-
-            this.Builder = this;
-
-            foreach (var toManyIncludedResources in toManyIncludedResourcesCollection.EmptyIfNull())
-            {
-                this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyIncludedResources);
-            }
-        }
-        #endregion
     }
+    #endregion
+}
+
+internal class ToManyIncludedResourcesCollectionBuilder<TFromResource, TToResource> : ResourceCollectionBuilder<IToManyIncludedResourcesBuilder<TToResource>, TToResource>, IToManyIncludedResourcesBuilder<TToResource>
+    where TFromResource : class
+    where TToResource : class
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IToManyIncludedResourcesBuilder<TResource> Implementation
+    public IIncludedResourcesBuilder IncludeEnd()
+    {
+        // Notify base class building is done.
+        this.OnBuildEnd();
+
+        // Return the parent builder.
+        return this.ParentBuilder;
+    }
+    #endregion
+
+    // INTERNAL CONSTRUCTORS ////////////////////////////////////////////
+    #region Constructors
+    internal ToManyIncludedResourcesCollectionBuilder(DocumentBuilder parentBuilder, DomDocument domDocument, IReadOnlyCollection<IToManyIncludedResources<TFromResource, TToResource>> toManyIncludedResourcesCollection)
+        : base(parentBuilder, domDocument.GetOrAddIncluded(), toManyIncludedResourcesCollection?.FirstOrDefault()?.ToResourceType, toManyIncludedResourcesCollection.EmptyIfNull().SelectMany(x => x.ToResourceCollection))
+    {
+        Contract.Requires(toManyIncludedResourcesCollection != null);
+
+        this.Builder = this;
+
+        foreach (var toManyIncludedResources in toManyIncludedResourcesCollection.EmptyIfNull())
+        {
+            this.DocumentBuilderContext.AddResourceLinkage(this.ServiceModel, toManyIncludedResources);
+        }
+    }
+    #endregion
 }

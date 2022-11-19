@@ -6,6 +6,7 @@ using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
 
+
 namespace JsonApiFramework.TestData.ClrResources
 {
     [JsonObject(MemberSerialization.OptIn)]

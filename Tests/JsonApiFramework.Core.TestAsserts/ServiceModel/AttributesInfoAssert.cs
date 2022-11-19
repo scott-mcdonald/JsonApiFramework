@@ -5,35 +5,34 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
+namespace JsonApiFramework.TestAsserts.ServiceModel;
+
+public static class AttributesInfoAssert
 {
-    public static class AttributesInfoAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IAttributesInfo expected, IAttributesInfo actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IAttributesInfo expected, IAttributesInfo actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            MemberInfoAssert.Equal(expected, actual);
-
-            var expectedList = expected.Collection.SafeToList();
-            var actualList = actual.Collection.SafeToList();
-            Assert.Equal(expectedList.Count, actualList.Count);
-
-            var count = expectedList.Count;
-            for (var i = 0; i < count; ++i)
-            {
-                var expectedItem = expectedList[i];
-                var actualItem = actualList[i];
-                AttributeInfoAssert.Equal(expectedItem, actualItem);
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        MemberInfoAssert.Equal(expected, actual);
+
+        var expectedList = expected.Collection.SafeToList();
+        var actualList = actual.Collection.SafeToList();
+        Assert.Equal(expectedList.Count, actualList.Count);
+
+        var count = expectedList.Count;
+        for (var i = 0; i < count; ++i)
+        {
+            var expectedItem = expectedList[i];
+            var actualItem = actualList[i];
+            AttributeInfoAssert.Equal(expectedItem, actualItem);
+        }
     }
+    #endregion
 }

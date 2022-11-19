@@ -6,31 +6,30 @@ using System.Diagnostics.Contracts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace JsonApiFramework.JsonApi
+namespace JsonApiFramework.JsonApi;
+
+/// <summary>
+/// JSON.Net converter for <c>ApiObject</c>.
+/// </summary>
+public class ApiObjectConverter : Converter<ApiObject>
 {
-    /// <summary>
-    /// JSON.Net converter for <c>ApiObject</c>.
-    /// </summary>
-    public class ApiObjectConverter : Converter<ApiObject>
+    // PROTECTED METHODS ////////////////////////////////////////////////
+    #region Converter Overrides
+    protected override ApiObject ReadTypedObject(JObject jObject, JsonSerializer serializer)
     {
-        // PROTECTED METHODS ////////////////////////////////////////////////
-        #region Converter Overrides
-        protected override ApiObject ReadTypedObject(JObject jObject, JsonSerializer serializer)
-        {
-            Contract.Requires(jObject != null);
+        Contract.Requires(jObject != null);
 
-            var apiObject = ReadApiObject(jObject, serializer);
-            return apiObject;
-        }
-
-        protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, ApiObject attributes)
-        {
-            Contract.Requires(writer != null);
-            Contract.Requires(serializer != null);
-            Contract.Requires(attributes != null);
-
-            WriteApiObject(writer, serializer, attributes);
-        }
-        #endregion
+        var apiObject = ReadApiObject(jObject, serializer);
+        return apiObject;
     }
+
+    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, ApiObject attributes)
+    {
+        Contract.Requires(writer != null);
+        Contract.Requires(serializer != null);
+        Contract.Requires(attributes != null);
+
+        WriteApiObject(writer, serializer, attributes);
+    }
+    #endregion
 }

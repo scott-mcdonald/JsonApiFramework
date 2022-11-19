@@ -3,17 +3,16 @@
 
 using System.Collections.Generic;
 
-namespace JsonApiFramework.Server.Hypermedia
-{
-    public interface IResourcePathContext : IPathContext
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        IEnumerable<IHypermediaPath> ResourceCanonicalBasePath { get; }
-        ResourcePathMode ResourceCanonicalPathMode { get; }
+namespace JsonApiFramework.Server.Hypermedia;
 
-        IEnumerable<IHypermediaPath> ResourceSelfBasePath { get; }
-        ResourcePathMode ResourceSelfPathMode { get; }
-        #endregion
-    }
+public interface IResourcePathContext : IPathContext
+{
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    IEnumerable<IHypermediaPath> ResourceCanonicalBasePath { get; }
+    ResourcePathMode ResourceCanonicalPathMode { get; }
+
+    IEnumerable<IHypermediaPath> ResourceSelfBasePath { get; }
+    ResourcePathMode ResourceSelfPathMode { get; }
+    #endregion
 }

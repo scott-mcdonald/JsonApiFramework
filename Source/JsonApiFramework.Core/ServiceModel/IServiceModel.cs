@@ -1,35 +1,31 @@
-// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015ï¿½Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
-
-using System;
-using System.Collections.Generic;
 
 using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 
-namespace JsonApiFramework.ServiceModel
+namespace JsonApiFramework.ServiceModel;
+
+public interface IServiceModel : IJsonObject, IExtensibleObject<IServiceModel>
 {
-    public interface IServiceModel : IJsonObject, IExtensibleObject<IServiceModel>
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        IEnumerable<IComplexType> ComplexTypes { get; }
-        IEnumerable<IResourceType> ResourceTypes { get; }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    IEnumerable<IComplexType> ComplexTypes { get; }
+    IEnumerable<IResourceType> ResourceTypes { get; }
 
-        IResourceType HomeResourceType { get; }
-        #endregion
+    IResourceType HomeResourceType { get; }
+    #endregion
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IComplexType GetComplexType(Type clrComplexType);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IComplexType GetComplexType(Type clrComplexType);
 
-        IResourceType GetResourceType(string apiResourceType);
-        IResourceType GetResourceType(Type clrResourceType);
+    IResourceType GetResourceType(string apiResourceType);
+    IResourceType GetResourceType(Type clrResourceType);
 
-        bool TryGetComplexType(Type clrComplexType, out IComplexType resourceType);
+    bool TryGetComplexType(Type clrComplexType, out IComplexType resourceType);
 
-        bool TryGetResourceType(string apiResourceType, out IResourceType resourceType);
-        bool TryGetResourceType(Type clrResourceType, out IResourceType resourceType);
-        #endregion
-    }
+    bool TryGetResourceType(string apiResourceType, out IResourceType resourceType);
+    bool TryGetResourceType(Type clrResourceType, out IResourceType resourceType);
+    #endregion
 }

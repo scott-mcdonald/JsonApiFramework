@@ -5,24 +5,23 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
-{
-    public static class ServiceModelAssert
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IServiceModel expected, IServiceModel actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
+namespace JsonApiFramework.TestAsserts.ServiceModel;
 
-            ComplexTypeAssert.Equal(expected.ComplexTypes, actual.ComplexTypes);
-            ResourceTypeAssert.Equal(expected.ResourceTypes, actual.ResourceTypes);
+public static class ServiceModelAssert
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IServiceModel expected, IServiceModel actual)
+    {
+        if (expected == null)
+        {
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        ComplexTypeAssert.Equal(expected.ComplexTypes, actual.ComplexTypes);
+        ResourceTypeAssert.Equal(expected.ResourceTypes, actual.ResourceTypes);
     }
+    #endregion
 }

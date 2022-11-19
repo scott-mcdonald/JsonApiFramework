@@ -1,16 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\JsonApiFramework.Core\JsonApiFramework.Core.csproj" />
-    <ProjectReference Include="..\..\Source\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Source\JsonApiFramework.Server\JsonApiFramework.Server.csproj" />
-    <ProjectReference Include="..\JsonApiFramework.XUnit\JsonApiFramework.XUnit.csproj" />
+    <ProjectReference Include="..\JsonApiFramework.Core.TestAsserts\JsonApiFramework.Core.TestAsserts.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="xunit.assert" Version="2.4.1" />
-  </ItemGroup>
+
 </Project>

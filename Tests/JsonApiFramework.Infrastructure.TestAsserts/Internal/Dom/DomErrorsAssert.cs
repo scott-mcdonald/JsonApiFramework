@@ -9,40 +9,39 @@ using JsonApiFramework.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+internal static class DomErrorsAssert
 {
-    using DomNode = Node<DomNodeType>;
-
-    internal static class DomErrorsAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IEnumerable<Error> expected, DomNode actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IEnumerable<Error> expected, DomNode actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            var actualType = actual.GetType();
-
-            if (actualType == typeof(DomReadOnlyErrors))
-            {
-                var actualDomReadOnlyErrors = (DomReadOnlyErrors)actual;
-                DomReadOnlyErrorsAssert.Equal(expected, actualDomReadOnlyErrors);
-            }
-            else if (actualType == typeof(DomReadWriteErrors))
-            {
-                var actualDomReadWriteErrors = (DomReadWriteErrors)actual;
-                DomReadWriteErrorsAssert.Equal(expected, actualDomReadWriteErrors);
-            }
-            else
-            {
-                Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        var actualType = actual.GetType();
+
+        if (actualType == typeof(DomReadOnlyErrors))
+        {
+            var actualDomReadOnlyErrors = (DomReadOnlyErrors)actual;
+            DomReadOnlyErrorsAssert.Equal(expected, actualDomReadOnlyErrors);
+        }
+        else if (actualType == typeof(DomReadWriteErrors))
+        {
+            var actualDomReadWriteErrors = (DomReadWriteErrors)actual;
+            DomReadWriteErrorsAssert.Equal(expected, actualDomReadWriteErrors);
+        }
+        else
+        {
+            Assert.True(false, "Unknown actual node type [name={0}].".FormatWith(actualType.Name));
+        }
     }
+    #endregion
 }

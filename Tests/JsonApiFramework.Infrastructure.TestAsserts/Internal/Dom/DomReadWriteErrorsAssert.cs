@@ -9,43 +9,42 @@ using JsonApiFramework.TestAsserts.JsonApi;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.Internal.Dom
+namespace JsonApiFramework.TestAsserts.Internal.Dom;
+
+internal static class DomReadWriteErrorsAssert
 {
-    internal static class DomReadWriteErrorsAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IEnumerable<Error> expected, DomReadWriteErrors actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IEnumerable<Error> expected, DomReadWriteErrors actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            Assert.Equal(DomNodeType.Errors, actual.NodeType);
-
-            var expectedCollection = expected.SafeToReadOnlyList();
-
-            var actualNodes = actual.Nodes()
-                                    .ToList();
-
-            var actualDomErrorsCount = actualNodes.Count;
-            Assert.Equal(expectedCollection.Count, actualDomErrorsCount);
-
-            var count = expectedCollection.Count;
-            for (var i = 0; i < count; ++i)
-            {
-                var expectedError = expectedCollection[i];
-
-                var actualNode = actualNodes[i];
-                var actualDomError = (IDomError)actualNode;
-                var actualError = actualDomError.Error;
-
-                ErrorAssert.Equal(expectedError, actualError);
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        Assert.Equal(DomNodeType.Errors, actual.NodeType);
+
+        var expectedCollection = expected.SafeToReadOnlyList();
+
+        var actualNodes = actual.Nodes()
+                                .ToList();
+
+        var actualDomErrorsCount = actualNodes.Count;
+        Assert.Equal(expectedCollection.Count, actualDomErrorsCount);
+
+        var count = expectedCollection.Count;
+        for (var i = 0; i < count; ++i)
+        {
+            var expectedError = expectedCollection[i];
+
+            var actualNode = actualNodes[i];
+            var actualDomError = (IDomError)actualNode;
+            var actualError = actualDomError.Error;
+
+            ErrorAssert.Equal(expectedError, actualError);
+        }
     }
+    #endregion
 }

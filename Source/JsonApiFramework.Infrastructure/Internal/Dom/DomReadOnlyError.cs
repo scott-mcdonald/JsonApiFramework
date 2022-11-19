@@ -6,51 +6,50 @@ using System.Diagnostics.Contracts;
 using JsonApiFramework.Internal.Tree;
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Internal.Dom
+namespace JsonApiFramework.Internal.Dom;
+
+/// <summary>
+/// Represents a read-only error node in the DOM tree.
+/// </summary>
+internal class DomReadOnlyError : Node<DomNodeType>, IDomError
 {
-    /// <summary>
-    /// Represents a read-only error node in the DOM tree.
-    /// </summary>
-    internal class DomReadOnlyError : Node<DomNodeType>, IDomError
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region DomNode Overrides
+    public override DomNodeType NodeType
+    { get { return DomNodeType.Error; } }
+
+    public override string Name
+    { get { return "ReadOnlyError"; } }
+    #endregion
+
+    #region IGetReadOnly Implementation
+    public bool IsReadOnly
+    { get { return true; } }
+    #endregion
+
+    #region IDomError Implementation
+    public Error Error
+    { get; private set; }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Factory Methods
+    public static DomReadOnlyError Create(Error error)
     {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region DomNode Overrides
-        public override DomNodeType NodeType
-        { get { return DomNodeType.Error; } }
+        Contract.Requires(error != null);
 
-        public override string Name
-        { get { return "ReadOnlyError"; } }
-        #endregion
-
-        #region IGetReadOnly Implementation
-        public bool IsReadOnly
-        { get { return true; } }
-        #endregion
-
-        #region IDomError Implementation
-        public Error Error
-        { get; private set; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Factory Methods
-        public static DomReadOnlyError Create(Error error)
-        {
-            Contract.Requires(error != null);
-
-            var domReadOnlyError = new DomReadOnlyError(error);
-            return domReadOnlyError;
-        }
-        #endregion
-
-        // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
-        #region Constructors
-        private DomReadOnlyError(Error error)
-        {
-            Contract.Requires(error != null);
-
-            this.Error = error;
-        }
-        #endregion
+        var domReadOnlyError = new DomReadOnlyError(error);
+        return domReadOnlyError;
     }
+    #endregion
+
+    // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
+    #region Constructors
+    private DomReadOnlyError(Error error)
+    {
+        Contract.Requires(error != null);
+
+        this.Error = error;
+    }
+    #endregion
 }

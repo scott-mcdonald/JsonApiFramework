@@ -12,62 +12,61 @@ using JsonApiFramework.TestData.ApiResources;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.Internal.Dom
+namespace JsonApiFramework.Tests.Internal.Dom;
+
+public class DomReadWriteErrorsTests : DomXUnitTest
 {
-    public class DomReadWriteErrorsTests : DomXUnitTest
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public DomReadWriteErrorsTests(ITestOutputHelper output)
+        : base(output)
+    { }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Test Methods
+    [Theory]
+    [MemberData(nameof(DomReadWriteErrorsTestData))]
+    internal void TestDomReadWriteErrorCreate(string name, Error[] expected, DomReadWriteErrors actual)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public DomReadWriteErrorsTests(ITestOutputHelper output)
-            : base(output)
-        { }
-        #endregion
+        // Arrange
 
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Test Methods
-        [Theory]
-        [MemberData(nameof(DomReadWriteErrorsTestData))]
-        internal void TestDomReadWriteErrorCreate(string name, Error[] expected, DomReadWriteErrors actual)
-        {
-            // Arrange
+        // Act
+        this.Output.WriteLine("Test Name: {0}", name);
+        this.Output.WriteLine(string.Empty);
+        this.OutputDomTree(actual);
 
-            // Act
-            this.Output.WriteLine("Test Name: {0}", name);
-            this.Output.WriteLine(String.Empty);
-            this.OutputDomTree(actual);
-
-            // Assert
-            DomReadWriteErrorsAssert.Equal(expected, actual);
-        }
-        #endregion
-
-        // PUBLIC FIELDS ////////////////////////////////////////////////////
-        #region Test Data
-        // ReSharper disable once UnusedMember.Global
-        public static readonly IEnumerable<object[]> DomReadWriteErrorsTestData = new[]
-            {
-                new object[]
-                {
-                    "WithEmptyObject",
-                    new Error[] { },
-                    DomReadWriteErrors.Create()
-                },
-                new object[]
-                {
-                    "WithOneErrorObject",
-                    new [] { ApiSampleData.Error },
-                    DomReadWriteErrors.Create(
-                        DomReadOnlyError.Create(ApiSampleData.Error))
-                },
-                new object[]
-                {
-                    "WithManyErrorObjects",
-                    new [] { ApiSampleData.Error1, ApiSampleData.Error2 },
-                    DomReadWriteErrors.Create(
-                        DomReadOnlyError.Create(ApiSampleData.Error1),
-                        DomReadOnlyError.Create(ApiSampleData.Error2))
-                }
-            };
-        #endregion
+        // Assert
+        DomReadWriteErrorsAssert.Equal(expected, actual);
     }
+    #endregion
+
+    // PUBLIC FIELDS ////////////////////////////////////////////////////
+    #region Test Data
+    // ReSharper disable once UnusedMember.Global
+    public static readonly IEnumerable<object[]> DomReadWriteErrorsTestData = new[]
+        {
+            new object[]
+            {
+                "WithEmptyObject",
+                new Error[] { },
+                DomReadWriteErrors.Create()
+            },
+            new object[]
+            {
+                "WithOneErrorObject",
+                new [] { ApiSampleData.Error },
+                DomReadWriteErrors.Create(
+                    DomReadOnlyError.Create(ApiSampleData.Error))
+            },
+            new object[]
+            {
+                "WithManyErrorObjects",
+                new [] { ApiSampleData.Error1, ApiSampleData.Error2 },
+                DomReadWriteErrors.Create(
+                    DomReadOnlyError.Create(ApiSampleData.Error1),
+                    DomReadOnlyError.Create(ApiSampleData.Error2))
+            }
+        };
+    #endregion
 }

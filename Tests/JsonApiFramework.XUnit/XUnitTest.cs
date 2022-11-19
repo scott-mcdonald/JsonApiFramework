@@ -5,26 +5,25 @@ using System.Diagnostics.Contracts;
 
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.XUnit
+namespace JsonApiFramework.XUnit;
+
+/// <summary>
+/// Base class for any xUnit based tests that want to capture test output.
+/// </summary>
+public abstract class XUnitTest
 {
-    /// <summary>
-    /// Base class for any xUnit based tests that want to capture test output.
-    /// </summary>
-    public abstract class XUnitTest
+    // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+    #region Constructors
+    protected XUnitTest(ITestOutputHelper output)
     {
-        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
-        #region Constructors
-        protected XUnitTest(ITestOutputHelper output)
-        {
-            Contract.Requires(output != null);
+        Contract.Requires(output != null);
 
-            this.Output = output;
-        }
-        #endregion
-
-        // PROTECTED PROPERTIES /////////////////////////////////////////////
-        #region Properties
-        protected ITestOutputHelper Output { get; private set; }
-        #endregion
+        this.Output = output;
     }
+    #endregion
+
+    // PROTECTED PROPERTIES /////////////////////////////////////////////
+    #region Properties
+    protected ITestOutputHelper Output { get; private set; }
+    #endregion
 }

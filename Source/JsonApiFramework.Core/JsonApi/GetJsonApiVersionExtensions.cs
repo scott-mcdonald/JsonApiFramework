@@ -3,19 +3,18 @@
 
 using System.Diagnostics.Contracts;
 
-namespace JsonApiFramework.JsonApi
-{
-    /// <summary>Extension methods for any object that implements the <c>IGetJsonApi</c> interface.</summary>
-    public static class GetJsonApiVersionExtensions
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Getter Extension Methods
-        public static bool HasJsonApi(this IGetJsonApiVersion getJsonApi)
-        {
-            Contract.Requires(getJsonApi != null);
+namespace JsonApiFramework.JsonApi;
 
-            return getJsonApi.JsonApiVersion != null;
-        }
-        #endregion
+/// <summary>Extension methods for any object that implements the <c>IGetJsonApi</c> interface.</summary>
+public static class GetJsonApiVersionExtensions
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Getter Extension Methods
+    public static bool HasJsonApi(this IGetJsonApiVersion getJsonApi)
+    {
+        Contract.Requires(getJsonApi != null);
+
+        return getJsonApi.JsonApiVersion != null;
     }
+    #endregion
 }

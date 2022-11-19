@@ -5,24 +5,23 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server
+namespace JsonApiFramework.Server;
+
+public interface IRelationshipBuilder<out TParentBuilder>
 {
-    public interface IRelationshipBuilder<out TParentBuilder>
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta);
-        IRelationshipBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    IRelationshipBuilder<TParentBuilder> SetMeta(Meta meta);
+    IRelationshipBuilder<TParentBuilder> SetMeta(IEnumerable<Meta> metaCollection);
 
-        IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>> Links();
+    IRelationshipLinksBuilder<IRelationshipBuilder<TParentBuilder>> Links();
 
-        IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage);
-        IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection);
+    IRelationshipBuilder<TParentBuilder> SetData(IToOneResourceLinkage toOneResourceLinkage);
+    IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToOneResourceLinkage> toOneResourceLinkageCollection);
 
-        IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage);
-        IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection);
+    IRelationshipBuilder<TParentBuilder> SetData(IToManyResourceLinkage toManyResourceLinkage);
+    IRelationshipBuilder<TParentBuilder> SetData(IEnumerable<IToManyResourceLinkage> toManyResourceLinkageCollection);
 
-        TParentBuilder RelationshipEnd();
-        #endregion
-    }
+    TParentBuilder RelationshipEnd();
+    #endregion
 }

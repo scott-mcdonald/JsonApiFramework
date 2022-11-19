@@ -6,51 +6,50 @@ using System.Diagnostics.Contracts;
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.Server.Hypermedia;
 
-namespace JsonApiFramework.Server.Internal.Dom
+namespace JsonApiFramework.Server.Internal.Dom;
+
+internal static class DomExtensions
 {
-    internal static class DomExtensions
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region DomDocument Extensions
+    public static IDocumentPathContext GetDocumentPathContext(this DomDocument domDocument)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region DomDocument Extensions
-        public static IDocumentPathContext GetDocumentPathContext(this DomDocument domDocument)
-        {
-            Contract.Requires(domDocument != null);
+        Contract.Requires(domDocument != null);
 
-            var success = domDocument.TryAndGetSingleAttribute<IDocumentPathContext>(DocumentPathContextNodeAttributeName, out var documentPathContext);
-            return success ? documentPathContext : default(IDocumentPathContext);
-        }
-
-        public static void SetDocumentPathContext(this DomDocument domDocument, IDocumentPathContext documentPathContext)
-        {
-            Contract.Requires(domDocument != null);
-            Contract.Requires(documentPathContext != null);
-
-            domDocument.SetSingleAttribute(DocumentPathContextNodeAttributeName, documentPathContext);
-        }
-        #endregion
-
-        #region DomReadWriteResource Extensions
-        public static IResourcePathContext GetResourcePathContext(this DomReadWriteResource domReadWriteResource)
-        {
-            Contract.Requires(domReadWriteResource != null);
-
-            var resourcePathContext = domReadWriteResource.GetSingleAttribute<IResourcePathContext>(ResourcePathContextNodeAttributeName);
-            return resourcePathContext;
-        }
-
-        public static void SetResourcePathContext(this DomReadWriteResource domReadWriteResource, IResourcePathContext resourcePathContext)
-        {
-            Contract.Requires(domReadWriteResource != null);
-            Contract.Requires(resourcePathContext != null);
-
-            domReadWriteResource.SetSingleAttribute(ResourcePathContextNodeAttributeName, resourcePathContext);
-        }
-        #endregion
-
-        // PRIVATE FIELDS ///////////////////////////////////////////////////
-        #region Constants
-        private const string DocumentPathContextNodeAttributeName = "document-path-context";
-        private const string ResourcePathContextNodeAttributeName = "resource-path-context";
-        #endregion
+        var success = domDocument.TryAndGetSingleAttribute<IDocumentPathContext>(DocumentPathContextNodeAttributeName, out var documentPathContext);
+        return success ? documentPathContext : default(IDocumentPathContext);
     }
+
+    public static void SetDocumentPathContext(this DomDocument domDocument, IDocumentPathContext documentPathContext)
+    {
+        Contract.Requires(domDocument != null);
+        Contract.Requires(documentPathContext != null);
+
+        domDocument.SetSingleAttribute(DocumentPathContextNodeAttributeName, documentPathContext);
+    }
+    #endregion
+
+    #region DomReadWriteResource Extensions
+    public static IResourcePathContext GetResourcePathContext(this DomReadWriteResource domReadWriteResource)
+    {
+        Contract.Requires(domReadWriteResource != null);
+
+        var resourcePathContext = domReadWriteResource.GetSingleAttribute<IResourcePathContext>(ResourcePathContextNodeAttributeName);
+        return resourcePathContext;
+    }
+
+    public static void SetResourcePathContext(this DomReadWriteResource domReadWriteResource, IResourcePathContext resourcePathContext)
+    {
+        Contract.Requires(domReadWriteResource != null);
+        Contract.Requires(resourcePathContext != null);
+
+        domReadWriteResource.SetSingleAttribute(ResourcePathContextNodeAttributeName, resourcePathContext);
+    }
+    #endregion
+
+    // PRIVATE FIELDS ///////////////////////////////////////////////////
+    #region Constants
+    private const string DocumentPathContextNodeAttributeName = "document-path-context";
+    private const string ResourcePathContextNodeAttributeName = "resource-path-context";
+    #endregion
 }

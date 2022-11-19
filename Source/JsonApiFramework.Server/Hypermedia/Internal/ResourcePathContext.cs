@@ -8,81 +8,80 @@ using System.Linq;
 
 using JsonApiFramework.Internal.Tree;
 
-namespace JsonApiFramework.Server.Hypermedia.Internal
+namespace JsonApiFramework.Server.Hypermedia.Internal;
+
+internal class ResourcePathContext : IResourcePathContext, INodeAttributeValue
 {
-    internal class ResourcePathContext : IResourcePathContext, INodeAttributeValue
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public ResourcePathContext(IEnumerable<IHypermediaPath> resourceSelfBasePath, ResourcePathMode resourceSelfPathMode)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public ResourcePathContext(IEnumerable<IHypermediaPath> resourceSelfBasePath, ResourcePathMode resourceSelfPathMode)
-        {
-            Contract.Requires(resourceSelfBasePath != null);
+        Contract.Requires(resourceSelfBasePath != null);
 
-            this.ResourceSelfBasePath = resourceSelfBasePath;
-            this.ResourceSelfPathMode = resourceSelfPathMode;
-        }
-
-        public ResourcePathContext(IEnumerable<IHypermediaPath> resourceSelfBasePath, ResourcePathMode resourceSelfPathMode,
-                                   IEnumerable<IHypermediaPath> resourceCanonicalBasePath, ResourcePathMode resourceCanonicalPathMode)
-        {
-            Contract.Requires(resourceSelfBasePath != null);
-            Contract.Requires(resourceCanonicalBasePath != null);
-
-            this.ResourceSelfBasePath = resourceSelfBasePath;
-            this.ResourceSelfPathMode = resourceSelfPathMode;
-
-            this.ResourceCanonicalBasePath = resourceCanonicalBasePath;
-            this.ResourceCanonicalPathMode = resourceCanonicalPathMode;
-        }
-        #endregion
-
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IPathContext Implementation
-        public IEnumerable<Type> ClrResourceTypes => this.ResourceSelfBasePath.GetClrResourceTypes();
-        #endregion
-
-        #region IResourcePathContext Implementation
-        public IEnumerable<IHypermediaPath> ResourceCanonicalBasePath
-        { get; }
-
-        public ResourcePathMode ResourceCanonicalPathMode
-        { get; }
-
-        public IEnumerable<IHypermediaPath> ResourceSelfBasePath
-        { get; }
-
-        public ResourcePathMode ResourceSelfPathMode
-        { get; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region INodeAttributeValue Implementation
-        public string ToNodeAttributeValueString()
-        {
-            var resourceSelfBasePathAsString = CreatePathSegmentsAsString(this.ResourceSelfBasePath);
-            var resourceCanonicalBasePathAsString = CreatePathSegmentsAsString(this.ResourceCanonicalBasePath);
-
-            var nodeAttributeValueString = "self={0} canonical={1}"
-                .FormatWith(resourceSelfBasePathAsString, resourceCanonicalBasePathAsString);
-            return nodeAttributeValueString;
-        }
-        #endregion
-
-        // PRIVATE METHODS //////////////////////////////////////////////////
-        #region Methods
-        private static string CreatePathSegmentsAsString(IEnumerable<IHypermediaPath> resourceBasePath)
-        {
-            var resourceBasePathSegments = resourceBasePath
-                .EmptyIfNull()
-                .SelectMany(x => x.PathSegments)
-                .ToList();
-
-            var resourceBasePathAsString = resourceBasePathSegments.Any()
-                ? resourceBasePathSegments.Aggregate((current, next) => current + "/" + next)
-                : String.Empty;
-
-            return resourceBasePathAsString;
-        }
-        #endregion
+        this.ResourceSelfBasePath = resourceSelfBasePath;
+        this.ResourceSelfPathMode = resourceSelfPathMode;
     }
+
+    public ResourcePathContext(IEnumerable<IHypermediaPath> resourceSelfBasePath, ResourcePathMode resourceSelfPathMode,
+                               IEnumerable<IHypermediaPath> resourceCanonicalBasePath, ResourcePathMode resourceCanonicalPathMode)
+    {
+        Contract.Requires(resourceSelfBasePath != null);
+        Contract.Requires(resourceCanonicalBasePath != null);
+
+        this.ResourceSelfBasePath = resourceSelfBasePath;
+        this.ResourceSelfPathMode = resourceSelfPathMode;
+
+        this.ResourceCanonicalBasePath = resourceCanonicalBasePath;
+        this.ResourceCanonicalPathMode = resourceCanonicalPathMode;
+    }
+    #endregion
+
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region IPathContext Implementation
+    public IEnumerable<Type> ClrResourceTypes => this.ResourceSelfBasePath.GetClrResourceTypes();
+    #endregion
+
+    #region IResourcePathContext Implementation
+    public IEnumerable<IHypermediaPath> ResourceCanonicalBasePath
+    { get; }
+
+    public ResourcePathMode ResourceCanonicalPathMode
+    { get; }
+
+    public IEnumerable<IHypermediaPath> ResourceSelfBasePath
+    { get; }
+
+    public ResourcePathMode ResourceSelfPathMode
+    { get; }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region INodeAttributeValue Implementation
+    public string ToNodeAttributeValueString()
+    {
+        var resourceSelfBasePathAsString = CreatePathSegmentsAsString(this.ResourceSelfBasePath);
+        var resourceCanonicalBasePathAsString = CreatePathSegmentsAsString(this.ResourceCanonicalBasePath);
+
+        var nodeAttributeValueString = "self={0} canonical={1}"
+            .FormatWith(resourceSelfBasePathAsString, resourceCanonicalBasePathAsString);
+        return nodeAttributeValueString;
+    }
+    #endregion
+
+    // PRIVATE METHODS //////////////////////////////////////////////////
+    #region Methods
+    private static string CreatePathSegmentsAsString(IEnumerable<IHypermediaPath> resourceBasePath)
+    {
+        var resourceBasePathSegments = resourceBasePath
+            .EmptyIfNull()
+            .SelectMany(x => x.PathSegments)
+            .ToList();
+
+        var resourceBasePathAsString = resourceBasePathSegments.Any()
+            ? resourceBasePathSegments.Aggregate((current, next) => current + "/" + next)
+            : string.Empty;
+
+        return resourceBasePathAsString;
+    }
+    #endregion
 }

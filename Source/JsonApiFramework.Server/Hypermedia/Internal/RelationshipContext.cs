@@ -7,47 +7,46 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server.Hypermedia.Internal
+namespace JsonApiFramework.Server.Hypermedia.Internal;
+
+internal class RelationshipContext : IRelationshipContext
 {
-    internal class RelationshipContext : IRelationshipContext
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public RelationshipContext(string rel, IEnumerable<ILinkContext> linkContexts, Meta meta = null)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public RelationshipContext(string rel, IEnumerable<ILinkContext> linkContexts, Meta meta = null)
-        {
-            Contract.Requires(String.IsNullOrWhiteSpace(rel) == false);
+        Contract.Requires(string.IsNullOrWhiteSpace(rel) == false);
 
-            this.Rel = rel;
-            this.LinkContexts = linkContexts.EmptyIfNull();
-            this.Meta = meta;
-        }
-        #endregion
-
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region IRelationshipContext Implementation
-        public string Rel { get; private set; }
-        public IEnumerable<ILinkContext> LinkContexts { get; private set; }
-        public Meta Meta { get; private set; }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region IRelationshipContext Implementation
-        public virtual RelationshipType GetRelationshipType()
-        { return RelationshipType.Relationship; }
-
-        public virtual ResourceIdentifier GetToOneResourceLinkage()
-        {
-            var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildIncorrectResourceLinkage
-                                           .FormatWith("to-one", this.Rel);
-            throw new DocumentBuildException(detail);
-        }
-
-        public virtual IEnumerable<ResourceIdentifier> GetToManyResourceLinkage()
-        {
-            var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildIncorrectResourceLinkage
-                                           .FormatWith("to-many", this.Rel);
-            throw new DocumentBuildException(detail);
-        }
-        #endregion
+        this.Rel = rel;
+        this.LinkContexts = linkContexts.EmptyIfNull();
+        this.Meta = meta;
     }
+    #endregion
+
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region IRelationshipContext Implementation
+    public string Rel { get; private set; }
+    public IEnumerable<ILinkContext> LinkContexts { get; private set; }
+    public Meta Meta { get; private set; }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region IRelationshipContext Implementation
+    public virtual RelationshipType GetRelationshipType()
+    { return RelationshipType.Relationship; }
+
+    public virtual ResourceIdentifier GetToOneResourceLinkage()
+    {
+        var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildIncorrectResourceLinkage
+                                       .FormatWith("to-one", this.Rel);
+        throw new DocumentBuildException(detail);
+    }
+
+    public virtual IEnumerable<ResourceIdentifier> GetToManyResourceLinkage()
+    {
+        var detail = ServerErrorStrings.DocumentBuildExceptionDetailBuildIncorrectResourceLinkage
+                                       .FormatWith("to-many", this.Rel);
+        throw new DocumentBuildException(detail);
+    }
+    #endregion
 }

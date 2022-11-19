@@ -8,31 +8,30 @@ using System.Linq.Expressions;
 using JsonApiFramework.Client.Internal;
 using JsonApiFramework.Reflection;
 
-namespace JsonApiFramework.Client
+namespace JsonApiFramework.Client;
+
+public static class AttributesBuilderExtensions
 {
-    public static class AttributesBuilderExtensions
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IAttributesBuilder<TParentBuilder> AddAttribute<TParentBuilder, TProperty>(this IAttributesBuilder<TParentBuilder> attributesBuilder, string propertyName, TProperty propertyValue)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IAttributesBuilder<TParentBuilder> AddAttribute<TParentBuilder, TProperty>(this IAttributesBuilder<TParentBuilder> attributesBuilder, string propertyName, TProperty propertyValue)
-        {
-            Contract.Requires(attributesBuilder != null);
-            Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
+        Contract.Requires(attributesBuilder != null);
+        Contract.Requires(String.IsNullOrWhiteSpace(propertyName) == false);
 
-            var attribute = new AttributeProxy<TProperty>(propertyName, propertyValue);
-            return attributesBuilder.AddAttribute(attribute);
-        }
-
-        public static IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TParentBuilder, TResource, TProperty>(this IAttributesBuilder<TParentBuilder, TResource> attributesBuilder, Expression<Func<TResource, object>> propertySelector, TProperty propertyValue)
-            where TResource : class
-        {
-            Contract.Requires(attributesBuilder != null);
-            Contract.Requires(propertySelector != null);
-
-            var propertyName = StaticReflection.GetMemberName(propertySelector);
-            var attribute = new AttributeProxy<TProperty>(propertyName, propertyValue);
-            return attributesBuilder.AddAttribute(attribute);
-        }
-        #endregion
+        var attribute = new AttributeProxy<TProperty>(propertyName, propertyValue);
+        return attributesBuilder.AddAttribute(attribute);
     }
+
+    public static IAttributesBuilder<TParentBuilder, TResource> AddAttribute<TParentBuilder, TResource, TProperty>(this IAttributesBuilder<TParentBuilder, TResource> attributesBuilder, Expression<Func<TResource, object>> propertySelector, TProperty propertyValue)
+        where TResource : class
+    {
+        Contract.Requires(attributesBuilder != null);
+        Contract.Requires(propertySelector != null);
+
+        var propertyName = StaticReflection.GetMemberName(propertySelector);
+        var attribute = new AttributeProxy<TProperty>(propertyName, propertyValue);
+        return attributesBuilder.AddAttribute(attribute);
+    }
+    #endregion
 }

@@ -6,45 +6,44 @@ using System.Diagnostics.Contracts;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
 
-namespace JsonApiFramework.Internal
+namespace JsonApiFramework.Internal;
+
+internal static class DocumentContextImplementationExtensions
 {
-    internal static class DocumentContextImplementationExtensions
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Extension Methods
+    public static IConventions GetConventions(this IDocumentContextImplementation implementation)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Extension Methods
-        public static IConventions GetConventions(this IDocumentContextImplementation implementation)
-        {
-            Contract.Requires(implementation != null);
+        Contract.Requires(implementation != null);
 
-            var coreExtension = implementation.Options.GetExtension<CoreDocumentContextExtension>();
-            var conventions = coreExtension.Conventions;
-            return conventions;
-        }
-
-        public static IServiceModel GetServiceModel(this IDocumentContextImplementation implementation)
-        {
-            Contract.Requires(implementation != null);
-
-            var coreExtension = implementation.Options.GetExtension<CoreDocumentContextExtension>();
-            var serviceModel = coreExtension.ServiceModel;
-            return serviceModel;
-        }
-
-        public static void SetConventions(this IDocumentContextImplementation implementation, IConventions conventions)
-        {
-            Contract.Requires(implementation != null);
-            Contract.Requires(conventions != null);
-
-            implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
-        }
-
-        public static void SetServiceModel(this IDocumentContextImplementation implementation, IServiceModel serviceModel)
-        {
-            Contract.Requires(implementation != null);
-            Contract.Requires(serviceModel != null);
-
-            implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.ServiceModel = serviceModel);
-        }
-        #endregion
+        var coreExtension = implementation.Options.GetExtension<CoreDocumentContextExtension>();
+        var conventions = coreExtension.Conventions;
+        return conventions;
     }
+
+    public static IServiceModel GetServiceModel(this IDocumentContextImplementation implementation)
+    {
+        Contract.Requires(implementation != null);
+
+        var coreExtension = implementation.Options.GetExtension<CoreDocumentContextExtension>();
+        var serviceModel = coreExtension.ServiceModel;
+        return serviceModel;
+    }
+
+    public static void SetConventions(this IDocumentContextImplementation implementation, IConventions conventions)
+    {
+        Contract.Requires(implementation != null);
+        Contract.Requires(conventions != null);
+
+        implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.Conventions = conventions);
+    }
+
+    public static void SetServiceModel(this IDocumentContextImplementation implementation, IServiceModel serviceModel)
+    {
+        Contract.Requires(implementation != null);
+        Contract.Requires(serviceModel != null);
+
+        implementation.Options.ModifyExtension<CoreDocumentContextExtension>(x => x.ServiceModel = serviceModel);
+    }
+    #endregion
 }

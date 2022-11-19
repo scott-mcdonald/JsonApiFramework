@@ -1,71 +1,68 @@
 // Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using System.Collections.Generic;
+namespace JsonApiFramework.Conventions.Internal;
 
-namespace JsonApiFramework.Conventions.Internal
+internal class NamingConventionsBuilder : INamingConventionsBuilder
 {
-    internal class NamingConventionsBuilder : INamingConventionsBuilder
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region INamingConventionsBuilder Implementation
+    public INamingConventionsBuilder AddCamelCaseNamingConvention()
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region INamingConventionsBuilder Implementation
-        public INamingConventionsBuilder AddCamelCaseNamingConvention()
-        {
-            this.NamingConventions.Add(new CamelCaseNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddLowerCaseNamingConvention()
-        {
-            this.NamingConventions.Add(new LowerCaseNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddPascalCaseNamingConvention()
-        {
-            this.NamingConventions.Add(new PascalCaseNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddPluralNamingConvention()
-        {
-            this.NamingConventions.Add(new PluralNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddSingularNamingConvention()
-        {
-            this.NamingConventions.Add(new SingularNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddStandardMemberNamingConvention()
-        {
-            this.NamingConventions.Add(new StandardMemberNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddUpperCaseNamingConvention()
-        {
-            this.NamingConventions.Add(new UpperCaseNamingConvention());
-            return this;
-        }
-
-        public INamingConventionsBuilder AddCustomNamingConvention(INamingConvention convention)
-        {
-            this.NamingConventions.Add(convention);
-            return this;
-        }
-        #endregion
-
-        #region Factory Methods
-        public IEnumerable<INamingConvention> Build()
-        { return this.NamingConventions; }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
-        private IList<INamingConvention> NamingConventions { get; } = new List<INamingConvention>();
-        #endregion
+        this.NamingConventions.Add(new CamelCaseNamingConvention());
+        return this;
     }
+
+    public INamingConventionsBuilder AddLowerCaseNamingConvention()
+    {
+        this.NamingConventions.Add(new LowerCaseNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddPascalCaseNamingConvention()
+    {
+        this.NamingConventions.Add(new PascalCaseNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddPluralNamingConvention()
+    {
+        this.NamingConventions.Add(new PluralNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddSingularNamingConvention()
+    {
+        this.NamingConventions.Add(new SingularNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddStandardMemberNamingConvention()
+    {
+        this.NamingConventions.Add(new StandardMemberNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddUpperCaseNamingConvention()
+    {
+        this.NamingConventions.Add(new UpperCaseNamingConvention());
+        return this;
+    }
+
+    public INamingConventionsBuilder AddCustomNamingConvention(INamingConvention convention)
+    {
+        this.NamingConventions.Add(convention);
+        return this;
+    }
+    #endregion
+
+    #region Factory Methods
+    public IEnumerable<INamingConvention> Build()
+    { return this.NamingConventions; }
+    #endregion
+
+    // PRIVATE PROPERTIES ///////////////////////////////////////////////
+    #region Properties
+    private IList<INamingConvention> NamingConventions { get; } = new List<INamingConvention>();
+    #endregion
 }

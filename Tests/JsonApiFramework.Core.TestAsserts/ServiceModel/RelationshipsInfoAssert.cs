@@ -5,35 +5,34 @@ using JsonApiFramework.ServiceModel;
 
 using Xunit;
 
-namespace JsonApiFramework.TestAsserts.ServiceModel
+namespace JsonApiFramework.TestAsserts.ServiceModel;
+
+public static class RelationshipsInfoAssert
 {
-    public static class RelationshipsInfoAssert
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Assert Methods
+    public static void Equal(IRelationshipsInfo expected, IRelationshipsInfo actual)
     {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Assert Methods
-        public static void Equal(IRelationshipsInfo expected, IRelationshipsInfo actual)
+        if (expected == null)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-                return;
-            }
-            Assert.NotNull(actual);
-
-            PropertyInfoAssert.Equal(expected, actual);
-
-            var expectedList = expected.Collection.SafeToList();
-            var actualList = actual.Collection.SafeToList();
-            Assert.Equal(expectedList.Count, actualList.Count);
-
-            var count = expectedList.Count;
-            for (var i = 0; i < count; ++i)
-            {
-                var expectedItem = expectedList[i];
-                var actualItem = actualList[i];
-                RelationshipInfoAssert.Equal(expectedItem, actualItem);
-            }
+            Assert.Null(actual);
+            return;
         }
-        #endregion
+        Assert.NotNull(actual);
+
+        PropertyInfoAssert.Equal(expected, actual);
+
+        var expectedList = expected.Collection.SafeToList();
+        var actualList = actual.Collection.SafeToList();
+        Assert.Equal(expectedList.Count, actualList.Count);
+
+        var count = expectedList.Count;
+        for (var i = 0; i < count; ++i)
+        {
+            var expectedItem = expectedList[i];
+            var actualItem = actualList[i];
+            RelationshipInfoAssert.Equal(expectedItem, actualItem);
+        }
     }
+    #endregion
 }

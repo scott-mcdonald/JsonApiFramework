@@ -3,13 +3,12 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Internal.Dom
+namespace JsonApiFramework.Internal.Dom;
+
+internal interface IDomResourceIdentifier : IDomResourceIdentity
 {
-    internal interface IDomResourceIdentifier : IDomResourceIdentity
-    {
-        // PUBLIC PROPERTIES ////////////////////////////////////////////////
-        #region Properties
-        ResourceIdentifier ApiResourceIdentifier { get; }
-        #endregion
-    }
+    // PUBLIC PROPERTIES ////////////////////////////////////////////////
+    #region Properties
+    ResourceIdentifier ApiResourceIdentifier { get; }
+    #endregion
 }

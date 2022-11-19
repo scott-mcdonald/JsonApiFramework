@@ -5,31 +5,30 @@ using System.Collections.Generic;
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Server.Hypermedia.Internal
+namespace JsonApiFramework.Server.Hypermedia.Internal;
+
+internal class ToManyRelationshipContext : RelationshipContext
 {
-    internal class ToManyRelationshipContext : RelationshipContext
+    // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
+    #region Constructors
+    public ToManyRelationshipContext(string rel, IEnumerable<ILinkContext> links, IEnumerable<ResourceIdentifier> toManyResourceLinkage, Meta meta = null)
+        : base(rel, links, meta)
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
-        #region Constructors
-        public ToManyRelationshipContext(string rel, IEnumerable<ILinkContext> links, IEnumerable<ResourceIdentifier> toManyResourceLinkage, Meta meta = null)
-            : base(rel, links, meta)
-        {
-            this.ToManyResourceLinkage = toManyResourceLinkage.EmptyIfNull();
-        }
-        #endregion
-
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region RelationshipContext Overrides
-        public override RelationshipType GetRelationshipType()
-        { return RelationshipType.ToManyRelationship; }
-
-        public override IEnumerable<ResourceIdentifier> GetToManyResourceLinkage()
-        { return this.ToManyResourceLinkage; }
-        #endregion
-
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
-        #region Properties
-        private IEnumerable<ResourceIdentifier> ToManyResourceLinkage { get; set; }
-        #endregion
+        this.ToManyResourceLinkage = toManyResourceLinkage.EmptyIfNull();
     }
+    #endregion
+
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region RelationshipContext Overrides
+    public override RelationshipType GetRelationshipType()
+    { return RelationshipType.ToManyRelationship; }
+
+    public override IEnumerable<ResourceIdentifier> GetToManyResourceLinkage()
+    { return this.ToManyResourceLinkage; }
+    #endregion
+
+    // PRIVATE PROPERTIES ///////////////////////////////////////////////
+    #region Properties
+    private IEnumerable<ResourceIdentifier> ToManyResourceLinkage { get; set; }
+    #endregion
 }

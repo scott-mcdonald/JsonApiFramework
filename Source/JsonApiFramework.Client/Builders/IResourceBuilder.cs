@@ -3,32 +3,31 @@
 
 using JsonApiFramework.JsonApi;
 
-namespace JsonApiFramework.Client
+namespace JsonApiFramework.Client;
+
+public interface IResourceBuilder<out TBuilder>
 {
-    public interface IResourceBuilder<out TBuilder>
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        TBuilder SetMeta(Meta meta);
-        TBuilder SetId<T>(IId<T> id);
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    TBuilder SetMeta(Meta meta);
+    TBuilder SetId<T>(IId<T> id);
 
-        IAttributesBuilder<TBuilder> Attributes();
+    IAttributesBuilder<TBuilder> Attributes();
 
-        IRelationshipsBuilder<TBuilder> Relationships();
-        #endregion
-    }
+    IRelationshipsBuilder<TBuilder> Relationships();
+    #endregion
+}
 
-    public interface IResourceBuilder<out TBuilder, out TResource>
-        where TResource : class
-    {
-        // PUBLIC METHODS ///////////////////////////////////////////////////
-        #region Methods
-        TBuilder SetMeta(Meta    meta);
-        TBuilder SetId<T>(IId<T> id);
+public interface IResourceBuilder<out TBuilder, out TResource>
+    where TResource : class
+{
+    // PUBLIC METHODS ///////////////////////////////////////////////////
+    #region Methods
+    TBuilder SetMeta(Meta    meta);
+    TBuilder SetId<T>(IId<T> id);
 
-        IAttributesBuilder<TBuilder, TResource> Attributes();
+    IAttributesBuilder<TBuilder, TResource> Attributes();
 
-        IRelationshipsBuilder<TBuilder> Relationships();
-        #endregion
-    }
+    IRelationshipsBuilder<TBuilder> Relationships();
+    #endregion
 }

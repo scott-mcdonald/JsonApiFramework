@@ -6,14 +6,13 @@ using JsonApiFramework.JsonApi;
 
 using Newtonsoft.Json;
 
-namespace JsonApiFramework.TestData.ClrResources
+namespace JsonApiFramework.TestData.ClrResources;
+
+[JsonObject(MemberSerialization.OptIn)]
+public class Home : JsonObject
+    , IGetLinks
+    , ISetLinks
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class Home : JsonObject
-        , IGetLinks
-        , ISetLinks
-    {
-        [JsonProperty] public string Message { get; set; }
-        [JsonProperty] public Links Links { get; set; }
-    }
+    [JsonProperty] public string Message { get; set; }
+    [JsonProperty] public Links Links { get; set; }
 }

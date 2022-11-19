@@ -10,43 +10,42 @@ using JsonApiFramework.XUnit;
 
 using Xunit.Abstractions;
 
-namespace JsonApiFramework.Tests.Internal.Dom
+namespace JsonApiFramework.Tests.Internal.Dom;
+
+using DomNode = Node<DomNodeType>;
+
+public abstract class DomXUnitTest : XUnitTest
 {
-    using DomNode = Node<DomNodeType>;
+    // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
+    #region Constructors
+    protected DomXUnitTest(ITestOutputHelper output)
+        : base(output)
+    { }
+    #endregion
 
-    public abstract class DomXUnitTest : XUnitTest
+    // INTERNAL METHODS /////////////////////////////////////////////////
+    #region Methods
+    internal void OutputDomTree(DomNode domNode)
     {
-        // PROTECTED CONSTRUCTORS ///////////////////////////////////////////
-        #region Constructors
-        protected DomXUnitTest(ITestOutputHelper output)
-            : base(output)
-        { }
-        #endregion
+        var treeString = domNode.ToTreeString();
 
-        // INTERNAL METHODS /////////////////////////////////////////////////
-        #region Methods
-        internal void OutputDomTree(DomNode domNode)
-        {
-            var treeString = domNode.ToTreeString();
-
-            this.Output.WriteLine("DOM Tree");
-            this.Output.WriteLine(String.Empty);
-            this.Output.WriteLine(treeString);
-        }
-
-        internal void OutputEmptyLine()
-        {
-            this.Output.WriteLine(String.Empty);
-        }
-
-        internal void OutputJson(IJsonObject jsonObject)
-        {
-            var json = jsonObject.ToJson();
-
-            this.Output.WriteLine("JSON");
-            this.Output.WriteLine(String.Empty);
-            this.Output.WriteLine(json);
-        }
-        #endregion
+        this.Output.WriteLine("DOM Tree");
+        this.Output.WriteLine(string.Empty);
+        this.Output.WriteLine(treeString);
     }
+
+    internal void OutputEmptyLine()
+    {
+        this.Output.WriteLine(string.Empty);
+    }
+
+    internal void OutputJson(IJsonObject jsonObject)
+    {
+        var json = jsonObject.ToJson();
+
+        this.Output.WriteLine("JSON");
+        this.Output.WriteLine(string.Empty);
+        this.Output.WriteLine(json);
+    }
+    #endregion
 }

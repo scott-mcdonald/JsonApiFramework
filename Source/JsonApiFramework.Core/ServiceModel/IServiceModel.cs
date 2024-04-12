@@ -14,6 +14,7 @@ public interface IServiceModel : IJsonObject, IExtensibleObject<IServiceModel>
     IEnumerable<IResourceType> ResourceTypes { get; }
 
     IResourceType HomeResourceType { get; }
+    IEnumerable<IResourceType> HomeResourceTypes { get; }
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

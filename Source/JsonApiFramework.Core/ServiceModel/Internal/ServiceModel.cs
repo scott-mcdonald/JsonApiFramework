@@ -1,6 +1,5 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
-
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
@@ -18,13 +17,13 @@ internal class ServiceModel : JsonObject, IServiceModel
     #region Constructors
     public ServiceModel(IEnumerable<IComplexType> complexTypes,
                         IEnumerable<IResourceType> resourceTypes,
-                        IResourceType homeResourceType)
+                        IEnumerable<IResourceType> homeResourceTypes)
     {
         this.ExtensionDictionary = new ExtensionDictionary<IServiceModel>(this);
 
         this.ComplexTypes = complexTypes.SafeToList();
         this.ResourceTypes = resourceTypes.SafeToList();
-        this.HomeResourceType = homeResourceType;
+        this.HomeResourceTypes = homeResourceTypes;
 
         this.Initialize();
     }
@@ -43,7 +42,8 @@ internal class ServiceModel : JsonObject, IServiceModel
     #region IServiceModel Implementation
     [JsonProperty] public IEnumerable<IComplexType> ComplexTypes { get; private set; }
     [JsonProperty] public IEnumerable<IResourceType> ResourceTypes { get; private set; }
-    [JsonProperty] public IResourceType HomeResourceType { get; }
+    [JsonIgnore] public IResourceType HomeResourceType => this.HomeResourceTypes.Single();
+    [JsonProperty] public IEnumerable<IResourceType> HomeResourceTypes { get; private set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation

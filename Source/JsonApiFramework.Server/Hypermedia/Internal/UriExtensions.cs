@@ -23,7 +23,9 @@ internal static class UriExtensions
         var urlPathSegmentsFromUri = new List<string>(GetUrlPathSegments(url));
 
         // Remove any root path segments
-        var uriBuilderConfiguration = hypermediaContext.GetUrlBuilderConfiguration(url);
+        var uriBuilderConfigurationAndResourceTypeTuple = hypermediaContext.GetUrlBuilderConfigurationAndResourceType(url);
+        var uriBuilderConfiguration = uriBuilderConfigurationAndResourceTypeTuple.Item1;
+        var apiResourceType = uriBuilderConfigurationAndResourceTypeTuple.Item2;
         if (uriBuilderConfiguration.RootPathSegments != null)
         {
             var rootPathSegments      = uriBuilderConfiguration.RootPathSegments.SafeToReadOnlyList();
@@ -43,15 +45,39 @@ internal static class UriExtensions
 
         var urlPathSegments = new List<string>();
 
-        var serviceModel       = hypermediaContext.GetServiceModel();
-        var homeDocumentExists = serviceModel.TryGetHomeResourceType(out var homeResourceType);
-        if (homeDocumentExists)
+        var serviceModel = hypermediaContext.GetServiceModel();
+        var homeDocumentExists = false;
+        var homeDocumentApiResourceType = default(IResourceType);
+        var homeDocumentApiCollectionPathSegmentIsNullOrEmpty = false;
+
+        if (apiResourceType != null)
         {
-            var homeResourceTypeApiCollectionPathSegment = homeResourceType.HypermediaInfo.ApiCollectionPathSegment;
-            if (string.IsNullOrEmpty(homeResourceTypeApiCollectionPathSegment))
+            homeDocumentExists = serviceModel.IsHomeResourceType(apiResourceType);
+
+            if (homeDocumentExists)
             {
-                urlPathSegments.Add(string.Empty);
+                var homeResourceTypeApiCollectionPathSegment = apiResourceType.HypermediaInfo.ApiCollectionPathSegment;
+
+                homeDocumentApiResourceType = apiResourceType;
+                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeResourceTypeApiCollectionPathSegment);
             }
+        }
+        else
+        {
+            homeDocumentExists = serviceModel.TryGetHomeResourceType(out var homeResourceType);
+
+            if (homeDocumentExists)
+            {
+                var homeResourceTypeApiCollectionPathSegment = homeResourceType.HypermediaInfo.ApiCollectionPathSegment;
+
+                homeDocumentApiResourceType = homeResourceType;
+                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeResourceTypeApiCollectionPathSegment);
+            }
+        }
+
+        if (homeDocumentExists && homeDocumentApiCollectionPathSegmentIsNullOrEmpty)
+        {
+            urlPathSegments.Add(string.Empty);
         }
 
         urlPathSegments.AddRange(urlPathSegmentsFromUri);
@@ -66,11 +92,11 @@ internal static class UriExtensions
         // 4. to-many resource collection hypermedia path objects
         // 5. to-many resource hypermedia path objects
         var documentSelfPath  = new List<IHypermediaPath>();
-        var continueIterating = InitialIteration(serviceModel, urlPathSegmentsEnumerator, documentSelfPath);
+        var continueIterating = InitialIteration(serviceModel, urlPathSegmentsEnumerator, documentSelfPath, homeDocumentApiResourceType);
 
         if (continueIterating && homeDocumentExists)
         {
-            continueIterating = InitialIteration(serviceModel, urlPathSegmentsEnumerator, documentSelfPath);
+            continueIterating = InitialIteration(serviceModel, urlPathSegmentsEnumerator, documentSelfPath, homeDocumentApiResourceType);
         }
 
         while (continueIterating)
@@ -94,7 +120,7 @@ internal static class UriExtensions
         return urlPathSegments;
     }
 
-    private static bool InitialIteration(IServiceModel serviceModel, IEnumerator<string> urlPathSegmentsEnumerator, ICollection<IHypermediaPath> documentSelfPath)
+    private static bool InitialIteration(IServiceModel serviceModel, IEnumerator<string> urlPathSegmentsEnumerator, ICollection<IHypermediaPath> documentSelfPath, IResourceType? homeDocumentApiResourceType)
     {
         // Parse for the initial CLR resource type represented as either
         // a resource or resource collection in the raw URL path.
@@ -110,6 +136,17 @@ internal static class UriExtensions
 
             pathSegmentToResourceTypeDictionary = pathSegmentToResourceTypeDictionary ?? serviceModel
                                                                                         .ResourceTypes
+                                                                                        .Where(x =>
+                                                                                        {
+                                                                                            if (homeDocumentApiResourceType == null)
+                                                                                                return true;
+
+                                                                                            var apiCollectionPathSegment = x.HypermediaInfo.ApiCollectionPathSegment;
+                                                                                            if (!string.IsNullOrEmpty(apiCollectionPathSegment))
+                                                                                                return true;
+
+                                                                                            return x.ClrType == homeDocumentApiResourceType.ClrType;
+                                                                                        })
                                                                                         .ToDictionary(x => x.HypermediaInfo.ApiCollectionPathSegment, StringComparer.OrdinalIgnoreCase);
 
             // Iterate over URL path segments until the current URL path segment

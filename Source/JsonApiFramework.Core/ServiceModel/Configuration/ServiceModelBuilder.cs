@@ -32,7 +32,7 @@ public class ServiceModelBuilder : IServiceModelBuilder, IServiceModelFactory
         where TResource : class
     {
         var clrHomeResourceType = typeof(TResource);
-        _configurations.SetHomeResourceType(clrHomeResourceType);
+        _configurations.AddHomeResourceType(clrHomeResourceType);
     }
     #endregion
 
@@ -41,9 +41,9 @@ public class ServiceModelBuilder : IServiceModelBuilder, IServiceModelFactory
     {
         var complexTypes = this.CreateComplexTypes(conventions);
         var resourceTypes = this.CreateResourceTypes(conventions);
-        var homeResourceType = this.GetHomeResourceType(resourceTypes);
+        var homeResourceTypes = this.GetHomeResourceTypes(resourceTypes);
 
-        var serviceModel = new ServiceModel.Internal.ServiceModel(complexTypes, resourceTypes, homeResourceType);
+        var serviceModel = new ServiceModel.Internal.ServiceModel(complexTypes, resourceTypes, homeResourceTypes);
         return serviceModel;
     }
     #endregion
@@ -68,20 +68,45 @@ public class ServiceModelBuilder : IServiceModelBuilder, IServiceModelFactory
         return resourceTypes;
     }
 
-    private IResourceType GetHomeResourceType(IEnumerable<IResourceType> resourceTypes)
+    private IReadOnlyCollection<IResourceType> GetHomeResourceTypes(IEnumerable<IResourceType> apiResourceTypes)
     {
-        var clrHomeResourceType = _configurations.GetHomeResourceType();
-        if (clrHomeResourceType == null)
-            return null;
+        var clrHomeResourceTypesFromConfiguration = _configurations.GetHomeResourceTypes().ToList();
 
-        var homeResourceType = resourceTypes.EmptyIfNull()
-                                            .FirstOrDefault(x => x.ClrType == clrHomeResourceType);
-        return homeResourceType;
+        var clrHomeResourceTypesFromConvention = apiResourceTypes
+            .EmptyIfNull()
+            .Where(x => string.IsNullOrEmpty(x.HypermediaInfo.ApiCollectionPathSegment))
+            .Select(x => x.ClrType)
+            .ToList();
+
+        if (clrHomeResourceTypesFromConfiguration.Count == 0 && clrHomeResourceTypesFromConvention.Count == 0)
+        {
+            return new List<IResourceType>();
+        }
+
+        var clrHomeResourceTypesComposite = new List<Type>();
+        clrHomeResourceTypesComposite.AddRange(clrHomeResourceTypesFromConfiguration);
+        clrHomeResourceTypesComposite.AddRange(clrHomeResourceTypesFromConvention);
+
+        var clrHomeResourceTypes = clrHomeResourceTypesComposite.Distinct();
+
+        var apiResourceTypesDictionary = apiResourceTypes
+            .EmptyIfNull()
+            .ToDictionary(x => x.ClrType);
+
+        var apiHomeResourceTypes = clrHomeResourceTypes
+            .Select(x =>
+            {
+                var apiHomeResourceType = apiResourceTypesDictionary[x];
+                return apiHomeResourceType;
+            })
+            .ToList();
+
+        return apiHomeResourceTypes;
     }
     #endregion
 
     // PRIVATE FIELDS ///////////////////////////////////////////////////
     #region Fields
-    private readonly ConfigurationCollection _configurations = new ConfigurationCollection();
+    private readonly ConfigurationCollection _configurations = new();
     #endregion
 }

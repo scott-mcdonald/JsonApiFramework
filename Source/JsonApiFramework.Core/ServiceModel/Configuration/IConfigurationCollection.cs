@@ -6,9 +6,8 @@ public interface IConfigurationCollection
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Methods
-    void Add<TComplex>(ComplexTypeBuilder<TComplex> resourceTypeBuilder);
+    void Add(IComplexTypeBuilder complexTypeBuilder);
 
-    void Add<TResource>(ResourceTypeBuilder<TResource> resourceTypeBuilder)
-        where TResource : class;
+    void Add(IResourceTypeBuilder resourceTypeBuilder);
     #endregion
 }

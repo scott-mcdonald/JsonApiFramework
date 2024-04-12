@@ -1,6 +1,5 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
-
 using System.Diagnostics.Contracts;
 
 namespace JsonApiFramework.ServiceModel.Configuration.Internal;
@@ -9,24 +8,19 @@ internal class ConfigurationCollection : IConfigurationCollection
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region IConfigurationCollection Implementation
-    public void Add<TComplex>(ComplexTypeBuilder<TComplex> complexTypeBuilder)
+    public void Add(IComplexTypeBuilder complexTypeBuilder)
     {
         Contract.Requires(complexTypeBuilder != null);
 
-        this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
-        var clrComplexType = typeof(TComplex);
+        var clrComplexType = complexTypeBuilder!.ClrType;
         this.ComplexTypeBuilderDictionary.Add(clrComplexType, complexTypeBuilder);
     }
 
-    public void Add<TResource>(ResourceTypeBuilder<TResource> resourceTypeBuilder)
-        where TResource : class
+    public void Add(IResourceTypeBuilder resourceTypeBuilder)
     {
         Contract.Requires(resourceTypeBuilder != null);
 
-        this.ResourceTypeBuilderDictionary = this.ResourceTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
-        var clrResourceType = typeof(TResource);
+        var clrResourceType = resourceTypeBuilder!.ClrType;
         this.ResourceTypeBuilderDictionary.Add(clrResourceType, resourceTypeBuilder);
     }
     #endregion
@@ -35,12 +29,9 @@ internal class ConfigurationCollection : IConfigurationCollection
     #region Internal Methods
     internal IComplexTypeBuilder GetOrAddComplexTypeBuilder<TComplex>()
     {
-        this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
         var clrComplexType = typeof(TComplex);
 
-        object complexTypeBuilder;
-        if (this.ComplexTypeBuilderDictionary.TryGetValue(clrComplexType, out complexTypeBuilder))
+        if (this.ComplexTypeBuilderDictionary.TryGetValue(clrComplexType, out object? complexTypeBuilder))
         {
             return (IComplexTypeBuilder)complexTypeBuilder;
         }
@@ -53,12 +44,9 @@ internal class ConfigurationCollection : IConfigurationCollection
     internal IResourceTypeBuilder<TResource> GetOrAddResourceTypeBuilder<TResource>()
         where TResource : class
     {
-        this.ResourceTypeBuilderDictionary = this.ResourceTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
         var clrResourceType = typeof(TResource);
 
-        object resourceTypeBuilder;
-        if (this.ResourceTypeBuilderDictionary.TryGetValue(clrResourceType, out resourceTypeBuilder))
+        if (this.ResourceTypeBuilderDictionary.TryGetValue(clrResourceType, out object? resourceTypeBuilder))
         {
             return (IResourceTypeBuilder<TResource>)resourceTypeBuilder;
         }
@@ -70,8 +58,6 @@ internal class ConfigurationCollection : IConfigurationCollection
 
     internal IEnumerable<IComplexTypeFactory> GetComplexTypeFactoryCollection()
     {
-        this.ComplexTypeBuilderDictionary = this.ComplexTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
         var complexTypeConfigurationCollection = this.ComplexTypeBuilderDictionary
                                                      .Values
                                                      .ToList();
@@ -83,8 +69,6 @@ internal class ConfigurationCollection : IConfigurationCollection
 
     internal IEnumerable<IResourceTypeFactory> GetResourceTypeFactoryCollection()
     {
-        this.ResourceTypeBuilderDictionary = this.ResourceTypeBuilderDictionary ?? new Dictionary<Type, object>();
-
         var resourceTypeConfigurationCollection = this.ResourceTypeBuilderDictionary
                                                       .Values
                                                       .ToList();
@@ -94,15 +78,24 @@ internal class ConfigurationCollection : IConfigurationCollection
         return resourceTypeFactoryCollection;
     }
 
-    internal Type GetHomeResourceType() { return this.ClrHomeResourceType; }
+    internal void AddHomeResourceType(Type clrHomeResourceType)
+    {
+        this.ClrHomeResourceTypeCollection.Add(clrHomeResourceType);
+    }
 
-    internal void SetHomeResourceType(Type clrHomeResourceType) { this.ClrHomeResourceType = clrHomeResourceType; }
+    internal IEnumerable<Type> GetHomeResourceTypes() { return this.ClrHomeResourceTypeCollection; }
+
+    // internal Type GetHomeResourceType() { return this.ClrHomeResourceType; }
+
+    // internal void SetHomeResourceType(Type clrHomeResourceType) { this.ClrHomeResourceType = clrHomeResourceType; }
     #endregion
 
     // PRIVATE PROPERTIES ///////////////////////////////////////////////
     #region Properties
-    private IDictionary<Type, object> ComplexTypeBuilderDictionary { get; set; }
-    private IDictionary<Type, object> ResourceTypeBuilderDictionary { get; set; }
-    private Type ClrHomeResourceType { get; set; }
+    private Dictionary<Type, object> ComplexTypeBuilderDictionary { get; } = [];
+    private Dictionary<Type, object> ResourceTypeBuilderDictionary { get; } = [];
+    private List<Type> ClrHomeResourceTypeCollection { get; } = [];
+
+    // private Type ClrHomeResourceType { get; set; }
     #endregion
 }

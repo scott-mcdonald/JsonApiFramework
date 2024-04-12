@@ -15,31 +15,52 @@ public static class ServiceModelExtensions
     {
         Contract.Requires(serviceModel != null);
 
-        return serviceModel.ComplexTypes.Any()
+        return serviceModel!.ComplexTypes.Any()
             ? new ComplexTypesContractResolver(serviceModel)
-            : null;
+            : null!;
     }
 
     public static IResourceType GetResourceType<TResource>(this IServiceModel serviceModel)
     {
         Contract.Requires(serviceModel != null);
 
-        return serviceModel.GetResourceType(typeof(TResource));
+        return serviceModel!.GetResourceType(typeof(TResource));
+    }
+
+    public static bool IsHomeResourceType(this IServiceModel serviceModel, IResourceType resourceType)
+    {
+        Contract.Requires(serviceModel != null);
+
+        var homeResourceTypes = serviceModel!.HomeResourceTypes;
+        if (homeResourceTypes == null)
+            return false;
+
+        var homeResourceTypeMatch = homeResourceTypes.SingleOrDefault(x => x.ClrType == resourceType.ClrType);
+        return homeResourceTypeMatch != null;
     }
 
     public static bool TryGetResourceType<TResource>(this IServiceModel serviceModel, out IResourceType resourceType)
     {
         Contract.Requires(serviceModel != null);
 
-        return serviceModel.TryGetResourceType(typeof(TResource), out resourceType);
+        return serviceModel!.TryGetResourceType(typeof(TResource), out resourceType);
     }
 
     public static bool TryGetHomeResourceType(this IServiceModel serviceModel, out IResourceType homeResourceType)
     {
         Contract.Requires(serviceModel != null);
 
-        homeResourceType = serviceModel.HomeResourceType;
-        return homeResourceType != null;
+        homeResourceType = default!;
+
+        var homeResourceTypes = serviceModel?.HomeResourceTypes;
+        if (homeResourceTypes == null)
+            return false;
+
+        if (homeResourceTypes.Count() != 1)
+            return false;
+
+        homeResourceType = homeResourceTypes.Single();
+        return true;
     }
     #endregion
 }

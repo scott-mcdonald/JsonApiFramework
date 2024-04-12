@@ -121,37 +121,37 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration OrdersUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.orders.com"
+        Host = "api.home.com"
     };
 
     public static readonly IUrlBuilderConfiguration OrderItemsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.orderItems.com"
+        Host = "api.home.com"
     };
 
     public static readonly IUrlBuilderConfiguration PaymentsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.payments.com"
+        Host = "api.home.com"
     };
 
     public static readonly IUrlBuilderConfiguration PosSystemsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.posSystems.com"
+        Host = "api.home.com"
     };
 
     public static readonly IUrlBuilderConfiguration StoresUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.stores.com"
+        Host = "api.home.com"
     };
 
     public static readonly IUrlBuilderConfiguration StoreConfigurationsUrlBuilderConfigurationWithoutRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.storeConfigurations.com"
+        Host = "api.home.com"
     };
 
     public static readonly IDictionary<Type, IUrlBuilderConfiguration> UrlBuilderConfigurationsPerResourceTypeWithoutRootPathSegments
@@ -180,7 +180,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration OrdersUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.orders.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -191,7 +191,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration OrderItemsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.orderItems.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -202,7 +202,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration PaymentsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.payments.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -213,7 +213,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration PosSystemsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.posSystems.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -224,7 +224,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration StoresUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.stores.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -235,7 +235,7 @@ public class HypermediaAssemblerTests : XUnitTest
     public static readonly IUrlBuilderConfiguration StoreConfigurationsUrlBuilderConfigurationWithRootPathSegments = new UrlBuilderConfiguration
     {
         Scheme = "http",
-        Host   = "api.storeConfigurations.com",
+        Host = "api.home.com",
         RootPathSegments = new[]
         {
             "api",
@@ -544,7 +544,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Payment>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.payments.com/payments",
+                "http://api.home.com/payments",
                 new[]
                 {
                     SamplePayments.Payment101,
@@ -553,7 +553,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 new[]
                 {
                     new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.payments.com/payments"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/payments"),
                 })
         },
         new object[]
@@ -562,7 +562,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Payment>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.payments.com/payments",
+                "http://api.home.com/payments",
                 new[]
                 {
                     SamplePayments.Payment101,
@@ -577,7 +577,7 @@ public class HypermediaAssemblerTests : XUnitTest
                     }),
                     new Tuple<ILinkContext, Link>(SelfLinkContextWithMeta, new Link
                     {
-                        HRef = "http://api.payments.com/payments",
+                        HRef = "http://api.home.com/payments",
                         Meta = ApiSampleData.LinkMeta
                     }),
                 })
@@ -588,12 +588,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Payment>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.payments.com/payments/101",
+                "http://api.home.com/payments/101",
                 SamplePayments.Payment,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.payments.com/payments"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.payments.com/payments/101"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/payments"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/payments/101"),
                 })
         },
         new object[]
@@ -602,18 +602,18 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Payment>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.payments.com/payments/101",
+                "http://api.home.com/payments/101",
                 SamplePayments.Payment,
                 new[]
                 {
                     new Tuple<ILinkContext, Link>(UpLinkContextWithMeta, new Link
                     {
-                        HRef = "http://api.payments.com/payments",
+                        HRef = "http://api.home.com/payments",
                         Meta = ApiSampleData.LinkMeta
                     }),
                     new Tuple<ILinkContext, Link>(SelfLinkContextWithMeta, new Link
                     {
-                        HRef = "http://api.payments.com/payments/101",
+                        HRef = "http://api.home.com/payments/101",
                         Meta = ApiSampleData.LinkMeta
                     }),
                 })
@@ -624,12 +624,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Order>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.payments.com/payments/101/order",
+                "http://api.home.com/payments/101/order",
                 SampleOrders.Order,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.payments.com/payments/101"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.payments.com/payments/101/order"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/payments/101"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/payments/101/order"),
                 })
         },
 
@@ -639,12 +639,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<StoreConfiguration>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.stores.com/stores/50/configuration",
+                "http://api.home.com/stores/50/configuration",
                 SampleStoreConfigurations.StoreConfiguration,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.stores.com/stores/50"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.stores.com/stores/50/configuration"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/stores/50"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/stores/50/configuration"),
                 })
         },
         new object[]
@@ -653,12 +653,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<PosSystem>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.storeConfigurations.com/stores/50/configuration/pos",
+                "http://api.home.com/stores/50/configuration/pos",
                 SamplePosSystems.PosSystem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.storeConfigurations.com/stores/50/configuration"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.storeConfigurations.com/stores/50/configuration/pos"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/stores/50/configuration"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/stores/50/configuration/pos"),
                 })
         },
         new object[]
@@ -667,7 +667,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Payment>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.orders.com/orders/1/payments",
+                "http://api.home.com/orders/1/payments",
                 new[]
                 {
                     SamplePayments.Payment101,
@@ -675,8 +675,8 @@ public class HypermediaAssemblerTests : XUnitTest
                 },
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/orders/1"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/orders/1/payments"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/orders/1"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/orders/1/payments"),
                 })
         },
         new object[]
@@ -685,7 +685,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Order>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orders.com/api/v2/orders",
+                "http://api.home.com/api/v2/orders",
                 new[]
                 {
                     SampleOrders.Order1,
@@ -694,7 +694,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 new[]
                 {
                     new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders"),
                 })
         },
         new object[]
@@ -703,12 +703,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<Order>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orders.com/api/v2/orders/1",
+                "http://api.home.com/api/v2/orders/1",
                 SampleOrders.Order,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/orders"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders/1"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2/orders"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders/1"),
                 })
         },
         new object[]
@@ -717,7 +717,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orders.com/api/v2/orders/1/lineItems",
+                "http://api.home.com/api/v2/orders/1/lineItems",
                 new[]
                 {
                     SampleOrderItems.OrderItem1001,
@@ -725,8 +725,8 @@ public class HypermediaAssemblerTests : XUnitTest
                 },
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/orders/1"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders/1/lineItems"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2/orders/1"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders/1/lineItems"),
                 })
         },
         new object[]
@@ -735,12 +735,12 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orderItems.com/api/v2/orders/1/lineItems/1001",
+                "http://api.home.com/api/v2/orders/1/lineItems/1001",
                 SampleOrderItems.OrderItem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orderItems.com/api/v2/orders/1/lineItems"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orderItems.com/api/v2/orders/1/lineItems/1001"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2/orders/1/lineItems"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders/1/lineItems/1001"),
                 })
         },
         new object[]
@@ -749,7 +749,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/lineItems",
+                "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1/lineItems",
                 new[]
                 {
                     SampleOrderItems.OrderItem1001,
@@ -757,8 +757,8 @@ public class HypermediaAssemblerTests : XUnitTest
                 },
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/lineItems"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1/lineItems"),
                 })
         },
         new object[]
@@ -767,7 +767,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new HypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithRootPathSegments,
-                "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems",
+                "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems",
                 new[]
                 {
                     SampleOrderItems.OrderItem1001,
@@ -775,8 +775,8 @@ public class HypermediaAssemblerTests : XUnitTest
                 },
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4"),
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems"),
+                    new Tuple<ILinkContext, Link>(UpLinkContext,   "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4"),
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/nrp-1/nrp-2/orders/1/nrp-3/nrp-4/lineItems"),
                 })
         },
         new object[]
@@ -785,7 +785,7 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new TestHypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.orderItems.com/orders/1/lineItems",
+                "http://api.home.com/orders/1/lineItems",
                 new[]
                 {
                     SampleOrderItems.OrderItem1001,
@@ -793,7 +793,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 },
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems"),
+                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.home.com/en-us/orderItems"),
                 })
         },
         new object[]
@@ -802,11 +802,11 @@ public class HypermediaAssemblerTests : XUnitTest
             new CreateDocumentLinksTest<OrderItem>(
                 new TestHypermediaAssembler(),
                 OrderBasedHypermediaContextPerResourceTypeWithoutRootPathSegments,
-                "http://api.orderItems.com/en-us/orderItems/1001",
+                "http://api.home.com/en-us/orderItems/1001",
                 SampleOrderItems.OrderItem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems/1001"),
+                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.home.com/en-us/orderItems/1001"),
                 })
         },
     };
@@ -943,7 +943,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SamplePayments.Payment,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.payments.com/payments/101")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/payments/101")
                 })
         },
         new object[]
@@ -958,7 +958,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 {
                     new Tuple<ILinkContext, Link>(SelfLinkContextWithMeta, new Link
                     {
-                        HRef = "http://api.payments.com/payments/101",
+                        HRef = "http://api.home.com/payments/101",
                         Meta = ApiSampleData.LinkMeta
                     })
                 })
@@ -973,7 +973,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SampleOrders.Order,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/orders/1")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/orders/1")
                 })
         },
         new object[]
@@ -990,7 +990,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SampleStoreConfigurations.StoreConfiguration,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.storeConfigurations.com/stores/50/configuration")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/stores/50/configuration")
                 })
         },
         new object[]
@@ -1003,7 +1003,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SamplePosSystems.PosSystem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.posSystems.com/posSystems/RadiantWcf")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/posSystems/RadiantWcf")
                 })
         },
 
@@ -1092,7 +1092,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SampleOrders.Order,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orders.com/api/v2/orders/1")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders/1")
                 })
         },
         new object[]
@@ -1109,7 +1109,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SampleOrderItems.OrderItem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.orderItems.com/api/v2/orders/1/lineItems/1001")
+                    new Tuple<ILinkContext, Link>(SelfLinkContext, "http://api.home.com/api/v2/orders/1/lineItems/1001")
                 })
         },
         new object[]
@@ -1122,7 +1122,7 @@ public class HypermediaAssemblerTests : XUnitTest
                 SampleOrderItems.OrderItem,
                 new[]
                 {
-                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.orderItems.com/en-us/orderItems/1001")
+                    new Tuple<ILinkContext, Link>(new LinkContext("en-us-canonical"), "http://api.home.com/en-us/orderItems/1001")
                 })
         },
     };
@@ -1834,8 +1834,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/lineItems")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/lineItems")}
                             }
                         }),
                     new Tuple<IRelationshipContext, Relationship>(
@@ -1844,8 +1844,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/payments")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/payments")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/payments")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/payments")}
                             }
                         }),
                     new Tuple<IRelationshipContext, Relationship>(
@@ -1854,8 +1854,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/store")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/store")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/store")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/store")}
                             }
                         }),
                 }
@@ -1948,8 +1948,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/lineItems")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/lineItems")}
                             },
                             Data = new List<ResourceIdentifier>
                             {
@@ -1964,8 +1964,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/payments")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/payments")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/payments")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/payments")}
                             },
                             Data = new List<ResourceIdentifier>
                             {
@@ -1979,8 +1979,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/store")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/store")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/store")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/store")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.StoreType, "50")
                         }),
@@ -2003,8 +2003,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/lineItems")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/lineItems")}
                             },
                             Meta = ApiSampleData.RelationshipMeta,
                         }),
@@ -2014,8 +2014,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/payments")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/payments")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/payments")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/payments")}
                             },
                             Meta = ApiSampleData.RelationshipMeta,
                         }),
@@ -2025,8 +2025,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/store")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/store")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/store")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/store")}
                             },
                             Meta = ApiSampleData.RelationshipMeta,
                         }),
@@ -2050,8 +2050,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/lineItems")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/lineItems")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/lineItems")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/lineItems")}
                             },
                             Data = new List<ResourceIdentifier>
                             {
@@ -2067,8 +2067,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/payments")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/payments")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/payments")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/payments")}
                             },
                             Data = new List<ResourceIdentifier>
                             {
@@ -2083,8 +2083,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orders.com/orders/1/relationships/store")},
-                                {Keywords.Related, new Link("http://api.orders.com/orders/1/store")}
+                                {Keywords.Self, new Link("http://api.home.com/orders/1/relationships/store")},
+                                {Keywords.Related, new Link("http://api.home.com/orders/1/store")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.StoreType, "50"),
                             Meta = ApiSampleData.RelationshipMeta,
@@ -2114,8 +2114,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/order")}
                             }
                         }),
                     new Tuple<IRelationshipContext, Relationship>(
@@ -2124,8 +2124,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/product")}
                             }
                         }),
                 }
@@ -2209,8 +2209,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/order")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.OrderType, "1")
                         }),
@@ -2220,8 +2220,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/product")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.ProductType, "1")
                         }),
@@ -2248,8 +2248,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/order")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/order")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/order")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/order")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.OrderType, "1"),
                             Meta = ApiSampleData.RelationshipMeta
@@ -2261,8 +2261,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/relationships/product")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/api/v2/orders/1/lineItems/1001/product")}
+                                {Keywords.Self, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/relationships/product")},
+                                {Keywords.Related, new Link("http://api.home.com/api/v2/orders/1/lineItems/1001/product")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                             Meta = ApiSampleData.RelationshipMeta
@@ -2292,8 +2292,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
-                                {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
+                                {Keywords.Self, new Link("http://api.home.com/stores/50/configuration/relationships/pos")},
+                                {Keywords.Related, new Link("http://api.home.com/stores/50/configuration/pos")}
                             }
                         })
                 }
@@ -2365,8 +2365,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
-                                {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
+                                {Keywords.Self, new Link("http://api.home.com/stores/50/configuration/relationships/pos")},
+                                {Keywords.Related, new Link("http://api.home.com/stores/50/configuration/pos")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest")
                         })
@@ -2394,8 +2394,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.storeConfigurations.com/stores/50/configuration/relationships/pos")},
-                                {Keywords.Related, new Link("http://api.storeConfigurations.com/stores/50/configuration/pos")}
+                                {Keywords.Self, new Link("http://api.home.com/stores/50/configuration/relationships/pos")},
+                                {Keywords.Related, new Link("http://api.home.com/stores/50/configuration/pos")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest"),
                             Meta = ApiSampleData.RelationshipMeta
@@ -2424,8 +2424,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/en-us/orderItems/1001/relationships/product")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/en-us/orderItems/1001/product")}
+                                {Keywords.Self, new Link("http://api.home.com/en-us/orderItems/1001/relationships/product")},
+                                {Keywords.Related, new Link("http://api.home.com/en-us/orderItems/1001/product")}
                             }
                         })
                 }
@@ -2494,8 +2494,8 @@ public class HypermediaAssemblerTests : XUnitTest
                         {
                             Links = new Links
                             {
-                                {Keywords.Self, new Link("http://api.orderItems.com/en-us/orderItems/1001/relationships/product")},
-                                {Keywords.Related, new Link("http://api.orderItems.com/en-us/orderItems/1001/product")}
+                                {Keywords.Self, new Link("http://api.home.com/en-us/orderItems/1001/relationships/product")},
+                                {Keywords.Related, new Link("http://api.home.com/en-us/orderItems/1001/product")}
                             },
                             Data = new ResourceIdentifier(ClrSampleData.ProductType, "1"),
                             Meta = ApiSampleData.RelationshipMeta

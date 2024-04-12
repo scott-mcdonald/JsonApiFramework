@@ -75,6 +75,28 @@ internal class HypermediaContext : IHypermediaContext
         var detail = $"Unable to get a URL builder configuration based on the following URI: {uri}";
         throw new DocumentBuildException(detail);
     }
+
+    public Tuple<IUrlBuilderConfiguration, IResourceType?> GetUrlBuilderConfigurationAndResourceType(Uri uri)
+    {
+        Contract.Requires(uri != null);
+
+        if (this.UrlBuilderConfigurationPerResourceType != null)
+        {
+            var urlBuilderConfigurationPerResourceType = this.UrlBuilderConfigurationPerResourceType.First(x => IsUriMatchForUrlBuilderConfiguration(x.Value, uri));
+
+            var clrResourceType = urlBuilderConfigurationPerResourceType.Key;
+            var apiResourceType = this.GetServiceModel().GetResourceType(clrResourceType);
+            return new Tuple<IUrlBuilderConfiguration, IResourceType?>(urlBuilderConfigurationPerResourceType.Value, apiResourceType);
+        }
+
+        if (IsUriMatchForUrlBuilderConfiguration(this.UrlBuilderConfiguration, uri))
+        {
+            return new Tuple<IUrlBuilderConfiguration, IResourceType?>(this.UrlBuilderConfiguration, null);
+        }
+
+        var detail = $"Unable to get a URL builder configuration based on the following URI: {uri}";
+        throw new DocumentBuildException(detail);
+    }
     #endregion
 
     // PRIVATE PROPERTIES ///////////////////////////////////////////////

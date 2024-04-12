@@ -766,7 +766,10 @@ public static class ClrSampleData
                 ClrSampleData.PersonResourceType,
                 ClrSampleData.SearchResourceType,
             },
-            HomeResourceType);
+            new List<IResourceType>
+            {
+                ClrSampleData.HomeResourceType
+            });
 
     /// <summary>
     /// Order and related resources service model.
@@ -795,7 +798,10 @@ public static class ClrSampleData
                 ClrSampleData.StoreResourceType,
                 ClrSampleData.StoreConfigurationResourceType
             },
-            HomeResourceType);
+            new List<IResourceType>
+            {
+                ClrSampleData.HomeResourceType
+            });
 
     /// <summary>
     /// Drawing with many nested complex types service model.

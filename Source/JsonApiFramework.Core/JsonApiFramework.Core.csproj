@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>JsonApiFramework</RootNamespace>
     <PackageId>JsonApiFramework.Core</PackageId>
-    <Version>2.10.0</Version>
+    <Version>2.10.1</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Core]</Product>

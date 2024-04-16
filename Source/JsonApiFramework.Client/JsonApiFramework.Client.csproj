@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>JsonApiFramework.Client</PackageId>
-    <Version>2.10.0</Version>
+    <Version>2.10.1</Version>
     <Authors>Scott McDonald</Authors>
     <Company>Scott McDonald</Company>
     <Product>JsonApiFramework [Client]</Product>

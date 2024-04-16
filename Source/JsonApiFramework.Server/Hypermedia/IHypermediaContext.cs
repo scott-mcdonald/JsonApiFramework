@@ -41,11 +41,5 @@ public interface IHypermediaContext
     /// </summary>
     /// <param name="uri">The URI object to get the URL builder configuration for.</param>
     IUrlBuilderConfiguration GetUrlBuilderConfiguration(Uri uri);
-
-    /// <summary>
-    /// Gets the URL builder configuration and resource type for a given URI when building URL strings for hypermedia purposes.
-    /// </summary>
-    /// <param name="uri">The URI object to get the URL builder configuration for.</param>
-    Tuple<IUrlBuilderConfiguration, IResourceType> GetUrlBuilderConfigurationAndResourceType(Uri uri);
     #endregion
 }

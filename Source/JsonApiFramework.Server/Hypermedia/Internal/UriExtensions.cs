@@ -1,11 +1,8 @@
 // Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
-
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
+using JsonApiFramework.Http;
 using JsonApiFramework.ServiceModel;
 
 namespace JsonApiFramework.Server.Hypermedia.Internal;
@@ -23,9 +20,7 @@ internal static class UriExtensions
         var urlPathSegmentsFromUri = new List<string>(GetUrlPathSegments(url));
 
         // Remove any root path segments
-        var uriBuilderConfigurationAndResourceTypeTuple = hypermediaContext.GetUrlBuilderConfigurationAndResourceType(url);
-        var uriBuilderConfiguration = uriBuilderConfigurationAndResourceTypeTuple.Item1;
-        var apiResourceType = uriBuilderConfigurationAndResourceTypeTuple.Item2;
+        var uriBuilderConfiguration = hypermediaContext!.GetUrlBuilderConfiguration(url);
         if (uriBuilderConfiguration.RootPathSegments != null)
         {
             var rootPathSegments      = uriBuilderConfiguration.RootPathSegments.SafeToReadOnlyList();
@@ -43,6 +38,7 @@ internal static class UriExtensions
                                                            .ToList();
         }
 
+        // Setup a path segment iterator properly.
         var urlPathSegments = new List<string>();
 
         var serviceModel = hypermediaContext.GetServiceModel();
@@ -50,28 +46,32 @@ internal static class UriExtensions
         var homeDocumentApiResourceType = default(IResourceType);
         var homeDocumentApiCollectionPathSegmentIsNullOrEmpty = false;
 
-        if (apiResourceType != null)
+        var homeApiResourceTypes = serviceModel.HomeResourceTypes.SafeToList();
+        if (homeApiResourceTypes.Count > 0)
         {
-            homeDocumentExists = serviceModel.IsHomeResourceType(apiResourceType);
-
-            if (homeDocumentExists)
+            if (homeApiResourceTypes.Count == 1)
             {
-                var homeResourceTypeApiCollectionPathSegment = apiResourceType.HypermediaInfo.ApiCollectionPathSegment;
-
-                homeDocumentApiResourceType = apiResourceType;
-                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeResourceTypeApiCollectionPathSegment);
+                homeDocumentApiResourceType = homeApiResourceTypes[0];
+                homeDocumentExists = true;
+                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeDocumentApiResourceType.HypermediaInfo.ApiCollectionPathSegment);
             }
-        }
-        else
-        {
-            homeDocumentExists = serviceModel.TryGetHomeResourceType(out var homeResourceType);
-
-            if (homeDocumentExists)
+            else
             {
-                var homeResourceTypeApiCollectionPathSegment = homeResourceType.HypermediaInfo.ApiCollectionPathSegment;
+                var urlBuilderConfigurationToHomeApiResourceTypeDictionary = homeApiResourceTypes.ToDictionary(x => hypermediaContext.GetUrlBuilderConfiguration(x.ClrType), UrlBuilderConfigurationEqualityComparer);
+                if (!urlBuilderConfigurationToHomeApiResourceTypeDictionary.TryGetValue(uriBuilderConfiguration, out var homeApiResourceType))
+                {
+                    var scheme = uriBuilderConfiguration.Scheme;
+                    var host = uriBuilderConfiguration.Host;
+                    var port = uriBuilderConfiguration.Port.HasValue ? Convert.ToString(uriBuilderConfiguration.Port.Value) : "null";
+                    var rootPathSegments = uriBuilderConfiguration.RootPathSegments != null ? string.Join('/', uriBuilderConfiguration.RootPathSegments) : "null";
 
-                homeDocumentApiResourceType = homeResourceType;
-                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeResourceTypeApiCollectionPathSegment);
+                    var detail = $"Unable to get a home CLR resource type for a given URL builder configuration [scheme={scheme}, host={host}, port={port}, rootPathSegments={rootPathSegments}]. Please ensure there is a URL builder configuration for the specific home CLR resource type.";
+                    throw new DocumentBuildException(detail);
+                }
+
+                homeDocumentApiResourceType = homeApiResourceType;
+                homeDocumentExists = true;
+                homeDocumentApiCollectionPathSegmentIsNullOrEmpty = string.IsNullOrEmpty(homeDocumentApiResourceType.HypermediaInfo.ApiCollectionPathSegment);
             }
         }
 
@@ -106,6 +106,11 @@ internal static class UriExtensions
 
         return documentSelfPath;
     }
+    #endregion
+
+    // PRIVATE PROPERTIES ///////////////////////////////////////////////
+    #region Properties
+    public static IEqualityComparer<IUrlBuilderConfiguration> UrlBuilderConfigurationEqualityComparer { get; } = new UrlBuilderConfigurationEqualityComparer();
     #endregion
 
     // PRIVATE METHODS //////////////////////////////////////////////////

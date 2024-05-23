@@ -198,6 +198,12 @@ public static class TypeConverter
             return true;
         }
 
+        if (targetType == typeof(DateOnly))
+        {
+            targetValue = DateOnly.Parse(sourceValueAsString, targetFormatProvider, DateTimeStyles.AllowWhiteSpaces);
+            return true;
+        }
+
         if (targetType == typeof(DateTime))
         {
             targetValue = DateTime.Parse(sourceValueAsString, targetFormatProvider, DateTimeStyles.RoundtripKind);
@@ -207,6 +213,12 @@ public static class TypeConverter
         if (targetType == typeof(DateTimeOffset))
         {
             targetValue = DateTimeOffset.Parse(sourceValueAsString, targetFormatProvider, DateTimeStyles.RoundtripKind);
+            return true;
+        }
+
+        if (targetType == typeof(TimeOnly))
+        {
+            targetValue = TimeOnly.Parse(sourceValueAsString, targetFormatProvider);
             return true;
         }
 
@@ -251,6 +263,12 @@ public static class TypeConverter
             return true;
         }
 
+        if (sourceValue is DateOnly && targetType == typeof(string))
+        {
+            targetValue = ((DateOnly)sourceValue).ToString("O");
+            return true;
+        }
+
         if (sourceValue is DateTime && targetType == typeof(string))
         {
             targetValue = ((DateTime)sourceValue).ToString("O");
@@ -260,6 +278,12 @@ public static class TypeConverter
         if (sourceValue is DateTimeOffset && targetType == typeof(string))
         {
             targetValue = ((DateTimeOffset)sourceValue).ToString("O");
+            return true;
+        }
+
+        if (sourceValue is TimeOnly && targetType == typeof(string))
+        {
+            targetValue = ((TimeOnly)sourceValue).ToString("O");
             return true;
         }
 

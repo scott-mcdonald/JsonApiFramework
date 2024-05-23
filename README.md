@@ -845,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 2.10.1 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.11.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -855,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 2.10.1 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.11.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -867,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 2.10.1 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.11.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -924,6 +924,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.11.0
+    * #97 Add support for DateOnly and TimeOnly types as properties on resource POCO objects. Support comes via value coercion between string and DateOnly/TimeOnly values.
 * v2.10.1
     * #96 Fix exception occuring when building server-side hypermedia with multiple home resource types all with empty path collection segments.
 * v2.10.0

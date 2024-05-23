@@ -241,11 +241,17 @@ public class TypeConverterTests : XUnitTest
     #endregion
 
     #region Test Data
+    public static readonly DateOnly TestDateOnly = new DateOnly(1968, 5, 20);
+    public static readonly string TestDateOnlyString = TestDateOnly.ToString("O");
+
     public static readonly DateTime TestDateTime = new DateTime(1968, 5, 20, 20, 2, 42, 123, DateTimeKind.Utc);
     public static readonly string TestDateTimeString = TestDateTime.ToString("O");
 
     public static readonly DateTimeOffset TestDateTimeOffset = new DateTimeOffset(1968, 5, 20, 20, 2, 42, 123, TimeSpan.Zero);
     public static readonly string TestDateTimeOffsetString = TestDateTimeOffset.ToString("O");
+
+    public static readonly TimeOnly TestTimeOnly = new TimeOnly(23, 59, 59);
+    public static readonly string TestTimeOnlyString = TestTimeOnly.ToString("O");
 
     public static readonly TimeSpan TestTimeSpan = new TimeSpan(42, 0, 0, 0, 0);
     public static readonly string TestTimeSpanString = TestTimeSpan.ToString("c");
@@ -458,6 +464,60 @@ public class TypeConverterTests : XUnitTest
                             new ConvertTest<Ulid?>('*', false, default(Ulid?)),
                             new ConvertTest<DateTimeOffset?>('*', false, default(DateTimeOffset?)),
                             new ConvertTest<TimeSpan?>('*', false, default(TimeSpan?))
+                        }
+                },
+            new object[]
+                {
+                    "WithDateOnly", new IConvertTest[]
+                        {
+                            new ConvertTest<bool>(TestDateOnly, false, default(bool)),
+                            new ConvertTest<byte>(TestDateOnly, false, default(byte)),
+                            new ConvertTest<char>(TestDateOnly, false, default(char)),
+                            new ConvertTest<DateOnly>(TestDateOnly, true, TestDateOnly),
+                            new ConvertTest<DateTime>(TestDateOnly, false, default(DateTime)),
+                            new ConvertTest<decimal>(TestDateOnly, false, default(decimal)),
+                            new ConvertTest<double>(TestDateOnly, false, default(double)),
+                            new ConvertTest<float>(TestDateOnly, false, default(float)),
+                            new ConvertTest<int>(TestDateOnly, false, default(int)),
+                            new ConvertTest<long>(TestDateOnly, false, default(long)),
+                            new ConvertTest<sbyte>(TestDateOnly, false, default(sbyte)),
+                            new ConvertTest<short>(TestDateOnly, false, default(short)),
+                            new ConvertTest<string>(TestDateOnly, true, TestDateOnlyString),
+                            new ConvertTest<uint>(TestDateOnly, false, default(uint)),
+                            new ConvertTest<ulong>(TestDateOnly, false, default(ulong)),
+                            new ConvertTest<ushort>(TestDateOnly, false, default(ushort)),
+                            new ConvertTest<PrimaryColor>(TestDateOnly, false, default(PrimaryColor)),
+                            new ConvertTest<Guid>(TestDateOnly, false, default(Guid)),
+                            new ConvertTest<Ulid>(TestDateOnly, false, default(Ulid)),
+                            new ConvertTest<Uri>(TestDateOnly, false, default(Uri)),
+                            new ConvertTest<DateTimeOffset>(TestDateOnly, false, default(DateTimeOffset)),
+                            new ConvertTest<TimeSpan>(TestDateOnly, false, default(TimeSpan)),
+                            new ConvertTest<byte[]>(TestDateOnly, false, default(byte[])),
+                            new ConvertTest<Type>(TestDateOnly, false, default(Type)),
+                            new ConvertTest<IInterface>(TestDateOnly, false, default(IInterface)),
+                            new ConvertTest<BaseClass>(TestDateOnly, false, default(BaseClass)),
+                            new ConvertTest<DerivedClass>(TestDateOnly, false, default(DerivedClass)),
+
+                            new ConvertTest<bool?>(TestDateOnly, false, default(bool?)),
+                            new ConvertTest<byte?>(TestDateOnly, false, default(byte?)),
+                            new ConvertTest<char?>(TestDateOnly, false, default(char?)),
+                            new ConvertTest<DateOnly?>(TestDateOnly, true, new DateOnly?(TestDateOnly)),
+                            new ConvertTest<DateTime?>(TestDateOnly, false, default(DateTime?)),
+                            new ConvertTest<decimal?>(TestDateOnly, false, default(decimal?)),
+                            new ConvertTest<double?>(TestDateOnly, false, default(double?)),
+                            new ConvertTest<float?>(TestDateOnly, false, default(float?)),
+                            new ConvertTest<int?>(TestDateOnly, false, default(int?)),
+                            new ConvertTest<long?>(TestDateOnly, false, default(long?)),
+                            new ConvertTest<sbyte?>(TestDateOnly, false, default(sbyte?)),
+                            new ConvertTest<short?>(TestDateOnly, false, default(short?)),
+                            new ConvertTest<uint?>(TestDateOnly, false, default(uint?)),
+                            new ConvertTest<ulong?>(TestDateOnly, false, default(ulong?)),
+                            new ConvertTest<ushort?>(TestDateOnly, false, default(ushort?)),
+                            new ConvertTest<PrimaryColor?>(TestDateOnly, false, default(PrimaryColor?)),
+                            new ConvertTest<Guid?>(TestDateOnly, false, default(Guid?)),
+                            new ConvertTest<Ulid?>(TestDateOnly, false, default(Ulid?)),
+                            new ConvertTest<DateTimeOffset?>(TestDateOnly, false, default(DateTimeOffset?)),
+                            new ConvertTest<TimeSpan?>(TestDateOnly, false, default(TimeSpan?))
                         }
                 },
             new object[]
@@ -877,6 +937,7 @@ public class TypeConverterTests : XUnitTest
                             new ConvertTest<bool>("True", true, (bool)true),
                             new ConvertTest<byte>("42", true, (byte)42),
                             new ConvertTest<char>("*", true, '*'),
+                            new ConvertTest<DateOnly>(TestDateOnlyString, true, TestDateOnly),
                             new ConvertTest<DateTime>(TestDateTimeString, true, TestDateTime),
                             new ConvertTest<decimal>("42.1", true, (decimal)42.1),
                             new ConvertTest<double>("42.2", true, (double)42.2),
@@ -906,6 +967,7 @@ public class TypeConverterTests : XUnitTest
                             new ConvertTest<bool?>("True", true, new bool?((bool)true)),
                             new ConvertTest<byte?>("42", true, new byte?((byte)42)),
                             new ConvertTest<char?>("*", true, new char?((char)'*')),
+                            new ConvertTest<DateOnly?>(TestDateOnlyString, true, new DateOnly?(TestDateOnly)),
                             new ConvertTest<DateTime?>(TestDateTimeString, true, new DateTime?(TestDateTime)),
                             new ConvertTest<decimal?>("42.1", true, new decimal?((decimal)42.1)),
                             new ConvertTest<double?>("42.2", true, new double?((double)42.2)),
@@ -1331,6 +1393,60 @@ public class TypeConverterTests : XUnitTest
                             new ConvertTest<Ulid?>(TestDateTimeOffset, false, default(Ulid?)),
                             new ConvertTest<DateTimeOffset?>(TestDateTimeOffset, true, new DateTimeOffset?(TestDateTimeOffset)),
                             new ConvertTest<TimeSpan?>(TestDateTimeOffset, false, default(TimeSpan?))
+                        }
+                },
+            new object[]
+                {
+                    "WithTimeOnly", new IConvertTest[]
+                        {
+                            new ConvertTest<bool>(TestTimeOnly, false, default(bool)),
+                            new ConvertTest<byte>(TestTimeOnly, false, default(byte)),
+                            new ConvertTest<char>(TestTimeOnly, false, default(char)),
+                            new ConvertTest<DateTime>(TestTimeOnly, false, default(DateTime)),
+                            new ConvertTest<decimal>(TestTimeOnly, false, default(decimal)),
+                            new ConvertTest<double>(TestTimeOnly, false, default(double)),
+                            new ConvertTest<float>(TestTimeOnly, false, default(float)),
+                            new ConvertTest<int>(TestTimeOnly, false, default(int)),
+                            new ConvertTest<long>(TestTimeOnly, false, default(long)),
+                            new ConvertTest<sbyte>(TestTimeOnly, false, default(sbyte)),
+                            new ConvertTest<short>(TestTimeOnly, false, default(short)),
+                            new ConvertTest<string>(TestTimeOnly, true, TestTimeOnlyString),
+                            new ConvertTest<uint>(TestTimeOnly, false, default(uint)),
+                            new ConvertTest<ulong>(TestTimeOnly, false, default(ulong)),
+                            new ConvertTest<ushort>(TestTimeOnly, false, default(ushort)),
+                            new ConvertTest<PrimaryColor>(TestTimeOnly, false, default(PrimaryColor)),
+                            new ConvertTest<Guid>(TestTimeOnly, false, default(Guid)),
+                            new ConvertTest<Ulid>(TestTimeOnly, false, default(Ulid)),
+                            new ConvertTest<Uri>(TestTimeOnly, false, default(Uri)),
+                            new ConvertTest<DateTimeOffset>(TestTimeOnly, false, default(DateTimeOffset)),
+                            new ConvertTest<TimeOnly>(TestTimeOnly, true, TestTimeOnly),
+                            new ConvertTest<TimeSpan>(TestTimeOnly, false, default(TimeSpan)),
+                            new ConvertTest<byte[]>(TestTimeOnly, false, default(byte[])),
+                            new ConvertTest<Type>(TestTimeOnly, false, default(Type)),
+                            new ConvertTest<IInterface>(TestTimeOnly, false, default(IInterface)),
+                            new ConvertTest<BaseClass>(TestTimeOnly, false, default(BaseClass)),
+                            new ConvertTest<DerivedClass>(TestTimeOnly, false, default(DerivedClass)),
+
+                            new ConvertTest<bool?>(TestTimeOnly, false, default(bool?)),
+                            new ConvertTest<byte?>(TestTimeOnly, false, default(byte?)),
+                            new ConvertTest<char?>(TestTimeOnly, false, default(char?)),
+                            new ConvertTest<DateTime?>(TestTimeOnly, false, default(DateTime?)),
+                            new ConvertTest<decimal?>(TestTimeOnly, false, default(decimal?)),
+                            new ConvertTest<double?>(TestTimeOnly, false, default(double?)),
+                            new ConvertTest<float?>(TestTimeOnly, false, default(float?)),
+                            new ConvertTest<int?>(TestTimeOnly, false, default(int?)),
+                            new ConvertTest<long?>(TestTimeOnly, false, default(long?)),
+                            new ConvertTest<sbyte?>(TestTimeOnly, false, default(sbyte?)),
+                            new ConvertTest<short?>(TestTimeOnly, false, default(short?)),
+                            new ConvertTest<uint?>(TestTimeOnly, false, default(uint?)),
+                            new ConvertTest<ulong?>(TestTimeOnly, false, default(ulong?)),
+                            new ConvertTest<ushort?>(TestTimeOnly, false, default(ushort?)),
+                            new ConvertTest<PrimaryColor?>(TestTimeOnly, false, default(PrimaryColor?)),
+                            new ConvertTest<Guid?>(TestTimeOnly, false, default(Guid?)),
+                            new ConvertTest<Ulid?>(TestTimeOnly, false, default(Ulid?)),
+                            new ConvertTest<DateTimeOffset?>(TestTimeOnly, false, default(DateTimeOffset?)),
+                            new ConvertTest<TimeOnly?>(TestTimeOnly, true, new TimeOnly?(TestTimeOnly)),
+                            new ConvertTest<TimeSpan?>(TestTimeOnly, false, default(TimeSpan?))
                         }
                 },
             new object[]

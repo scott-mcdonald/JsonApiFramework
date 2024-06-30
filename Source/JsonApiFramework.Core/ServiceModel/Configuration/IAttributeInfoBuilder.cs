@@ -6,7 +6,8 @@ public interface IAttributeInfoBuilder
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Methods
-    IAttributeInfoBuilder SetApiPropertyName(string apiPropertyName);
+    IAttributeInfoBuilder Hide();
     IAttributeInfoBuilder Ignore();
+    IAttributeInfoBuilder SetApiPropertyName(string apiPropertyName);
     #endregion
 }

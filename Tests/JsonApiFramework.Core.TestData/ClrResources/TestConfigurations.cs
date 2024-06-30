@@ -546,6 +546,40 @@ public static class TestConfigurations
             this.Link(Keywords.Self);
         }
     }
+
+    public class StoreHiddenConfigurationWithNullConventions : ResourceTypeBuilder<StoreHidden>
+    {
+        public StoreHiddenConfigurationWithNullConventions()
+        {
+            // Hypermedia
+            this.Hypermedia()
+                .SetApiCollectionPathSegment(ClrSampleData.StoreHiddenCollectionPathSegment);
+
+            // ResourceIdentity
+            this.ResourceIdentity(x => x.StoreHiddenId)
+                .SetApiType(ClrSampleData.StoreHiddenType);
+
+            // Attributes
+            this.Attribute(x => x.StoreHiddenName)
+                .SetApiPropertyName("storeHiddenName");
+
+            this.Attribute(x => x.Address)
+                .SetApiPropertyName("address");
+
+            this.Attribute(x => x.City)
+                .SetApiPropertyName("city");
+
+            this.Attribute(x => x.State)
+                .SetApiPropertyName("state");
+
+            this.Attribute(x => x.ZipCode)
+                .SetApiPropertyName("zipCode");
+
+            this.Attribute(x => x.Hidden)
+                .SetApiPropertyName("hidden")
+                .Hide();
+        }
+    }
     #endregion
 
     #region Configurations With Conventions
@@ -770,6 +804,20 @@ public static class TestConfigurations
 
             // Links
             this.Link(Keywords.Self);
+        }
+    }
+
+    public class StoreHiddenConfigurationWithConventions : ResourceTypeBuilder<StoreHidden>
+    {
+        public StoreHiddenConfigurationWithConventions()
+        {
+            // Hypermedia
+            this.Hypermedia()
+                .SetApiCollectionPathSegment(ClrSampleData.StoreHiddenCollectionPathSegment);
+
+            // ResourceIdentity
+            this.ResourceIdentity(x => x.StoreHiddenId)
+                .SetApiType(ClrSampleData.StoreHiddenType);
         }
     }
     #endregion

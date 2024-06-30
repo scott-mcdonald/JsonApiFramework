@@ -25,12 +25,10 @@ internal class AttributeInfoBuilder : IAttributeInfoBuilder
 
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region IAttributeInfoBuilder Implementation
-    public IAttributeInfoBuilder SetApiPropertyName(string apiPropertyName)
+    public IAttributeInfoBuilder Hide()
     {
-        Contract.Requires(string.IsNullOrWhiteSpace(apiPropertyName) == false);
-
         this.AttributeInfoContextModifierCollection = this.AttributeInfoContextModifierCollection ?? new List<Action<AttributeInfoContext>>();
-        this.AttributeInfoContextModifierCollection.Add(x => { x.AttibuteInfo.ApiPropertyName = apiPropertyName; });
+        this.AttributeInfoContextModifierCollection.Add(x => { x.AttibuteInfo.IsHidden = true; });
         return this;
     }
 
@@ -38,6 +36,15 @@ internal class AttributeInfoBuilder : IAttributeInfoBuilder
     {
         this.AttributeInfoContextModifierCollection = this.AttributeInfoContextModifierCollection ?? new List<Action<AttributeInfoContext>>();
         this.AttributeInfoContextModifierCollection.Add(x => { x.Ignored = true; });
+        return this;
+    }
+
+    public IAttributeInfoBuilder SetApiPropertyName(string apiPropertyName)
+    {
+        Contract.Requires(string.IsNullOrWhiteSpace(apiPropertyName) == false);
+
+        this.AttributeInfoContextModifierCollection = this.AttributeInfoContextModifierCollection ?? new List<Action<AttributeInfoContext>>();
+        this.AttributeInfoContextModifierCollection.Add(x => { x.AttibuteInfo.ApiPropertyName = apiPropertyName; });
         return this;
     }
     #endregion

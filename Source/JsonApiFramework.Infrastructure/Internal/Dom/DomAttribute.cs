@@ -36,6 +36,9 @@ internal class DomAttribute : NodesContainer<DomNodeType>
         Contract.Requires(attributeInfo != null);
         Contract.Requires(apiGetAttributes != null);
 
+        if (attributeInfo.IsHidden)
+            return null;
+
         var apiAttribute = attributeInfo.GetApiAttribute(apiGetAttributes);
         var apiPropertyName = attributeInfo.ApiPropertyName;
 
@@ -53,6 +56,9 @@ internal class DomAttribute : NodesContainer<DomNodeType>
         Contract.Requires(attributeInfo != null);
         Contract.Requires(clrResource != null);
 
+        if (attributeInfo.IsHidden)
+            return null;
+
         var clrAttribute = attributeInfo.GetClrProperty(clrResource);
         return CreateFromClrAttribute(serviceModel, attributeInfo, clrAttribute);
     }
@@ -61,6 +67,9 @@ internal class DomAttribute : NodesContainer<DomNodeType>
     {
         Contract.Requires(serviceModel != null);
         Contract.Requires(attributeInfo != null);
+
+        if (attributeInfo.IsHidden)
+            return null;
 
         var domAttribute = CreateFromClrAttribute(attributeInfo, clrAttribute);
 

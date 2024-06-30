@@ -28,7 +28,11 @@ internal static class ContainerNodeExtensions
 
         // Create and add new node to the container node.
         var newNode = nodeFactoryMethod();
-        containerNode.Add(newNode);
+        if (newNode != null)
+        {
+            containerNode.Add(newNode);
+        }
+
         return newNode;
     }
 

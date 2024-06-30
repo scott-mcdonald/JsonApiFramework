@@ -16,115 +16,122 @@ public static class ClrSampleData
 {
     // PUBLIC FIELDS ////////////////////////////////////////////////////
     #region Api Collection Path Segments
-    public const string DrawingCollectionPathSegment            = "drawings";
-    public const string HomeCollectionPathSegment               = "";
-    public const string OrderCollectionPathSegment              = "orders";
-    public const string OrderItemCollectionPathSegment          = "orderItems";
-    public const string PaymentCollectionPathSegment            = "payments";
-    public const string PosSystemCollectionPathSegment          = "posSystems";
-    public const string ProductCollectionPathSegment            = "products";
-    public const string SearchCollectionPathSegment             = "search";
-    public const string StoreCollectionPathSegment              = "stores";
+    public const string DrawingCollectionPathSegment = "drawings";
+    public const string HomeCollectionPathSegment = "";
+    public const string OrderCollectionPathSegment = "orders";
+    public const string OrderItemCollectionPathSegment = "orderItems";
+    public const string PaymentCollectionPathSegment = "payments";
+    public const string PosSystemCollectionPathSegment = "posSystems";
+    public const string ProductCollectionPathSegment = "products";
+    public const string SearchCollectionPathSegment = "search";
+    public const string StoreCollectionPathSegment = "stores";
     public const string StoreConfigurationCollectionPathSegment = "storeConfigurations";
+    public const string StoreHiddenCollectionPathSegment = "storesHidden";
     #endregion
 
     #region Api Types
-    public const string DrawingType            = DrawingCollectionPathSegment;
-    public const string HomeType               = "home";
-    public const string OrderType              = OrderCollectionPathSegment;
-    public const string OrderItemType          = OrderItemCollectionPathSegment;
-    public const string PaymentType            = PaymentCollectionPathSegment;
-    public const string PosSystemType          = PosSystemCollectionPathSegment;
-    public const string ProductType            = ProductCollectionPathSegment;
-    public const string SearchType             = SearchCollectionPathSegment;
-    public const string StoreType              = StoreCollectionPathSegment;
+    public const string DrawingType = DrawingCollectionPathSegment;
+    public const string HomeType = "home";
+    public const string OrderType = OrderCollectionPathSegment;
+    public const string OrderItemType = OrderItemCollectionPathSegment;
+    public const string PaymentType = PaymentCollectionPathSegment;
+    public const string PosSystemType = PosSystemCollectionPathSegment;
+    public const string ProductType = ProductCollectionPathSegment;
+    public const string SearchType = SearchCollectionPathSegment;
+    public const string StoreType = StoreCollectionPathSegment;
     public const string StoreConfigurationType = StoreConfigurationCollectionPathSegment;
+    public const string StoreHiddenType = StoreHiddenCollectionPathSegment;
     #endregion
 
     #region Clr Types
     // Resource Types
-    public static readonly Type ArticleClrType            = typeof(Article);
-    public static readonly Type BlogClrType               = typeof(Blog);
-    public static readonly Type CommentClrType            = typeof(Comment);
-    public static readonly Type DrawingClrType            = typeof(Drawing);
-    public static readonly Type HomeClrType               = typeof(Home);
-    public static readonly Type OrderClrType              = typeof(Order);
-    public static readonly Type OrderItemClrType          = typeof(OrderItem);
-    public static readonly Type PaymentClrType            = typeof(Payment);
-    public static readonly Type PersonClrType             = typeof(Person);
-    public static readonly Type PosSystemClrType          = typeof(PosSystem);
-    public static readonly Type ProductClrType            = typeof(Product);
-    public static readonly Type SearchClrType             = typeof(Search);
-    public static readonly Type StoreClrType              = typeof(Store);
+    public static readonly Type ArticleClrType = typeof(Article);
+    public static readonly Type BlogClrType = typeof(Blog);
+    public static readonly Type CommentClrType = typeof(Comment);
+    public static readonly Type DrawingClrType = typeof(Drawing);
+    public static readonly Type HomeClrType = typeof(Home);
+    public static readonly Type OrderClrType = typeof(Order);
+    public static readonly Type OrderItemClrType = typeof(OrderItem);
+    public static readonly Type PaymentClrType = typeof(Payment);
+    public static readonly Type PersonClrType = typeof(Person);
+    public static readonly Type PosSystemClrType = typeof(PosSystem);
+    public static readonly Type ProductClrType = typeof(Product);
+    public static readonly Type SearchClrType = typeof(Search);
+    public static readonly Type StoreClrType = typeof(Store);
     public static readonly Type StoreConfigurationClrType = typeof(StoreConfiguration);
+    public static readonly Type StoreHiddenClrType = typeof(StoreHidden);
 
     // Complex Types
-    public static readonly Type CustomDataClrType     = typeof(CustomData);
+    public static readonly Type CustomDataClrType = typeof(CustomData);
     public static readonly Type CustomPropertyClrType = typeof(CustomProperty);
-    public static readonly Type LineClrType           = typeof(Line);
+    public static readonly Type LineClrType = typeof(Line);
     public static readonly Type MailingAddressClrType = typeof(MailingAddress);
-    public static readonly Type PhoneNumberClrType    = typeof(PhoneNumber);
-    public static readonly Type PointClrType          = typeof(Point);
-    public static readonly Type PolygonClrType        = typeof(Polygon);
+    public static readonly Type PhoneNumberClrType = typeof(PhoneNumber);
+    public static readonly Type PointClrType = typeof(Point);
+    public static readonly Type PolygonClrType = typeof(Polygon);
     #endregion
 
     #region Hypermedia
-    public static readonly IHypermediaInfo ArticleHypermediaInfo            = new HypermediaInfo(ApiSampleData.ArticleCollectionPathSegment);
-    public static readonly IHypermediaInfo BlogHypermediaInfo               = new HypermediaInfo(ApiSampleData.BlogCollectionPathSegment);
-    public static readonly IHypermediaInfo CommentHypermediaInfo            = new HypermediaInfo(ApiSampleData.CommentCollectionPathSegment);
-    public static readonly IHypermediaInfo DrawingHypermediaInfo            = new HypermediaInfo(DrawingCollectionPathSegment);
-    public static readonly IHypermediaInfo HomeHypermediaInfo               = new HypermediaInfo(HomeCollectionPathSegment);
-    public static readonly IHypermediaInfo OrderHypermediaInfo              = new HypermediaInfo(OrderCollectionPathSegment);
-    public static readonly IHypermediaInfo OrderItemHypermediaInfo          = new HypermediaInfo(OrderItemCollectionPathSegment);
-    public static readonly IHypermediaInfo PaymentHypermediaInfo            = new HypermediaInfo(PaymentCollectionPathSegment);
-    public static readonly IHypermediaInfo PersonHypermediaInfo             = new HypermediaInfo(ApiSampleData.PersonCollectionPathSegment);
-    public static readonly IHypermediaInfo PosSystemHypermediaInfo          = new HypermediaInfo(PosSystemCollectionPathSegment);
-    public static readonly IHypermediaInfo ProductHypermediaInfo            = new HypermediaInfo(ProductCollectionPathSegment);
-    public static readonly IHypermediaInfo SearchHypermediaInfo             = new HypermediaInfo(SearchCollectionPathSegment);
-    public static readonly IHypermediaInfo StoreHypermediaInfo              = new HypermediaInfo(StoreCollectionPathSegment);
+    public static readonly IHypermediaInfo ArticleHypermediaInfo = new HypermediaInfo(ApiSampleData.ArticleCollectionPathSegment);
+    public static readonly IHypermediaInfo BlogHypermediaInfo = new HypermediaInfo(ApiSampleData.BlogCollectionPathSegment);
+    public static readonly IHypermediaInfo CommentHypermediaInfo = new HypermediaInfo(ApiSampleData.CommentCollectionPathSegment);
+    public static readonly IHypermediaInfo DrawingHypermediaInfo = new HypermediaInfo(DrawingCollectionPathSegment);
+    public static readonly IHypermediaInfo HomeHypermediaInfo = new HypermediaInfo(HomeCollectionPathSegment);
+    public static readonly IHypermediaInfo OrderHypermediaInfo = new HypermediaInfo(OrderCollectionPathSegment);
+    public static readonly IHypermediaInfo OrderItemHypermediaInfo = new HypermediaInfo(OrderItemCollectionPathSegment);
+    public static readonly IHypermediaInfo PaymentHypermediaInfo = new HypermediaInfo(PaymentCollectionPathSegment);
+    public static readonly IHypermediaInfo PersonHypermediaInfo = new HypermediaInfo(ApiSampleData.PersonCollectionPathSegment);
+    public static readonly IHypermediaInfo PosSystemHypermediaInfo = new HypermediaInfo(PosSystemCollectionPathSegment);
+    public static readonly IHypermediaInfo ProductHypermediaInfo = new HypermediaInfo(ProductCollectionPathSegment);
+    public static readonly IHypermediaInfo SearchHypermediaInfo = new HypermediaInfo(SearchCollectionPathSegment);
+    public static readonly IHypermediaInfo StoreHypermediaInfo = new HypermediaInfo(StoreCollectionPathSegment);
     public static readonly IHypermediaInfo StoreConfigurationHypermediaInfo = new HypermediaInfo(StoreConfigurationCollectionPathSegment);
+    public static readonly IHypermediaInfo StoreHiddenHypermediaInfo = new HypermediaInfo(StoreHiddenCollectionPathSegment);
     #endregion
 
     #region Resource Identity
-    public static readonly IPropertyInfo         ArticleIdInfo               = new PropertyInfo(typeof(Article), StaticReflection.GetMemberName<Article>(x => x.Id), typeof(string));
+    public static readonly IPropertyInfo ArticleIdInfo = new PropertyInfo(typeof(Article), StaticReflection.GetMemberName<Article>(x => x.Id), typeof(string));
     public static readonly IResourceIdentityInfo ArticleResourceIdentityInfo = new ResourceIdentityInfo(ApiSampleData.ArticleType, ArticleIdInfo);
 
-    public static readonly IPropertyInfo         BlogIdInfo               = new PropertyInfo(typeof(Blog), StaticReflection.GetMemberName<Blog>(x => x.Id), typeof(string));
+    public static readonly IPropertyInfo BlogIdInfo = new PropertyInfo(typeof(Blog), StaticReflection.GetMemberName<Blog>(x => x.Id), typeof(string));
     public static readonly IResourceIdentityInfo BlogResourceIdentityInfo = new ResourceIdentityInfo(ApiSampleData.BlogType, BlogIdInfo);
 
-    public static readonly IPropertyInfo         CommentIdInfo               = new PropertyInfo(typeof(Comment), StaticReflection.GetMemberName<Comment>(x => x.Id), typeof(string));
+    public static readonly IPropertyInfo CommentIdInfo = new PropertyInfo(typeof(Comment), StaticReflection.GetMemberName<Comment>(x => x.Id), typeof(string));
     public static readonly IResourceIdentityInfo CommentResourceIdentityInfo = new ResourceIdentityInfo(ApiSampleData.CommentType, CommentIdInfo);
 
-    public static readonly IPropertyInfo         DrawingIdInfo               = new PropertyInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Id), typeof(long));
+    public static readonly IPropertyInfo DrawingIdInfo = new PropertyInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Id), typeof(long));
     public static readonly IResourceIdentityInfo DrawingResourceIdentityInfo = new ResourceIdentityInfo(DrawingType, DrawingIdInfo);
 
     public static readonly IResourceIdentityInfo HomeResourceIdentityInfo = new ResourceIdentityInfo(HomeType);
 
-    public static readonly IPropertyInfo         OrderIdInfo               = new PropertyInfo(typeof(Order), StaticReflection.GetMemberName<Order>(x => x.OrderId), typeof(long));
+    public static readonly IPropertyInfo OrderIdInfo = new PropertyInfo(typeof(Order), StaticReflection.GetMemberName<Order>(x => x.OrderId), typeof(long));
     public static readonly IResourceIdentityInfo OrderResourceIdentityInfo = new ResourceIdentityInfo(OrderType, OrderIdInfo);
 
-    public static readonly IPropertyInfo         OrderItemIdInfo               = new PropertyInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.OrderItemId), typeof(long));
+    public static readonly IPropertyInfo OrderItemIdInfo = new PropertyInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.OrderItemId), typeof(long));
     public static readonly IResourceIdentityInfo OrderItemResourceIdentityInfo = new ResourceIdentityInfo(OrderItemType, OrderItemIdInfo);
 
-    public static readonly IPropertyInfo         PaymentIdInfo               = new PropertyInfo(typeof(Payment), StaticReflection.GetMemberName<Payment>(x => x.PaymentId), typeof(long));
+    public static readonly IPropertyInfo PaymentIdInfo = new PropertyInfo(typeof(Payment), StaticReflection.GetMemberName<Payment>(x => x.PaymentId), typeof(long));
     public static readonly IResourceIdentityInfo PaymentResourceIdentityInfo = new ResourceIdentityInfo(PaymentType, PaymentIdInfo);
 
-    public static readonly IPropertyInfo         PersonIdInfo               = new PropertyInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.Id), typeof(string));
+    public static readonly IPropertyInfo PersonIdInfo = new PropertyInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.Id), typeof(string));
     public static readonly IResourceIdentityInfo PersonResourceIdentityInfo = new ResourceIdentityInfo(ApiSampleData.PersonType, PersonIdInfo);
 
-    public static readonly IPropertyInfo         PosSystemIdInfo               = new PropertyInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemId), typeof(string));
+    public static readonly IPropertyInfo PosSystemIdInfo = new PropertyInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemId), typeof(string));
     public static readonly IResourceIdentityInfo PosSystemResourceIdentityInfo = new ResourceIdentityInfo(PosSystemType, PosSystemIdInfo);
 
-    public static readonly IPropertyInfo         ProductIdInfo               = new PropertyInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.ProductId), typeof(long));
+    public static readonly IPropertyInfo ProductIdInfo = new PropertyInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.ProductId), typeof(long));
     public static readonly IResourceIdentityInfo ProductResourceIdentityInfo = new ResourceIdentityInfo(ProductType, ProductIdInfo);
 
     public static readonly IResourceIdentityInfo SearchResourceIdentityInfo = new ResourceIdentityInfo(SearchType);
 
-    public static readonly IPropertyInfo         StoreIdInfo               = new PropertyInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreId), typeof(long));
+    public static readonly IPropertyInfo StoreIdInfo = new PropertyInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreId), typeof(long));
     public static readonly IResourceIdentityInfo StoreResourceIdentityInfo = new ResourceIdentityInfo(StoreType, StoreIdInfo);
 
-    public static readonly IPropertyInfo         StoreConfigurationIdInfo               = new PropertyInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.StoreConfigurationId), typeof(string));
+    public static readonly IPropertyInfo StoreConfigurationIdInfo = new PropertyInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.StoreConfigurationId), typeof(string));
     public static readonly IResourceIdentityInfo StoreConfigurationResourceIdentityInfo = new ResourceIdentityInfo(StoreConfigurationType, StoreConfigurationIdInfo);
+
+    public static readonly IPropertyInfo StoreHiddenIdInfo = new PropertyInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.StoreHiddenId), typeof(long));
+    public static readonly IResourceIdentityInfo StoreHiddenResourceIdentityInfo = new ResourceIdentityInfo(StoreHiddenType, StoreHiddenIdInfo);
     #endregion
 
     #region Resource Type Attributes
@@ -159,10 +166,10 @@ public static class ClrSampleData
     public static readonly IAttributesInfo CommentAttributesInfo = new AttributesInfo(typeof(Comment), CommentAttributesInfoCollection);
 
     // Drawing Attributes
-    public static readonly IAttributeInfo DrawingNameAttributeInfo       = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Name),       typeof(string),        StaticReflection.GetMemberName<Drawing>(x => x.Name).Camelize(),       false);
-    public static readonly IAttributeInfo DrawingLinesAttributeInfo      = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Lines),      typeof(List<Line>),    StaticReflection.GetMemberName<Drawing>(x => x.Lines).Camelize(),      true);
-    public static readonly IAttributeInfo DrawingPolygonsAttributeInfo   = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Polygons),   typeof(List<Polygon>), StaticReflection.GetMemberName<Drawing>(x => x.Polygons).Camelize(),   true);
-    public static readonly IAttributeInfo DrawingCustomDataAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.CustomData), typeof(CustomData),    StaticReflection.GetMemberName<Drawing>(x => x.CustomData).Camelize(), true);
+    public static readonly IAttributeInfo DrawingNameAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Name), typeof(string), StaticReflection.GetMemberName<Drawing>(x => x.Name).Camelize(), false);
+    public static readonly IAttributeInfo DrawingLinesAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Lines), typeof(List<Line>), StaticReflection.GetMemberName<Drawing>(x => x.Lines).Camelize(), true);
+    public static readonly IAttributeInfo DrawingPolygonsAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.Polygons), typeof(List<Polygon>), StaticReflection.GetMemberName<Drawing>(x => x.Polygons).Camelize(), true);
+    public static readonly IAttributeInfo DrawingCustomDataAttributeInfo = new AttributeInfo(typeof(Drawing), StaticReflection.GetMemberName<Drawing>(x => x.CustomData), typeof(CustomData), StaticReflection.GetMemberName<Drawing>(x => x.CustomData).Camelize(), true);
 
     public static readonly IAttributeInfo[] DrawingAttributesInfoCollection =
     {
@@ -195,9 +202,9 @@ public static class ClrSampleData
     public static readonly IAttributesInfo OrderAttributesInfo = new AttributesInfo(typeof(Order), OrderAttributesInfoCollection);
 
     // OrderItem Attributes
-    public static readonly IAttributeInfo OrderItemProductNameAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.ProductName), typeof(string),  StaticReflection.GetMemberName<OrderItem>(x => x.ProductName).Camelize(), false);
-    public static readonly IAttributeInfo OrderItemQuantityAttributeInfo    = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity),    typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity).Camelize(),    false);
-    public static readonly IAttributeInfo OrderItemUnitPriceAttributeInfo   = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice),   typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice).Camelize(),   false);
+    public static readonly IAttributeInfo OrderItemProductNameAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.ProductName), typeof(string), StaticReflection.GetMemberName<OrderItem>(x => x.ProductName).Camelize(), false);
+    public static readonly IAttributeInfo OrderItemQuantityAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity), typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.Quantity).Camelize(), false);
+    public static readonly IAttributeInfo OrderItemUnitPriceAttributeInfo = new AttributeInfo(typeof(OrderItem), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice), typeof(decimal), StaticReflection.GetMemberName<OrderItem>(x => x.UnitPrice).Camelize(), false);
 
     public static readonly IAttributeInfo[] OrderItemAttributesInfoCollection =
     {
@@ -220,8 +227,8 @@ public static class ClrSampleData
 
     // Person Attributes
     public static readonly IAttributeInfo PersonFirstNameAttributeInfo = new AttributeInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.FirstName), typeof(string), ApiSampleData.PersonFirstNamePropertyName, false);
-    public static readonly IAttributeInfo PersonLastNameAttributeInfo  = new AttributeInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.LastName),  typeof(string), ApiSampleData.PersonLastNamePropertyName,  false);
-    public static readonly IAttributeInfo PersonTwitterAttributeInfo   = new AttributeInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.Twitter),   typeof(string), ApiSampleData.PersonTwitterPropertyName,   false);
+    public static readonly IAttributeInfo PersonLastNameAttributeInfo = new AttributeInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.LastName), typeof(string), ApiSampleData.PersonLastNamePropertyName, false);
+    public static readonly IAttributeInfo PersonTwitterAttributeInfo = new AttributeInfo(typeof(Person), StaticReflection.GetMemberName<Person>(x => x.Twitter), typeof(string), ApiSampleData.PersonTwitterPropertyName, false);
 
     public static readonly IAttributeInfo[] PersonAttributesInfoCollection =
     {
@@ -233,7 +240,7 @@ public static class ClrSampleData
     public static readonly IAttributesInfo PersonAttributesInfo = new AttributesInfo(typeof(Person), PersonAttributesInfoCollection);
 
     // PosSystem Attributes
-    public static readonly IAttributeInfo PosSystemNameAttributeInfo          = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName), typeof(string),    StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName).Camelize(), false);
+    public static readonly IAttributeInfo PosSystemNameAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName), typeof(string), StaticReflection.GetMemberName<PosSystem>(x => x.PosSystemName).Camelize(), false);
     public static readonly IAttributeInfo PosSystemEndOfLifeDateAttributeInfo = new AttributeInfo(typeof(PosSystem), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate), typeof(DateTime?), StaticReflection.GetMemberName<PosSystem>(x => x.EndOfLifeDate).Camelize(), false);
 
     public static readonly IAttributeInfo[] PosSystemAttributesInfoCollection =
@@ -245,7 +252,7 @@ public static class ClrSampleData
     public static readonly IAttributesInfo PosSystemAttributesInfo = new AttributesInfo(typeof(PosSystem), PosSystemAttributesInfoCollection);
 
     // Product Attributes
-    public static readonly IAttributeInfo ProductNameAttributeInfo      = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.Name),      typeof(string),  StaticReflection.GetMemberName<Product>(x => x.Name).Camelize(),      false);
+    public static readonly IAttributeInfo ProductNameAttributeInfo = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.Name), typeof(string), StaticReflection.GetMemberName<Product>(x => x.Name).Camelize(), false);
     public static readonly IAttributeInfo ProductUnitPriceAttributeInfo = new AttributeInfo(typeof(Product), StaticReflection.GetMemberName<Product>(x => x.UnitPrice), typeof(decimal), StaticReflection.GetMemberName<Product>(x => x.UnitPrice).Camelize(), false);
 
     public static readonly IAttributeInfo[] ProductAttributesInfoCollection =
@@ -267,11 +274,11 @@ public static class ClrSampleData
     public static readonly IAttributesInfo SearchAttributesInfo = new AttributesInfo(typeof(Search), SearchAttributesInfoCollection);
 
     // Store Attributes
-    public static readonly IAttributeInfo StoreNameAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreName), typeof(string), StaticReflection.GetMemberName<Store>(x => x.StoreName).Camelize(), false);
-    public static readonly IAttributeInfo StoreAddressAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.Address),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.Address).Camelize(),   false);
-    public static readonly IAttributeInfo StoreCityAttributeInfo    = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.City),      typeof(string), StaticReflection.GetMemberName<Store>(x => x.City).Camelize(),      false);
-    public static readonly IAttributeInfo StoreStateAttributeInfo   = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.State),     typeof(string), StaticReflection.GetMemberName<Store>(x => x.State).Camelize(),     false);
-    public static readonly IAttributeInfo StoreZipCodeAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.ZipCode),   typeof(string), StaticReflection.GetMemberName<Store>(x => x.ZipCode).Camelize(),   false);
+    public static readonly IAttributeInfo StoreNameAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.StoreName), typeof(string), StaticReflection.GetMemberName<Store>(x => x.StoreName).Camelize(), false);
+    public static readonly IAttributeInfo StoreAddressAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.Address), typeof(string), StaticReflection.GetMemberName<Store>(x => x.Address).Camelize(), false);
+    public static readonly IAttributeInfo StoreCityAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.City), typeof(string), StaticReflection.GetMemberName<Store>(x => x.City).Camelize(), false);
+    public static readonly IAttributeInfo StoreStateAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.State), typeof(string), StaticReflection.GetMemberName<Store>(x => x.State).Camelize(), false);
+    public static readonly IAttributeInfo StoreZipCodeAttributeInfo = new AttributeInfo(typeof(Store), StaticReflection.GetMemberName<Store>(x => x.ZipCode), typeof(string), StaticReflection.GetMemberName<Store>(x => x.ZipCode).Camelize(), false);
 
     public static readonly IAttributeInfo[] StoreAttributesInfoCollection =
     {
@@ -285,9 +292,9 @@ public static class ClrSampleData
     public static readonly IAttributesInfo StoreAttributesInfo = new AttributesInfo(typeof(Store), StoreAttributesInfoCollection);
 
     // StoreConfiguration Attributes
-    public static readonly IAttributeInfo StoreConfigurationIsLiveAttributeInfo         = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive),         typeof(bool),              StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive).Camelize(),         false);
-    public static readonly IAttributeInfo StoreConfigurationMailingAddressAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress), typeof(MailingAddress),    StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress).Camelize(), true);
-    public static readonly IAttributeInfo StoreConfigurationPhoneNumbersAttributeInfo   = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers),   typeof(List<PhoneNumber>), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers).Camelize(),   true);
+    public static readonly IAttributeInfo StoreConfigurationIsLiveAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive), typeof(bool), StaticReflection.GetMemberName<StoreConfiguration>(x => x.IsLive).Camelize(), false);
+    public static readonly IAttributeInfo StoreConfigurationMailingAddressAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress), typeof(MailingAddress), StaticReflection.GetMemberName<StoreConfiguration>(x => x.MailingAddress).Camelize(), true);
+    public static readonly IAttributeInfo StoreConfigurationPhoneNumbersAttributeInfo = new AttributeInfo(typeof(StoreConfiguration), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers), typeof(List<PhoneNumber>), StaticReflection.GetMemberName<StoreConfiguration>(x => x.PhoneNumbers).Camelize(), true);
 
     public static readonly IAttributeInfo[] StoreConfigurationAttributesInfoCollection =
     {
@@ -297,6 +304,26 @@ public static class ClrSampleData
     };
 
     public static readonly IAttributesInfo StoreConfigurationAttributesInfo = new AttributesInfo(typeof(StoreConfiguration), StoreConfigurationAttributesInfoCollection);
+
+    // StoreHidden Attributes
+    public static readonly IAttributeInfo StoreHiddenNameAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.StoreHiddenName), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.StoreHiddenName).Camelize(), false);
+    public static readonly IAttributeInfo StoreHiddenAddressAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.Address), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.Address).Camelize(), false);
+    public static readonly IAttributeInfo StoreHiddenCityAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.City), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.City).Camelize(), false);
+    public static readonly IAttributeInfo StoreHiddenStateAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.State), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.State).Camelize(), false);
+    public static readonly IAttributeInfo StoreHiddenZipCodeAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.ZipCode), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.ZipCode).Camelize(), false);
+    public static readonly IAttributeInfo StoreHiddenHiddenAttributeInfo = new AttributeInfo(typeof(StoreHidden), StaticReflection.GetMemberName<StoreHidden>(x => x.Hidden), typeof(string), StaticReflection.GetMemberName<StoreHidden>(x => x.Hidden).Camelize(), false) { IsHidden = true };
+
+    public static readonly IAttributeInfo[] StoreHiddenAttributesInfoCollection =
+    {
+        StoreHiddenNameAttributeInfo,
+        StoreHiddenAddressAttributeInfo,
+        StoreHiddenCityAttributeInfo,
+        StoreHiddenStateAttributeInfo,
+        StoreHiddenZipCodeAttributeInfo,
+        StoreHiddenHiddenAttributeInfo
+    };
+
+    public static readonly IAttributesInfo StoreHiddenAttributesInfo = new AttributesInfo(typeof(StoreHidden), StoreHiddenAttributesInfoCollection);
     #endregion
 
     #region Complex Type Attributes
@@ -559,6 +586,9 @@ public static class ClrSampleData
     };
 
     public static readonly IRelationshipsInfo StoreConfigurationRelationshipsInfo = new RelationshipsInfo(StoreConfigurationRelationshipsInfoCollection);
+
+    // StoreHidden Relationships
+    public static readonly IRelationshipsInfo StoreHiddenRelationshipsInfo = new RelationshipsInfo(Enumerable.Empty<IRelationshipInfo>());
     #endregion
 
     #region Links
@@ -703,6 +733,9 @@ public static class ClrSampleData
     };
 
     public static readonly ILinksInfo StoreConfigurationLinksInfo = new LinksInfo(StoreConfigurationLinksInfoCollection);
+
+    // StoreHidden Links
+    public static readonly ILinksInfo StoreHiddenLinksInfo = new LinksInfo(Enumerable.Empty<ILinkInfo>());
     #endregion
 
     #region Meta
@@ -734,9 +767,10 @@ public static class ClrSampleData
     public static readonly IResourceType PersonResourceType             = new ResourceType(PersonClrType,             PersonHypermediaInfo,             PersonResourceIdentityInfo,             PersonAttributesInfo,             PersonRelationshipsInfo,             PersonLinksInfo,             PersonMetaInfo);
     public static readonly IResourceType PosSystemResourceType          = new ResourceType(PosSystemClrType,          PosSystemHypermediaInfo,          PosSystemResourceIdentityInfo,          PosSystemAttributesInfo,          PosSystemRelationshipsInfo,          PosSystemLinksInfo,          null);
     public static readonly IResourceType ProductResourceType            = new ResourceType(ProductClrType,            ProductHypermediaInfo,            ProductResourceIdentityInfo,            ProductAttributesInfo,            ProductRelationshipsInfo,            ProductLinksInfo,            null);
-    public static readonly IResourceType SearchResourceType             = new ResourceType(SearchClrType, SearchHypermediaInfo, SearchResourceIdentityInfo, SearchAttributesInfo, SearchRelationshipsInfo, SearchLinksInfo, null);
+    public static readonly IResourceType SearchResourceType             = new ResourceType(SearchClrType,             SearchHypermediaInfo,             SearchResourceIdentityInfo,             SearchAttributesInfo,             SearchRelationshipsInfo,             SearchLinksInfo,             null);
     public static readonly IResourceType StoreResourceType              = new ResourceType(StoreClrType,              StoreHypermediaInfo,              StoreResourceIdentityInfo,              StoreAttributesInfo,              StoreRelationshipsInfo,              StoreLinksInfo,              null);
     public static readonly IResourceType StoreConfigurationResourceType = new ResourceType(StoreConfigurationClrType, StoreConfigurationHypermediaInfo, StoreConfigurationResourceIdentityInfo, StoreConfigurationAttributesInfo, StoreConfigurationRelationshipsInfo, StoreConfigurationLinksInfo, null);
+    public static readonly IResourceType StoreHiddenResourceType        = new ResourceType(StoreHiddenClrType,        StoreHiddenHypermediaInfo,        StoreHiddenResourceIdentityInfo,        StoreHiddenAttributesInfo,        StoreHiddenRelationshipsInfo,        StoreHiddenLinksInfo,        null);
     #endregion
 
     #region ServiceModels
@@ -796,7 +830,8 @@ public static class ClrSampleData
                 ClrSampleData.ProductResourceType,
                 ClrSampleData.SearchResourceType,
                 ClrSampleData.StoreResourceType,
-                ClrSampleData.StoreConfigurationResourceType
+                ClrSampleData.StoreConfigurationResourceType,
+                ClrSampleData.StoreHiddenResourceType,
             },
             new List<IResourceType>
             {

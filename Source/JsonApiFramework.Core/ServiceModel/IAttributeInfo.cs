@@ -13,6 +13,7 @@ public interface IAttributeInfo : IPropertyInfo, IExtensibleObject<IAttributeInf
 
     bool IsCollection { get; }
     bool IsComplexType { get; }
+    bool IsHidden { get; }
 
     Type ClrCollectionItemType { get; }
     #endregion

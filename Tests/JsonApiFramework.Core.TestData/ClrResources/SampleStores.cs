@@ -35,5 +35,16 @@ public static class SampleStores
             State = "MN",
             ZipCode = "55455"
         };
+
+    public static readonly StoreHidden StoreHidden = new StoreHidden
+    {
+        StoreHiddenId = 50,
+        StoreHiddenName = "Store 50",
+        Address = "1234 Main Street",
+        City = "Boynton Beach",
+        State = "FL",
+        ZipCode = "33472",
+        Hidden = "This field is part of the schema, but hidden from JSON serialization/deserialization."
+    };
     #endregion
 }

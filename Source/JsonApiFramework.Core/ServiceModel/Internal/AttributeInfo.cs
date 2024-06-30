@@ -35,6 +35,7 @@ internal class AttributeInfo : PropertyInfo, IAttributeInfo
 
     [JsonProperty] public bool IsCollection { get; private set; }
     [JsonProperty] public bool IsComplexType { get; private set; }
+    [JsonProperty] public bool IsHidden { get; internal set; }
 
     [JsonProperty] public Type ClrCollectionItemType { get; private set; }
     #endregion

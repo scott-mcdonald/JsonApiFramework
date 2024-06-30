@@ -521,6 +521,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
+                this.Configurations.Add(new TestConfigurations.StoreHiddenConfigurationWithNullConventions());
             }
         }
         #endregion
@@ -563,6 +564,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
                 this.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
                 this.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
+                this.Configurations.Add(new TestConfigurations.StoreHiddenConfigurationWithConventions());
             }
         }
         #endregion

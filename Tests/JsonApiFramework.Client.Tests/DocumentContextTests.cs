@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-
+using FluentAssertions.Primitives;
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
@@ -411,6 +411,37 @@ namespace JsonApiFramework.Client.Tests
                                     .RelationshipsEnd()
                                 .ResourceEnd())
                     },
+
+                new object[]
+                    {
+                        "StoreHiddenResourceDocumentWithAllAttributesMinusHidden",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithOrderResourceTypes),
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ApiSampleData.StoreHiddenType,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("storeHiddenName", "Walmart"),
+                                            ApiProperty.Create("address", "1234 Main Street"),
+                                            ApiProperty.Create("city", "Anytown"),
+                                            ApiProperty.Create("state", "Anystate"),
+                                            ApiProperty.Create("zipCode", "12345")),
+                                    }
+                            },
+                        new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
+                            .NewDocument()
+                                .Resource<StoreHidden>()
+                                    .Attributes()
+                                        .AddAttribute(x => x.StoreHiddenName, "Walmart")
+                                        .AddAttribute(x => x.Address, "1234 Main Street")
+                                        .AddAttribute(x => x.City, "Anytown")
+                                        .AddAttribute(x => x.State, "Anystate")
+                                        .AddAttribute(x => x.ZipCode, "12345")
+                                        .AddAttribute(x => x.Hidden, "This is in the schema, but will not be put in the JSON.")
+                                    .AttributesEnd()
+                                .ResourceEnd())
+                    },
             };
         #endregion
 
@@ -757,6 +788,39 @@ namespace JsonApiFramework.Client.Tests
                                     .Relationships()
                                         .AddRelationship(ApiSampleData.ArticleToCommentsRel, ToManyResourceLinkage.CreateEmpty())
                                     .RelationshipsEnd()
+                                .ResourceEnd())
+                    },
+
+                new object[]
+                    {
+                        "StoreHiddenResourceDocumentWithAllAttributesMinusHidden",
+                        CreateDocumentContextOptions(ClrSampleData.ServiceModelWithOrderResourceTypes),
+                        new ResourceDocument
+                            {
+                                Data = new Resource
+                                    {
+                                        Type = ApiSampleData.StoreHiddenType,
+                                        Id = ApiSampleData.StoreHiddenId,
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("storeHiddenName", "Walmart"),
+                                            ApiProperty.Create("address", "1234 Main Street"),
+                                            ApiProperty.Create("city", "Anytown"),
+                                            ApiProperty.Create("state", "Anystate"),
+                                            ApiProperty.Create("zipCode", "12345")),
+                                    }
+                            },
+                        new Func<DocumentContext, IDocumentWriter>(documentContext => documentContext
+                            .NewDocument()
+                                .Resource<StoreHidden>()
+                                    .SetId(Id.Create(ApiSampleData.StoreHiddenId))
+                                    .Attributes()
+                                        .AddAttribute(x => x.StoreHiddenName, "Walmart")
+                                        .AddAttribute(x => x.Address, "1234 Main Street")
+                                        .AddAttribute(x => x.City, "Anytown")
+                                        .AddAttribute(x => x.State, "Anystate")
+                                        .AddAttribute(x => x.ZipCode, "12345")
+                                        .AddAttribute(x => x.Hidden, "This is in the schema, but will not be put in the JSON.")
+                                    .AttributesEnd()
                                 .ResourceEnd())
                     },
             };

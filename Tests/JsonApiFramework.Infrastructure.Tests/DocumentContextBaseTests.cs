@@ -1104,6 +1104,7 @@ public class DocumentContextBaseTests : XUnitTest
             serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithNullConventions());
             serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithNullConventions());
             serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithNullConventions());
+            serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreHiddenConfigurationWithNullConventions());
         }
         #endregion
     }
@@ -1155,6 +1156,7 @@ public class DocumentContextBaseTests : XUnitTest
             serviceModelBuilder.Configurations.Add(new TestConfigurations.SearchConfigurationWithConventions());
             serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationWithConventions());
             serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreConfigurationConfigurationWithConventions());
+            serviceModelBuilder.Configurations.Add(new TestConfigurations.StoreHiddenConfigurationWithConventions());
         }
         #endregion
     }

@@ -23,6 +23,7 @@ public static class ApiSampleData
     public const string BlogCollectionPathSegment = "blogs";
     public const string CommentCollectionPathSegment = "comments";
     public const string PersonCollectionPathSegment = "people";
+    public const string StoreHiddenCollectionPathSegment = "storesHidden";
     #endregion
 
     #region Types
@@ -30,6 +31,7 @@ public static class ApiSampleData
     public const string BlogType = BlogCollectionPathSegment;
     public const string CommentType = CommentCollectionPathSegment;
     public const string PersonType = PersonCollectionPathSegment;
+    public const string StoreHiddenType = StoreHiddenCollectionPathSegment;
     #endregion
 
     #region Ids
@@ -52,6 +54,8 @@ public static class ApiSampleData
     public const string PersonId2 = "42";
     public const string PersonId3 = "100";
     public const string PersonId4 = "101";
+
+    public const string StoreHiddenId = "24";
 
     public const string ErrorId = "85319674-1da4-4f1c-8af4-b09e17755ab2";
     public const string ErrorId1 = "a9ee6d4c-4a24-40e1-ba46-ce0189ca73f2";

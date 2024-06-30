@@ -20,14 +20,14 @@ internal class DomAttributes : NodesContainer<DomNodeType>
     #region Factory Methods
     public static DomAttributes Create(params Node<DomNodeType>[] domNodes)
     {
-        var domAttributes = new DomAttributes(domNodes);
+        var domAttributes = new DomAttributes(domNodes.Where(domNode => domNode != null));
         return domAttributes;
     }
     #endregion
 
     // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
     #region Constructors
-    private DomAttributes(params Node<DomNodeType>[] domNodes)
+    private DomAttributes(IEnumerable<Node<DomNodeType>> domNodes)
         : base(domNodes)
     { }
     #endregion

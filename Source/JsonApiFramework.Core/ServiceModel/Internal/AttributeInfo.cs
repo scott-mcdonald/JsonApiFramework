@@ -32,6 +32,7 @@ internal class AttributeInfo : PropertyInfo, IAttributeInfo
 
     public bool IsCollection { get; private set; }
     public bool IsComplexType { get; private set; }
+    public bool IsHidden { get; internal set; }
 
     public Type ClrCollectionItemType { get; private set; }
     #endregion

@@ -3,18 +3,15 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class StoreHidden : JsonObject
 {
-    [JsonProperty] public long StoreHiddenId { get; set; }
-    [JsonProperty] public string StoreHiddenName { get; set; }
-    [JsonProperty] public string Address { get; set; }
-    [JsonProperty] public string City { get; set; }
-    [JsonProperty] public string State { get; set; }
-    [JsonProperty] public string ZipCode { get; set; }
-    [JsonProperty] public string Hidden { get; set; }
+    public long StoreHiddenId { get; set; }
+    public string StoreHiddenName { get; set; }
+    public string Address { get; set; }
+    public string City { get; set; }
+    public string State { get; set; }
+    public string ZipCode { get; set; }
+    public string Hidden { get; set; }
 }

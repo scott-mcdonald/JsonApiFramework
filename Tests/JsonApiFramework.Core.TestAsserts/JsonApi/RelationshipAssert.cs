@@ -2,10 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Reflection;
-
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -20,30 +18,28 @@ public static class RelationshipAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
-        RelationshipAssert.Equal(expected, actualJToken);
+        var actualJsonElement = JsonSerializer.SerializeToElement(actualJson);
+        RelationshipAssert.Equal(expected, actualJsonElement);
     }
 
-    public static void Equal(Relationship expected, JToken actualJToken)
+    public static void Equal(Relationship expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
-
-        var actualJObject = (JObject)actualJToken;
+        var actualJsonElementValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonElementValueKind);
 
         // Links
-        var actualLinksJToken = actualJObject.SelectToken(Keywords.Links);
-        LinksAssert.Equal(expected.Links, actualLinksJToken);
+        var actualLinksJsonElement = actualJsonElement.GetProperty(Keywords.Links);
+        LinksAssert.Equal(expected.Links, actualLinksJsonElement);
 
         // Data
 
@@ -52,73 +48,66 @@ public static class RelationshipAssert
         // 2. ToOneRelationship (Derived from Relationship with one resource identifier (0 or 1))
         // 3. ToManyRelationship (Derived from Relationship with many resource identifiers (N))
         var expectedType = expected.GetType();
-        var actualDataJToken = actualJObject.SelectToken(Keywords.Data);
-        if (actualDataJToken == null)
+        var actualDataJsonElement = actualJsonElement.GetProperty(Keywords.Data);
+        var actualDataJsonValueKind = actualDataJsonElement.ValueKind;
+        switch (actualDataJsonValueKind)
         {
-            Assert.Equal(RelationshipTypeInfo, expectedType);
-        }
-        else
-        {
-            var actualDataJTokenType = actualDataJToken.Type;
-            switch (actualDataJTokenType)
-            {
-                // ToOneRelationship (empty to-one relationship)
-                case JTokenType.None:
-                case JTokenType.Null:
+            // ToOneRelationship (empty to-one relationship)
+            case JsonValueKind.Undefined:
+            case JsonValueKind.Null:
+                {
+                    Assert.Equal(ToOneRelationshipTypeInfo, expectedType);
+                    var expectedToOneRelationship = (ToOneRelationship)expected;
+                    var expectedResourceIdentifier = expectedToOneRelationship.Data;
+                    Assert.Null(expectedResourceIdentifier);
+                }
+                break;
+
+            // ToOneRelationship (non-empty to-one relationship)
+            case JsonValueKind.Object:
+                {
+                    Assert.Equal(ToOneRelationshipTypeInfo, expectedType);
+
+                    var expectedToOneRelationship = (ToOneRelationship)expected;
+                    var expectedResourceIdentifier = expectedToOneRelationship.Data;
+
+                    var actualResourceIdentifierJsonElement = actualDataJsonElement;
+                    ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualResourceIdentifierJsonElement);
+                }
+                break;
+
+            // ToManyRelationship
+            case JsonValueKind.Array:
+                {
+                    Assert.Equal(ToManyRelationshipTypeInfo, expectedType);
+
+                    var expectedToManyRelationship = (ToManyRelationship)expected;
+                    var expectedResourceIdentifierCollection = expectedToManyRelationship.Data;
+
+                    if (expectedResourceIdentifierCollection.Any())
                     {
-                        Assert.Equal(ToOneRelationshipTypeInfo, expectedType);
-                        var expectedToOneRelationship = (ToOneRelationship)expected;
-                        var expectedResourceIdentifier = expectedToOneRelationship.Data;
-                        Assert.Null(expectedResourceIdentifier);
-                    }
-                    break;
+                        // ToManyRelationship (non-empty to-many relationship)
+                        Assert.True(actualDataJsonElement.EnumerateArray().Any());
 
-                // ToOneRelationship (non-empty to-one relationship)
-                case JTokenType.Object:
+                        var actualResourceIdentifierJsonElement = actualDataJsonElement;
+                        ResourceIdentifierAssert.Equal(expectedResourceIdentifierCollection, actualResourceIdentifierJsonElement);
+                    }
+                    else
                     {
-                        Assert.Equal(ToOneRelationshipTypeInfo, expectedType);
-
-                        var expectedToOneRelationship = (ToOneRelationship)expected;
-                        var expectedResourceIdentifier = expectedToOneRelationship.Data;
-
-                        var actualResourceIdentifierJToken = actualDataJToken;
-                        ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualResourceIdentifierJToken);
+                        // ToManyRelationship (empty to-many relationship)
+                        Assert.False(actualDataJsonElement.EnumerateArray().Any());
                     }
-                    break;
+                }
+                break;
 
-                // ToManyRelationship
-                case JTokenType.Array:
-                    {
-                        Assert.Equal(ToManyRelationshipTypeInfo, expectedType);
-
-                        var expectedToManyRelationship = (ToManyRelationship)expected;
-                        var expectedResourceIdentifierCollection = expectedToManyRelationship.Data;
-
-                        if (expectedResourceIdentifierCollection.Any())
-                        {
-                            // ToManyRelationship (non-empty to-many relationship)
-                            Assert.True(actualDataJToken.Any());
-
-                            var actualResourceIdentifierJToken = actualDataJToken;
-                            ResourceIdentifierAssert.Equal(expectedResourceIdentifierCollection, actualResourceIdentifierJToken);
-                        }
-                        else
-                        {
-                            // ToManyRelationship (empty to-many relationship)
-                            Assert.False(actualDataJToken.Any());
-                        }
-                    }
-                    break;
-
-                default:
-                    Assert.True(false, string.Format("Invalid JToken [type={0}] for relationship.", actualJTokenType));
-                    break;
-            }
+            default:
+                Assert.True(false, string.Format("Invalid JsonElement [type={0}] for relationship.", actualJsonElementValueKind));
+                break;
         }
 
         // Meta
-        var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-        MetaAssert.Equal(expected.Meta, actualMetaJToken);
+        var actualMetaJsonElement = actualJsonElement.GetProperty(Keywords.Meta);
+        MetaAssert.Equal(expected.Meta, actualMetaJsonElement);
     }
 
     public static void Equal(Relationship expected, Relationship actual)

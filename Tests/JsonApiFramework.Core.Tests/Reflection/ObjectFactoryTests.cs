@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json.Serialization;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.XUnit;
 
@@ -266,6 +267,7 @@ public class ObjectFactoryTests : XUnitTest
 
     // PRIVATE TYPES ////////////////////////////////////////////////////
     #region Test Types
+    [JsonDerivedType(typeof(DerivedTestClass))]
     private class TestClass
     {
         // ReSharper disable UnusedMember.Local

@@ -2,17 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.ServiceModel;
 
 public static class ResourceTypeExtensions
 {
+    private static readonly JsonSerializerOptions _serializerOptions = new();
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Extensions Methods
     public static bool IsSingleton(this IResourceType resourceType)
@@ -69,19 +67,15 @@ public static class ResourceTypeExtensions
             // Handle attribute complex type with JSON.NET and IContractResolver.
             if (clrAttribute != null)
             {
-                if (!TypeConverter.TryConvert(clrAttribute, out JToken clrAttributeAsJToken))
+                if (!TypeConverter.TryConvert(clrAttribute, out JsonElement clrAttributeAsJsonElement))
                 {
-                    clrAttributeAsJToken = JToken.FromObject(clrAttribute);
+                    clrAttributeAsJsonElement = JsonSerializer.SerializeToElement(clrAttribute);
                 }
 
                 var clrAttributeClrType          = attributeInfo.ClrPropertyType;
-                var complexTypesContractResolver = serviceModel.CreateComplexTypesContractResolver();
-                var jsonSerializerSettings = new JsonSerializerSettings
-                {
-                    ContractResolver = complexTypesContractResolver
-                };
-                var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
-                clrAttribute = clrAttributeAsJToken.ToObject(clrAttributeClrType, jsonSerializer);
+                var complexTypesJsonTypeInfoResolver = serviceModel.CreateComplexTypesJsonTypeInfoResolver();
+                _serializerOptions.TypeInfoResolver = complexTypesJsonTypeInfoResolver;
+                clrAttribute = clrAttributeAsJsonElement.Deserialize(clrAttributeClrType, _serializerOptions);
             }
 
             attributeInfo.SetClrProperty(clrResource, clrAttribute);

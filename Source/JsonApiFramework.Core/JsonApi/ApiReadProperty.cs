@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -20,7 +18,7 @@ public class ApiReadProperty : ApiProperty
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
     #region Constructors
-    public ApiReadProperty(string name, JToken value)
+    public ApiReadProperty(string name, JsonElement value)
         : base(name)
     {
         this.Value = value;
@@ -29,27 +27,23 @@ public class ApiReadProperty : ApiProperty
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region Properties
-    public JToken Value { get; private set; }
+    public JsonElement Value { get; private set; }
     #endregion
 
     #region Conversion Methods
     public override object ToClrObject(Type clrObjectType)
     {
-        var sourceJToken = this.Value;
-        if (sourceJToken == null)
-            return default(object);
+        var sourceElement = this.Value;
 
-        var clrObject = sourceJToken.ToObject(clrObjectType);
+        var clrObject = sourceElement.Deserialize(clrObjectType);
         return clrObject;
     }
 
     public override TObject ToClrObject<TObject>()
     {
-        var sourceJToken = this.Value;
-        if (sourceJToken == null)
-            return default(TObject);
+        var sourceElement = this.Value;
 
-        var clrObject = sourceJToken.ToObject<TObject>();
+        var clrObject = sourceElement.Deserialize<TObject>();
         return clrObject;
     }
     #endregion
@@ -65,10 +59,10 @@ public class ApiReadProperty : ApiProperty
     internal override object ValueAsObject()
     { return this.Value; }
 
-    internal override void Write(JsonWriter writer, JsonSerializer serializer)
+    internal override void Write(Utf8JsonWriter writer, JsonSerializerOptions options)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var name = this.Name;
         var value = this.Value;

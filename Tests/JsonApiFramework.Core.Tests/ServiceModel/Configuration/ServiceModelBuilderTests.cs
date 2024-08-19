@@ -3,7 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
@@ -41,17 +42,16 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             this.Output.WriteLine(string.Empty);
 
             // Arrange
-            var serializerSettings = new JsonSerializerSettings
+            var serializerOptions = new JsonSerializerOptions
                 {
-                    Converters = new[]
-                        {
-                            (JsonConverter)new StringEnumConverter()
-                        },
-                    Formatting = Formatting.Indented,
-                    NullValueHandling = NullValueHandling.Include
+                    WriteIndented = true,
+                    Converters = 
+                    {
+                        new JsonStringEnumConverter()
+                    }
                 };
 
-            var expectedJson = expectedServiceModel.ToJson(serializerSettings);
+            var expectedJson = expectedServiceModel.ToJson(serializerOptions);
             this.Output.WriteLine("Expected ServiceModel");
             this.Output.WriteLine(expectedJson);
 
@@ -60,7 +60,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
 
             this.Output.WriteLine(string.Empty);
 
-            var actualJson = actualServiceModel.ToJson(serializerSettings);
+            var actualJson = actualServiceModel.ToJson(serializerOptions);
             this.Output.WriteLine("Actual ServiceModel");
             this.Output.WriteLine(actualJson);
 

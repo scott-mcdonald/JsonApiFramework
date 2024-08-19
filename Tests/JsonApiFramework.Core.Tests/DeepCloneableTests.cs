@@ -108,7 +108,8 @@ public class DeepCloneableTests : XUnitTest
         Assert.Equal(vicePresident.FirstName, deepCopy.VicePresident.FirstName);
     }
 
-    [Fact]
+    // See https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft?pivots=dotnet-8-0#typenamehandlingall-not-supported
+    [Fact(Skip = "System.Text.Json does not implement TypeNameHandling.All, so derived type deep cloning is no longer possible.")]
     public void TestDeepCloneableDeepCopyWithDerivedObject()
     {
         // Arrange
@@ -182,7 +183,8 @@ public class DeepCloneableTests : XUnitTest
         Assert.Equal(person1.FirstName, deepCopy.PersonCollection[1].FirstName);
     }
 
-    [Fact]
+    // See https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft?pivots=dotnet-8-0#typenamehandlingall-not-supported
+    [Fact(Skip = "System.Text.Json does not implement TypeNameHandling.All, so derived type deep cloning is no longer possible.")]
     public void TestDeepCloneableDeepCopyWithComplexObject()
     {
         // Arrange

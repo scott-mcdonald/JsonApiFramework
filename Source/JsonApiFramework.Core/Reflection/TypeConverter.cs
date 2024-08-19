@@ -3,8 +3,7 @@
 
 using System.Diagnostics.Contracts;
 using System.Globalization;
-
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.Reflection;
 
@@ -377,19 +376,6 @@ public static class TypeConverter
         return false;
     }
 
-    private static bool HandleSpecialCaseTypesOfJTokenAndObject(object sourceValue, Type targetType, ref object targetValue)
-    {
-        // Handle special case JToken => object
-        var value = sourceValue as JToken;
-        if (value != null)
-        {
-            targetValue = value.ToObject(targetType);
-            return true;
-        }
-
-        return false;
-    }
-
     private static bool IsSystemConvertChangeTypeCapableOrIsEnum(Type type)
     {
         Contract.Requires(type != null);
@@ -445,10 +431,6 @@ public static class TypeConverter
             targetValue = sourceValue;
             return ConvertResult.Success;
         }
-
-        // Handle special case JToken => object
-        if (HandleSpecialCaseTypesOfJTokenAndObject(sourceValue, targetType, ref targetValue))
-            return ConvertResult.Success;
 
         // Handle case when target is a Nullable<T> type. Special CLR
         // rules for Nullable<T> and boxing:
@@ -521,10 +503,6 @@ public static class TypeConverter
 
         // Handle special case some derived Type => Type
         if (HandleSpecialCaseTypesOfTypeAndDerivedType(sourceValue, targetType, ref targetValue))
-            return ConvertResult.Success;
-
-        // Handle special case JToken => object
-        if (HandleSpecialCaseTypesOfJTokenAndObject(sourceValue, targetType, ref targetValue))
             return ConvertResult.Success;
 
         // Can not convert from source to target types.

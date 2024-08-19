@@ -2,10 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Reflection;
-
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -20,34 +18,32 @@ public static class DocumentAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
-        DocumentAssert.Equal(expected, actualJToken);
+        var actualJsonElement = JsonSerializer.SerializeToElement(actualJson);
+        DocumentAssert.Equal(expected, actualJsonElement);
     }
 
-    public static void Equal(Document expected, JToken actualJToken)
+    public static void Equal(Document expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
-
-        var actualJObject = (JObject)actualJToken;
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonValueKind);
 
         // Meta
-        var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-        MetaAssert.Equal(expected.Meta, actualMetaJToken);
+        var actualMetaJsonElement = actualJsonElement.GetProperty(Keywords.Meta);
+        MetaAssert.Equal(expected.Meta, actualMetaJsonElement);
 
         // Links
-        var actualLinksJToken = actualJObject.SelectToken(Keywords.Links);
-        LinksAssert.Equal(expected.Links, actualLinksJToken);
+        var actualLinksJsonElement = actualJsonElement.GetProperty(Keywords.Links);
+        LinksAssert.Equal(expected.Links, actualLinksJsonElement);
 
         // Data
 
@@ -61,24 +57,24 @@ public static class DocumentAssert
         // 7. ResourceCollectionDocument
         // 8. ResourceIdentifierCollectionDocument
         var expectedType = expected.GetType();
-        var actualDataJToken = actualJObject.SelectToken(Keywords.Data);
-        var actualErrorsJToken = actualJObject.SelectToken(Keywords.Errors);
+        bool actualDataJsonElementExists = actualJsonElement.TryGetProperty(Keywords.Data, out var actualDataJsonElement);
+        bool actualErrorsJsonElementExists = actualJsonElement.TryGetProperty(Keywords.Errors, out var actualErrorsJsonElement);
 
-        if (actualDataJToken != null && actualErrorsJToken != null)
+        if (actualDataJsonElementExists && actualErrorsJsonElementExists)
         {
             var message = "Document can not contain both \"{0}\" and \"{1}\" members.".FormatWith(Keywords.Data, Keywords.Errors);
             Assert.True(false, message);
             return;
         }
 
-        if (actualDataJToken != null)
+        if (actualDataJsonElementExists)
         {
-            var actualDataJTokenType = actualDataJToken.Type;
-            switch (actualDataJTokenType)
+            var actualDataJsonValueKind = actualDataJsonElement.ValueKind;
+            switch (actualDataJsonValueKind)
             {
                 // NullDocument, ResourceDocument, or ResourceIdentifierDocument (data is null)
-                case JTokenType.None:
-                case JTokenType.Null:
+                case JsonValueKind.Undefined:
+                case JsonValueKind.Null:
                     {
                         // For this scenario, the expected type is either a NullDocument, ResourceDocument, or a ResourceIdentifierDocument.
                         Assert.True(expected.IsDataNullOrEmpty());
@@ -86,10 +82,9 @@ public static class DocumentAssert
                     break;
 
                 // ResourceDocument or ResourceIdentifierDocument (one resource or resource identifier)
-                case JTokenType.Object:
+                case JsonValueKind.Object:
                     {
-                        var actualDataJObject = (JObject)actualDataJToken;
-                        var dataType = actualDataJObject.GetDataType();
+                        var dataType = actualDataJsonElement.GetDataType();
                         switch (dataType)
                         {
                             case DataType.Resource:
@@ -99,12 +94,12 @@ public static class DocumentAssert
                                     var expectedResourceDocument = (ResourceDocument)expected;
                                     var expectedResource = expectedResourceDocument.Data;
 
-                                    ResourceAssert.Equal(expectedResource, actualDataJToken);
+                                    ResourceAssert.Equal(expectedResource, actualDataJsonElement);
 
                                     // Included
                                     var expectedIncluded = expected.GetIncludedResources();
-                                    var actualIncludedJToken = actualJObject.SelectToken(Keywords.Included);
-                                    ResourceAssert.Equal(expectedIncluded, actualIncludedJToken);
+                                    var actualIncludedJsonElement = actualJsonElement.GetProperty(Keywords.Included);
+                                    ResourceAssert.Equal(expectedIncluded, actualIncludedJsonElement);
                                 }
                                 break;
 
@@ -115,7 +110,7 @@ public static class DocumentAssert
                                     var expectedResourceIdentifierDocument = (ResourceIdentifierDocument)expected;
                                     var expectedResourceIdentifier = expectedResourceIdentifierDocument.Data;
 
-                                    ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualDataJToken);
+                                    ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualDataJsonElement);
                                 }
                                 break;
 
@@ -126,10 +121,9 @@ public static class DocumentAssert
                     break;
 
                 // ResourceCollectionDocument or ResourceIdentifierCollectionDocument (many resources or resource identifiers)
-                case JTokenType.Array:
+                case JsonValueKind.Array:
                     {
-                        var actualDataJArray = (JArray)actualDataJToken;
-                        var count = actualDataJArray.Count;
+                        var count = actualDataJsonElement.EnumerateArray().Count();
                         if (count == 0)
                         {
                             // For this scenario, the expected type is either an EmptyDocument, ResourceCollectionDocument, or a ResourceIdentifierCollectionDocument.
@@ -137,7 +131,7 @@ public static class DocumentAssert
                         }
                         else
                         {
-                            var dataType = ((JObject)actualDataJArray[0]).GetDataType();
+                            var dataType = actualDataJsonElement[0].GetDataType();
                             switch (dataType)
                             {
                                 case DataType.Resource:
@@ -147,12 +141,12 @@ public static class DocumentAssert
                                         var expectedResourceCollectionDocument = (ResourceCollectionDocument)expected;
                                         var expectedResourceCollection = expectedResourceCollectionDocument.Data;
 
-                                        ResourceAssert.Equal(expectedResourceCollection, actualDataJToken);
+                                        ResourceAssert.Equal(expectedResourceCollection, actualDataJsonElement);
 
                                         // Included
                                         var expectedIncluded = expected.GetIncludedResources();
-                                        var actualIncludedJToken = actualJObject.SelectToken(Keywords.Included);
-                                        ResourceAssert.Equal(expectedIncluded, actualIncludedJToken);
+                                        var actualIncludedJsonElement = actualJsonElement.GetProperty(Keywords.Included);
+                                        ResourceAssert.Equal(expectedIncluded, actualIncludedJsonElement);
                                     }
                                     break;
 
@@ -163,7 +157,7 @@ public static class DocumentAssert
                                         var expectedResourceIdentifierCollectionDocument = (ResourceIdentifierCollectionDocument)expected;
                                         var expectedResourceIdentifierCollection = expectedResourceIdentifierCollectionDocument.Data;
 
-                                        ResourceIdentifierAssert.Equal(expectedResourceIdentifierCollection, actualDataJToken);
+                                        ResourceIdentifierAssert.Equal(expectedResourceIdentifierCollection, actualDataJsonElement);
                                     }
                                     break;
 
@@ -175,15 +169,15 @@ public static class DocumentAssert
                     break;
 
                 default:
-                    Assert.True(false, string.Format("Invalid JToken [type={0}] for document.", actualJTokenType));
+                    Assert.True(false, string.Format("Invalid JsonElement [type={0}] for document.", actualJsonValueKind));
                     break;
             }
         }
-        else if (actualErrorsJToken != null)
+        else if (actualErrorsJsonElementExists)
         {
             // Errors
             var expectedErrors = expected.GetErrors();
-            ErrorAssert.Equal(expectedErrors, actualErrorsJToken);
+            ErrorAssert.Equal(expectedErrors, actualErrorsJsonElement);
         }
         else
         {

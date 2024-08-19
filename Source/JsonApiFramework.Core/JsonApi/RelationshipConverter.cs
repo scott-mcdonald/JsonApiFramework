@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,29 +13,28 @@ public class RelationshipConverter : Converter<Relationship>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override Relationship ReadTypedObject(JObject relationshipJObject, JsonSerializer serializer)
+    protected override Relationship ReadTypedObject(JsonElement relationshipJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(relationshipJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
-        var relationship = CreateRelationshipAndReadData(relationshipJObject, serializer);
-        ReadMeta(relationshipJObject, serializer, relationship);
-        ReadLinks(relationshipJObject, serializer, relationship);
+        var relationship = CreateRelationshipAndReadData(relationshipJsonElement, options);
+        ReadMeta(relationshipJsonElement, options, relationship);
+        ReadLinks(relationshipJsonElement, options, relationship);
 
         return relationship;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Relationship relationship)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, Relationship relationship)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(relationship != null);
 
         writer.WriteStartObject();
 
-        WriteLinks(writer, serializer, relationship);
-        WriteData(writer, serializer, relationship);
-        WriteMeta(writer, serializer, relationship);
+        WriteLinks(writer, options, relationship);
+        WriteData(writer, options, relationship);
+        WriteMeta(writer, options, relationship);
 
         writer.WriteEndObject();
     }
@@ -45,10 +42,9 @@ public class RelationshipConverter : Converter<Relationship>
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Read Methods
-    private static Relationship CreateRelationshipAndReadData(JToken relationshipJToken, JsonSerializer serializer)
+    private static Relationship CreateRelationshipAndReadData(JsonElement relationshipJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(relationshipJToken != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         // Data
         Relationship relationship;
@@ -59,50 +55,53 @@ public class RelationshipConverter : Converter<Relationship>
         // 2. If "data" is present, then
         //    2.1 If "data" is an object, then create a "ToOneRelationship" object.
         //    2.2 If "data" is an array, then create a "ToManyRelationship" object.
-        var dataJToken = relationshipJToken.SelectToken(Keywords.Data);
-        if (dataJToken == null)
+        JsonElement dataJsonElement;
+        try
         {
-            relationship = new Relationship();
+            dataJsonElement = relationshipJsonElement.GetProperty(Keywords.Data);
         }
-        else
+        catch (KeyNotFoundException)
         {
-            var dataJTokenType = dataJToken.Type;
-            switch (dataJTokenType)
-            {
-                case JTokenType.None:
-                case JTokenType.Null:
-                    {
-                        relationship = new ToOneRelationship
-                            {
-                                Data = null
-                            };
-                    }
-                    break;
+            return new();
+        }
 
-                case JTokenType.Object:
-                    {
-                        var data = dataJToken.ToObject<ResourceIdentifier>(serializer);
-                        relationship = new ToOneRelationship
-                            {
-                                Data = data
-                            };
-                    }
-                    break;
+        var dataJsonElementValueKind = dataJsonElement.ValueKind;
+        switch (dataJsonElementValueKind)
+        {
+            case JsonValueKind.Undefined:
+            case JsonValueKind.Null:
+                {
+                    relationship = new ToOneRelationship
+                        {
+                            Data = null
+                        };
+                }
+                break;
 
-                case JTokenType.Array:
-                    {
-                        var data = dataJToken.Select(x => x.ToObject<ResourceIdentifier>(serializer))
-                                             .ToList();
-                        relationship = new ToManyRelationship
-                            {
-                                Data = data
-                            };
-                    }
-                    break;
+            case JsonValueKind.Object:
+                {
+                    var data = dataJsonElement.Deserialize<ResourceIdentifier>(options);
+                    relationship = new ToOneRelationship
+                        {
+                            Data = data
+                        };
+                }
+                break;
 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            case JsonValueKind.Array:
+                {
+                    var data = dataJsonElement.EnumerateArray()
+                                            .Select(x => x.Deserialize<ResourceIdentifier>(options))
+                                            .ToList();
+                    relationship = new ToManyRelationship
+                        {
+                            Data = data
+                        };
+                }
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         return relationship;
@@ -110,10 +109,10 @@ public class RelationshipConverter : Converter<Relationship>
     #endregion
 
     #region Write Methods
-    private static void WriteData(JsonWriter writer, JsonSerializer serializer, Relationship relationship)
+    private static void WriteData(Utf8JsonWriter writer, JsonSerializerOptions options, Relationship relationship)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(relationship != null);
 
         var relationshipType = relationship.GetRelationshipType();
@@ -132,14 +131,14 @@ public class RelationshipConverter : Converter<Relationship>
                     var toOneResourceLinkage = relationship.GetToOneResourceLinkage();
                     if (toOneResourceLinkage != null)
                     {
-                        var dataJToken = JToken.FromObject(toOneResourceLinkage, serializer);
-                        var dataJObject = (JObject)dataJToken;
+                        var dataJsonElement = JsonSerializer.SerializeToElement(toOneResourceLinkage, options);
 
-                        dataJObject.WriteTo(writer);
+                        dataJsonElement.WriteTo(writer);
                     }
                     else
                     {
-                        writer.WriteValue(NullData);
+                        writer.WriteStartObject();
+                        writer.WriteEndObject();
                     }
                 }
                 break;
@@ -150,10 +149,9 @@ public class RelationshipConverter : Converter<Relationship>
 
                     var toManyResourceLinkage = relationship.GetToManyResourceLinkage() ?? EmptyDataArray;
 
-                    var dataJToken = JToken.FromObject(toManyResourceLinkage, serializer);
-                    var dataJArray = (JArray)dataJToken;
+                    var dataJsonElement = JsonSerializer.SerializeToElement(toManyResourceLinkage, options);
 
-                    dataJArray.WriteTo(writer);
+                    dataJsonElement.WriteTo(writer);
                 }
                 break;
 
@@ -165,7 +163,6 @@ public class RelationshipConverter : Converter<Relationship>
 
     // PRIVATE FIELDS ///////////////////////////////////////////////////
     #region Constants
-    private static readonly object NullData = default(object);
     private static readonly ResourceIdentifier[] EmptyDataArray = Enumerable.Empty<ResourceIdentifier>().ToArray();
     #endregion
 }

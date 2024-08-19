@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.ServiceModel;
@@ -15,9 +17,6 @@ using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -43,14 +42,15 @@ public class DocumentContextBaseTests : XUnitTest
         this.Output.WriteLine(string.Empty);
 
         // Arrange
-        var serializerSettings = new JsonSerializerSettings
+        var serializerSettings = new JsonSerializerOptions
         {
-            Converters = new[]
+            Converters =
                     {
-                        (JsonConverter)new StringEnumConverter()
+                        new SystemTypeConverter(),
+                        new JsonStringEnumConverter()
                     },
-            Formatting = Formatting.Indented,
-            NullValueHandling = NullValueHandling.Ignore
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
         var expectedJson = expectedServiceModel.ToJson(serializerSettings);

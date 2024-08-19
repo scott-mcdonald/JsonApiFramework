@@ -1,7 +1,7 @@
 // Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace JsonApiFramework;
 
@@ -21,8 +21,8 @@ public static class DeepCloneableExtensions
             return default(T);
 
         var sourceType = source.GetType();
-        var sourceJson = JsonConvert.SerializeObject(source, DeepCloneSerializerSettings);
-        var sourceCloned = JsonConvert.DeserializeObject(sourceJson, sourceType, DeepCloneSerializerSettings);
+        var sourceJson = JsonSerializer.Serialize(source);
+        var sourceCloned = JsonSerializer.Deserialize(sourceJson, sourceType);
         return (T)sourceCloned;
     }
 
@@ -61,31 +61,6 @@ public static class DeepCloneableExtensions
         {
             yield return null;
         }
-    }
-    #endregion
-
-    // PRIVATE CONSTRUCTORS /////////////////////////////////////////////
-    #region Constructors
-    static DeepCloneableExtensions()
-    {
-        DeepCloneSerializerSettings = CreateDeepCloneSerializerSettings();
-    }
-    #endregion
-
-    // PRIVATE PROPERTIES ///////////////////////////////////////////////
-    #region Properties
-    private static JsonSerializerSettings DeepCloneSerializerSettings { get; set; }
-    #endregion
-
-    // PRIVATE METHODS //////////////////////////////////////////////////
-    #region Methods
-    private static JsonSerializerSettings CreateDeepCloneSerializerSettings()
-    {
-        var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
-        return settings;
     }
     #endregion
 }

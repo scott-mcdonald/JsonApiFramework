@@ -3,7 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
@@ -12,10 +13,7 @@ using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.TestData.ClrResources.ComplexTypes;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -40,17 +38,16 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             this.Output.WriteLine(string.Empty);
 
             // Arrange
-            var serializerSettings = new JsonSerializerSettings
+            var serializerOptions = new JsonSerializerOptions
                 {
-                    Converters = new[]
-                        {
-                            (JsonConverter)new StringEnumConverter()
-                        },
-                    Formatting = Formatting.Indented,
-                    NullValueHandling = NullValueHandling.Include
+                    WriteIndented = true,
+                    Converters = 
+                    {
+                        new JsonStringEnumConverter()
+                    }
                 };
 
-            var expectedJson = expectedComplexType.ToJson(serializerSettings);
+            var expectedJson = expectedComplexType.ToJson(serializerOptions);
             this.Output.WriteLine("Expected ComplexType");
             this.Output.WriteLine(expectedJson);
 
@@ -59,7 +56,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
 
             this.Output.WriteLine(string.Empty);
 
-            var actualJson = actualComplexType.ToJson(serializerSettings);
+            var actualJson = actualComplexType.ToJson(serializerOptions);
             this.Output.WriteLine("Actual ComplexType");
             this.Output.WriteLine(actualJson);
 

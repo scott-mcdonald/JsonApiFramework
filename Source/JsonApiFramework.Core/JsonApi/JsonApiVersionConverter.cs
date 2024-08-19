@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,20 +13,19 @@ public class JsonApiVersionConverter : Converter<JsonApiVersion>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override JsonApiVersion ReadTypedObject(JObject jsonApiJObject, JsonSerializer serializer)
+    protected override JsonApiVersion ReadTypedObject(JsonElement jsonApiJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(jsonApiJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var jsonApi = new JsonApiVersion();
 
-        ReadVersion(jsonApiJObject, serializer, jsonApi);
-        ReadMeta(jsonApiJObject, serializer, jsonApi);
+        ReadVersion(jsonApiJsonElement, options, jsonApi);
+        ReadMeta(jsonApiJsonElement, options, jsonApi);
 
         return jsonApi;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, JsonApiVersion jsonApi)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions serializer, JsonApiVersion jsonApi)
     {
         Contract.Requires(writer != null);
         Contract.Requires(serializer != null);
@@ -46,20 +43,19 @@ public class JsonApiVersionConverter : Converter<JsonApiVersion>
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Read Methods
     // ReSharper disable once UnusedParameter.Local
-    private static void ReadVersion(JToken versionJToken, JsonSerializer serializer, JsonApiVersion jsonApi)
+    private static void ReadVersion(JsonElement versionJsonElement, JsonSerializerOptions serializer, JsonApiVersion jsonApi)
     {
-        Contract.Requires(versionJToken != null);
         Contract.Requires(serializer != null);
         Contract.Requires(jsonApi != null);
 
-        var version = ReadString(versionJToken, Keywords.Version);
+        var version = ReadString(versionJsonElement, Keywords.Version);
         jsonApi.Version = version;
     }
     #endregion
 
     #region Write Methods
     // ReSharper disable once UnusedParameter.Local
-    private static void WriteVersion(JsonWriter writer, JsonSerializer serializer, JsonApiVersion jsonApi)
+    private static void WriteVersion(Utf8JsonWriter writer, JsonSerializerOptions serializer, JsonApiVersion jsonApi)
     {
         Contract.Requires(writer != null);
         Contract.Requires(serializer != null);

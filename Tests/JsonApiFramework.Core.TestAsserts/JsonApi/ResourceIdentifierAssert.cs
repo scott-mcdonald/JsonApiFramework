@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -18,64 +17,59 @@ public static class ResourceIdentifierAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
+        var actualJToken = JsonSerializer.SerializeToElement(actualJson);
         ResourceIdentifierAssert.Equal(expected, actualJToken);
     }
 
-    public static void Equal(ResourceIdentifier expected, JToken actualJToken)
+    public static void Equal(ResourceIdentifier expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonValueKind);
 
-        var actualJObject = (JObject)actualJToken;
+        Assert.Equal(expected.Type, actualJsonElement.GetProperty(Keywords.Type).GetString());
+        Assert.Equal(expected.Id, actualJsonElement.GetProperty(Keywords.Id).GetString());
 
-        Assert.Equal(expected.Type, (string)actualJObject.SelectToken(Keywords.Type));
-        Assert.Equal(expected.Id, (string)actualJObject.SelectToken(Keywords.Id));
-
-        var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
+        var actualMetaJToken = actualJsonElement.GetProperty(Keywords.Meta);
         ClrObjectAssert.Equal(expected.Meta, actualMetaJToken);
     }
 
-    public static void Equal(IReadOnlyList<ResourceIdentifier> expectedCollection, JToken actualJToken)
+    public static void Equal(IReadOnlyList<ResourceIdentifier> expectedCollection, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expectedCollection == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Array, actualJTokenType);
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Array, actualJsonValueKind);
 
-        var actualJArray = (JArray)actualJToken;
-
-        Assert.Equal(expectedCollection.Count, actualJArray.Count);
+        Assert.Equal(expectedCollection.Count, actualJsonElement.EnumerateArray().Count());
         var count = expectedCollection.Count;
 
         for (var index = 0; index < count; ++index)
         {
             var expectedResourceIdentifier = expectedCollection[index];
-            var actualResourceIdentifierJToken = actualJArray[index];
+            var actualResourceIdentifierJsonElement = actualJsonElement[index];
 
-            Assert.NotNull(actualResourceIdentifierJToken);
-            Assert.Equal(JTokenType.Object, actualResourceIdentifierJToken.Type);
+            Assert.NotNull(actualResourceIdentifierJsonElement);
+            Assert.Equal(JsonValueKind.Object, actualResourceIdentifierJsonElement.ValueKind);
 
-            var actualResourceIdentifierJObject = (JObject)actualResourceIdentifierJToken;
-            ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualResourceIdentifierJObject);
+            ResourceIdentifierAssert.Equal(expectedResourceIdentifier, actualResourceIdentifierJsonElement);
         }
     }
 

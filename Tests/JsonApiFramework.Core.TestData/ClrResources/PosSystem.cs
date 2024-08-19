@@ -3,14 +3,11 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class PosSystem : JsonObject
 {
-    [JsonProperty] public string PosSystemId { get; set; }
-    [JsonProperty] public string PosSystemName { get; set; }
-    [JsonProperty] public DateTime? EndOfLifeDate { get; set; }
+    public string PosSystemId { get; set; }
+    public string PosSystemName { get; set; }
+    public DateTime? EndOfLifeDate { get; set; }
 }

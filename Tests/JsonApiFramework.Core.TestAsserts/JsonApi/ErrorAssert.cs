@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -18,87 +17,82 @@ public static class ErrorAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
-        ErrorAssert.Equal(expected, actualJToken);
+        var actualJsonElement = JsonSerializer.SerializeToElement(actualJson);
+        ErrorAssert.Equal(expected, actualJsonElement);
     }
 
-    public static void Equal(Error expected, JToken actualJToken)
+    public static void Equal(Error expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
-
-        var actualJObject = (JObject)actualJToken;
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonValueKind);
 
         // Id
-        Assert.Equal(expected.Id, (string)actualJObject.SelectToken(Keywords.Id));
+        Assert.Equal(expected.Id, actualJsonElement.GetProperty(Keywords.Id).GetString());
 
         // Status
-        Assert.Equal(expected.Status, (string)actualJObject.SelectToken(Keywords.Status));
+        Assert.Equal(expected.Status, actualJsonElement.GetProperty(Keywords.Status).GetString());
 
         // Code
-        Assert.Equal(expected.Code, (string)actualJObject.SelectToken(Keywords.Code));
+        Assert.Equal(expected.Code, actualJsonElement.GetProperty(Keywords.Code).GetString());
 
         // Title
-        Assert.Equal(expected.Title, (string)actualJObject.SelectToken(Keywords.Title));
+        Assert.Equal(expected.Title, actualJsonElement.GetProperty(Keywords.Title).GetString());
 
         // Detail
-        Assert.Equal(expected.Detail, (string)actualJObject.SelectToken(Keywords.Detail));
+        Assert.Equal(expected.Detail, actualJsonElement.GetProperty(Keywords.Detail).GetString());
 
         // Source
-        var actualSourceJToken = actualJObject.SelectToken(Keywords.Source);
-        ClrObjectAssert.Equal(expected.Source, actualSourceJToken);
+        var actualSourceJsonElement = actualJsonElement.GetProperty(Keywords.Source);
+        ClrObjectAssert.Equal(expected.Source, actualSourceJsonElement);
 
         // Links
-        var actualLinksJToken = actualJObject.SelectToken(Keywords.Links);
-        LinksAssert.Equal(expected.Links, actualLinksJToken);
+        var actualLinksJsonElement = actualJsonElement.GetProperty(Keywords.Links);
+        LinksAssert.Equal(expected.Links, actualLinksJsonElement);
 
         // Meta
-        var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-        MetaAssert.Equal(expected.Meta, actualMetaJToken);
+        var actualMetaJsonElement = actualJsonElement.GetProperty(Keywords.Meta);
+        MetaAssert.Equal(expected.Meta, actualMetaJsonElement);
     }
 
-    public static void Equal(IEnumerable<Error> expected, JToken actualJToken)
+    public static void Equal(IEnumerable<Error> expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Array, actualJTokenType);
-
-        var actualJArray = (JArray)actualJToken;
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Array, actualJsonValueKind);
 
         var expectedCollection = expected.SafeToReadOnlyList();
 
-        Assert.Equal(expectedCollection.Count, actualJArray.Count);
+        Assert.Equal(expectedCollection.Count, actualJsonElement.EnumerateArray().Count());
         var count = expectedCollection.Count;
 
         for (var index = 0; index < count; ++index)
         {
             var expectedError = expectedCollection[index];
-            var actualErrorJToken = actualJArray[index];
+            var actualErrorJsonElement = actualJsonElement[index];
 
-            Assert.NotNull(actualErrorJToken);
-            Assert.Equal(JTokenType.Object, actualErrorJToken.Type);
+            Assert.NotNull(actualErrorJsonElement);
+            Assert.Equal(JsonValueKind.Object, actualErrorJsonElement.ValueKind);
 
-            var actualErrorJObject = (JObject)actualErrorJToken;
-            ErrorAssert.Equal(expectedError, actualErrorJObject);
+            ErrorAssert.Equal(expectedError, actualErrorJsonElement);
         }
     }
 

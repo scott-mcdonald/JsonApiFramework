@@ -5,11 +5,8 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class HypermediaInfo : JsonObject
     , IHypermediaInfo
 {
@@ -25,7 +22,7 @@ internal class HypermediaInfo : JsonObject
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IHypermediaInfo Implementation
-    [JsonProperty] public string ApiCollectionPathSegment { get; internal set; }
+    public string ApiCollectionPathSegment { get; internal set; }
     #endregion
 
     // INTERNAL CONSTRUCTORS ////////////////////////////////////////////

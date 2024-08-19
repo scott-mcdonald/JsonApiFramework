@@ -4,7 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Conventions;
 using JsonApiFramework.Extension;
 using JsonApiFramework.ServiceModel;
@@ -42,17 +43,16 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
             this.Output.WriteLine(string.Empty);
 
             // Arrange
-            var serializerSettings = new JsonSerializerSettings
+            var serializerOptions = new JsonSerializerOptions
             {
-                Converters = new[]
+                WriteIndented = true,
+                Converters = 
                 {
-                    (JsonConverter)new StringEnumConverter()
-                },
-                Formatting        = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Include
+                    new JsonStringEnumConverter()
+                }
             };
 
-            var expectedJson = expectedResourceType.ToJson(serializerSettings);
+            var expectedJson = expectedResourceType.ToJson(serializerOptions);
             this.Output.WriteLine("Expected ResourceType");
             this.Output.WriteLine(expectedJson);
 
@@ -66,7 +66,7 @@ namespace JsonApiFramework.Tests.ServiceModel.Configuration
 
             this.Output.WriteLine(string.Empty);
 
-            var actualJson = actualResourceType.ToJson(serializerSettings);
+            var actualJson = actualResourceType.ToJson(serializerOptions);
             this.Output.WriteLine("Actual ResourceType");
             this.Output.WriteLine(actualJson);
 

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+using System.Text.Json;
 using JsonApiFramework.Extension;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Reflection;
@@ -296,8 +297,8 @@ public class ResourceTypeTests : XUnitTest
                         Type = ClrSampleData.ProductType,
                         Id = Convert.ToString(SampleProducts.Product.ProductId),
                         Attributes = new ApiObject(
-                            new ApiReadProperty("name", "Widget A"),
-                            new ApiReadProperty("unitPrice", 25.0m))
+                            new ApiReadProperty("name", JsonSerializer.SerializeToElement("Widget A")),
+                            new ApiReadProperty("unitPrice", JsonSerializer.SerializeToElement(25.0m)))
                     }},
             new object[] {
                 "WithStoreConfiguration",

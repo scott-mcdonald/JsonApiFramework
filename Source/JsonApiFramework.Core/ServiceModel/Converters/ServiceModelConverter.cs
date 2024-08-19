@@ -1,15 +1,21 @@
 // Copyright (c) 2015�Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using Newtonsoft.Json.Converters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace JsonApiFramework.ServiceModel.Converters;
 
-public class ServiceModelConverter : CustomCreationConverter<IServiceModel>
+public class ServiceModelConverter : JsonConverter<IServiceModel>
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region CustomCreationConverter Overrides
-    public override IServiceModel Create(Type objectType)
-    { return new Internal.ServiceModel(); }
+    public override bool CanConvert(Type typeToConvert) => true;
+    
+    public override IServiceModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => new Internal.ServiceModel();
+
+    public override void Write(Utf8JsonWriter writer, IServiceModel value, JsonSerializerOptions options)
+        => JsonSerializer.Serialize(writer, value, options);
     #endregion
 }

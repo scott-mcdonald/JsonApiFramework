@@ -1,12 +1,10 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.Json;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using Xunit.Abstractions;
 
@@ -30,20 +28,19 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         var empty = new JsonReadOnlyDictionary<object>(new Dictionary<string, object>());
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = empty.ToJson(toJsonSerializerSettings);
+        var json = empty.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        Assert.NotNull(jObject);
-        Assert.Equal(0, jObject.Count);
+        var jsonElement = JsonSerializer.SerializeToElement(json, toJsonSerializerOptions);
+        Assert.Empty(jsonElement.EnumerateObject());
     }
 
     [Fact]
@@ -59,24 +56,23 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         var intDictionary = new JsonReadOnlyDictionary<int>(innerDictionary);
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = intDictionary.ToJson(toJsonSerializerSettings);
+        var json = intDictionary.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        Assert.NotNull(jObject);
-        Assert.Equal(3, jObject.Count);
+        var jsonElement = JsonSerializer.SerializeToElement(json, toJsonSerializerOptions);
+        Assert.Equal(3, jsonElement.EnumerateObject().Count());
 
-        Assert.Equal(1, (int)jObject.SelectToken("one"));
-        Assert.Equal(2, (int)jObject.SelectToken("two"));
-        Assert.Equal(3, (int)jObject.SelectToken("three"));
+        Assert.Equal(1, jsonElement.GetProperty("one").GetInt32());
+        Assert.Equal(2, jsonElement.GetProperty("two").GetInt32());
+        Assert.Equal(3, jsonElement.GetProperty("three").GetInt32());
     }
 
     [Fact]
@@ -92,24 +88,23 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         var stringDictionary = new JsonReadOnlyDictionary<string>(innerDictionary);
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = stringDictionary.ToJson(toJsonSerializerSettings);
+        var json = stringDictionary.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        Assert.NotNull(jObject);
-        Assert.Equal(3, jObject.Count);
+        var jsonElement = JsonSerializer.SerializeToElement(json, toJsonSerializerOptions);
+        Assert.Equal(3, jsonElement.EnumerateObject().Count());
 
-        Assert.Equal("1", (string)jObject.SelectToken("one"));
-        Assert.Equal("2", (string)jObject.SelectToken("two"));
-        Assert.Equal("3", (string)jObject.SelectToken("three"));
+        Assert.Equal("1", jsonElement.GetProperty("one").GetString());
+        Assert.Equal("2", jsonElement.GetProperty("two").GetString());
+        Assert.Equal("3", jsonElement.GetProperty("three").GetString());
     }
 
     [Fact]
@@ -133,35 +128,33 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         var stringDictionary = new JsonReadOnlyDictionary<object>(innerDictionary);
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var json = stringDictionary.ToJson(toJsonSerializerSettings);
+        var json = stringDictionary.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        Assert.NotNull(jObject);
-        Assert.Equal(4, jObject.Count);
+        var jsonElement = JsonSerializer.SerializeToElement(json, toJsonSerializerOptions);
+        Assert.Equal(4, jsonElement.EnumerateObject().Count());
 
-        Assert.Equal(1, (long)jObject.SelectToken("oneAsLong"));
+        Assert.Equal(1, jsonElement.GetProperty("oneAsLong").GetInt64());
 
-        Assert.Equal("2", (string)jObject.SelectToken("twoAsString"));
+        Assert.Equal("2", jsonElement.GetProperty("twoAsString").GetString());
 
-        var jEmptyObject = (JObject)jObject.SelectToken("emptyObject");
-        Assert.Equal(1 + 0, jEmptyObject.Count); // 1 + is for the $type property
+        var jEmptyObject = jsonElement.GetProperty("emptyObject");
+        Assert.Single(jEmptyObject.EnumerateObject()); // `Assert.Single()` is for the $type property
 
-        var jPersonObject = (JObject)jObject.SelectToken("personObject");
-        Assert.Equal(1 + 3, jPersonObject.Count); // 1 + is for the $type property
+        var jPersonObject = jsonElement.GetProperty("personObject");
+        Assert.Equal(1 + 3, jPersonObject.EnumerateObject().Count()); // 1 + is for the $type property
 
-        Assert.Equal("1234", (string)jPersonObject.SelectToken(personObject.GetMemberName(x => x.PersonId)));
-        Assert.Equal("John", (string)jPersonObject.SelectToken(personObject.GetMemberName(x => x.FirstName)));
-        Assert.Equal("Doe", (string)jPersonObject.SelectToken(personObject.GetMemberName(x => x.LastName)));
+        Assert.Equal("1234", jPersonObject.GetProperty(personObject.GetMemberName(x => x.PersonId)).GetString());
+        Assert.Equal("John", jPersonObject.GetProperty(personObject.GetMemberName(x => x.FirstName)).GetString());
+        Assert.Equal("Doe", jPersonObject.GetProperty(personObject.GetMemberName(x => x.LastName)).GetString());
     }
 
     [Fact]
@@ -173,12 +166,11 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         // Act
         this.Output.WriteLine(json);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var emptyDictionary = JsonObject.Parse<JsonReadOnlyDictionary<object>>(json, toJsonSerializerSettings);
+        var emptyDictionary = JsonObject.Parse<JsonReadOnlyDictionary<object>>(json, toJsonSerializerOptions);
 
         // Assert
         Assert.NotNull(emptyDictionary);
@@ -202,12 +194,11 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         // Act
         this.Output.WriteLine(json);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var intDictionary = JsonObject.Parse<JsonReadOnlyDictionary<int>>(json, toJsonSerializerSettings);
+        var intDictionary = JsonObject.Parse<JsonReadOnlyDictionary<int>>(json, toJsonSerializerOptions);
 
         // Assert
         Assert.NotNull(intDictionary);
@@ -235,12 +226,11 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         // Act
         this.Output.WriteLine(json);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var stringDictionary = JsonObject.Parse<JsonReadOnlyDictionary<string>>(json, toJsonSerializerSettings);
+        var stringDictionary = JsonObject.Parse<JsonReadOnlyDictionary<string>>(json, toJsonSerializerOptions);
 
         // Assert
         Assert.NotNull(stringDictionary);
@@ -276,12 +266,11 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
         // Act
         this.Output.WriteLine(json);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var objectDictionary = JsonObject.Parse<JsonReadOnlyDictionary<object>>(json, toJsonSerializerSettings);
+        var objectDictionary = JsonObject.Parse<JsonReadOnlyDictionary<object>>(json, toJsonSerializerOptions);
 
         // Assert
         Assert.NotNull(objectDictionary);
@@ -344,16 +333,14 @@ public class JsonReadOnlyDictionaryTests : XUnitTest
 
     // PRIVATE TYPES ////////////////////////////////////////////////////
     #region Test Types
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class Empty : JsonObject
     { }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class Person : JsonObject
     {
-        [JsonProperty] public string PersonId { get; set; }
-        [JsonProperty] public string LastName { get; set; }
-        [JsonProperty] public string FirstName { get; set; }
+        public string PersonId { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
     }
     #endregion
 }

@@ -2,13 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Net;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Http;
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.TestData.ApiResources;
 
@@ -1439,12 +1437,11 @@ public static class ApiSampleData
     #endregion
 
     #region Errors
-    [JsonObject(MemberSerialization.OptIn)]
     public class ErrorSource : JsonObject
     {
         // ReSharper disable UnusedAutoPropertyAccessor.Global
-        [JsonProperty(Keywords.Pointer)] public string Pointer { get; set; }
-        [JsonProperty(Keywords.Parameter)] public string Parameter { get; set; }
+        [JsonPropertyName(Keywords.Pointer)] public string Pointer { get; set; }
+        [JsonPropertyName(Keywords.Parameter)] public string Parameter { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 
@@ -1469,7 +1466,7 @@ public static class ApiSampleData
             Code = Convert.ToString(HttpStatusCode.BadRequest),
             Title = "Unknown Parameter",
             Detail = "Unknown field [name=Foo] used in URL query.",
-            Source = JObject.FromObject(new ErrorSource
+            Source = JsonSerializer.SerializeToElement(new ErrorSource
                 {
                     Pointer = "/data",
                     Parameter = "Foo"
@@ -1484,7 +1481,7 @@ public static class ApiSampleData
             Code = Convert.ToString(HttpStatusCode.InternalServerError),
             Title = "Uncaught Exception",
             Detail = string.Format("SqlException was thrown on update of the Article [ArticleId={0}] entity in the database.", ArticleId),
-            Source = JObject.FromObject(new ErrorSource
+            Source = JsonSerializer.SerializeToElement(new ErrorSource
                 {
                     Pointer = "/data/attributes/title"
                 }),

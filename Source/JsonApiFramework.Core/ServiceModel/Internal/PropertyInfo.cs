@@ -6,11 +6,8 @@ using System.Diagnostics.Contracts;
 using JsonApiFramework.Expressions;
 using JsonApiFramework.Reflection;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class PropertyInfo : MemberInfo
     , IPropertyInfo
 {
@@ -28,8 +25,8 @@ internal class PropertyInfo : MemberInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IPropertyInfo Implementation
-    [JsonProperty] public string ClrPropertyName { get; internal set; }
-    [JsonProperty] public Type ClrPropertyType { get; internal set; }
+    public string ClrPropertyName { get; internal set; }
+    public Type ClrPropertyType { get; internal set; }
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

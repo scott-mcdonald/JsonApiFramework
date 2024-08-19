@@ -85,9 +85,8 @@ public class ClockTests : XUnitTest
     }
     #endregion
 
-    // PRIVATE TYPES ////////////////////////////////////////////////////
     #region Test Types
-    private class TestClock : IClock
+    public class TestClock : IClock
     {
         #region Properties
         public TimeZoneInfo LocalTimeZone { get; set; }

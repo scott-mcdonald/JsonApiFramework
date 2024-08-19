@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,21 +13,16 @@ public class ApiObjectConverter : Converter<ApiObject>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override ApiObject ReadTypedObject(JObject jObject, JsonSerializer serializer)
-    {
-        Contract.Requires(jObject != null);
+    protected override ApiObject ReadTypedObject(JsonElement element, JsonSerializerOptions options) 
+        => ReadApiObject(element, options);
 
-        var apiObject = ReadApiObject(jObject, serializer);
-        return apiObject;
-    }
-
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, ApiObject attributes)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, ApiObject attributes)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(attributes != null);
 
-        WriteApiObject(writer, serializer, attributes);
+        WriteApiObject(writer, options, attributes);
     }
     #endregion
 }

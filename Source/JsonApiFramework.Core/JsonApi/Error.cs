@@ -2,11 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Net;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Json;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -28,7 +26,7 @@ public class Error : JsonObject
     public string Code { get; set; }
     public string Title { get; set; }
     public string Detail { get; set; }
-    public JObject Source { get; set; }
+    public JsonElement? Source { get; set; }
     public Links Links { get; set; }
     public Meta Meta { get; set; }
     #endregion
@@ -45,7 +43,7 @@ public class Error : JsonObject
                     Code = errorException.Code,
                     Title = errorException.Title,
                     Detail = errorException.Detail,
-                    Source = !string.IsNullOrWhiteSpace(errorException.Source) ? JObject.Parse(errorException.Source) : null,
+                    Source = !string.IsNullOrWhiteSpace(errorException.Source) ? JsonSerializer.SerializeToElement(errorException.Source) : null,
                     Links = errorException.Links,
                     Meta = errorException.Meta
                 }

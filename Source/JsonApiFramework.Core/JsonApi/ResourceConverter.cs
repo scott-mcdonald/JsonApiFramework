@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,37 +13,36 @@ public class ResourceConverter : Converter<Resource>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override Resource ReadTypedObject(JObject resourceJObject, JsonSerializer serializer)
+    protected override Resource ReadTypedObject(JsonElement resourceJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(resourceJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var resource = new Resource();
 
-        ReadType(resourceJObject, serializer, resource);
-        ReadId(resourceJObject, serializer, resource);
-        ReadAttributes(resourceJObject, serializer, resource);
-        ReadRelationships(resourceJObject, serializer, resource);
-        ReadLinks(resourceJObject, serializer, resource);
-        ReadMeta(resourceJObject, serializer, resource);
+        ReadType(resourceJsonElement, options, resource);
+        ReadId(resourceJsonElement, options, resource);
+        ReadAttributes(resourceJsonElement, options, resource);
+        ReadRelationships(resourceJsonElement, options, resource);
+        ReadLinks(resourceJsonElement, options, resource);
+        ReadMeta(resourceJsonElement, options, resource);
 
         return resource;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Resource resource)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, Resource resource)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(resource != null);
 
         writer.WriteStartObject();
 
-        WriteType(writer, serializer, resource);
-        WriteId(writer, serializer, resource);
-        WriteAttributes(writer, serializer, resource);
-        WriteRelationships(writer, serializer, resource);
-        WriteLinks(writer, serializer, resource);
-        WriteMeta(writer, serializer, resource);
+        WriteType(writer, options, resource);
+        WriteId(writer, options, resource);
+        WriteAttributes(writer, options, resource);
+        WriteRelationships(writer, options, resource);
+        WriteLinks(writer, options, resource);
+        WriteMeta(writer, options, resource);
 
         writer.WriteEndObject();
     }

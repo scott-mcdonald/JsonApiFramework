@@ -5,11 +5,8 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class RelationshipsInfo : PropertyInfo
     , IRelationshipsInfo
 {
@@ -33,7 +30,7 @@ internal class RelationshipsInfo : PropertyInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IRelationshipsInfo Implementation
-    [JsonProperty] public IEnumerable<IRelationshipInfo> Collection { get; internal set; }
+    public IEnumerable<IRelationshipInfo> Collection { get; internal set; }
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

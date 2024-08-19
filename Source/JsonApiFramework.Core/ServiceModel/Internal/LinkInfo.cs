@@ -5,11 +5,8 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class LinkInfo : JsonObject
     , ILinkInfo
 {
@@ -25,7 +22,7 @@ internal class LinkInfo : JsonObject
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region ILinkInfo Implementation
-    [JsonProperty] public string Rel { get; internal set; }
+    public string Rel { get; internal set; }
     #endregion
 
     // INTERNAL CONSTRUCTORS ////////////////////////////////////////////

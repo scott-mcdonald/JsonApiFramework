@@ -3,14 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Text.Json;
 using JsonApiFramework.Internal.Dom;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.TestAsserts.Internal.Dom;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -239,7 +237,7 @@ public class DomReadWriteRelationshipTests : DomXUnitTest
                                     {Keywords.Related, ApiSampleData.ArticleToCommentsLink}
                                 },
                             Data = ApiSampleData.EmptyResourceIdentifiers,
-                            Meta = JObject.FromObject(new RelationshipMeta
+                            Meta = JsonSerializer.SerializeToElement(new RelationshipMeta
                                 {
                                     CascadeDelete = true
                                 })

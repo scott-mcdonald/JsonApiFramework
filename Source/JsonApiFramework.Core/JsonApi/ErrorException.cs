@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Net;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -23,7 +21,7 @@ namespace JsonApiFramework.JsonApi;
 /// construction.
 /// 
 /// The "Source" property of Exception is the JSON representation of the
-/// "Source" from json:api Error objects as a JObject passed upon
+/// "Source" from json:api Error objects as a JsonElement passed upon
 /// construction.
 /// </remarks>
 public class ErrorException : Exception
@@ -68,7 +66,7 @@ public class ErrorException : Exception
         this._meta = default(Meta);
     }
 
-    public ErrorException(string id, HttpStatusCode? status, string code, string title, string detail, JObject source, Links links, Meta meta)
+    public ErrorException(string id, HttpStatusCode? status, string code, string title, string detail, JsonElement source, Links links, Meta meta)
         : base(detail)
     {
         this._id = Error.CreateId(id);
@@ -81,7 +79,7 @@ public class ErrorException : Exception
         this._meta = meta;
     }
 
-    public ErrorException(string id, HttpStatusCode? status, string code, string title, string detail, JObject source, Links links, Meta meta, Exception innerException)
+    public ErrorException(string id, HttpStatusCode? status, string code, string title, string detail, JsonElement source, Links links, Meta meta, Exception innerException)
         : base(detail, innerException)
     {
         this._id = Error.CreateId(id);
@@ -115,12 +113,9 @@ public class ErrorException : Exception
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Methods
-    private static string CreateSourceAsJson(JObject source)
+    private static string CreateSourceAsJson(JsonElement source)
     {
-        if (source == null)
-            return null;
-
-        var sourceAsJson = source.ToString(Formatting.None);
+        var sourceAsJson = JsonSerializer.Serialize(source);
         return sourceAsJson;
     }
     #endregion

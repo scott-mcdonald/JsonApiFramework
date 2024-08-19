@@ -3,17 +3,14 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal abstract class MemberInfo : JsonObject
     , IMemberInfo
 {
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IMemberInfo Implementation
-    [JsonProperty] public Type ClrDeclaringType { get; private set; }
+    public Type ClrDeclaringType { get; private set; }
     #endregion
 
     // PROTECTED CONSTRUCTORS ///////////////////////////////////////////

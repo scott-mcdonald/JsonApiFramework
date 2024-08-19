@@ -2,18 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Extension;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json;
 
 namespace JsonApiFramework.ServiceModel.Internal;
 
 /// <summary>
 /// Represents type information of an individual resource in a service model.
 /// </summary>
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class ResourceType : ClrTypeInfo, IResourceType
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -45,15 +42,15 @@ internal class ResourceType : ClrTypeInfo, IResourceType
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IResourceType Implementation
-    [JsonProperty] public IHypermediaInfo       HypermediaInfo       { get; private set; }
-    [JsonProperty] public IResourceIdentityInfo ResourceIdentityInfo { get; private set; }
-    [JsonProperty] public IRelationshipsInfo    RelationshipsInfo    { get; private set; }
-    [JsonProperty] public ILinksInfo            LinksInfo            { get; private set; }
-    [JsonProperty] public IMetaInfo             MetaInfo             { get; private set; }
+    public IHypermediaInfo       HypermediaInfo       { get; private set; }
+    public IResourceIdentityInfo ResourceIdentityInfo { get; private set; }
+    public IRelationshipsInfo    RelationshipsInfo    { get; private set; }
+    public ILinksInfo            LinksInfo            { get; private set; }
+    public IMetaInfo             MetaInfo             { get; private set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation
-    public IEnumerable<IExtension<IResourceType>> Extensions => this.ExtensionDictionary.Extensions;
+    [JsonIgnore] public IEnumerable<IExtension<IResourceType>> Extensions => this.ExtensionDictionary.Extensions;
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

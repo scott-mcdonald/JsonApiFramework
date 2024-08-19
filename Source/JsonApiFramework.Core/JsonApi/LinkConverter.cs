@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -24,23 +22,22 @@ public class LinkConverter : Converter<Link>
         return link;
     }
 
-    protected override Link ReadTypedObject(JObject linkJObject, JsonSerializer serializer)
+    protected override Link ReadTypedObject(JsonElement linkJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(linkJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var link = new Link();
 
-        ReadHRef(linkJObject, serializer, link);
-        ReadMeta(linkJObject, serializer, link);
+        ReadHRef(linkJsonElement, options, link);
+        ReadMeta(linkJsonElement, options, link);
 
         return link;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Link link)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, Link link)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(link != null);
 
         // If HRef only, then serialize the Link object as a string whose
@@ -48,15 +45,15 @@ public class LinkConverter : Converter<Link>
         if (link.Meta == null && string.IsNullOrWhiteSpace(link.HRef) == false)
         {
             var hRef = link.HRef;
-            writer.WriteValue(hRef);
+            writer.WriteStringValue(hRef);
             return;
         }
 
         // Serialize the Link object as a JSON object.
         writer.WriteStartObject();
 
-        WriteHRef(writer, serializer, link);
-        WriteMeta(writer, serializer, link);
+        WriteHRef(writer, options, link);
+        WriteMeta(writer, options, link);
 
         writer.WriteEndObject();
     }
@@ -65,18 +62,17 @@ public class LinkConverter : Converter<Link>
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Methods
     // ReSharper disable once UnusedParameter.Local
-    private static void ReadHRef(JToken linkJToken, JsonSerializer serializer, Link link)
+    private static void ReadHRef(JsonElement linkJsonElement, JsonSerializerOptions serializer, Link link)
     {
-        Contract.Requires(linkJToken != null);
         Contract.Requires(serializer != null);
         Contract.Requires(link != null);
 
-        var hRef = ReadString(linkJToken, Keywords.HRef);
+        var hRef = ReadString(linkJsonElement, Keywords.HRef);
         link.HRef = hRef;
     }
 
     // ReSharper disable once UnusedParameter.Local
-    private static void WriteHRef(JsonWriter writer, JsonSerializer serializer, Link link)
+    private static void WriteHRef(Utf8JsonWriter writer, JsonSerializerOptions serializer, Link link)
     {
         Contract.Requires(writer != null);
         Contract.Requires(serializer != null);

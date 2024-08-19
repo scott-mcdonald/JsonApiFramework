@@ -4,11 +4,8 @@
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class Blog : JsonObject
     , IGetLinks
     , IGetMeta
@@ -17,9 +14,9 @@ public class Blog : JsonObject
     , ISetMeta
     , ISetRelationships
 {
-    [JsonProperty] public string Id { get; set; }
-    [JsonProperty] public string Name { get; set; }
-    [JsonProperty] public Relationships Relationships { get; set; }
-    [JsonProperty] public Links Links { get; set; }
-    [JsonProperty] public Meta Meta { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public Relationships Relationships { get; set; }
+    public Links Links { get; set; }
+    public Meta Meta { get; set; }
 }

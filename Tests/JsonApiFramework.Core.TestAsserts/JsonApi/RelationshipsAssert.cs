@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -18,29 +17,27 @@ public static class RelationshipsAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
-        RelationshipsAssert.Equal(expected, actualJToken);
+        var actualJsonElement = JsonSerializer.SerializeToElement(actualJson);
+        RelationshipsAssert.Equal(expected, actualJsonElement);
     }
 
-    public static void Equal(Relationships expected, JToken actualJToken)
+    public static void Equal(Relationships expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
-
-        var actualJObject = (JObject)actualJToken;
+        var actualJsonElementValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonElementValueKind);
 
         var expectedRelationshipsCount = expected.Count;
-        var actualRelationshipsCount = actualJObject.Count;
+        var actualRelationshipsCount = actualJsonElement.EnumerateObject().Count();
         Assert.Equal(expectedRelationshipsCount, actualRelationshipsCount);
 
         foreach (var key in expected.Keys)
@@ -48,8 +45,8 @@ public static class RelationshipsAssert
             var expectedRelationship = expected[key];
             Assert.IsAssignableFrom<Relationship>(expectedRelationship);
 
-            var actualRelationshipJToken = actualJObject[key];
-            RelationshipAssert.Equal(expectedRelationship, actualRelationshipJToken);
+            var actualRelationshipJsonElement = actualJsonElement.GetProperty(key);
+            RelationshipAssert.Equal(expectedRelationship, actualRelationshipJsonElement);
         }
     }
 

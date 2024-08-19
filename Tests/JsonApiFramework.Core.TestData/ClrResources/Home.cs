@@ -4,15 +4,12 @@
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class Home : JsonObject
     , IGetLinks
     , ISetLinks
 {
-    [JsonProperty] public string Message { get; set; }
-    [JsonProperty] public Links Links { get; set; }
+    public string Message { get; set; }
+    public Links Links { get; set; }
 }

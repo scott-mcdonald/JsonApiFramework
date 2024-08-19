@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -13,57 +12,49 @@ public static class ApiPropertyAssert
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Assert Methods
-    public static void Equal(ApiProperty expected, JToken actualJToken)
+    public static void Equal(ApiProperty expected, JsonProperty actualJsonProperty)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonProperty.Value);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonProperty);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Property, actualJTokenType);
-
-        var actualJProperty = (JProperty)actualJToken;
-
-        Assert.Equal(expected.Name, actualJProperty.Name);
-        ClrObjectAssert.Equal(expected.ValueAsObject(), actualJProperty.Value);
+        Assert.Equal(expected.Name, actualJsonProperty.Name);
+        ClrObjectAssert.Equal(expected.ValueAsObject(), actualJsonProperty.Value);
     }
 
-    public static void Equal(IReadOnlyList<ApiProperty> expectedCollection, JToken actualJToken)
+    public static void Equal(IReadOnlyList<ApiProperty> expectedCollection, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expectedCollection == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Array, actualJTokenType);
+        var actualJsonElementValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Array, actualJsonElementValueKind);
 
-        var actualJArray = (JArray)actualJToken;
-
-        Assert.Equal(expectedCollection.Count, actualJArray.Count);
+        Assert.Equal(expectedCollection.Count, actualJsonElement.EnumerateArray().Count());
         var count = expectedCollection.Count;
 
         for (var index = 0; index < count; ++index)
         {
             var expectedObjectProperty = expectedCollection[index];
-            var actualObjectPropertyJToken = actualJArray[index];
+            var actualObjectProperty = actualJsonElement.EnumerateObject().ElementAt(index);
 
-            Assert.NotNull(actualObjectPropertyJToken);
-            Assert.Equal(JTokenType.Object, actualObjectPropertyJToken.Type);
+            Assert.NotNull(actualObjectProperty);
+            Assert.Equal(JsonValueKind.Object, actualObjectProperty.Value.ValueKind);
 
-            var actualObjectPropertyJObject = (JObject)actualObjectPropertyJToken;
-            ApiPropertyAssert.Equal(expectedObjectProperty, actualObjectPropertyJObject);
+            ApiPropertyAssert.Equal(expectedObjectProperty, actualObjectProperty);
         }
     }
 

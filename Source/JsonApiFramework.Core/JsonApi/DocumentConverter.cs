@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,34 +13,33 @@ public class DocumentConverter : Converter<Document>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override Document ReadTypedObject(JObject documentJObject, JsonSerializer serializer)
+    protected override Document ReadTypedObject(JsonElement documentJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(documentJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
-        var document = CreateDocumentOrDerivedDocument(documentJObject, serializer);
+        var document = CreateDocumentOrDerivedDocument(documentJsonElement, options);
 
-        ReadJsonApiVersion(documentJObject, serializer, document);
-        ReadMeta(documentJObject, serializer, document);
-        ReadLinks(documentJObject, serializer, document);
+        ReadJsonApiVersion(documentJsonElement, options, document);
+        ReadMeta(documentJsonElement, options, document);
+        ReadLinks(documentJsonElement, options, document);
 
         return document;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Document document)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, Document document)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
         writer.WriteStartObject();
 
-        WriteJsonApiVersion(writer, serializer, document);
-        WriteMeta(writer, serializer, document);
-        WriteLinks(writer, serializer, document);
-        WriteData(writer, serializer, document);
-        WriteErrors(writer, serializer, document);
-        WriteIncluded(writer, serializer, document);
+        WriteJsonApiVersion(writer, options, document);
+        WriteMeta(writer, options, document);
+        WriteLinks(writer, options, document);
+        WriteData(writer, options, document);
+        WriteErrors(writer, options, document);
+        WriteIncluded(writer, options, document);
 
         writer.WriteEndObject();
     }
@@ -50,10 +47,9 @@ public class DocumentConverter : Converter<Document>
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Read Methods
-    private static Document CreateDocumentOrDerivedDocument(JToken documentJToken, JsonSerializer serializer)
+    private static Document CreateDocumentOrDerivedDocument(JsonElement documentJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(documentJToken != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         // Data
 
@@ -71,29 +67,30 @@ public class DocumentConverter : Converter<Document>
         //        1.2.3 If "data" is an array of resource identifiers, then create a "ResourceIdentifierCollectionDocument" object.
         // 2. If "errors" is present, then create an "ErrorsDocument" object.
         // 3. Else create a "Document" object.
-        var dataJToken = documentJToken.SelectToken(Keywords.Data);
-        var errorsJToken = documentJToken.SelectToken(Keywords.Errors);
-        if (dataJToken != null && errorsJToken != null)
+        bool dataExists = documentJsonElement.TryGetProperty(Keywords.Data, out var dataJsonElement);
+        bool errorExists = documentJsonElement.TryGetProperty(Keywords.Errors, out var errorsJsonElement);
+
+        if (dataExists && errorExists)
         {
             var detail = CoreErrorStrings.JsonApiDocumentCanNotContainBothMembersDetail.FormatWith(Keywords.Data, Keywords.Errors);
             throw new JsonApiException(CoreErrorStrings.JsonApiErrorTitle, detail);
         }
 
-        if (dataJToken != null)
+        if (dataExists)
         {
-            var dataJTokenType = dataJToken.Type;
-            switch (dataJTokenType)
+            var dataJsonElementValueKind = dataJsonElement.ValueKind;
+            switch (dataJsonElementValueKind)
             {
-                case JTokenType.None:
-                case JTokenType.Null:
+                case JsonValueKind.Undefined:
+                case JsonValueKind.Null:
                     {
                         var nullDocument = new NullDocument();
                         return nullDocument;
                     }
 
-                case JTokenType.Object:
+                case JsonValueKind.Object:
                     {
-                        var data = ReadData(dataJToken, serializer);
+                        var data = ReadData(dataJsonElement, options);
                         var dataType = data.Item1;
                         var dataObject = data.Item2;
                         switch (dataType)
@@ -106,7 +103,7 @@ public class DocumentConverter : Converter<Document>
                                         Data = resource
                                     };
 
-                                ReadIncluded(documentJToken, serializer, resourceDocument);
+                                ReadIncluded(documentJsonElement, options, resourceDocument);
                                 return resourceDocument;
                             }
 
@@ -126,16 +123,16 @@ public class DocumentConverter : Converter<Document>
                         }
                     }
 
-                case JTokenType.Array:
+                case JsonValueKind.Array:
                     {
-                        var dataJArray = (JArray)dataJToken;
-                        if (dataJArray.Count == 0)
+                        var dataArray = dataJsonElement.EnumerateArray();
+                        if (!dataArray.Any())
                         {
                             var emptyDocument = new EmptyDocument();
                             return emptyDocument;
                         }
 
-                        var dataCollection = dataJArray.Select(x => ReadData(x, serializer))
+                        var dataCollection = dataArray.Select(x => ReadData(x, options))
                                                        .ToList();
                         var dataType = dataCollection.First()
                                                      .Item1;
@@ -157,7 +154,7 @@ public class DocumentConverter : Converter<Document>
                                             Data = resourceCollection
                                         };
 
-                                    ReadIncluded(documentJToken, serializer, resourceCollectionDocument);
+                                    ReadIncluded(documentJsonElement, options, resourceCollectionDocument);
                                     return resourceCollectionDocument;
                                 }
 
@@ -187,14 +184,14 @@ public class DocumentConverter : Converter<Document>
             }
         }
 
-        if (errorsJToken != null)
+        if (errorExists)
         {
-            var errorsJTokenType = errorsJToken.Type;
-            switch (errorsJTokenType)
+            var errorsJsonElementValueKind = errorsJsonElement.ValueKind;
+            switch (errorsJsonElementValueKind)
             {
-                case JTokenType.Array:
+                case JsonValueKind.Array:
                     {
-                        var errors = errorsJToken.Select(x => x.ToObject<Error>(serializer))
+                        var errors = errorsJsonElement.EnumerateArray().Select(x => x.Deserialize<Error>(options))
                                                  .ToList();
                         var errorsDocument = new ErrorsDocument
                             {
@@ -215,25 +212,23 @@ public class DocumentConverter : Converter<Document>
         return document;
     }
 
-    private static Tuple<DataType, object> ReadData(JToken dataJToken, JsonSerializer serializer)
+    private static Tuple<DataType, object> ReadData(JsonElement dataJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(dataJToken != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
-        var dataJObject = (JObject)dataJToken;
-        var dataType = dataJObject.GetDataType();
+        var dataType = dataJsonElement.GetDataType();
         switch (dataType)
         {
             case DataType.Resource:
                 {
-                    var resource = dataJObject.ToObject<Resource>(serializer);
+                    var resource = dataJsonElement.Deserialize<Resource>(options);
                     var data = new Tuple<DataType, object>(DataType.Resource, resource);
                     return data;
                 }
 
             case DataType.ResourceIdentifier:
                 {
-                    var resourceIdentifier = dataJObject.ToObject<ResourceIdentifier>(serializer);
+                    var resourceIdentifier = dataJsonElement.Deserialize<ResourceIdentifier>(options);
                     var data = new Tuple<DataType, object>(DataType.ResourceIdentifier, resourceIdentifier);
                     return data;
                 }
@@ -243,103 +238,92 @@ public class DocumentConverter : Converter<Document>
         }
     }
 
-    private static void ReadJsonApiVersion(JToken documentJToken, JsonSerializer serializer, Document document)
+    private static void ReadJsonApiVersion(JsonElement documentJsonElement, JsonSerializerOptions options, Document document)
     {
-        Contract.Requires(documentJToken != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
-        var jsonApiJToken = documentJToken.SelectToken(Keywords.JsonApi);
-        if (jsonApiJToken == null)
+        try
+        {
+            var jsonApiJsonElement = documentJsonElement.GetProperty(Keywords.JsonApi);
+            var jsonApiVersion = jsonApiJsonElement.Deserialize<JsonApiVersion>(options);
+            document.JsonApiVersion = jsonApiVersion;
+        }
+        catch (KeyNotFoundException)
+        {
             return;
-
-        var jsonApiVersion = jsonApiJToken.ToObject<JsonApiVersion>(serializer);
-        document.JsonApiVersion = jsonApiVersion;
+        }
     }
 
-    private static void ReadIncluded(JToken documentJToken, JsonSerializer serializer, ISetIncluded document)
+    private static void ReadIncluded(JsonElement documentJsonElement, JsonSerializerOptions options, ISetIncluded document)
     {
-        Contract.Requires(documentJToken != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
-        var includedJToken = documentJToken.SelectToken(Keywords.Included);
-        if (includedJToken == null)
+        try
+        {
+            var includedJsonElement = documentJsonElement.GetProperty(Keywords.Included);
+            var included = includedJsonElement.EnumerateArray().Select(x => x.Deserialize<Resource>(options)).ToList();
+            document.Included = included;
+        }
+        catch (KeyNotFoundException)
+        {
             return;
-
-        var included = includedJToken.Select(x => x.ToObject<Resource>(serializer))
-                                     .ToList();
-        document.Included = included;
+        }
     }
     #endregion
 
     #region Write Methods
-    private static void WriteJsonApiVersion(JsonWriter writer, JsonSerializer serializer, Document document)
+    private static void WriteJsonApiVersion(Utf8JsonWriter writer, JsonSerializerOptions options, Document document)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
         if (document.JsonApiVersion == null)
             return;
 
         writer.WritePropertyName(Keywords.JsonApi);
-        var jsonApiJToken = JToken.FromObject(document.JsonApiVersion, serializer);
-        jsonApiJToken.WriteTo(writer);
+        var jsonApiJsonElement = JsonSerializer.SerializeToElement(document.JsonApiVersion, options);
+        jsonApiJsonElement.WriteTo(writer);
     }
 
-    private static void WriteData(JsonWriter writer, JsonSerializer serializer, Document document)
+    private static void WriteData(Utf8JsonWriter writer, JsonSerializerOptions options, Document document)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
         // If document is not a data document, nothing to do.
-        if (!document.IsDataDocument())
-            return;
+        if (!document.IsDataDocument()) return;
 
-        if (!document.IsDataCollectionDocument())
+        writer.WritePropertyName(Keywords.Data);
+
+        var data = document.GetData();
+        if (data != null)
         {
-            // Write data as an object.
-            writer.WritePropertyName(Keywords.Data);
-
-            var data = document.GetData();
-            if (data != null)
-            {
-                var dataJToken = JToken.FromObject(data, serializer);
-                var dataJObject = (JObject)dataJToken;
-
-                dataJObject.WriteTo(writer);
-            }
-            else
-            {
-                writer.WriteValue(NullData);
-            }
+            var dataJsonElement = JsonSerializer.SerializeToElement(data, options);
+            dataJsonElement.WriteTo(writer);
         }
         else
         {
-            // Write data as an array.
-            writer.WritePropertyName(Keywords.Data);
-
-            var data = document.GetData();
-            if (data != null)
+            if (document.IsDataCollectionDocument())
             {
-                var dataJToken = JToken.FromObject(data, serializer);
-                var dataJArray = (JArray)dataJToken;
-
-                dataJArray.WriteTo(writer);
+                writer.WriteStartArray();
+                writer.WriteEndArray();
             }
             else
             {
-                writer.WriteValue(EmptyDataArray);
+                writer.WriteStartObject();
+                writer.WriteEndObject();
             }
         }
     }
 
-    private static void WriteErrors(JsonWriter writer, JsonSerializer serializer, Document document)
+    private static void WriteErrors(Utf8JsonWriter writer, JsonSerializerOptions options, Document document)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
         // If document is not an errors document, nothing to do.
@@ -350,16 +334,15 @@ public class DocumentConverter : Converter<Document>
         writer.WritePropertyName(Keywords.Errors);
 
         var errors = document.GetErrors();
-        var errorsJToken = JToken.FromObject(errors, serializer);
-        var errorsJArray = (JArray)errorsJToken;
+        var errorsJsonElement = JsonSerializer.SerializeToElement(errors, options);
 
-        errorsJArray.WriteTo(writer);
+        errorsJsonElement.WriteTo(writer);
     }
 
-    private static void WriteIncluded(JsonWriter writer, JsonSerializer serializer, Document document)
+    private static void WriteIncluded(Utf8JsonWriter writer, JsonSerializerOptions options, Document document)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(document != null);
 
         // If document is not a resource document or a resource collection
@@ -381,17 +364,14 @@ public class DocumentConverter : Converter<Document>
         writer.WritePropertyName(Keywords.Included);
 
         var included = document.GetIncludedResources();
-        var includedJToken = JToken.FromObject(included, serializer);
-        var includedJArray = (JArray)includedJToken;
+        var includedJsonElement = JsonSerializer.SerializeToElement(included, options);
 
-        includedJArray.WriteTo(writer);
+        includedJsonElement.WriteTo(writer);
     }
     #endregion
 
     // PRIVATE FIELDS ///////////////////////////////////////////////////
     #region Constants
-    private static readonly object NullData = default(object);
-
     private static readonly object[] EmptyDataArray = Enumerable.Empty<object>()
                                                                 .ToArray();
     #endregion

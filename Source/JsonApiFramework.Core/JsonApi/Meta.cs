@@ -2,11 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Json;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -21,7 +19,7 @@ public class Meta : JsonObject
     #region Object Overrides
     public override string ToString()
     {
-        var metaAsJson = this.JObject.SafeToString();
+        var metaAsJson = this.JsonElement.SafeToString();
         return string.Format("{0} [{1}]", TypeName, metaAsJson);
     }
     #endregion
@@ -29,60 +27,35 @@ public class Meta : JsonObject
     #region Metadata Methods
     public static Meta Create<T>(T data)
     {
-        var jObject = JObject.FromObject(data);
+        var jObject = JsonSerializer.SerializeToElement(data);
         var meta = (Meta)jObject;
         return meta;
     }
 
-    public static Meta Create<T>(T data, JsonSerializerSettings jsonSerializerSettings)
+    public static Meta Create<T>(T data, JsonSerializerOptions jsonSerializerOptions)
     {
-        Contract.Requires(jsonSerializerSettings != null);
+        Contract.Requires(jsonSerializerOptions != null);
 
-        var jsonSerializer = JsonSerializer.Create(jsonSerializerSettings);
-        var jObject = JObject.FromObject(data, jsonSerializer);
-        var meta = (Meta)jObject;
+        var element = JsonSerializer.SerializeToElement(data, jsonSerializerOptions);
+        var meta = (Meta)element;
         return meta;
     }
 
-    public T GetData<T>()
-    {
-        if (this.JObject == null)
-            return default(T);
+    public T GetData<T>() => JsonElement.Deserialize<T>() ?? default(T);
 
-        var data = this.JObject.ToObject<T>();
-        return data;
-    }
-
-    public void SetData<T>(T data)
-    {
-        var jObject = JObject.FromObject(data);
-        this.JObject = jObject;
-    }
+    public void SetData<T>(T data) => JsonElement = JsonSerializer.SerializeToElement(data);
     #endregion
 
     // PUBLIC OPERATORS /////////////////////////////////////////////////
     #region Conversion Operators
-    public static implicit operator JObject(Meta meta)
-    {
-        return meta != null
-            ? meta.JObject
-            : null;
-    }
+    public static implicit operator JsonElement(Meta meta) => meta.JsonElement;
 
-    public static implicit operator Meta(JObject jObject)
-    {
-        return jObject != null
-            ? new Meta
-                {
-                    JObject = jObject
-                }
-            : null;
-    }
+    public static implicit operator Meta(JsonElement jObject) => new() { JsonElement = jObject };
     #endregion
 
     // PRIVATE PROPERTIES ///////////////////////////////////////////////
     #region Non-JSON Properties
-    private JObject JObject { get; set; }
+    private JsonElement JsonElement { get; set; }
     #endregion
 
     // PRIVATE FIELDS ///////////////////////////////////////////////////

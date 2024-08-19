@@ -2,10 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json;
 using JsonApiFramework.Json;
-
-using Newtonsoft.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -61,6 +59,6 @@ public abstract class ApiProperty : JsonObject
     // INTERNAL METHODS /////////////////////////////////////////////////
     #region ApiProperty Overrides
     internal abstract object ValueAsObject();
-    internal abstract void Write(JsonWriter writer, JsonSerializer serializer);
+    internal abstract void Write(Utf8JsonWriter writer, JsonSerializerOptions options);
     #endregion
 }

@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,31 +13,30 @@ public class ResourceIdentifierConverter : Converter<ResourceIdentifier>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override ResourceIdentifier ReadTypedObject(JObject resourceIdentifierJObject, JsonSerializer serializer)
+    protected override ResourceIdentifier ReadTypedObject(JsonElement resourceIdentifierJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(resourceIdentifierJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var resourceIdentifier = new ResourceIdentifier();
 
-        ReadType(resourceIdentifierJObject, serializer, resourceIdentifier);
-        ReadId(resourceIdentifierJObject, serializer, resourceIdentifier);
-        ReadMeta(resourceIdentifierJObject, serializer, resourceIdentifier);
+        ReadType(resourceIdentifierJsonElement, options, resourceIdentifier);
+        ReadId(resourceIdentifierJsonElement, options, resourceIdentifier);
+        ReadMeta(resourceIdentifierJsonElement, options, resourceIdentifier);
 
         return resourceIdentifier;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, ResourceIdentifier resourceIdentifier)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, ResourceIdentifier resourceIdentifier)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(resourceIdentifier != null);
 
         writer.WriteStartObject();
 
-        WriteType(writer, serializer, resourceIdentifier);
-        WriteId(writer, serializer, resourceIdentifier);
-        WriteMeta(writer, serializer, resourceIdentifier);
+        WriteType(writer, options, resourceIdentifier);
+        WriteId(writer, options, resourceIdentifier);
+        WriteMeta(writer, options, resourceIdentifier);
 
         writer.WriteEndObject();
     }

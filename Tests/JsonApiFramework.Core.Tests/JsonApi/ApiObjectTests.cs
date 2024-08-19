@@ -1,12 +1,11 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.Json;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.TestAsserts.JsonApi;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit.Abstractions;
 
@@ -49,7 +48,7 @@ public class ApiObjectTests : XUnitTest
         var actual = JsonObject.Parse<Object>(json);
 
         // Assert
-        ApiObjectAssert.Equal(expected, (JToken)actual);
+        ApiObjectAssert.Equal(expected, (JsonElement)actual);
     }
     #endregion
 

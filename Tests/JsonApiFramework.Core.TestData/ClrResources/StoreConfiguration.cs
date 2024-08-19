@@ -4,15 +4,12 @@
 using JsonApiFramework.Json;
 using JsonApiFramework.TestData.ClrResources.ComplexTypes;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class StoreConfiguration : JsonObject
 {
-    [JsonProperty] public string StoreConfigurationId { get; set; }
-    [JsonProperty] public bool IsLive { get; set; }
-    [JsonProperty] public MailingAddress MailingAddress { get; set; }
-    [JsonProperty] public List<PhoneNumber> PhoneNumbers { get; set; }
+    public string StoreConfigurationId { get; set; }
+    public bool IsLive { get; set; }
+    public MailingAddress MailingAddress { get; set; }
+    public List<PhoneNumber> PhoneNumbers { get; set; }
 }

@@ -1,16 +1,13 @@
-﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
+// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Extension;
 using JsonApiFramework.Reflection;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class AttributeInfo : PropertyInfo, IAttributeInfo
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -31,17 +28,16 @@ internal class AttributeInfo : PropertyInfo, IAttributeInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IAttributeInfo Implementation
-    [JsonProperty] public string ApiPropertyName { get; internal set; }
+    public string ApiPropertyName { get; internal set; }
 
-    [JsonProperty] public bool IsCollection { get; private set; }
-    [JsonProperty] public bool IsComplexType { get; private set; }
-    [JsonProperty] public bool IsHidden { get; internal set; }
+    public bool IsCollection { get; private set; }
+    public bool IsComplexType { get; private set; }
 
-    [JsonProperty] public Type ClrCollectionItemType { get; private set; }
+    public Type ClrCollectionItemType { get; private set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation
-    public IEnumerable<IExtension<IAttributeInfo>> Extensions => this.ExtensionDictionary.Extensions;
+    [JsonIgnore] public IEnumerable<IExtension<IAttributeInfo>> Extensions => this.ExtensionDictionary.Extensions;
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

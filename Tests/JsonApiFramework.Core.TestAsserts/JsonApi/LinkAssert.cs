@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -18,16 +17,16 @@ public static class LinkAssert
         Assert.NotNull(expected);
         Assert.False(string.IsNullOrEmpty(actualJson));
 
-        var actualJToken = JToken.Parse(actualJson);
-        LinkAssert.Equal(expected, actualJToken);
+        var actualJsonElement = JsonSerializer.SerializeToElement(actualJson);
+        LinkAssert.Equal(expected, actualJsonElement);
     }
 
-    public static void Equal(Link expected, JToken actualJToken)
+    public static void Equal(Link expected, JsonElement actualJsonElement)
     {
         // Handle when 'expected' is null.
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
@@ -35,52 +34,58 @@ public static class LinkAssert
         var expectedHRef = expected.HRef;
         var expectedMeta = expected.Meta;
 
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        switch (actualJTokenType)
+        var actualJsonElementValueKind = actualJsonElement.ValueKind;
+        switch (actualJsonElementValueKind)
         {
-            case JTokenType.String:
+            case JsonValueKind.String:
                 {
-                    var actualHRef = (string)actualJToken;
+                    var actualHRef = actualJsonElement.GetString();
                     Assert.Equal(expectedHRef, actualHRef);
 
                     Assert.Null(expectedMeta);
                 }
                 break;
 
-            case JTokenType.Object:
+            case JsonValueKind.Object:
                 {
-                    var actualJObject = (JObject)actualJToken;
-
                     // HRef String
-                    var actualHRefJToken = actualJObject.SelectToken(Keywords.HRef);
-                    if (expectedHRef == null)
+                    JsonElement actualHRefJsonElement;
+                    try
                     {
-                        if (actualHRefJToken == null)
+                        actualHRefJsonElement = actualJsonElement.GetProperty(Keywords.HRef);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        if (expectedHRef == null)
                         {
                             return;
                         }
+                        throw;
+                    }
 
-                        var actualHRefJTokenType = actualHRefJToken.Type;
-                        Assert.Equal(JTokenType.Null, actualHRefJTokenType);
+                    if (expectedHRef == null)
+                    {
+                        var actualHRefJsonValueKind = actualHRefJsonElement.ValueKind;
+                        Assert.Equal(JsonValueKind.Null, actualHRefJsonValueKind);
                     }
                     else
                     {
-                        Assert.Equal(JTokenType.String, actualHRefJToken.Type);
+                        Assert.Equal(JsonValueKind.String, actualHRefJsonElement.ValueKind);
 
-                        var actualHRef = (string)actualHRefJToken;
+                        var actualHRef = actualHRefJsonElement.GetString();
                         Assert.Equal(expectedHRef, actualHRef);
                     }
 
                     // Meta Object
-                    var actualMetaJToken = actualJObject.SelectToken(Keywords.Meta);
-                    ClrObjectAssert.Equal(expectedMeta, actualMetaJToken);
+                    var actualMetaJsonElement = actualJsonElement.GetProperty(Keywords.Meta);
+                    ClrObjectAssert.Equal(expectedMeta, actualMetaJsonElement);
                 }
                 break;
 
-            case JTokenType.None:
-            case JTokenType.Null:
+            case JsonValueKind.Undefined:
+            case JsonValueKind.Null:
                 {
                     Assert.Null(expectedHRef);
                     Assert.Null(expectedMeta);
@@ -88,7 +93,7 @@ public static class LinkAssert
                 break;
 
             default:
-                Assert.True(false, string.Format("Invalid JToken [type={0}] for link.", actualJTokenType));
+                Assert.True(false, string.Format("Invalid JsonElement [type={0}] for link.", actualJsonElementValueKind));
                 return;
         }
     }

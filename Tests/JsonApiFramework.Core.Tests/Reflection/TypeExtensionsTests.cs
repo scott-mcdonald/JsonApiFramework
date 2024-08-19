@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json.Serialization;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.XUnit;
 
@@ -376,11 +377,13 @@ public class TypeExtensionsTests : XUnitTest
     #region Test Types
     // ReSharper disable UnusedMember.Local
     // ReSharper disable UnusedMember.Global
+    [JsonDerivedType(typeof(AbstractAnimal))]
     private interface IAnimal
     {
         void Move();
     }
 
+    [JsonDerivedType(typeof(AbstractShape))]
     private interface IShape
     {
         void Draw();
@@ -391,6 +394,7 @@ public class TypeExtensionsTests : XUnitTest
         public abstract void Move();
     }
 
+    [JsonDerivedType(typeof(Rectangle))]
     private abstract class AbstractShape : IShape
     {
         public abstract void Draw();
@@ -433,6 +437,7 @@ public class TypeExtensionsTests : XUnitTest
         public override T HostedObject { get { return this._hostedObject; } }
     }
 
+    [JsonDerivedType(typeof(ClassWithMethods))]
     private class ClassWithMethodsBase
     {
         public string PublicMethodBase() { return string.Empty; }
@@ -480,6 +485,7 @@ public class TypeExtensionsTests : XUnitTest
         private static string PrivateStaticMethod(int x, string y) { return string.Empty; }
     }
 
+    [JsonDerivedType(typeof(ClassWithProperties))]
     private class ClassWithPropertiesBase
     {
         public string PublicPropertyBase { get; set; }

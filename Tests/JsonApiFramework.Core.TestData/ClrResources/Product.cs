@@ -3,14 +3,11 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class Product : JsonObject
 {
-    [JsonProperty] public long ProductId { get; set; }
-    [JsonProperty] public string Name { get; set; }
-    [JsonProperty] public decimal UnitPrice { get; set; }
+    public long ProductId { get; set; }
+    public string Name { get; set; }
+    public decimal UnitPrice { get; set; }
 }

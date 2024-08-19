@@ -2,15 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class RelationshipInfo : JsonObject, IRelationshipInfo
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -33,15 +30,15 @@ internal class RelationshipInfo : JsonObject, IRelationshipInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IRelationshipInfo Implementation
-    [JsonProperty] public string                           Rel                    { get; internal set; }
-    [JsonProperty] public string                           ApiRelPathSegment      { get; internal set; }
-    [JsonProperty] public Type                             ToClrType              { get; internal set; }
-    [JsonProperty] public RelationshipCardinality          ToCardinality          { get; internal set; }
-    [JsonProperty] public RelationshipCanonicalRelPathMode ToCanonicalRelPathMode { get; internal set; }
+    public string                           Rel                    { get; internal set; }
+    public string                           ApiRelPathSegment      { get; internal set; }
+    public Type                             ToClrType              { get; internal set; }
+    public RelationshipCardinality          ToCardinality          { get; internal set; }
+    public RelationshipCanonicalRelPathMode ToCanonicalRelPathMode { get; internal set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation
-    public IEnumerable<IExtension<IRelationshipInfo>> Extensions => this.ExtensionDictionary.Extensions;
+    [JsonIgnore] public IEnumerable<IExtension<IRelationshipInfo>> Extensions => this.ExtensionDictionary.Extensions;
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

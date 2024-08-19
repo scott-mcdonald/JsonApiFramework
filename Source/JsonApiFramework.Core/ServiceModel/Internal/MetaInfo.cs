@@ -3,11 +3,8 @@
 
 using JsonApiFramework.JsonApi;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class MetaInfo : PropertyInfo
     , IMetaInfo
 {

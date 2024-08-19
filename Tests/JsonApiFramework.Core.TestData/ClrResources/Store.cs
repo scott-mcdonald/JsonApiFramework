@@ -3,17 +3,14 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class Store : JsonObject
 {
-    [JsonProperty] public long StoreId { get; set; }
-    [JsonProperty] public string StoreName { get; set; }
-    [JsonProperty] public string Address { get; set; }
-    [JsonProperty] public string City { get; set; }
-    [JsonProperty] public string State { get; set; }
-    [JsonProperty] public string ZipCode { get; set; }
+    public long StoreId { get; set; }
+    public string StoreName { get; set; }
+    public string Address { get; set; }
+    public string City { get; set; }
+    public string State { get; set; }
+    public string ZipCode { get; set; }
 }

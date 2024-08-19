@@ -2,17 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 namespace JsonApiFramework.ServiceModel;
 
-public class ComplexTypesContractResolver: DefaultContractResolver
+public class ComplexTypesJsonTypeInfoResolver: DefaultJsonTypeInfoResolver
 {
     // PUBLIC CONSRUCTORS ///////////////////////////////////////////////
     #region Constructors
-    public ComplexTypesContractResolver(IServiceModel serviceModel)
+    public ComplexTypesJsonTypeInfoResolver(IServiceModel serviceModel)
     {
         Contract.Requires(serviceModel != null);
 
@@ -22,30 +21,34 @@ public class ComplexTypesContractResolver: DefaultContractResolver
 
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region DefaultContractResolver Overrides
-    protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+    public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
     {
-        var properties = base.CreateProperties(type, memberSerialization);
+        var typeInfo = base.GetTypeInfo(type, options);
 
-        IComplexType complexType;
-        if (!this.ServiceModel.TryGetComplexType(type, out complexType))
-            return properties;
+        if (!this.ServiceModel.TryGetComplexType(type, out IComplexType complexType))
+            return typeInfo;
 
-        var complexTypeProperties = properties
+        var complexTypeProperties = typeInfo
+            .Properties
             .Select(property =>
                 {
-                    var clrPropertyName = property.PropertyName;
+                    var clrPropertyName = property.Name;
 
                     IAttributeInfo attributeInfo;
                     if (complexType.TryGetClrAttributeInfo(clrPropertyName, out attributeInfo))
                     {
                         var apiPropertyName = attributeInfo.ApiPropertyName;
-                        property.PropertyName = apiPropertyName;
+                        property.Name = apiPropertyName;
                     }
 
                     return property;
-                })
-            .ToList();
-        return complexTypeProperties;
+                });
+        typeInfo.Properties.Clear();
+        foreach (JsonPropertyInfo propertyInfo in complexTypeProperties)
+        {
+            typeInfo.Properties.Add(propertyInfo);
+        }
+        return typeInfo;
     }
     #endregion
 

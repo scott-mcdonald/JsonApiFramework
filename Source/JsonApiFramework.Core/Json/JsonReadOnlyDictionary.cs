@@ -4,8 +4,6 @@
 using System.Collections;
 using System.Diagnostics.Contracts;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.Json;
 
 /// <summary>
@@ -13,7 +11,6 @@ namespace JsonApiFramework.Json;
 /// generic typed value pairs that can be serialized/deserialized into JSON.
 /// </summary>
 /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-[JsonDictionary]
 public class JsonReadOnlyDictionary<TValue> : JsonObject, IReadOnlyDictionary<string, TValue>
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

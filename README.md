@@ -896,7 +896,6 @@ JsonApiFramework is a **C#/.NET standard library** developed and built with **Vi
 ### Prerequisites
 
 The only thing needed is **Visual Studio** 2019 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
-- [JSON.NET](http://www.newtonsoft.com/json) 10.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
 - [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.2 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
 

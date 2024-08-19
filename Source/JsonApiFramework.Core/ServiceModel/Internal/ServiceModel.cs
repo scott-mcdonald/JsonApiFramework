@@ -2,15 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class ServiceModel : JsonObject, IServiceModel
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -40,14 +37,14 @@ internal class ServiceModel : JsonObject, IServiceModel
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IServiceModel Implementation
-    [JsonProperty] public IEnumerable<IComplexType> ComplexTypes { get; private set; }
-    [JsonProperty] public IEnumerable<IResourceType> ResourceTypes { get; private set; }
+    public IEnumerable<IComplexType> ComplexTypes { get; private set; }
+    public IEnumerable<IResourceType> ResourceTypes { get; private set; }
     [JsonIgnore] public IResourceType HomeResourceType => this.HomeResourceTypes.Single();
-    [JsonProperty] public IEnumerable<IResourceType> HomeResourceTypes { get; private set; }
+    public IEnumerable<IResourceType> HomeResourceTypes { get; private set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation
-    public IEnumerable<IExtension<IServiceModel>> Extensions => this.ExtensionDictionary.Extensions;
+    [JsonIgnore] public IEnumerable<IExtension<IServiceModel>> Extensions => this.ExtensionDictionary.Extensions;
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -95,5 +95,47 @@ public static class EnumerableExtensions
         var list = source as IReadOnlyList<T> ?? source.ToList();
         return list;
     }
+
+    /// <summary>
+    /// Flattens a recursive collection of <typeparamref name="T"/>.
+    /// </summary>
+    /// <param name="root">The instance of <typeparamref name="T"/> containing the collection to flatten.</param>
+    /// <param name="children">A delegate defining the child collections relative to <paramref name="root"/>.</param>
+    /// <param name="includeSelf">
+    /// Indicates whether the resulting collection should include <paramref name="root"/>.
+    /// </param>
+    /// <typeparam name="T">The root object type.</typeparam>
+    /// <returns>A collection of <typeparamref name="T"/> instances.</returns>
+    public static IEnumerable<T> Traverse<T>(
+        this T root,
+        Func<T, IEnumerable<T>> children, bool includeSelf = true)
+    {
+        if (includeSelf)
+            yield return root;
+        var stack = new Stack<IEnumerator<T>>();
+        try
+        {
+            stack.Push(children(root).GetEnumerator());
+            while (stack.Count != 0)
+            {
+                var enumerator = stack.Peek();
+                if (!enumerator.MoveNext())
+                {
+                    stack.Pop();
+                    enumerator.Dispose();
+                }
+                else
+                {
+                    yield return enumerator.Current;
+                    stack.Push(children(enumerator.Current).GetEnumerator());
+                }
+            }
+        }
+        finally
+        {
+            foreach (var enumerator in stack)
+                enumerator.Dispose();
+        }
+    }
     #endregion
 }

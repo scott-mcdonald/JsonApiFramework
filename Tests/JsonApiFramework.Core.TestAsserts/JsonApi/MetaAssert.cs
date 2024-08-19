@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
 using JsonApiFramework.JsonApi;
-
-using Newtonsoft.Json.Linq;
 
 using Xunit;
 
@@ -13,22 +12,21 @@ public static class MetaAssert
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Assert Methods
-    public static void Equal(Meta expected, JToken actualJToken)
+    public static void Equal(Meta expected, JsonElement actualJsonElement)
     {
         if (expected == null)
         {
-            ClrObjectAssert.IsNull(actualJToken);
+            ClrObjectAssert.IsNull(actualJsonElement);
             return;
         }
 
         // Handle when 'expected' is not null.
-        Assert.NotNull(actualJToken);
+        Assert.NotNull(actualJsonElement);
 
-        var actualJTokenType = actualJToken.Type;
-        Assert.Equal(JTokenType.Object, actualJTokenType);
+        var actualJsonValueKind = actualJsonElement.ValueKind;
+        Assert.Equal(JsonValueKind.Object, actualJsonValueKind);
 
-        var actualJObject = (JObject)actualJToken;
-        var actualMeta = (Meta)actualJObject;
+        var actualMeta = (Meta)actualJsonElement;
         MetaAssert.Equal(expected, actualMeta);
     }
 
@@ -41,9 +39,9 @@ public static class MetaAssert
         }
         Assert.NotNull(actual);
 
-        var expectedJObject = (JObject)expected;
-        var actualJObject = (JObject)actual;
-        Assert.Equal(expectedJObject, actualJObject);
+        var expectedJsonElement = (JsonElement)expected;
+        var actualJsonElement = (JsonElement)actual;
+        Assert.Equal(expectedJsonElement, actualJsonElement);
     }
 
     public static void Equal(IEnumerable<Meta> expected, IEnumerable<Meta> actual)

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace JsonApiFramework.Json;
 
@@ -18,11 +18,11 @@ public interface IJsonObject
 
     string ToJson(Type declaredType);
 
-    string ToJson(JsonSerializerSettings serializerSettings);
+    string ToJson(JsonSerializerOptions serializerOptions);
 
-    string ToJson<T>(JsonSerializerSettings serializerSettings);
+    string ToJson<T>(JsonSerializerOptions serializerOptions);
 
-    string ToJson(JsonSerializerSettings serializerSettings, Type declaredType);
+    string ToJson(JsonSerializerOptions serializerOptions, Type declaredType);
 
     Task<string> ToJsonAsync();
 
@@ -30,10 +30,10 @@ public interface IJsonObject
 
     Task<string> ToJsonAsync(Type declaredType);
 
-    Task<string> ToJsonAsync(JsonSerializerSettings serializerSettings);
+    Task<string> ToJsonAsync(JsonSerializerOptions serializerOptions);
 
-    Task<string> ToJsonAsync<T>(JsonSerializerSettings serializerSettings);
+    Task<string> ToJsonAsync<T>(JsonSerializerOptions serializerOptions);
 
-    Task<string> ToJsonAsync(JsonSerializerSettings serializerSettings, Type declaredType);
+    Task<string> ToJsonAsync(JsonSerializerOptions serializerOptions, Type declaredType);
     #endregion
 }

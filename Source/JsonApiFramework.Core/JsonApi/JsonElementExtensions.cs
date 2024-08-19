@@ -2,57 +2,50 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
-public static class JObjectExtensions
+public static class JsonElementExtensions
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region Methods
-    public static DataType GetDataType(this JObject jObject)
+    public static DataType GetDataType(this JsonElement jsonElement)
     {
-        Contract.Requires(jObject != null);
-
-        // Handle special case when JObject is null.
-        if (jObject == null)
-            return DataType.Unknown;
-
-        // Determine if JObject represents one of the following:
+        // Determine if jsonElement represents one of the following:
         // 1. Resource, or
         // 2. ResourceIdentifier
-        // Assume if the JObject only has 2 child properties named with
+        // Assume if the jsonElement only has 2 child properties named with
         // the json:api "type" and "id" keywords then if must be a ResourceIdentifier.
-        var propertiesCount = jObject.Properties().Count();
+        var properties = jsonElement.EnumerateObject();
+        var propertiesCount = properties.Count();
         switch (propertiesCount)
         {
             case 0:
                 {
                     // Invalid JSON
-                    var jObjectJson = jObject.ToString();
+                    var jsonElementJson = jsonElement.ToString();
                     var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
+                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jsonElementJson);
                     throw new JsonApiException(title, detail);
                 }
 
             case 1:
                 {
-                    var property = jObject.Properties()
-                                          .First();
+                    var property = properties.First();
                     if (property.Name == Keywords.Type)
                         return DataType.Resource;
 
                     // Invalid JSON
-                    var jObjectJson = jObject.ToString();
+                    var jsonElementJson = jsonElement.ToString();
                     var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
+                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jsonElementJson);
                     throw new JsonApiException(title, detail);
                 }
 
             case 2:
                 {
-                    var propertyNames = jObject.Properties()
+                    var propertyNames = properties
                                                .OrderByDescending(x => x.Name)
                                                .Select(x => x.Name)
                                                .ToArray();
@@ -65,15 +58,15 @@ public static class JObjectExtensions
                         return DataType.Resource;
 
                     // Invalid JSON
-                    var jObjectJson = jObject.ToString();
+                    var jsonElementJson = jsonElement.ToString();
                     var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
+                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jsonElementJson);
                     throw new JsonApiException(title, detail);
                 }
 
             case 3:
                 {
-                    var propertyNames = jObject.Properties()
+                    var propertyNames = properties
                                                .OrderByDescending(x => x.Name)
                                                .Select(x => x.Name)
                                                .ToArray();
@@ -91,23 +84,20 @@ public static class JObjectExtensions
                         return DataType.Resource;
 
                     // Invalid JSON
-                    var jObjectJson = jObject.ToString();
+                    var jsonElementJson = jsonElement.ToString();
                     var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
+                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jsonElementJson);
                     throw new JsonApiException(title, detail);
                 }
 
             default:
                 {
-                    var typeProperty = jObject.Properties()
-                                              .SingleOrDefault(x => x.Name == Keywords.Type);
-                    if (typeProperty != null)
-                        return DataType.Resource;
+                    var typeProperty = properties.SingleOrDefault(x => x.Name == Keywords.Type);
 
                     // Invalid JSON
-                    var jObjectJson = jObject.ToString();
+                    var jsonElementJson = jsonElement.ToString();
                     var title = CoreErrorStrings.JsonTextContainsInvalidJsonTitle;
-                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jObjectJson);
+                    var detail = CoreErrorStrings.JsonTextContainsInvalidJsonForResourceOrResourceIdentifierDetail.FormatWith(jsonElementJson);
                     throw new JsonApiException(title, detail);
                 }
         }

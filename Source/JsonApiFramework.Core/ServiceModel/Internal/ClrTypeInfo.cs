@@ -2,26 +2,23 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Expressions;
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal abstract class ClrTypeInfo : JsonObject
     , IClrTypeInfo
 {
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IResourceType Implementation
-    [JsonProperty] public Type ClrType { get; private set; }
-    [JsonProperty] public IAttributesInfo AttributesInfo { get; private set; }
+    public Type ClrType { get; private set; }
+    public IAttributesInfo AttributesInfo { get; private set; }
     #endregion
 
     #region Properties
-    public string ClrTypeName { get; private set; }
+    [JsonIgnore] public string ClrTypeName { get; private set; }
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

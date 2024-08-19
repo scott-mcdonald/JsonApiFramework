@@ -2,8 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace JsonApiFramework.Json;
 
@@ -15,7 +14,7 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
 {
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region Properties
-    public static JsonSerializerSettings DefaultToJsonSerializerSettings
+    public static JsonSerializerOptions DefaultToJsonSerializerOptions
     { get; set; }
     #endregion
 
@@ -23,93 +22,93 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
     #region IJsonObject Implementation
     public string ToJson()
     {
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
         var objectType = this.GetType();
-        return this.ToJson(toJsonSerializerSettings, objectType);
+        return this.ToJson(toJsonSerializerOptions, objectType);
     }
 
     public string ToJson<T>()
     {
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
         var declaredType = typeof(T);
-        return this.ToJson(toJsonSerializerSettings, declaredType);
+        return this.ToJson(toJsonSerializerOptions, declaredType);
     }
 
     public string ToJson(Type declaredType)
     {
         Contract.Requires(declaredType != null);
 
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
-        return this.ToJson(toJsonSerializerSettings, declaredType);
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
+        return this.ToJson(toJsonSerializerOptions, declaredType);
     }
 
-    public string ToJson(JsonSerializerSettings toJsonSerializerSettings)
+    public string ToJson(JsonSerializerOptions toJsonSerializerOptions)
     {
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
         var objectType = this.GetType();
-        return this.ToJson(toJsonSerializerSettings, objectType);
+        return this.ToJson(toJsonSerializerOptions, objectType);
     }
 
-    public string ToJson<T>(JsonSerializerSettings toJsonSerializerSettings)
+    public string ToJson<T>(JsonSerializerOptions toJsonSerializerOptions)
     {
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
         var declaredType = typeof(T);
-        return this.ToJson(toJsonSerializerSettings, declaredType);
+        return this.ToJson(toJsonSerializerOptions, declaredType);
     }
 
-    public string ToJson(JsonSerializerSettings toJsonSerializerSettings, Type declaredType)
+    public string ToJson(JsonSerializerOptions toJsonSerializerOptions, Type declaredType)
     {
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
         Contract.Requires(declaredType != null);
 
-        var json = JsonConvert.SerializeObject(this, declaredType, toJsonSerializerSettings);
+        var json = JsonSerializer.Serialize(this, declaredType, toJsonSerializerOptions);
         return json;
     }
 
     public Task<string> ToJsonAsync()
     {
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
         var objectType = this.GetType();
-        return this.ToJsonAsync(toJsonSerializerSettings, objectType);
+        return this.ToJsonAsync(toJsonSerializerOptions, objectType);
     }
 
     public Task<string> ToJsonAsync<T>()
     {
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
         var declaredType = typeof(T);
-        return this.ToJsonAsync(toJsonSerializerSettings, declaredType);
+        return this.ToJsonAsync(toJsonSerializerOptions, declaredType);
     }
 
     public Task<string> ToJsonAsync(Type declaredType)
     {
         Contract.Requires(declaredType != null);
 
-        var toJsonSerializerSettings = JsonObject.DefaultToJsonSerializerSettings;
-        return this.ToJsonAsync(toJsonSerializerSettings, declaredType);
+        var toJsonSerializerOptions = JsonObject.DefaultToJsonSerializerOptions;
+        return this.ToJsonAsync(toJsonSerializerOptions, declaredType);
     }
 
-    public Task<string> ToJsonAsync(JsonSerializerSettings toJsonSerializerSettings)
+    public Task<string> ToJsonAsync(JsonSerializerOptions toJsonSerializerOptions)
     {
         var objectType = this.GetType();
-        return this.ToJsonAsync(toJsonSerializerSettings, objectType);
+        return this.ToJsonAsync(toJsonSerializerOptions, objectType);
     }
 
-    public Task<string> ToJsonAsync<T>(JsonSerializerSettings toJsonSerializerSettings)
+    public Task<string> ToJsonAsync<T>(JsonSerializerOptions toJsonSerializerOptions)
     {
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
         var declaredType = typeof(T);
-        return this.ToJsonAsync(toJsonSerializerSettings, declaredType);
+        return this.ToJsonAsync(toJsonSerializerOptions, declaredType);
     }
 
-    public async Task<string> ToJsonAsync(JsonSerializerSettings toJsonSerializerSettings, Type declaredType)
+    public async Task<string> ToJsonAsync(JsonSerializerOptions toJsonSerializerOptions, Type declaredType)
     {
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
         Contract.Requires(declaredType != null);
 
-        var json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(this, declaredType, toJsonSerializerSettings));
+        var json = await Task.Factory.StartNew(() => JsonSerializer.Serialize(this, declaredType, toJsonSerializerOptions));
         return json;
     }
     #endregion
@@ -125,17 +124,17 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
         Contract.Requires(type != null);
 
-        var settings = JsonObject.DefaultToJsonSerializerSettings;
+        var settings = JsonObject.DefaultToJsonSerializerOptions;
         return JsonObject.Parse(json, type, settings);
     }
 
-    public static object Parse(string json, Type type, JsonSerializerSettings toJsonSerializerSettings)
+    public static object Parse(string json, Type type, JsonSerializerOptions toJsonSerializerOptions)
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
         Contract.Requires(type != null);
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
-        var obj = JsonConvert.DeserializeObject(json, type, toJsonSerializerSettings);
+        var obj = JsonSerializer.Deserialize(json, type, toJsonSerializerOptions);
         return obj;
     }
 
@@ -143,16 +142,16 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
 
-        var settings = JsonObject.DefaultToJsonSerializerSettings;
+        var settings = JsonObject.DefaultToJsonSerializerOptions;
         return JsonObject.Parse<T>(json, settings);
     }
 
-    public static T Parse<T>(string json, JsonSerializerSettings toJsonSerializerSettings)
+    public static T Parse<T>(string json, JsonSerializerOptions toJsonSerializerOptions)
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
-        var typedObject = JsonConvert.DeserializeObject<T>(json, toJsonSerializerSettings);
+        var typedObject = JsonSerializer.Deserialize<T>(json, toJsonSerializerOptions);
         return typedObject;
     }
 
@@ -162,17 +161,17 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
         Contract.Requires(type != null);
 
-        var settings = JsonObject.DefaultToJsonSerializerSettings;
+        var settings = JsonObject.DefaultToJsonSerializerOptions;
         return JsonObject.ParseAsync(json, type, settings);
     }
 
-    public static async Task<object> ParseAsync(string json, Type type, JsonSerializerSettings toJsonSerializerSettings)
+    public static async Task<object> ParseAsync(string json, Type type, JsonSerializerOptions toJsonSerializerOptions)
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
         Contract.Requires(type != null);
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
-        var obj = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject(json, type, toJsonSerializerSettings));
+        var obj = await Task.Factory.StartNew(() => JsonSerializer.Deserialize(json, type, toJsonSerializerOptions));
         return obj;
     }
 
@@ -180,16 +179,16 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
 
-        var settings = JsonObject.DefaultToJsonSerializerSettings;
+        var settings = JsonObject.DefaultToJsonSerializerOptions;
         return JsonObject.ParseAsync<T>(json, settings);
     }
 
-    public static async Task<T> ParseAsync<T>(string json, JsonSerializerSettings toJsonSerializerSettings)
+    public static async Task<T> ParseAsync<T>(string json, JsonSerializerOptions toJsonSerializerOptions)
     {
         Contract.Requires(string.IsNullOrWhiteSpace(json) == false);
-        Contract.Requires(toJsonSerializerSettings != null);
+        Contract.Requires(toJsonSerializerOptions != null);
 
-        var typedObject = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<T>(json, toJsonSerializerSettings));
+        var typedObject = await Task.Factory.StartNew(() => JsonSerializer.Deserialize<T>(json, toJsonSerializerOptions));
         return typedObject;
     }
     #endregion
@@ -198,19 +197,19 @@ public abstract class JsonObject : IJsonObject, IDeepCloneable
     #region Constructors
     static JsonObject()
     {
-        DefaultToJsonSerializerSettings = CreateDefaultToJsonSerializerSettings();
+        DefaultToJsonSerializerOptions = CreateDefaultToJsonSerializerOptions();
     }
     #endregion
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Methods
-    private static JsonSerializerSettings CreateDefaultToJsonSerializerSettings()
+    private static JsonSerializerOptions CreateDefaultToJsonSerializerOptions()
     {
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        return toJsonSerializerSettings;
+        return toJsonSerializerOptions;
     }
     #endregion
 }

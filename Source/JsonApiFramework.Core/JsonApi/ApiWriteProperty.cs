@@ -2,11 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Reflection;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -58,39 +56,36 @@ public class ApiWriteProperty<TValue> : ApiProperty
     internal override object ValueAsObject()
     { return this.Value; }
 
-    internal override void Write(JsonWriter writer, JsonSerializer serializer)
+    internal override void Write(Utf8JsonWriter writer, JsonSerializerOptions options)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var name = this.Name;
         var value = this.Value;
 
         if (IsValueType && !IsNullableType)
         {
-            WriteValue(writer, serializer, name, value);
+            WriteValue(writer, options, name, value);
             return;
         }
 
         var valueAsObject = (object)value;
         if (valueAsObject == null)
         {
-            switch (serializer.NullValueHandling)
+            switch (options.DefaultIgnoreCondition)
             {
-                case NullValueHandling.Include:
+                case JsonIgnoreCondition.Never:
                     WriteValueNull(writer, name);
                     return;
 
-                case NullValueHandling.Ignore:
+                default:
                     // Ignore a null attribute.
                     return;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        WriteValue(writer, serializer, name, value);
+        WriteValue(writer, options, name, value);
     }
     #endregion
 
@@ -111,19 +106,14 @@ public class ApiWriteProperty<TValue> : ApiProperty
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Methods
-    private static void WriteValueNull(JsonWriter writer, string name)
+    private static void WriteValueNull(Utf8JsonWriter writer, string name) => writer.WriteNull(name);
+
+    private static void WriteValue(Utf8JsonWriter writer, JsonSerializerOptions options, string name, TValue value)
     {
         writer.WritePropertyName(name);
 
-        writer.WriteToken(JsonToken.Null);
-    }
-
-    private static void WriteValue(JsonWriter writer, JsonSerializer serializer, string name, TValue value)
-    {
-        writer.WritePropertyName(name);
-
-        var valueAsJToken = JToken.FromObject(value, serializer);
-        valueAsJToken.WriteTo(writer);
+        var valueAsJsonElement = JsonSerializer.SerializeToElement(value, options);
+        valueAsJsonElement.WriteTo(writer);
     }
     #endregion
 }
@@ -179,49 +169,41 @@ public class ApiWriteProperty : ApiProperty
     internal override object ValueAsObject()
     { return this.ValueObject; }
 
-    internal override void Write(JsonWriter writer, JsonSerializer serializer)
+    internal override void Write(Utf8JsonWriter writer, JsonSerializerOptions options)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
         var name = this.Name;
         var valueObject = this.ValueObject;
         if (valueObject == null)
         {
-            switch (serializer.NullValueHandling)
+            switch (options.DefaultIgnoreCondition)
             {
-                case NullValueHandling.Include:
+                case JsonIgnoreCondition.Never:
                     WriteValueNull(writer, name);
                     return;
 
-                case NullValueHandling.Ignore:
+                default:
                     // Ignore a null attribute.
                     return;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        WriteValue(writer, serializer, name, valueObject);
+        WriteValue(writer, options, name, valueObject);
     }
     #endregion
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Methods
-    private static void WriteValueNull(JsonWriter writer, string name)
+    private static void WriteValueNull(Utf8JsonWriter writer, string name) => writer.WriteNull(name);
+
+    private static void WriteValue(Utf8JsonWriter writer, JsonSerializerOptions options, string name, object value)
     {
         writer.WritePropertyName(name);
 
-        writer.WriteToken(JsonToken.Null);
-    }
-
-    private static void WriteValue(JsonWriter writer, JsonSerializer serializer, string name, object value)
-    {
-        writer.WritePropertyName(name);
-
-        var valueAsJToken = JToken.FromObject(value, serializer);
-        valueAsJToken.WriteTo(writer);
+        var valueAsJsonElement = JsonSerializer.SerializeToElement(value, options);
+        valueAsJsonElement.WriteTo(writer);
     }
     #endregion
 }

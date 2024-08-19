@@ -3,11 +3,8 @@
 
 using System.Diagnostics.Contracts;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class AttributesInfo : MemberInfo
     , IAttributesInfo
 {
@@ -24,7 +21,7 @@ internal class AttributesInfo : MemberInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IAttributesInfo Implementation
-    [JsonProperty] public IEnumerable<IAttributeInfo> Collection { get; internal set; }
+    public IEnumerable<IAttributeInfo> Collection { get; internal set; }
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

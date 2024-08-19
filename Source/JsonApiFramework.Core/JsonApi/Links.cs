@@ -5,11 +5,8 @@ using System.Diagnostics.Contracts;
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.JsonApi;
 
-[JsonDictionary]
 public class Links : JsonDictionary<Link>
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////

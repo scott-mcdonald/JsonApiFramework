@@ -3,13 +3,10 @@
 
 using JsonApiFramework.Json;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.TestData.ClrResources;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class Payment : JsonObject
 {
-    [JsonProperty] public long PaymentId { get; set; }
-    [JsonProperty] public decimal Amount { get; set; }
+    public long PaymentId { get; set; }
+    public decimal Amount { get; set; }
 }

@@ -1,12 +1,11 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Json;
 using JsonApiFramework.Reflection;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using Xunit.Abstractions;
 
@@ -29,19 +28,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = EmptyObject.ToJson(toJsonSerializerSettings);
+        var json = EmptyObject.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertEmpty(EmptyObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(EmptyObject);
+        AssertEmpty(EmptyObject, jsonElement.EnumerateObject());
     }
 
     [Fact]
@@ -50,19 +49,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = JohnDoePersonObject.ToJson(toJsonSerializerSettings);
+        var json = JohnDoePersonObject.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertPerson(JohnDoePersonObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(JohnDoePersonObject, toJsonSerializerOptions);
+        AssertPerson(JohnDoePersonObject, jsonElement);
     }
 
     [Fact]
@@ -71,20 +70,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var json = JohnDoeEmployeeObject.ToJson<Person>(toJsonSerializerSettings);
+        var json = JohnDoeEmployeeObject.ToJson<Person>(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertEmployee(JohnDoeEmployeeObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(JohnDoeEmployeeObject, toJsonSerializerOptions);
+        AssertEmployee(JohnDoeEmployeeObject, jsonElement);
     }
 
     [Fact]
@@ -93,19 +91,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = BoardOfDirectorsObject.ToJson(toJsonSerializerSettings);
+        var json = BoardOfDirectorsObject.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertBoardOfDirectors(BoardOfDirectorsObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(BoardOfDirectorsObject, toJsonSerializerOptions);
+        AssertBoardOfDirectors(BoardOfDirectorsObject, jsonElement);
     }
 
     [Fact]
@@ -114,19 +112,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = PeopleObject.ToJson(toJsonSerializerSettings);
+        var json = PeopleObject.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertPeople(PeopleObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(PeopleObject, toJsonSerializerOptions);
+        AssertPeople(PeopleObject, jsonElement);
     }
 
     [Fact]
@@ -135,20 +133,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var json = CompanyObject.ToJson(toJsonSerializerSettings);
+        var json = CompanyObject.ToJson(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertCompany(CompanyObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(CompanyObject, toJsonSerializerOptions);
+        AssertCompany(CompanyObject, jsonElement);
     }
 
 
@@ -158,19 +155,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = await EmptyObject.ToJsonAsync(toJsonSerializerSettings);
+        var json = await EmptyObject.ToJsonAsync(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertEmpty(EmptyObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(EmptyObject, toJsonSerializerOptions);
+        AssertEmpty(EmptyObject, jsonElement.EnumerateObject().ToList());
     }
 
     [Fact]
@@ -179,19 +176,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = await JohnDoePersonObject.ToJsonAsync(toJsonSerializerSettings);
+        var json = await JohnDoePersonObject.ToJsonAsync(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertPerson(JohnDoePersonObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(JohnDoePersonObject, toJsonSerializerOptions);
+        AssertPerson(JohnDoePersonObject, jsonElement);
     }
 
     [Fact]
@@ -200,20 +197,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var json = await JohnDoeEmployeeObject.ToJsonAsync<Person>(toJsonSerializerSettings);
+        var json = await JohnDoeEmployeeObject.ToJsonAsync<Person>(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertEmployee(JohnDoeEmployeeObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(JohnDoeEmployeeObject, toJsonSerializerOptions);
+        AssertEmployee(JohnDoeEmployeeObject, jsonElement);
     }
 
     [Fact]
@@ -222,19 +218,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = await BoardOfDirectorsObject.ToJsonAsync(toJsonSerializerSettings);
+        var json = await BoardOfDirectorsObject.ToJsonAsync(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertBoardOfDirectors(BoardOfDirectorsObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(BoardOfDirectorsObject, toJsonSerializerOptions);
+        AssertBoardOfDirectors(BoardOfDirectorsObject, jsonElement);
     }
 
     [Fact]
@@ -243,19 +239,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var json = await PeopleObject.ToJsonAsync(toJsonSerializerSettings);
+        var json = await PeopleObject.ToJsonAsync(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertPeople(PeopleObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(PeopleObject, toJsonSerializerOptions);
+        AssertPeople(PeopleObject, jsonElement);
     }
 
     [Fact]
@@ -264,20 +260,19 @@ public class JsonObjectTests : XUnitTest
         // Arrange
 
         // Act
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var json = await CompanyObject.ToJsonAsync(toJsonSerializerSettings);
+        var json = await CompanyObject.ToJsonAsync(toJsonSerializerOptions);
         this.Output.WriteLine(json);
 
         // Assert
         Assert.NotNull(json);
         Assert.False(string.IsNullOrEmpty(json));
 
-        var jObject = JObject.Parse(json);
-        AssertCompany(CompanyObject, jObject);
+        var jsonElement = JsonSerializer.SerializeToElement(CompanyObject, toJsonSerializerOptions);
+        AssertCompany(CompanyObject, jsonElement);
     }
 
 
@@ -289,11 +284,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(EmptyJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var empty = JsonObject.Parse<Empty>(EmptyJson, toJsonSerializerSettings);
+        var empty = JsonObject.Parse<Empty>(EmptyJson, toJsonSerializerOptions);
 
         // Assert
         AssertEmpty(EmptyObject, empty);
@@ -307,11 +302,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(BasicJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var basicActual = JsonObject.Parse<Person>(BasicJson, toJsonSerializerSettings);
+        var basicActual = JsonObject.Parse<Person>(BasicJson, toJsonSerializerOptions);
 
         // Assert
         AssertPerson(JohnDoePersonObject, basicActual);
@@ -325,12 +320,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(DerivedJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var actual = JsonObject.Parse<Person>(DerivedJson, toJsonSerializerSettings);
+        var actual = JsonObject.Parse<Person>(DerivedJson, toJsonSerializerOptions);
 
         // Assert
         AssertPerson(JohnDoeEmployeeObject, actual);
@@ -344,11 +338,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(CompositeJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var compositeActual = JsonObject.Parse<BoardOfDirectors>(CompositeJson, toJsonSerializerSettings);
+        var compositeActual = JsonObject.Parse<BoardOfDirectors>(CompositeJson, toJsonSerializerOptions);
 
         // Assert
         AssertBoardOfDirectors(BoardOfDirectorsObject, compositeActual);
@@ -362,11 +356,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(CollectionJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var collectionActual = JsonObject.Parse<People>(CollectionJson, toJsonSerializerSettings);
+        var collectionActual = JsonObject.Parse<People>(CollectionJson, toJsonSerializerOptions);
 
         // Assert
         AssertPeople(PeopleObject, collectionActual);
@@ -380,12 +374,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(ComplexJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var complexActual = JsonObject.Parse<Company>(ComplexJson, toJsonSerializerSettings);
+        var complexActual = JsonObject.Parse<Company>(ComplexJson, toJsonSerializerOptions);
 
         // Assert
         AssertCompany(CompanyObject, complexActual);
@@ -400,11 +393,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(EmptyJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var empty = await JsonObject.ParseAsync<Empty>(EmptyJson, toJsonSerializerSettings);
+        var empty = await JsonObject.ParseAsync<Empty>(EmptyJson, toJsonSerializerOptions);
 
         // Assert
         AssertEmpty(EmptyObject, empty);
@@ -418,11 +411,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(BasicJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var basicActual = await JsonObject.ParseAsync<Person>(BasicJson, toJsonSerializerSettings);
+        var basicActual = await JsonObject.ParseAsync<Person>(BasicJson, toJsonSerializerOptions);
 
         // Assert
         AssertPerson(JohnDoePersonObject, basicActual);
@@ -436,12 +429,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(DerivedJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var actual = await JsonObject.ParseAsync<Person>(DerivedJson, toJsonSerializerSettings);
+        var actual = await JsonObject.ParseAsync<Person>(DerivedJson, toJsonSerializerOptions);
 
         // Assert
         AssertPerson(JohnDoeEmployeeObject, actual);
@@ -455,11 +447,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(CompositeJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var compositeActual = await JsonObject.ParseAsync<BoardOfDirectors>(CompositeJson, toJsonSerializerSettings);
+        var compositeActual = await JsonObject.ParseAsync<BoardOfDirectors>(CompositeJson, toJsonSerializerOptions);
 
         // Assert
         AssertBoardOfDirectors(BoardOfDirectorsObject, compositeActual);
@@ -473,11 +465,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(CollectionJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented
+                WriteIndented = true
             };
-        var collectionActual = await JsonObject.ParseAsync<People>(CollectionJson, toJsonSerializerSettings);
+        var collectionActual = await JsonObject.ParseAsync<People>(CollectionJson, toJsonSerializerOptions);
 
         // Assert
         AssertPeople(PeopleObject, collectionActual);
@@ -491,12 +483,11 @@ public class JsonObjectTests : XUnitTest
         // Act
         this.Output.WriteLine(ComplexJson);
 
-        var toJsonSerializerSettings = new JsonSerializerSettings
+        var toJsonSerializerOptions = new JsonSerializerOptions
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
-        var complexActual = await JsonObject.ParseAsync<Company>(ComplexJson, toJsonSerializerSettings);
+        var complexActual = await JsonObject.ParseAsync<Company>(ComplexJson, toJsonSerializerOptions);
 
         // Assert
         AssertCompany(CompanyObject, complexActual);
@@ -506,12 +497,12 @@ public class JsonObjectTests : XUnitTest
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Assert Methods
     // ReSharper disable UnusedParameter.Local
-    private static void AssertEmpty(Empty expected, IEnumerable<JToken> actual)
+    private static void AssertEmpty(Empty expected, IEnumerable<JsonProperty> actual)
     {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
 
-        Assert.Equal(0, actual.Count());
+        Assert.Empty(actual);
     }
 
     private static void AssertEmpty(Empty expected, Empty actual)
@@ -520,10 +511,9 @@ public class JsonObjectTests : XUnitTest
         Assert.NotNull(actual);
     }
 
-    private static void AssertPerson(Person expected, JToken actual)
+    private static void AssertPerson(Person expected, JsonElement actual)
     {
         Assert.NotNull(expected);
-        Assert.NotNull(actual);
 
         if (expected.GetType() == typeof(Employee))
         {
@@ -532,9 +522,9 @@ public class JsonObjectTests : XUnitTest
             return;
         }
 
-        Assert.Equal(expected.PersonId, (string)actual.SelectToken(expected.GetMemberName(x => x.PersonId)));
-        Assert.Equal(expected.FirstName, (string)actual.SelectToken(expected.GetMemberName(x => x.FirstName)));
-        Assert.Equal(expected.LastName, (string)actual.SelectToken(expected.GetMemberName(x => x.LastName)));
+        Assert.Equal(expected.PersonId, actual.GetProperty(expected.GetMemberName(x => x.PersonId)).GetString());
+        Assert.Equal(expected.FirstName, actual.GetProperty(expected.GetMemberName(x => x.FirstName)).GetString());
+        Assert.Equal(expected.LastName, actual.GetProperty(expected.GetMemberName(x => x.LastName)).GetString());
     }
 
     private static void AssertPerson(Person expected, Person actual)
@@ -555,15 +545,14 @@ public class JsonObjectTests : XUnitTest
         Assert.Equal(expected.LastName, actual.LastName);
     }
 
-    private static void AssertEmployee(Employee expected, JToken actual)
+    private static void AssertEmployee(Employee expected, JsonElement actual)
     {
         Assert.NotNull(expected);
-        Assert.NotNull(actual);
 
-        Assert.Equal(expected.PersonId, (string)actual.SelectToken(expected.GetMemberName(x => x.PersonId)));
-        Assert.Equal(expected.FirstName, (string)actual.SelectToken(expected.GetMemberName(x => x.FirstName)));
-        Assert.Equal(expected.LastName, (string)actual.SelectToken(expected.GetMemberName(x => x.LastName)));
-        Assert.Equal(expected.EmployeeNumber, (string)actual.SelectToken(expected.GetMemberName(x => x.EmployeeNumber)));
+        Assert.Equal(expected.PersonId, actual.GetProperty(expected.GetMemberName(x => x.PersonId)).GetString());
+        Assert.Equal(expected.FirstName, actual.GetProperty(expected.GetMemberName(x => x.FirstName)).GetString());
+        Assert.Equal(expected.LastName, actual.GetProperty(expected.GetMemberName(x => x.LastName)).GetString());
+        Assert.Equal(expected.EmployeeNumber, actual.GetProperty(expected.GetMemberName(x => x.EmployeeNumber)).GetString());
     }
 
     private static void AssertEmployee(Employee expected, Employee actual)
@@ -577,15 +566,14 @@ public class JsonObjectTests : XUnitTest
         Assert.Equal(expected.EmployeeNumber, actual.EmployeeNumber);
     }
 
-    private static void AssertBoardOfDirectors(BoardOfDirectors expected, JToken actual)
+    private static void AssertBoardOfDirectors(BoardOfDirectors expected, JsonElement actual)
     {
         Assert.NotNull(expected);
-        Assert.NotNull(actual);
 
-        var jPresidentToken = actual.SelectToken(expected.GetMemberName(x => x.President));
+        var jPresidentToken = actual.GetProperty(expected.GetMemberName(x => x.President));
         AssertPerson(expected.President, jPresidentToken);
 
-        var jVicePresidentToken = actual.SelectToken(expected.GetMemberName(x => x.VicePresident));
+        var jVicePresidentToken = actual.GetProperty(expected.GetMemberName(x => x.VicePresident));
         AssertPerson(expected.VicePresident, jVicePresidentToken);
     }
 
@@ -598,25 +586,23 @@ public class JsonObjectTests : XUnitTest
         AssertPerson(expected.VicePresident, actual.VicePresident);
     }
 
-    private static void AssertPeople(People expected, JToken actual)
+    private static void AssertPeople(People expected, JsonElement actual)
     {
         Assert.NotNull(expected);
-        Assert.NotNull(actual);
 
         Assert.NotNull(expected.PersonCollection);
 
-        var jToken = actual.SelectToken(expected.GetMemberName(x => x.PersonCollection));
-        Assert.NotNull(jToken);
-        Assert.Equal(JTokenType.Array, jToken.Type);
+        var jsonElement = actual.GetProperty(expected.GetMemberName(x => x.PersonCollection));
+        Assert.Equal(JsonValueKind.Array, jsonElement.ValueKind);
 
-        var jTokenArray = (JArray)jToken;
+        var JsonElementArray = jsonElement.EnumerateArray();
 
-        Assert.Equal(expected.PersonCollection.Count, jTokenArray.Count);
+        Assert.Equal(expected.PersonCollection.Count, JsonElementArray.Count());
         var count = expected.PersonCollection.Count;
         for (var i = 0; i < count; ++i)
         {
             var expectedPerson = expected.PersonCollection[i];
-            var actualPerson = jTokenArray[i];
+            var actualPerson = JsonElementArray.ToArray()[i];
             AssertPerson(expectedPerson, actualPerson);
         }
     }
@@ -639,16 +625,16 @@ public class JsonObjectTests : XUnitTest
         }
     }
 
-    private static void AssertCompany(Company expected, JToken actual)
+    private static void AssertCompany(Company expected, JsonElement actual)
     {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
 
-        Assert.Equal(expected.CompanyId, (string)actual.SelectToken(expected.GetMemberName(x => x.CompanyId)));
-        Assert.Equal(expected.CompanyName, (string)actual.SelectToken(expected.GetMemberName(x => x.CompanyName)));
+        Assert.Equal(expected.CompanyId, actual.GetProperty(expected.GetMemberName(x => x.CompanyId)).GetString());
+        Assert.Equal(expected.CompanyName, actual.GetProperty(expected.GetMemberName(x => x.CompanyName)).GetString());
 
-        AssertBoardOfDirectors(expected.BoardOfDirectors, actual.SelectToken(expected.GetMemberName(x => x.BoardOfDirectors)));
-        AssertPeople(expected.CurrentEmployees, actual.SelectToken(expected.GetMemberName(x => x.CurrentEmployees)));
+        AssertBoardOfDirectors(expected.BoardOfDirectors, actual.GetProperty(expected.GetMemberName(x => x.BoardOfDirectors)));
+        AssertPeople(expected.CurrentEmployees, actual.GetProperty(expected.GetMemberName(x => x.CurrentEmployees)));
     }
 
     private static void AssertCompany(Company expected, Company actual)
@@ -667,44 +653,39 @@ public class JsonObjectTests : XUnitTest
 
     // PRIVATE TYPES ////////////////////////////////////////////////////
     #region Test Types
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class Empty : JsonObject
     { }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    [JsonDerivedType(typeof(Employee))]
     private class Person : JsonObject
     {
-        [JsonProperty] public string PersonId { get; set; }
-        [JsonProperty] public string LastName { get; set; }
-        [JsonProperty] public string FirstName { get; set; }
+        public string PersonId { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class Employee : Person
     {
-        [JsonProperty] public string EmployeeNumber { get; set; }
+        public string EmployeeNumber { get; set; }
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class BoardOfDirectors : JsonObject
     {
-        [JsonProperty] public Person President { get; set; }
-        [JsonProperty] public Person VicePresident { get; set; }
+        public Person President { get; set; }
+        public Person VicePresident { get; set; }
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class People : JsonObject
     {
-        [JsonProperty] public List<Person> PersonCollection { get; set; }
+        public List<Person> PersonCollection { get; set; }
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     private class Company : JsonObject
     {
-        [JsonProperty] public string CompanyId { get; set; }
-        [JsonProperty] public string CompanyName { get; set; }
-        [JsonProperty] public BoardOfDirectors BoardOfDirectors { get; set; }
-        [JsonProperty] public People CurrentEmployees { get; set; }
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public BoardOfDirectors BoardOfDirectors { get; set; }
+        public People CurrentEmployees { get; set; }
     }
     #endregion
 

@@ -1,5 +1,7 @@
 ﻿// Copyright (c) 2015–Present Scott McDonald. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JsonApiFramework.Json;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Converters;
@@ -7,9 +9,6 @@ using JsonApiFramework.TestAsserts.ServiceModel;
 using JsonApiFramework.TestData.ApiResources;
 using JsonApiFramework.TestData.ClrResources;
 using JsonApiFramework.XUnit;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using Xunit.Abstractions;
 
@@ -34,18 +33,17 @@ public class ServiceModelTests : XUnitTest
         this.Output.WriteLine(string.Empty);
 
         // Arrange
-        var serializerSettings = new JsonSerializerSettings
-            {
-                Converters = new[]
+            var serializerOptions = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Converters = 
                     {
-                        (JsonConverter)new StringEnumConverter()
-                    },
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
+                        new JsonStringEnumConverter()
+                    }
+                };
 
         // Act
-        var actual = expected.ToJson(serializerSettings);
+        var actual = expected.ToJson(serializerOptions);
         this.Output.WriteLine(actual);
 
         // Assert
@@ -60,11 +58,11 @@ public class ServiceModelTests : XUnitTest
         this.Output.WriteLine(string.Empty);
 
         // Arrange
-        var serializerSettings = new JsonSerializerSettings
+        var serializerOptions = new JsonSerializerOptions
             {
-                Converters = new JsonConverter[]
+                Converters =
                     {
-                        new StringEnumConverter(),
+                        new JsonStringEnumConverter(),
 
                         // Metadata Converters
                         new AttributeInfoConverter(),
@@ -81,14 +79,14 @@ public class ServiceModelTests : XUnitTest
                         new ServiceModelConverter(),
                         new PropertyInfoConverter() // needs to be last in the order to avoid casting exceptions
                     },
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
+                WriteIndented = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
-        var json = expected.ToJson(serializerSettings);
+        var json = expected.ToJson(serializerOptions);
 
         // Act
         this.Output.WriteLine(json);
-        var actual = JsonObject.Parse<IServiceModel>(json, serializerSettings);
+        var actual = JsonObject.Parse<IServiceModel>(json, serializerOptions);
 
         // Assert
         ServiceModelAssert.Equal(expected, actual);

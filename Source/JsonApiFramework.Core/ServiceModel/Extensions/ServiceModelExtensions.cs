@@ -2,8 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace JsonApiFramework.ServiceModel;
 
@@ -11,12 +10,12 @@ public static class ServiceModelExtensions
 {
     // PUBLIC METHODS ///////////////////////////////////////////////////
     #region IServiceModel Extensions Methods
-    public static IContractResolver CreateComplexTypesContractResolver(this IServiceModel serviceModel)
+    public static IJsonTypeInfoResolver CreateComplexTypesJsonTypeInfoResolver(this IServiceModel serviceModel)
     {
         Contract.Requires(serviceModel != null);
 
         return serviceModel!.ComplexTypes.Any()
-            ? new ComplexTypesContractResolver(serviceModel)
+            ? new ComplexTypesJsonTypeInfoResolver(serviceModel)
             : null!;
     }
 

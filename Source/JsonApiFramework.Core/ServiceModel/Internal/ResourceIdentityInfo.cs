@@ -2,17 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
+using System.Text.Json.Serialization;
 using JsonApiFramework.Expressions;
 using JsonApiFramework.Extension;
 using JsonApiFramework.Json;
 using JsonApiFramework.Reflection;
 
-using Newtonsoft.Json;
-
 namespace JsonApiFramework.ServiceModel.Internal;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 internal class ResourceIdentityInfo : JsonObject, IResourceIdentityInfo
 {
     // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
@@ -61,13 +58,13 @@ internal class ResourceIdentityInfo : JsonObject, IResourceIdentityInfo
 
     // PUBLIC PROPERTIES ////////////////////////////////////////////////
     #region IResourceIdentityInfo Implementation
-    [JsonProperty] public string ApiType { get; internal set; }
+    public string ApiType { get; internal set; }
 
-    [JsonProperty] public IPropertyInfo Id { get; internal set; }
+    public IPropertyInfo Id { get; internal set; }
     #endregion
 
     #region IExtensibleObject<T> Implementation
-    public IEnumerable<IExtension<IResourceIdentityInfo>> Extensions => this.ExtensionDictionary.Extensions;
+    [JsonIgnore] public IEnumerable<IExtension<IResourceIdentityInfo>> Extensions => this.ExtensionDictionary.Extensions;
     #endregion
 
     // PUBLIC METHODS ///////////////////////////////////////////////////

@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.md in the project root for license information.
 
 using System.Diagnostics.Contracts;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace JsonApiFramework.JsonApi;
 
@@ -15,23 +13,22 @@ public class MetaConverter : Converter<Meta>
 {
     // PROTECTED METHODS ////////////////////////////////////////////////
     #region Converter Overrides
-    protected override Meta ReadTypedObject(JObject metaJObject, JsonSerializer serializer)
+    protected override Meta ReadTypedObject(JsonElement metaJsonElement, JsonSerializerOptions options)
     {
-        Contract.Requires(metaJObject != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
 
-        var meta = (Meta)metaJObject;
+        var meta = (Meta)metaJsonElement;
         return meta;
     }
 
-    protected override void WriteTypedObject(JsonWriter writer, JsonSerializer serializer, Meta meta)
+    protected override void WriteTypedObject(Utf8JsonWriter writer, JsonSerializerOptions options, Meta meta)
     {
         Contract.Requires(writer != null);
-        Contract.Requires(serializer != null);
+        Contract.Requires(options != null);
         Contract.Requires(meta != null);
 
-        var metaJObject = (JObject)meta;
-        metaJObject.WriteTo(writer);
+        var metaJsonElement = (JsonElement)meta;
+        metaJsonElement.WriteTo(writer);
     }
     #endregion
 }

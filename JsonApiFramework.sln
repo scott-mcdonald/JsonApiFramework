@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Server.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Server.Tests", "Tests\JsonApiFramework.Server.Tests\JsonApiFramework.Server.Tests.csproj", "{2C8AAD56-C6CB-4CED-BD86-9FD6FA7DC57C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonApiFramework.Attributes", "Source\JsonApiFramework.Attributes\JsonApiFramework.Attributes.csproj", "{DE48764C-A5DD-4F7B-9039-11C11383A60A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{A7B125EC-CB97-4809-BB38-DFD78FCD0699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7B125EC-CB97-4809-BB38-DFD78FCD0699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7B125EC-CB97-4809-BB38-DFD78FCD0699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE48764C-A5DD-4F7B-9039-11C11383A60A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE48764C-A5DD-4F7B-9039-11C11383A60A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE48764C-A5DD-4F7B-9039-11C11383A60A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE48764C-A5DD-4F7B-9039-11C11383A60A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB1A1D5E-D12D-48EB-AB88-C3EDC1E8651C} = {C9082D1A-3F74-44F6-801A-2D23F769EF16}
@@ -109,5 +115,6 @@ Global
 		{2C8AAD56-C6CB-4CED-BD86-9FD6FA7DC57C} = {90D57CDD-244E-4F09-9BFE-CC6588BF97BB}
 		{F8E670F8-F896-4A4F-A1F2-53B182F0FAF1} = {C9082D1A-3F74-44F6-801A-2D23F769EF16}
 		{A7B125EC-CB97-4809-BB38-DFD78FCD0699} = {90D57CDD-244E-4F09-9BFE-CC6588BF97BB}
+		{DE48764C-A5DD-4F7B-9039-11C11383A60A} = {C9082D1A-3F74-44F6-801A-2D23F769EF16}
 	EndGlobalSection
 EndGlobal

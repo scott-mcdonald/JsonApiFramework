@@ -80,7 +80,7 @@ public class DomDocumentTests : DomXUnitTest
         }
 
         // Act
-        var actualDomResources = domDocument.DomResources()
+        var actualDomResources = domDocument.DomResources(enumerateIncludedResources: true)
                                             .SafeToList();
         var actualApiResources = actualDomResources.Select(x => x.ApiResource)
                                                    .SafeToList();
@@ -196,7 +196,7 @@ public class DomDocumentTests : DomXUnitTest
         }
 
         // Act
-        var actualDomResourceIdentities = domDocument.DomResourceIdentities()
+        var actualDomResourceIdentities = domDocument.DomResourceIdentities(enumerateIncludedResources: true)
                                                      .SafeToList();
         var actualResourceIdentities = actualDomResourceIdentities.Select(x => new ResourceIdentity(x))
                                                                   .SafeToList();

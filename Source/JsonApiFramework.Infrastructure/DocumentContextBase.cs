@@ -42,65 +42,65 @@ public class DocumentContextBase : IDisposable
     public Links GetDocumentLinks()
     { return this.Implementation.GetDocumentReader().GetDocumentLinks(); }
 
-    public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
-    { return this.Implementation.GetDocumentReader().GetRelatedResource(clrRelatedResourceType, relationship); }
+    public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetRelatedResource(clrRelatedResourceType, relationship, enumerateIncludedResources); }
 
-    public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
-    { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection(clrRelatedResourceType, relationship); }
+    public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetRelatedResourceCollection(clrRelatedResourceType, relationship, enumerateIncludedResources); }
 
-    public object GetResource(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResource(clrResourceType); }
+    public object GetResource(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResource(clrResourceType, enumerateIncludedResources); }
 
-    public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
-    { return this.Implementation.GetDocumentReader().GetResource<TResourceId>(clrResourceType, clrResourceId); }
+    public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResource<TResourceId>(clrResourceType, clrResourceId, enumerateIncludedResources); }
 
-    public IEnumerable<object> GetResourceCollection(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceCollection(clrResourceType); }
+    public IEnumerable<object> GetResourceCollection(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceCollection(clrResourceType, enumerateIncludedResources); }
 
-    public TResourceId GetResourceId<TResourceId>(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceId<TResourceId>(clrResourceType); }
+    public TResourceId GetResourceId<TResourceId>(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceId<TResourceId>(clrResourceType, enumerateIncludedResources); }
 
-    public IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceIdCollection<TResourceId>(clrResourceType); }
+    public IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceIdCollection<TResourceId>(clrResourceType, enumerateIncludedResources); }
 
-    public Meta GetResourceMeta(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType); }
+    public Meta GetResourceMeta(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType, enumerateIncludedResources); }
 
-    public Meta GetResourceMeta(object clrResource)
-    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResource); }
+    public Meta GetResourceMeta(object clrResource, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResource, enumerateIncludedResources); }
 
-    public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
-    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType, clrResourceId); }
+    public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceMeta(clrResourceType, clrResourceId, enumerateIncludedResources); }
 
-    public IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceMetaCollection(clrResourceType); }
+    public IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceMetaCollection(clrResourceType, enumerateIncludedResources); }
 
-    public Links GetResourceLinks(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType); }
+    public Links GetResourceLinks(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType, enumerateIncludedResources); }
 
-    public Links GetResourceLinks(object clrResource)
-    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResource); }
+    public Links GetResourceLinks(object clrResource, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResource, enumerateIncludedResources); }
 
-    public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
-    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType, clrResourceId); }
+    public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceLinks(clrResourceType, clrResourceId, enumerateIncludedResources); }
 
-    public IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceLinksCollection(clrResourceType); }
+    public IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceLinksCollection(clrResourceType, enumerateIncludedResources); }
 
-    public Relationships GetResourceRelationships(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType); }
+    public Relationships GetResourceRelationships(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType, enumerateIncludedResources); }
 
-    public Relationships GetResourceRelationships(object clrResource)
-    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResource); }
+    public Relationships GetResourceRelationships(object clrResource, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResource, enumerateIncludedResources); }
 
-    public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
-    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType, clrResourceId); }
+    public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceRelationships(clrResourceType, clrResourceId, enumerateIncludedResources); }
 
-    public IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType)
-    { return this.Implementation.GetDocumentReader().GetResourceRelationshipsCollection(clrResourceType); }
+    public IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType, bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceRelationshipsCollection(clrResourceType, enumerateIncludedResources); }
 
-    public IEnumerable<Type> GetResourceTypeCollection()
-    { return this.Implementation.GetDocumentReader().GetResourceTypeCollection(); }
+    public IEnumerable<Type> GetResourceTypeCollection(bool enumerateIncludedResources = true)
+    { return this.Implementation.GetDocumentReader().GetResourceTypeCollection(enumerateIncludedResources); }
 
     public IEnumerable<Error> GetErrorCollection()
     { return this.Implementation.GetDocumentReader().GetErrorCollection(); }

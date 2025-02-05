@@ -585,7 +585,7 @@ internal class DocumentBuilder : IDocumentBuilder
     /// <summary>Compact all primary and included resources to read-only resources.</summary>
     private void CompactResourceNodes()
     {
-        var domResources = this.DomDocument.DomResources().ToList();
+        var domResources = this.DomDocument.DomResources(enumerateIncludedResources: true).ToList();
         foreach (var domResource in domResources)
         {
             if (domResource.IsReadOnly)
@@ -669,7 +669,7 @@ internal class DocumentBuilder : IDocumentBuilder
         if (areSparseFieldsetsEnabled == false)
             return;
 
-        foreach (var domResource in this.DomDocument.DomResources())
+        foreach (var domResource in this.DomDocument.DomResources(enumerateIncludedResources: true))
         {
             this.PruneResourceRelationshipNodes(domResource);
         }
@@ -951,7 +951,7 @@ internal class DocumentBuilder : IDocumentBuilder
 
     private void ResolveResourceNodes()
     {
-        foreach (var domResource in this.DomDocument.DomResources())
+        foreach (var domResource in this.DomDocument.DomResources(enumerateIncludedResources: true))
         {
             this.ResolveResourceHypermedia(domResource);
         }

@@ -845,7 +845,7 @@ There are 2 options for installation of JsonApiFramework depending on the goal o
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Client | JsonApiFramework [Client] | 2.12.0 |
+| JsonApiFramework.Client | JsonApiFramework [Client] | 2.13.0 |
 
 To install the JsonApiFramework [Client] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -855,7 +855,7 @@ To install the JsonApiFramework [Client] NuGet package, run the following comman
 
 | Id | Name | Latest Version |
 | --- | --- |--- |
-| JsonApiFramework.Server | JsonApiFramework [Server] | 2.12.0 |
+| JsonApiFramework.Server | JsonApiFramework [Server] | 2.13.0 |
 
 To install the JsonApiFramework [Server] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -867,7 +867,7 @@ Special case of creating an assembly containing just the service model where the
 
 | Id | Name | Latest Version |
 | --- | --- | --- |
-| JsonApiFramework.Core | JsonApiFramework [Core] | 2.12.0 |
+| JsonApiFramework.Core | JsonApiFramework [Core] | 2.13.0 |
 
 To install the JsonApiFramework [Core] NuGet package, run the following command in the [Package Manager Console](https://docs.nuget.org/consume/package-manager-console)
 
@@ -896,7 +896,7 @@ JsonApiFramework is a **C#/.NET standard library** developed and built with **Vi
 ### Prerequisites
 
 The only thing needed is **Visual Studio** 2019 or higher installed on your development machine. JsonApiFramework has dependencies on *nuget* packages, more specifically: 
-- [JSON.NET](http://www.newtonsoft.com/json) 10.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
+- [JSON.NET](http://www.newtonsoft.com/json) 13.0 nuget package (Used for serialization/deserialization between JSON and C# objects)
 - [Humanizer.Core](https://github.com/Humanizr/Humanizer) 2.2 nuget package (Used for developer configured naming conventions to apply when converting between JSON API resources and .NET CLR resources)
 - [xUnit](http://xunit.github.io) 2.0 nuget packages (Used for unit tests)
 
@@ -924,6 +924,8 @@ JsonApiFramework unit tests were developed with the excellent [xUnit](http://xun
 
 ## Release history
 
+* v2.13.0
+    * #101 Add a feature that allows client code when reading a [JSON API](http://jsonapi.org) document to control whether to enumerate primary and included resources (default and old behavior) or just primary resources only (new behavior).
 * v2.12.0
     * #98 Add a hide feature so an attribute can still be part of the service model but will not be serialized into JSON.
 * v2.11.0

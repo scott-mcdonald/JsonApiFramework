@@ -35,10 +35,10 @@ internal class DomDocument : NodesContainer<DomNodeType>
         return domErrors;
     }
 
-    public IEnumerable<IDomResource> DomResources(bool enumerateIncludedResources = true)
+    public IEnumerable<IDomResource> DomResources(bool enumerateIncludedResources)
     { return this.DomResourceIdentityBasedEnumeration<IDomResource>(domNodeType => domNodeType == DomNodeType.Resource, enumerateIncludedResources); }
 
-    public IEnumerable<IDomResourceIdentity> DomResourceIdentities(bool enumerateIncludedResources = true)
+    public IEnumerable<IDomResourceIdentity> DomResourceIdentities(bool enumerateIncludedResources)
     { return this.DomResourceIdentityBasedEnumeration<IDomResourceIdentity>(domNodeType => domNodeType == DomNodeType.Resource || domNodeType == DomNodeType.ResourceIdentifier, enumerateIncludedResources); }
 
     public IEnumerable<IDomResourceIdentifier> DomResourceIdentitifiers()

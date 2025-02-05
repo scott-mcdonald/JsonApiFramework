@@ -262,6 +262,11 @@ public class DocumentReaderTests : XUnitTest
     { this.TestDocumentReaderTest(name, test); }
 
     [Theory]
+    [MemberData(nameof(GetPrimaryResourceTestData))]
+    public void TestDocumentReaderGetPrimaryResource(string name, IDocumentReaderTest test)
+    { this.TestDocumentReaderTest(name, test); }
+
+    [Theory]
     [MemberData(nameof(GetResourceByResourceIdTestData))]
     public void TestDocumentReaderGetResourceByResourceId(string name, IDocumentReaderTest test)
     { this.TestDocumentReaderTest(name, test); }
@@ -269,6 +274,11 @@ public class DocumentReaderTests : XUnitTest
     [Theory]
     [MemberData(nameof(GetResourceCollectionTestData))]
     public void TestDocumentReaderGetResourceCollection(string name, IDocumentReaderTest test)
+    { this.TestDocumentReaderTest(name, test); }
+
+    [Theory]
+    [MemberData(nameof(GetPrimaryResourceCollectionTestData))]
+    public void TestDocumentReaderGetPrimaryResourceCollection(string name, IDocumentReaderTest test)
     { this.TestDocumentReaderTest(name, test); }
 
     [Theory]
@@ -379,7 +389,7 @@ public class DocumentReaderTests : XUnitTest
         this.OutputEmptyLine();
         this.OutputJson("Document JSON", document);
 
-        Func<object> methodCall = documentReader.GetResource<Article>;
+        Func<object> methodCall = () => documentReader.GetResource<Article>(true);
 
         // Assert
         Assert.Throws<DocumentReadException>(methodCall);
@@ -413,7 +423,7 @@ public class DocumentReaderTests : XUnitTest
         this.OutputEmptyLine();
         this.OutputJson("Document JSON", document);
 
-        Func<object> methodCall = documentReader.GetResourceId<Article, string>;
+        Func<object> methodCall = () => documentReader.GetResourceId<Article, string>(true);
 
         // Assert
         Assert.Throws<DocumentReadException>(methodCall);
@@ -447,7 +457,7 @@ public class DocumentReaderTests : XUnitTest
         this.OutputEmptyLine();
         this.OutputJson("Document JSON", document);
 
-        Func<object> methodCall = documentReader.GetResourceId<Article, string>;
+        Func<object> methodCall = () => documentReader.GetResourceId<Article, string>(true);
 
         // Assert
         Assert.Throws<DocumentReadException>(methodCall);
@@ -914,7 +924,8 @@ public class DocumentReaderTests : XUnitTest
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     }
                             },
-                        null)
+                        null,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -928,7 +939,8 @@ public class DocumentReaderTests : XUnitTest
                                         {Keywords.Self, ApiSampleData.ArticleLink}
                                     }
                             },
-                        null)
+                        null,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -943,7 +955,8 @@ public class DocumentReaderTests : XUnitTest
                                     },
                                 Data = ApiSampleData.ArticleResource
                             },
-                        SampleArticles.Article)
+                        SampleArticles.Article,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -964,7 +977,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource2
                                     }
                             },
-                        SampleArticles.ArticleWithResourceLinkage)
+                        SampleArticles.ArticleWithResourceLinkage,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -985,7 +999,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource2
                                     }
                             },
-                        SamplePersons.Person)
+                        SamplePersons.Person,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1000,7 +1015,8 @@ public class DocumentReaderTests : XUnitTest
                                     },
                                 Data = ApiSampleData.BlogResource
                             },
-                        SampleBlogs.Blog)
+                        SampleBlogs.Blog,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1015,7 +1031,8 @@ public class DocumentReaderTests : XUnitTest
                                     },
                                 Data = ApiSampleData.CommentResource
                             },
-                        SampleComments.Comment)
+                        SampleComments.Comment,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1030,7 +1047,8 @@ public class DocumentReaderTests : XUnitTest
                                     },
                                 Data = ApiSampleData.PersonResource
                             },
-                        SamplePersons.Person)
+                        SamplePersons.Person,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1067,7 +1085,8 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        SamplePayments.Payment101)
+                        SamplePayments.Payment101,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1104,7 +1123,8 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        default(Order))
+                        default(Order),
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1112,7 +1132,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceTest<Order>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        SampleOrders.Order)
+                        SampleOrders.Order,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1120,7 +1141,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceTest<Store>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        SampleStores.Store)
+                        SampleStores.Store,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1128,7 +1150,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceTest<StoreConfiguration>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        SampleStoreConfigurations.StoreConfiguration)
+                        SampleStoreConfigurations.StoreConfiguration,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1136,7 +1159,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceTest<PosSystem>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        SamplePosSystems.PosSystem)
+                        SamplePosSystems.PosSystem,
+                        enumerateIncludedResources: true)
                 },
 
             new object[]
@@ -1196,7 +1220,8 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        SampleStoreConfigurations.StoreConfiguration)
+                        SampleStoreConfigurations.StoreConfiguration,
+                        enumerateIncludedResources: true)
                 },
 
             new object[]
@@ -1309,7 +1334,8 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        SampleDrawings.Drawing)
+                        SampleDrawings.Drawing,
+                        enumerateIncludedResources: true)
                 },
 
             new object[]
@@ -1336,7 +1362,8 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        SamplePosSystems.PosSystemRadiantWcf)
+                        SamplePosSystems.PosSystemRadiantWcf,
+                        enumerateIncludedResources: true)
                 },
 
             new object[]
@@ -1363,7 +1390,495 @@ public class DocumentReaderTests : XUnitTest
                                             },
                                     }
                             },
-                        SamplePosSystems.PosSystemRadiantRest)
+                        SamplePosSystems.PosSystemRadiantRest,
+                        enumerateIncludedResources: true)
+                },
+        };
+    #endregion
+
+    #region GetPrimaryResource TestData
+    public static readonly IEnumerable<object[]> GetPrimaryResourceTestData = new[]
+        {
+            new object[]
+                {
+                    "WithDocument",
+                    new GetResourceTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new Document
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    }
+                            },
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithNullDocument",
+                    new GetResourceTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new NullDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    }
+                            },
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceDocument",
+                    new GetResourceTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    },
+                                Data = ApiSampleData.ArticleResource
+                            },
+                        SampleArticles.Article,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceDocumentAndIncludedResourcesGetArticle",
+                    new GetResourceTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    },
+                                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2
+                                    }
+                            },
+                        SampleArticles.ArticleWithResourceLinkage,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceDocumentAndIncludedResourcesGetPerson",
+                    new GetResourceTest<Person>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleLink}
+                                    },
+                                Data = ApiSampleData.ArticleResourceWithResourceLinkage,
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2
+                                    }
+                            },
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithBlogResourceDocument",
+                    new GetResourceTest<Blog>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.BlogLink}
+                                    },
+                                Data = ApiSampleData.BlogResource
+                            },
+                        SampleBlogs.Blog,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithCommentResourceDocument",
+                    new GetResourceTest<Comment>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.CommentLink}
+                                    },
+                                Data = ApiSampleData.CommentResource
+                            },
+                        SampleComments.Comment,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPersonResourceDocument",
+                    new GetResourceTest<Person>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.PersonLink}
+                                    },
+                                Data = ApiSampleData.PersonResource
+                            },
+                        SamplePersons.Person,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPaymentResourceDocument",
+                    new GetResourceTest<Payment>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/payments/101"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.PaymentType,
+                                        Id = "101",
+                                        Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
+                                        Relationships = new Relationships
+                                            {
+                                                {
+                                                    ClrSampleData.PaymentToOrderRel, new Relationship
+                                                        {
+                                                            Links = new Links
+                                                                {
+                                                                    {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
+                                                                    {Keywords.Related, "http://api.example.com/payments/101/order"}
+                                                                }
+                                                        }
+                                                },
+                                            },
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/payments/101"},
+                                            },
+                                    }
+                            },
+                        SamplePayments.Payment101,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPaymentResourceDocumentGetOrder",
+                    new GetResourceTest<Order>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/payments/101"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.PaymentType,
+                                        Id = "101",
+                                        Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
+                                        Relationships = new Relationships
+                                            {
+                                                {
+                                                    ClrSampleData.PaymentToOrderRel, new Relationship
+                                                        {
+                                                            Links = new Links
+                                                                {
+                                                                    {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
+                                                                    {Keywords.Related, "http://api.example.com/payments/101/order"}
+                                                                }
+                                                        }
+                                                },
+                                            },
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/payments/101"},
+                                            },
+                                    }
+                            },
+                        default(Order),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResources",
+                    new GetResourceTest<Order>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        SampleOrders.Order,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetStore",
+                    new GetResourceTest<Store>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetStoreConfiguration",
+                    new GetResourceTest<StoreConfiguration>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetPosSystem",
+                    new GetResourceTest<PosSystem>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        null,
+                        enumerateIncludedResources: false)
+                },
+
+            new object[]
+                {
+                    "WithStoreConfigurationResourceDocument",
+                    new GetResourceTest<StoreConfiguration>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/stores/50/configuration"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.StoreConfigurationType,
+                                        Id = "50-Configuration",
+                                        Attributes = new ApiObject(
+                                                ApiProperty.Create("isLive", SampleStoreConfigurations.StoreConfiguration.IsLive),
+                                                ApiProperty.Create("mailingAddress", new ApiObject(
+                                                    ApiProperty.Create("address", SampleStoreConfigurations.StoreConfiguration.MailingAddress.Address),
+                                                    ApiProperty.Create("city", SampleStoreConfigurations.StoreConfiguration.MailingAddress.City),
+                                                    ApiProperty.Create("state", SampleStoreConfigurations.StoreConfiguration.MailingAddress.State),
+                                                    ApiProperty.Create("zipCode", SampleStoreConfigurations.StoreConfiguration.MailingAddress.ZipCode))),
+                                                ApiProperty.Create("phoneNumbers", SampleStoreConfigurations.StoreConfiguration.PhoneNumbers
+                                                    .Select(x =>
+                                                        {
+                                                            var apiObject = new ApiObject(
+                                                                ApiProperty.Create("areaCode", x.AreaCode),
+                                                                ApiProperty.Create("number", x.Number));
+                                                            return apiObject;
+                                                        })
+                                                    .ToArray())),
+                                        Relationships = new Relationships
+                                            {
+                                                {
+                                                    ClrSampleData.StoreToStoreConfigurationToPosSystemRel,
+                                                    new ToOneRelationship
+                                                        {
+                                                            Links = new Links
+                                                                {
+                                                                    {
+                                                                        Keywords.Self, "http://api.example.com/stores/50/configuration/relationships/pos"
+                                                                    },
+                                                                    {
+                                                                        Keywords.Related, "http://api.example.com/stores/50/configuration/pos"
+                                                                    }
+                                                                },
+                                                            Data =
+                                                                new ResourceIdentifier(ClrSampleData.PosSystemType, "RadiantRest")
+                                                        }
+                                                },
+                                            },
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/stores/50/configuration"},
+                                            },
+                                    }
+                            },
+                        SampleStoreConfigurations.StoreConfiguration,
+                        enumerateIncludedResources: false)
+                },
+
+            new object[]
+                {
+                    "WithDrawingResourceDocument",
+                    new GetResourceTest<Drawing>(
+                        ClrSampleData.ServiceModelWithDrawingResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/drawings/1"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.DrawingType,
+                                        Id = "1",
+                                        Attributes = new ApiObject(
+                                        ApiProperty.Create("name", SampleDrawings.Drawing.Name),
+                                        ApiProperty.Create("lines", SampleDrawings.Drawing.Lines
+                                            .Select(x =>
+                                                {
+                                                    var point1CustomData = ApiProperty.Create("customData",
+                                                        x.Point1.CustomData != null
+                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                x.Point1.CustomData.Collection.EmptyIfNull()
+                                                                 .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                 .ToArray()))
+                                                            : null);
+                                                    var point1 = ApiProperty.Create("point1", new ApiObject(ApiProperty.Create("x", x.Point1.X), ApiProperty.Create("y", x.Point1.Y), point1CustomData));
+
+                                                    var point2CustomData = ApiProperty.Create("customData",
+                                                        x.Point2.CustomData != null
+                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                x.Point2.CustomData.Collection.EmptyIfNull()
+                                                                 .Select(y =>
+                                                                     {
+                                                                         var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                         return apiObject2;
+                                                                     })
+                                                                 .ToArray()))
+                                                            : null);
+                                                    var point2 = ApiProperty.Create("point2", new ApiObject(ApiProperty.Create("x", x.Point2.X), ApiProperty.Create("y", x.Point2.Y), point2CustomData));
+
+                                                    var customData = ApiProperty.Create("customData",
+                                                        x.CustomData != null
+                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                x.CustomData.Collection.EmptyIfNull()
+                                                                 .Select(y =>
+                                                                 {
+                                                                     var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                     return apiObject2;
+                                                                 })
+                                                                 .ToArray()))
+                                                            : null);
+                                                    return new ApiObject(point1, point2, customData);
+                                                })
+                                            .ToArray()),
+                                        ApiProperty.Create("polygons", SampleDrawings.Drawing.Polygons
+                                            .Select(x =>
+                                                {
+                                                    var points = ApiProperty.Create("points",
+                                                        x.Points.Select(y =>
+                                                            {
+                                                                var pointCustomData = ApiProperty.Create("customData",
+                                                                    y.CustomData != null
+                                                                        ? new ApiObject(ApiProperty.Create("collection",
+                                                                            y.CustomData.Collection.EmptyIfNull()
+                                                                             .Select(z =>
+                                                                                 {
+                                                                                     var apiObject3 = new ApiObject(ApiProperty.Create("name", z.Name), ApiProperty.Create("value", z.Value));
+                                                                                     return apiObject3;
+                                                                                 })
+                                                                             .ToArray()))
+                                                                        : null);
+                                                                var apiObject2 = new ApiObject(ApiProperty.Create("x", y.X), ApiProperty.Create("y", y.Y), pointCustomData);
+                                                                return apiObject2;
+                                                            })
+                                                         .ToArray());
+                                                    var customData = ApiProperty.Create("customData",
+                                                        x.CustomData != null
+                                                            ? new ApiObject(ApiProperty.Create("collection",
+                                                                x.CustomData.Collection.EmptyIfNull()
+                                                                 .Select(y =>
+                                                                 {
+                                                                     var apiObject2 = new ApiObject(ApiProperty.Create("name", y.Name), ApiProperty.Create("value", y.Value));
+                                                                     return apiObject2;
+                                                                 })
+                                                                 .ToArray()))
+                                                            : null);
+                                                    return new ApiObject(points, customData);
+                                                })
+                                            .ToArray()),
+                                        ApiProperty.Create("customData", SampleDrawings.Drawing.CustomData != null
+                                            ? new ApiObject(ApiProperty.Create("collection", SampleDrawings.Drawing.CustomData.Collection.EmptyIfNull().Select(x =>
+                                                        {
+                                                            var apiObject = new ApiObject(ApiProperty.Create("name", x.Name), ApiProperty.Create("value", x.Value));
+                                                            return apiObject;
+                                                        })
+                                                    .ToArray()))
+                                            : null)
+                                    ),
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/drawings/1"},
+                                            },
+                                    }
+                            },
+                        SampleDrawings.Drawing,
+                        enumerateIncludedResources: false)
+                },
+
+            new object[]
+                {
+                    "WithPosSystemAndNonNullEndOfLifeDateResourceDocument",
+                    new GetResourceTest<PosSystem>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/posSystems/RadiantWcf"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.PosSystemType,
+                                        Id = "RadiantWcf",
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("posSystemName", "Radiant WCF-Based Api"),
+                                            ApiProperty.Create("endOfLifeDate", new DateTime(1999, 12, 31))),
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/posSystems/RadiantWcf"},
+                                            },
+                                    }
+                            },
+                        SamplePosSystems.PosSystemRadiantWcf,
+                        enumerateIncludedResources: false)
+                },
+
+            new object[]
+                {
+                    "WithPosSystemAndNullEndOfLifeDateResourceDocument",
+                    new GetResourceTest<PosSystem>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/posSystems/RadiantRest"}
+                                    },
+                                Data = new Resource
+                                    {
+                                        Type = ClrSampleData.PosSystemType,
+                                        Id = "RadiantRest",
+                                        Attributes = new ApiObject(
+                                            ApiProperty.Create("posSystemName", "Radiant REST-Based Api"),
+                                            ApiProperty.Create("endOfLifeDate", new DateTime?())),
+                                        Links = new Links
+                                            {
+                                                {Keywords.Self, "http://api.example.com/posSystems/RadiantRest"},
+                                            },
+                                    }
+                            },
+                        SamplePosSystems.PosSystemRadiantRest,
+                        enumerateIncludedResources: false)
                 },
         };
     #endregion
@@ -1549,7 +2064,8 @@ public class DocumentReaderTests : XUnitTest
                                         {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                                     }
                             },
-                        null)
+                        null,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1563,7 +2079,8 @@ public class DocumentReaderTests : XUnitTest
                                         {Keywords.Self, ApiSampleData.ArticleCollectionLink}
                                     }
                             },
-                        null)
+                        null,
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1582,7 +2099,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.ArticleResource2
                                     }
                             },
-                        new List<Article> {SampleArticles.Article1, SampleArticles.Article2})
+                        new List<Article> {SampleArticles.Article1, SampleArticles.Article2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1610,7 +2128,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource4
                                     }
                             },
-                        new List<Article> {SampleArticles.ArticleWithResourceLinkage1, SampleArticles.ArticleWithResourceLinkage2})
+                        new List<Article> {SampleArticles.ArticleWithResourceLinkage1, SampleArticles.ArticleWithResourceLinkage2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1638,7 +2157,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource4
                                     }
                             },
-                        new List<Comment> {SampleComments.Comment1, SampleComments.Comment2, SampleComments.Comment3, SampleComments.Comment4})
+                        new List<Comment> {SampleComments.Comment1, SampleComments.Comment2, SampleComments.Comment3, SampleComments.Comment4},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1666,7 +2186,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource4
                                     }
                             },
-                        new List<Person> {SamplePersons.Person1, SamplePersons.Person2})
+                        new List<Person> {SamplePersons.Person1, SamplePersons.Person2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1685,7 +2206,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.BlogResource2
                                     }
                             },
-                        new List<Blog> {SampleBlogs.Blog1, SampleBlogs.Blog2})
+                        new List<Blog> {SampleBlogs.Blog1, SampleBlogs.Blog2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1704,7 +2226,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.CommentResource2
                                     }
                             },
-                        new List<Comment> {SampleComments.Comment1, SampleComments.Comment2})
+                        new List<Comment> {SampleComments.Comment1, SampleComments.Comment2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1723,7 +2246,8 @@ public class DocumentReaderTests : XUnitTest
                                         ApiSampleData.PersonResource2
                                     }
                             },
-                        new List<Person> {SamplePersons.Person1, SamplePersons.Person2})
+                        new List<Person> {SamplePersons.Person1, SamplePersons.Person2},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1786,7 +2310,8 @@ public class DocumentReaderTests : XUnitTest
                                             }
                                     }
                             },
-                        new List<Payment> {SamplePayments.Payment101, SamplePayments.Payment102})
+                        new List<Payment> {SamplePayments.Payment101, SamplePayments.Payment102},
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1849,7 +2374,8 @@ public class DocumentReaderTests : XUnitTest
                                             }
                                     }
                             },
-                        new List<Order>())
+                        new List<Order>(),
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1857,7 +2383,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceCollectionTest<OrderItem>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        new List<OrderItem> { SampleOrderItems.OrderItem1001, SampleOrderItems.OrderItem1002 })
+                        new List<OrderItem> { SampleOrderItems.OrderItem1001, SampleOrderItems.OrderItem1002 },
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1865,7 +2392,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceCollectionTest<Payment>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        new List<Payment> { SamplePayments.Payment101, SamplePayments.Payment102 })
+                        new List<Payment> { SamplePayments.Payment101, SamplePayments.Payment102 },
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1873,7 +2401,8 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceCollectionTest<Product>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        new List<Product> { SampleProducts.Product501, SampleProducts.Product502 })
+                        new List<Product> { SampleProducts.Product501, SampleProducts.Product502 },
+                        enumerateIncludedResources: true)
                 },
             new object[]
                 {
@@ -1881,7 +2410,375 @@ public class DocumentReaderTests : XUnitTest
                     new GetResourceCollectionTest<StoreConfiguration>(
                         ClrSampleData.ServiceModelWithOrderResourceTypes,
                         SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
-                        new List<StoreConfiguration> { SampleStoreConfigurations.StoreConfiguration })
+                        new List<StoreConfiguration> { SampleStoreConfigurations.StoreConfiguration },
+                        enumerateIncludedResources: true)
+                },
+        };
+    #endregion
+
+    #region GetPrimaryResourceCollection TestData
+    public static readonly IEnumerable<object[]> GetPrimaryResourceCollectionTestData = new[]
+        {
+            new object[]
+                {
+                    "WithDocument",
+                    new GetResourceCollectionTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new Document
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    }
+                            },
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithEmptyDocument",
+                    new GetResourceCollectionTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new EmptyDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    }
+                            },
+                        null,
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceCollectionDocument",
+                    new GetResourceCollectionTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.ArticleResource1,
+                                        ApiSampleData.ArticleResource2
+                                    }
+                            },
+                        new List<Article> {SampleArticles.Article1, SampleArticles.Article2},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceCollectionDocumentAndIncludedResourcesGetArticles",
+                    new GetResourceCollectionTest<Article>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                                        ApiSampleData.ArticleResourceWithResourceLinkage2
+                                    },
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.PersonResource2,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2,
+                                        ApiSampleData.CommentResource3,
+                                        ApiSampleData.CommentResource4
+                                    }
+                            },
+                        new List<Article> {SampleArticles.ArticleWithResourceLinkage1, SampleArticles.ArticleWithResourceLinkage2},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceCollectionDocumentAndIncludedResourcesGetComments",
+                    new GetResourceCollectionTest<Comment>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                                        ApiSampleData.ArticleResourceWithResourceLinkage2
+                                    },
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.PersonResource2,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2,
+                                        ApiSampleData.CommentResource3,
+                                        ApiSampleData.CommentResource4
+                                    }
+                            },
+                        new List<Comment>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithArticleResourceCollectionDocumentAndIncludedResourcesGetPersons",
+                    new GetResourceCollectionTest<Person>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.ArticleCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.ArticleResourceWithResourceLinkage1,
+                                        ApiSampleData.ArticleResourceWithResourceLinkage2
+                                    },
+                                Included = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.PersonResource2,
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2,
+                                        ApiSampleData.CommentResource3,
+                                        ApiSampleData.CommentResource4
+                                    }
+                            },
+                        new List<Person>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithBlogResourceCollectionDocument",
+                    new GetResourceCollectionTest<Blog>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.BlogCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.BlogResource1,
+                                        ApiSampleData.BlogResource2
+                                    }
+                            },
+                        new List<Blog> {SampleBlogs.Blog1, SampleBlogs.Blog2},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithCommentResourceCollectionDocumentForComment",
+                    new GetResourceCollectionTest<Comment>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.CommentCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.CommentResource1,
+                                        ApiSampleData.CommentResource2
+                                    }
+                            },
+                        new List<Comment> {SampleComments.Comment1, SampleComments.Comment2},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPersonResourceCollectionDocument",
+                    new GetResourceCollectionTest<Person>(
+                        ClrSampleData.ServiceModelWithBlogResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, ApiSampleData.PersonCollectionLink}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        ApiSampleData.PersonResource1,
+                                        ApiSampleData.PersonResource2
+                                    }
+                            },
+                        new List<Person> {SamplePersons.Person1, SamplePersons.Person2},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPaymentResourceCollectionDocument",
+                    new GetResourceCollectionTest<Payment>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/payments"}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        new Resource
+                                            {
+                                                Type = ClrSampleData.PaymentType,
+                                                Id = "101",
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
+                                                Relationships = new Relationships
+                                                    {
+                                                        {
+                                                            ClrSampleData.PaymentToOrderRel, new Relationship
+                                                                {
+                                                                    Links = new Links
+                                                                        {
+                                                                            {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
+                                                                            {Keywords.Related, "http://api.example.com/payments/101/order"}
+                                                                        }
+                                                                }
+                                                        },
+                                                    },
+                                                Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.example.com/payments/101"},
+                                                    },
+                                            },
+                                        new Resource
+                                            {
+                                                Type = ClrSampleData.PaymentType,
+                                                Id = "102",
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
+                                                Relationships = new Relationships
+                                                    {
+                                                        {
+                                                            ClrSampleData.PaymentToOrderRel, new Relationship
+                                                                {
+                                                                    Links = new Links
+                                                                        {
+                                                                            {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
+                                                                            {Keywords.Related, "http://api.example.com/payments/102/order"}
+                                                                        }
+                                                                }
+                                                        },
+                                                    },
+                                                Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.example.com/payments/102"},
+                                                    },
+                                            }
+                                    }
+                            },
+                        new List<Payment> {SamplePayments.Payment101, SamplePayments.Payment102},
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithPaymentResourceCollectionDocumentGetOrders",
+                    new GetResourceCollectionTest<Order>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        new ResourceCollectionDocument
+                            {
+                                Links = new Links
+                                    {
+                                        {Keywords.Self, "http://api.example.com/payments"}
+                                    },
+                                Data = new List<Resource>
+                                    {
+                                        new Resource
+                                            {
+                                                Type = ClrSampleData.PaymentType,
+                                                Id = "101",
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 75.0m)),
+                                                Relationships = new Relationships
+                                                    {
+                                                        {
+                                                            ClrSampleData.PaymentToOrderRel, new Relationship
+                                                                {
+                                                                    Links = new Links
+                                                                        {
+                                                                            {Keywords.Self, "http://api.example.com/payments/101/relationships/order"},
+                                                                            {Keywords.Related, "http://api.example.com/payments/101/order"}
+                                                                        }
+                                                                }
+                                                        },
+                                                    },
+                                                Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.example.com/payments/101"},
+                                                    },
+                                            },
+                                        new Resource
+                                            {
+                                                Type = ClrSampleData.PaymentType,
+                                                Id = "102",
+                                                Attributes = new ApiObject(ApiProperty.Create("amount", 25.0m)),
+                                                Relationships = new Relationships
+                                                    {
+                                                        {
+                                                            ClrSampleData.PaymentToOrderRel, new Relationship
+                                                                {
+                                                                    Links = new Links
+                                                                        {
+                                                                            {Keywords.Self, "http://api.example.com/payments/102/relationships/order"},
+                                                                            {Keywords.Related, "http://api.example.com/payments/102/order"}
+                                                                        }
+                                                                }
+                                                        },
+                                                    },
+                                                Links = new Links
+                                                    {
+                                                        {Keywords.Self, "http://api.example.com/payments/102"},
+                                                    },
+                                            }
+                                    }
+                            },
+                        new List<Order>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetOrderItems",
+                    new GetResourceCollectionTest<OrderItem>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        new List<OrderItem>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetPayments",
+                    new GetResourceCollectionTest<Payment>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        new List<Payment>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetProducts",
+                    new GetResourceCollectionTest<Product>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        new List<Product>(),
+                        enumerateIncludedResources: false)
+                },
+            new object[]
+                {
+                    "WithOrderResourceDocumentWithAllIncludedResourcesGetStoreConfiguration",
+                    new GetResourceCollectionTest<StoreConfiguration>(
+                        ClrSampleData.ServiceModelWithOrderResourceTypes,
+                        SampleDocuments.OrderResourceDocumentWithAllIncludedResources,
+                        new List<StoreConfiguration>(),
+                        enumerateIncludedResources: false)
                 },
         };
     #endregion
@@ -3965,11 +4862,12 @@ public class DocumentReaderTests : XUnitTest
         where TResource : JsonObject
     {
         #region Constructors
-        public GetResourceTest(IServiceModel serviceModel, Document document, TResource expectedResource)
+        public GetResourceTest(IServiceModel serviceModel, Document document, TResource expectedResource, bool enumerateIncludedResources)
         {
             this.ServiceModel = serviceModel;
             this.Document = document;
             this.ExpectedResource = expectedResource;
+            this.EnumerateIncludedResources = enumerateIncludedResources;
         }
         #endregion
 
@@ -3985,7 +4883,7 @@ public class DocumentReaderTests : XUnitTest
         public void Act()
         {
             this.ActualResource = this.DocumentReader
-                                      .GetResource<TResource>();
+                                      .GetResource<TResource>(this.EnumerateIncludedResources);
         }
 
         public void OutputTest(DocumentReaderTests parent)
@@ -4011,6 +4909,7 @@ public class DocumentReaderTests : XUnitTest
         private Document Document { get; set; }
 
         private TResource ExpectedResource { get; set; }
+        private bool EnumerateIncludedResources { get; set; }
         #endregion
 
         #region Calculated Properties
@@ -4132,11 +5031,12 @@ public class DocumentReaderTests : XUnitTest
         where TResource : JsonObject
     {
         #region Constructors
-        public GetResourceCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<TResource> expectedResourceCollection)
+        public GetResourceCollectionTest(IServiceModel serviceModel, Document document, IEnumerable<TResource> expectedResourceCollection, bool enumerateIncludedResources)
         {
             this.ServiceModel = serviceModel;
             this.Document = document;
             this.ExpectedResourceCollection = expectedResourceCollection.EmptyIfNull();
+            this.EnumerateIncludedResources = enumerateIncludedResources;
         }
         #endregion
 
@@ -4152,7 +5052,7 @@ public class DocumentReaderTests : XUnitTest
         public void Act()
         {
             this.ActualResourceCollection = this.DocumentReader
-                                                .GetResourceCollection<TResource>();
+                                                .GetResourceCollection<TResource>(this.EnumerateIncludedResources);
         }
 
         public void OutputTest(DocumentReaderTests parent)
@@ -4178,6 +5078,7 @@ public class DocumentReaderTests : XUnitTest
         private Document Document { get; set; }
 
         private IEnumerable<TResource> ExpectedResourceCollection { get; set; }
+        private bool EnumerateIncludedResources { get; set; }
         #endregion
 
         #region Calculated Properties

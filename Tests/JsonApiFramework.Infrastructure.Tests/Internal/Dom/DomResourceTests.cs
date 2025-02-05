@@ -47,7 +47,7 @@ public class DomResourceTests : DomXUnitTest
             case DomNodeType.Document:
                 {
                     var domDocument = (DomDocument)actualNode;
-                    actualDomResource = domDocument.DomResources().Single();
+                    actualDomResource = domDocument.DomResources(enumerateIncludedResources: true).Single();
                 }
                 break;
             case DomNodeType.Resource:

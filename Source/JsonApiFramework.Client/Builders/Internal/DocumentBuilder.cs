@@ -321,7 +321,7 @@ internal class DocumentBuilder : IDocumentBuilder
     /// <summary>Compact all primary and included resources to read-only resources.</summary>
     private void CompactResourceNodes()
     {
-        var domResources = this.DomDocument.DomResources().ToList();
+        var domResources = this.DomDocument.DomResources(enumerateIncludedResources: true).ToList();
         foreach (var domResource in domResources)
         {
             if (domResource.IsReadOnly)

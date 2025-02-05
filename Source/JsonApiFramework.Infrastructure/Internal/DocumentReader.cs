@@ -89,7 +89,7 @@ internal class DocumentReader : IDocumentReader
         return clrDocumentLinks;
     }
 
-    public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship)
+    public object GetRelatedResource(Type clrRelatedResourceType, Relationship relationship, bool enumerateIncludedResources)
     {
         Contract.Requires(clrRelatedResourceType != null);
         Contract.Requires(relationship != null);
@@ -109,14 +109,14 @@ internal class DocumentReader : IDocumentReader
             return null;
 
         var clrRelatedResource = this.DomDocument
-            .DomResources()
+            .DomResources(enumerateIncludedResources)
             .Where(x => apiRelatedResourceIdentifier == (ResourceIdentifier)x.ApiResource)
             .Select(x => x.ClrResource)
             .SingleOrDefault();
         return clrRelatedResource;
     }
 
-    public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship)
+    public IEnumerable<object> GetRelatedResourceCollection(Type clrRelatedResourceType, Relationship relationship, bool enumerateIncludedResources)
     {
         Contract.Requires(clrRelatedResourceType != null);
         Contract.Requires(relationship != null);
@@ -137,17 +137,17 @@ internal class DocumentReader : IDocumentReader
             return Enumerable.Empty<object>();
 
         var clrRelatedResourceCollection = this.DomDocument
-            .DomResources()
+            .DomResources(enumerateIncludedResources)
             .Where(x => apiRelatedResourceIdentifierCollection.Contains((ResourceIdentifier)x.ApiResource))
             .Select(x => x.ClrResource);
         return clrRelatedResourceCollection;
     }
 
-    public object GetResource(Type clrResourceType)
+    public object GetResource(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var clrResourceCollection = this.GetResourceCollection(clrResourceType)
+        var clrResourceCollection = this.GetResourceCollection(clrResourceType, enumerateIncludedResources)
             .SafeToList();
         if (clrResourceCollection.Count > 1)
         {
@@ -161,7 +161,7 @@ internal class DocumentReader : IDocumentReader
         return clrResource;
     }
 
-    public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    public object GetResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
@@ -174,13 +174,13 @@ internal class DocumentReader : IDocumentReader
         var clrResourceIdEquatable = clrResourceId as IEquatable<TResourceId>;
         if (clrResourceIdEquatable != null)
         {
-            clrResourceCollection = this.GetResourceCollection(clrResourceType)
+            clrResourceCollection = this.GetResourceCollection(clrResourceType, enumerateIncludedResources)
                 .Where(x => clrResourceIdEquatable.Equals((TResourceId)resourceType.GetClrId(x)))
                 .ToList();
         }
         else
         {
-            clrResourceCollection = this.GetResourceCollection(clrResourceType)
+            clrResourceCollection = this.GetResourceCollection(clrResourceType, enumerateIncludedResources)
                 .Where(x => clrResourceId.Equals(resourceType.GetClrId(x)))
                 .ToList();
         }
@@ -196,22 +196,22 @@ internal class DocumentReader : IDocumentReader
         return clrResource;
     }
 
-    public IEnumerable<object> GetResourceCollection(Type clrResourceType)
+    public IEnumerable<object> GetResourceCollection(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
         var clrResourceCollection = this.DomDocument
-            .DomResources()
+            .DomResources(enumerateIncludedResources)
             .Where(x => x.ClrResourceType == clrResourceType)
             .Select(x => x.ClrResource);
         return clrResourceCollection;
     }
 
-    public TResourceId GetResourceId<TResourceId>(Type clrResourceType)
+    public TResourceId GetResourceId<TResourceId>(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var clrResourceIdCollection = this.GetResourceIdCollection<TResourceId>(clrResourceType)
+        var clrResourceIdCollection = this.GetResourceIdCollection<TResourceId>(clrResourceType, enumerateIncludedResources)
                                           .SafeToList();
         if (clrResourceIdCollection.Count > 1)
         {
@@ -225,22 +225,22 @@ internal class DocumentReader : IDocumentReader
         return clrResourceId;
     }
 
-    public IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType)
+    public IEnumerable<TResourceId> GetResourceIdCollection<TResourceId>(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
         var clrResourceIdCollection = this.DomDocument
-                                          .DomResourceIdentities()
+                                          .DomResourceIdentities(enumerateIncludedResources)
                                           .Where(x => x.ClrResourceType == clrResourceType)
                                           .Select(MapResourceId<TResourceId>);
         return clrResourceIdCollection;
     }
 
-    public Meta GetResourceMeta(Type clrResourceType)
+    public Meta GetResourceMeta(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var apiResourceMetaCollection = this.GetResourceMetaCollection(clrResourceType)
+        var apiResourceMetaCollection = this.GetResourceMetaCollection(clrResourceType, enumerateIncludedResources)
                                             .SafeToList();
         if (apiResourceMetaCollection.Count > 1)
         {
@@ -254,11 +254,11 @@ internal class DocumentReader : IDocumentReader
         return apiResourceMeta;
     }
 
-    public Meta GetResourceMeta(object clrResource)
+    public Meta GetResourceMeta(object clrResource, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResource != null);
 
-        var domResourceIdentity = this.GetDomResourceIdentity(clrResource);
+        var domResourceIdentity = this.GetDomResourceIdentity(clrResource, enumerateIncludedResources);
         if (domResourceIdentity == null)
             return null;
 
@@ -266,11 +266,11 @@ internal class DocumentReader : IDocumentReader
         return apiResourceMeta;
     }
 
-    public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    public Meta GetResourceMeta<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var domResourceIdentity = this.GetDomResourceIdentity(clrResourceType, clrResourceId);
+        var domResourceIdentity = this.GetDomResourceIdentity(clrResourceType, clrResourceId, enumerateIncludedResources);
         if (domResourceIdentity == null)
             return null;
 
@@ -278,22 +278,22 @@ internal class DocumentReader : IDocumentReader
         return apiResourceMeta;
     }
 
-    public IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType)
+    public IEnumerable<Meta> GetResourceMetaCollection(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
         var apiResourceMetaCollection = this.DomDocument
-                                            .DomResourceIdentities()
+                                            .DomResourceIdentities(enumerateIncludedResources)
                                             .Where(x => x.ClrResourceType == clrResourceType)
                                             .Select(x => x.ApiResourceMeta);
         return apiResourceMetaCollection;
     }
 
-    public Links GetResourceLinks(Type clrResourceType)
+    public Links GetResourceLinks(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var apiResourceLinksCollection = this.GetResourceLinksCollection(clrResourceType)
+        var apiResourceLinksCollection = this.GetResourceLinksCollection(clrResourceType, enumerateIncludedResources)
                                              .SafeToList();
         if (apiResourceLinksCollection.Count > 1)
         {
@@ -307,9 +307,9 @@ internal class DocumentReader : IDocumentReader
         return apiResourceLinks;
     }
 
-    public Links GetResourceLinks(object clrResource)
+    public Links GetResourceLinks(object clrResource, bool enumerateIncludedResources)
     {
-        var domResource = this.GetDomResource(clrResource);
+        var domResource = this.GetDomResource(clrResource, enumerateIncludedResources);
         if (domResource == null)
             return null;
 
@@ -317,11 +317,11 @@ internal class DocumentReader : IDocumentReader
         return apiResourceLinks;
     }
 
-    public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    public Links GetResourceLinks<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var domResource = this.GetDomResource(clrResourceType, clrResourceId);
+        var domResource = this.GetDomResource(clrResourceType, clrResourceId, enumerateIncludedResources);
         if (domResource == null)
             return null;
 
@@ -329,22 +329,22 @@ internal class DocumentReader : IDocumentReader
         return apiResourceLinks;
     }
 
-    public IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType)
+    public IEnumerable<Links> GetResourceLinksCollection(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
         var apiResourceLinksCollection = this.DomDocument
-                                             .DomResources()
+                                             .DomResources(enumerateIncludedResources)
                                              .Where(x => x.ClrResourceType == clrResourceType)
                                              .Select(x => x.ApiResourceLinks);
         return apiResourceLinksCollection;
     }
 
-    public Relationships GetResourceRelationships(Type clrResourceType)
+    public Relationships GetResourceRelationships(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var apiResourceRelationshipsCollection = this.GetResourceRelationshipsCollection(clrResourceType)
+        var apiResourceRelationshipsCollection = this.GetResourceRelationshipsCollection(clrResourceType, enumerateIncludedResources)
                                                      .SafeToList();
         if (apiResourceRelationshipsCollection.Count > 1)
         {
@@ -358,9 +358,9 @@ internal class DocumentReader : IDocumentReader
         return apiResourceRelationships;
     }
 
-    public Relationships GetResourceRelationships(object clrResource)
+    public Relationships GetResourceRelationships(object clrResource, bool enumerateIncludedResources)
     {
-        var domResource = this.GetDomResource(clrResource);
+        var domResource = this.GetDomResource(clrResource, enumerateIncludedResources);
         if (domResource == null)
             return null;
 
@@ -368,11 +368,11 @@ internal class DocumentReader : IDocumentReader
         return apiResourceRelationships;
     }
 
-    public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    public Relationships GetResourceRelationships<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
-        var domResource = this.GetDomResource(clrResourceType, clrResourceId);
+        var domResource = this.GetDomResource(clrResourceType, clrResourceId, enumerateIncludedResources);
         if (domResource == null)
             return null;
 
@@ -380,21 +380,21 @@ internal class DocumentReader : IDocumentReader
         return apiResourceRelationships;
     }
 
-    public IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType)
+    public IEnumerable<Relationships> GetResourceRelationshipsCollection(Type clrResourceType, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
         var apiResourceRelationshipsCollection = this.DomDocument
-                                                     .DomResources()
+                                                     .DomResources(enumerateIncludedResources)
                                                      .Where(x => x.ClrResourceType == clrResourceType)
                                                      .Select(x => x.ApiResourceRelationships);
         return apiResourceRelationshipsCollection;
     }
 
-    public IEnumerable<Type> GetResourceTypeCollection()
+    public IEnumerable<Type> GetResourceTypeCollection(bool enumerateIncludedResources)
     {
         var clrResourceTypeCollection = this.DomDocument
-                                            .DomResources()
+                                            .DomResources(enumerateIncludedResources)
                                             .Select(x => x.ClrResourceType)
                                             .Distinct();
         return clrResourceTypeCollection;
@@ -417,7 +417,7 @@ internal class DocumentReader : IDocumentReader
 
     // PRIVATE METHODS //////////////////////////////////////////////////
     #region Helper Methods
-    private IDomResource GetDomResource(object clrResource)
+    private IDomResource GetDomResource(object clrResource, bool enumerateIncludedResources)
     {
         if (clrResource == null)
             return null;
@@ -429,12 +429,12 @@ internal class DocumentReader : IDocumentReader
 
         var apiResourceId = resourceType.GetApiId(clrResource);
         var domResource = this.DomDocument
-                              .DomResources()
+                              .DomResources(enumerateIncludedResources)
                               .SingleOrDefault(x => x.ClrResourceType == clrResourceType && x.ApiResourceId == apiResourceId);
         return domResource;
     }
 
-    private IDomResource GetDomResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    private IDomResource GetDomResource<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
@@ -444,12 +444,12 @@ internal class DocumentReader : IDocumentReader
 
         var apiResourceId = resourceType.ToApiId(clrResourceId);
         var domResource = this.DomDocument
-                              .DomResources()
+                              .DomResources(enumerateIncludedResources)
                               .SingleOrDefault(x => x.ClrResourceType == clrResourceType && x.ApiResourceId == apiResourceId);
         return domResource;
     }
 
-    private IDomResourceIdentity GetDomResourceIdentity(object clrResource)
+    private IDomResourceIdentity GetDomResourceIdentity(object clrResource, bool enumerateIncludedResources)
     {
         if (clrResource == null)
             return null;
@@ -461,12 +461,12 @@ internal class DocumentReader : IDocumentReader
 
         var apiResourceId = resourceType.GetApiId(clrResource);
         var domResourceIdentity = this.DomDocument
-                                      .DomResourceIdentities()
+                                      .DomResourceIdentities(enumerateIncludedResources)
                                       .SingleOrDefault(x => x.ClrResourceType == clrResourceType && x.ApiResourceId == apiResourceId);
         return domResourceIdentity;
     }
 
-    private IDomResourceIdentity GetDomResourceIdentity<TResourceId>(Type clrResourceType, TResourceId clrResourceId)
+    private IDomResourceIdentity GetDomResourceIdentity<TResourceId>(Type clrResourceType, TResourceId clrResourceId, bool enumerateIncludedResources)
     {
         Contract.Requires(clrResourceType != null);
 
@@ -476,7 +476,7 @@ internal class DocumentReader : IDocumentReader
 
         var apiResourceId = resourceType.ToApiId(clrResourceId);
         var domResourceIdentity = this.DomDocument
-                                      .DomResourceIdentities()
+                                      .DomResourceIdentities(enumerateIncludedResources)
                                       .SingleOrDefault(x => x.ClrResourceType == clrResourceType && x.ApiResourceId == apiResourceId);
         return domResourceIdentity;
     }

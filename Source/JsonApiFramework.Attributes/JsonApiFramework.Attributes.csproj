@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>JsonApiFramework.Attributes</PackageId>
+        <Version>2.12.0</Version>
+        <Authors>Scott McDonald</Authors>
+        <Company>Scott McDonald</Company>
+        <Product>JsonApiFramework [Attributes]</Product>
+        <Description>Allows (partial) attribute based configuration in JsonApiFramework.</Description>
+        <Copyright>Copyright © 2015–2020 Scott McDonald</Copyright>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LICENSE.md</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/scott-mcdonald/JsonApiFramework</PackageProjectUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/scott-mcdonald/JsonApiFramework/master/LogoIcon.png</PackageIconUrl>
+        <PackageTags>.net portable jsonapi framework client</PackageTags>
+        <AssemblyVersion>2.12.0.0</AssemblyVersion>
+        <FileVersion>2.12.0.33</FileVersion>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JsonApiFramework.Infrastructure\JsonApiFramework.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
